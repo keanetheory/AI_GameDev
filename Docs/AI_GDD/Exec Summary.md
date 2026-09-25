@@ -1,65 +1,72 @@
-Lighthouse Keeper’s Apprentice — Executive Summary
+Lighting the Storm — Executive Summary
 
-Status: build brief derived from the source GDD, 22 September 2026. Decisions explicitly marked Proposed need the creator’s approval before they become canon.
+Status: build brief derived from the source GDD, updated 25 September 2026. Decisions explicitly marked Proposed need the creator’s approval before they become canon. Open questions are tracked in Decisions to be made; ideas beyond the full-game scope are kept in Dreams for the game.
 
 Pitch and player promise
 
-A new apprentice repairs a failing lighthouse with keeper Ted, rescues two sailors after a nearby wreck, and crosses stormy water for a replacement beacon burner. The player must bring it back and restore the light before a passenger ship reaches the rocks. This is a first-person, single-player, atmospheric adventure for PC, designed for a 45–60 minute complete playthrough. The central player skill is steering a powered boat through readable waves while the storm worsens.
+A new apprentice repairs the failing lighthouse on Bracken Isle with keeper Ted. A rowboat carrying two sailors crashes onto Bracken Isle, and the apprentice opens the lighthouse gate to let them in. With one of the sailors, the apprentice then crosses stormy water for a replacement beacon burner. The player must bring it back and restore the light before a passenger ship reaches the rocks. This is a first-person, single-player, atmospheric adventure for PC, designed for a 30 minute complete playthrough. The central player skill is steering a powered boat past rocks and other hazards while the storm worsens. Wave hazards are a stretch goal (see Scope and release target).
 
 The experience should deliver sustained dread, hands-on mechanical work, and a consequential ending. It has no combat, monster reveal, or jump scares. Folk-horror details invite interpretation without confirming a supernatural cause.
 
-Design rules
+Design pillars
 
-1. Dread, not shock: build tension with weather, distance, light, sound, and uncertainty.
-2. The sea is the antagonist: danger comes from waves, rocks, visibility, and time.
-3. Legible under pressure: one steering input, strong visual and audio feedback, no visible countdown.
-4. Small world, read closely: one lighthouse, one stretch of sea, one abandoned outpost.
+1. The light must return: everything leads back to the beacon. It is what you repair, it guides you home, and it decides whether the ship lives. Test: does this connect to getting the light back, or to what happens if it fails?
+2. The storm sets the clock: pressure comes from the world (the approaching ship’s lights, worsening weather, falling visibility, and rocks in the dark), never from a timer, meter, or enemy. Test: can the player feel time running out without any UI?
+3. Your hands, your eyes: everything is first-person and physical. You fix things by hand, watch the crash through the window, and see the ship’s fate from where you stand; guidance comes from Ted and Jeff, not markers. Test: is this happening to the player in the world, or being shown to them?
+4. Dread you can read: sustained unease and ambiguity, never jump scares or a confirmed monster, but the player always knows what to do and why they failed (one steering control, clear hazards, fair and recoverable mistakes). Test: does this add unease without adding confusion?
 
-These rules govern cuts and reviews. A feature that weakens readability or expands the world without deepening the main loop should be deferred.
+Scope rule: small world, read closely. One lighthouse, one stretch of sea, one abandoned outpost, and no new major locations.
+
+The pillars and the scope rule govern cuts and reviews. A feature that fails a pillar’s test, or expands the world without deepening the main loop, should be deferred.
 
 Story and gameplay sequence
 
-|Phase     |Player action                                                                                       |Result / gate                                                                             |
-|----------|----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
-|Lighthouse|Follow Ted’s live guidance; diagnose and fix a small set of systems using a fixed toolkit.          |The beacon alone still flickers. Repair work teaches interaction and opens the dock route.|
-|Wreck     |Respond to Ted’s alarm; find Jeff and Daniel and escort both to safety.                             |Ted explains that the burner must be collected from the outpost.                          |
-|Choice    |Choose Jeff or Daniel as boat companion.                                                            |Jeff gives spoken warnings; Daniel uses a fast visual flashlight cue that can mislead.    |
-|Outbound  |Board the powered boat, triggering the hidden passenger-ship deadline; steer through moderate waves.|Reach the abandoned outpost and recover the burner.                                       |
-|Return    |Bring fragile cargo back through stronger waves, with the chosen companion’s help.                  |Reach the lighthouse; lost cargo must have a recoverable route.                           |
-|Climax    |Fit the burner and restore the beacon.                                                              |Ship passes safely if the light returns in time; otherwise it runs aground.               |
+|Step              |Player action                                                                                                                         |Result / gate                                                                                  |
+|------------------|--------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+|1. Repairs        |Follow Ted’s live guidance; diagnose and fix a small set of mechanical systems using a fixed toolkit.                                 |The beacon alone still flickers. Repair work teaches interaction.                              |
+|2. Crash and gate |Ted prompts the player to look out of the window, where Jeff and Daniel’s rowboat crashes onto Bracken Isle. Ted tells the player to open the lighthouse gate.|Jeff and Daniel make their own way into the lighthouse. Ted explains that the burner must be collected from the abandoned outpost.|
+|3. Boarding       |Meet Jeff at the engine boat.                                                                                                         |Boarding starts the hidden passenger-ship deadline.                                            |
+|4. Outbound       |Steer the boat past rocks and debris in the storm while Jeff shouts directions.                                                       |Reach the abandoned outpost.                                                                   |
+|5. Pickup         |Find and pick up the replacement burner.                                                                                              |The burner is aboard.                                                                          |
+|6. Return         |Steer back through a worsening storm, with denser hazards and lower visibility, guided by Jeff’s directions.                          |Reach the lighthouse.                                                                          |
+|7. Final repair   |Climb to the lamp and fit the burner.                                                                                                 |The beacon is restored, or the deadline runs out first.                                        |
+|8. Outcome        |Watch the ship from the lighthouse.                                                                                                   |Win: the ship sails calmly into port. Fail: the ship runs aground.                             |
 
-Before boarding, exploration has no ship deadline. After boarding, the approaching ship and changing weather communicate urgency without a numeric timer. Most crossing errors cost time and create recoverable problems. Missing the ship deadline changes the ending rather than erasing the run.
+Before boarding, exploration has no ship deadline. After boarding, the same ship deadline keeps running through both crossings, the pickup, and the final repair; there is no separate timer. The approaching ship and changing weather communicate urgency without a numeric display. Most crossing errors cost time and create recoverable problems. Missing the deadline triggers the fail state: the ship runs aground.
+
+All viewpoints are first-person. There are no cutaway or exterior cameras; the crash, the ship, and the outcome are all seen from where the player stands.
 
 Cast and atmosphere
 
 • Apprentice: mostly characterised by actions and a handwritten objective journal.
 • Ted: gruff, experienced keeper; gives spoken directions during repairs, with a guarded sense of care.
-• Jeff: older, coarse seaman; reliable verbal navigation cues despite his reluctance to help.
-• Daniel: younger steersman; defensive about the wreck; quick flashlight guidance that is occasionally wrong.
+• Jeff: older, coarse seaman and the player’s companion on both crossings; reliable verbal navigation cues despite his reluctance to help.
+• Daniel: younger sailor from the rowboat; shaken by the crash and just glad to be alive. He stays at the lighthouse.
+
+Two boats appear and must stay visibly distinct: Jeff and Daniel’s rowboat, wrecked on Bracken Isle, and the powered engine boat the player steers.
 
 The lighthouse uses warm lamplight against blue-grey storm light. The beam remains a navigational and dramatic anchor. The abandoned outpost, log fragments, shrines, symbols, and subtly strange architecture suggest a history without settling its cause. Audio favours wind, rain, machinery, buoy bells, and a distant foghorn over musical stingers.
 
 Scope and release target
 
-Full game: three compact locations, lighthouse repairs, rescue and companion choice, two crossings, one timed final repair, two principal ship outcomes, optional discoveries, and controller support. PC via Steam is the initial release target. The creator makes final decisions on tone, steering feel, and story.
+Full game, about 30 minutes: three compact locations, lighthouse repairs, the rowboat crash and gate, two crossings with Jeff, a final repair under the running ship deadline, win and fail outcomes, optional discoveries, and controller support. PC via Steam is the initial release target. The creator makes final decisions on tone, steering feel, and story.
 
-First playable prototype, approximately 10 minutes: one lighthouse repair, the beacon fault and departure, one short powered-boat crossing with one companion, burner pickup, and a short return ending in a beacon interaction. Greybox art and placeholder audio are acceptable. The prototype must prove that waves are readable and steering is enjoyable before broader production.
+Wave hazards are a stretch goal for both the prototype and the full game. The crossings must work without them: the challenge comes from steering past rocks, reefs, buoys, and debris in a worsening storm, and the sea surface can move for atmosphere without affecting the boat. Waves that push or roll the boat are added only after steering has passed its go/no-go test and only if the schedule has room; they are the first thing cut if it slips.
 
-Out of first-prototype scope: complete rescue escort, both companion branches, full outpost exploration, hidden coda, Full Gale mode, final art, and a finished Steam release flow. These remain in the full-game brief.
+First playable prototype, about 10 minutes: one lighthouse repair, the rowboat crash seen from the window, opening the gate, meeting Jeff at the engine boat, an outbound crossing to the outpost, burner pickup, a return crossing to the lighthouse, fitting the burner, and both outcomes. Greybox art and placeholder audio are acceptable. The prototype must prove that hazards are readable and steering is enjoyable before broader production. Wave hazards are included only if time allows.
+
+Out of first-prototype scope: the remaining lighthouse repairs, full outpost exploration, optional discoveries, final art, and a finished Steam release flow. These remain in the full-game brief.
 
 Outcome checks
 
-• A new player understands what to repair, where to head, and which wave to avoid without a timer UI.
-• The boat has one steering control, clear feedback for risky angles, and a recoverable error state.
-• Beacon and ship positions visibly communicate the stakes from exterior viewpoints.
-• Both ship outcomes can be reached in the full game; either companion completes the route.
+Prototype:
+• A new player understands what to repair, where to head, and which hazard to avoid without a timer UI.
+• The boat has one steering control, one fixed speed, clear feedback for near misses and collisions, and a recoverable error state.
+• The ship’s lights and position, seen in first person, communicate the stakes.
+• Both the win and fail outcomes can be reached.
+
+Full game:
+• A first-time playthrough lasts about 30 minutes.
 • The final implementation preserves unexplained environmental wrongness.
 
-Decisions to settle before full production
-
-1. Ted’s presence: the GDD describes both live barked directions and a keeper heard only in recordings. Proposed: Ted is present and speaks live; recordings and journals belong to earlier keepers. Confirm before recording dialogue.
-2. Hidden coda: it currently promises to reveal what symbols “actually mean,” conflicting with permanent ambiguity. Proposed: reveal historical relationships or events while leaving the supernatural explanation open.
-3. Boat terminology: survivors wreck a rowboat; the player’s crossing uses a separate powered boat. Keep these visibly distinct.
-4. Ship arrival rules: specify deadline, pause behaviour, checkpoint handling, and whether a late beacon repair still completes the run. Proposed implementation is in Technical Strategy.
-
-See Technical Strategy for the build contract and AI Agent Strategy for delegated work and handoffs.
+See Technical Strategy for the build contract, AI Agent Strategy for delegated work and handoffs, Decisions to be made for open questions, and Dreams for the game for ideas outside the current scope.
