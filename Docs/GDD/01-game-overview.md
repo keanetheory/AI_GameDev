@@ -2,7 +2,7 @@
 
 [Back to table of contents](00-table-of-contents.md)
 
-**Owner:** [Name] · **Status:** [Draft / in review / approved] · **Updated:** [YYYY-MM-DD]
+**Owner:** [KeaneTheory] · **Status:** [Draft] · **Updated:** [2026-09-22]
 
 ## High concept
 

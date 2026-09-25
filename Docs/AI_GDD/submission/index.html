@@ -1,0 +1,640 @@
+<title>Lighting the Storm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+:root{
+  --bg:#F3F5F6;
+  --surface:#FFFFFF;
+  --ink:#18222C;
+  --muted:#556474;
+  --rule:#D3DAE0;
+  --accent:#A8660F;
+  --accent-soft:#F6E9D5;
+  --sea:#1E4757;
+  --sea-soft:#E3ECEF;
+  --good:#2F6B4A;
+  --warn:#8A5A12;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E151C;--surface:#152029;--ink:#E3E8ED;--muted:#97A5B4;--rule:#26343F;
+    --accent:#E5A44B;--accent-soft:#2E2413;--sea:#8CC1D3;--sea-soft:#15262E;
+    --good:#7BC29A;--warn:#E5B35F;color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E151C;--surface:#152029;--ink:#E3E8ED;--muted:#97A5B4;--rule:#26343F;
+  --accent:#E5A44B;--accent-soft:#2E2413;--sea:#8CC1D3;--sea-soft:#15262E;
+  --good:#7BC29A;--warn:#E5B35F;color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:220px minmax(0,1fr);gap:56px}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr);gap:0}.toc{display:none}}
+header.cover{max-width:1120px;margin:0 auto;padding-block:56px 40px;border-bottom:1px solid var(--rule);margin-bottom:40px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:end}
+@media (max-width:700px){header.cover{grid-template-columns:minmax(0,1fr)}.beam{display:none}}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(34px,5.5vw,56px);line-height:1.05;letter-spacing:-.01em;margin:10px 0 14px;text-wrap:balance}
+.tagline{font-size:20px;color:var(--muted);max-width:40em;margin:0 0 20px;font-style:italic}
+.meta{display:flex;flex-wrap:wrap;gap:8px 24px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:500}
+.char{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.06em}
+.beam svg{display:block}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);align-self:start;font-family:var(--display);font-size:14px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.toc a{display:grid;grid-template-columns:28px 1fr;padding:6px 0;color:var(--muted);text-decoration:none;border-bottom:1px solid var(--rule)}
+.toc a:hover,.toc a:focus-visible{color:var(--ink)}
+.toc a span{font-family:var(--mono);color:var(--accent)}
+.toc .sub a{grid-template-columns:28px 1fr;font-size:13px;border-bottom:none;padding:3px 0}
+.toc p{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+main{min-width:0}
+section.part{padding-block:8px 48px;border-bottom:1px solid var(--rule);margin-bottom:48px}
+section.part:last-of-type{border-bottom:none}
+.partno{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(28px,3.6vw,36px);line-height:1.15;margin:6px 0 8px;text-wrap:balance}
+.lede{font-size:19px;color:var(--muted);max-width:38em;margin:0 0 28px}
+h3{font-family:var(--display);font-weight:600;font-size:21px;line-height:1.3;margin:40px 0 10px;text-wrap:balance}
+h4{font-family:var(--display);font-weight:600;font-size:16px;margin:22px 0 6px}
+p,ul,ol{max-width:40em}
+p{margin:0 0 14px}
+ul,ol{padding-left:1.2em;margin:0 0 16px}
+li{margin-bottom:6px}
+a{color:var(--sea)}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+strong{font-weight:600}
+.note{font-size:15px;color:var(--muted)}
+.tbl{overflow-x:auto;margin:8px 0 22px;border:1px solid var(--rule);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.45;font-variant-numeric:tabular-nums}
+th,td{text-align:left;vertical-align:top;padding:10px 14px;border-bottom:1px solid var(--rule)}
+tr:last-child td{border-bottom:none}
+th{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.03em;color:var(--muted);background:var(--sea-soft)}
+td.num,th.num{text-align:right;white-space:nowrap}
+td.k{font-family:var(--display);font-weight:600;white-space:nowrap}
+.pillars{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:12px 0 18px}
+@media (max-width:640px){.pillars{grid-template-columns:minmax(0,1fr)}}
+.pillar{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:18px 20px}
+.pillar .n{font-family:var(--mono);font-size:12px;color:var(--accent)}
+.pillar h4{margin:4px 0 8px;font-size:18px}
+.pillar p{font-size:15px;margin:0 0 10px}
+.pillar .test{font-family:var(--mono);font-size:12.5px;color:var(--muted);border-top:1px solid var(--rule);padding-top:10px;margin:0;line-height:1.5}
+.callout{border-left:3px solid var(--accent);background:var(--accent-soft);padding:14px 18px;margin:18px 0 22px;max-width:40em;border-radius:0 6px 6px 0}
+.callout p:last-child{margin-bottom:0}
+.callout .eyebrow{color:var(--accent);margin-bottom:6px}
+.loop{list-style:none;padding:0;margin:14px 0 22px;display:grid;gap:0;max-width:44em;counter-reset:s}
+.loop li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:1px solid var(--rule);margin:0}
+.loop li:last-child{border-bottom:none}
+.loop .s{font-family:var(--mono);font-size:13px;color:var(--accent);padding-top:3px}
+.loop b{font-family:var(--display);font-weight:600}
+.loop .tag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--sea);border:1px solid var(--rule);border-radius:3px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+.curve{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:10px 0 24px;border:1px solid var(--rule);border-radius:6px;overflow:hidden;background:var(--surface)}
+@media (max-width:640px){.curve{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.curve div{padding:14px 16px;border-right:1px solid var(--rule)}
+.curve div:last-child{border-right:none}
+.curve .lvl{height:6px;border-radius:3px;background:var(--rule);margin:8px 0 10px;overflow:hidden}
+.curve .lvl i{display:block;height:100%;background:var(--accent)}
+.curve b{font-family:var(--display);font-size:15px;display:block}
+.curve span{font-size:14px;color:var(--muted)}
+.agents{display:grid;gap:16px;margin:16px 0 24px}
+.agent{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:20px 22px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:8px 28px}
+@media (max-width:760px){.agent{grid-template-columns:minmax(0,1fr)}}
+.agent header{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:4px}
+.agent h4{margin:0;font-size:19px}
+.agent .pl{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.agent .pl em{font-style:normal;color:var(--accent)}
+.agent .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:6px 0 4px}
+.agent p{font-size:15.5px;margin:0 0 8px}
+.agent ul{font-size:15px;margin:0 0 8px}
+.agent .gate{grid-column:1/-1;font-size:14.5px;border-top:1px solid var(--rule);padding-top:10px;margin-top:6px;color:var(--muted)}
+.agent .gate b{color:var(--ink);font-family:var(--display);font-weight:600}
+.flow{list-style:none;padding:0;margin:14px 0 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.flow li{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:12px 14px;margin:0;font-size:14.5px;line-height:1.45}
+.flow .s{font-family:var(--mono);font-size:12px;color:var(--accent);display:block;margin-bottom:4px}
+.flow b{font-family:var(--display);font-weight:600;display:block;margin-bottom:2px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:14px 0 20px;max-width:44em}
+@media (max-width:600px){.stats{grid-template-columns:minmax(0,1fr)}}
+.stat{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:14px 16px}
+.stat .v{font-family:var(--display);font-weight:700;font-size:26px;font-variant-numeric:tabular-nums}
+.stat .l{font-size:14px;color:var(--muted)}
+.pill{display:inline-block;font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;padding:2px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.pill.ok{color:var(--good)}
+.pill.no{color:var(--warn)}
+footer{max-width:1120px;margin:0 auto;border-top:1px solid var(--rule);padding-top:20px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.beam .sweep{transform-origin:60px 70px;animation:sweep 9s ease-in-out infinite}}
+@keyframes sweep{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(14deg)}}
+</style>
+
+<header class="cover">
+  <div>
+    <div class="eyebrow">Game design submission · Prototype and full-game plan</div>
+    <h1>Lighting the Storm</h1>
+    <p class="tagline">An apprentice keeper repairs a failing tower, lets two shipwrecked sailors in from the storm, and crosses a worsening sea for the one part that can’t be fixed on site, before a passenger ship is lost on the rocks.</p>
+    <div class="meta">
+      <span>By <b>Paul</b></span>
+      <span>Updated <b>25 September 2026</b></span>
+      <span>First-person · single-player · PC (Steam)</span>
+      <span class="char">Bracken Isle Light · Fl(2) W 15s</span>
+    </div>
+  </div>
+  <div class="beam" aria-hidden="true">
+    <svg width="180" height="120" viewBox="0 0 180 120">
+      <g class="sweep"><polygon points="60,70 180,40 180,100" fill="var(--accent)" opacity=".18"/></g>
+      <rect x="52" y="64" width="16" height="44" fill="var(--sea)"/>
+      <rect x="49" y="58" width="22" height="8" fill="var(--sea)"/>
+      <circle cx="60" cy="70" r="4" fill="var(--accent)"/>
+      <path d="M0 112 Q 30 104 60 112 T 120 112 T 180 112" fill="none" stroke="var(--muted)" stroke-width="1.5"/>
+    </svg>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="toc" aria-label="Contents">
+    <p>Reading order</p>
+    <ol>
+      <li><a href="#executive-summary"><span>1</span>Executive Summary</a></li>
+      <li><a href="#game-mechanics"><span>2</span>Game Mechanics</a></li>
+      <li><a href="#ai-architecture"><span>3</span>AI Architecture</a></li>
+      <li><a href="#technical-strategy"><span>4</span>Technical Strategy</a></li>
+      <li class="sub"><a href="#open-decisions"><span>A</span>Open decisions</a></li>
+      <li class="sub"><a href="#beyond-scope"><span>B</span>Beyond scope</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+  <!-- 1 -->
+  <section class="part" id="executive-summary">
+    <div class="partno">Part 1</div>
+    <h2>Executive Summary</h2>
+    <p class="lede">A 30-minute first-person atmospheric adventure about keeping a light alive through one storm, built by a solo developer with AI assistance. A 10-minute prototype comes first, over six weeks.</p>
+
+    <h3>Pitch and player promise</h3>
+    <p>You are the new apprentice to Ted, keeper of a remote, storm-battered lighthouse on Bracken Isle. You work through the building’s failing systems under his direction, but the beacon itself won’t stop flickering. A rowboat is driven onto Bracken Isle by the weak light; you watch it crash from the window, then open the lighthouse gate so the two survivors, Jeff and Daniel, can get inside. With Jeff beside you, you cross the storm in an engine boat to fetch a replacement burner from an abandoned outpost, then race back to fit it before a passenger ship reaches the rocks.</p>
+    <p>The central player skill is steering a powered boat past rocks and other hazards while the storm worsens. The experience should deliver sustained dread, hands-on mechanical work, and a consequential ending. There is no combat, no monster reveal and no jump scares. Folk-horror details invite interpretation without ever confirming a supernatural cause.</p>
+
+    <h3>Design pillars</h3>
+    <p>Every feature and story beat is judged against four pillars. Each has a test question used in reviews and cuts.</p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="n">Pillar 1</div>
+        <h4>The light must return</h4>
+        <p>Everything leads back to the beacon. It is what you repair, it guides you home, and it decides whether the ship lives.</p>
+        <p class="test">Test: does this connect to getting the light back, or to what happens if it fails?</p>
+      </div>
+      <div class="pillar">
+        <div class="n">Pillar 2</div>
+        <h4>The storm sets the clock</h4>
+        <p>Pressure comes from the world: the approaching ship’s lights, worsening weather, falling visibility and rocks in the dark. Never a timer, meter or enemy.</p>
+        <p class="test">Test: can the player feel time running out without any UI?</p>
+      </div>
+      <div class="pillar">
+        <div class="n">Pillar 3</div>
+        <h4>Your hands, your eyes</h4>
+        <p>Everything is first-person and physical. You fix things by hand, watch the crash through the window, and see the ship’s fate from where you stand. Guidance comes from Ted and Jeff, not markers.</p>
+        <p class="test">Test: is this happening to the player in the world, or being shown to them?</p>
+      </div>
+      <div class="pillar">
+        <div class="n">Pillar 4</div>
+        <h4>Dread you can read</h4>
+        <p>Sustained unease and ambiguity, never jump scares or a confirmed monster. The player always knows what to do and why they failed: one steering control, clear hazards, fair and recoverable mistakes.</p>
+        <p class="test">Test: does this add unease without adding confusion?</p>
+      </div>
+    </div>
+    <p><strong>Scope rule: small world, read closely.</strong> One lighthouse, one stretch of sea, one abandoned outpost, and no new major locations. A feature that fails a pillar’s test, or expands the world without deepening the main loop, is deferred.</p>
+
+    <h3>Cast</h3>
+    <ul>
+      <li><strong>The Apprentice (player).</strong> Characterised through action and a handwritten objective journal rather than dialogue trees.</li>
+      <li><strong>Ted, the keeper.</strong> Late 50s, thirty years in the tower. Gruff and blunt, with a guarded sense of care. He directs the repairs out loud from elsewhere in the building.</li>
+      <li><strong>Jeff, the older seaman.</strong> Hard, coarse and unhappy about helping, but his instinct is to keep people alive. He is the player’s companion on both crossings and calls out navigation warnings.</li>
+      <li><strong>Daniel, the younger seaman.</strong> Shaken by the crash and just glad to be alive. He stays at the lighthouse.</li>
+    </ul>
+
+    <h3>Scope</h3>
+    <div class="tbl"><table>
+      <thead><tr><th></th><th>First playable prototype</th><th>Full game</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Length</td><td>About 10 minutes</td><td>About 30 minutes</td></tr>
+        <tr><td class="k">Content</td><td>One repair, crash seen from the window, gate, boarding with Jeff, outbound crossing, burner pickup, return crossing, burner fitting, win and fail outcomes</td><td>Full repair set, crash and gate, two crossings, outpost exploration, optional discoveries, win and fail outcomes</td></tr>
+        <tr><td class="k">Art and audio</td><td>Greybox art, placeholder audio</td><td>Final art, audio and dialogue</td></tr>
+        <tr><td class="k">Schedule</td><td>6 weeks, solo, AI-assisted</td><td>A further 5–6 months (estimate)</td></tr>
+        <tr><td class="k">Purpose</td><td>Prove that hazards are readable and steering is enjoyable</td><td>Commercial release on Steam, with controller support</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="callout">
+      <div class="eyebrow">Stretch goal</div>
+      <p>Wave hazards that push or roll the boat are a stretch goal for both the prototype and the full game. The crossings are designed to work fully without them. Waves are added only after steering passes its week-2 go/no-go test and only if the schedule has room, and they are the first thing cut if it slips.</p>
+    </div>
+
+    <h3>Outcome checks</h3>
+    <h4>Prototype</h4>
+    <ul>
+      <li>A new player understands what to repair, where to head, and which hazard to avoid, with no timer UI.</li>
+      <li>The boat has one steering control, one fixed speed, clear feedback for near misses and collisions, and a recoverable error state.</li>
+      <li>The ship’s lights and position, seen in first person, communicate the stakes.</li>
+      <li>Both the win and fail outcomes can be reached.</li>
+    </ul>
+    <h4>Full game</h4>
+    <ul>
+      <li>A first-time playthrough lasts about 30 minutes.</li>
+      <li>The final game preserves unexplained environmental wrongness.</li>
+    </ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="part" id="game-mechanics">
+    <div class="partno">Part 2</div>
+    <h2>Game Mechanics</h2>
+    <p class="lede">What the player does, in the order they do it, and the systems that shape each action.</p>
+
+    <h3>Core loop</h3>
+    <p>The loop mirrors one worsening night on duty and plays once through the main story.</p>
+    <ol class="loop">
+      <li><span class="s">01</span><div><b>Repair the lighthouse.</b> Ted barks which system is broken and roughly where its part is. The player explores, diagnoses and fixes it with a fixed toolkit. The beacon alone keeps flickering. <span class="tag">No deadline</span></div></li>
+      <li><span class="s">02</span><div><b>Watch the crash, open the gate.</b> Ted calls the player to the window, where a rowboat crashes onto Bracken Isle. He tells the player to open the lighthouse gate; Jeff and Daniel make their own way inside. Ted explains the burner must be fetched from the abandoned outpost. <span class="tag">No deadline</span></div></li>
+      <li><span class="s">03</span><div><b>Board the engine boat with Jeff.</b> Boarding starts the hidden passenger-ship deadline, and Jeff spells out how much trouble they are in. <span class="tag">Deadline starts</span></div></li>
+      <li><span class="s">04</span><div><b>Cross to the outpost.</b> Steer past rocks, buoys and debris in the storm while Jeff shouts directions.</div></li>
+      <li><span class="s">05</span><div><b>Pick up the burner.</b> Find it at the outpost and get it aboard.</div></li>
+      <li><span class="s">06</span><div><b>Cross back.</b> The storm peaks: denser hazards, lower visibility, fragile cargo aboard.</div></li>
+      <li><span class="s">07</span><div><b>Fit the burner.</b> Climb to the lamp room and install it as the ship’s lights close on the rocks.</div></li>
+      <li><span class="s">08</span><div><b>Win or fail.</b> Beacon lit in time: the ship sails calmly into port. Deadline missed: the ship runs aground. <span class="tag">Outcome</span></div></li>
+    </ol>
+
+    <h3>Lighthouse repairs</h3>
+    <p>The lighthouse runs on interdependent systems: the lamp and optic assembly, the clockwork rotation mechanism, the fuel and fog-signal lines, and stormproofing (shutters and seals). Each broken system is fixed through a short, first-person puzzle, such as rewiring a junction box, swapping a gear or patching a leak, using a small fixed toolkit rather than a crafting menu. The prototype includes one repair; the full game includes the full set.</p>
+    <ul>
+      <li><strong>Ted’s guidance</strong> is the first assist mechanism. He names the part and roughly where to find it; how specific he is scales with the difficulty preset.</li>
+      <li><strong>The journal</strong> is a handwritten-style checklist of what is broken, updated as systems are diagnosed. It reflects progress but never controls it.</li>
+      <li><strong>Gating.</strong> Some repairs open new areas, for example repairing the winch opens the hatch to the boat dock. This gives one building light Metroidvania-style gating without a large map.</li>
+      <li><strong>The beacon as inciting incident.</strong> Once every other system works, the beacon still flickers. That unresolved fault draws Ted to the window and triggers the crash, so a mechanical dead end becomes the story’s turn instead of a quest marker.</li>
+    </ul>
+
+    <h3>The crash and the gate</h3>
+    <p>The crash is scripted and seen entirely in first person through the lighthouse window. It triggers when the window is in view, with a short fallback so it cannot be missed. Opening the gate is a single interaction; Jeff and Daniel walk in on their own, with no escort or rescue. Opening the gate advances the story and opens the route to the engine boat, where Jeff waits.</p>
+
+    <h3>Sea crossing and boat navigation</h3>
+    <p>The player pilots a small engine boat at <strong>one fixed speed with one control: steering</strong>. There is no throttle and no oars. The challenge is steering past placed hazards (rocks, reefs, buoys and floating debris) along a route that narrows and darkens as the storm worsens. The sea surface moves for atmosphere but does not push the boat.</p>
+    <ul>
+      <li><strong>Jeff’s calls</strong> are the second assist mechanism. His warnings read from the same hazard data as the world, so they never disagree with the real threat. How early and how often he calls scales with the difficulty preset.</li>
+      <li><strong>Navigation aids:</strong> a compass, the lighthouse beam as a guiding light when heading home, and silhouettes of buoys and rocks in low visibility.</li>
+      <li><strong>Risk states:</strong> a collision takes on water, slows the boat, or causes a brief capsize and recovery at a nearby safe point, all costing time. On the return leg, rough handling can knock the burner loose, costing time to recover it. The burner is never permanently lost (proposed).</li>
+      <li><strong>Stretch goal:</strong> authored waves that push and roll the boat, added as an optional layer only if time allows.</li>
+    </ul>
+
+    <h3>Tension and the deadline</h3>
+    <p>The central pressure is a countdown the player never sees as a number. It starts only when the player boards the boat; everything before that plays at its own pace. From then on, the approaching ship’s lights on the horizon and the rising storm (wind volume, rain density, sea swell, visibility) communicate how much time is left. It is the only timer in the game: the same deadline runs through both crossings, the pickup and the final repair.</p>
+    <p>Most failures are soft. A collision costs time rather than ending the run, which keeps the player in the fiction. The exception is the deadline itself, which is a true fail state, so the ending means something.</p>
+
+    <h4>Escalation curve</h4>
+    <div class="curve">
+      <div><b>Act 1 · Lighthouse</b><div class="lvl"><i style="width:20%"></i></div><span>Calm, tutorialised, interrupted by the crash</span></div>
+      <div><b>Act 2 · Outbound</b><div class="lvl"><i style="width:50%"></i></div><span>Moderate hazards, deadline running</span></div>
+      <div><b>Act 3 · Return</b><div class="lvl"><i style="width:90%"></i></div><span>Severe: the hardest skill test in the game</span></div>
+      <div><b>Climax · Burner</b><div class="lvl"><i style="width:75%"></i></div><span>A multi-step repair under the same deadline</span></div>
+    </div>
+
+    <h3>Difficulty and accessibility</h3>
+    <p>Difficulty is mainly a pacing and tension curve, not a skill gate. A single preset controls how specific Ted’s directions are, how much Jeff helps on the water, and how intense the hazards are, without changing the story or outcomes. Navigation calls are subtitled with speaker names and an optional visual direction cue. Steering and interaction are remappable, with adjustable sensitivity and a reduced-hazard preset.</p>
+
+    <h3>Presentation</h3>
+    <p>All viewpoints are first-person, with no cutaway or exterior cameras. Warm oil-lamp light indoors plays against blue-grey storm light outside, and the beacon’s sweeping beam is the constant visual anchor. Sound is diegetic first: wind, rain, groaning timber, machinery, buoy bells and a distant foghorn, with no shock stingers. Strange symbols, unexplained shrines and architecture that doesn’t quite fit suggest a history without ever explaining it.</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="part" id="ai-architecture">
+    <div class="partno">Part 3</div>
+    <h2>AI Architecture</h2>
+    <p class="lede">The game is built by one developer working with a team of AI agents. Each agent owns one department of the build. Below, each is described through what the player experiences as a result of its work.</p>
+
+    <div class="callout">
+      <div class="eyebrow">Scope of AI use</div>
+      <p>AI is used only during development. The shipped game makes no AI calls at runtime: Ted’s and Jeff’s lines, the storm and the ship are authored and scripted, so the game has no API dependency or per-player running cost.</p>
+    </div>
+
+    <h3>Principles</h3>
+    <ul>
+      <li><strong>One agent, one department.</strong> Each agent works from a bounded task brief naming its goal, inputs, owned files, interfaces and acceptance checks.</li>
+      <li><strong>The developer owns judgement.</strong> Steering feel, tone, art fit, dialogue performance and story interpretation are human decisions. AI output is a first pass that the developer reviews and merges.</li>
+      <li><strong>The pillars bind every agent.</strong> Work that fails a pillar’s test is returned, whatever its technical quality.</li>
+      <li><strong>No silent canon.</strong> When a story or design choice is unresolved, the agent stops and asks instead of deciding.</li>
+    </ul>
+
+    <h3>The agents and their effect on play</h3>
+    <div class="agents">
+
+      <article class="agent">
+        <header><h4>Boat / Physics agent</h4><span class="pl">Serves <em>pillar 4</em> · the core skill</span></header>
+        <div>
+          <div class="lbl">What the player experiences</div>
+          <p>The feel of every crossing: how quickly the boat answers the stick, how clearly a near miss or collision registers, and how quickly the player recovers and gets back on course.</p>
+        </div>
+        <div>
+          <div class="lbl">What it builds</div>
+          <ul><li>Boat controller at one fixed speed</li><li>Hazard collisions and recovery</li><li>Tuning values held as data</li><li>Stretch: wave layer behind an on/off setting</li></ul>
+        </div>
+        <p class="gate"><b>Review gate:</b> the developer plays the week-2 steering spike and makes the go/no-go call on feel.</p>
+      </article>
+
+      <article class="agent">
+        <header><h4>Level Layout agent</h4><span class="pl">Serves <em>pillar 3</em> and the scope rule</span></header>
+        <div>
+          <div class="lbl">What the player experiences</div>
+          <p>Where they can go and what they can see: the climb through the tower, the window that frames the crash, the gate, a sea route that narrows toward the outpost, and sightlines to the beacon and the ship.</p>
+        </div>
+        <div>
+          <div class="lbl">What it builds</div>
+          <ul><li>Greybox lighthouse, sea corridor and outpost</li><li>Interaction anchors for other agents</li><li>Sightline checks for the crash and ending</li></ul>
+        </div>
+        <p class="gate"><b>Review gate:</b> traversal and sightline checks in the engine.</p>
+      </article>
+
+      <article class="agent">
+        <header><h4>Gameplay / Systems agent</h4><span class="pl">Serves <em>pillars 1 and 2</em></span></header>
+        <div>
+          <div class="lbl">What the player experiences</div>
+          <p>The rules of the night: the story advancing in the right order, the deadline starting the moment they board, fair time penalties for mistakes, and an ending that resolves once as a win or a fail.</p>
+        </div>
+        <div>
+          <div class="lbl">What it builds</div>
+          <ul><li>Phase controller and save state</li><li>Repair jobs from data</li><li>Crash trigger, gate and boarding</li><li>Hidden deadline, cargo, win and fail</li></ul>
+        </div>
+        <p class="gate"><b>Review gate:</b> the 10-minute slice plays end to end with no dead ends.</p>
+      </article>
+
+      <article class="agent">
+        <header><h4>Lighting agent</h4><span class="pl">Serves <em>pillars 1, 2 and 4</em></span></header>
+        <div>
+          <div class="lbl">What the player experiences</div>
+          <p>The beacon as both objective and guide home, warm lamplight against the storm, and darkness that deepens as time runs out while hazards stay readable.</p>
+        </div>
+        <div>
+          <div class="lbl">What it builds</div>
+          <ul><li>Beacon sweep and dynamic lights</li><li>Storm visibility presets by phase</li><li>Minimum hazard-visibility rules</li></ul>
+        </div>
+        <p class="gate"><b>Review gate:</b> the beacon and hazards stay legible at every phase.</p>
+      </article>
+
+      <article class="agent">
+        <header><h4>Sound agent</h4><span class="pl">Serves <em>pillars 2 and 4</em></span></header>
+        <div>
+          <div class="lbl">What the player experiences</div>
+          <p>A storm they can hear getting worse, which tells them time is short without a timer, and Jeff’s voice cutting through it when they need a warning. No shock stingers.</p>
+        </div>
+        <div>
+          <div class="lbl">What it builds</div>
+          <ul><li>Layered wind, rain, machinery and foghorn</li><li>State-based mix and escalation</li><li>Source list and licences</li></ul>
+        </div>
+        <p class="gate"><b>Review gate:</b> Jeff’s warnings remain audible at peak storm.</p>
+      </article>
+
+      <article class="agent">
+        <header><h4>Asset agent</h4><span class="pl">Serves <em>pillars 3 and 4</em></span></header>
+        <div>
+          <div class="lbl">What the player experiences</div>
+          <p>The physical objects they handle during repairs, and the unsettling details (symbols, shrines, out-of-date posters) that make the lighthouse feel wrong.</p>
+        </div>
+        <div>
+          <div class="lbl">What it builds</div>
+          <ul><li>First-pass props and set dressing</li><li>Source meshes and import notes</li><li>Provenance records for every asset</li></ul>
+        </div>
+        <p class="gate"><b>Review gate:</b> assets import cleanly and fit the approved reference sheet.</p>
+      </article>
+
+      <article class="agent">
+        <header><h4>Dialogue agent</h4><span class="pl">Serves <em>pillars 3 and 4</em></span></header>
+        <div>
+          <div class="lbl">What the player experiences</div>
+          <p>Ted’s directions during repairs, Jeff’s calls on the water, and the journal’s objectives. Together these are how the player knows what to do without markers, and they get sparser on harder settings.</p>
+        </div>
+        <div>
+          <div class="lbl">What it builds</div>
+          <ul><li>Lines for Ted, Jeff and Daniel as data</li><li>Subtitle and difficulty variants</li><li>Journal text</li></ul>
+        </div>
+        <p class="gate"><b>Review gate:</b> the developer approves voice and lore before anything is recorded.</p>
+      </article>
+
+      <article class="agent">
+        <header><h4>QA agent</h4><span class="pl">Serves <em>all pillars</em></span></header>
+        <div>
+          <div class="lbl">What the player experiences</div>
+          <p>A night with no dead ends: every phase finishes, both outcomes can be reached, and mistakes are recoverable.</p>
+        </div>
+        <div>
+          <div class="lbl">What it builds</div>
+          <ul><li>Reproducible scenario list</li><li>Bug reports against acceptance checks</li><li>Checks with waves on and off</li></ul>
+        </div>
+        <p class="gate"><b>Review gate:</b> the developer reproduces and prioritises each finding.</p>
+      </article>
+    </div>
+
+    <p class="note">These are roles, not eight agents running at once. One agent can take successive bounded tasks.</p>
+
+    <h3>Build sequence</h3>
+    <ol class="flow">
+      <li><span class="s">Step 1</span><b>Developer</b>Settles open decisions: engine, Ted’s presence, feel target, hardware.</li>
+      <li><span class="s">Step 2</span><b>Boat / Physics</b>Builds the steering spike. Other content waits until it passes.</li>
+      <li><span class="s">Step 3</span><b>Layout + Systems</b>Greybox route, anchors, event IDs, running 10-minute slice.</li>
+      <li><span class="s">Step 4</span><b>Lighting + Sound</b>Just enough feedback to judge hazards, storm, beacon and ship.</li>
+      <li><span class="s">Step 5</span><b>Dialogue + Asset</b>Approved content, once the slice proves the route.</li>
+      <li><span class="s">Step 6</span><b>QA + Developer</b>First-time play, all transitions, both outcomes.</li>
+    </ol>
+
+    <h3>Handoff review</h3>
+    <p>Every handoff returns editable source, licences for any third-party material, test instructions and known limitations, and is checked against the same questions:</p>
+    <ul>
+      <li>Does it run in the integrated project from a clean checkout?</li>
+      <li>Are state changes and event IDs consistent with the shared contract?</li>
+      <li>Does it pass its task’s acceptance checks?</li>
+      <li>Does it pass each pillar’s test and the scope rule, without deciding an unresolved story point?</li>
+      <li>What did human playtesting show about feel, clarity and pacing?</li>
+    </ul>
+  </section>
+
+  <!-- 4 -->
+  <section class="part" id="technical-strategy">
+    <div class="partno">Part 4</div>
+    <h2>Technical Strategy</h2>
+    <p class="lede">Engine, build contract and schedule; how the agent roles are organised; the token budget; and the API and plan constraints the work runs under.</p>
+
+    <h3>Engine</h3>
+    <p><strong>Proposed: Godot 4 with GDScript.</strong> It is free with no royalties, iterates quickly on modest hardware, and stores scenes as plain text, so AI agents can read and edit scenes as well as scripts. Its main weakness, no built-in ocean, is off the critical path now that waves are a stretch goal.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Factor</th><th>Godot 4</th><th>Unity</th><th>Unreal 5</th><th>Phaser</th></tr></thead>
+      <tbody>
+        <tr><td class="k">First-person 3D</td><td>Good</td><td>Very good</td><td>Excellent</td><td>Not supported (2D)</td></tr>
+        <tr><td class="k">Steering past hazards</td><td>Straightforward</td><td>Straightforward</td><td>Straightforward</td><td>2D only</td></tr>
+        <tr><td class="k">Waves (stretch)</td><td>Build yourself</td><td>Asset Store packages</td><td>Built-in, realism-focused</td><td>2D only</td></tr>
+        <tr><td class="k">Storm lighting</td><td>Adequate with effort</td><td>Very good</td><td>Excellent</td><td>Poor</td></tr>
+        <tr><td class="k">AI can edit scenes</td><td>Yes (text)</td><td>Partly (YAML)</td><td>No (binary Blueprints)</td><td>Yes (all code)</td></tr>
+        <tr><td class="k">Iteration speed</td><td>Fast</td><td>Medium</td><td>Slow</td><td>Fastest</td></tr>
+        <tr><td class="k">Licence</td><td>Free, MIT</td><td>Free below revenue threshold</td><td>Royalty above high threshold</td><td>Free, MIT</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">Unity is the alternative if the developer already knows C#. Unreal is ruled out because Blueprints shut out AI help and iteration is slow. Phaser cannot meet the first-person brief (pillar 3).</p>
+
+    <h3>Build contract</h3>
+    <ul>
+      <li><strong>Separately owned scenes:</strong> lighthouse, sea, outpost, shared player and interaction scenes, and one central game-state controller.</li>
+      <li><strong>Content as data</strong> with stable IDs: repairs, dialogue, assist presets and journal text.</li>
+      <li><strong>Explicit phases:</strong> <span class="char" style="color:var(--ink)">LIGHTHOUSE_REPAIRS → CRASH_AND_GATE → BOARDING → OUTBOUND → OUTPOST → RETURN → FINAL_REPAIR → RESOLUTION (WIN | FAIL)</span></li>
+      <li><strong>Invariants:</strong> the deadline is inactive before boarding; Jeff is the only companion; pickup precedes return; the outcome resolves exactly once.</li>
+      <li><strong>Events, not side effects:</strong> audio, UI and dialogue respond to game events and never change progression directly.</li>
+      <li><strong>Shared hazard forecast:</strong> the hazards, the boat’s reaction and Jeff’s calls read from one source, so warnings always match the real threat.</li>
+    </ul>
+
+    <h3>Milestones</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Gate</th><th>Deliverable</th><th>Acceptance</th></tr></thead>
+      <tbody>
+        <tr><td class="k">0 · Steering spike</td><td>Greybox boat, hazards, heading and collision feedback</td><td>Steering alone completes a short route; tunable without rewrites. Stop or redesign if not enjoyable.</td></tr>
+        <tr><td class="k">1 · 10-minute slice</td><td>The full prototype path with win and fail outcomes</td><td>Playable end to end; deadline starts only on boarding; mistakes cost time but never trap the run.</td></tr>
+        <tr><td class="k">2 · Narrative alpha</td><td>All repairs, outpost discoveries, full dialogue</td><td>Every story state can be finished; no dead-end saves or lost cargo.</td></tr>
+        <tr><td class="k">3 · Content and polish</td><td>Final art, audio, accessibility, checkpoints</td><td>New players show legible navigation and 30-minute pacing.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Six-week prototype schedule</h3>
+    <div class="tbl"><table>
+      <thead><tr><th class="num">Week</th><th>Focus</th><th>Exit test</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td>Project setup and pipeline; boat at fixed speed with one steering axis; greybox sea; first rocks, buoys and debris</td><td>The boat steers and collides reliably</td></tr>
+        <tr><td class="num">2</td><td>Steering feel, hazard readability, collision feedback and recovery (Gate 0)</td><td><strong>Go/no-go:</strong> steering past hazards is fun on its own</td></tr>
+        <tr><td class="num">3</td><td>Outpost and burner pickup; harder return crossing; storm visibility and lighting</td><td>Both crossings playable end to end</td></tr>
+        <tr><td class="num">4</td><td>One repair, crash through the window, gate, Jeff at the boat, Jeff’s calls</td><td>The full 10-minute path is playable</td></tr>
+        <tr><td class="num">5</td><td>Hidden deadline, win and fail outcomes, placeholder audio</td><td>Both outcomes reachable</td></tr>
+        <tr><td class="num">6</td><td>Playtests with 3–5 new players, tuning, bug fixing, tester build (Gate 1)</td><td>Prototype outcome checks pass</td></tr>
+      </tbody>
+    </table></div>
+    <p>Waves are not in this schedule. They start only after Gate 0 passes and the current week’s exit test is met (earliest: spare time in week 5), sit behind one on/off setting, and are cut first if anything slips.</p>
+
+    <h3>Agent roles and working rules</h3>
+    <p>The eight roles in Part 3 map onto the build contract as follows. Boat/Physics and Gameplay/Systems agree event names before working in parallel; Level Layout supplies scene anchors before Lighting, Sound and Asset integrate.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Agent</th><th>Owns</th><th>Input contract</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Boat / Physics</td><td>Boat scene, controller, tuning resource</td><td>Hazard forecast API, one steering axis, recovery event</td></tr>
+        <tr><td class="k">Level Layout</td><td>Greybox scenes, anchors</td><td>Location sizes, beacon visibility, interaction anchors</td></tr>
+        <tr><td class="k">Gameplay / Systems</td><td>Phase controller, save state, repairs, deadline</td><td>Stable event and save IDs</td></tr>
+        <tr><td class="k">Lighting</td><td>Light rigs, visibility presets</td><td>Scene anchors, performance budget, visibility rules</td></tr>
+        <tr><td class="k">Sound</td><td>Audio banks, mix states</td><td>Escalation events, speaker priority</td></tr>
+        <tr><td class="k">Asset</td><td>Source meshes, import settings</td><td>Scale, pivot, collision, palette, reference sheet</td></tr>
+        <tr><td class="k">Dialogue</td><td>Dialogue and journal data</td><td>Character voices, phase events, ambiguity rule</td></tr>
+        <tr><td class="k">QA</td><td>Scenario list, bug reports</td><td>Playable build, event log, acceptance checklist</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li>One branch or change set per task; no agent overwrites another’s scene, script or asset.</li>
+      <li>Contract changes are raised before any dependent file is edited.</li>
+      <li>Each task runs the project build and focused checks, and reports what was observed, what could not be verified, and which human decision remains.</li>
+    </ul>
+
+    <h3>Token budget</h3>
+    <p>Estimated from a unit of one <strong>agent task</strong>: about 40 model turns at an average 60K-token context, giving about 2.4M input tokens (about 90% cache reads) and 40K output tokens. Full-game tasks after the prototype assume a larger 90K context as the codebase grows.</p>
+    <div class="stats">
+      <div class="stat"><div class="v">~$500</div><div class="l">Prototype · ~250 tasks · range $250–$1,400</div></div>
+      <div class="stat"><div class="v">~$2,050</div><div class="l">Full game incl. prototype · ~835 tasks · range $1,000–$5,000</div></div>
+      <div class="stat"><div class="v">~20M</div><div class="l">Input tokens per working day during the prototype, mostly cached</div></div>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>Model</th><th>Role in the mix</th><th class="num">Input / MTok</th><th class="num">Output / MTok</th><th class="num">Cache read</th><th class="num">Per task</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Claude Opus 5.5</td><td>Implementation and debugging (70%)</td><td class="num">$4.00</td><td class="num">$20.00</td><td class="num">$0.20</td><td class="num">$2.36</td></tr>
+        <tr><td class="k">Claude Sonnet 5</td><td>Routine scripting, data, docs (20%)</td><td class="num">$2.00</td><td class="num">$10.00</td><td class="num">$0.20</td><td class="num">$1.40</td></tr>
+        <tr><td class="k">Claude Haiku 4.5</td><td>Search, file sweeps, formatting (10%)</td><td class="num">$1.00</td><td class="num">$5.00</td><td class="num">$0.10</td><td class="num">$0.70</td></tr>
+        <tr><td class="k">Claude Fable 5.1</td><td>Not planned; comparison only</td><td class="num">$10.00</td><td class="num">$50.00</td><td class="num">$0.25</td><td class="num">$5.36</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Prototype workstream</th><th class="num">Tasks</th></tr></thead>
+      <tbody>
+        <tr><td>Planning and docs</td><td class="num">15</td></tr>
+        <tr><td>Project setup and asset pipeline</td><td class="num">10</td></tr>
+        <tr><td>Boat, hazards, steering and tuning</td><td class="num">40</td></tr>
+        <tr><td>Stretch: wave hazards, only if time allows</td><td class="num">15</td></tr>
+        <tr><td>Greybox levels and sightlines</td><td class="num">20</td></tr>
+        <tr><td>Interaction, repair, crash and gate</td><td class="num">30</td></tr>
+        <tr><td>Jeff’s calls and placeholder dialogue</td><td class="num">20</td></tr>
+        <tr><td>State machine, deadline, endings and save</td><td class="num">20</td></tr>
+        <tr><td>Lighting, weather and audio integration</td><td class="num">30</td></tr>
+        <tr><td>Bug fixing and integration</td><td class="num">40</td></tr>
+        <tr><td>Playtest analysis and tuning</td><td class="num">10</td></tr>
+        <tr><td><strong>Total</strong></td><td class="num"><strong>250</strong></td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">Not included: AI image, 3D, music or voice tools billed by other vendors; paid engine assets; the Steam Direct app fee. Real usage will be measured after week 1 and the forecast revised.</p>
+
+    <h3>API and plan constraints</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Constraint</th><th>Effect on the project</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Development-time only</td><td>No runtime AI in the shipped game, so no API keys, latency, per-player cost or availability risk after release.</td></tr>
+        <tr><td class="k">Plan usage limits</td><td>Development runs on a Claude Team plan with rolling 5-hour and weekly limits. Extra usage is off, so hitting a limit pauses work until it resets. The prototype pace is estimated at about 30–50% of the weekly limit; this is checked at the end of week 1.</td></tr>
+        <tr><td class="k">Context windows</td><td>Opus 5.5 and Sonnet 5 accept up to 1M tokens; Haiku 4.5 accepts 200K. Narrow task briefs keep contexts far below this, which also keeps cost down.</td></tr>
+        <tr><td class="k">Prompt caching</td><td>Caching matches on the exact prefix; any change to earlier content invalidates everything after it. Stable project docs and briefs make most input cheap cache reads (writes cost about 1.25× input).</td></tr>
+        <tr><td class="k">Opus 5.5 behaviour</td><td>Thinking cannot be switched off; depth and spend are controlled with the effort setting, which defaults to medium. Routine tasks run at lower effort.</td></tr>
+        <tr><td class="k">Cost levers</td><td>Route routine work to Sonnet 5 or Haiku 4.5, keep contexts small, and start fresh sessions between unrelated tasks.</td></tr>
+        <tr><td class="k">Asset rights</td><td>Every AI-generated or third-party asset carries a provenance and licence record before it is merged.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Feasibility</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Target</th><th>6 weeks, solo, AI-assisted</th><th>Reasoning</th></tr></thead>
+      <tbody>
+        <tr><td class="k">10-minute prototype</td><td><span class="pill ok">Feasible, with conditions</span></td><td>A greybox build for playtesters, not a product to sell. It depends on steering passing in week 2, frozen scope, placeholder art and audio, and week 6 kept for playtests.</td></tr>
+        <tr><td class="k">30-minute full game</td><td><span class="pill no">Not feasible</span></td><td>Estimated 27–31 weeks solo (about 5 months with stock assets and AI voice). The largest gaps are 3D art and character animation, QA, and Steam launch preparation, including a public Coming Soon page for at least two weeks before release.</td></tr>
+      </tbody>
+    </table></div>
+    <p>AI realistically speeds up code, data, docs and dialogue drafts by 1.3–2×. It helps little with steering feel, visual readability, consistent 3D art and playtesting. The plan therefore commits the six weeks to the prototype, and uses the week-2 steering result and week-6 playtests to decide whether to fund the full game.</p>
+
+    <h3>Risks</h3>
+    <ol>
+      <li><strong>Boat feel</strong> is the largest risk. Making waves a stretch goal removes its hardest part from the critical path, and Gate 0 tests it first.</li>
+      <li><strong>Scope creep</strong> across repairs, sequences and environmental detail, held back by the pillars and the scope rule.</li>
+      <li><strong>Usage limits</strong> interrupting work, monitored weekly and handled by routing routine tasks to smaller models.</li>
+    </ol>
+  </section>
+
+  <section class="part" id="open-decisions">
+    <div class="partno">Appendix A</div>
+    <h2>Open decisions</h2>
+    <p class="lede">Items still to be settled by the developer. Proposed answers are in use until confirmed.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Area</th><th>Decision</th><th>Current proposal</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Story</td><td>Ted’s presence</td><td>Ted is present and speaks live; recordings belong to earlier keepers</td></tr>
+        <tr><td class="k">Story</td><td>Daniel after the gate</td><td>Open: later role, or stays out of sight</td></tr>
+        <tr><td class="k">Deadline</td><td>Length</td><td>Set from playtests, with room for some mistakes</td></tr>
+        <tr><td class="k">Deadline</td><td>Pause and checkpoints</td><td>Stops in menus and pause; time saved at checkpoints</td></tr>
+        <tr><td class="k">Deadline</td><td>After the fail state</td><td>Open: checkpoint retry, restart, or end with retry option</td></tr>
+        <tr><td class="k">Boat</td><td>Crossing failure policy</td><td>Collisions cost time; burner never permanently lost</td></tr>
+        <tr><td class="k">Boat</td><td>Bailing interaction</td><td>Only if playtests show it helps</td></tr>
+        <tr><td class="k">Production</td><td>Engine</td><td>Godot 4</td></tr>
+        <tr><td class="k">Production</td><td>Target hardware and feel target</td><td>To define before Gate 0</td></tr>
+        <tr><td class="k">Production</td><td>Controller support in the prototype</td><td>Open</td></tr>
+        <tr><td class="k">Production</td><td>Which repair is in the prototype</td><td>Open</td></tr>
+        <tr><td class="k">Stretch</td><td>Wave hazards</td><td>Decide at the end of week 4</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="part" id="beyond-scope">
+    <div class="partno">Appendix B</div>
+    <h2>Beyond scope</h2>
+    <p class="lede">Ideas deliberately kept out of the prototype and full game. None is scheduled; each would need to pass the pillars first.</p>
+    <ul>
+      <li><strong>Companion choice.</strong> Choose Jeff or Daniel before boarding; either can complete both crossings.</li>
+      <li><strong>Daniel as a companion.</strong> A flashlight that is faster to read than Jeff’s voice but occasionally wrong. It conflicts with pillar 4, so it would need playtesting first.</li>
+      <li><strong>Hidden coda.</strong> An ending unlocked by journal fragments, shrines and symbols, revealing what happened to earlier keepers while leaving the supernatural unconfirmed.</li>
+      <li><strong>Full Gale mode.</strong> A New Game+ run that remixes the repairs and crossings into a harder, repeatable shift.</li>
+    </ul>
+  </section>
+
+  </main>
+</div>
+
+<footer>Lighting the Storm · design submission · 25 September 2026 · token figures are planning estimates at Claude API list prices</footer>
