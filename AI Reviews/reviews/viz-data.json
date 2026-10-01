@@ -1,0 +1,728 @@
+{
+  "meta": {
+    "document_title": "Lighting the Storm — Compiled GDD",
+    "document_compiled_date": "2026-09-29",
+    "document_source_file": "gdd.txt",
+    "review_date": null,
+    "review_date_note": "No review date is stated in any review file. The document compile date (29 Sept 2026) is stated. Use the run date if the report needs one.",
+    "source_files": [
+      "reviews/systems-designer.md",
+      "reviews/narrative-critic.md",
+      "reviews/player-psychologist.md",
+      "reviews/feasibility-lead.md",
+      "reviews/adversarial-qa.md",
+      "reviews/business-analyst.md",
+      "reviews/SYNTHESIS.md"
+    ],
+    "reviewers": [
+      "systems-designer",
+      "narrative-critic",
+      "player-psychologist",
+      "feasibility-lead",
+      "adversarial-qa",
+      "business-analyst"
+    ],
+    "reviewer_display_names": [
+      {"reviewer": "systems-designer", "display_name": "Systems Designer", "lens": "Core loop, progression, pacing, difficulty curve, deadline/penalty economy"},
+      {"reviewer": "narrative-critic", "display_name": "Narrative Critic", "lens": "Story, character, tone, ending"},
+      {"reviewer": "player-psychologist", "display_name": "Player Psychologist", "lens": "What a first-time player experiences minute by minute across a ~30 minute session"},
+      {"reviewer": "feasibility-lead", "display_name": "Technical Feasibility Lead", "lens": "Solo-dev schedule, scope, technical risk (Godot 4, PC/Steam, ~40 h/week with AI assistance)"},
+      {"reviewer": "adversarial-qa", "display_name": "Adversarial QA", "lens": "Contradictions between sections, edge cases, sequence breaks, exploits, unplanned fail states"},
+      {"reviewer": "business-analyst", "display_name": "Production/Business Analyst", "lens": "Market, audience, pricing, production plan, scope cost"}
+    ],
+    "id_note": "Finding IDs are normalized to F1-F5 per reviewer. systems-designer and adversarial-qa number their findings '1.'-'5.' and colleagues cite them as '#1' etc.; those map directly to F1-F5. Nesting rule used: at most three levels below the root (top-level key, then array of objects, then simple string arrays)."
+  },
+
+  "findings": [
+    {
+      "finding_key": "systems-designer-F1",
+      "reviewer": "systems-designer",
+      "finding_id": "F1",
+      "title": "What happens after failure is undefined, and saving remaining time at checkpoints can produce unwinnable saves",
+      "severity_round1": "BLOCKING",
+      "severity_after_round2": "BLOCKING",
+      "round2_change": "unchanged; 'first boarding' sub-point withdrawn as a separate issue (subsumed by adversarial-qa F3)",
+      "description": "The deadline is the only failure system in the game, and the document leaves its aftermath open (“checkpoint retry or restart” still to be decided) while also proposing to “save remaining time at checkpoints.” Together these create a trap: if a player reaches a checkpoint (e.g. arriving at the outpost) after several collisions, the save locks in a time budget that may already be too small to finish the return crossing and final repair. A checkpoint retry then drops them into a run they cannot win, over and over; the only way out is a full restart, replaying up to 30 minutes including all untimed repairs. Ordering problem: checkpoints are scheduled for Gate 3, but the fail state has to work at Gate 1, so the prototype tests failure with no retry model and playtesters cannot judge fairness. Related inconsistency: Exec Summary says “Boarding starts the hidden passenger-ship deadline” while Technical Strategy says “start on first outbound boarding” — “first” implies re-boarding, which is never specified.",
+      "fix_proposed": "Decide retry-vs-restart now. If checkpoints store time, put a minimum-remaining-time floor on each checkpoint, or checkpoint the time value as it was when that phase started. Otherwise pillar 4's “fair and recoverable mistakes” doesn't hold.",
+      "passage_referenced": "Technical Strategy, “Repairs, crash and gate, and final pressure” (deadline paragraph: “What follows the fail state (checkpoint retry or restart) is still to be decided”; “save remaining time at checkpoints”); Gate 2 acceptance “no dead-end save”; Gate 3 “Content and polish” (checkpoints); Exec Summary vs Technical Strategy on “first outbound boarding”."
+    },
+    {
+      "finding_key": "systems-designer-F2",
+      "reviewer": "systems-designer",
+      "finding_id": "F2",
+      "title": "Weather escalating with elapsed deadline time creates a death spiral",
+      "severity_round1": "MAJOR",
+      "severity_after_round2": "MAJOR",
+      "round2_change": "unchanged severity, strengthened",
+      "description": "Two rules feed each other: collisions “consume deadline time” (Prototype failure policy) and “Weather escalates by phase and elapsed deadline time through coherent changes to sea motion, hazard density, ... visibility” (Boat and weather simulation). A player who collides loses time; losing time pushes the weather further along (denser hazards, lower visibility), which means more collisions. The system punishes struggling players twice and leaves skilled players under less pressure — the reverse of pillar 4's “fair and recoverable mistakes” and the prototype check's “a recoverable error state.” The “reduced hazard-intensity preset” softens the slope but keeps the loop.",
+      "fix_proposed": "Either escalate weather by phase and route position only (a designed difficulty curve rather than a punishment), or cap how much of the escalation elapsed time can drive. Write it down, or the tuning team will find the loop through playtest variance and blame the steering.",
+      "passage_referenced": "Technical Strategy, “Boat and weather simulation” and “Prototype failure policy”; Pillar 4."
+    },
+    {
+      "finding_key": "systems-designer-F3",
+      "reviewer": "systems-designer",
+      "finding_id": "F3",
+      "title": "The hidden deadline is really an invisible mistake budget, and the player can't read it",
+      "severity_round1": "MAJOR",
+      "severity_after_round2": "MAJOR",
+      "round2_change": "unchanged",
+      "description": "The boat has “one fixed speed” and “no throttle,” and route length is authored, so a flawless run always takes the same time. Only mistakes, outpost search time and the final climb vary, so the deadline is functionally a count of allowed collisions (matching the tuning goal “a first-time player who follows cues has room for some mistakes”). The player never sees that count; the ship's lights are one continuous signal that can't be turned into “I can afford two more hits.” On failure the player can't tell whether the cause was an outbound collision, outpost search time, or the climb — conflicting with pillar 4's “the player always knows ... why they failed.” Two phases spend the budget without testing a skill: the outpost search (runs on the clock but full exploration is out of prototype scope; length and nature unspecified) and the final repair (“Climb to the lamp and fit the burner” — a traversal plus a single interaction with no challenge and no way to make time back).",
+      "fix_proposed": "Readable milestones for the budget: fixed ship positions at each phase transition that tell the player “on pace” or “behind.” Either give the final repair a short skill-based interaction or keep it out of the deadline.",
+      "passage_referenced": "Exec Summary step table (steps 5 and 7), Pillar 4; Technical Strategy, “Boat and weather simulation” and the deadline paragraph."
+    },
+    {
+      "finding_key": "systems-designer-F4",
+      "reviewer": "systems-designer",
+      "finding_id": "F4",
+      "title": "Pacing is front-loaded with untimed repairs that don't feed the crossings",
+      "severity_round1": "MAJOR",
+      "severity_after_round2": "MAJOR",
+      "round2_change": "unchanged severity, recommendation revised (repairs unlock return route options)",
+      "description": "The 10-minute prototype already covers the whole critical path; it drops only “the remaining lighthouse repairs, full outpost exploration, optional discoveries.” So roughly 20 of the full game's 30 minutes come mostly from content before boarding, where “exploration has no ship deadline.” The pressure half (pillar 2, “the storm sets the clock”) covers maybe a third of runtime. The later repairs (“optic, rotation, fuel/fog signal, and stormproofing”) have no stated effect on the crossings; the beacon “alone still flickers” after repairs. The repair schema includes “optional route unlock” and the save includes “unlocked routes,” but the crossings are one authored corridor with no route choice — the field connects to nothing. Repairs pass pillar 1's test narratively but have no mechanical effect.",
+      "fix_proposed": "Give repairs mechanical outputs in the crossing (e.g. repaired fog signal gives Jeff earlier calls; repaired rotation makes the beam a readable homing landmark), or define/remove “routes” from the contract. Budget the 30 minutes by phase so the untimed-to-timed ratio is deliberate. (Round 2: specifically, repairs unlock return route options.)",
+      "passage_referenced": "Exec Summary, “Scope and release target” and step table; Technical Strategy, “Repairs ...” paragraph and “Core state contract” save list."
+    },
+    {
+      "finding_key": "systems-designer-F5",
+      "reviewer": "systems-designer",
+      "finding_id": "F5",
+      "title": "The crossing penalty system lists outcomes without rules, and one penalty has no input",
+      "severity_round1": "MINOR",
+      "severity_after_round2": "MAJOR",
+      "round2_change": "upgraded MINOR to MAJOR",
+      "description": "A collision “adds water, slows the boat or causes a brief capsize-and-recovery” — three alternative consequences with nothing saying which applies when (impact severity, hazard type, accumulated count). Water accumulates but nothing drains it (bailing is “only if it improves the crossing in playtests”), and its only stated effect is the slowdown — a stat with no effect on play. Cargo mishandling (“On return, cargo mishandling delays progress and creates a clear recovery interaction”) has no input: the player's only boat input is one steering axis, so it's either an undefined automatic collision side effect or a new control that breaks the one-control promise.",
+      "fix_proposed": "A penalty table: hazard type × impact severity → consequence and approximate time cost. State whether water is a real resource with a threshold (e.g. triggers capsize) or cut it. Describe what triggers cargo loss.",
+      "passage_referenced": "Technical Strategy, “Prototype failure policy”; Exec Summary prototype check “one steering control, one fixed speed.”"
+    },
+
+    {
+      "finding_key": "narrative-critic-F1",
+      "reviewer": "narrative-critic",
+      "finding_id": "F1",
+      "title": "Ted is the narrative spine, but his presence is still an open decision, and he disappears after Step 2",
+      "severity_round1": "BLOCKING",
+      "severity_after_round2": "BLOCKING",
+      "round2_change": "kept BLOCKING",
+      "description": "The opening act depends on Ted: “live guidance” during repairs (Step 1), telling the player to look out the window, to open the gate, and explaining the burner errand (Step 2). Pillar 3 says “guidance comes from Ted and Jeff, not markers.” Yet the AI Agent Strategy's Recommended sequence item 1 lists “Ted's presence” as an unsettled open decision. If Ted is cut or turned into a radio voice, the opening loses its guide and Pillar 3's answer to “how does the player know what to do without markers” goes with it. Even with Ted in, he is never mentioned after Step 2 — not at the return (6), final repair (7) or outcome (8). The Dialogue deliverable is “Ted/Jeff/Daniel lines” but Ted has nothing in the second half. The document never explains why an “experienced keeper” sends a new apprentice through a lethal storm instead of going himself — exactly where his “guarded sense of care” should show.",
+      "fix_proposed": "Settle Ted's presence; give him a second-half role (Round 2: Ted at the lamp for the climax and reacting to both outcomes).",
+      "passage_referenced": "Story and gameplay sequence Steps 1-2 and 6-8; Pillar 3; Cast (“Ted: gruff, experienced keeper… guarded sense of care”); AI Agent Strategy, Recommended sequence item 1 (“Ted's presence”)."
+    },
+    {
+      "finding_key": "narrative-critic-F2",
+      "reviewer": "narrative-critic",
+      "finding_id": "F2",
+      "title": "Jeff's motivation and knowledge are unexplained, undercutting the companion relationship the crossings rely on",
+      "severity_round1": "MAJOR",
+      "severity_after_round2": "MAJOR",
+      "round2_change": "no revision stated",
+      "description": "Jeff is the player's only company for the whole deadline half and the source of every navigation cue (“reliable verbal navigation cues despite his reluctance to help”). The document never says why a just-shipwrecked man goes straight back into the same storm; what his reluctance is about or whether it changes over the two crossings; or how a stranger who just washed up knows the way to the abandoned outpost and its hazards well enough to call a safe route that the apprentice or Ted could not. The rowboat is unexplained too (why two sailors in an open rowboat in this storm? connected to the passenger ship?), so the crash reads as a device for delivering a navigator. “Reluctance” is a trait with no cause and no change. The Dialogue agent is asked to write Jeff's voice from “Character voices,” but none are defined beyond one adjective pair.",
+      "fix_proposed": "Define Jeff's motive, the cause and arc of his reluctance, the source of his local knowledge, and his voice.",
+      "passage_referenced": "Pitch (“A rowboat carrying two sailors crashes onto Bracken Isle”); Cast (“Jeff: older, coarse seaman… despite his reluctance to help”); Steps 2-6; Technical Strategy, “Jeff's calls read from the same safe-route signal.”"
+    },
+    {
+      "finding_key": "narrative-critic-F3",
+      "reviewer": "narrative-critic",
+      "finding_id": "F3",
+      "title": "The folk-horror layer has no link to the plot, so “dread you can read” has nothing to read",
+      "severity_round1": "MAJOR",
+      "severity_after_round2": "MAJOR",
+      "round2_change": "unchanged severity, strengthened",
+      "description": "The pitch promises “sustained dread” and Pillar 4 is “Dread you can read,” but every named source of dread is scenery (“log fragments, shrines, symbols, and subtly strange architecture”) that doesn't touch the main story. The document never says why the beacon is failing, why the outpost is abandoned, or why a spare burner sits there — the three places wrongness could meet the player's goal. Pillar 1's own test (“does this connect to getting the light back?”) would reject the folk-horror detail as written. The prototype removes it entirely (“full outpost exploration, optional discoveries” out of scope), so the slice can't test the main tonal promise. The full-game check (“preserves unexplained environmental wrongness”) protects ambiguity but never requires it to mean anything. The Dialogue input includes an “ambiguity constraint” but no private canon for the ambiguity to hide, so pieces will contradict instead of adding up.",
+      "fix_proposed": "Write a private canon for the ambiguity to hide; tie the wrongness to the plot (Round 2: to why the beacon failed).",
+      "passage_referenced": "Exec Summary (“Folk-horror details invite interpretation”; atmosphere paragraph); Pillars 1 and 4; Out of first-prototype scope; Outcome checks, Full game; AI Agent Strategy, Dialogue row (“ambiguity constraint”)."
+    },
+    {
+      "finding_key": "narrative-critic-F4",
+      "reviewer": "narrative-critic",
+      "finding_id": "F4",
+      "title": "The “consequential ending” has an unnamed victim, an undecided aftermath, and no payoff for the cast",
+      "severity_round1": "MAJOR",
+      "severity_after_round2": "BLOCKING",
+      "round2_change": "upgraded MAJOR to BLOCKING; “sails calmly into port” note withdrawn; sub-point 4.3 (Daniel) revised",
+      "description": "The pitch promises “a consequential ending,” but the result is binary and time-based (“the ship sails calmly into port” / “the ship runs aground”). (1) Who is at risk is never established — no character, cargo or relationship links the player or cast to the passenger ship; it is only lights on the horizon. (2) What happens after failure is undecided (“checkpoint retry or restart ... still to be decided”) — a narrative choice, not a technical one; an instant checkpoint retry plays as a game-over screen, not a consequence. (3) No resolution for anyone the player met — Ted, Jeff and Daniel get no reaction to either outcome; Daniel “stays at the lighthouse” with no further role; two wreck survivors never respond to watching or preventing another wreck. Smaller tone note (withdrawn in Round 2): “sails calmly into port” sits oddly at the peak of a worsening storm and no port is mentioned.",
+      "fix_proposed": "Establish who is at risk, decide the aftermath, and give the cast reactions to the outcome (Round 2: give Daniel a causal role or defer him rather than just reaction lines).",
+      "passage_referenced": "Exec Summary (“a consequential ending”); Step 8; Cast (Daniel); Technical Strategy deadline paragraph (“What follows the fail state… is still to be decided”)."
+    },
+    {
+      "finding_key": "narrative-critic-F5",
+      "reviewer": "narrative-critic",
+      "finding_id": "F5",
+      "title": "The apprentice's one moral beat is scripted by someone else",
+      "severity_round1": "MINOR",
+      "severity_after_round2": "MINOR",
+      "round2_change": "kept MINOR, new suggestion added",
+      "description": "The pitch presents the gate as the apprentice's own act (“the apprentice opens the lighthouse gate to let them in”), but in the sequence Ted “tells the player to open the lighthouse gate,” it is “a single interaction,” and Jeff and Daniel “walk into the lighthouse on their own… with no escort.” The player decides nothing and never meets the survivors. The apprentice is “characterised by actions and a handwritten objective journal” that only “reflects state,” so they have almost no inner life, and the one scene that could show character (letting strangers in during a storm) is flattened into a door switch. The player first meets Jeff at the engine boat, not at the rescue, weakening Jeff's arc (F2) and the ending (F4).",
+      "fix_proposed": "Let the apprentice be the one who first sees the wreck, or have the journal record what they think and not only objectives. (Round 2: use the gate scene for the ship-introduction beat — the apprentice spots the wreck and the far-off lights from the gate.)",
+      "passage_referenced": "Pitch; Step 2; Technical Strategy crash-and-gate paragraph; Cast (“Apprentice: mostly characterised by actions and a handwritten objective journal”); Core state contract (“The journal reflects state, but never determines it”)."
+    },
+
+    {
+      "finding_key": "player-psychologist-F1",
+      "reviewer": "player-psychologist",
+      "finding_id": "F1",
+      "title": "Failing late is undefined and the player can't tell why they failed",
+      "severity_round1": "BLOCKING",
+      "severity_after_round2": "BLOCKING",
+      "round2_change": "stays BLOCKING, strengthened",
+      "description": "The fail state happens at the very end (step 7/8, roughly minutes 20-30) and what follows is undecided. If failing means a full restart, the player replays 20+ minutes of repairs, the crash cutscene and two crossings — where people quit and leave a negative review in a 30-minute atmospheric game. Because the deadline is hidden, when the ship runs aground the player can't tell whether they lost to collisions, the outpost, slow burner fitting, or a timer that was always tight. Pillar 4 promises the player “always knows ... why they failed”; a hidden timer plus one lumped penalty (every mistake “consumes deadline time”) can't deliver that. A loss the player can't explain feels arbitrary, not tragic. The retry policy decides whether the fail ending feels like tragedy or punishment and should be settled before Gate 1 playtests.",
+      "fix_proposed": "Settle the retry policy before Gate 1 playtests. Add a diegetic post-mortem so the player can see why they failed (e.g. Jeff or Ted: “we lost too long on the rocks”, or journal text reflecting the delays).",
+      "passage_referenced": "Tech Strategy, deadline: “What follows the fail state (checkpoint retry or restart) is still to be decided”; Exec Summary Pillar 4: “the player always knows what to do and why they failed”; “store a numeric internal time but display only the passenger ship's position/lights and weather cues”; Step 8: “Fail: the ship runs aground.”"
+    },
+    {
+      "finding_key": "player-psychologist-F2",
+      "reviewer": "player-psychologist",
+      "finding_id": "F2",
+      "title": "The invisible clock quietly punishes curiosity at the outpost",
+      "severity_round1": "MAJOR",
+      "severity_after_round2": "MAJOR",
+      "round2_change": "unchanged severity; withdrew “move optional discoveries pre-boarding” as preferred fix",
+      "description": "The outpost is where the folk-horror payoff lives (“log fragments, shrines, symbols, and subtly strange architecture”), and the full game promises “full outpost exploration” and “optional discoveries” there. But the deadline keeps running through “outpost search,” invisibly. The curious player who reads the environment closely — what “small world, read closely” asks for — is the one most likely to fail, and nothing tells them the clock is why. Players who find the best content get the bad ending and blame the game; players who rush get the good ending and never see the lore. Exploration is free before boarding and secretly costly after, and nothing in the world marks the switch.",
+      "fix_proposed": "Round 1: either move optional discoveries to the pre-boarding lighthouse and island, or budget exploration time into the deadline and signal it (Jeff: “leave it, we've no time”). Round 2 preferred fix: keep discoveries at the outpost, budget explicit exploration time, and have Jeff signal diegetically when it's used up.",
+      "passage_referenced": "Tech Strategy, deadline: “continue through playable crossings, outpost search, recoveries, and final repair”; Exec Summary: “Before boarding, exploration has no ship deadline”; Scope: “full outpost exploration, optional discoveries” (full game); scope rule “small world, read closely.”"
+    },
+    {
+      "finding_key": "player-psychologist-F3",
+      "reviewer": "player-psychologist",
+      "finding_id": "F3",
+      "title": "The player first touches the boat after the clock has started",
+      "severity_round1": "MAJOR",
+      "severity_after_round2": "MAJOR",
+      "round2_change": "stays MAJOR, strengthened (close to blocking for first-time players when combined with systems-designer F2)",
+      "description": "Repairs teach interaction (“Repair work teaches interaction”), but nothing before boarding teaches steering, the game's “central player skill.” Boarding starts the deadline, so the first seconds a player ever steers the boat (fixed speed, one axis, collisions that capsize it) already cost the ending. A new player's first collisions come from not knowing the controls, and the hidden timer silently counts them. The outbound crossing is at night, in a storm, with Jeff shouting directions, so the player learns controls, reads hazards and parses spoken navigation at once. The Gate 0 test (“steering past hazards is fun on its own”) tests feel without pressure; the two need testing together.",
+      "fix_proposed": "A safe steering warm-up: a sheltered harbour stretch before the deadline begins, or a deadline that starts once the player clears the harbour mouth; failing that, the opening of the outbound route carries no time cost.",
+      "passage_referenced": "Step 3: “Boarding starts the hidden passenger-ship deadline”; Pitch: “The central player skill is steering a powered boat past rocks and other hazards”; Step 1: “Repair work teaches interaction”; Tech failure policy: collisions “slows the boat or causes a brief capsize-and-recovery ... these events consume deadline time.”"
+    },
+    {
+      "finding_key": "player-psychologist-F4",
+      "reviewer": "player-psychologist",
+      "finding_id": "F4",
+      "title": "The stakes are never introduced to the player in-game",
+      "severity_round1": "MAJOR",
+      "severity_after_round2": "BLOCKING",
+      "round2_change": "upgraded MAJOR to BLOCKING",
+      "description": "The motivation structure depends on the player caring about a passenger ship, and the sequence never shows the moment the player learns it exists. Steps 1-2 are about repairing the beacon and the crash; Ted's exposition is about the burner (“Ted explains that the burner must be collected”). The ship first appears as a hidden mechanical deadline at boarding, and its fate is the ending. If the player doesn't know about the ship before they leave, Pillar 2 (“can the player feel time running out without any UI?”) fails because nothing tells them time is short. The document doesn't say whether the ship is visible from the outpost interior, during the burner pickup, or while climbing to the lamp — all timed stretches. Dread needs a target.",
+      "fix_proposed": "Add an explicit beat, before or at boarding, where Ted points out the ship's lights and says what happens if the beacon stays dark. Add a rule that the ship is periodically visible, or audible via foghorn and ship-proximity audio, during every timed stretch. (Round 2: script the reveal at the boarding threshold.)",
+      "passage_referenced": "Sequence table steps 1-3 (no ship introduction); Pillar 2: “pressure comes from the world (the approaching ship's lights ...)”; Prototype check: “The ship's lights and position, seen in first person, communicate the stakes”; Pillar 3: “guidance comes from Ted and Jeff, not markers.”"
+    },
+    {
+      "finding_key": "player-psychologist-F5",
+      "reviewer": "player-psychologist",
+      "finding_id": "F5",
+      "title": "The player can't do anything about the pressure",
+      "severity_round1": "MINOR",
+      "severity_after_round2": "MINOR",
+      "round2_change": "stays MINOR, partly absorbed by systems-designer F3; playtest check should move earlier than week 6",
+      "description": "The boat has “one fixed speed” and “no throttle.” The worsening storm tells the player to hurry, but they have no way to hurry; the only control is to avoid mistakes. With waves likely cut and the return being the same route with “denser hazards and lower visibility,” the second crossing may feel like a harder repeat rather than a new challenge. Pressure the player can't act on tends to feel like helplessness rather than tension — it can fit dread but can also read as “the game is playing itself.” A risk to watch, not a defect yet; the one-control design is a deliberate legibility choice that serves Pillar 4.",
+      "fix_proposed": "Give the return crossing at least one meaningful choice (e.g. a riskier shortcut past the reef vs. the long safe way round, signalled by Jeff). Week-6 tests should ask whether the return felt “new” or “the same, but harder.”",
+      "passage_referenced": "Tech Strategy, boat: “one fixed speed and one player steering axis. The player steers but has no throttle”; Step 6: “Steer back through a worsening storm, with denser hazards and lower visibility”; Waves: “they are the first thing cut if it slips.”"
+    },
+
+    {
+      "finding_key": "feasibility-lead-F1",
+      "reviewer": "feasibility-lead",
+      "finding_id": "F1",
+      "title": "The six-week schedule never builds the shared “hazard forecast,” and week 4 carries too much",
+      "severity_round1": "MAJOR",
+      "severity_after_round2": "MAJOR",
+      "round2_change": "no severity revision; fix extended (remove Daniel from prototype or keep him off-screen to free week 4)",
+      "description": "Jeff's navigation calls are a core feature the prototype needs to show players “understand where to head” without markers. They depend on a shared system no week builds: “Use a shared hazard forecast for hazards..., boat reaction, and Jeff's calls, so his warnings never disagree with the actual threat.” The Boat/Physics agent's input contract is a “Hazard forecast API,” treated as if it exists. Weeks 1-2 build only boat, collisions and feedback; week 4 is the first appearance of “Jeff's direction calls,” sharing the week with the one repair, the scripted crash (with view trigger and fallback), the gate, the NPC walk-in, and Jeff waiting at the boat. Leaving the forecast until week 4 means reworking week 1-3 boat code. Gate 0's go/no-go (week 2) tests steering without Jeff, so the main navigation aid isn't tested with steering until two weeks before the tester build. No buffer: week 5 is the only spare slot and is reserved for waves.",
+      "fix_proposed": "Move a minimal forecast/safe-route signal into week 2 or 3; give week 4's scripted beats their own acceptance checks or push some to week 5.",
+      "passage_referenced": "Technical Strategy (shared hazard forecast; “Jeff's calls read from the same safe-route signal, with explicit difficulty-dependent lead time and frequency”); Boat/Physics agent input contract (“Hazard forecast API”); six-week schedule weeks 1-2 and 4."
+    },
+    {
+      "finding_key": "feasibility-lead-F2",
+      "reviewer": "feasibility-lead",
+      "finding_id": "F2",
+      "title": "The full game has no schedule, estimate, or cut list beyond waves",
+      "severity_round1": "MAJOR",
+      "severity_after_round2": "MAJOR",
+      "round2_change": "no revision stated",
+      "description": "The 10-minute prototype is planned in detail (six weeks, weekly exit tests); after that, nothing. Gates 2 and 3 have deliverables but no dates, durations or staffing. Full-game scope adds more repairs (“optic, rotation, fuel/fog signal, and stormproofing”), full outpost exploration, optional discoveries, final art, a full voiced cast (“Creator approves voice and lore before recording”), accessibility (remapping, subtitles with speaker attribution, visual direction option, reduced-intensity preset), checkpoints, and a “finished Steam release flow.” Waves are the only feature with a cut rule. “Scope creep across repairs, cinematics, and environmental detail” is named as the second-largest risk with no priority order for cutting. Voice recording has no source (actors, budget, synthetic) and no licensing note despite the Agent Strategy's provenance rules. Final art for three locations solo has no asset count or estimate. Without a Gates 2-3 baseline there's nothing to measure the slice against.",
+      "fix_proposed": "Rough week ranges for Gates 2-3, a ranked cut list (e.g. repairs 4-5, optional discoveries, stormproofing), and an explicit plan for voice work.",
+      "passage_referenced": "Technical Strategy, Milestones and gates (Gate 2 Narrative alpha, Gate 3 Content and polish); full-game scope; waves cut rule (“the first thing cut if it slips”); risk paragraph (“scope creep across repairs, cinematics, and environmental detail”); “Creator approves voice and lore before recording.”"
+    },
+    {
+      "finding_key": "feasibility-lead-F3",
+      "reviewer": "feasibility-lead",
+      "finding_id": "F3",
+      "title": "Open decisions block work that is already scheduled",
+      "severity_round1": "MAJOR",
+      "severity_after_round2": "MAJOR",
+      "round2_change": "sharpened, kept MAJOR; fail-state item split out (restart-the-slice for Gate 1, snapshot model for Gate 2; blocks Gate 2 if still open); Ted gets a “needed by week 3” deadline",
+      "description": "Several undecided items sit on the Gate 1 critical path. Engine: “Proposed,” with a Unity fallback, but week 1 is project setup; listed first in “settle the open decisions” with no deadline. Ted's presence: Ted drives Step 1 (“Follow Ted's live guidance”), prompts the crash and orders the gate opened, all in the Gate 1 slice; if not physically present, tutorial and crash-trigger design change. Fail-state follow-up: “checkpoint retry or restart” undecided; Gate 1 requires the fail outcome reachable and the save contract says “save remaining time at checkpoints,” but checkpoints aren't scheduled until Gate 3. Target hardware: open, yet the Tech Strategy says “prototype rain and fog on target hardware before dressing the levels,” and week 3 tunes storm visibility and lighting. Under the Agent Strategy's own rule (“Ask when a canon choice is unresolved; do not silently decide it”), agents will stall or build against a guess.",
+      "fix_proposed": "A decision log with a “needed by week N” date for each item. Decide checkpoint and retry behaviour before week 5, when the deadline is built.",
+      "passage_referenced": "Engine choice (“Proposed”, Unity fallback); AI Agent Strategy “settle the open decisions” (“Ted's presence”); Technical Strategy deadline paragraph and save contract (“save remaining time at checkpoints”); Gate 3 checkpoints; open decision on target hardware; “prototype rain and fog on target hardware before dressing the levels”; Agent Strategy rule “Ask when a canon choice is unresolved; do not silently decide it.”"
+    },
+    {
+      "finding_key": "feasibility-lead-F4",
+      "reviewer": "feasibility-lead",
+      "finding_id": "F4",
+      "title": "Deadline tuning and the 30-minute target can only be checked at the very end",
+      "severity_round1": "MAJOR",
+      "severity_after_round2": "MAJOR",
+      "round2_change": "strengthened, kept MAJOR",
+      "description": "“Set the duration from measured playtests so a first-time player who follows cues has room for some mistakes.” The deadline is built in week 5 and the only planned playtests are “3-5 new players” in week 6, alongside bug fixing and the tester build. The full-game check (“A first-time playthrough lasts about 30 minutes”) can only be tested at Gate 3, when all content exists. The deadline is the only source of pressure and runs across two crossings, a search and a final climb/repair; collision penalties, capsize recovery, cargo delays and outpost search all eat into it, so its duration depends on every other tuning value. Three to five testers in the final week is too few. Debug time scaling exists for QA but no early deadline split estimate, and no check before Gate 3 that 10 minutes of prototype will grow to 30.",
+      "fix_proposed": "Add a paper time budget per phase now. Start internal timing runs in week 4 or 5. Add a pacing checkpoint at Gate 2.",
+      "passage_referenced": "Technical Strategy deadline (“Set the duration from measured playtests...”); week 5-6 schedule (“3-5 new players”); Full-game outcome check (“A first-time playthrough lasts about 30 minutes”); Gate 3 (“demonstrate ... the intended 30 minute pacing”)."
+    },
+    {
+      "finding_key": "feasibility-lead-F5",
+      "reviewer": "feasibility-lead",
+      "finding_id": "F5",
+      "title": "The prototype's failure policy hides physics and character work that isn't in scope",
+      "severity_round1": "MINOR",
+      "severity_after_round2": "MAJOR",
+      "round2_change": "upgraded MINOR to MAJOR; retitled in substance: “the prototype's failure and transition policies hide unestimated, critical-path work”",
+      "description": "Waves are out of scope to keep the hardest physics off the critical path, but the prototype failure policy still requires collisions to add “water, slows the boat or causes a brief capsize-and-recovery at a nearby safe point,” plus “cargo mishandling delays progress and creates a clear recovery interaction,” with Jeff aboard throughout. A first-person capsize-and-recovery with an NPC and a physical cargo item needs a camera transition respecting “no cutaway or exterior cameras,” Jeff repositioning/animating, burner state handling, and teleporting to a safe point. None of it is in the week 1-2 exit tests (only “collides reliably” and “recovery”). Cargo mishandling has no defined design (“Proposed: keep the burner recoverable...”), so the Gameplay/Systems “cargo” deliverable has no spec. Unestimated work in the same weeks as the Gate 0 go/no-go. (Round 2 adds: docking/arrival triggers, burner retrieval with a boat that can't stop, respawn orientation, and per-phase fail presentations.)",
+      "fix_proposed": "For the prototype, make “slows the boat plus a brief stop” the only collision response. Defer capsize and cargo-mishandling to Gate 2, or estimate them separately.",
+      "passage_referenced": "Technical Strategy waves note (“keeping waves as a stretch goal removes the hardest part of that risk from the critical path”); Prototype failure policy; “no cutaway or exterior cameras”; week 1-2 exit tests; “Proposed: keep the burner recoverable...”"
+    },
+
+    {
+      "finding_key": "adversarial-qa-F1",
+      "reviewer": "adversarial-qa",
+      "finding_id": "F1",
+      "title": "The fail state cannot be shown from wherever the deadline actually expires",
+      "severity_round1": "BLOCKING",
+      "severity_after_round2": "BLOCKING",
+      "round2_change": "no revision stated (reframed as the common case via player-psychologist F2 connection)",
+      "description": "The deadline runs “through both crossings, the pickup, and the final repair,” so it can expire mid-crossing, inside the abandoned outpost, or on the lighthouse stairs. But the fail is defined as watched from the lighthouse (Step 8 “Watch the ship from the lighthouse”; “the ship outcome from the lighthouse, so both need clear sightlines”), and cutaways are banned (“There are no cutaway or exterior cameras”). If the player is inside the outpost, facing away, or indoors at expiry, there is no legal way to show “the ship runs aground, seen in first person.” Pillar 4's “always knows ... why they failed” breaks where it matters most. No section says where the player is, or what they perceive, when expiry happens away from the lighthouse.",
+      "fix_proposed": "Define the fail presentation for every phase where expiry can occur (OUTBOUND, OUTPOST, RETURN, FINAL_REPAIR, indoor vs outdoor). Choose one: guarantee sightlines to the ship from all of these, allow an audio-only fail (foghorn/distress horn then silence), or let the ship keep going until the player can see it (which softens the deadline invariant).",
+      "passage_referenced": "Exec Summary sequence step 8 and “All viewpoints are first-person...”; Technical Strategy “On expiry, trigger the fail state: the ship runs aground, seen in first person” and Presentation (“the ship outcome from the lighthouse”)."
+    },
+    {
+      "finding_key": "adversarial-qa-F2",
+      "reviewer": "adversarial-qa",
+      "finding_id": "F2",
+      "title": "Checkpoints that save remaining time can create unwinnable saves, and the retry model contradicts “resolves exactly once”",
+      "severity_round1": "BLOCKING",
+      "severity_after_round2": "BLOCKING",
+      "round2_change": "severity stays, scope wider (fix must cover weather state on reload, not only time)",
+      "description": "The proposed rules “save remaining time at checkpoints.” If a checkpoint lands after collisions have used most of the budget (e.g. start of RETURN with too little time to cross and climb), every reload leads to a guaranteed fail — a doomed loop — breaking Gate 2's “no dead-end save.” The retry model is undecided (“checkpoint retry or restart ... still to be decided”); if retry is from a checkpoint, the invariant “the ship outcome resolves exactly once” is wrong on its face (the same slot resolves FAIL, reloads, resolves again). Validation expects “reload resumes a consistent phase,” but nothing says whether ship state rewinds with the deadline. Gate 3 lists checkpoints as polish work even though Gate 1 needs a fail-then-what answer.",
+      "fix_proposed": "Settle the retry model before Gate 1. Either add a minimum-viable-time floor that stops a checkpoint from saving when remaining time can't finish the route at par, or keep one run-start snapshot that restores time on retry. Reword the invariant to “resolves exactly once per attempt” and say which fields roll back on reload.",
+      "passage_referenced": "Technical Strategy deadline paragraph (“save remaining time at checkpoints”, “still to be decided”); Core state contract invariants (“resolves exactly once”); Gate 2 acceptance (“no dead-end save”); Gate 3 “checkpoints”; validation “reload resumes a consistent phase.”"
+    },
+    {
+      "finding_key": "adversarial-qa-F3",
+      "reviewer": "adversarial-qa",
+      "finding_id": "F3",
+      "title": "A boat with one fixed speed and no throttle has no defined way to stop, dock, disembark, or reach a recovery point",
+      "severity_round1": "MAJOR",
+      "severity_after_round2": "MAJOR",
+      "round2_change": "stays MAJOR, reframed as a missing “boat stopped or boarding” spec with four consumers (collision response, docking, re-boarding, burner retrieval)",
+      "description": "The boat is “a forward-moving boat with one fixed speed” and “the player steers but has no throttle,” yet the loop needs the player to stop at the outpost (“Find and pick up the replacement burner”), get off and on, stop at the lighthouse and “Climb to the lamp,” and under the cargo rule collect the burner “at a marked nearby point.” None of these transitions is specified. Open edge cases: circling the outpost forever without landing (nothing says what triggers arrival); steering straight home without landing (the invariant “a burner pickup precedes return completion” forbids the result but not the path — bounce, Jeff line, or soft-lock?); retrieving a dropped burner with a boat that can't stop (also collides with the “one-control steering promise”); capsize respawn “at a nearby safe point” facing a rock at fixed speed causing chained collisions.",
+      "fix_proposed": "Specify arrival and docking triggers (e.g. auto-dock volumes), what happens when arriving without the burner, how the burner is retrieved when the boat can't stop, and respawn rules: face the safe route and give a grace period before a collision can count.",
+      "passage_referenced": "Technical Strategy, Boat and weather simulation; Prototype failure policy; Core state contract (OUTBOUND → OUTPOST → RETURN transitions have no triggers); example Gate 0 brief (“one fixed speed with no throttle”)."
+    },
+    {
+      "finding_key": "adversarial-qa-F4",
+      "reviewer": "adversarial-qa",
+      "finding_id": "F4",
+      "title": "“Proposed” items are enforced as invariants and gate criteria, and a load-bearing character (Ted) is still an open decision",
+      "severity_round1": "MAJOR",
+      "severity_after_round2": "MAJOR",
+      "round2_change": "Ted half softened (adds nothing new, four others flag it); Proposed-as-invariant half kept at MAJOR",
+      "description": "Items marked Proposed “need the creator's approval before they become canon,” and agents are told “do not silently decide” unresolved canon. Yet several Proposed rules are hard requirements elsewhere: the deadline rules (start on boarding, pauses, checkpoint saves) are Proposed, but the invariant says “the deadline is inactive before the first boarding event” and Gate 1 acceptance says “the ship deadline starts only on boarding”; “Keep the burner recoverable ... never permanently lost” is Proposed, but Gate 2 demands “no ... cargo loss”; the crash trigger with fallback delay is Proposed, but the crash is mandatory Gate 1 content. Also, “Ted's presence” is an open decision while every early gate relies on Ted (repair guidance, window-look crash trigger, gate order, outpost explanation). If Ted is cut or made a radio voice, steps 1–2 lose their triggers, and Gameplay/Systems and Dialogue agents build against a contract that can legally vanish.",
+      "fix_proposed": "Promote these items to canon or mark the matching invariants and gate criteria as provisional. Decide Ted's presence before step 3 of the Recommended sequence. Say whether crash and gate triggers depend on Ted's line or on world state, so the phase controller has one owner.",
+      "passage_referenced": "Exec Summary status line; Technical Strategy (“Proposed rules: start on first outbound boarding...”; “Proposed: keep the burner recoverable...”; “Proposed: trigger the crash when the window is in view...”); Gate 1 and Gate 2 acceptance; AI Agent Strategy working rule 1 and Recommended sequence step 1."
+    },
+    {
+      "finding_key": "adversarial-qa-F5",
+      "reviewer": "adversarial-qa",
+      "finding_id": "F5",
+      "title": "Deadline pause and preset rules open exploits, and the pre-boarding state is frozen and ambiguous",
+      "severity_round1": "MINOR",
+      "severity_after_round2": "MINOR",
+      "round2_change": "frozen-ship bullet upgrades to MAJOR if player-psychologist F4 is adopted; other three bullets stay MINOR",
+      "description": "Four small issues. Pause scope: the clock stops “during menus and deliberate pause”; if the “handwritten objective journal” opens as a menu the player can freeze the deadline at will, and if it's diegetic (fits Pillar 3) the clock runs while reading — neither is stated. Mid-run preset swap: the difficulty preset is saved state and changes Jeff's lead time and hazard intensity; nothing says whether it can change mid-run or affects deadline duration, so a player could drop to reduced for the hard return and switch back. Frozen ship before boarding: the ship's lights are visible before boarding but the deadline hasn't started, so the ship is frozen however long the player explores, contradicting Pillar 2 (“The storm sets the clock”). Gate timing: the gate is “a single interaction” but nothing says whether it can be used before the crash — does CRASH_AND_GATE skip ahead, double-fire, or ignore input?",
+      "fix_proposed": "List which UI states pause the deadline. Lock the preset per run, or define what switching does. Keep the pre-boarding ship out of sight or give it a scripted holding pattern. Make the gate uninteractable until the crash event fires.",
+      "passage_referenced": "Technical Strategy deadline paragraph (“stop during menus and deliberate pause”); Core state contract (difficulty preset saved); Jeff's “difficulty-dependent lead time”; Exec Summary (“Before boarding, exploration has no ship deadline”); crash and gate paragraph."
+    },
+
+    {
+      "finding_key": "business-analyst-F1",
+      "reviewer": "business-analyst",
+      "finding_id": "F1",
+      "title": "No audience, market positioning, or price, and the product sits inside Steam's refund window",
+      "severity_round1": "MAJOR",
+      "severity_after_round2": "MAJOR",
+      "round2_change": "stays MAJOR, better supported (by connections X1, X2, X4)",
+      "description": "The document names a platform (“PC via Steam is the initial release target”) and a length (“designed for a 30 minute complete playthrough”) and nothing else about the market: no target player, comparable titles, price, positioning against the many short first-person atmospheric/folk-horror games on Steam in 2026, or wishlist/launch plan. A 30-minute, single-path game with a binary ending can be finished well inside Steam's standard refund window (under 2 hours played), and nothing gives a player a reason to keep it after one run. The only replay-related content is “optional discoveries” (cut from the prototype), and the fail-state follow-up is still open. Price, length and replay value have to be decided together; the document fixes only length, which could make the project unsellable above a token price.",
+      "fix_proposed": "Define audience, comparables, price, positioning and replay value together with length.",
+      "passage_referenced": "Exec Summary, “Pitch and player promise” and “Scope and release target” (omission: no audience, pricing or market section in any part)."
+    },
+    {
+      "finding_key": "business-analyst-F2",
+      "reviewer": "business-analyst",
+      "finding_id": "F2",
+      "title": "The prototype tests a boat-steering game, but the pitch sells a folk-horror atmosphere game",
+      "severity_round1": "MAJOR",
+      "severity_after_round2": "MAJOR",
+      "round2_change": "no revision stated",
+      "description": "The document is effectively two products with different risks, and only one is tested. The go/no-go tests steering in isolation (“Go/no-go: steering past hazards is fun on its own” in Week 2; “Stop or redesign if the core crossing is not enjoyable” at Gate 0). The emotional hook is “sustained dread,” “Folk-horror details invite interpretation,” “unexplained environmental wrongness,” shrines, symbols, strange architecture. The prototype allows “Greybox art and placeholder audio” and drops “full outpost exploration, optional discoveries, final art.” None of the four prototype outcome checks measures dread, ambiguity or atmosphere, so “Dread you can read” and “preserves unexplained environmental wrongness” are never validated before full production. The differentiator is treated as a Gate 3 polish item; a greybox slice can pass every gate and still be a generic boat-dodging minigame.",
+      "fix_proposed": "Add a go/no-go test for atmosphere/dread before full production.",
+      "passage_referenced": "Exec Summary “Design pillars” (1–4), “Outcome checks” (Prototype vs Full game); Technical Strategy “Milestones and gates” and “Six-week prototype schedule.”"
+    },
+    {
+      "finding_key": "business-analyst-F3",
+      "reviewer": "business-analyst",
+      "finding_id": "F3",
+      "title": "No full-game plan: the schedule stops at the prototype, and the release target has no timeline, budget, or release work",
+      "severity_round1": "MAJOR",
+      "severity_after_round2": "BLOCKING",
+      "round2_change": "upgraded MAJOR to BLOCKING for the full-production decision only (not the prototype); AI Agent Strategy “process overhead” sub-point withdrawn",
+      "description": "Planning detail ends at Gate 1: a week-by-week plan for the 10-minute slice, while Gates 2 and 3 have no dates, durations or staffing, and nothing links the prototype's 10 minutes to the full game's 30. Shipping work is explicitly out of scope with no plan for when it happens (“a finished Steam release flow” is out of first-prototype scope; nothing covers store page, capsule art, trailer, localisation, ratings or QA certification). About a third of the document goes to an eight-role AI Agent Strategy — heavy process for a solo 30-minute project (withdrawn as a criticism in Round 2). The document names “scope creep across repairs, cinematics, and environmental detail” as the second-largest risk, but without a full-game schedule it can't detect that creep.",
+      "fix_proposed": "A full-game schedule and cost estimate past week 6, including release work.",
+      "passage_referenced": "Technical Strategy “Milestones and gates” and “Six-week prototype schedule”; Exec Summary “Out of first-prototype scope”; Part 3 “Ownership and handoffs” (eight agent roles); omission of any schedule or cost estimate past week 6."
+    },
+    {
+      "finding_key": "business-analyst-F4",
+      "reviewer": "business-analyst",
+      "finding_id": "F4",
+      "title": "A load-bearing feature (Ted) is still an open decision",
+      "severity_round1": "MAJOR",
+      "severity_after_round2": "MAJOR",
+      "round2_change": "kept MAJOR with a deadline attached (lock Ted before week 4, or before week 1 if Level Layout sightlines depend on him)",
+      "description": "Ted is central: Pillar 3 says “guidance comes from Ted and Jeff, not markers”; repairs follow “Ted's live guidance”; Ted prompts the crash view and gate interaction and explains the outpost objective. Yet the AI Agent Strategy lists “Ted's presence” among open decisions the creator must settle first. If Ted's presence changes (off-screen, radio-only, cut), the first act's replacement for quest markers goes with him, affecting Dialogue, Level Layout (sightlines), Gameplay/Systems (crash trigger), and the pillar test. For production this is an unfrozen dependency under the first playable act, not a flavour choice. Week 4 builds “One repair, crash through the window, gate opening”; if Ted isn't locked by then, that week risks rework.",
+      "fix_proposed": "Lock Ted's presence before week 4 (Round 2: via a decision log with a “needed by week N” date).",
+      "passage_referenced": "Exec Summary Pillar 3 and “Story and gameplay sequence” steps 1–2; AI Agent Strategy, “Recommended sequence” item 1 (“settle the open decisions, starting with the engine, Ted's presence…”); Week 4 row."
+    },
+    {
+      "finding_key": "business-analyst-F5",
+      "reviewer": "business-analyst",
+      "finding_id": "F5",
+      "title": "Daniel and the rowboat crash are expensive, mostly decorative content that fails the document's own feature test",
+      "severity_round1": "MINOR",
+      "severity_after_round2": "MAJOR",
+      "round2_change": "upgraded MINOR to MAJOR and narrowed: cut Daniel from the Gate 1 slice and fold his role into Jeff, but keep the crash",
+      "description": "The cut rule: “A feature that fails a pillar's test, or expands the world without deepening the main loop, should be deferred.” Daniel is a second rescued sailor who “stays at the lighthouse” with no gameplay role, yet needs a character model, scripted walk-path animation, dialogue lines, and a distinct presence in the crash. The crash-and-gate step adds a scripted first-person set piece, a second boat that “must stay visibly distinct,” and a single-interaction gate; its only load-bearing job is delivering Jeff. It is in the Gate 1 slice, taking part of week 4 of a prototype meant to prove steering — the cinematic content the document names as the second scope-creep risk. Daniel might earn his place in the story (the narrative reviewer's call), but from production he's the clearest example of content the cut rule would defer.",
+      "fix_proposed": "Defer Daniel (and, in Round 1, question the crash); Round 2: cut Daniel from the Gate 1 slice, fold his role into Jeff, keep the crash.",
+      "passage_referenced": "Exec Summary “Cast and atmosphere” (Daniel; two distinct boats) and “Design pillars” scope rule; Technical Strategy “Repairs, crash and gate, and final pressure” and the Week 4 row; final risk paragraph (“scope creep across repairs, cinematics, and environmental detail”)."
+    }
+  ],
+
+  "reviewer_overall_notes": [
+    {
+      "reviewer": "feasibility-lead",
+      "round": 1,
+      "note": "The prototype plan is unusually disciplined for a solo project: a hard Gate 0 go/no-go, waves isolated behind a toggle, and a clean state and event contract. Weak points: (1) missing full-game timeline and cut list, (2) open decisions on the Gate 1 critical path, (3) a deadline tuning dependency that can only be validated at the end. Nothing here is BLOCKING for the prototype. The full game's feasibility cannot be judged from this document as written."
+    },
+    {
+      "reviewer": "feasibility-lead",
+      "round": 2,
+      "note": "Overall verdict slightly revised: still nothing BLOCKING for the six-week prototype as a build, but the prototype carries a larger unscheduled workload than the week plan shows (forecast API, phase transitions, fail presentations). Week 5 is the only buffer and is committed to waves, so waves should be cut before work starts, not “if it slips”."
+    }
+  ],
+
+  "cross_exam_engagement": [
+    {"reviewer": "systems-designer", "colleagues_engaged": ["adversarial-qa", "feasibility-lead", "narrative-critic", "player-psychologist", "business-analyst"], "conflict_count": 3, "connection_count": 6, "revision_count": 5},
+    {"reviewer": "narrative-critic", "colleagues_engaged": ["business-analyst", "systems-designer", "adversarial-qa", "player-psychologist", "feasibility-lead"], "conflict_count": 3, "connection_count": 6, "revision_count": 6},
+    {"reviewer": "player-psychologist", "colleagues_engaged": ["adversarial-qa", "business-analyst", "systems-designer", "feasibility-lead", "narrative-critic"], "conflict_count": 4, "connection_count": 6, "revision_count": 5},
+    {"reviewer": "feasibility-lead", "colleagues_engaged": ["systems-designer", "adversarial-qa", "narrative-critic", "player-psychologist", "business-analyst"], "conflict_count": 4, "connection_count": 6, "revision_count": 4},
+    {"reviewer": "adversarial-qa", "colleagues_engaged": ["feasibility-lead", "player-psychologist", "narrative-critic", "systems-designer", "business-analyst"], "conflict_count": 4, "connection_count": 5, "revision_count": 4},
+    {"reviewer": "business-analyst", "colleagues_engaged": ["narrative-critic", "feasibility-lead", "player-psychologist", "systems-designer", "adversarial-qa"], "conflict_count": 3, "connection_count": 4, "revision_count": 4}
+  ],
+
+  "cross_exam_conflicts": [
+    {"conflict_key": "SD-C1", "raised_by": "systems-designer", "against_reviewers": ["adversarial-qa"], "target_findings": "adversarial-qa F1", "own_findings_involved": "systems-designer F3", "disagreement": "Agrees with the diagnosis but rejects QA's remedy “let the ship keep going until the player can see it”: it creates a doomed run of up to ten minutes that can't change anything, and with a hidden clock the player doesn't know it's over.", "position": "Expiry must resolve at expiry: use audio-only (foghorn, then silence) where the ship isn't in view and end the run; or make the deadline mean the ship reaches the reef whether the lamp is lit or not, checked once at final repair and always shown from the lamp, only with readable pace milestones. Don't pick the soft-deadline hybrid."},
+    {"conflict_key": "SD-C2", "raised_by": "systems-designer", "against_reviewers": ["feasibility-lead"], "target_findings": "feasibility-lead F5", "own_findings_involved": "systems-designer F5", "disagreement": "Supports simplifying to “slow plus brief stop” but notes adding capsize and cargo mishandling at Gate 2 invalidates every deadline value measured in week 6.", "position": "Deferral only works if the penalty table with a time cost per event (including deferred ones) is written now, so the prototype deadline carries a known reserve."},
+    {"conflict_key": "SD-C3", "raised_by": "systems-designer", "against_reviewers": ["narrative-critic"], "target_findings": "narrative-critic F4 (4.2)", "own_findings_involved": "systems-designer F1", "disagreement": "Narrative says an instant checkpoint retry turns the ending into a game-over screen; systems pushes for a retry model to avoid losing 30 minutes.", "position": "Full restart as the only option makes failure a quit point. Play the fail outcome in full, then offer retry from a phase-start time snapshot."},
+
+    {"conflict_key": "NC-C1", "raised_by": "narrative-critic", "against_reviewers": ["business-analyst"], "target_findings": "business-analyst F5", "own_findings_involved": "narrative-critic F4 (4.3), F2", "disagreement": "Agrees on Daniel but disagrees that the crash's only job is delivering Jeff: it is the only moment the player sees a shipwreck, the reference point for the fail ending.", "position": "Keep the crash; make Daniel earn his place (e.g. Daniel is hurt, which is why Jeff comes; Daniel is at the lamp room for the outcome) or merge him away / defer him."},
+    {"conflict_key": "NC-C2", "raised_by": "narrative-critic", "against_reviewers": ["systems-designer"], "target_findings": "systems-designer F2", "own_findings_involved": "Pillar 2 (story promise)", "disagreement": "Escalating weather by phase and route position only breaks Pillar 2 (“The storm sets the clock”): struggling and skilled players see the same sky at the same rock, so the world stops reporting lateness and legibility (player-psychologist F1) worsens.", "position": "Split the channel: readable storm (sound, lightning frequency, wind, ship's lights) follows elapsed time; hazard density follows phase and position."},
+    {"conflict_key": "NC-C3", "raised_by": "narrative-critic", "against_reviewers": ["adversarial-qa"], "target_findings": "adversarial-qa F5 (frozen ship)", "own_findings_involved": "narrative-critic F4 (4.1)", "disagreement": "Hiding the pre-boarding ship conflicts with the need to show the victim; showing a frozen ship breaks fiction.", "position": "Ship first appears at the end of the pre-boarding act as the reason Ted gives the errand; first appearance and deadline start become one story beat, so the frozen window never exists."},
+
+    {"conflict_key": "PP-C1", "raised_by": "player-psychologist", "against_reviewers": ["adversarial-qa"], "target_findings": "adversarial-qa F5 (frozen ship)", "own_findings_involved": "player-psychologist F4", "disagreement": "QA wants the pre-boarding ship out of sight; psychologist wants Ted to point it out before boarding. Hiding it entirely leaves no known stakes, the worse failure.", "position": "Script the reveal at the boarding threshold: lights first appear and Ted names them at the dock just before boarding. Both requirements are met."},
+    {"conflict_key": "PP-C2", "raised_by": "player-psychologist", "against_reviewers": ["business-analyst"], "target_findings": "business-analyst F5", "own_findings_involved": "player-psychologist F4", "disagreement": "Disagrees about cutting the crash (not about Daniel): the crash is the only pre-boarding moment showing that boats die on these rocks tonight, the emotional primer for the ship stakes.", "position": "Rewrite the crash to foreshadow the ship rather than cut it; Daniel left to business and narrative."},
+    {"conflict_key": "PP-C3", "raised_by": "player-psychologist", "against_reviewers": ["systems-designer"], "target_findings": "systems-designer F4", "own_findings_involved": "player-psychologist F2", "disagreement": "Moving optional discoveries pre-boarding (psychologist's F2 fix) worsens the untimed front-half imbalance systems identified. Concedes that, but disagrees that the untimed front half is automatically a flaw.", "position": "Untimed repairs are where first-time players learn to interact without penalty; the issue is the ratio, not whether untimed time exists."},
+    {"conflict_key": "PP-C4", "raised_by": "player-psychologist", "against_reviewers": ["feasibility-lead"], "target_findings": "feasibility-lead F5", "own_findings_involved": "player-psychologist F1", "disagreement": "Agrees for production, but using only “slow plus brief stop” means week-6 testers never experience first-person capsize, so Gate 1 measures a friendlier game and frustration data comes in too low.", "position": "If capsize is deferred, the document should state that the Gate 1 fairness verdict does not cover it."},
+
+    {"conflict_key": "FL-C1", "raised_by": "feasibility-lead", "against_reviewers": ["systems-designer", "adversarial-qa"], "target_findings": "systems-designer F1, adversarial-qa F2", "own_findings_involved": "feasibility-lead F3", "disagreement": "Agrees on the checkpoint time trap but not that it blocks the prototype: “fail, then restart the slice” is a valid, nearly free Gate 1 answer; the trap only becomes real once checkpoints exist (Gate 3).", "position": "MAJOR for the prototype, BLOCKING for Gate 2's “no dead-end save.” Agrees on the fix: a run-start or phase-start snapshot instead of live remaining time, written down now."},
+    {"conflict_key": "FL-C2", "raised_by": "feasibility-lead", "against_reviewers": ["narrative-critic"], "target_findings": "narrative-critic F1", "own_findings_involved": "feasibility-lead F2, F3", "disagreement": "Rates Ted's open status below BLOCKING (a decision the creator can make in a day, blocking only if still open at week 4) and pushes back on adding Ted lines in steps 6-8: unpriced voice-over cost with no voice plan.", "position": "If Ted returns at the end, only lines spoken from the lighthouse (radio or window), no new staging or animation."},
+    {"conflict_key": "FL-C3", "raised_by": "feasibility-lead", "against_reviewers": ["player-psychologist", "systems-designer"], "target_findings": "player-psychologist F5, systems-designer F4", "own_findings_involved": "feasibility-lead F1", "disagreement": "Route branching needs the single safe-route signal to handle alternatives, Jeff lines per branch and a second hazard layout — none fits an overloaded week 4.", "position": "No route branching in the prototype; Gate 2 option only if the forecast API is designed for multiple routes from the start. Prefers cutting the unused “unlocked routes” save field."},
+    {"conflict_key": "FL-C4", "raised_by": "feasibility-lead", "against_reviewers": ["player-psychologist"], "target_findings": "player-psychologist F3", "own_findings_involved": "feasibility-lead F1", "disagreement": "Partial: a sheltered harbour stretch is new level geometry.", "position": "Specify the trigger version — deadline starts when the player clears the harbour mouth (almost free). Strongly agrees on the testing gap (Gate 0 tests steering without pressure)."},
+
+    {"conflict_key": "QA-C1", "raised_by": "adversarial-qa", "against_reviewers": ["feasibility-lead"], "target_findings": "feasibility-lead Overall (“Nothing here is BLOCKING for the prototype”)", "own_findings_involved": "adversarial-qa F1, F2", "disagreement": "The Gate 1 slice must reach both outcomes, so fail presentation and fail-then-what are prototype problems. A Gate 1 criterion depending on a Gate 3 system means the prototype can't pass its own gate.", "position": "BLOCKING now; systems-designer F1 and player-psychologist F1 reached BLOCKING independently, so the prototype-only reading is the outlier."},
+    {"conflict_key": "QA-C2", "raised_by": "adversarial-qa", "against_reviewers": ["player-psychologist"], "target_findings": "player-psychologist F4", "own_findings_involved": "adversarial-qa F5, F4", "disagreement": "Ted pointing out the ship before boarding turns the frozen-ship edge case into a guaranteed bug: the deadline is inactive before boarding (enforced invariant), so the pointed-out ship holds still for the whole untimed act.", "position": "If adopted, the document must say what the ship does before boarding: scripted holding pattern, separate slow pre-boarding clock, or showing it only at the boarding moment."},
+    {"conflict_key": "QA-C3", "raised_by": "adversarial-qa", "against_reviewers": ["player-psychologist"], "target_findings": "player-psychologist F5", "own_findings_involved": "adversarial-qa (exploits lens)", "disagreement": "A reef shortcut creates exploits: breaks the singular safe-route signal behind Jeff's calls; at fixed speed a survivable shortcut is always optimal; doubles deadline tuning across two route lengths.", "position": "If it goes in, it needs its own penalty-table entry and invariants covering Jeff on the shortcut."},
+    {"conflict_key": "QA-C4", "raised_by": "adversarial-qa", "against_reviewers": ["narrative-critic"], "target_findings": "narrative-critic F1", "own_findings_involved": "adversarial-qa F4", "disagreement": "Keeps Ted at MAJOR: the document is honest that Ted is undecided and tells agents to ask rather than guess.", "position": "The more dangerous issue is silent canonisation: Proposed rules are already enforced as invariants and gate criteria."},
+
+    {"conflict_key": "BA-C1", "raised_by": "business-analyst", "against_reviewers": ["narrative-critic"], "target_findings": "narrative-critic F1", "own_findings_involved": "business-analyst F4", "disagreement": "Ted is one decision the creator can make in a day; BLOCKING suggests a design hole when what's missing is a signature.", "position": "MAJOR with a deadline: lock Ted before week 4 (or week 1 if Level Layout sightlines depend on him) via a decision log; blocking past that date."},
+    {"conflict_key": "BA-C2", "raised_by": "business-analyst", "against_reviewers": ["narrative-critic"], "target_findings": "narrative-critic F4, F1", "own_findings_involved": "business-analyst F5", "disagreement": "Narrative's fix adds outcome reactions for three characters across two endings plus new Ted lines — unpriced voice cost. Accepts that the ending lacks human payoff.", "position": "Spend the payoff on Ted (already on site at step 8, unused “guarded sense of care”); fold Daniel's survivor-echo role into Jeff, shrinking the cast by one."},
+    {"conflict_key": "BA-C3", "raised_by": "business-analyst", "against_reviewers": ["player-psychologist", "systems-designer"], "target_findings": "player-psychologist F5, player-psychologist F3, systems-designer F3, systems-designer F4", "own_findings_involved": "business-analyst F3", "disagreement": "All add features to a project with no schedule past week 6 and one cut rule. Ranked by cost vs value.", "position": "Accept systems F4 (repairs feed the crossing; reuses existing parameters). Accept psychologist F3 in zero-cost form (deadline starts at harbour mouth). Defer psychologist F5 (shortcut) and systems F3 (skill-based final repair) to Gate 2 and the ranked cut list."}
+  ],
+
+  "cross_exam_connections": [
+    {"connection_key": "SD-X1", "found_by": "systems-designer", "with_reviewers": ["player-psychologist"], "findings_combined": "player-psychologist F3 + systems-designer F2", "combined_insight": "Collisions made while learning controls also advance the weather, so the learning curve and difficulty curve feed each other from the first minute of steering. A sheltered harbour stretch before the clock fixes onboarding and removes the earliest input to the spiral."},
+    {"connection_key": "SD-X2", "found_by": "systems-designer", "with_reviewers": ["player-psychologist"], "findings_combined": "player-psychologist F2 + systems-designer F2, F3", "combined_insight": "Time spent reading shrines at the outpost also produces denser hazards and lower visibility on the return: the curious player pays twice. Clearest case that elapsed-time escalation is a design bug, not a tuning knob."},
+    {"connection_key": "SD-X3", "found_by": "systems-designer", "with_reviewers": ["player-psychologist", "business-analyst", "feasibility-lead"], "findings_combined": "player-psychologist F5 + systems-designer F3, F4 (+ business-analyst F1, feasibility-lead F1 caveat)", "combined_insight": "A route choice (repairs unlock a shorter, riskier return line Jeff can call) gives repairs a mechanical output, gives the dead “unlocked routes” field a purpose, adds a decision variable to the deadline, and creates replay variance. Rates psychologist F5 MAJOR in combination; the forecast must support branches from the start."},
+    {"connection_key": "SD-X4", "found_by": "systems-designer", "with_reviewers": ["adversarial-qa"], "findings_combined": "adversarial-qa F3 + systems-designer F2, F5", "combined_insight": "A respawn facing a rock at fixed speed chains collisions, each costing time and advancing weather — the respawn rule is an input to the death spiral. QA's grace period belongs in the penalty table. A non-stopping boat can't retrieve a dropped burner, confirming cargo mishandling has no workable input."},
+    {"connection_key": "SD-X5", "found_by": "systems-designer", "with_reviewers": ["feasibility-lead"], "findings_combined": "feasibility-lead F4 + systems-designer F3", "combined_insight": "Fixed speed makes a paper budget cheap: par = route length / speed + par outpost + par climb; only the mistake allowance needs playtests. The death spiral makes 3-5 testers high-variance, another reason to fix F2 before week 6."},
+    {"connection_key": "SD-X6", "found_by": "systems-designer", "with_reviewers": ["adversarial-qa"], "findings_combined": "adversarial-qa F5 + systems-designer F4", "combined_insight": "With about two-thirds of runtime before boarding, the ship sits frozen and visible for roughly 20 minutes, turning QA's MINOR exploit into a full-game pacing problem: Pillar 2's clock is visibly absent for most of the game."},
+
+    {"connection_key": "NC-X1", "found_by": "narrative-critic", "with_reviewers": ["player-psychologist"], "findings_combined": "player-psychologist F2 + narrative-critic F3", "combined_insight": "The folk-horror is placed exactly where the clock punishes reading it; the player who does what Pillar 4 asks gets the bad ending, teaching that the strangeness doesn't matter — a theme failure. Fix: private canon tying the wrongness to why the beacon failed, so its core lives in the untimed lighthouse."},
+    {"connection_key": "NC-X2", "found_by": "narrative-critic", "with_reviewers": ["adversarial-qa"], "findings_combined": "adversarial-qa F1 + narrative-critic F4", "combined_insight": "The consequential ending is undefined in meaning and in presentation. An audio-only fail (distress horn heard from inside the outpost, Jeff falling silent) is a strong narrative choice if chosen on purpose."},
+    {"connection_key": "NC-X3", "found_by": "narrative-critic", "with_reviewers": ["player-psychologist"], "findings_combined": "player-psychologist F1 + narrative-critic F1, F4 (4.3)", "combined_insight": "Ted and Jeff outcome lines that refer to the player's actual delays (“we lost too long on the rocks”) fix fail legibility and give the cast the missing payoff at once."},
+    {"connection_key": "NC-X4", "found_by": "narrative-critic", "with_reviewers": ["systems-designer"], "findings_combined": "systems-designer F3 + narrative-critic F1", "combined_insight": "Mechanical and story climaxes are both flat; Ted isn't there when the burner is fitted. Ted at the lamp, where the player's arrival is what he couldn't do himself, gives the climb weight without a skill test."},
+    {"connection_key": "NC-X5", "found_by": "narrative-critic", "with_reviewers": ["feasibility-lead"], "findings_combined": "feasibility-lead F2 + narrative-critic F2", "combined_insight": "Voiced performance is requested for characters whose voices aren't written (Jeff is two adjectives, Ted's arc stops at Step 2); recording before a character bible exists is where rework will happen."},
+    {"connection_key": "NC-X6", "found_by": "narrative-critic", "with_reviewers": ["business-analyst"], "findings_combined": "business-analyst F2, F1 + narrative-critic F3", "combined_insight": "The prototype never tests atmosphere; a coherent hidden canon is the only replay reason the design could have (re-reading the strangeness with first-run knowledge), which speaks to the refund-window risk."},
+
+    {"connection_key": "PP-X1", "found_by": "player-psychologist", "with_reviewers": ["systems-designer"], "findings_combined": "systems-designer F2 + player-psychologist F3", "combined_insight": "A novice's first collisions push the weather forward, so the least skilled player gets worse conditions straight away; the spiral starts before any skill exists. A harbour grace stretch plus position-based escalation should be treated as one fix."},
+    {"connection_key": "PP-X2", "found_by": "player-psychologist", "with_reviewers": ["adversarial-qa"], "findings_combined": "adversarial-qa F1 + player-psychologist F1", "combined_insight": "If time runs out inside the outpost or on the stairs, the player may not realise they failed, fits the burner, then sees a wreck they had no chance to prevent — the most “cheated” moment. Fail presentation and fail explanation need a single answer."},
+    {"connection_key": "PP-X3", "found_by": "player-psychologist", "with_reviewers": ["systems-designer"], "findings_combined": "systems-designer F3 + player-psychologist F4", "combined_insight": "Systems' milestone fix only works if the ship can be seen or heard at each phase transition — the visibility rule F4 asks for and the document lacks."},
+    {"connection_key": "PP-X4", "found_by": "player-psychologist", "with_reviewers": ["adversarial-qa"], "findings_combined": "adversarial-qa F5 + player-psychologist F2", "combined_insight": "A diegetic journal with a running clock penalises the player for checking what to do; a pausing journal is an exploit. The player-friendly choice is a diegetic journal that pauses, chosen deliberately."},
+    {"connection_key": "PP-X5", "found_by": "player-psychologist", "with_reviewers": ["narrative-critic"], "findings_combined": "narrative-critic F1 + player-psychologist F1, F3", "combined_insight": "Ted is the onboarding (Step 1's live guidance is the only tutorial). With no second-half Ted, only Jeff can give the diegetic post-mortem, and narrative says Jeff has no defined voice."},
+    {"connection_key": "PP-X6", "found_by": "player-psychologist", "with_reviewers": ["feasibility-lead"], "findings_combined": "feasibility-lead F4 + player-psychologist F5", "combined_insight": "Whether players feel helpless or tense under fixed speed can't be judged from 3-5 people in the bug-fix week; the check must move earlier."},
+
+    {"connection_key": "FL-X1", "found_by": "feasibility-lead", "with_reviewers": ["adversarial-qa"], "findings_combined": "adversarial-qa F1 + feasibility-lead F5, F4", "combined_insight": "No-cutaway rule plus expiry in four phases makes the fail state up to four or more authored presentations while week 5 budgets one. Cheapest working version: audio-only fail (horn, then silence) then a first-person view from the lighthouse — unscheduled week 5 work in the waves slot."},
+    {"connection_key": "FL-X2", "found_by": "feasibility-lead", "with_reviewers": ["adversarial-qa"], "findings_combined": "adversarial-qa F3 + feasibility-lead F5", "combined_insight": "Docking, disembarking, burner pickup and respawn orientation are the phase transitions the state contract depends on, in no exit test; with fixed speed each is a controller mode switch that needs rework if added late."},
+    {"connection_key": "FL-X3", "found_by": "feasibility-lead", "with_reviewers": ["systems-designer"], "findings_combined": "systems-designer F2 + feasibility-lead F4", "combined_insight": "The loop makes deadline sensitivity nonlinear (small collision-cost changes multiply into large failure-rate changes), so 3-5 testers are even less reliable. Position-based escalation makes the timer tunable offline; supports the fix on tuning grounds."},
+    {"connection_key": "FL-X4", "found_by": "feasibility-lead", "with_reviewers": ["player-psychologist", "systems-designer"], "findings_combined": "player-psychologist F2 + systems-designer F3 + feasibility-lead F4", "combined_insight": "The outpost is the one timed phase whose length can't be predicted and it grows at Gate 2, so every prototype duration measurement becomes invalid. Moving optional discoveries pre-boarding keeps prototype tuning data valid."},
+    {"connection_key": "FL-X5", "found_by": "feasibility-lead", "with_reviewers": ["business-analyst", "narrative-critic"], "findings_combined": "business-analyst F2 + narrative-critic F3 + feasibility-lead F3", "combined_insight": "The cheap tonal test (“rain and fog on target hardware”) can't run because target hardware is undecided. One dressed room with final-quality fog and lighting on a decided minimum spec tests atmosphere and performance at once and could replace some week 4 scripting."},
+    {"connection_key": "FL-X6", "found_by": "feasibility-lead", "with_reviewers": ["business-analyst"], "findings_combined": "business-analyst F5, F3 + feasibility-lead F1", "combined_insight": "Daniel's scripted walk-in is one of five week 4 beats; removing him or keeping him off-screen frees week 4 for forecast work. Eight agent roles with handoffs are an unbudgeted coordination cost."},
+
+    {"connection_key": "QA-X1", "found_by": "adversarial-qa", "with_reviewers": ["systems-designer"], "findings_combined": "systems-designer F2 + adversarial-qa F2", "combined_insight": "Together they make an unwinnable save the normal outcome for a struggling player: the reload hands the weakest player the least time and the worst weather. A time floor alone doesn't fix it; pair with a cap on time-driven escalation and list weather intensity as saved or derived in the save contract."},
+    {"connection_key": "QA-X2", "found_by": "adversarial-qa", "with_reviewers": ["systems-designer"], "findings_combined": "systems-designer F1 (“first outbound boarding”) + adversarial-qa F3", "combined_insight": "The document implies a disembark/re-board cycle and specifies neither half; leaving the outpost without the burner could soft-lock at the lighthouse. Fix: docking and boarding trigger volumes plus a rule that the boat won't leave the outpost without the burner (Jeff refuses to cast off)."},
+    {"connection_key": "QA-X3", "found_by": "adversarial-qa", "with_reviewers": ["systems-designer", "feasibility-lead"], "findings_combined": "systems-designer F5 + feasibility-lead F5 + adversarial-qa F3", "combined_insight": "“A brief stop” is undefined for a fixed-speed boat — the same missing stop rule. Collision response, docking and burner retrieval should be one “boat is not moving” spec. If the prototype cuts capsize, water should be cut too."},
+    {"connection_key": "QA-X4", "found_by": "adversarial-qa", "with_reviewers": ["narrative-critic", "business-analyst"], "findings_combined": "narrative-critic F5 + adversarial-qa F5 (business-analyst F5 noted)", "combined_insight": "If the gate becomes a real choice the player can refuse it, leaving no navigator or an infinite wait. Needs a rule: the gate can't be refused and the story continues, or refusal is a scripted third outcome. Cutting Daniel doesn't touch this."},
+    {"connection_key": "QA-X5", "found_by": "adversarial-qa", "with_reviewers": ["player-psychologist"], "findings_combined": "player-psychologist F2 + adversarial-qa F1", "combined_insight": "The outpost interior is where curious players will be when the clock runs out and has no sightline to the ship, making QA F1 a common case, not a corner case."},
+
+    {"connection_key": "BA-X1", "found_by": "business-analyst", "with_reviewers": ["player-psychologist", "narrative-critic"], "findings_combined": "player-psychologist F2 + narrative-critic F3 + business-analyst F2", "combined_insight": "The differentiator is placed exactly where the design punishes engaging with it; rushing players finish in 30 minutes without seeing the hook, worsening refund risk. Fix and scope saving: move optional discoveries to the lighthouse and island before boarding, and put a lore slice into the prototype's atmosphere test."},
+    {"connection_key": "BA-X2", "found_by": "business-analyst", "with_reviewers": ["systems-designer", "adversarial-qa", "player-psychologist"], "findings_combined": "systems-designer F1 + adversarial-qa F2 + player-psychologist F1", "combined_insight": "The retry model is a commercial decision: a full restart at minutes 20-30 still fits inside Steam's 2-hour refund window at the moment the player is most annoyed. Backs a single run-start snapshot on cost grounds; the fail ending becomes content the player chooses to replay."},
+    {"connection_key": "BA-X3", "found_by": "business-analyst", "with_reviewers": ["feasibility-lead"], "findings_combined": "feasibility-lead F1 + business-analyst F5", "combined_insight": "Removing Daniel takes one NPC walk path, model and line set out of the overloaded week 4, freeing room for the forecast work."},
+    {"connection_key": "BA-X4", "found_by": "business-analyst", "with_reviewers": ["player-psychologist", "narrative-critic"], "findings_combined": "player-psychologist F4 + narrative-critic F4 + business-analyst F1", "combined_insight": "With the ship never introduced and its victims unnamed, the one-sentence hook (“save a ship you can see but can't reach”) isn't in the game; a trailer can't sell stakes the first five minutes don't establish, so positioning can't be written yet."}
+  ],
+
+  "cross_exam_revisions": [
+    {"reviewer": "systems-designer", "finding_id": "F5", "change_type": "upgraded", "from_severity": "MINOR", "to_severity": "MAJOR", "reason": "Three colleagues depend on it: feasibility-lead F5 (cargo has no spec), adversarial-qa F3 (recovery physically impossible), feasibility-lead F4 (needs per-event time costs). The penalty table is the input to the only failure system."},
+    {"reviewer": "systems-designer", "finding_id": "F2", "change_type": "strengthened", "from_severity": "MAJOR", "to_severity": "MAJOR", "reason": "Connections with player-psychologist F2, F3 and adversarial-qa F3 show at least three other choices (clock on learning, clock on exploration, respawn rules) feed the loop."},
+    {"reviewer": "systems-designer", "finding_id": "F4", "change_type": "recommendation revised", "from_severity": "MAJOR", "to_severity": "MAJOR", "reason": "Now recommends repairs unlock return route options, serving systems F4, player-psychologist F5 and business-analyst F1 together."},
+    {"reviewer": "systems-designer", "finding_id": "F1", "change_type": "partially withdrawn", "from_severity": "BLOCKING", "to_severity": "BLOCKING", "reason": "“First boarding” sub-point withdrawn as a separate issue, subsumed by adversarial-qa F3 (missing docking/arrival model). Core unwinnable-save finding stays BLOCKING; adversarial-qa F2 reached it independently."},
+    {"reviewer": "systems-designer", "finding_id": "F3", "change_type": "unchanged", "from_severity": "MAJOR", "to_severity": "MAJOR", "reason": "Player-psychologist F1 independently reached the “can't tell why” half; adversarial-qa F1 adds a case where the player can't tell that they failed."},
+
+    {"reviewer": "narrative-critic", "finding_id": "F4", "change_type": "upgraded", "from_severity": "MAJOR", "to_severity": "BLOCKING", "reason": "Combined with player-psychologist F4 (ship never introduced) and adversarial-qa F1 (fail often can't be shown), the single payoff has no introduced stakes, no defined aftermath and no guaranteed presentation."},
+    {"reviewer": "narrative-critic", "finding_id": "F4", "change_type": "partially withdrawn", "from_severity": "BLOCKING", "to_severity": "BLOCKING", "reason": "“Sails calmly into port” tone note withdrawn: a wording issue not worth the board's attention."},
+    {"reviewer": "narrative-critic", "finding_id": "F4", "change_type": "recommendation revised", "from_severity": "BLOCKING", "to_severity": "BLOCKING", "reason": "Sub-point 4.3 (Daniel): after business-analyst F5, asks for a causal role for Daniel or deferral, not just reaction lines."},
+    {"reviewer": "narrative-critic", "finding_id": "F1", "change_type": "unchanged", "from_severity": "BLOCKING", "to_severity": "BLOCKING", "reason": "Feasibility, QA and BA confirmed the production dependency; the second half (no arc after Step 2) is narrative's alone and matters more to story."},
+    {"reviewer": "narrative-critic", "finding_id": "F3", "change_type": "strengthened", "from_severity": "MAJOR", "to_severity": "MAJOR", "reason": "Player-psychologist F2 and business-analyst F2 approach it from other directions."},
+    {"reviewer": "narrative-critic", "finding_id": "F5", "change_type": "recommendation revised", "from_severity": "MINOR", "to_severity": "MINOR", "reason": "New suggestion: the gate scene is where the apprentice spots the wreck and the far-off lights, making the moral choice and learning the stakes in one moment."},
+
+    {"reviewer": "player-psychologist", "finding_id": "F4", "change_type": "upgraded", "from_severity": "MAJOR", "to_severity": "BLOCKING", "reason": "Four other reviews assume the player knows about and can read the ship (narrative F4, systems F3, QA F1, QA F5). Cheap to fix, blocking impact."},
+    {"reviewer": "player-psychologist", "finding_id": "F1", "change_type": "strengthened", "from_severity": "BLOCKING", "to_severity": "BLOCKING", "reason": "By adversarial-qa F1, F2 and systems-designer F1; doomed checkpoint loops are a quit trigger on top of the unexplained loss."},
+    {"reviewer": "player-psychologist", "finding_id": "F3", "change_type": "strengthened", "from_severity": "MAJOR", "to_severity": "MAJOR", "reason": "By systems-designer F2; combined issue close to blocking for first-time players."},
+    {"reviewer": "player-psychologist", "finding_id": "F2", "change_type": "recommendation revised", "from_severity": "MAJOR", "to_severity": "MAJOR", "reason": "Withdrew “move optional discoveries pre-boarding” as preferred fix because of systems-designer F4; now keep discoveries at the outpost with a budgeted allowance and Jeff signalling when it's used."},
+    {"reviewer": "player-psychologist", "finding_id": "F5", "change_type": "partially absorbed", "from_severity": "MINOR", "to_severity": "MINOR", "reason": "Player-side experience of systems-designer F3's mistake budget; adversarial-qa F3 adds the circling-with-no-landing worry; playtest check should move earlier than week 6 per feasibility-lead F4."},
+
+    {"reviewer": "feasibility-lead", "finding_id": "F5", "change_type": "upgraded", "from_severity": "MINOR", "to_severity": "MAJOR", "reason": "Given adversarial-qa F3 and F1, unspecified work includes docking/arrival triggers, burner retrieval, respawn orientation and per-phase fail presentations, all on the prototype critical path. Retitled: the prototype's failure and transition policies hide unestimated, critical-path work."},
+    {"reviewer": "feasibility-lead", "finding_id": "F3", "change_type": "sharpened", "from_severity": "MAJOR", "to_severity": "MAJOR", "reason": "Fail-state item split out: decide before week 5 (restart the slice for Gate 1, snapshot model for Gate 2); blocks Gate 2 if still open. Ted gets a “needed by week 3” deadline."},
+    {"reviewer": "feasibility-lead", "finding_id": "F4", "change_type": "strengthened", "from_severity": "MAJOR", "to_severity": "MAJOR", "reason": "The death spiral (systems F2) and the outpost's future growth (psychologist F2) make end-of-schedule tuning less reliable."},
+    {"reviewer": "feasibility-lead", "finding_id": "Overall", "change_type": "verdict revised", "from_severity": null, "to_severity": null, "reason": "Still nothing BLOCKING for the prototype as a build, but larger unscheduled workload (forecast API, phase transitions, fail presentations); waves should be cut before work starts."},
+
+    {"reviewer": "adversarial-qa", "finding_id": "F5", "change_type": "conditional upgrade", "from_severity": "MINOR", "to_severity": "MAJOR", "reason": "Frozen-ship bullet only, if player-psychologist F4 is adopted: a pointed-out ship that holds still breaks Pillar 2 on every playthrough. Pause scope, preset swap and gate timing stay MINOR."},
+    {"reviewer": "adversarial-qa", "finding_id": "F2", "change_type": "scope widened", "from_severity": "BLOCKING", "to_severity": "BLOCKING", "reason": "Fix must cover weather state on reload, not only the time value (systems F2 connection)."},
+    {"reviewer": "adversarial-qa", "finding_id": "F3", "change_type": "reframed", "from_severity": "MAJOR", "to_severity": "MAJOR", "reason": "With systems F1, F5 and feasibility F5, a missing “boat stopped or boarding” spec with four consumers."},
+    {"reviewer": "adversarial-qa", "finding_id": "F4", "change_type": "partially softened", "from_severity": "MAJOR", "to_severity": "MAJOR", "reason": "Ted half adds nothing new (four others flag it); Proposed-as-invariant contradiction kept at MAJOR."},
+
+    {"reviewer": "business-analyst", "finding_id": "F3", "change_type": "upgraded", "from_severity": "MAJOR", "to_severity": "BLOCKING", "reason": "For the full-production decision only. Feasibility F2 reached the same conclusion; with no Gate 2-3 estimate, Gate 1 cannot produce a real go/no-go on production. Does not block the prototype."},
+    {"reviewer": "business-analyst", "finding_id": "F5", "change_type": "upgraded", "from_severity": "MINOR", "to_severity": "MAJOR", "reason": "Narrowed given X3 and C2: cut Daniel from the Gate 1 slice, fold his role into Jeff, keep the crash (it delivers Jeff)."},
+    {"reviewer": "business-analyst", "finding_id": "F3", "change_type": "partially withdrawn", "from_severity": "BLOCKING", "to_severity": "BLOCKING", "reason": "AI Agent Strategy “process overhead” sub-point withdrawn: it's the creator's tooling and its provenance rules surfaced the unlicensed-voice gap; the missing release plan is the real problem."},
+    {"reviewer": "business-analyst", "finding_id": "F1", "change_type": "strengthened", "from_severity": "MAJOR", "to_severity": "MAJOR", "reason": "X1, X2 and X4 each show a mechanism feeding refund risk; no longer rests only on “no price in the document”."}
+  ],
+
+  "synthesis_top_issues": [
+    {
+      "rank": 1,
+      "title": "What happens after a fail is undecided, and saving the remaining time at checkpoints produces unwinnable saves",
+      "severity": "BLOCKING",
+      "severity_note": null,
+      "problem": "The document leaves the retry model open (“checkpoint retry or restart ... still to be decided”) while proposing to “save remaining time at checkpoints”. A player who reaches a checkpoint low on time reloads into a guaranteed fail. That breaks Gate 2's “no dead-end save” rule and the invariant that the outcome “resolves exactly once”. Checkpoints are also scheduled for Gate 3, even though Gate 1 needs a fail-then-what answer.",
+      "flagged_by": ["systems-designer", "adversarial-qa", "player-psychologist", "feasibility-lead", "narrative-critic", "business-analyst"],
+      "cross_exam_outcome": "STRENGTHENED",
+      "cross_exam_summary": "adversarial-qa widened it: with systems-designer's death spiral, the reload gives the weakest player the least time and the worst weather, so the save must also cover weather state. business-analyst added that a full restart at minutes 20-30 happens inside Steam's refund window. Four reviewers converged on a run-start or phase-start time snapshot. feasibility-lead disputes BLOCKING for the prototype (Disagreement A).",
+      "related_disagreement": "A"
+    },
+    {
+      "rank": 2,
+      "title": "The fail state can't be shown from where the deadline usually runs out, and the player can't tell why (or even that) they failed",
+      "severity": "BLOCKING",
+      "severity_note": null,
+      "problem": "The deadline can run out mid-crossing, inside the outpost, or on the lighthouse stairs. But the fail is defined as the ship running aground “seen in first person” from the lighthouse, and cutaways are banned. The deadline is also hidden: with one fixed boat speed it works as an invisible count of allowed mistakes, which the ship's lights can't convey. Either way, Pillar 4's promise that the player “always knows ... why they failed” breaks.",
+      "flagged_by": ["adversarial-qa", "player-psychologist", "systems-designer", "narrative-critic", "feasibility-lead"],
+      "cross_exam_outcome": "STRENGTHENED",
+      "cross_exam_summary": "adversarial-qa F1 + player-psychologist F2 turn it into the common case: curious players are most likely to be in the outpost at expiry, with no sightline. feasibility-lead: up to four authored fail presentations vs one budgeted in week 5. systems-designer rejected “let the ship keep going” (unreadable doomed run). Audio-only (horn, then silence) backed by feasibility-lead and systems-designer; narrative-critic accepts it if chosen deliberately.",
+      "related_disagreement": null
+    },
+    {
+      "rank": 3,
+      "title": "The passenger ship, the game's only stakes, is never introduced in-game, and the ending it resolves has no human payoff",
+      "severity": "BLOCKING",
+      "severity_note": null,
+      "problem": "No scene tells the player the ship exists or what happens if the beacon stays dark. It first appears as a hidden deadline at boarding. Nobody aboard is named, the aftermath of a fail is undecided, and Ted, Jeff and Daniel never react to either outcome. The whole pressure design (Pillar 2) and the “consequential ending” depend on the player knowing and caring about this ship.",
+      "flagged_by": ["player-psychologist", "narrative-critic", "business-analyst", "adversarial-qa"],
+      "cross_exam_outcome": "STRENGTHENED",
+      "cross_exam_summary": "Two reviewers raised it from MAJOR to BLOCKING. player-psychologist showed four other findings depend on the ship being seen and understood. business-analyst: no pitch line, since a trailer can't sell stakes the game never sets up. The pre-boarding visibility tension was resolved by player-psychologist and narrative-critic both proposing a reveal at the boarding threshold, which adversarial-qa had already listed as acceptable.",
+      "related_disagreement": null
+    },
+    {
+      "rank": 4,
+      "title": "Ted is essential to the design, but whether he is physically present is still undecided, and he vanishes after Step 2",
+      "severity": "BLOCKING",
+      "severity_note": "Split rating: BLOCKING (narrative-critic) / MAJOR (business-analyst, feasibility-lead, adversarial-qa). Stored severity is the highest assigned; render the split if possible.",
+      "problem": "Ted gives the repair guidance, prompts the crash view, orders the gate opened, and explains the errand. He is Pillar 3's answer to “no markers” and the game's only tutorial. Yet “Ted's presence” is listed as an open decision. Even with him confirmed, he has nothing to do in Steps 6-8, and the document never says why an experienced keeper sends a new apprentice into the storm.",
+      "flagged_by": ["narrative-critic", "business-analyst", "feasibility-lead", "adversarial-qa", "player-psychologist"],
+      "cross_exam_outcome": "SURVIVED",
+      "cross_exam_summary": "Four reviewers confirmed the diagnosis, but three rejected BLOCKING: one decision the creator can make in a day, blocking only if still open by week 3-4 (Disagreement E). adversarial-qa softened its own Ted point and redirected to Proposed rules already enforced as invariants and gate criteria. narrative-critic's point that Ted has no second-half role stands uncontested.",
+      "related_disagreement": "E"
+    },
+    {
+      "rank": 5,
+      "title": "The hidden clock penalises the wrong players: weather that worsens with elapsed time, a clock running during first steering, and a clock running during outpost exploration",
+      "severity": "MAJOR",
+      "severity_note": null,
+      "problem": "Collisions cost time, and weather escalates with elapsed time, so struggling players face denser hazards and worse visibility. That is a death spiral. The clock starts at boarding, so a novice's first learning collisions feed straight into it. It also keeps running through the outpost search, where the folk-horror content lives, so the curious player pays twice, in time and in harder weather on the return.",
+      "flagged_by": ["systems-designer", "player-psychologist", "feasibility-lead", "adversarial-qa", "narrative-critic", "business-analyst"],
+      "cross_exam_outcome": "STRENGTHENED",
+      "cross_exam_summary": "systems-designer showed three other choices feed the loop (clock during learning, clock during exploration, respawn rules). feasibility-lead: the loop makes tuning from 3-5 week-6 testers unreliable. narrative-critic and business-analyst: the distinctive content sits where the clock punishes engaging with it, so rushing players miss the hook. Weather-driver fix and discovery placement remain disputed (Disagreements B and D).",
+      "related_disagreement": "B, D"
+    }
+  ],
+
+  "synthesis_top_issue_flags": [
+    {"rank": 1, "reviewer": "systems-designer", "reference": "F1", "severity_given": "BLOCKING"},
+    {"rank": 1, "reviewer": "adversarial-qa", "reference": "F2", "severity_given": "BLOCKING"},
+    {"rank": 1, "reviewer": "player-psychologist", "reference": "F1", "severity_given": "BLOCKING"},
+    {"rank": 1, "reviewer": "feasibility-lead", "reference": "F3", "severity_given": "MAJOR"},
+    {"rank": 1, "reviewer": "narrative-critic", "reference": "F4 (4.2)", "severity_given": null},
+    {"rank": 1, "reviewer": "business-analyst", "reference": "Round 2 X2", "severity_given": null},
+
+    {"rank": 2, "reviewer": "adversarial-qa", "reference": "F1", "severity_given": "BLOCKING"},
+    {"rank": 2, "reviewer": "player-psychologist", "reference": "F1", "severity_given": "BLOCKING"},
+    {"rank": 2, "reviewer": "systems-designer", "reference": "F3", "severity_given": "MAJOR"},
+    {"rank": 2, "reviewer": "narrative-critic", "reference": "F4", "severity_given": "BLOCKING (after Round 2)"},
+    {"rank": 2, "reviewer": "feasibility-lead", "reference": "Round 2 connection", "severity_given": null},
+
+    {"rank": 3, "reviewer": "player-psychologist", "reference": "F4", "severity_given": "BLOCKING (after Round 2)"},
+    {"rank": 3, "reviewer": "narrative-critic", "reference": "F4", "severity_given": "BLOCKING (after Round 2)"},
+    {"rank": 3, "reviewer": "business-analyst", "reference": "Round 2 X4", "severity_given": null},
+    {"rank": 3, "reviewer": "adversarial-qa", "reference": "F5 frozen-ship bullet", "severity_given": "MAJOR (if player-psychologist F4 is adopted)"},
+
+    {"rank": 4, "reviewer": "narrative-critic", "reference": "F1", "severity_given": "BLOCKING"},
+    {"rank": 4, "reviewer": "business-analyst", "reference": "F4", "severity_given": "MAJOR"},
+    {"rank": 4, "reviewer": "feasibility-lead", "reference": "F3", "severity_given": "MAJOR"},
+    {"rank": 4, "reviewer": "adversarial-qa", "reference": "F4", "severity_given": "MAJOR"},
+    {"rank": 4, "reviewer": "player-psychologist", "reference": "Round 2 connection (“Ted is the onboarding”)", "severity_given": null},
+
+    {"rank": 5, "reviewer": "systems-designer", "reference": "F2", "severity_given": "MAJOR"},
+    {"rank": 5, "reviewer": "player-psychologist", "reference": "F2 and F3", "severity_given": "MAJOR"},
+    {"rank": 5, "reviewer": "feasibility-lead", "reference": "Round 2 connection", "severity_given": null},
+    {"rank": 5, "reviewer": "adversarial-qa", "reference": "Round 2 connection", "severity_given": null},
+    {"rank": 5, "reviewer": "narrative-critic", "reference": "Round 2 connection", "severity_given": null},
+    {"rank": 5, "reviewer": "business-analyst", "reference": "Round 2 X1", "severity_given": null}
+  ],
+
+  "synthesis_disagreements": [
+    {
+      "disagreement_id": "A",
+      "question": "Is the retry/checkpoint trap BLOCKING for the prototype, or only for Gate 2?",
+      "side_a_reviewers": ["systems-designer", "adversarial-qa", "player-psychologist"],
+      "side_a_position": "BLOCKING now. The Gate 1 slice has to reach both outcomes, and a Gate 1 acceptance criterion that depends on a Gate 3 system means the prototype can't pass its own gate (adversarial-qa). Playtesters can't judge fairness with no retry model (systems-designer).",
+      "side_b_reviewers": ["feasibility-lead"],
+      "side_b_position": "MAJOR for the prototype, BLOCKING for Gate 2. “Fail, then restart the slice” is a valid, nearly free Gate 1 answer for a 10-minute build. The trap only becomes real once checkpoints exist.",
+      "other_positions": "Common ground: all agree on the snapshot fix.",
+      "escalated_decision": "Does Gate 1 accept “restart the slice” as its retry model, or must the final retry and save model be settled before the prototype is built?"
+    },
+    {
+      "disagreement_id": "B",
+      "question": "What should drive storm escalation?",
+      "side_a_reviewers": ["systems-designer", "feasibility-lead", "player-psychologist"],
+      "side_a_position": "Escalate by phase and route position only, or cap the share driven by elapsed time. Otherwise the loop punishes struggling players twice and can't be tuned offline. (systems-designer, backed by feasibility-lead and player-psychologist)",
+      "side_b_reviewers": ["narrative-critic"],
+      "side_b_position": "Tying weather only to position breaks Pillar 2 (“The storm sets the clock”): struggling and skilled players would see the same sky at the same rock, and the world would stop reporting lateness. Split the channel: the readable storm (sound, lightning, wind, ship lights) follows elapsed time, and hazard density follows phase and position.",
+      "other_positions": null,
+      "escalated_decision": "Does elapsed time drive anything the player collides with, or only what the player perceives?"
+    },
+    {
+      "disagreement_id": "C",
+      "question": "Should the return crossing branch into a riskier shortcut?",
+      "side_a_reviewers": ["player-psychologist", "systems-designer"],
+      "side_a_position": "Yes. It gives the pressure an outlet without a second control, gives repairs a mechanical output, uses the dead “unlocked routes” field, and adds replay value. systems-designer rates it MAJOR in combination.",
+      "side_b_reviewers": ["feasibility-lead", "adversarial-qa"],
+      "side_b_position": "feasibility-lead: no branching in the prototype; the hazard forecast is built around one safe-route signal and week 4 is already overloaded; cheaper to cut the unused save field. adversarial-qa: at fixed speed a survivable shortcut is always optimal; it breaks the singular safe-route signal behind Jeff's calls and doubles the tuning load.",
+      "other_positions": "business-analyst: defer to Gate 2 and put it on the ranked cut list.",
+      "escalated_decision": "Commit to route choice, which means designing the forecast API for multiple routes from day one, or remove “unlocked routes” from the save contract?"
+    },
+    {
+      "disagreement_id": "D",
+      "question": "Where should the optional folk-horror discoveries live?",
+      "side_a_reviewers": ["business-analyst", "feasibility-lead"],
+      "side_a_position": "Move them before boarding, to the lighthouse and island. That removes the time penalty on the game's distinctive content, keeps prototype tuning data valid (the outpost won't grow after week 6), and reuses environments that already have to be built. narrative-critic partly agrees: the core of the wrongness can live in the lighthouse if tied to why the beacon failed.",
+      "side_b_reviewers": ["player-psychologist"],
+      "side_b_position": "Citing systems-designer F4 (and having withdrawn the move-pre-boarding fix in Round 2): moving more untimed content into a front half that already holds about 20 of the 30 minutes worsens the pacing imbalance. Keep discoveries at the outpost, budget explicit exploration time, and have Jeff signal when it's used up.",
+      "other_positions": "narrative-critic partly agrees with side A.",
+      "escalated_decision": "Protect the atmosphere by moving discoveries into the untimed act, or protect pacing by keeping them in the timed act with a budgeted allowance?"
+    },
+    {
+      "disagreement_id": "E",
+      "question": "How severe is Ted's open status, and should he return in the second half?",
+      "side_a_reviewers": ["narrative-critic"],
+      "side_a_position": "BLOCKING. Beyond the open decision, Ted has no arc after Step 2. He should be at the lamp for the climax and react to both outcomes.",
+      "side_b_reviewers": ["business-analyst", "feasibility-lead", "adversarial-qa"],
+      "side_b_position": "MAJOR with a “needed by” date (week 3 per feasibility-lead, before week 4 per business-analyst). feasibility-lead warns every added Ted beat is unpriced voice-over cost and would allow only lines delivered from the lighthouse (radio or window). business-analyst proposes spending the ending's human payoff on Ted and folding Daniel into Jeff.",
+      "other_positions": null,
+      "escalated_decision": "Lock Ted's presence by a fixed week, and decide whether his second-half role is a staged scene or voice-only lines."
+    }
+  ],
+
+  "synthesis_quick_wins": [
+    {"order": 1, "title": "Replace “save remaining time at checkpoints” with a run-start or phase-start time snapshot", "description": "Reword the invariant to “resolves exactly once per attempt.” This removes the doomed-save loop with no floor logic.", "credited_reviewers": ["systems-designer", "adversarial-qa", "feasibility-lead", "business-analyst"]},
+    {"order": 2, "title": "Start the deadline when the player clears the harbour mouth, not on boarding", "description": "One trigger volume that gives a free steering warm-up and removes the earliest input to the death spiral. (player-psychologist F3; feasibility-lead and business-analyst specified this near-zero-cost version)", "credited_reviewers": ["player-psychologist", "feasibility-lead", "business-analyst"]},
+    {"order": 3, "title": "Script the ship reveal at the boarding threshold", "description": "Ted names the ship's lights as the reason for the errand. This introduces the stakes, starts the clock on a story beat, and removes the frozen-ship window. (compatible with adversarial-qa F5)", "credited_reviewers": ["player-psychologist", "narrative-critic"]}
+  ],
+
+  "synthesis_verdict": {
+    "ready_for_production": false,
+    "verdict_one_line": "This document is not ready to drive full production, and its prototype is not ready to test fairly until the fail loop is defined.",
+    "single_most_important_change": "Write the fail-state contract before week 5: what the player perceives when the deadline expires in each phase, how the world tells them why, and what a retry restores (a run-start or phase-start snapshot). Issues #1, #2 and #3 all depend on that one decision.",
+    "full_paragraph": "This document is not ready to drive full production, and its prototype is not ready to test fairly until the fail loop is defined. The board found the prototype plan unusually disciplined (feasibility-lead): a hard Gate 0 go/no-go, waves isolated behind a toggle, and a clean state contract. But the only failure system in the game has no decided retry model, no way to be shown where it usually triggers, no way for the player to read why it happened, and no introduced stakes for it to resolve. Five of six reviewers independently landed on some part of that loop. Beyond the prototype, feasibility-lead and business-analyst agree that \"the full game's feasibility cannot be judged from this document as written,\" because there is no schedule, estimate or cut list past week 6. The single change that matters most is to write the fail-state contract before week 5: what the player perceives when the deadline expires in each phase, how the world tells them why, and what a retry restores (a run-start or phase-start snapshot). Issues #1, #2 and #3 all depend on that one decision."
+  },
+
+  "counts": {
+    "total_findings": 30,
+    "findings_per_reviewer": [
+      {"reviewer": "systems-designer", "count": 5},
+      {"reviewer": "narrative-critic", "count": 5},
+      {"reviewer": "player-psychologist", "count": 5},
+      {"reviewer": "feasibility-lead", "count": 5},
+      {"reviewer": "adversarial-qa", "count": 5},
+      {"reviewer": "business-analyst", "count": 5}
+    ],
+    "findings_per_severity_round1": {"BLOCKING": 5, "MAJOR": 19, "MINOR": 6},
+    "findings_per_severity_after_round2": {"BLOCKING": 8, "MAJOR": 19, "MINOR": 3},
+    "blocking_findings_round1": 5,
+    "blocking_findings_after_round2": 8,
+    "blocking_top_issues_in_synthesis": 4,
+    "blocking_top_issues_note": "Top issues #1-#3 are BLOCKING; #4 is split BLOCKING/MAJOR (counted here as BLOCKING); #5 is MAJOR. Unambiguous BLOCKING top issues = 3.",
+    "recommended_masthead_blocking_count": 8,
+    "recommended_masthead_blocking_note": "Findings rated BLOCKING after Round 2 cross-examination. Use 5 if the report should show Round 1 severities only.",
+    "unresolved_disagreements": 5,
+    "cross_exam_conflicts_total": 21,
+    "cross_exam_connections_total": 33,
+    "cross_exam_revisions_total": 28,
+    "severity_upgrades": 6,
+    "severity_downgrades": 0,
+    "withdrawals_partial": 4,
+    "withdrawals_full": 0,
+    "quick_wins": 3
+  },
+
+  "parse_notes": [
+    "Finding numbering differs by file: systems-designer and adversarial-qa use '1.'-'5.' headings (cited by colleagues as '#1'); others use 'Finding N'. All normalized to F1-F5.",
+    "Some Round 1 findings have no explicit 'Needed/Fix' line (narrative-critic F1-F4, business-analyst F1-F5); their fix_proposed text is drawn from the finding's own recommendation or its Round 2 revision and marked as such.",
+    "Synthesis top issue #4 has a split severity (BLOCKING / MAJOR); stored as BLOCKING with severity_note.",
+    "Synthesis flagged-by lists mix Round 1 finding IDs with Round 2 references (e.g. 'Round 2 X2', 'Round 2 connection'); these are kept verbatim in synthesis_top_issue_flags.reference with severity_given null.",
+    "adversarial-qa F5 upgrade is conditional and applies only to the frozen-ship bullet; severity_after_round2 kept MINOR.",
+    "business-analyst F3 upgrade to BLOCKING is scoped to the full-production decision only, not the prototype.",
+    "Revision counts include non-severity revisions (strengthened, reframed, recommendation revised, partial withdrawals). feasibility-lead's overall verdict revision is included with finding_id 'Overall'. No finding was fully withdrawn; partial withdrawals: systems-designer F1 sub-point, narrative-critic F4 tone note, player-psychologist F2 fix, business-analyst F3 sub-point.",
+    "No review date appears in any file; meta.review_date is null."
+  ]
+}
