@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design Review Board</title>
+<style>
+  :root {
+    --bg: #16181D;
+    --panel: #1F232B;
+    --text: #E8E6E1;
+    --muted: #8A8F98;
+    --rule: #2A2F38;
+    --blocking: #E5484D;
+    --major: #F5A623;
+    --minor: #5A6270;
+    --display: "Arial Narrow", "Helvetica Neue Condensed", "HelveticaNeue-CondensedBold", "Roboto Condensed", "Liberation Sans Narrow", "Nimbus Sans Narrow", sans-serif;
+    --body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--bg); }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 19px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 72px 32px 48px; }
+  section { margin-top: 96px; }
+  section:first-of-type { margin-top: 0; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    section { animation: fadeup .6s ease-out both; }
+    @keyframes fadeup { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  }
+
+  .display {
+    font-family: var(--display);
+    font-stretch: condensed;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+    line-height: 1.02;
+  }
+  .eyebrow {
+    font-family: var(--display);
+    font-stretch: condensed;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--muted);
+    margin: 0 0 16px;
+  }
+  .section-head {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 24px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 16px; margin-bottom: 8px;
+  }
+  .section-head h2 { font-size: 44px; margin: 0; }
+  .section-head .note { color: var(--muted); font-size: 18px; }
+
+  /* Stamp — the signature element */
+  .stamp {
+    display: inline-block;
+    border: 1px solid currentColor;
+    background: transparent;
+    padding: 3px 10px 2px;
+    border-radius: 2px;
+    font-family: var(--display);
+    font-stretch: condensed;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    line-height: 1.4;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+  .stamp.blocking { color: var(--blocking); }
+  .stamp.major { color: var(--major); }
+  .stamp.minor { color: #9098A4; border-color: var(--minor); }
+  .stamp.outcome { color: var(--text); border-color: var(--muted); }
+  .revised { color: var(--muted); font-size: 16px; margin-left: 10px; white-space: nowrap; }
+
+  .chip {
+    display: inline-block;
+    border: 1px solid var(--muted);
+    color: var(--text);
+    padding: 2px 10px;
+    border-radius: 2px;
+    font-size: 16px;
+    margin: 0 6px 6px 0;
+    white-space: nowrap;
+  }
+  .chip .ref { color: var(--muted); margin-left: 6px; }
+
+  /* Masthead */
+  .masthead { display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: end; }
+  .masthead h1 { font-size: 84px; margin: 0 0 20px; letter-spacing: -0.02em; }
+  .masthead .meta { color: var(--muted); font-size: 18px; margin: 0 0 20px; }
+  .verdict { font-size: 26px; line-height: 1.35; margin: 0; max-width: 40ch; }
+  .stats { display: grid; grid-template-columns: repeat(3, auto); gap: 0; border-left: 1px solid var(--rule); }
+  .stat { padding: 0 28px; border-right: 1px solid var(--rule); }
+  .stat .n { font-family: var(--display); font-stretch: condensed; font-weight: 700; font-size: 96px; line-height: .95; }
+  .stat .n.blocking { color: var(--blocking); }
+  .stat .l { font-family: var(--display); font-stretch: condensed; text-transform: uppercase; letter-spacing: .16em; font-size: 16px; color: var(--muted); font-weight: 700; margin-top: 8px; }
+  .stat .s { color: var(--muted); font-size: 15px; margin-top: 4px; }
+
+  /* Top 5 */
+  .issue {
+    position: relative;
+    background: var(--panel);
+    border-radius: 4px;
+    padding: 40px 44px 36px 170px;
+    margin-top: 24px;
+    min-height: 200px;
+  }
+  .issue .rank {
+    position: absolute; left: 36px; top: 22px;
+    font-family: var(--display); font-stretch: condensed; font-weight: 700;
+    font-size: 110px; line-height: 1; color: var(--muted); opacity: .35;
+  }
+  .issue .tags { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px; }
+  .issue .tags .contested { color: var(--muted); font-size: 16px; }
+  .issue h3 { font-size: 30px; line-height: 1.25; margin: 0 0 18px; font-weight: 600; }
+  .issue .body { font-size: 19px; color: var(--text); margin: 0 0 20px; max-width: 70ch; }
+  .issue .xexam { font-size: 18px; color: var(--muted); margin: 18px 0 0; max-width: 72ch; }
+  .issue .xexam b { color: var(--text); font-weight: 600; }
+  .label { font-family: var(--display); font-stretch: condensed; text-transform: uppercase; letter-spacing: .18em; font-size: 14px; color: var(--muted); font-weight: 700; margin: 0 0 8px; }
+
+  /* Disagreements */
+  .dis { border-top: 1px solid var(--rule); padding: 36px 0 32px; }
+  .dis:first-of-type { border-top: 0; }
+  .dis h3 { font-size: 30px; margin: 0 0 22px; font-weight: 700; }
+  .dis h3 .k { color: var(--muted); margin-right: 14px; }
+  .vs { display: grid; grid-template-columns: 1fr 64px 1fr; align-items: stretch; }
+  .pos { background: var(--panel); border-radius: 4px; padding: 26px 28px; }
+  .pos .who { margin-bottom: 14px; }
+  .pos p { margin: 0; font-size: 19px; }
+  .vs .mid { display: flex; align-items: center; justify-content: center; font-family: var(--display); font-stretch: condensed; text-transform: uppercase; letter-spacing: .2em; font-weight: 700; color: var(--muted); font-size: 18px; }
+  .decision { margin-top: 20px; padding-left: 18px; border-left: 1px solid var(--muted); font-size: 20px; }
+  .decision .label { margin-bottom: 4px; }
+  .empty { color: var(--muted); font-size: 22px; padding: 32px 0; }
+
+  /* Full board */
+  .tabs { display: flex; flex-wrap: wrap; gap: 0; border-bottom: 1px solid var(--rule); margin-top: 24px; }
+  .tab {
+    background: transparent; border: 0; border-bottom: 2px solid transparent;
+    color: var(--muted); cursor: pointer;
+    font-family: var(--display); font-stretch: condensed; text-transform: uppercase; letter-spacing: .12em; font-weight: 700;
+    font-size: 19px; padding: 14px 18px 12px; margin-bottom: -1px;
+  }
+  .tab:hover { color: var(--text); }
+  .tab[aria-selected="true"] { color: var(--text); border-bottom-color: var(--text); }
+  .tab:focus-visible { outline: 1px solid var(--text); outline-offset: -4px; }
+  .js .panel[hidden] { display: none; }
+  .no-js .tabs { display: none; }
+  .no-js .panel[hidden] { display: block; }
+  .panel { padding-top: 12px; }
+  .no-js .panel { margin-top: 64px; }
+  .panel h3.rev { font-size: 36px; margin: 24px 0 4px; }
+  .panel .lens { color: var(--muted); font-size: 18px; margin: 0 0 12px; }
+  .round-label { font-family: var(--display); font-stretch: condensed; text-transform: uppercase; letter-spacing: .2em; font-weight: 700; color: var(--muted); font-size: 16px; margin: 36px 0 0; padding-bottom: 10px; border-bottom: 1px solid var(--rule); }
+  .finding { display: grid; grid-template-columns: 56px 1fr; gap: 0 12px; padding: 22px 0; border-bottom: 1px solid var(--rule); }
+  .finding .num { font-family: var(--display); font-stretch: condensed; font-weight: 700; font-size: 34px; color: var(--muted); line-height: 1; padding-top: 2px; }
+  .finding .ttl { font-size: 21px; font-weight: 600; margin: 10px 0 6px; line-height: 1.35; }
+  .finding p { margin: 0; font-size: 18px; color: var(--text); }
+  .finding .r2 { margin-top: 8px; color: var(--muted); font-size: 18px; }
+  .finding .r2 b { color: var(--text); font-weight: 600; }
+  .xgroup { margin-top: 26px; }
+  .xgroup h4 { font-family: var(--display); font-stretch: condensed; text-transform: uppercase; letter-spacing: .16em; font-size: 17px; margin: 0 0 4px; color: var(--text); }
+  .xgroup ul { list-style: none; margin: 0; padding: 0; }
+  .xgroup li { padding: 12px 0; border-bottom: 1px solid var(--rule); font-size: 18px; }
+  .xgroup li b { font-weight: 600; }
+  .xgroup li .on { color: var(--muted); }
+
+  footer { margin-top: 112px; border-top: 1px solid var(--rule); padding-top: 24px; color: var(--muted); font-size: 18px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+  footer .method { font-family: var(--display); font-stretch: condensed; text-transform: uppercase; letter-spacing: .14em; font-weight: 700; }
+
+  @media (max-width: 900px) {
+    .masthead { grid-template-columns: 1fr; gap: 32px; }
+    .masthead h1 { font-size: 60px; }
+    .stats { border-left: 0; }
+    .stat:first-child { padding-left: 0; }
+  }
+  @media (max-width: 760px) {
+    .wrap { padding: 40px 16px 32px; }
+    section { margin-top: 72px; }
+    .masthead h1 { font-size: 44px; }
+    .verdict { font-size: 21px; }
+    .stat { padding: 0 14px; }
+    .stat .n { font-size: 60px; }
+    .stat .l { font-size: 13px; letter-spacing: .1em; }
+    .section-head { flex-direction: column; gap: 6px; }
+    .section-head h2 { font-size: 34px; }
+    .issue { padding: 88px 20px 24px; }
+    .issue .rank { left: 18px; top: 10px; font-size: 80px; }
+    .issue h3 { font-size: 24px; }
+    .vs { grid-template-columns: 1fr; }
+    .vs .mid { padding: 10px 0; }
+    .dis h3 { font-size: 24px; }
+    .tab { font-size: 16px; padding: 12px 10px 10px; }
+    .finding { grid-template-columns: 36px 1fr; }
+    .finding .num { font-size: 26px; }
+    .revised { display: block; margin: 6px 0 0; }
+  }
+</style>
+</head>
+<body class="no-js">
+<script>document.body.className = "js";</script>
+<div class="wrap">
+
+<!-- 1. MASTHEAD -->
+<section class="masthead" aria-labelledby="title">
+  <div>
+    <p class="eyebrow">Design Review Board</p>
+    <h1 id="title" class="display">Lighting the Storm</h1>
+    <p class="meta">Compiled GDD &middot; Reviewed 30 September 2026 &middot; Three rounds, six reviewers</p>
+    <p class="verdict">This document is not ready to drive full production, and its prototype is not ready to test fairly until the fail loop is defined.</p>
+  </div>
+  <div class="stats" role="list">
+    <div class="stat" role="listitem">
+      <div class="n">30</div>
+      <div class="l">Findings</div>
+      <div class="s">Round 1, 5 per reviewer</div>
+    </div>
+    <div class="stat" role="listitem">
+      <div class="n blocking">8</div>
+      <div class="l">Blocking</div>
+      <div class="s">after Round 2 &middot; 5 in Round 1</div>
+    </div>
+    <div class="stat" role="listitem">
+      <div class="n">5</div>
+      <div class="l">Unresolved</div>
+      <div class="s">disagreements escalated</div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. TOP 5 -->
+<section aria-labelledby="top5">
+  <div class="section-head">
+    <h2 id="top5" class="display">Top 5 Issues</h2>
+    <span class="note">Ranked by severity &times; confidence</span>
+  </div>
+
+  <article class="issue">
+    <div class="rank" aria-hidden="true">1</div>
+    <div class="tags"><span class="stamp blocking">Blocking</span><span class="stamp outcome">Strengthened</span></div>
+    <h3>What happens after a fail is undecided, and saving the remaining time at checkpoints produces unwinnable saves.</h3>
+    <p class="label">Flagged by</p>
+    <div><span class="chip">systems-designer<span class="ref">#1</span></span><span class="chip">adversarial-qa<span class="ref">#2</span></span><span class="chip">player-psychologist<span class="ref">#1</span></span><span class="chip">feasibility-lead<span class="ref">#3</span></span><span class="chip">narrative-critic<span class="ref">#4.2</span></span><span class="chip">business-analyst<span class="ref">R2 X2</span></span></div>
+    <p class="xexam"><b>Cross-examination:</b> adversarial-qa widened it (the save must also cover weather state), and business-analyst added the refund-window cost of a full restart at minutes 20&ndash;30. Four reviewers converged on a run-start or phase-start snapshot. feasibility-lead disputes that it blocks the prototype.</p>
+  </article>
+
+  <article class="issue">
+    <div class="rank" aria-hidden="true">2</div>
+    <div class="tags"><span class="stamp blocking">Blocking</span><span class="stamp outcome">Strengthened</span></div>
+    <h3>The fail state can't be shown from where the deadline usually runs out, and the player can't tell why (or even that) they failed.</h3>
+    <p class="label">Flagged by</p>
+    <div><span class="chip">adversarial-qa<span class="ref">#1</span></span><span class="chip">player-psychologist<span class="ref">#1</span></span><span class="chip">systems-designer<span class="ref">#3</span></span><span class="chip">narrative-critic<span class="ref">#4</span></span><span class="chip">feasibility-lead<span class="ref">R2</span></span></div>
+    <p class="xexam"><b>Cross-examination:</b> Curious players in the outpost, where there's no sightline to the ship, are the most likely to fail, so this is the common case, not an edge case. That means up to four authored fail presentations, while week 5 budgets for one. "Let the ship keep going" was rejected, and an audio-only fail was backed.</p>
+  </article>
+
+  <article class="issue">
+    <div class="rank" aria-hidden="true">3</div>
+    <div class="tags"><span class="stamp blocking">Blocking</span><span class="stamp outcome">Strengthened</span></div>
+    <h3>The passenger ship, the game's only stakes, is never introduced in-game, and the ending it resolves has no human payoff.</h3>
+    <p class="label">Flagged by</p>
+    <div><span class="chip">player-psychologist<span class="ref">#4</span></span><span class="chip">narrative-critic<span class="ref">#4</span></span><span class="chip">business-analyst<span class="ref">R2 X4</span></span><span class="chip">adversarial-qa<span class="ref">#5</span></span></div>
+    <p class="xexam"><b>Cross-examination:</b> player-psychologist and narrative-critic both raised it from MAJOR to BLOCKING, because four other findings depend on the player seeing and understanding the ship. The disagreement over whether the ship is visible before boarding was resolved by revealing it at the boarding threshold.</p>
+  </article>
+
+  <article class="issue">
+    <div class="rank" aria-hidden="true">4</div>
+    <div class="tags"><span class="stamp blocking">Blocking</span><span class="stamp major">Major</span><span class="contested">severity contested</span><span class="stamp outcome">Survived</span></div>
+    <h3>Ted is essential to the design, but whether he is physically present is still undecided, and he vanishes after Step 2.</h3>
+    <p class="label">Flagged by</p>
+    <div><span class="chip">narrative-critic<span class="ref">#1</span></span><span class="chip">business-analyst<span class="ref">#4</span></span><span class="chip">feasibility-lead<span class="ref">#3</span></span><span class="chip">adversarial-qa<span class="ref">#4</span></span><span class="chip">player-psychologist<span class="ref">R2</span></span></div>
+    <p class="xexam"><b>Cross-examination:</b> The diagnosis was confirmed by four reviewers, but three rejected BLOCKING because it's one decision the creator can make in a day. narrative-critic's point that Ted has no role in the second half stands and was not contested.</p>
+  </article>
+
+  <article class="issue">
+    <div class="rank" aria-hidden="true">5</div>
+    <div class="tags"><span class="stamp major">Major</span><span class="stamp outcome">Strengthened</span></div>
+    <h3>The hidden clock penalises the wrong players: weather worsens with elapsed time, and the clock runs during first steering and outpost exploration.</h3>
+    <p class="label">Flagged by</p>
+    <div><span class="chip">systems-designer<span class="ref">#2</span></span><span class="chip">player-psychologist<span class="ref">#2 #3</span></span><span class="chip">feasibility-lead<span class="ref">R2</span></span><span class="chip">adversarial-qa<span class="ref">R2</span></span><span class="chip">narrative-critic<span class="ref">R2</span></span><span class="chip">business-analyst<span class="ref">R2 X1</span></span></div>
+    <p class="xexam"><b>Cross-examination:</b> Three other design choices feed the death spiral, and it makes tuning from 3&ndash;5 testers unreliable. The game's distinctive folk-horror content sits exactly where the clock punishes engaging with it.</p>
+  </article>
+</section>
+
+<!-- 3. THE DISAGREEMENT -->
+<section aria-labelledby="dis">
+  <div class="section-head">
+    <h2 id="dis" class="display">The Disagreement</h2>
+    <span class="note">Unresolved after Round 2 &middot; escalated to the creator</span>
+  </div>
+
+  <div class="dis">
+    <h3 class="display"><span class="k">A</span>Is the retry trap blocking for the prototype, or only for Gate 2?</h3>
+    <div class="vs">
+      <div class="pos">
+        <div class="who"><span class="chip">systems-designer</span><span class="chip">adversarial-qa</span><span class="chip">player-psychologist</span></div>
+        <p>BLOCKING now. The Gate 1 slice must reach both outcomes, and a Gate 1 acceptance criterion that depends on a Gate 3 system means the prototype can't pass its own gate. Playtesters can't judge fairness with no retry model.</p>
+      </div>
+      <div class="mid">vs</div>
+      <div class="pos">
+        <div class="who"><span class="chip">feasibility-lead</span></div>
+        <p>MAJOR for the prototype, BLOCKING for Gate 2. "Fail, then restart the slice" is a valid, nearly free Gate 1 answer for a 10-minute build. The trap only becomes real once checkpoints exist.</p>
+      </div>
+    </div>
+    <div class="decision"><p class="label">Escalated decision</p>Does Gate 1 accept "restart the slice" as its retry model, or must the final retry and save model be settled first?</div>
+  </div>
+
+  <div class="dis">
+    <h3 class="display"><span class="k">B</span>What should drive storm escalation?</h3>
+    <div class="vs">
+      <div class="pos">
+        <div class="who"><span class="chip">systems-designer</span><span class="chip">feasibility-lead</span><span class="chip">player-psychologist</span></div>
+        <p>Escalate by phase and route position only, or cap how much elapsed time drives it. Otherwise the loop punishes struggling players twice and the deadline can't be tuned offline.</p>
+      </div>
+      <div class="mid">vs</div>
+      <div class="pos">
+        <div class="who"><span class="chip">narrative-critic</span></div>
+        <p>Position-only weather breaks Pillar 2, "The storm sets the clock". Split the channel instead: the readable storm (sound, lightning, wind, ship lights) follows elapsed time, and hazard density follows phase and position.</p>
+      </div>
+    </div>
+    <div class="decision"><p class="label">Escalated decision</p>Does elapsed time drive anything the player collides with, or only what the player perceives?</div>
+  </div>
+
+  <div class="dis">
+    <h3 class="display"><span class="k">C</span>Should the return crossing branch into a riskier shortcut?</h3>
+    <div class="vs">
+      <div class="pos">
+        <div class="who"><span class="chip">player-psychologist</span><span class="chip">systems-designer</span></div>
+        <p>Yes. It gives the pressure an outlet without a second control, gives repairs a mechanical output, gives the dead "unlocked routes" field a purpose, and adds replay value.</p>
+      </div>
+      <div class="mid">vs</div>
+      <div class="pos">
+        <div class="who"><span class="chip">feasibility-lead</span><span class="chip">adversarial-qa</span><span class="chip">business-analyst</span></div>
+        <p>No branching in the prototype, because the forecast is built on one safe-route signal and week 4 is already overloaded. At fixed speed a survivable shortcut is always optimal and doubles the tuning load. Defer it to Gate 2, or cut the unused save field.</p>
+      </div>
+    </div>
+    <div class="decision"><p class="label">Escalated decision</p>Commit to route choice, with a forecast system built for multiple routes from day one, or remove "unlocked routes" from the save contract?</div>
+  </div>
+
+  <div class="dis">
+    <h3 class="display"><span class="k">D</span>Where should the folk-horror discoveries live?</h3>
+    <div class="vs">
+      <div class="pos">
+        <div class="who"><span class="chip">business-analyst</span><span class="chip">feasibility-lead</span><span class="chip">narrative-critic (in part)</span></div>
+        <p>Move them before boarding, to the lighthouse and island. That removes the time penalty on the game's distinctive content, keeps prototype tuning data valid, and reuses environments already built for Gate 1. The core wrongness can live in the lighthouse if it's tied to why the beacon failed.</p>
+      </div>
+      <div class="mid">vs</div>
+      <div class="pos">
+        <div class="who"><span class="chip">player-psychologist</span><span class="chip">systems-designer #4 (cited)</span></div>
+        <p>Keep them at the outpost with budgeted exploration time and a diegetic cue from Jeff. The untimed front half already holds about 20 of the 30 minutes, and moving more content there worsens the pacing imbalance.</p>
+      </div>
+    </div>
+    <div class="decision"><p class="label">Escalated decision</p>Protect the atmosphere by moving discoveries into the untimed act, or protect the pacing by keeping them in the timed act?</div>
+  </div>
+
+  <div class="dis">
+    <h3 class="display"><span class="k">E</span>How severe is Ted's open status, and should he return in the second half?</h3>
+    <div class="vs">
+      <div class="pos">
+        <div class="who"><span class="chip">narrative-critic</span></div>
+        <p>BLOCKING. Beyond the open decision, Ted has no arc after Step 2. He should be at the lamp for the climax and react to both outcomes.</p>
+      </div>
+      <div class="mid">vs</div>
+      <div class="pos">
+        <div class="who"><span class="chip">business-analyst</span><span class="chip">feasibility-lead</span><span class="chip">adversarial-qa</span></div>
+        <p>MAJOR, with a lock-by date of week 3&ndash;4. Every added Ted beat is unpriced voice-over cost, so any second-half lines should come from the lighthouse (radio or window). Spend the ending's payoff on Ted and fold Daniel into Jeff.</p>
+      </div>
+    </div>
+    <div class="decision"><p class="label">Escalated decision</p>Lock Ted's presence by a fixed week, and decide whether his second-half role is a staged scene or voice-only.</div>
+  </div>
+</section>
+
+<!-- 4. FULL BOARD -->
+<section aria-labelledby="board">
+  <div class="section-head">
+    <h2 id="board" class="display">Full Board</h2>
+    <span class="note">Round 1 findings &middot; Round 2 cross-examination</span>
+  </div>
+
+  <div class="tabs" role="tablist" aria-label="Reviewers">
+    <button class="tab" role="tab" id="t-sd" aria-controls="p-sd" aria-selected="true">Systems</button>
+    <button class="tab" role="tab" id="t-nc" aria-controls="p-nc" aria-selected="false" tabindex="-1">Narrative</button>
+    <button class="tab" role="tab" id="t-pp" aria-controls="p-pp" aria-selected="false" tabindex="-1">Player Psych</button>
+    <button class="tab" role="tab" id="t-fl" aria-controls="p-fl" aria-selected="false" tabindex="-1">Feasibility</button>
+    <button class="tab" role="tab" id="t-qa" aria-controls="p-qa" aria-selected="false" tabindex="-1">Adversarial QA</button>
+    <button class="tab" role="tab" id="t-ba" aria-controls="p-ba" aria-selected="false" tabindex="-1">Business</button>
+  </div>
+
+  <!-- SYSTEMS DESIGNER -->
+  <div class="panel" role="tabpanel" id="p-sd" aria-labelledby="t-sd">
+    <h3 class="rev display">systems-designer</h3>
+    <p class="lens">Core loop, progression, pacing, difficulty, and the deadline/penalty economy.</p>
+    <p class="round-label">Round 1 findings</p>
+    <div class="finding"><div class="num">1</div><div><span class="stamp blocking">Blocking</span>
+      <div class="ttl">What happens after failure is undefined, and saving remaining time at checkpoints can produce unwinnable saves.</div>
+      <p>A checkpoint reached after several collisions locks in a time budget too small to finish, so a checkpoint retry drops the player into a run they can't win. This contradicts Gate 2's "no dead-end save". Checkpoints are scheduled for Gate 3, but the fail state has to work at Gate 1.</p>
+      <p class="r2"><b>Round 2:</b> Core stays BLOCKING. The "first boarding" sub-point was withdrawn as subsumed by adversarial-qa #3.</p></div></div>
+    <div class="finding"><div class="num">2</div><div><span class="stamp major">Major</span>
+      <div class="ttl">Weather escalating with elapsed deadline time creates a death spiral.</div>
+      <p>Collisions consume time, lost time advances the weather, and denser hazards and lower visibility cause more collisions. The system punishes struggling players twice and leaves skilled players under less pressure.</p>
+      <p class="r2"><b>Round 2:</b> Stays MAJOR, strengthened. At least three other design choices feed the loop.</p></div></div>
+    <div class="finding"><div class="num">3</div><div><span class="stamp major">Major</span>
+      <div class="ttl">The hidden deadline is really an invisible mistake budget, and the player can't read it.</div>
+      <p>With one fixed speed and an authored route length, a flawless run always takes the same time, so the deadline is a count of allowed collisions. The ship's lights can't tell the player "I can afford two more hits." The outpost search and the final repair spend the budget without testing any skill.</p>
+      <p class="r2"><b>Round 2:</b> Unchanged in severity.</p></div></div>
+    <div class="finding"><div class="num">4</div><div><span class="stamp major">Major</span>
+      <div class="ttl">Pacing is front-loaded with untimed repairs that don't feed the crossings.</div>
+      <p>About 20 of the 30 minutes come before boarding, with no pressure. The later repairs have no stated effect on the crossings, and "unlocked routes" has nothing to connect to because the crossings offer no route choice.</p>
+      <p class="r2"><b>Round 2:</b> Stays MAJOR. Recommendation revised: repairs should unlock return route options.</p></div></div>
+    <div class="finding"><div class="num">5</div><div><span class="stamp major">Major</span><span class="revised">R1 Minor &rarr; R2 Major</span>
+      <div class="ttl">The crossing penalty system lists outcomes without rules, and one penalty has no input.</div>
+      <p>Water, slowdown, or capsize, with no rule for which applies when. Water has no drain and no threshold. "Cargo mishandling" can't be caused by anything the player does, since their only boat control is steering.</p>
+      <p class="r2"><b>Round 2:</b> Upgraded, because three colleagues depend on the penalty table.</p></div></div>
+
+    <p class="round-label">Round 2 cross-examination</p>
+    <div class="xgroup"><h4>Conflicts</h4><ul>
+      <li><b>vs adversarial-qa #1</b> <span class="on">&mdash;</span> Rejects "let the ship keep going", because it creates a doomed run the player can't read. Expiry must resolve at expiry: audio-only where the ship isn't in view, or check the outcome once at the final repair, with pace milestones.</li>
+      <li><b>vs feasibility-lead #5</b> <span class="on">&mdash;</span> Deferring capsize and cargo only works if the penalty table, with a time cost per event, is written now, so the deadline carries a known reserve.</li>
+      <li><b>vs narrative-critic #4.2</b> <span class="on">&mdash;</span> Play the fail outcome in full, then offer a retry from a phase-start snapshot. The consequence must not require erasing the whole run.</li>
+    </ul></div>
+    <div class="xgroup"><h4>Connections</h4><ul>
+      <li><b>player-psychologist #3</b> <span class="on">&mdash;</span> A novice's learning collisions feed the death spiral from the first minute of steering. A sheltered harbour stretch fixes both problems.</li>
+      <li><b>player-psychologist #2</b> <span class="on">&mdash;</span> The curious player pays twice at the outpost: once in deadline and once in difficulty on the return.</li>
+      <li><b>player-psychologist #5</b> <span class="on">&mdash;</span> A route choice gives repairs an output, the dead schema field a purpose, the deadline a second variable, and the game replay value. It needs the forecast designed for branches from the start.</li>
+      <li><b>adversarial-qa #3</b> <span class="on">&mdash;</span> A respawn facing a rock at fixed speed chains collisions into the spiral. The grace period should be a rule.</li>
+      <li><b>feasibility-lead #4</b> <span class="on">&mdash;</span> Par time can be computed on paper. Only the mistake allowance needs a playtest.</li>
+      <li><b>adversarial-qa #5</b> <span class="on">&mdash;</span> At full-game scale the ship sits frozen on the horizon for roughly 20 minutes.</li>
+    </ul></div>
+  </div>
+
+  <!-- NARRATIVE CRITIC -->
+  <div class="panel" role="tabpanel" id="p-nc" aria-labelledby="t-nc" hidden>
+    <h3 class="rev display">narrative-critic</h3>
+    <p class="lens">Story logic, character motivation, and tone consistency.</p>
+    <p class="round-label">Round 1 findings</p>
+    <div class="finding"><div class="num">1</div><div><span class="stamp blocking">Blocking</span>
+      <div class="ttl">Ted is the narrative spine, but his presence is still an open decision, and he disappears after Step 2.</div>
+      <p>Ted guides the whole opening and is Pillar 3's answer to "no markers", yet "Ted's presence" is unsettled. He is never mentioned in Steps 6&ndash;8, and the document never explains why an experienced keeper sends a new apprentice into a lethal storm.</p>
+      <p class="r2"><b>Round 2:</b> Kept BLOCKING. The point that he has no arc after Step 2 is this reviewer's alone.</p></div></div>
+    <div class="finding"><div class="num">2</div><div><span class="stamp major">Major</span>
+      <div class="ttl">Jeff's motivation and knowledge are unexplained, which undercuts the companion relationship.</div>
+      <p>The document never says why a just-shipwrecked man goes straight back out, what his reluctance is about, or how a stranger knows the outpost's waters. The rowboat itself is unexplained, so the crash reads as a device for delivering a navigator.</p></div></div>
+    <div class="finding"><div class="num">3</div><div><span class="stamp major">Major</span>
+      <div class="ttl">The folk-horror layer has no link to the plot, so "dread you can read" has nothing to read.</div>
+      <p>Every source of dread is scenery. The document never says why the beacon fails, why the outpost is abandoned, or why a spare burner sits there. The prototype removes the folk-horror layer entirely, and no private canon is given for the ambiguity to hide.</p>
+      <p class="r2"><b>Round 2:</b> Kept MAJOR, strengthened.</p></div></div>
+    <div class="finding"><div class="num">4</div><div><span class="stamp blocking">Blocking</span><span class="revised">R1 Major &rarr; R2 Blocking</span>
+      <div class="ttl">The "consequential ending" has an unnamed victim, an undecided aftermath, and no payoff for the cast.</div>
+      <p>No character or relationship links anyone to the passenger ship. The retry model is undecided, and an instant checkpoint retry would play as a game-over screen. Ted, Jeff and Daniel never react to either outcome.</p>
+      <p class="r2"><b>Round 2:</b> Upgraded, citing player-psychologist #4 and adversarial-qa #1. The "sails calmly into port" note was withdrawn. The Daniel point was revised: give him a causal role or defer him.</p></div></div>
+    <div class="finding"><div class="num">5</div><div><span class="stamp minor">Minor</span>
+      <div class="ttl">The apprentice's one moral beat is scripted by someone else.</div>
+      <p>The pitch frames the gate as the apprentice's act, but Ted tells the player to open it and it's a single interaction. The player never decides anything or meets the survivors.</p>
+      <p class="r2"><b>Round 2:</b> Kept MINOR. The gate scene is a natural place for the ship-introduction beat.</p></div></div>
+
+    <p class="round-label">Round 2 cross-examination</p>
+    <div class="xgroup"><h4>Conflicts</h4><ul>
+      <li><b>vs business-analyst #5</b> <span class="on">&mdash;</span> Keep the crash: it's the only on-screen preview of the fail-state shipwreck. Daniel should get a role (for example, he's hurt, which is Jeff's motive) or be deferred.</li>
+      <li><b>vs systems-designer #2</b> <span class="on">&mdash;</span> Position-only weather breaks Pillar 2. Split the channel: the readable storm follows elapsed time, and hazard density follows phase and position.</li>
+      <li><b>vs adversarial-qa #5</b> <span class="on">&mdash;</span> The ship should first appear at the end of the pre-boarding act, as the reason Ted gives the errand, so the frozen window never exists.</li>
+    </ul></div>
+    <div class="xgroup"><h4>Connections</h4><ul>
+      <li><b>player-psychologist #2</b> <span class="on">&mdash;</span> The folk-horror sits exactly where the clock punishes reading it, which is a theme failure and not only a UX one.</li>
+      <li><b>adversarial-qa #1</b> <span class="on">&mdash;</span> The ending is undefined in both meaning and presentation. An audio-only fail is strong if it's designed on purpose.</li>
+      <li><b>player-psychologist #1</b> <span class="on">&mdash;</span> Ted and Jeff outcome lines that refer to the player's actual delays fix legibility and the cast payoff at once.</li>
+      <li><b>systems-designer #3</b> <span class="on">&mdash;</span> Having Ted at the lamp gives the flat climax weight without adding a skill test.</li>
+      <li><b>feasibility-lead #2</b> <span class="on">&mdash;</span> Recording voices before a character bible exists is where rework will happen.</li>
+      <li><b>business-analyst #1, #2</b> <span class="on">&mdash;</span> A coherent hidden canon is the only replay reason the design could have.</li>
+    </ul></div>
+  </div>
+
+  <!-- PLAYER PSYCHOLOGIST -->
+  <div class="panel" role="tabpanel" id="p-pp" aria-labelledby="t-pp" hidden>
+    <h3 class="rev display">player-psychologist</h3>
+    <p class="lens">What a first-time player experiences, minute by minute, across a ~30-minute session.</p>
+    <p class="round-label">Round 1 findings</p>
+    <div class="finding"><div class="num">1</div><div><span class="stamp blocking">Blocking</span>
+      <div class="ttl">Failing late is undefined, and the player can't tell why they failed.</div>
+      <p>The fail comes at minutes 20&ndash;30 with no decided retry. With a hidden deadline and one lumped penalty, the player can't tell whether collisions, the outpost or the climb cost them. Pillar 4's promise that the player "always knows ... why they failed" can't be kept.</p>
+      <p class="r2"><b>Round 2:</b> Stays BLOCKING, strengthened.</p></div></div>
+    <div class="finding"><div class="num">2</div><div><span class="stamp major">Major</span>
+      <div class="ttl">The invisible clock quietly punishes curiosity at the outpost.</div>
+      <p>The folk-horror payoff lives at the outpost, where the hidden clock is running. Players who read closely get the bad ending, and players who rush never see the lore.</p>
+      <p class="r2"><b>Round 2:</b> Stays MAJOR. The "move discoveries pre-boarding" fix was withdrawn in favour of budgeted exploration time with a diegetic cue from Jeff.</p></div></div>
+    <div class="finding"><div class="num">3</div><div><span class="stamp major">Major</span>
+      <div class="ttl">The player first touches the boat after the clock has started.</div>
+      <p>Nothing before boarding teaches steering, the "central player skill". A novice's first collisions are silently counted against the ending, while they're also reading hazards and parsing Jeff's directions.</p>
+      <p class="r2"><b>Round 2:</b> Stays MAJOR, strengthened. Close to blocking for first-time players.</p></div></div>
+    <div class="finding"><div class="num">4</div><div><span class="stamp blocking">Blocking</span><span class="revised">R1 Major &rarr; R2 Blocking</span>
+      <div class="ttl">The stakes are never introduced to the player in-game.</div>
+      <p>The sequence never shows the moment the player learns the passenger ship exists. The document also doesn't say whether the ship is visible from the outpost, during pickup, or on the climb, all of which happen while the timer is running.</p>
+      <p class="r2"><b>Round 2:</b> Upgraded. Four other reviews assume the player knows about the ship and can read it.</p></div></div>
+    <div class="finding"><div class="num">5</div><div><span class="stamp minor">Minor</span>
+      <div class="ttl">The player can't do anything about the pressure.</div>
+      <p>With a fixed speed and no throttle, the storm says hurry but the player has no way to hurry. The return crossing may feel like "the same, but harder".</p>
+      <p class="r2"><b>Round 2:</b> Stays MINOR, partly absorbed by systems-designer #3. The playtest check should move earlier than week 6.</p></div></div>
+
+    <p class="round-label">Round 2 cross-examination</p>
+    <div class="xgroup"><h4>Conflicts</h4><ul>
+      <li><b>vs adversarial-qa #5</b> <span class="on">&mdash;</span> Hiding the ship leaves no known stakes. Reveal it at the dock just before boarding, which satisfies both requirements.</li>
+      <li><b>vs business-analyst #5</b> <span class="on">&mdash;</span> Keep the crash, because it shows that boats die on these rocks tonight. Rewrite it to foreshadow the ship rather than cutting it.</li>
+      <li><b>vs systems-designer #4</b> <span class="on">&mdash;</span> Concedes that moving discoveries before boarding worsens the imbalance. But an untimed front half isn't automatically a flaw; the ratio is the question.</li>
+      <li><b>vs feasibility-lead #5</b> <span class="on">&mdash;</span> Deferring capsize means Gate 1 measures a friendlier game. The document should say the fairness verdict doesn't cover capsize.</li>
+    </ul></div>
+    <div class="xgroup"><h4>Connections</h4><ul>
+      <li><b>systems-designer #2</b> <span class="on">&mdash;</span> For a first-time player, the spiral starts before any skill exists. The grace stretch and position-only escalation should be treated as one fix.</li>
+      <li><b>adversarial-qa #1</b> <span class="on">&mdash;</span> The player may not realise they've failed at all. Fail presentation and fail explanation need a single answer.</li>
+      <li><b>systems-designer #3</b> <span class="on">&mdash;</span> Milestones only work with guaranteed sightlines to the ship, or audio.</li>
+      <li><b>adversarial-qa #5</b> <span class="on">&mdash;</span> The journal is either an exploit (if it pauses the clock) or a trap (if it doesn't). A diegetic journal that pauses must be chosen deliberately.</li>
+      <li><b>narrative-critic #1</b> <span class="on">&mdash;</span> Ted is the onboarding. With no second-half Ted, the post-mortem falls to Jeff, who has no defined voice.</li>
+      <li><b>feasibility-lead #4</b> <span class="on">&mdash;</span> 3&ndash;5 testers in the bug-fix week can't judge helplessness versus tension.</li>
+    </ul></div>
+  </div>
+
+  <!-- FEASIBILITY LEAD -->
+  <div class="panel" role="tabpanel" id="p-fl" aria-labelledby="t-fl" hidden>
+    <h3 class="rev display">feasibility-lead</h3>
+    <p class="lens">Scope, timeline and technical buildability: solo developer, Godot 4 (proposed), PC/Steam, 2026 tools.</p>
+    <p class="round-label">Round 1 findings</p>
+    <div class="finding"><div class="num">1</div><div><span class="stamp major">Major</span>
+      <div class="ttl">The six-week schedule never builds the shared hazard forecast, and week 4 carries too much.</div>
+      <p>Jeff's calls depend on a forecast API that no week builds. Week 4 bundles five scripted features with its first version, Gate 0 tests steering without Jeff, and the only buffer (week 5) is reserved for waves.</p></div></div>
+    <div class="finding"><div class="num">2</div><div><span class="stamp major">Major</span>
+      <div class="ttl">The full game has no schedule, estimate, or cut list beyond waves.</div>
+      <p>Gates 2&ndash;3 have no dates, durations or staffing. Voice recording has no source, budget or licensing note, and there's no asset estimate for the final art. There's nothing to measure the slice against.</p></div></div>
+    <div class="finding"><div class="num">3</div><div><span class="stamp major">Major</span>
+      <div class="ttl">Open decisions block work that is already scheduled.</div>
+      <p>The engine, Ted's presence, the fail-state follow-up and the target hardware all sit on the Gate 1 critical path while still undecided. The save and deadline contract depends on checkpoints, which are scheduled two gates later.</p>
+      <p class="r2"><b>Round 2:</b> Sharpened, kept MAJOR. The fail-state decision is needed before week 5, and Ted's presence by week 3.</p></div></div>
+    <div class="finding"><div class="num">4</div><div><span class="stamp major">Major</span>
+      <div class="ttl">Deadline tuning and the 30-minute target can only be checked at the very end.</div>
+      <p>The deadline is built in week 5 and tuned from 3&ndash;5 testers in week 6, the same week as bug fixing. The 30-minute target is only testable at Gate 3.</p>
+      <p class="r2"><b>Round 2:</b> Strengthened by the death spiral and the outpost's future growth.</p></div></div>
+    <div class="finding"><div class="num">5</div><div><span class="stamp major">Major</span><span class="revised">R1 Minor &rarr; R2 Major</span>
+      <div class="ttl">The prototype's failure and transition policies hide unestimated, critical-path work.</div>
+      <p>A first-person capsize and recovery with Jeff and the burner aboard, under the no-cutaway rule, is unestimated. The cargo-mishandling deliverable has no spec.</p>
+      <p class="r2"><b>Round 2:</b> Upgraded and retitled. Docking, burner retrieval, respawn orientation and per-phase fail presentations are all on the critical path. Waves should be cut before work starts.</p></div></div>
+
+    <p class="round-label">Round 2 cross-examination</p>
+    <div class="xgroup"><h4>Conflicts</h4><ul>
+      <li><b>vs systems-designer #1, adversarial-qa #2</b> <span class="on">&mdash;</span> MAJOR for the prototype, since "fail, then restart the slice" is valid, and BLOCKING for Gate 2. Supports the run-start snapshot fix.</li>
+      <li><b>vs narrative-critic #1</b> <span class="on">&mdash;</span> Below BLOCKING, because it's a decision, not a build problem. Added Ted beats are unpriced voice-over, so any second-half lines should come from the lighthouse only.</li>
+      <li><b>vs player-psychologist #5, systems-designer #4</b> <span class="on">&mdash;</span> No route branching in the prototype. Cut the unused "unlocked routes" field instead.</li>
+      <li><b>vs player-psychologist #3</b> <span class="on">&mdash;</span> Specify the harbour-mouth trigger rather than new level geometry.</li>
+    </ul></div>
+    <div class="xgroup"><h4>Connections</h4><ul>
+      <li><b>adversarial-qa #1</b> <span class="on">&mdash;</span> The fail becomes up to four authored presentations, while week 5 budgets for one. The cheapest version is audio-only, then a lighthouse view.</li>
+      <li><b>adversarial-qa #3</b> <span class="on">&mdash;</span> Docking, getting off the boat, pickup and respawn are the phase transitions the state contract depends on, not polish.</li>
+      <li><b>systems-designer #2</b> <span class="on">&mdash;</span> The loop makes deadline sensitivity nonlinear. Position-only escalation can be tuned offline.</li>
+      <li><b>player-psychologist #2, systems-designer #3</b> <span class="on">&mdash;</span> Prototype outpost durations become invalid once exploration grows at Gate 2.</li>
+      <li><b>business-analyst #2, narrative-critic #3</b> <span class="on">&mdash;</span> One dressed room on decided hardware would test atmosphere and performance at once.</li>
+      <li><b>business-analyst #5</b> <span class="on">&mdash;</span> Removing Daniel frees week 4 for the forecast work.</li>
+    </ul></div>
+  </div>
+
+  <!-- ADVERSARIAL QA -->
+  <div class="panel" role="tabpanel" id="p-qa" aria-labelledby="t-qa" hidden>
+    <h3 class="rev display">adversarial-qa</h3>
+    <p class="lens">Contradictions, unhandled edge cases, sequence breaks, exploits, and unplanned fail states.</p>
+    <p class="round-label">Round 1 findings</p>
+    <div class="finding"><div class="num">1</div><div><span class="stamp blocking">Blocking</span>
+      <div class="ttl">The fail state can't be shown from wherever the deadline actually expires.</div>
+      <p>Expiry can happen mid-crossing, in the outpost, or on the stairs. But the fail is "seen in first person" from the lighthouse, and cutaways are banned. There's no legal way to show it.</p></div></div>
+    <div class="finding"><div class="num">2</div><div><span class="stamp blocking">Blocking</span>
+      <div class="ttl">Checkpoints that save remaining time can create unwinnable saves, and the retry model contradicts "resolves exactly once".</div>
+      <p>A low-time checkpoint creates a doomed loop and breaks "no dead-end save". A checkpoint retry resolves the same save slot twice, and nothing says whether the ship's state rewinds.</p>
+      <p class="r2"><b>Round 2:</b> Severity stays; scope widened to cover weather state on reload.</p></div></div>
+    <div class="finding"><div class="num">3</div><div><span class="stamp major">Major</span>
+      <div class="ttl">A boat with one fixed speed has no defined way to stop, dock, disembark, or reach a recovery point.</div>
+      <p>Arrival triggers, arriving home without the burner, retrieving a burner at "a marked nearby point", and respawn orientation are all unspecified.</p>
+      <p class="r2"><b>Round 2:</b> Stays MAJOR, reframed as a missing "boat stopped or boarding" spec with four consumers.</p></div></div>
+    <div class="finding"><div class="num">4</div><div><span class="stamp major">Major</span>
+      <div class="ttl">"Proposed" items are enforced as invariants and gate criteria, and Ted is still an open decision.</div>
+      <p>Proposed rules (the deadline start, burner recoverability, the crash trigger) already appear as hard invariants and gate checks. Every early gate relies on Ted.</p>
+      <p class="r2"><b>Round 2:</b> The Ted half softened. The Proposed-as-invariant half kept at MAJOR.</p></div></div>
+    <div class="finding"><div class="num">5</div><div><span class="stamp minor">Minor</span>
+      <div class="ttl">Deadline pause and preset rules open exploits, and the pre-boarding state is frozen and ambiguous.</div>
+      <p>Four small gaps: whether the journal pauses the clock, swapping the difficulty preset mid-run, a ship frozen before boarding, and whether the gate can be used before the crash.</p>
+      <p class="r2"><b>Round 2:</b> The frozen-ship bullet becomes MAJOR if player-psychologist #4 is adopted. The other bullets stay MINOR.</p></div></div>
+
+    <p class="round-label">Round 2 cross-examination</p>
+    <div class="xgroup"><h4>Conflicts</h4><ul>
+      <li><b>vs feasibility-lead (overall)</b> <span class="on">&mdash;</span> A Gate 1 criterion that depends on a Gate 3 system means the prototype can't pass its own gate. That is BLOCKING.</li>
+      <li><b>vs player-psychologist #4</b> <span class="on">&mdash;</span> A ship Ted points out must hold still through the whole untimed act. The document must say what it does before boarding.</li>
+      <li><b>vs player-psychologist #5</b> <span class="on">&mdash;</span> A shortcut breaks the singular safe-route signal, is always optimal at fixed speed, and doubles the tuning load.</li>
+      <li><b>vs narrative-critic #1</b> <span class="on">&mdash;</span> Kept at MAJOR. Silent canonisation of Proposed rules is worse than a flagged open question.</li>
+    </ul></div>
+    <div class="xgroup"><h4>Connections</h4><ul>
+      <li><b>systems-designer #2</b> <span class="on">&mdash;</span> An unwinnable save becomes the normal outcome for struggling players. The save contract must list weather intensity.</li>
+      <li><b>systems-designer #1</b> <span class="on">&mdash;</span> "First boarding" implies a get-off and re-board cycle that isn't defined. Jeff should refuse to cast off without the burner.</li>
+      <li><b>systems-designer #5, feasibility-lead #5</b> <span class="on">&mdash;</span> Write one spec for "the boat is not moving". If capsize is cut, cut water too.</li>
+      <li><b>narrative-critic #5</b> <span class="on">&mdash;</span> A real gate choice can be refused, which needs a rule.</li>
+      <li><b>player-psychologist #2</b> <span class="on">&mdash;</span> Curious players are in the one place with no sightline to the ship, which makes #1 the common case.</li>
+    </ul></div>
+  </div>
+
+  <!-- BUSINESS ANALYST -->
+  <div class="panel" role="tabpanel" id="p-ba" aria-labelledby="t-ba" hidden>
+    <h3 class="rev display">business-analyst</h3>
+    <p class="lens">Feature creep, market positioning, and load-bearing versus decorative features.</p>
+    <p class="round-label">Round 1 findings</p>
+    <div class="finding"><div class="num">1</div><div><span class="stamp major">Major</span>
+      <div class="ttl">No audience, market positioning, or price, and the product sits inside Steam's refund window.</div>
+      <p>A 30-minute, single-path game with a binary ending can be finished well inside the 2-hour refund window, and nothing gives a player a reason to keep it after one run.</p>
+      <p class="r2"><b>Round 2:</b> Stays MAJOR, better supported by X1, X2 and X4.</p></div></div>
+    <div class="finding"><div class="num">2</div><div><span class="stamp major">Major</span>
+      <div class="ttl">The prototype tests a boat-steering game, but the pitch sells a folk-horror atmosphere game.</div>
+      <p>No prototype outcome check measures dread, ambiguity or atmosphere. The differentiator is never validated before full production.</p></div></div>
+    <div class="finding"><div class="num">3</div><div><span class="stamp blocking">Blocking</span><span class="revised">R1 Major &rarr; R2 Blocking (full-production decision only)</span>
+      <div class="ttl">No full-game plan: the schedule stops at the prototype, and the release target has no timeline, budget, or release work.</div>
+      <p>Gates 2&ndash;3 have no dates, and the store page, trailer, localisation and ratings aren't planned. Scope creep is the named risk, but there's no plan against which to detect it.</p>
+      <p class="r2"><b>Round 2:</b> Upgraded; does not block the prototype. The "process overhead" criticism of the AI Agent Strategy was withdrawn.</p></div></div>
+    <div class="finding"><div class="num">4</div><div><span class="stamp major">Major</span>
+      <div class="ttl">A load-bearing feature (Ted) is still an open decision.</div>
+      <p>If Ted's presence changes, the first act's replacement for quest markers goes with him. It's an unfrozen dependency under week 4's work.</p>
+      <p class="r2"><b>Round 2:</b> Kept MAJOR, with a deadline: lock before week 4.</p></div></div>
+    <div class="finding"><div class="num">5</div><div><span class="stamp major">Major</span><span class="revised">R1 Minor &rarr; R2 Major</span>
+      <div class="ttl">Daniel and the rowboat crash are expensive, mostly decorative content that fails the document's own feature test.</div>
+      <p>Daniel "stays at the lighthouse" with no gameplay role but still needs a model, a walk path and lines, all inside the six-week prototype.</p>
+      <p class="r2"><b>Round 2:</b> Upgraded and narrowed: cut Daniel from the Gate 1 slice and fold his role into Jeff, but keep the crash.</p></div></div>
+
+    <p class="round-label">Round 2 cross-examination</p>
+    <div class="xgroup"><h4>Conflicts</h4><ul>
+      <li><b>vs narrative-critic #1</b> <span class="on">&mdash;</span> MAJOR, not BLOCKING. What's missing is a signature, not a design hole. It becomes blocking only if still open past week 4.</li>
+      <li><b>vs narrative-critic #4, #1</b> <span class="on">&mdash;</span> Spend the ending's human payoff on Ted, who is already on site, and fold Daniel's survivor role into Jeff.</li>
+      <li><b>vs player-psychologist #5, systems-designer #3, #4</b> <span class="on">&mdash;</span> Accept repairs feeding the crossing and the harbour-mouth warm-up. Defer the shortcut and a skill-based final repair to Gate 2.</li>
+    </ul></div>
+    <div class="xgroup"><h4>Connections</h4><ul>
+      <li><b>X1 &middot; player-psychologist #2, narrative-critic #3</b> <span class="on">&mdash;</span> The differentiator sits where the design punishes engaging with it. Players who rush miss the hook, which worsens the refund risk.</li>
+      <li><b>X2 &middot; systems-designer #1, adversarial-qa #2, player-psychologist #1</b> <span class="on">&mdash;</span> The retry model is a commercial decision too. Back a run-start snapshot on cost grounds.</li>
+      <li><b>X3 &middot; feasibility-lead #1</b> <span class="on">&mdash;</span> Week 4 overload makes Daniel a schedule problem.</li>
+      <li><b>X4 &middot; player-psychologist #4, narrative-critic #4</b> <span class="on">&mdash;</span> The stakes are never set up, so there's no pitch line a trailer can sell.</li>
+    </ul></div>
+  </div>
+</section>
+
+<!-- 5. FOOTER -->
+<footer>
+  <span class="method">Six isolated agent contexts &middot; parallel review &middot; cross-examination &middot; moderated synthesis</span>
+  <span>Source: gdd.txt &mdash; <i>Lighting the Storm</i>, Compiled GDD, 29 September 2026</span>
+</footer>
+
+</div>
+<script>
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  function select(t) {
+    tabs.forEach(function (x) {
+      var on = x === t;
+      x.setAttribute('aria-selected', on ? 'true' : 'false');
+      x.tabIndex = on ? 0 : -1;
+      document.getElementById(x.getAttribute('aria-controls')).hidden = !on;
+    });
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { select(t); });
+    t.addEventListener('keydown', function (e) {
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      var n = tabs[(i + d + tabs.length) % tabs.length];
+      select(n); n.focus(); e.preventDefault();
+    });
+  });
+})();
+</script>
+</body>
+</html>
