@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bracken Isle – Blender MCP Pipeline</title>
+<meta name="description" content="MCP-driven Blender to Unity, Godot and Unreal pipelines for a solo, 4-week atmospheric lighthouse prototype.">
+<style>
+:root{
+  --bg:#0f1519; --surface:#172027; --surface2:#1d2a32; --line:#33454f; --text:#dfe8ec; --muted:#8fa4ae;
+  --warm:#f2b45a; --unity:#7aa7ff; --godot:#5fd0a0; --unreal:#c79bff; --mine:#f2b45a;
+  --pro:#5fd0a0; --con:#ff8a7a;
+}
+@media (prefers-color-scheme: light){
+  :root{ --bg:#f4f1ea; --surface:#fffdf8; --surface2:#efeadf; --line:#c9c1ae; --text:#1d2a30; --muted:#5d6e76;
+  --warm:#b8741a; --unity:#2f5fd0; --godot:#1b8a5e; --unreal:#7a45c8; --mine:#b8741a; --pro:#1b8a5e; --con:#c4412f; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+header{padding:56px 0 28px;border-bottom:1px solid var(--line)}
+.eyebrow{color:var(--warm);letter-spacing:.14em;text-transform:uppercase;font-size:.78rem}
+h1{font-size:clamp(1.9rem,5vw,3rem);line-height:1.15;margin:.3em 0}
+h2{font-size:1.6rem;margin:0 0 .4em}
+h3{margin:0 0 .3em;font-size:1.15rem}
+p{margin:.5em 0}
+section{padding:40px 0;border-bottom:1px solid var(--line)}
+.lede{color:var(--muted);max-width:70ch}
+.tldr{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--warm);border-radius:8px;padding:16px 20px;margin-top:24px}
+.tldr ul{margin:.4em 0 0;padding-left:1.2em}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:3px 12px;font-size:.85rem;color:var(--muted)}
+.diagram{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto;margin-top:16px}
+.diagram svg{min-width:760px;width:100%;height:auto;display:block}
+.cap{color:var(--muted);font-size:.9rem;margin-top:8px}
+svg text{fill:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:13px}
+svg .sub{fill:var(--muted);font-size:11px}
+svg .lbl{fill:var(--muted);font-size:11px}
+svg .box{fill:var(--surface2);stroke:var(--line);stroke-width:1.5}
+svg .u{stroke:var(--unity)} svg .g{stroke:var(--godot)} svg .ue{stroke:var(--unreal)}
+svg .core{stroke:var(--warm)}
+svg .arrow{stroke:var(--muted);stroke-width:1.5;fill:none}
+svg .dash{stroke-dasharray:5 4}
+svg .life{stroke:var(--line);stroke-width:1.5;stroke-dasharray:3 5}
+svg .head{fill:var(--surface2);stroke:var(--line);stroke-width:1.5}
+svg .loop{fill:none;stroke:var(--warm);stroke-width:1.2;stroke-dasharray:6 4}
+svg .tu{fill:var(--unity)} svg .tg{fill:var(--godot)} svg .tue{fill:var(--unreal)} svg .tw{fill:var(--warm)}
+svg marker path{fill:var(--muted)}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--line);border-radius:10px;padding:18px}
+.card.unity{border-top-color:var(--unity)} .card.godot{border-top-color:var(--godot)} .card.unreal{border-top-color:var(--unreal)} .card.mine{border-top-color:var(--mine)}
+.card h3 small{color:var(--muted);font-weight:400;font-size:.8rem;display:block}
+.pc h4{margin:.9em 0 .2em;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
+.pc h4.p{color:var(--pro)} .pc h4.c{color:var(--con)}
+.pc ul{margin:0;padding-left:1.1em;font-size:.93rem}
+.pc li{margin:.25em 0}
+.verdict{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);font-size:.9rem;color:var(--muted)}
+table{width:100%;border-collapse:collapse;margin-top:16px;font-size:.92rem;background:var(--surface);border-radius:8px;overflow:hidden}
+.tw{overflow-x:auto}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--surface2);font-weight:600}
+.step{display:flex;gap:14px;margin:14px 0}
+.step b.n{flex:none;width:34px;height:34px;border-radius:50%;background:var(--warm);color:#1a1205;display:grid;place-items:center}
+code{background:var(--surface2);padding:1px 6px;border-radius:4px;font-size:.88em}
+pre{background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:14px;overflow-x:auto;font-size:.85rem}
+footer{padding:30px 0 60px;color:var(--muted);font-size:.88rem}
+.warn{border-left:4px solid var(--con);background:var(--surface);padding:12px 16px;border-radius:6px;margin-top:16px;font-size:.93rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Bracken Isle · Gate 1 prototype</div>
+  <h1>Driving Blender with MCP, into Unity, Godot or Unreal</h1>
+  <p class="lede">Two diagrams, pros and cons for each engine, and a fourth option of my own. It's written for a solo developer with 4 weeks, a prototype that puts atmosphere first, heavy reliance on AI-generated procedural content, and a monthly token budget.</p>
+  <div class="chips">
+    <span class="chip">Solo dev</span><span class="chip">4 weeks</span><span class="chip">Prototype only (≈10 min)</span>
+    <span class="chip">Atmosphere first</span><span class="chip">Continues after week 4</span><span class="chip">$20–40 / month token budget</span>
+  </div>
+  <div class="tldr">
+    <strong>Short version</strong>
+    <ul>
+      <li>All three engines work with a Blender MCP. The real differences are <em>how well the engine side can be driven by text</em> and <em>how fast the edit loop is</em>.</li>
+      <li><strong>My proposal:</strong> a <em>script-first, manifest-driven</em> pipeline. Claude writes <code>bpy</code> scripts that live in your repo and run headless. Blender exports <code>.glb</code> plus a <code>manifest.json</code>, and one small importer script in the engine places everything. MCP is for look-dev only, not bulk work.</li>
+      <li><strong>Engine pick for this prototype:</strong> Godot 4 as the default, because its text-based scenes and GDScript suit AI editing and token economy. Choose Unity URP/HDRP if you already know it. Choose Unreal only if you want Lumen's look and accept the iteration cost.</li>
+    </ul>
+  </div>
+</header>
+
+<section id="d1">
+  <h2>Diagram 1 · Architecture: who talks to what</h2>
+  <p class="lede">One AI client drives two MCP servers: one for Blender, one for the engine. Assets cross between them as files on disk. The MCP servers never carry mesh data, which keeps tokens down and the pipeline engine-agnostic.</p>
+  <div class="diagram">
+  <svg viewBox="0 0 1000 600" role="img" aria-label="Architecture diagram: Claude client connects to Blender MCP and to three engine MCP servers; Blender exports files that all three engines import.">
+    <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z"/></marker></defs>
+
+    <!-- top row -->
+    <rect class="box core" x="30" y="40" width="170" height="74" rx="10"/>
+    <text x="115" y="72" text-anchor="middle" font-weight="600">You + AI client</text>
+    <text class="sub" x="115" y="92" text-anchor="middle">Claude Code / Desktop</text>
+
+    <rect class="box" x="260" y="40" width="190" height="74" rx="10"/>
+    <text x="355" y="72" text-anchor="middle" font-weight="600">Blender MCP server</text>
+    <text class="sub" x="355" y="92" text-anchor="middle">Python, stdio</text>
+
+    <rect class="box" x="510" y="40" width="190" height="74" rx="10"/>
+    <text x="605" y="72" text-anchor="middle" font-weight="600">Blender</text>
+    <text class="sub" x="605" y="92" text-anchor="middle">add-on, local socket, bpy</text>
+
+    <rect class="box core" x="760" y="40" width="210" height="74" rx="10"/>
+    <text x="865" y="72" text-anchor="middle" font-weight="600">Export folder</text>
+    <text class="sub" x="865" y="92" text-anchor="middle">.glb / .fbx + manifest.json</text>
+
+    <path class="arrow" marker-end="url(#a)" d="M200 77H258"/>
+    <path class="arrow" marker-end="url(#a)" d="M450 77H508"/>
+    <path class="arrow" marker-end="url(#a)" d="M700 77H758"/>
+    <text class="lbl" x="229" y="68" text-anchor="middle">MCP</text>
+    <text class="lbl" x="479" y="68" text-anchor="middle">JSON</text>
+    <text class="lbl" x="729" y="68" text-anchor="middle">export</text>
+
+    <!-- bus from client -->
+    <path class="arrow dash" d="M115 114V520"/>
+    <text class="lbl" x="105" y="300" text-anchor="end" transform="rotate(-90 105 300)">MCP (stdio / HTTP) to engine</text>
+
+    <!-- export spine -->
+    <path class="arrow dash" d="M865 114V520"/>
+    <text class="lbl" x="880" y="200">file import</text>
+
+    <!-- Unity lane -->
+    <rect x="30" y="230" width="940" height="100" rx="12" fill="none" stroke="var(--unity)" stroke-opacity=".35"/>
+    <text class="tu" x="46" y="250" font-weight="700" font-size="12">UNITY</text>
+    <rect class="box u" x="240" y="255" width="210" height="60" rx="10"/>
+    <text x="345" y="280" text-anchor="middle" font-weight="600">Unity MCP (community)</text>
+    <text class="sub" x="345" y="298" text-anchor="middle">C# editor bridge</text>
+    <rect class="box u" x="520" y="255" width="190" height="60" rx="10"/>
+    <text x="615" y="280" text-anchor="middle" font-weight="600">Unity Editor</text>
+    <text class="sub" x="615" y="298" text-anchor="middle">URP / HDRP · C#</text>
+    <path class="arrow" marker-end="url(#a)" d="M115 285H238"/>
+    <path class="arrow" marker-end="url(#a)" d="M450 285H518"/>
+    <path class="arrow" marker-end="url(#a)" d="M865 285H712"/>
+    <text class="lbl" x="790" y="277" text-anchor="middle">glTFast / FBX</text>
+
+    <!-- Godot lane -->
+    <rect x="30" y="345" width="940" height="100" rx="12" fill="none" stroke="var(--godot)" stroke-opacity=".35"/>
+    <text class="tg" x="46" y="365" font-weight="700" font-size="12">GODOT</text>
+    <rect class="box g" x="240" y="370" width="210" height="60" rx="10"/>
+    <text x="345" y="395" text-anchor="middle" font-weight="600">Godot MCP (community)</text>
+    <text class="sub" x="345" y="413" text-anchor="middle">editor plugin / headless CLI</text>
+    <rect class="box g" x="520" y="370" width="190" height="60" rx="10"/>
+    <text x="615" y="395" text-anchor="middle" font-weight="600">Godot 4 Editor</text>
+    <text class="sub" x="615" y="413" text-anchor="middle">GDScript · text .tscn scenes</text>
+    <path class="arrow" marker-end="url(#a)" d="M115 400H238"/>
+    <path class="arrow" marker-end="url(#a)" d="M450 400H518"/>
+    <path class="arrow" marker-end="url(#a)" d="M865 400H712"/>
+    <text class="lbl" x="790" y="392" text-anchor="middle">native glTF import</text>
+
+    <!-- Unreal lane -->
+    <rect x="30" y="460" width="940" height="100" rx="12" fill="none" stroke="var(--unreal)" stroke-opacity=".35"/>
+    <text class="tue" x="46" y="480" font-weight="700" font-size="12">UNREAL</text>
+    <rect class="box ue" x="240" y="485" width="210" height="60" rx="10"/>
+    <text x="345" y="510" text-anchor="middle" font-weight="600">Unreal MCP (community)</text>
+    <text class="sub" x="345" y="528" text-anchor="middle">Python / Remote Control API</text>
+    <rect class="box ue" x="520" y="485" width="190" height="60" rx="10"/>
+    <text x="615" y="510" text-anchor="middle" font-weight="600">Unreal Editor 5</text>
+    <text class="sub" x="615" y="528" text-anchor="middle">Blueprints / C++ · Lumen</text>
+    <path class="arrow" marker-end="url(#a)" d="M115 515H238"/>
+    <path class="arrow" marker-end="url(#a)" d="M450 515H518"/>
+    <path class="arrow" marker-end="url(#a)" d="M865 515H712"/>
+    <text class="lbl" x="790" y="507" text-anchor="middle">Interchange / FBX</text>
+
+    <text class="sub" x="500" y="588" text-anchor="middle">Dashed lines: shared buses. Solid lines: direct calls. Engine MCP servers are community projects, so check their current status before committing.</text>
+  </svg>
+  </div>
+</section>
+
+<section id="d2">
+  <h2>Diagram 2 · Sequence: one lighthouse asset, end to end</h2>
+  <p class="lede">The same loop applies to every engine. Build in Blender, <em>look</em> at it (screenshot), fix, export, import, <em>look</em> again. Only the engine-side import step differs.</p>
+  <div class="diagram">
+  <svg viewBox="0 0 1000 690" role="img" aria-label="Sequence diagram of building a lighthouse asset in Blender via MCP and importing it into an engine.">
+    <defs><marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z"/></marker></defs>
+    <!-- lifelines -->
+    <g>
+      <rect class="head" x="30" y="20" width="120" height="40" rx="8"/><text x="90" y="45" text-anchor="middle" font-weight="600">Claude</text>
+      <rect class="head" x="190" y="20" width="120" height="40" rx="8"/><text x="250" y="45" text-anchor="middle" font-weight="600">Blender MCP</text>
+      <rect class="head" x="350" y="20" width="120" height="40" rx="8"/><text x="410" y="45" text-anchor="middle" font-weight="600">Blender</text>
+      <rect class="head" x="510" y="20" width="120" height="40" rx="8"/><text x="570" y="45" text-anchor="middle" font-weight="600">Disk / repo</text>
+      <rect class="head" x="670" y="20" width="120" height="40" rx="8"/><text x="730" y="45" text-anchor="middle" font-weight="600">Engine MCP</text>
+      <rect class="head" x="830" y="20" width="120" height="40" rx="8"/><text x="890" y="45" text-anchor="middle" font-weight="600">Engine</text>
+    </g>
+    <path class="life" d="M90 60V500M250 60V500M410 60V500M570 60V500M730 60V500M890 60V500"/>
+
+    <!-- loop box -->
+    <rect class="loop" x="50" y="82" width="400" height="188" rx="8"/>
+    <text class="tw" x="60" y="99" font-size="11" font-weight="700">LOOP · until hazards and silhouette read clearly</text>
+
+    <path class="arrow" marker-end="url(#b)" d="M90 130H248"/>
+    <text class="lbl" x="170" y="122" text-anchor="middle">1 · run bpy script: build lamp room</text>
+    <path class="arrow" marker-end="url(#b)" d="M250 165H408"/>
+    <text class="lbl" x="330" y="157" text-anchor="middle">2 · socket command</text>
+    <path class="arrow dash" marker-end="url(#b)" d="M408 205H92"/>
+    <text class="lbl" x="250" y="197" text-anchor="middle">3 · viewport screenshot + object list</text>
+    <path class="arrow" marker-end="url(#b)" d="M90 245H248"/>
+    <text class="lbl" x="170" y="237" text-anchor="middle">4 · adjust scale, sightline, empties</text>
+
+    <!-- export -->
+    <path class="arrow" marker-end="url(#b)" d="M90 305H248"/>
+    <text class="lbl" x="170" y="297" text-anchor="middle">5 · export glTF + manifest</text>
+    <path class="arrow" marker-end="url(#b)" d="M250 335H408"/>
+    <path class="arrow" marker-end="url(#b)" d="M410 365H568"/>
+    <text class="lbl" x="490" y="357" text-anchor="middle">6 · write .glb + manifest.json</text>
+
+    <!-- import -->
+    <path class="arrow" marker-end="url(#b)" d="M90 405H728"/>
+    <text class="lbl" x="410" y="397" text-anchor="middle">7 · "import and place per manifest" (engine MCP tool or CLI)</text>
+    <path class="arrow" marker-end="url(#b)" d="M730 435H888"/>
+    <text class="lbl" x="810" y="427" text-anchor="middle">8 · editor command</text>
+    <path class="arrow dash" marker-end="url(#b)" d="M888 465H572"/>
+    <text class="lbl" x="730" y="457" text-anchor="middle">9 · engine reads .glb + manifest</text>
+    <path class="arrow dash" marker-end="url(#b)" d="M890 495H92"/>
+    <text class="lbl" x="490" y="487" text-anchor="middle">10 · in-engine screenshot / log: fog, light, scale check, then back to step 1 if wrong</text>
+
+    <!-- engine specifics -->
+    <rect class="box u" x="30" y="525" width="300" height="140" rx="10"/>
+    <text class="tu" x="46" y="548" font-weight="700">UNITY at step 9</text>
+    <text class="sub" x="46" y="570">AssetDatabase.Refresh() then import</text>
+    <text class="sub" x="46" y="588">AssetPostprocessor reads manifest extras</text>
+    <text class="sub" x="46" y="606">Domain reload on every C# change (slow)</text>
+    <text class="sub" x="46" y="624">Needs glTFast (or use FBX)</text>
+    <text class="sub" x="46" y="642">Loop: roughly 10–30 s</text>
+
+    <rect class="box g" x="350" y="525" width="300" height="140" rx="10"/>
+    <text class="tg" x="366" y="548" font-weight="700">GODOT at step 9</text>
+    <text class="sub" x="366" y="570">Auto-reimport on window focus</text>
+    <text class="sub" x="366" y="588">Post-import script reads glTF extras</text>
+    <text class="sub" x="366" y="606">Scene is plain text, so diffs are easy</text>
+    <text class="sub" x="366" y="624">glTF is a first-class format</text>
+    <text class="sub" x="366" y="642">Loop: roughly 2–5 s</text>
+
+    <rect class="box ue" x="670" y="525" width="300" height="140" rx="10"/>
+    <text class="tue" x="686" y="548" font-weight="700">UNREAL at step 9</text>
+    <text class="sub" x="686" y="570">Python + Interchange import pipeline</text>
+    <text class="sub" x="686" y="588">Placement through Python or Blueprint</text>
+    <text class="sub" x="686" y="606">Shader compile and cook add wait time</text>
+    <text class="sub" x="686" y="624">Large editor RAM and disk footprint</text>
+    <text class="sub" x="686" y="642">Loop: roughly 30–120 s</text>
+  </svg>
+  </div>
+  <p class="cap">Loop times are rough, experience-based estimates for a small project, not benchmarks. Screenshots in steps 3 and 10 are the most token-expensive calls, so keep them low-resolution and use them sparingly.</p>
+</section>
+
+<section id="pc">
+  <h2>Pros and cons per interaction</h2>
+  <p class="lede">Ratings are judged against <em>your</em> constraints: solo, 4 weeks, atmosphere first, AI-heavy, token-limited, and a project that carries on past the prototype.</p>
+  <div class="grid">
+
+    <div class="card unity pc">
+      <h3>Blender → Unity <small>Blender MCP + Unity MCP · C#</small></h3>
+      <h4 class="p">Pros</h4>
+      <ul>
+        <li>C# is strongly represented in AI training data, so generated gameplay code is generally reliable.</li>
+        <li>Asset Store covers the gaps: water, weather, fog, stylised ocean shaders.</li>
+        <li>HDRP gives volumetric fog, a water system and strong lighting for storm mood.</li>
+        <li>Mature Steam pipeline and controller support (Input System).</li>
+        <li>Boat physics via Rigidbody and buoyancy assets are well documented.</li>
+      </ul>
+      <h4 class="c">Cons</h4>
+      <ul>
+        <li>Scenes, prefabs and materials are YAML with GUIDs. AI edits to them are fragile, so you depend on the MCP bridge or editor scripts.</li>
+        <li>Domain reload after each script change makes the loop slow, and slow loops burn tokens.</li>
+        <li>URP vs HDRP is a one-way door. HDRP looks best but is heavier, and you pay for it in setup.</li>
+        <li>glTF needs a package. FBX loses custom properties unless you plan for it.</li>
+        <li>Unity MCP packages are community-maintained and vary a lot in maturity.</li>
+        <li>Licensing and pricing history makes some developers cautious. Check current terms.</li>
+      </ul>
+      <div class="verdict"><strong>Verdict:</strong> a safe, well-trodden path. It is best if you already know Unity.</div>
+    </div>
+
+    <div class="card godot pc">
+      <h3>Blender → Godot <small>Blender MCP + Godot MCP · GDScript</small></h3>
+      <h4 class="p">Pros</h4>
+      <ul>
+        <li><code>.tscn</code>, <code>.tres</code> and <code>.gd</code> are plain text, so AI can read and edit scenes directly, which cuts reliance on screenshots and tokens.</li>
+        <li>Fastest iteration loop: seconds, with a tiny editor and instant script reload.</li>
+        <li>Native glTF import with extras exposed to post-import scripts, and Blender's glTF exporter fits it well.</li>
+        <li>Forward+ renderer has volumetric fog, glow, SSR and SDFGI, which is enough for blue-grey storm mood.</li>
+        <li>Free, MIT, no royalties, and a small export footprint for Steam.</li>
+        <li>You can keep tweaking it after week 4 without license concerns.</li>
+      </ul>
+      <h4 class="c">Cons</h4>
+      <ul>
+        <li>No built-in ocean or buoyancy. You write or adapt a wave shader and fake the boat's float.</li>
+        <li>Smaller asset ecosystem and fewer ready-made weather systems.</li>
+        <li>GDScript has less training data than C#, so expect more hallucinated APIs. Pin to the Godot 4.x docs in your prompt.</li>
+        <li>Godot MCP servers are young and fast-moving, and you may end up patching one.</li>
+        <li>Top-end lighting is below Unreal and HDRP, and you cannot brute-force realism.</li>
+      </ul>
+      <div class="verdict"><strong>Verdict:</strong> the best fit for a solo, token-limited, atmosphere-first prototype.</div>
+    </div>
+
+    <div class="card unreal pc">
+      <h3>Blender → Unreal <small>Blender MCP + Unreal MCP · Blueprints / C++ / Python</small></h3>
+      <h4 class="p">Pros</h4>
+      <ul>
+        <li>Best out-of-the-box atmosphere: Lumen, volumetric fog and clouds, Niagara rain, sky and lightning.</li>
+        <li>Water plugin and Chaos buoyancy cover the boat and sea.</li>
+        <li>Lumen and Nanite save hand-tuned lighting and LODs, which suits a small, moody scene.</li>
+        <li>Editor Python scripting exposes a lot of automation to an MCP.</li>
+      </ul>
+      <h4 class="c">Cons</h4>
+      <ul>
+        <li>Blueprints are binary graphs. AI cannot read or diff them well, so you fall back to C++ or Python, and your iteration cost rises.</li>
+        <li>C++ compile cycles, shader compiles and cooking make every loop slow.</li>
+        <li>Heavy install and RAM, and a lot of configuration surface for one person.</li>
+        <li>A 4-week prototype is likely to be spent fighting the tooling rather than polishing mood.</li>
+        <li>Unreal MCP tooling is the least mature of the three, so expect gaps.</li>
+        <li>5% royalty above the revenue threshold. Check current terms.</li>
+      </ul>
+      <div class="verdict"><strong>Verdict:</strong> the best-looking ceiling and the worst fit for a solo 4-week sprint. A reasonable later port target.</div>
+    </div>
+
+    <div class="card mine pc">
+      <h3>Proposal: Script-first, manifest-driven <small>Blender headless + MCP for look-dev + thin engine importer</small></h3>
+      <h4 class="p">Pros</h4>
+      <ul>
+        <li><strong>Reproducible.</strong> Claude writes <code>bpy</code> scripts into your repo, and re-running one is free. A live MCP session pays tokens every time.</li>
+        <li><strong>Engine-agnostic.</strong> The manifest is the contract. Switching engines after the week 1 spike costs one importer, not a rebuild.</li>
+        <li><strong>Gameplay data lives in Blender.</strong> Empties named <code>HAZ_rock_03</code>, <code>ANCHOR_lamp</code>, <code>SPAWN_boat</code> or <code>SIGHT_ship</code> carry hazard placement, boat spawn and the lamp-room sightline into the engine.</li>
+        <li><strong>Fits the pillars.</strong> Hazard density and sightlines are authored data you can retune, which supports "dread you can read".</li>
+        <li><strong>Cheap to continue after week 4.</strong> New modules re-run the same scripts.</li>
+      </ul>
+      <h4 class="c">Cons</h4>
+      <ul>
+        <li>Up-front cost: the manifest schema and importer take about a day or two in week 1.</li>
+        <li>Less "magic". You will not watch the model being sculpted live, so look-dev still needs MCP sessions.</li>
+        <li>Procedural bpy modelling gives modular and brutalist forms well. Organic rocks and cliffs need noise and displacement tricks, or scanned assets.</li>
+        <li>You maintain the scripts, and the discipline of keeping them tidy is yours.</li>
+      </ul>
+      <div class="verdict"><strong>Verdict:</strong> recommended. It works with any of the three engines.</div>
+    </div>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>Criterion (for you)</th><th>Unity</th><th>Godot</th><th>Unreal</th></tr></thead>
+    <tbody>
+      <tr><td>AI can edit scenes as text</td><td>Poor</td><td><strong>Excellent</strong></td><td>Poor</td></tr>
+      <tr><td>Iteration speed</td><td>Medium</td><td><strong>Fast</strong></td><td>Slow</td></tr>
+      <tr><td>Out-of-box atmosphere</td><td>Good (HDRP)</td><td>Good</td><td><strong>Excellent</strong></td></tr>
+      <tr><td>Boat / ocean readiness</td><td>Good (assets)</td><td>DIY</td><td>Good (Water plugin)</td></tr>
+      <tr><td>AI code reliability</td><td>High (C#)</td><td>Medium (GDScript)</td><td>Medium (C++/BP)</td></tr>
+      <tr><td>Token cost per feature</td><td>Medium</td><td><strong>Low</strong></td><td>High</td></tr>
+      <tr><td>Solo-dev overhead</td><td>Medium</td><td><strong>Low</strong></td><td>High</td></tr>
+      <tr><td>MCP maturity (Blender side)</td><td colspan="3">Same for all: the Blender MCP is shared</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="warn"><strong>Check before committing.</strong> Engine MCP servers are community projects that change quickly, and ratings above reflect general engine traits rather than a benchmark of any specific server. Spend the first day of week 1 testing one candidate per engine for an hour each.</div>
+</section>
+
+<section id="plan">
+  <h2>The proposal in practice</h2>
+  <p class="lede">Built around your constraints, with atmosphere work protected from being squeezed out.</p>
+
+  <h3 style="margin-top:20px">The manifest contract</h3>
+<pre>{
+  "asset": "lighthouse_lamp_room",
+  "file": "lighthouse_lamp_room.glb",
+  "anchors": [
+    {"name": "ANCHOR_lamp",  "type": "burner_socket", "pos": [0, 1.2, 0]},
+    {"name": "SIGHT_ship",   "type": "sightline",     "target": "ship_route_end"},
+    {"name": "HAZ_rock_03",  "type": "hazard",        "radius": 4.0, "phase": "return"}
+  ],
+  "collision": "auto_convex_proxy",
+  "notes": "Windows must keep a clear line to the island rocks (fail-state contract)."
+}</pre>
+
+  <h3>Four-week plan</h3>
+  <div class="step"><b class="n">1</b><div><strong>Week 1 · Pipeline spike and steering.</strong> Run an hour-long MCP test per engine and pick one. Block out the lighthouse, boat and a rock field with greybox scripts. Build the manifest importer. <em>Go/no-go: is steering fun and are hazards readable?</em></div></div>
+  <div class="step"><b class="n">2</b><div><strong>Week 2 · Crossings.</strong> Outbound and return routes, hazard density by phase, ship deadline hidden clock, Jeff's placeholder shouted directions, sea surface as atmosphere only (no wave physics).</div></div>
+  <div class="step"><b class="n">3</b><div><strong>Week 3 · Lighthouse and story beats.</strong> Two repairs, window sightline to the rowboat, gate, boarding, burner pickup, final repair, win and fail outcomes. Lock Ted's presence by the end of this week.</div></div>
+  <div class="step"><b class="n">4</b><div><strong>Week 4 · Atmosphere pass.</strong> Fog falloff, lightning, rain, ship lights approaching, buoy bells, foghorn, lamp beam. Placeholder audio replaced where cheap. Keep a buffer for bugs. Waves stay a stretch goal and are cut first.</div></div>
+
+  <h3 style="margin-top:20px">Making a monthly token budget last</h3>
+  <ul>
+    <li>Write <code>bpy</code> and engine scripts once, commit them, and re-run them. Don't regenerate meshes through chat.</li>
+    <li>Use MCP for <em>look-dev</em>: lighting, fog and composition checks. Use scripts for bulk work.</li>
+    <li>Take screenshots at low resolution and only after meaningful changes. Prefer text queries ("list objects", "dump scene tree") over images.</li>
+    <li>Keep a <code>CLAUDE.md</code> with engine version, naming conventions, the manifest schema and the pillars so each session starts with context rather than re-explaining.</li>
+    <li>Use a cheaper model for boilerplate and a stronger one for steering feel, state machines and debugging.</li>
+    <li>If the budget runs short late in the month, queue pure-Blender work for headless scripts and save the engine-MCP sessions for the atmosphere pass.</li>
+  </ul>
+
+  <h3 style="margin-top:20px">Atmosphere is mostly engine-side</h3>
+  <p>The mood comes from fog density, light colour, lightning flashes, rain, sound design and the beam, not from mesh detail. Don't spend Blender tokens on fine geometry. Keep the Blender output modular and low-poly with good silhouettes, and put your effort into lighting and audio.</p>
+</section>
+
+<footer>
+  Prepared for the Bracken Isle prototype (Gate 1). Treat engine and MCP details as a starting point, since the tooling changes quickly. Host by placing this <code>index.html</code> at the root of a GitHub Pages branch.
+</footer>
+</div>
+</body>
+</html>
