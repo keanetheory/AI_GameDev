@@ -1,0 +1,64 @@
+{
+  "verdict": "PASS",
+  "pillar_checks": [
+    {
+      "check": "1. The light must return",
+      "result": "pass",
+      "evidence": "Route ends at DOCK_LIGHTHOUSE; arrival line sends the player to the lamp."
+    },
+    {
+      "check": "2. The storm sets the clock",
+      "result": "pass",
+      "evidence": "No timer words in any line; urgency carried by storm notes and density."
+    },
+    {
+      "check": "3. Your hands, your eyes",
+      "result": "pass",
+      "evidence": "Guidance is Jeff's voice only (JEFF_RET_01, JEFF_RET_02, JEFF_RET_03, JEFF_RET_04, JEFF_RET_05); no markers."
+    },
+    {
+      "check": "4. Dread you can read",
+      "result": "pass",
+      "evidence": "Every hazard has a readability cue; one safe lane per segment."
+    }
+  ],
+  "decisions_log_checks": [
+    {
+      "check": "Storm split",
+      "result": "pass",
+      "evidence": "hazard_density rises with segment index only."
+    },
+    {
+      "check": "No waves",
+      "result": "pass",
+      "evidence": "allowed_hazards = rock, reef, buoy, debris."
+    },
+    {
+      "check": "Single safe route",
+      "result": "pass",
+      "evidence": "5 segments, one safe_lane each."
+    },
+    {
+      "check": "Jeff never disagrees",
+      "result": "pass",
+      "evidence": "Every call direction equals its segment's safe_lane."
+    },
+    {
+      "check": "No visible timer",
+      "result": "pass",
+      "evidence": "Deadline is never referenced numerically."
+    },
+    {
+      "check": "Recoverable collisions",
+      "result": "pass",
+      "evidence": "Every segment has a SAFE_<seg> recovery point."
+    }
+  ],
+  "issues": [],
+  "open_creator_decisions": [
+    "Exact collision time cost (loose for Gate 1)",
+    "Deadline length after return-crossing playtest",
+    "Creator to approve Jeff's voice before recording"
+  ],
+  "handoff_summary": "Return-crossing data for Gate 1: 5 segments, 15 hazards, 5 Jeff calls. All contract checks pass. Feel, pacing and voice need creator playtesting."
+}
