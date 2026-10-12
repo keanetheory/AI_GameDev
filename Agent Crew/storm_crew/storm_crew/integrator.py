@@ -111,7 +111,7 @@ None. Uses the stable IDs and events from the Technical Strategy.
 """)
     (out / "REPORT.md").write_text(f"""# REPORT - GATE1_RETURN_CROSSING
 
-**What was delegated:** brief (Production Orchestrator), hazard forecast (Hazard Forecast Designer), Jeff calls (Companion Dialogue Writer), canon review (Canon and Review Orchestrator).
+**What was delegated:** brief (Production Orchestrator), hazard forecast (Hazard Forecast agent), Jeff calls (Dialogue agent), canon review (Canon and Review Orchestrator).
 
 **What came back:** {len(data['segments'])} segments, {n_hz} hazards, {len(data['segments'])} Jeff calls, review verdict {r.verdict}.
 

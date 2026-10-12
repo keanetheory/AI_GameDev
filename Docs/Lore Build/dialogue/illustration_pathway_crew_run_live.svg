@@ -1,0 +1,288 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1185" width="1600" height="1185">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#14161C"/><stop offset="1" stop-color="#0E0E10"/></linearGradient></defs>
+<rect width="1600" height="1185" fill="url(#sky)"/>
+<text x="30" y="52" font-family="Georgia, serif" font-size="30" fill="#C07A1E" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="2">FROM PROMPT, THROUGH THE AGENT CREW, TO THE GAME</text>
+<text x="30" y="80" font-family="'Segoe UI', Arial, sans-serif" font-size="16" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Evidence from a live run: a real model wrote the dialogue through the new Dialogue task and the checks it reuses</text>
+<text x="30" y="126" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#C07A1E" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="2">1  YOUR PROMPTS</text>
+<text x="30" y="142" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#6B6B66" font-weight="normal" text-anchor="start" font-style="italic" letter-spacing="0">what was asked</text>
+<text x="310" y="126" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#C07A1E" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="2">2  CANON READ</text>
+<text x="310" y="142" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#6B6B66" font-weight="normal" text-anchor="start" font-style="italic" letter-spacing="0">sources and rules</text>
+<text x="610" y="126" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#C07A1E" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="2">3  OPENING DIALOGUE CREW</text>
+<text x="610" y="142" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#6B6B66" font-weight="normal" text-anchor="start" font-style="italic" letter-spacing="0">three CrewAI agents, each gated</text>
+<text x="1080" y="126" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#C07A1E" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="2">4  FINAL GATE</text>
+<text x="1080" y="142" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#6B6B66" font-weight="normal" text-anchor="start" font-style="italic" letter-spacing="0">re-check, then write files</text>
+<text x="1340" y="126" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#C07A1E" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="2">5  RESULTS</text>
+<text x="1340" y="142" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#6B6B66" font-weight="normal" text-anchor="start" font-style="italic" letter-spacing="0">what the game gets</text>
+<rect x="30" y="150" width="250" height="196" rx="9" fill="#15181F" stroke="#C07A1E" stroke-width="2"/>
+<text x="44" y="176" font-family="Georgia, serif" font-size="15" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">Request 1</text>
+<circle cx="46" cy="198" r="2.5" fill="#6B6B66"/>
+<text x="56" y="202" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Dialogue options from the GDD</text>
+<circle cx="46" cy="219" r="2.5" fill="#6B6B66"/>
+<text x="56" y="223" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">and the Lore Build folder</text>
+<circle cx="46" cy="240" r="2.5" fill="#6B6B66"/>
+<text x="56" y="244" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Ted introduces the setting and</text>
+<circle cx="46" cy="261" r="2.5" fill="#6B6B66"/>
+<text x="56" y="265" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">steps: coal, sailors, burner</text>
+<circle cx="46" cy="282" r="2.5" fill="#6B6B66"/>
+<text x="56" y="286" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Follow the Agent Crew's style</text>
+<circle cx="46" cy="303" r="2.5" fill="#6B6B66"/>
+<text x="56" y="307" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Godot 4 files + illustration</text>
+<rect x="30" y="360" width="250" height="142" rx="9" fill="#15181F" stroke="#B8962E" stroke-width="2"/>
+<text x="44" y="386" font-family="Georgia, serif" font-size="15" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">Request 2</text>
+<circle cx="46" cy="408" r="2.5" fill="#6B6B66"/>
+<text x="56" y="412" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Call the player “the new guy”</text>
+<circle cx="46" cy="429" r="2.5" fill="#6B6B66"/>
+<text x="56" y="433" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Ted's position is fine</text>
+<circle cx="46" cy="450" r="2.5" fill="#6B6B66"/>
+<text x="56" y="454" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Visualise the pathway</text>
+<rect x="30" y="516" width="250" height="220" rx="9" fill="#15181F" stroke="#C07A1E" stroke-width="3"/>
+<text x="44" y="542" font-family="Georgia, serif" font-size="15" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">Request 3 (this run)</text>
+<circle cx="46" cy="564" r="2.5" fill="#6B6B66"/>
+<text x="56" y="568" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Add a Dialogue task to storm_crew</text>
+<circle cx="46" cy="585" r="2.5" fill="#6B6B66"/>
+<text x="56" y="589" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Reuse the same checks</text>
+<circle cx="46" cy="606" r="2.5" fill="#6B6B66"/>
+<text x="56" y="610" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Rerun the dialogue generation</text>
+<circle cx="46" cy="627" r="2.5" fill="#6B6B66"/>
+<text x="56" y="631" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">through them, using the</text>
+<circle cx="46" cy="648" r="2.5" fill="#6B6B66"/>
+<text x="56" y="652" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Anthropic API key</text>
+<circle cx="46" cy="669" r="2.5" fill="#6B6B66"/>
+<text x="56" y="673" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Then visualise the pathway</text>
+<rect x="310" y="150" width="270" height="92" rx="9" fill="#15181F" stroke="#C07A1E" stroke-width="2"/>
+<text x="324" y="175" font-family="Georgia, serif" font-size="14" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">GDD</text>
+<circle cx="326" cy="194" r="2.5" fill="#6B6B66"/>
+<text x="336" y="198" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Exec Summary: step table</text>
+<circle cx="326" cy="213" r="2.5" fill="#6B6B66"/>
+<text x="336" y="217" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">ship reveal at boarding</text>
+<circle cx="326" cy="232" r="2.5" fill="#6B6B66"/>
+<text x="336" y="236" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">player never speaks</text>
+<rect x="310" y="256" width="270" height="128" rx="9" fill="#15181F" stroke="#B9BEC4" stroke-width="2"/>
+<text x="324" y="281" font-family="Georgia, serif" font-size="14" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">Lore Build</text>
+<circle cx="326" cy="300" r="2.5" fill="#6B6B66"/>
+<text x="336" y="304" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Ted, Jeff, Daniel, player files</text>
+<circle cx="326" cy="319" r="2.5" fill="#6B6B66"/>
+<text x="336" y="323" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">style guide, pillars</text>
+<circle cx="326" cy="338" r="2.5" fill="#6B6B66"/>
+<text x="336" y="342" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">regions, steam power, coastfolk</text>
+<rect x="310" y="398" width="270" height="138" rx="9" fill="#15181F" stroke="#B8962E" stroke-width="2"/>
+<text x="324" y="423" font-family="Georgia, serif" font-size="14" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">Agent Crew (reused)</text>
+<circle cx="326" cy="442" r="2.5" fill="#6B6B66"/>
+<text x="336" y="446" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">roles.py: Dialogue agent</text>
+<circle cx="326" cy="461" r="2.5" fill="#6B6B66"/>
+<text x="336" y="465" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">schemas.py + validators.py</text>
+<circle cx="326" cy="480" r="2.5" fill="#6B6B66"/>
+<text x="336" y="484" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">TIMER_WORDS, 'SPEAKER:' subtitles</text>
+<circle cx="326" cy="499" r="2.5" fill="#6B6B66"/>
+<text x="336" y="503" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">guardrail + retry pattern</text>
+<rect x="310" y="550" width="270" height="120" rx="9" fill="#15181F" stroke="#C07A1E" stroke-width="2.5"/>
+<text x="324" y="575" font-family="Georgia, serif" font-size="14" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">canon.py (new block)</text>
+<circle cx="326" cy="594" r="2.5" fill="#6B6B66"/>
+<text x="336" y="598" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">3 voices, 3 steps</text>
+<circle cx="326" cy="613" r="2.5" fill="#6B6B66"/>
+<text x="336" y="617" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">30 event IDs</text>
+<circle cx="326" cy="632" r="2.5" fill="#6B6B66"/>
+<text x="336" y="636" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">17 dialogue rules</text>
+<line x1="280" y1="248" x2="302" y2="196" stroke="#6B6B66" stroke-width="2.5"/>
+<polygon points="310,196 298,190 298,202" fill="#6B6B66"/>
+<line x1="280" y1="248" x2="302" y2="320" stroke="#6B6B66" stroke-width="2.5"/>
+<polygon points="310,320 298,314 298,326" fill="#6B6B66"/>
+<line x1="280" y1="248" x2="302" y2="466" stroke="#6B6B66" stroke-width="2.5"/>
+<polygon points="310,466 298,460 298,472" fill="#6B6B66"/>
+<line x1="280" y1="626" x2="302" y2="610" stroke="#C07A1E" stroke-width="2.5"/>
+<polygon points="310,610 298,604 298,616" fill="#C07A1E"/>
+<rect x="610" y="150" width="440" height="619" rx="9" fill="#12161B" stroke="#C07A1E" stroke-width="3"/>
+<rect x="630" y="168" width="400" height="70" rx="9" fill="#15181F" stroke="#B8962E" stroke-width="2"/>
+<text x="644" y="194" font-family="Georgia, serif" font-size="15" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">1  Production Orchestrator</text>
+<text x="644" y="216" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">writes DialogueBrief: 30 events, limit 22 words, player term</text>
+<rect x="644" y="248" width="252" height="24" rx="12.0" fill="#6FA37A" stroke="#6FA37A" stroke-width="0"/>
+<text x="770.0" y="264.5" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#0E0E10" font-weight="bold" text-anchor="middle" font-style="normal" letter-spacing="0">Guardrail 1 · attempt 1 · PASS</text>
+<rect x="630" y="286" width="400" height="70" rx="9" fill="#15181F" stroke="#B8962E" stroke-width="2"/>
+<text x="644" y="312" font-family="Georgia, serif" font-size="15" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">2  Dialogue agent  (the new Dialogue task)</text>
+<text x="644" y="334" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">writes OpeningDialogue: 56 lines, 3 journal entries</text>
+<line x1="830.0" y1="272" x2="830.0" y2="286" stroke="#C07A1E" stroke-width="2"/>
+<rect x="630" y="366" width="400" height="253" rx="9" fill="#101216" stroke="#2C3A40" stroke-width="1.5"/>
+<text x="644" y="390" font-family="'Segoe UI', Arial, sans-serif" font-size="13.5" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">Guardrail 2 = check_dialogue (reused checks)</text>
+<rect x="644" y="402" width="232" height="24" rx="12.0" fill="#C9605A" stroke="#C9605A" stroke-width="0"/>
+<text x="760.0" y="418.5" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#0E0E10" font-weight="bold" text-anchor="middle" font-style="normal" letter-spacing="0">attempt 1 · BLOCKED · 1 errors</text>
+<text x="650" y="444" font-family="Consolas, monospace" font-size="11.5" fill="#E3A29D" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">1 x reply was not valid JSON</text>
+<rect x="644" y="461" width="232" height="24" rx="12.0" fill="#C9605A" stroke="#C9605A" stroke-width="0"/>
+<text x="760.0" y="477.5" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#0E0E10" font-weight="bold" text-anchor="middle" font-style="normal" letter-spacing="0">attempt 2 · BLOCKED · 28 errors</text>
+<text x="650" y="503" font-family="Consolas, monospace" font-size="11.5" fill="#E3A29D" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">14 x events with no line</text>
+<text x="650" y="520" font-family="Consolas, monospace" font-size="11.5" fill="#E3A29D" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">11 x unknown trigger IDs</text>
+<text x="650" y="537" font-family="Consolas, monospace" font-size="11.5" fill="#E3A29D" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">1 x gendered address</text>
+<text x="650" y="554" font-family="Consolas, monospace" font-size="11.5" fill="#E3A29D" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">1 x incomplete nudge ladders</text>
+<rect x="644" y="571" width="232" height="24" rx="12.0" fill="#6FA37A" stroke="#6FA37A" stroke-width="0"/>
+<text x="760.0" y="587.5" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#0E0E10" font-weight="bold" text-anchor="middle" font-style="normal" letter-spacing="0">attempt 3 · PASS · 0 errors</text>
+<text x="898" y="426" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" fill="#C9605A" font-weight="normal" text-anchor="start" font-style="italic" letter-spacing="0">errors are fed</text>
+<text x="898" y="442" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" fill="#C9605A" font-weight="normal" text-anchor="start" font-style="italic" letter-spacing="0">back to the agent</text>
+<text x="898" y="458" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" fill="#C9605A" font-weight="normal" text-anchor="start" font-style="italic" letter-spacing="0">which retries</text>
+<path d="M1022 406 V322 H1030" fill="none" stroke="#C9605A" stroke-width="2.5" stroke-dasharray="6 4"/>
+<polygon points="1018,322 1030,316 1030,328" fill="#C9605A"/>
+<rect x="630" y="633" width="400" height="70" rx="9" fill="#15181F" stroke="#B8962E" stroke-width="2"/>
+<text x="644" y="659" font-family="Georgia, serif" font-size="15" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">3  Canon and Review Orchestrator</text>
+<text x="644" y="681" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#C9605A" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">verdict REVISE: 11 of 13 checks pass, 6 issues</text>
+<line x1="830.0" y1="619" x2="830.0" y2="633" stroke="#C07A1E" stroke-width="2"/>
+<rect x="644" y="713" width="252" height="24" rx="12.0" fill="#6FA37A" stroke="#6FA37A" stroke-width="0"/>
+<text x="770.0" y="729.5" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#0E0E10" font-weight="bold" text-anchor="middle" font-style="normal" letter-spacing="0">Guardrail 3 · attempt 1 · PASS</text>
+<text x="906" y="729" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#6B6B66" font-weight="normal" text-anchor="start" font-style="italic" letter-spacing="0">(verdict is</text>
+<text x="906" y="743" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#6B6B66" font-weight="normal" text-anchor="start" font-style="italic" letter-spacing="0">consistent)</text>
+<line x1="580" y1="610" x2="602" y2="203" stroke="#C07A1E" stroke-width="2.5"/>
+<polygon points="610,203 598,197 598,209" fill="#C07A1E"/>
+<line x1="580" y1="610" x2="602" y2="321" stroke="#C07A1E" stroke-width="2.5"/>
+<polygon points="610,321 598,315 598,327" fill="#C07A1E"/>
+<line x1="580" y1="610" x2="602" y2="668" stroke="#C07A1E" stroke-width="2.5"/>
+<polygon points="610,668 598,662 598,674" fill="#C07A1E"/>
+<rect x="1080" y="150" width="230" height="176" rx="9" fill="#15181F" stroke="#C07A1E" stroke-width="3"/>
+<text x="1094" y="176" font-family="Consolas, monospace" font-size="13.5" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">dialogue_integrator.py</text>
+<circle cx="1096" cy="198" r="2.5" fill="#6B6B66"/>
+<text x="1106" y="202" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">re-runs every check</text>
+<circle cx="1096" cy="217" r="2.5" fill="#6B6B66"/>
+<text x="1106" y="221" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">end to end, then writes</text>
+<circle cx="1096" cy="236" r="2.5" fill="#6B6B66"/>
+<text x="1106" y="240" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">the files. A REVISE</text>
+<circle cx="1096" cy="255" r="2.5" fill="#6B6B66"/>
+<text x="1106" y="259" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">verdict is flagged</text>
+<circle cx="1096" cy="274" r="2.5" fill="#6B6B66"/>
+<text x="1106" y="278" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">needs_revision</text>
+<line x1="1050" y1="668" x2="1072" y2="238" stroke="#C07A1E" stroke-width="2.5"/>
+<polygon points="1080,238 1068,232 1068,244" fill="#C07A1E"/>
+<rect x="1080" y="346" width="230" height="423" rx="9" fill="#1A1214" stroke="#C9605A" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="1094" y="372" font-family="Georgia, serif" font-size="15" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">Negative test</text>
+<text x="1094" y="392" font-family="Consolas, monospace" font-size="11.5" fill="#E3A29D" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">offline crew, --max-words 12</text>
+<rect x="1094" y="408" width="200" height="22" rx="11.0" fill="#C9605A" stroke="#C9605A" stroke-width="0"/>
+<text x="1194.0" y="423.5" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" fill="#0E0E10" font-weight="bold" text-anchor="middle" font-style="normal" letter-spacing="0">write attempt 1 · 38 errors</text>
+<rect x="1094" y="438" width="200" height="22" rx="11.0" fill="#C9605A" stroke="#C9605A" stroke-width="0"/>
+<text x="1194.0" y="453.5" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" fill="#0E0E10" font-weight="bold" text-anchor="middle" font-style="normal" letter-spacing="0">write attempt 2 · 34 errors</text>
+<rect x="1094" y="468" width="200" height="22" rx="11.0" fill="#C9605A" stroke="#C9605A" stroke-width="0"/>
+<text x="1194.0" y="483.5" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" fill="#0E0E10" font-weight="bold" text-anchor="middle" font-style="normal" letter-spacing="0">write attempt 3 · 34 errors</text>
+<rect x="1094" y="498" width="200" height="22" rx="11.0" fill="#C9605A" stroke="#C9605A" stroke-width="0"/>
+<text x="1194.0" y="513.5" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" fill="#0E0E10" font-weight="bold" text-anchor="middle" font-style="normal" letter-spacing="0">write attempt 4 · 34 errors</text>
+<text x="1094" y="548" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">pipeline stops</text>
+<circle cx="1096" cy="568" r="2.5" fill="#6B6B66"/>
+<text x="1106" y="572" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">no dialogue_opening.json</text>
+<circle cx="1096" cy="587" r="2.5" fill="#6B6B66"/>
+<text x="1106" y="591" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">only REPORT.md says why</text>
+<circle cx="1096" cy="606" r="2.5" fill="#6B6B66"/>
+<text x="1106" y="610" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">the gate really blocks</text>
+<rect x="1340" y="150" width="230" height="300" rx="9" fill="#15181F" stroke="#C07A1E" stroke-width="3"/>
+<text x="1354" y="176" font-family="Georgia, serif" font-size="15" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">Files written</text>
+<rect x="1354" y="186" width="200" height="22" rx="11.0" fill="#C9605A" stroke="#C9605A" stroke-width="0"/>
+<text x="1454.0" y="201.5" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" fill="#0E0E10" font-weight="bold" text-anchor="middle" font-style="normal" letter-spacing="0">status: needs_revision</text>
+<text x="1354" y="236" font-family="Consolas, monospace" font-size="12" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">dialogue_opening.json</text>
+<text x="1354" y="253" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">56 lines (Ted 23, Jeff 25, Daniel 8)</text>
+<text x="1354" y="276" font-family="Consolas, monospace" font-size="12" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">DIALOGUE_OPENING.md</text>
+<text x="1354" y="293" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">review list for the creator</text>
+<text x="1354" y="316" font-family="Consolas, monospace" font-size="12" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">run_log.json</text>
+<text x="1354" y="333" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">5 guardrail attempts</text>
+<text x="1354" y="356" font-family="Consolas, monospace" font-size="12" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">HANDOFF.md + REPORT.md</text>
+<text x="1354" y="373" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">fixed-format notes</text>
+<text x="1354" y="396" font-family="Consolas, monospace" font-size="12" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">handoffs/*.json</text>
+<text x="1354" y="413" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">each agent's output</text>
+<line x1="1310" y1="238" x2="1332" y2="238" stroke="#C07A1E" stroke-width="2.5"/>
+<polygon points="1340,238 1328,232 1328,244" fill="#C07A1E"/>
+<rect x="1340" y="468" width="230" height="301" rx="9" fill="#15181F" stroke="#C07A1E" stroke-width="3"/>
+<text x="1354" y="494" font-family="Georgia, serif" font-size="15" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">In the game (dynamic)</text>
+<text x="1354" y="512" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" fill="#C07A1E" font-weight="normal" text-anchor="start" font-style="italic" letter-spacing="0">dialogue_loader.gd reads the JSON</text>
+<circle cx="1356" cy="534" r="2.5" fill="#6B6B66"/>
+<text x="1366" y="538" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">events trigger the lines</text>
+<circle cx="1356" cy="555" r="2.5" fill="#6B6B66"/>
+<text x="1366" y="559" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">17 alternate groups: a random</text>
+<circle cx="1356" cy="576" r="2.5" fill="#6B6B66"/>
+<text x="1366" y="580" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">option plays each run</text>
+<circle cx="1356" cy="597" r="2.5" fill="#6B6B66"/>
+<text x="1366" y="601" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">4 nudge ladders escalate</text>
+<circle cx="1356" cy="618" r="2.5" fill="#6B6B66"/>
+<text x="1366" y="622" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">when the player stalls</text>
+<circle cx="1356" cy="639" r="2.5" fill="#6B6B66"/>
+<text x="1366" y="643" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">assist mode adds a text hint</text>
+<line x1="1455.0" y1="450" x2="1455.0" y2="468" stroke="#C07A1E" stroke-width="2"/>
+<rect x="30" y="793" width="1540" height="246" rx="9" fill="#12161B" stroke="#2C3A40" stroke-width="1.5"/>
+<text x="50" y="821" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#C07A1E" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="1.5">RUN TIMELINE  (read from run_log.json, one chip per guardrail attempt)</text>
+<text x="50" y="849" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="italic" letter-spacing="0">Run 1: live model (Anthropic API)</text>
+<rect x="50" y="855" width="150" height="36" rx="8" fill="#15181F" stroke="#6FA37A" stroke-width="2"/>
+<text x="62" y="871" font-family="Consolas, monospace" font-size="11.5" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">BRIEF #1</text>
+<text x="62" y="885" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#6FA37A" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">PASS</text>
+<line x1="200" y1="873" x2="212" y2="873" stroke="#6B6B66" stroke-width="1.5"/>
+<polygon points="220,873 208,867 208,879" fill="#6B6B66"/>
+<rect x="220" y="855" width="150" height="36" rx="8" fill="#15181F" stroke="#C9605A" stroke-width="2"/>
+<text x="232" y="871" font-family="Consolas, monospace" font-size="11.5" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">WRITE #1</text>
+<text x="232" y="885" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#C9605A" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">BLOCKED · 1 errors</text>
+<line x1="370" y1="873" x2="382" y2="873" stroke="#6B6B66" stroke-width="1.5"/>
+<polygon points="390,873 378,867 378,879" fill="#6B6B66"/>
+<rect x="390" y="855" width="150" height="36" rx="8" fill="#15181F" stroke="#C9605A" stroke-width="2"/>
+<text x="402" y="871" font-family="Consolas, monospace" font-size="11.5" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">WRITE #2</text>
+<text x="402" y="885" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#C9605A" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">BLOCKED · 28 errors</text>
+<line x1="540" y1="873" x2="552" y2="873" stroke="#6B6B66" stroke-width="1.5"/>
+<polygon points="560,873 548,867 548,879" fill="#6B6B66"/>
+<rect x="560" y="855" width="150" height="36" rx="8" fill="#15181F" stroke="#6FA37A" stroke-width="2"/>
+<text x="572" y="871" font-family="Consolas, monospace" font-size="11.5" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">WRITE #3</text>
+<text x="572" y="885" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#6FA37A" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">PASS</text>
+<line x1="710" y1="873" x2="722" y2="873" stroke="#6B6B66" stroke-width="1.5"/>
+<polygon points="730,873 718,867 718,879" fill="#6B6B66"/>
+<rect x="730" y="855" width="150" height="36" rx="8" fill="#15181F" stroke="#6FA37A" stroke-width="2"/>
+<text x="742" y="871" font-family="Consolas, monospace" font-size="11.5" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">REVIEW #1</text>
+<text x="742" y="885" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#6FA37A" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">PASS</text>
+<line x1="880" y1="873" x2="892" y2="873" stroke="#6B6B66" stroke-width="1.5"/>
+<polygon points="900,873 888,867 888,879" fill="#6B6B66"/>
+<rect x="900" y="855" width="210" height="36" rx="8" fill="#15181F" stroke="#B8962E" stroke-width="2"/>
+<text x="912" y="871" font-family="Consolas, monospace" font-size="11.5" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">FINAL CHECKS + FILES</text>
+<text x="912" y="885" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#B8962E" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">written · needs_revision</text>
+<text x="50" y="919" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="italic" letter-spacing="0">Run 2: offline replay (scripted model, same checks)</text>
+<rect x="50" y="925" width="150" height="36" rx="8" fill="#15181F" stroke="#6FA37A" stroke-width="2"/>
+<text x="62" y="941" font-family="Consolas, monospace" font-size="11.5" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">BRIEF #1</text>
+<text x="62" y="955" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#6FA37A" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">PASS</text>
+<line x1="200" y1="943" x2="212" y2="943" stroke="#6B6B66" stroke-width="1.5"/>
+<polygon points="220,943 208,937 208,949" fill="#6B6B66"/>
+<rect x="220" y="925" width="150" height="36" rx="8" fill="#15181F" stroke="#C9605A" stroke-width="2"/>
+<text x="232" y="941" font-family="Consolas, monospace" font-size="11.5" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">WRITE #1</text>
+<text x="232" y="955" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#C9605A" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">BLOCKED · 4 errors</text>
+<line x1="370" y1="943" x2="382" y2="943" stroke="#6B6B66" stroke-width="1.5"/>
+<polygon points="390,943 378,937 378,949" fill="#6B6B66"/>
+<rect x="390" y="925" width="150" height="36" rx="8" fill="#15181F" stroke="#6FA37A" stroke-width="2"/>
+<text x="402" y="941" font-family="Consolas, monospace" font-size="11.5" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">WRITE #2</text>
+<text x="402" y="955" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#6FA37A" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">PASS</text>
+<line x1="540" y1="943" x2="552" y2="943" stroke="#6B6B66" stroke-width="1.5"/>
+<polygon points="560,943 548,937 548,949" fill="#6B6B66"/>
+<rect x="560" y="925" width="150" height="36" rx="8" fill="#15181F" stroke="#6FA37A" stroke-width="2"/>
+<text x="572" y="941" font-family="Consolas, monospace" font-size="11.5" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">REVIEW #1</text>
+<text x="572" y="955" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#6FA37A" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">PASS</text>
+<line x1="710" y1="943" x2="722" y2="943" stroke="#6B6B66" stroke-width="1.5"/>
+<polygon points="730,943 718,937 718,949" fill="#6B6B66"/>
+<rect x="730" y="925" width="210" height="36" rx="8" fill="#15181F" stroke="#6FA37A" stroke-width="2"/>
+<text x="742" y="941" font-family="Consolas, monospace" font-size="11.5" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">FINAL CHECKS + FILES</text>
+<text x="742" y="955" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#6FA37A" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">written · proposed</text>
+<text x="50" y="989" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="italic" letter-spacing="0">Run 3: negative test (--max-words 12)</text>
+<rect x="50" y="995" width="150" height="36" rx="8" fill="#15181F" stroke="#6FA37A" stroke-width="2"/>
+<text x="62" y="1011" font-family="Consolas, monospace" font-size="11.5" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">BRIEF #1</text>
+<text x="62" y="1025" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#6FA37A" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">PASS</text>
+<line x1="200" y1="1013" x2="212" y2="1013" stroke="#6B6B66" stroke-width="1.5"/>
+<polygon points="220,1013 208,1007 208,1019" fill="#6B6B66"/>
+<rect x="220" y="995" width="150" height="36" rx="8" fill="#15181F" stroke="#C9605A" stroke-width="2"/>
+<text x="232" y="1011" font-family="Consolas, monospace" font-size="11.5" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">WRITE #1</text>
+<text x="232" y="1025" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#C9605A" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">BLOCKED · 38 errors</text>
+<line x1="370" y1="1013" x2="382" y2="1013" stroke="#6B6B66" stroke-width="1.5"/>
+<polygon points="390,1013 378,1007 378,1019" fill="#6B6B66"/>
+<rect x="390" y="995" width="150" height="36" rx="8" fill="#15181F" stroke="#C9605A" stroke-width="2"/>
+<text x="402" y="1011" font-family="Consolas, monospace" font-size="11.5" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">WRITE #2</text>
+<text x="402" y="1025" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#C9605A" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">BLOCKED · 34 errors</text>
+<line x1="540" y1="1013" x2="552" y2="1013" stroke="#6B6B66" stroke-width="1.5"/>
+<polygon points="560,1013 548,1007 548,1019" fill="#6B6B66"/>
+<rect x="560" y="995" width="150" height="36" rx="8" fill="#15181F" stroke="#C9605A" stroke-width="2"/>
+<text x="572" y="1011" font-family="Consolas, monospace" font-size="11.5" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">WRITE #3</text>
+<text x="572" y="1025" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#C9605A" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">BLOCKED · 34 errors</text>
+<line x1="710" y1="1013" x2="722" y2="1013" stroke="#6B6B66" stroke-width="1.5"/>
+<polygon points="730,1013 718,1007 718,1019" fill="#6B6B66"/>
+<rect x="730" y="995" width="150" height="36" rx="8" fill="#15181F" stroke="#C9605A" stroke-width="2"/>
+<text x="742" y="1011" font-family="Consolas, monospace" font-size="11.5" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">WRITE #4</text>
+<text x="742" y="1025" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#C9605A" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">BLOCKED · 34 errors</text>
+<line x1="880" y1="1013" x2="892" y2="1013" stroke="#6B6B66" stroke-width="1.5"/>
+<polygon points="900,1013 888,1007 888,1019" fill="#6B6B66"/>
+<rect x="900" y="995" width="210" height="36" rx="8" fill="#15181F" stroke="#C9605A" stroke-width="2"/>
+<text x="912" y="1011" font-family="Consolas, monospace" font-size="11.5" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">STOPPED</text>
+<text x="912" y="1025" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#C9605A" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">no files written</text>
+<text x="30" y="1075" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#C07A1E" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="1.5">WHAT IS REAL AND WHAT IS SCRIPTED</text>
+<text x="30" y="1099" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Real: a live model wrote the brief, 56 lines and the review through the same three agents. The checks blocked 2 Dialogue attempt(s) (29 errors) before the third passed.</text>
+<text x="30" y="1119" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">The reviewer returned REVISE: 2 checks failed (Daniel stays in the basement; No significant outpost detail). The data is flagged needs_revision and was not copied into the game project.</text>
+<text x="30" y="1139" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Not scripted, so not identical to the offline draft: the lines differ. It cites 76 lines; the file has 56, so the reviewer's evidence is the model's own and unverified.</text>
+</svg>

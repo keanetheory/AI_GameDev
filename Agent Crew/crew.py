@@ -1,11 +1,13 @@
 """Storm Crossing Crew - CrewAI pipeline for Lighting the Storm.
 
-Four agents run in sequence, each consuming the previous agent's validated output:
+The full roster (2 orchestrators + 10 workers, from the design submission) lives in
+roles.py. The return crossing needs four of them, run in sequence, each consuming the
+previous agent's validated output:
 
-  1. Production Orchestrator   creator goal + canon      -> CrossingBrief
-  2. Hazard Forecast Designer  CrossingBrief             -> HazardForecast
-  3. Companion Dialogue Writer HazardForecast + brief    -> JeffCallSheet
-  4. Canon & Review Orchestrator  all three              -> ReviewReport
+  1. Production Orchestrator       creator goal + canon     -> CrossingBrief
+  2. Hazard Forecast agent         CrossingBrief            -> HazardForecast
+  3. Dialogue agent                HazardForecast + brief   -> JeffCallSheet
+  4. Canon and Review Orchestrator all three                -> ReviewReport
 
 Each task has a guardrail that validates its JSON against the shared contract
 (schemas.py + validators.py). A failing check is sent back to the agent as
@@ -16,6 +18,7 @@ import json
 from crewai import Agent, Crew, Process, Task
 
 from canon import canon_block
+from roles import CROSSING_PIPELINE
 from schemas import CrossingBrief, HazardForecast, JeffCallSheet, ReviewReport
 from validators import check_brief, check_calls, check_forecast, check_review, parse
 
@@ -83,7 +86,7 @@ def build_crew(llm, goal: str, preset: str, segments: int, verbose: bool = True,
     common = dict(llm=llm, allow_delegation=False, verbose=verbose, max_iter=5)
 
     orchestrator = Agent(
-        role="Production Orchestrator",
+        role=CROSSING_PIPELINE[0],
         goal="Turn the creator's goal into a precise, canon-safe task brief for the return crossing.",
         backstory=(
             "You plan and sequence work for a solo developer making Lighting the Storm in Godot 4. "
@@ -93,7 +96,7 @@ def build_crew(llm, goal: str, preset: str, segments: int, verbose: bool = True,
         **common,
     )
     hazard_designer = Agent(
-        role="Hazard Forecast Designer",
+        role=CROSSING_PIPELINE[1],
         goal="Place readable hazards and one safe-route signal per segment, exactly as the brief specifies.",
         backstory=(
             "You own the shared hazard forecast that the boat, the hazards and Jeff's calls all read. "
@@ -103,7 +106,7 @@ def build_crew(llm, goal: str, preset: str, segments: int, verbose: bool = True,
         **common,
     )
     dialogue_writer = Agent(
-        role="Companion Dialogue Writer",
+        role=CROSSING_PIPELINE[2],
         goal="Write Jeff's shouted direction calls so they match the hazard forecast exactly.",
         backstory=(
             "You write for Jeff, an older, coarse seaman who is reluctant but wants to save the "
@@ -113,7 +116,7 @@ def build_crew(llm, goal: str, preset: str, segments: int, verbose: bool = True,
         **common,
     )
     reviewer = Agent(
-        role="Canon and Review Orchestrator",
+        role=CROSSING_PIPELINE[3],
         goal="Check the whole crossing package against the four pillars and the Decisions log, and write the handoff verdict.",
         backstory=(
             "You guard canon for Lighting the Storm. You block work that breaks a pillar, uses an "

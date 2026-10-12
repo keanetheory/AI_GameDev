@@ -1,0 +1,238 @@
+{
+  "task_id": "GATE1_OPENING_DIALOGUE",
+  "slice": "Gate 1 opening: steps 1-3 (coal, sailors, burner)",
+  "max_words_per_line": 22,
+  "player_term": "the new guy",
+  "speakers": [
+    "TED",
+    "JEFF",
+    "DANIEL"
+  ],
+  "steps": [
+    {
+      "step": 1,
+      "title": "Feed the boiler",
+      "location": "Engine room (basement), then lantern room",
+      "player_action": "Shovel coal into the boiler, then find the beacon's burner is broken.",
+      "starts_on": "GAME_STARTED",
+      "ends_on": "BURNER_DIAGNOSED"
+    },
+    {
+      "step": 2,
+      "title": "Let the sailors in",
+      "location": "Lantern-room window, path, island gate",
+      "player_action": "Look out of the window, go down the path and open the gate for Jeff and Daniel.",
+      "starts_on": "SAILORS_MOORED",
+      "ends_on": "DANIEL_IN_BASEMENT"
+    },
+    {
+      "step": 3,
+      "title": "Fetch the burner",
+      "location": "Dock, steam launch, outpost",
+      "player_action": "Board the launch with Jeff, cross the Gullwater and pick up the replacement burner.",
+      "starts_on": "BURNER_BRIEFING",
+      "ends_on": "RETURN_DEPARTED"
+    }
+  ],
+  "events": [
+    {
+      "event_id": "GAME_STARTED",
+      "step": 1,
+      "note": "New game begins at the lighthouse entrance.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "ENGINE_ROOM_ENTERED",
+      "step": 1,
+      "note": "Player enters the basement engine room.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "COAL_LOADED_FIRST",
+      "step": 1,
+      "note": "First shovelful lands in the firebox.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "COAL_LOADED_HALF",
+      "step": 1,
+      "note": "Steam gauge reaches roughly half.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "BOILER_FED",
+      "step": 1,
+      "note": "Gauge reaches working pressure; dynamo whines, beacon flickers.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "LAMP_ROOM_ENTERED",
+      "step": 1,
+      "note": "Player enters the lantern room.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "BURNER_DIAGNOSED",
+      "step": 1,
+      "note": "Player inspects the arc lamp and finds the burner broken.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "SAILORS_MOORED",
+      "step": 2,
+      "note": "Rowboat appears moored at the dock (no crash).",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "WINDOW_LOOKED",
+      "step": 2,
+      "note": "Player looks out of the window at the dock.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "GATE_APPROACHED",
+      "step": 2,
+      "note": "Player reaches the island gate.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "GATE_OPENED",
+      "step": 2,
+      "note": "Player opens the island gate.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "SAILORS_INSIDE",
+      "step": 2,
+      "note": "Jeff and Daniel reach the lighthouse hall.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "DANIEL_IN_BASEMENT",
+      "step": 2,
+      "note": "Daniel reaches the basement and stays there.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "BURNER_BRIEFING",
+      "step": 3,
+      "note": "Player talks with Ted and Jeff in the hall.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "BOARDING_THRESHOLD",
+      "step": 3,
+      "note": "Player reaches the launch at the dock.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "SHIP_SIGHTED",
+      "step": 3,
+      "note": "Passenger ship's lights appear on the horizon.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "BOAT_CAST_OFF",
+      "step": 3,
+      "note": "Outbound crossing begins (untimed steering practice).",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "OUTBOUND_NEAR_MISS",
+      "step": 3,
+      "note": "Boat clears a hazard narrowly.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "OUTBOUND_COLLISION",
+      "step": 3,
+      "note": "Boat hits a hazard (recoverable).",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "OUTPOST_REACHED",
+      "step": 3,
+      "note": "Boat docks at the abandoned outpost.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "BURNER_PICKED_UP",
+      "step": 3,
+      "note": "Replacement burner is aboard.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "RETURN_DEPARTED",
+      "step": 3,
+      "note": "Existing crew event. Hands over to JEFF_RET_* calls.",
+      "existing_crew_event": true
+    },
+    {
+      "event_id": "POSTER_EXAMINED",
+      "step": 0,
+      "note": "Optional: player examines a Flighted poster.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "WALL_WHISPER_HEARD",
+      "step": 0,
+      "note": "Optional: whisper in the lighthouse walls.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "BASEMENT_BANG",
+      "step": 0,
+      "note": "Optional: bang in the basement wall.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "BASEMENT_TALK",
+      "step": 0,
+      "note": "Optional: player stands near Daniel.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "IDLE_STEP_1",
+      "step": 1,
+      "note": "Player has made no progress on step 1.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "IDLE_STEP_2",
+      "step": 2,
+      "note": "Player has made no progress on step 2.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "IDLE_STEP_3",
+      "step": 3,
+      "note": "Player has made no progress on step 3 (reaching the dock).",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "IDLE_OUTPOST",
+      "step": 3,
+      "note": "Player has not found the burner at the outpost.",
+      "existing_crew_event": false
+    }
+  ],
+  "constraints": [
+    "Refer to the player only as 'the new guy' (never 'apprentice'). The player never speaks.",
+    "Ted introduces the setting (eclipse, storm season, the Saltgate) and each step's objective.",
+    "Step 1: shovel coal into the boiler in the basement engine room. Step 2: let the stranded sailors in through the island gate. Step 3: retrieve the replacement burner from the outpost across the Gullwater.",
+    "Ted never names the passenger ship before the boarding threshold (BOARDING_THRESHOLD).",
+    "Say 'burner', never 'lamp head'. No timers, countdowns, numbers or deadline talk.",
+    "Never confirm a supernatural cause. Flighted and wall-whisper details stay ambiguous.",
+    "Do not address the player as lad, lass or man. Ted's 'the boy' means Daniel.",
+    "Add no significant outpost detail. Daniel stays in the basement.",
+    "Reuse the canon sample lines where they fit. Lines stay short enough to shout over a storm.",
+    "Every IDLE_* event gets a nudge ladder of consecutive tiers (hint, sharper, explicit).",
+    "Alternates share a group and a trigger; every group has at least two options."
+  ],
+  "open_creator_decisions": [
+    "Which lines are voiced is a cost decision; subtitles exist for every line.",
+    "Why Jeff and Daniel were on the water (smugglers?) is left open.",
+    "Ted and Jeff's relationship is TBD in the lore; the 'drowned by now' exchange is a proposal.",
+    "Fail-reason and outcome lines belong to the Story / Fail-State agent."
+  ]
+}

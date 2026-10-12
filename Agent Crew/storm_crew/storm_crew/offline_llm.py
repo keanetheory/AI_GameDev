@@ -2,7 +2,7 @@
 
 Lets markers and the creator run the full CrewAI pipeline with no API key.
 It answers each agent role with deterministic, contract-valid JSON built from the
-previous agent's handoff (read from the shared `state`). The Dialogue Writer
+previous agent's handoff (read from the shared `state`). The Dialogue agent
 deliberately makes one mistake on its first attempt so the guardrail feedback
 loop (validator -> agent retry) is exercised on every offline run.
 
@@ -43,9 +43,9 @@ class OfflineLLM(BaseLLM):
         text = json.dumps(messages) if not isinstance(messages, str) else messages
         if role == "Production Orchestrator":
             payload = self._brief()
-        elif role == "Hazard Forecast Designer":
+        elif role == "Hazard Forecast agent":
             payload = self._forecast()
-        elif role == "Companion Dialogue Writer":
+        elif role == "Dialogue agent":
             payload = self._calls(corrected="Fix these contract violations" in text)
         else:
             payload = self._review()
