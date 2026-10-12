@@ -1,0 +1,241 @@
+diff --git a/app/src/components/WorldViewer.tsx b/app/src/components/WorldViewer.tsx
+index 26b1b96..225272a 100644
+--- a/app/src/components/WorldViewer.tsx
++++ b/app/src/components/WorldViewer.tsx
+@@ -6,6 +6,7 @@ import { Physics } from '@react-three/rapier'
+ import { SplatRenderer } from '../modules/splat/SplatRenderer'
+ import { EnvironmentMap } from '../modules/environment/EnvironmentMap'
+ import { WorldCollider } from '../modules/collider/WorldCollider'
++import { EnvironmentModel } from '../modules/environment/EnvironmentModel'
+ import { GroundPlane } from '../modules/collider/GroundPlane'
+ import { CharacterController, type CharacterControllerHandle } from '../modules/character/CharacterController'
+ import { FlyController, type FlyControllerHandle } from '../modules/character/FlyController'
+@@ -167,7 +168,8 @@ export function WorldViewer({
+     if (controllerResetToken > 0) charRef.current?.reset()
+   }, [controllerResetToken])
+ 
+-  const splatUrl = desiredWorld ? getSplatUrl(desiredWorld) : ''
++  const environmentModel = sceneProject?.environmentModel
++  const splatUrl = desiredWorld && !environmentModel ? getSplatUrl(desiredWorld) : ''
+   const { ground_plane_offset, flip_y, metric_scale_factor } = desiredWorld?.assets.splats.semantics_metadata ?? DEFAULT_WORLD_SEMANTICS
+   const flipY = flip_y ?? true
+   const baseMetricScaleFactor = metric_scale_factor ?? 1
+@@ -241,7 +243,14 @@ export function WorldViewer({
+             ) : (
+               <CharacterController ref={charRef as React.RefObject<CharacterControllerHandle>} />
+             )}
+-            {showScene && colliderUrl && (
++            {showScene && environmentModel && (
++              <OptionalAssetBoundary label={environmentModel.url} resetKey={environmentModel.url}>
++                <Suspense fallback={null}>
++                  <EnvironmentModel config={environmentModel} />
++                </Suspense>
++              </OptionalAssetBoundary>
++            )}
++            {showScene && colliderUrl && !environmentModel && (
+               <OptionalAssetBoundary label={colliderUrl} resetKey={colliderUrl}>
+                 <Suspense fallback={null}>
+                   <WorldCollider
+diff --git a/app/src/types/world.ts b/app/src/types/world.ts
+index 5b75fd7..898f77b 100644
+--- a/app/src/types/world.ts
++++ b/app/src/types/world.ts
+@@ -73,9 +73,22 @@ export interface WorldSceneSun {
+   environmentIntensity?: number
+ }
+ 
++export interface EnvironmentModelConfig {
++  url: string
++  colliderUrl: string
++  position: Vec3Tuple
++  rotation: Vec3Tuple
++  scale: number
++  seaUrl?: string
++  seaLevel?: number
++  /** Extra static models authored in world coordinates (gangway, gate, ...). Each gets a trimesh collider. */
++  extraModels?: Array<{ id: string; url: string; solid?: boolean; invisible?: boolean }>
++}
++
+ export interface WorldSceneProject {
+   version: 1
+   instances: WorldObjectPlacement[]
++  environmentModel?: EnvironmentModelConfig
+   sun?: WorldSceneSun
+   metricScaleFactor?: number
+   groundPlaneOffset?: number
+diff --git a/app/vite.config.ts b/app/vite.config.ts
+index 2d5168d..af5c57d 100644
+--- a/app/vite.config.ts
++++ b/app/vite.config.ts
+@@ -540,9 +540,43 @@ function worldsPlugin(): Plugin {
+       ? shadowCatcherColor.toLowerCase()
+       : undefined
+ 
++    const environmentModel = (() => {
++      if (!record.environmentModel || typeof record.environmentModel !== 'object') return undefined
++      const candidate = record.environmentModel as Record<string, unknown>
++      const { url, colliderUrl, position, rotation, scale, seaUrl, seaLevel, extraModels } = candidate
++      const isWorldsUrl = (value: unknown): value is string => typeof value === 'string' && value.startsWith('/worlds/')
++      if (!isWorldsUrl(url) || !isWorldsUrl(colliderUrl)) return undefined
++      if (!isVec3(position) || !isVec3(rotation)) return undefined
++      if (typeof scale !== 'number' || !Number.isFinite(scale) || scale <= 0) return undefined
++      const extras = Array.isArray(extraModels)
++        ? extraModels.flatMap((item): Array<{ id: string; url: string; solid?: boolean; invisible?: boolean }> => {
++            if (!item || typeof item !== 'object') return []
++            const { id, url: extraUrl, solid, invisible } = item as Record<string, unknown>
++            if (typeof id !== 'string' || !isWorldsUrl(extraUrl)) return []
++            return [{
++              id,
++              url: extraUrl,
++              ...(typeof solid === 'boolean' ? { solid } : {}),
++              ...(typeof invisible === 'boolean' ? { invisible } : {}),
++            }]
++          })
++        : []
++      return {
++        url,
++        colliderUrl,
++        position,
++        rotation,
++        scale,
++        ...(isWorldsUrl(seaUrl) ? { seaUrl } : {}),
++        ...(typeof seaLevel === 'number' && Number.isFinite(seaLevel) ? { seaLevel } : {}),
++        ...(extras.length ? { extraModels: extras } : {}),
++      }
++    })()
++
+     return {
+       version: PROJECT_VERSION,
+       instances,
++      ...(environmentModel ? { environmentModel } : {}),
+       ...(sun ? { sun } : {}),
+       ...(typeof metricScaleFactor === 'number' && Number.isFinite(metricScaleFactor) ? { metricScaleFactor } : {}),
+       ...(typeof groundPlaneOffset === 'number' && Number.isFinite(groundPlaneOffset) ? { groundPlaneOffset } : {}),
+diff --git a/app/src/modules/environment/EnvironmentModel.tsx b/app/src/modules/environment/EnvironmentModel.tsx
+new file mode 100644
+index 0000000..f0b2b62
+--- /dev/null
++++ b/app/src/modules/environment/EnvironmentModel.tsx
+@@ -0,0 +1,122 @@
++import { useEffect, useMemo } from 'react'
++import { RigidBody } from '@react-three/rapier'
++import { useGLTF } from '@react-three/drei'
++import * as THREE from 'three'
++import type { EnvironmentModelConfig } from '../../types/world'
++
++interface Props {
++  config: EnvironmentModelConfig
++}
++
++const ignoreRaycast: THREE.Object3D['raycast'] = () => {}
++const COLLIDER_ONLY_LAYER = 30
++
++function placementMatrix(config: EnvironmentModelConfig) {
++  return new THREE.Matrix4().compose(
++    new THREE.Vector3(...config.position),
++    new THREE.Quaternion().setFromEuler(new THREE.Euler(...config.rotation)),
++    new THREE.Vector3(config.scale, config.scale, config.scale),
++  )
++}
++
++// Textured mesh as the static environment (replaces the splat), with a separate
++// low-poly mesh used only for trimesh physics.
++//
++// The collider's placement is baked into its vertices and the RigidBody stays at the
++// identity transform, so physics never depends on RigidBody/collider scale handling.
++export function EnvironmentModel({ config }: Props) {
++  const { scene: visualRaw } = useGLTF(config.url)
++  const { scene: colliderRaw } = useGLTF(config.colliderUrl)
++
++  const matrixKey = `${config.position.join(',')}:${config.rotation.join(',')}:${config.scale}`
++
++  const visual = useMemo(() => {
++    const clone = visualRaw.clone(true)
++    clone.traverse((child) => {
++      if (!(child instanceof THREE.Mesh)) return
++      child.raycast = ignoreRaycast
++      child.frustumCulled = false
++    })
++    return clone
++  }, [visualRaw])
++
++  const collider = useMemo(() => {
++    const root = new THREE.Group()
++    const placement = placementMatrix(config)
++    colliderRaw.updateWorldMatrix(true, true)
++    colliderRaw.traverse((child) => {
++      if (!(child instanceof THREE.Mesh)) return
++      const geometry = child.geometry.clone()
++      geometry.applyMatrix4(placement.clone().multiply(child.matrixWorld))
++      const mesh = new THREE.Mesh(geometry)
++      // Must stay `visible` or rapier's auto-collider skips it; a layer the camera never renders keeps it off-screen.
++      mesh.layers.set(COLLIDER_ONLY_LAYER)
++      mesh.raycast = ignoreRaycast
++      root.add(mesh)
++    })
++    return root
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++  }, [colliderRaw, matrixKey])
++
++  useEffect(() => () => {
++    collider.traverse((child) => {
++      if (child instanceof THREE.Mesh) child.geometry.dispose()
++    })
++  }, [collider])
++
++  const scale: [number, number, number] = [config.scale, config.scale, config.scale]
++
++  return (
++    <>
++      <RigidBody key={`${config.colliderUrl}:${matrixKey}`} type="fixed" colliders="trimesh">
++        <primitive object={collider} />
++      </RigidBody>
++      <primitive object={visual} position={config.position} rotation={config.rotation} scale={scale} />
++      {config.seaUrl && <Sea url={config.seaUrl} level={config.seaLevel ?? 0} />}
++      {config.extraModels?.map((extra) => (
++        <ExtraModel key={extra.id} url={extra.url} solid={extra.solid ?? true} invisible={extra.invisible ?? false} />
++      ))}
++    </>
++  )
++}
++
++// A static model authored directly in world coordinates (no placement transform). Visual and
++// trimesh collider are the same mesh, so keep these low-poly (gangway, gate, ...).
++// `solid: false` keeps the visual but removes collision (e.g. an unlocked gate).
++// `invisible: true` keeps collision but never renders it (e.g. barriers).
++function ExtraModel({ url, solid, invisible }: { url: string; solid: boolean; invisible: boolean }) {
++  const { scene: raw } = useGLTF(url)
++  const model = useMemo(() => {
++    const clone = raw.clone(true)
++    clone.traverse((child) => {
++      if (!(child instanceof THREE.Mesh)) return
++      child.raycast = ignoreRaycast
++      if (invisible) child.layers.set(COLLIDER_ONLY_LAYER)
++    })
++    return clone
++  }, [raw, invisible])
++  if (!solid) return <primitive object={model} />
++  return (
++    <RigidBody key={url} type="fixed" colliders="trimesh">
++      <primitive object={model} />
++    </RigidBody>
++  )
++}
++
++// Flat, high-resolution sea grid (see environment/1-sea.glb). It has no collider.
++// Animate waves later by displacing its vertices here (e.g. in useFrame or a shader patch).
++function Sea({ url, level }: { url: string; level: number }) {
++  const { scene: raw } = useGLTF(url)
++  const sea = useMemo(() => {
++    const clone = raw.clone(true)
++    clone.traverse((child) => {
++      if (!(child instanceof THREE.Mesh)) return
++      child.raycast = ignoreRaycast
++      child.frustumCulled = false
++      const materials = Array.isArray(child.material) ? child.material : [child.material]
++      for (const material of materials) material.side = THREE.DoubleSide
++    })
++    return clone
++  }, [raw])
++  return <primitive object={sea} position={[0, level, 0]} />
++}

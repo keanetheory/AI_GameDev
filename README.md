@@ -139,3 +139,106 @@ The reviewer's six issues went back to the Dialogue agent, who changed 10 lines 
 ### Pathway: from prompt, through the agent crew, to the game
 
 ![From prompt, through the agent crew, to the game: your prompts, the canon read, the three-agent Opening Dialogue Crew with its guardrails and the revision round, the final gate, and the results](Docs/Lore%20Build/dialogue/illustration_pathway_crew_run_live.png)
+
+## Artifact #3: Island and Lighthouse Static Asset
+
+![Front of the lighthouse: the island with the lighthouse, keeper's cottage, rock, and the pier inlet with its two gates](LightingTheStorm/Assets/Island/images/lighthouse_front.png)
+
+**Folder:** [`LightingTheStorm/Assets/Island/`](LightingTheStorm/Assets/Island/README.md) (the GLB files, `scene.json` and the viewer patch)
+**Tools:** `LightingTheStorm/tools/island/` (Blender and Bun scripts that built and tested it)
+
+### What was provided
+
+A game-ready exterior for the Bracken Isle lighthouse, built from a Meshy-generated GLB that was imported into the project:
+
+- **Island and lighthouse:** 150,000 triangles (down from 1,464,180) with 4096px textures (22 MB, down from 101 MB). Boats removed, and the stairs and pier kept at higher detail.
+- **Sea:** a flat 640 m grid (256 x 256 cells) ready for waves to be animated later.
+- **Collision:** a 30,000-triangle collision mesh, a plank gangway from the pier end to a closed double gate, and invisible barriers so the gate is the only way up.
+- **Route to the lighthouse:** behind the gate a corridor leads to a spiral stair shaft inside the mountain, which comes out on the original stone steps below the cottage and the lighthouse.
+- **Viewer:** a patch to the Image Blaster viewer so it can show the scene and walk through it with collision.
+
+### How it was made: chat history
+
+**1. First attempt: Image Blaster and World Labs**
+
+> Analyse the image in input using the Image Blaster workflow. Stop after analysis and show me every candidate object before calling World Labs or FAL.Do not make any paid generation requests yet.
+
+Claude found 11 object candidates in the concept image and flagged that most were buildings or fixed pier parts. The decision:
+
+> Keep only these candidate objects for separate generation: wooden-rowboat, pier-gate. [...] Treat all of those as part of the static World Labs environment for this first prototype.
+
+After "Yes, make the one plate edit with nano-banana" and "use this plate", Claude made one FAL edit (clean plate, boat and gate removed) and one World Labs world generation. These were the only paid calls.
+
+**2. Inspect the result**
+
+> Please start the Image Blaster viewer and inspect the generated Stormbound Lighthouse Island world before making any more paid API calls.
+
+Claude had no browser access, so it judged from the World Labs thumbnail and panorama and a check of the collider: the island was small and blurry, and the dock had been replaced by an invented one. Verdict: keep but rebuild.
+
+**3. Rebuild from a Meshy model**
+
+> it needs to be completely rebuilt as the dock is completely different and the island is blurry. please try rebuilding with the PNGs I've now saved in C:\GameDev\Meshy
+
+The folder held four turntable screenshots (front, back, left, right) of a Meshy-generated GLB. Claude pointed out that the Image Blaster pipeline only takes one image, and offered three routes. The choice:
+
+> I have option 1
+
+That meant using the GLB itself, `FBX_Meshy_AI_Detailed_Lighthouse_I_0927195657_image-to-3d-texture.glb`: one fused mesh of 1,464,180 triangles with no collider.
+
+**4. Make it game-ready in Blender**
+
+> Blender is installed - and aim for a 150k triangle count
+
+Claude decimated it headlessly in Blender 5.2 and rendered the result next to the original. The stone steps had blurred into the rock, so the steps and pier were protected during decimation, which fixed them. Textures were shrunk from 8192 to 4096 pixels (65.6 MB to 22.5 MB). The Image Blaster viewer was extended to load the island as the environment in place of the splat.
+
+> do 2 first, then 1, then regenerate the viewer so I can see what you're doing
+
+**5. Boats, collision and sea**
+
+> Boats feel wrong and there is no collision mesh on the island which means I can't walk up to the lighthosue to test it, also remove the boats in the pier for now. There will be an added rowboat later if we can get this working. Can you generate a "sea" surface that I can then animate with waves later?
+
+The boats were cut out of both the visual and collision meshes, and a sea grid was generated.
+
+**6. Testing the collision**
+
+> http://localhost:5173/stormbound-lighthouse-island shows no collision, are you able to view? tell me how to do that.
+>
+> spawn point is fine, but I'm still falling through the island at that same spawn point
+
+Claude drove a headless Chrome from a script to see what the viewer did. The physics world held only one collider, the safety net: the island's collision mesh was never created, because the physics engine skips hidden meshes. Putting it on a camera layer that never renders fixed it. The player then stood on the dock (y of about 0.79) and stayed there. Walking forward also showed that the pier deck ends about 7 m from the spawn, 5 m short of a dark opening in the rock. The original model has the same gap.
+
+**7. The gate**
+
+> it looks like there is a "door" in the path up to to the lighthouse from the dock [...] I'm happy for that to be the "lockable" gate in the story. so reinforce that
+
+Claude located the opening at the pier end and asked how to proceed. The choice was "Gangway + solid gate": a plank gangway across the gap, a closed double gate with a stone frame, and the door area kept at full detail. A physics test walked a player-sized capsule across the gangway and the gate stopped it.
+
+**8. A way through the mountain**
+
+> make the door you've created the one and only way into the lighthouse, so cut a pathway through the mountain so it then merges with the "steps" you see just before the lighthouse. collision is working better, let's leave at at the for now.
+
+The mountain rises about 12 m between the gate and the steps, and a straight stair at a walkable angle needs about 20 m of run, so Claude built a corridor and a spiral stair shaft inside the mountain, with a short stair out to the original steps. Getting the capsule through took several rounds, each found by ray-casts at the point where it stalled:
+
+- the corridor and landing walls blocked each other
+- the spiral's first treads rose too early, so a flat entry sector was added
+- the shaft was too tight and steep, so it was made wider with shallower steps
+- a step 0.37 m high stood beside the last tread, more than the player's 0.46 m jump allows
+- a trench cut left a hole in the hillside past the last step
+
+The result: with the gate open, the capsule walks the whole way from the spawn to the lighthouse base (96 of 96 waypoints in 15 s). With the gate solid it stops at the gate. A search then found 46 places where the pier area meets climbable rock, and invisible barriers were placed there. With them, the summit is unreachable from the pier for any step up to 0.5 m.
+
+### How it was tested
+
+- **Physics simulation:** a capsule the size of the player, in the same physics engine the viewer uses (Rapier), run from the spawn to the lighthouse with the gate open and solid.
+- **Reachability search:** a grid search over the walkable surface, with and without the tunnel and barriers.
+- **Headless viewer:** the viewer loaded in headless Chrome, with the console checked for errors and the physics colliders counted (6, as expected). Typecheck passes.
+- **Renders:** Blender close-ups of the dock, gangway, gate, corridor and shaft.
+
+### Limits to know about
+
+- The gangway, gate and tunnel are untextured placeholders, and the tunnel interior is unlit.
+- The route was verified in a simulation and the viewer was loaded and inspected headlessly. It has not been walked by hand in the live viewer.
+- The gate is set to walk-through (`"solid": false`) in `scene.json` so the route can be tested. Set it to `true` to lock it. There is no key or lock logic yet.
+- The door placed is the opening at the pier end, which may not be the one boxed in `the_gate.png`. A few tiny splinters remain where the boats were.
+- The Meshy mesh is one fused piece, so the lighthouse, cottage and pier cannot be moved separately.
+- The original 101 MB GLB and the earlier iteration files are not in the repo. The viewer patch is against `neilsonnn/image-blaster` and is not committed in that repo.
