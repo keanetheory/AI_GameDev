@@ -203,6 +203,8 @@ Offline mode replays `offline_dialogue_draft.json` (the 61 lines first drafted f
 
 **Live runs.** Set `ANTHROPIC_API_KEY` in `.env`. If Anthropic answers 400 about a workspace, also set `ANTHROPIC_WORKSPACE_ID` (the key is not workspace-scoped). If it answers 404 for the model, set `CREW_MODEL` to one your workspace has (for example `anthropic/claude-sonnet-5-5`). A REVIEW verdict of REVISE still writes files, but marks the JSON `needs_revision` and lists the reviewer's issues; read them before using the lines. `sample_output_live/` holds the first live run.
 
+**Revision loop.** If the reviewer returns REVISE, the crew does not stop: its failed checks and issues go back to the Dialogue agent (`dialogue_revision.py`), the corrected dialogue goes through the same `check_dialogue` guardrail, and the Canon and Review Orchestrator re-reviews it (up to `--max-revisions`, default 2). Superseded rounds are kept in `handoffs/history_round*`. Two checks were added after the first live run: a line's `step` must equal its trigger event's step, and a reviewer's "all N lines" claims must match the data. `python main_dialogue.py --revise-from sample_output_live --out sample_output_live_revised` continues a saved run; `--simulate-revise` (offline) tests the loop for free. `sample_output_live_revised/` holds the live run after one revision (verdict PASS, 14 of 14 checks).
+
 ## Files
 
 | File | Purpose |
