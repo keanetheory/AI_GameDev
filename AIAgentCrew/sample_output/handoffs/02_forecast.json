@@ -1,0 +1,146 @@
+{
+  "forecast_id": "FC_RETURN_STANDARD",
+  "dock_zone_id": "DOCK_LIGHTHOUSE",
+  "segments": [
+    {
+      "segment_id": "SEG_01",
+      "safe_lane": "centre",
+      "safe_point_id": "SAFE_01",
+      "hazards": [
+        {
+          "hazard_id": "HZ_01_01",
+          "type": "rock",
+          "lane": "left",
+          "distance_m": 40,
+          "readability_cue": "black silhouette against white surf, lit by each beacon sweep"
+        },
+        {
+          "hazard_id": "HZ_01_02",
+          "type": "reef",
+          "lane": "right",
+          "distance_m": 80,
+          "readability_cue": "line of breaking white water, audible hiss"
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG_02",
+      "safe_lane": "left",
+      "safe_point_id": "SAFE_02",
+      "hazards": [
+        {
+          "hazard_id": "HZ_02_01",
+          "type": "buoy",
+          "lane": "centre",
+          "distance_m": 30,
+          "readability_cue": "red buoy light and clanging bell"
+        },
+        {
+          "hazard_id": "HZ_02_02",
+          "type": "debris",
+          "lane": "right",
+          "distance_m": 60,
+          "readability_cue": "pale floating timber catching lightning"
+        },
+        {
+          "hazard_id": "HZ_02_03",
+          "type": "rock",
+          "lane": "centre",
+          "distance_m": 90,
+          "readability_cue": "black silhouette against white surf, lit by each beacon sweep"
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG_03",
+      "safe_lane": "right",
+      "safe_point_id": "SAFE_03",
+      "hazards": [
+        {
+          "hazard_id": "HZ_03_01",
+          "type": "reef",
+          "lane": "left",
+          "distance_m": 30,
+          "readability_cue": "line of breaking white water, audible hiss"
+        },
+        {
+          "hazard_id": "HZ_03_02",
+          "type": "buoy",
+          "lane": "centre",
+          "distance_m": 60,
+          "readability_cue": "red buoy light and clanging bell"
+        },
+        {
+          "hazard_id": "HZ_03_03",
+          "type": "debris",
+          "lane": "left",
+          "distance_m": 90,
+          "readability_cue": "pale floating timber catching lightning"
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG_04",
+      "safe_lane": "centre",
+      "safe_point_id": "SAFE_04",
+      "hazards": [
+        {
+          "hazard_id": "HZ_04_01",
+          "type": "rock",
+          "lane": "left",
+          "distance_m": 30,
+          "readability_cue": "black silhouette against white surf, lit by each beacon sweep"
+        },
+        {
+          "hazard_id": "HZ_04_02",
+          "type": "reef",
+          "lane": "right",
+          "distance_m": 60,
+          "readability_cue": "line of breaking white water, audible hiss"
+        },
+        {
+          "hazard_id": "HZ_04_03",
+          "type": "buoy",
+          "lane": "left",
+          "distance_m": 90,
+          "readability_cue": "red buoy light and clanging bell"
+        }
+      ]
+    },
+    {
+      "segment_id": "SEG_05",
+      "safe_lane": "left",
+      "safe_point_id": "SAFE_05",
+      "hazards": [
+        {
+          "hazard_id": "HZ_05_01",
+          "type": "debris",
+          "lane": "centre",
+          "distance_m": 24,
+          "readability_cue": "pale floating timber catching lightning"
+        },
+        {
+          "hazard_id": "HZ_05_02",
+          "type": "rock",
+          "lane": "right",
+          "distance_m": 48,
+          "readability_cue": "black silhouette against white surf, lit by each beacon sweep"
+        },
+        {
+          "hazard_id": "HZ_05_03",
+          "type": "reef",
+          "lane": "centre",
+          "distance_m": 72,
+          "readability_cue": "line of breaking white water, audible hiss"
+        },
+        {
+          "hazard_id": "HZ_05_04",
+          "type": "buoy",
+          "lane": "right",
+          "distance_m": 96,
+          "readability_cue": "red buoy light and clanging bell"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "task_id": "GATE1_RETURN_CROSSING",
+  "crossing_id": "RETURN",
+  "difficulty_preset": "standard",
+  "boat_speed_mps": 6.0,
+  "jeff_call_lead_m": 30,
+  "allowed_hazards": [
+    "rock",
+    "reef",
+    "buoy",
+    "debris"
+  ],
+  "segments": [
+    {
+      "segment_id": "SEG_01",
+      "length_m": 120,
+      "hazard_density": 0.25,
+      "route_width_m": 40,
+      "min_visibility_m": 90,
+      "storm_note": "Leaving the outpost lee; swell rising"
+    },
+    {
+      "segment_id": "SEG_02",
+      "length_m": 120,
+      "hazard_density": 0.38,
+      "route_width_m": 34,
+      "min_visibility_m": 82,
+      "storm_note": "Open water; rain thickening"
+    },
+    {
+      "segment_id": "SEG_03",
+      "length_m": 120,
+      "hazard_density": 0.5,
+      "route_width_m": 29,
+      "min_visibility_m": 75,
+      "storm_note": "Rocks closing in; beacon dark ahead"
+    },
+    {
+      "segment_id": "SEG_04",
+      "length_m": 120,
+      "hazard_density": 0.62,
+      "route_width_m": 23,
+      "min_visibility_m": 67,
+      "storm_note": "Narrows under Bracken Isle"
+    },
+    {
+      "segment_id": "SEG_05",
+      "length_m": 120,
+      "hazard_density": 0.75,
+      "route_width_m": 18,
+      "min_visibility_m": 60,
+      "storm_note": "Final run to the jetty; foghorn close"
+    }
+  ],
+  "constraints": [
+    "One fixed speed, one steering axis",
+    "No waves (stretch goal)",
+    "One safe lane per segment; no branching",
+    "Density rises with route position, never elapsed time",
+    "Collisions recover to SAFE_<seg> with a time cost; burner never lost"
+  ],
+  "open_creator_decisions": [
+    "Exact collision time cost (loose for Gate 1)",
+    "Deadline length after return-crossing playtest"
+  ]
+}

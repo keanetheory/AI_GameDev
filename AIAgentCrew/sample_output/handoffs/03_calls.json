@@ -1,0 +1,45 @@
+{
+  "calls": [
+    {
+      "call_id": "JEFF_RET_01",
+      "target_segment_id": "SEG_01",
+      "direction": "centre",
+      "lead_m": 35,
+      "line": "Hold her straight! Straight down the middle!",
+      "subtitle": "JEFF: Hold her straight! Straight down the middle!"
+    },
+    {
+      "call_id": "JEFF_RET_02",
+      "target_segment_id": "SEG_02",
+      "direction": "left",
+      "lead_m": 35,
+      "line": "Left! Get us left of that!",
+      "subtitle": "JEFF: Left! Get us left of that!"
+    },
+    {
+      "call_id": "JEFF_RET_03",
+      "target_segment_id": "SEG_03",
+      "direction": "right",
+      "lead_m": 35,
+      "line": "Bring her right! Right, now!",
+      "subtitle": "JEFF: Bring her right! Right, now!"
+    },
+    {
+      "call_id": "JEFF_RET_04",
+      "target_segment_id": "SEG_04",
+      "direction": "centre",
+      "lead_m": 35,
+      "line": "Steady, middle! Don't you touch them!",
+      "subtitle": "JEFF: Steady, middle! Don't you touch them!"
+    },
+    {
+      "call_id": "JEFF_RET_05",
+      "target_segment_id": "SEG_05",
+      "direction": "left",
+      "lead_m": 35,
+      "line": "Hard left, lad! Rocks to starboard!",
+      "subtitle": "JEFF: Hard left, lad! Rocks to starboard!"
+    }
+  ],
+  "arrival_line": "That's the jetty! Go, go, go - don't you wait for me!"
+}
