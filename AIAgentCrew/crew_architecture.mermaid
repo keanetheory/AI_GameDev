@@ -7,9 +7,9 @@ flowchart TD
     subgraph CREW["Storm Crossing Crew (CrewAI, Process.sequential)"]
         A1["Agent 1: Production Orchestrator<br/>IN: goal + canon<br/>OUT: CrossingBrief<br/>segments, density, width, speed, call lead"]
         G1{{"Guardrail 1<br/>schema + density rises,<br/>width narrows, no waves"}}
-        A2["Agent 2: Hazard Forecast Designer<br/>IN: CrossingBrief<br/>OUT: HazardForecast<br/>one safe lane + hazards per segment"]
+        A2["Agent 2: Hazard Forecast agent<br/>IN: CrossingBrief<br/>OUT: HazardForecast<br/>one safe lane + hazards per segment"]
         G2{{"Guardrail 2<br/>no hazard in safe lane,<br/>IDs, counts never fall"}}
-        A3["Agent 3: Companion Dialogue Writer<br/>IN: CrossingBrief + HazardForecast<br/>OUT: JeffCallSheet<br/>one call per segment + arrival line"]
+        A3["Agent 3: Dialogue agent<br/>IN: CrossingBrief + HazardForecast<br/>OUT: JeffCallSheet<br/>one call per segment + arrival line"]
         G3{{"Guardrail 3<br/>call direction = safe lane,<br/>lead distance, no timer words"}}
         A4["Agent 4: Canon and Review Orchestrator<br/>IN: brief + forecast + calls<br/>OUT: ReviewReport<br/>4 pillar checks, Decisions-log checks, verdict"]
         G4{{"Guardrail 4<br/>verdict consistent<br/>with checks"}}

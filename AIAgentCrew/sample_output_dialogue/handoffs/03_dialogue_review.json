@@ -1,0 +1,66 @@
+{
+  "verdict": "PASS",
+  "pillar_checks": [
+    {
+      "check": "1. The light must return",
+      "result": "pass",
+      "evidence": "Every objective points back to the beacon: boiler (TED_S1_05), burner briefing (TED_S3_03), ship stakes (TED_S3_06)."
+    },
+    {
+      "check": "2. The storm sets the clock",
+      "result": "pass",
+      "evidence": "No timer, deadline or number in any of 61 lines or 7 journal entries."
+    },
+    {
+      "check": "3. Your hands, your eyes",
+      "result": "pass",
+      "evidence": "Guidance is spoken by Ted and Jeff; assist hints are opt-in text, never markers. The player is only called 'the new guy' and never speaks."
+    },
+    {
+      "check": "4. Dread you can read",
+      "result": "pass",
+      "evidence": "Each step has an objective line and a 4-ladder nudge system; whispers and the poster stay ambiguous (TED_OPT_01, TED_OPT_02)."
+    }
+  ],
+  "decisions_log_checks": [
+    {
+      "check": "Player term",
+      "result": "pass",
+      "evidence": "No line says 'apprentice'; 'the new guy' appears in 1 lines."
+    },
+    {
+      "check": "Ship reveal at boarding",
+      "result": "pass",
+      "evidence": "First line naming the ship is TED_S3_04 on BOARDING_THRESHOLD (allowed from BOARDING_THRESHOLD)."
+    },
+    {
+      "check": "No supernatural confirmation",
+      "result": "pass",
+      "evidence": "No line names a ghost, curse or monster."
+    },
+    {
+      "check": "Say burner",
+      "result": "pass",
+      "evidence": "No line says 'lamp head'."
+    },
+    {
+      "check": "Daniel stays in the basement",
+      "result": "pass",
+      "evidence": "DANIEL_S2_03 is staged in the basement; no later Daniel line leaves it."
+    },
+    {
+      "check": "Line length",
+      "result": "pass",
+      "evidence": "Longest line is TED_S3_03 at 21 words (limit 22)."
+    }
+  ],
+  "issues": [],
+  "open_creator_decisions": [
+    "Which lines are voiced is a cost decision; subtitles exist for every line.",
+    "Why Jeff and Daniel were on the water (smugglers?) is left open.",
+    "Ted and Jeff's relationship is TBD in the lore; the 'drowned by now' exchange is a proposal.",
+    "Fail-reason and outcome lines belong to the Story / Fail-State agent.",
+    "Creator to approve all voices before recording"
+  ],
+  "handoff_summary": "Opening dialogue for Gate 1: 61 lines (Ted 35, Jeff 20, Daniel 6), 7 alternate groups, 4 nudge ladders, 7 journal entries. All contract checks pass. Voice and lore need creator approval before recording."
+}

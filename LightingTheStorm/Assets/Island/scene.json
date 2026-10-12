@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "instances": [],
+  "environmentModel": {
+    "url": "/worlds/stormbound-lighthouse-island/environment/8-island.glb",
+    "colliderUrl": "/worlds/stormbound-lighthouse-island/environment/8-island-collider.glb",
+    "position": [2.25, 22.275, -22.6],
+    "rotation": [0, 0, 0],
+    "scale": 45,
+    "seaUrl": "/worlds/stormbound-lighthouse-island/environment/1-sea.glb",
+    "seaLevel": -2.25,
+    "extraModels": [
+      { "id": "gangway", "url": "/worlds/stormbound-lighthouse-island/environment/1-gangway.glb" },
+      { "id": "lighthouse-gate", "url": "/worlds/stormbound-lighthouse-island/environment/1-gate.glb", "solid": false },
+      { "id": "lighthouse-tunnel", "url": "/worlds/stormbound-lighthouse-island/environment/4-tunnel.glb" },
+      { "id": "dock-barriers", "url": "/worlds/stormbound-lighthouse-island/environment/1-barriers.glb", "invisible": true }
+    ]
+  },
+  "groundPlaneColliderEnabled": false
+}
