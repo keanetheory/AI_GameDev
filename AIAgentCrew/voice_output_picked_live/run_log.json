@@ -1,0 +1,16 @@
+[
+ {
+  "task": "VOICE_CASTING_PLAN",
+  "agent": "Sound agent",
+  "attempt": 1,
+  "passed": true,
+  "errors": []
+ },
+ {
+  "task": "VOICE_CASTING_REVIEW",
+  "agent": "Canon and Review Orchestrator",
+  "attempt": 1,
+  "passed": true,
+  "errors": []
+ }
+]

@@ -1,0 +1,62 @@
+{
+ "TED": {
+  "previews": [
+   {
+    "file": "elevenlabs\\previews\\TED_1.mp3",
+    "generated_voice_id": "HORUspPN7Zks3S1XYGmJ",
+    "duration_secs": 29.7300625
+   },
+   {
+    "file": "elevenlabs\\previews\\TED_2.mp3",
+    "generated_voice_id": "aFhqUtC1CCcvQ6K81iib",
+    "duration_secs": 28.6068125
+   },
+   {
+    "file": "elevenlabs\\previews\\TED_3.mp3",
+    "generated_voice_id": "BZV0GD7AJ0zBx4iKKvFz",
+    "duration_secs": 39.0035625
+   }
+  ],
+  "text": "Eclipse, storm season, and the Saltgate howling. Of course they send a new money toff. Boiler's cold and the beacon's starving. Down to the engine room. Shovel coal, Isaac. Gauge is waking up. Put your back into it. Cracked clean through. The burner's finished. Hrmph. Nothing to mend up here."
+ },
+ "ARTHUR": {
+  "previews": [
+   {
+    "file": "elevenlabs\\previews\\ARTHUR_1.mp3",
+    "generated_voice_id": "NbHOBivl1g5226oSqzKj",
+    "duration_secs": 25.237
+   },
+   {
+    "file": "elevenlabs\\previews\\ARTHUR_2.mp3",
+    "generated_voice_id": "wsFLIfAbzubVEuqzJmC1",
+    "duration_secs": 26.752125
+   },
+   {
+    "file": "elevenlabs\\previews\\ARTHUR_3.mp3",
+    "generated_voice_id": "yKaG9T5mehZNImUigmkL",
+    "duration_secs": 23.5651875
+   }
+  ],
+  "text": "Easy now, we mean no harm. Just cold and wet. The gate, please? Ted, you old rock. Thought you'd be drowned by now. Keep her off the rocks, Isaac. Watch the water, not the dark. Too close! Give the rocks some room, Isaac. There! Ship's lights, out in the swell. She can't see the rocks. No beacon."
+ },
+ "DANIEL": {
+  "previews": [
+   {
+    "file": "elevenlabs\\previews\\DANIEL_1.mp3",
+    "generated_voice_id": "4J4v1JGr8BY8QzvOo0Z4",
+    "duration_secs": 20.5088125
+   },
+   {
+    "file": "elevenlabs\\previews\\DANIEL_2.mp3",
+    "generated_voice_id": "1xvhHSPtJogcuL3EIa2O",
+    "duration_secs": 34.432125
+   },
+   {
+    "file": "elevenlabs\\previews\\DANIEL_3.mp3",
+    "generated_voice_id": "HG7VfXmHwrbvmZrFUnWn",
+    "duration_secs": 36.60025
+   }
+  ],
+  "text": "Down here suits me fine. Did the walls just... never mind. Warm is good. Arthur says it's just weather. I'm sure Arthur's right. He's usually right. Mostly. Did you hear that? Tell me you heard that. Pipes, right? Say pipes. Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming."
+ }
+}
