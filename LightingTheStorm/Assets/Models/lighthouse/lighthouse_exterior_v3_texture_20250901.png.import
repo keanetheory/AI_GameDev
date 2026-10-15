@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dlgb8mui5o1s5"
-path.s3tc="res://.godot/imported/lighthouse_exterior_0.png-d7c33d7c9d92d40df339c10e7f17af2f.s3tc.ctex"
+uid="uid://dga7paf02bcow"
+path.s3tc="res://.godot/imported/lighthouse_exterior_v3_texture_20250901.png-a0364f6c006c33d72c33d1e60c0c83f4.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "751f8d59443702eee22e5b0e7e4e4e63"
+"md5": "aaa9e675b766fec0d7b89c37e3fcb8e5"
 }
 
 [deps]
 
-source_file="res://Assets/Models/lighthouse/lighthouse_exterior_0.png"
-dest_files=["res://.godot/imported/lighthouse_exterior_0.png-d7c33d7c9d92d40df339c10e7f17af2f.s3tc.ctex"]
+source_file="res://Assets/Models/lighthouse/lighthouse_exterior_v3_texture_20250901.png"
+dest_files=["res://.godot/imported/lighthouse_exterior_v3_texture_20250901.png-a0364f6c006c33d72c33d1e60c0c83f4.s3tc.ctex"]
 
 [params]
 

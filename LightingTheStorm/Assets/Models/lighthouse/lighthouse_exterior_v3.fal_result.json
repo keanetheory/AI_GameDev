@@ -1,0 +1,23 @@
+{
+  "submission": {
+    "asset_id": "lighthouse_exterior_v3",
+    "category": "lighthouse",
+    "fal_model": "fal-ai/hunyuan3d-v3/image-to-3d",
+    "prompt": "Gothic coastal lighthouse complex on a rocky island, three-quarter view, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, mid-1800s stone and brick",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "source_image": "../../ConceptArt/lighthouse/Gothic lighthouse side elevation-4.png",
+    "view_images": {
+      "front": "../../ConceptArt/lighthouse/Gothic Coastal Lighthouse Complex-2.png",
+      "back": "../../ConceptArt/lighthouse/Gothic lighthouse complex, rear three-quarter view-1.png",
+      "left": "../../ConceptArt/lighthouse/Gothic lighthouse side elevation-4.png"
+    },
+    "notes": "Hero asset, regenerated on Hunyuan3D v3 (newer generator, sharper geometry and texture) with the same three concept views. face_count 40000 keeps it the same size as the v2 model (40k triangles) so load time does not change."
+  },
+  "request_id": "01a14055-26e7-7fc1-a393-cf1a04d652d6",
+  "seed": null,
+  "textured": true,
+  "request": {
+    "generate_type": "Normal",
+    "face_count": 40000
+  }
+}
