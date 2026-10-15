@@ -1,0 +1,9 @@
+PROMPT:
+Saint Calder city skyline at night, lights towers, bright glow, gritty dark cel-shaded, heavy ink outlines, muted, desaturated palette, grimy hand-painted textures, 1800s Gothic cathedral skyline, warm amber and gold electric glow
+
+NEGATIVE PROMPT:
+blurry, modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters
+
+GODOT FOLDER: res://Assets/Models/saint_calder_city/
+IMPORT NOTES:
+- Scale: a backdrop about 600 m wide, placed 3 km away. Pivot: bottom centre. Collision: none. Materials: emissive amber and gold windows only; keep everything else dark and fogged.

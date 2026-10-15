@@ -205,6 +205,42 @@ Offline mode replays `offline_dialogue_draft.json` (the 61 lines first drafted f
 
 **Revision loop.** If the reviewer returns REVISE, the crew does not stop: its failed checks and issues go back to the Dialogue agent (`dialogue_revision.py`), the corrected dialogue goes through the same `check_dialogue` guardrail, and the Canon and Review Orchestrator re-reviews it (up to `--max-revisions`, default 2). Superseded rounds are kept in `handoffs/history_round*`. Two checks were added after the first live run: a line's `step` must equal its trigger event's step, and a reviewer's "all N lines" claims must match the data. `python main_dialogue.py --revise-from sample_output_live --out sample_output_live_revised` continues a saved run; `--simulate-revise` (offline) tests the loop for free. `sample_output_live_revised/` holds the live run after one revision (verdict PASS, 14 of 14 checks).
 
+## The Asset agent and the World Crew (third and fourth pipelines)
+
+Two more pipelines, built for the Godot environment and the FAL asset work. Same pattern as the others: schema + deterministic checks + CrewAI guardrails + an offline mode.
+
+| Pipeline | Agents | Run | Output |
+|---|---|---|---|
+| **Asset review** | **Asset agent** | `python main_asset.py sample_submissions --offline` | `asset_reviews/<id>.review.json`, `<id>.approved_prompt.txt`, `summary.json` |
+| **World crew** | **Boat / Physics agent**, **Player Movement agent** (new role), **Lighting agent**, then the Canon and Review Orchestrator | `python main_world.py --offline` | `world_output/boat_spec.json`, `player_movement_spec.json`, `lighting_spec.json`, `HANDOFF.md`, `REPORT.md` |
+
+**Asset agent.** Run it on every FAL submission before you spend a generation. A submission is a `*.fal.json` file (`asset_id`, `category`, `fal_model`, `prompt`, `negative_prompt`, optional `source_image`, `notes`; see `sample_submissions/`). The checks read `Docs/Lore Build/world/style_guide.md` live (`style_guide.py`), so editing the guide changes what is approved:
+
+- the prompt uses the guide's style descriptors (cel shading plus at least three of four groups);
+- no reference touchstones, "in the style of", artist names, photoreal, modern or sci-fi wording, or the retired name Brusskania;
+- nothing from the guide's global negative list appears in the positive prompt, and the negative prompt contains all of them;
+- any `#hex` colour is in the guide palette; Saint Calder prompts carry amber, gold and "gothic";
+- if `source_image` is given, Pillow checks it is muted, dark and near the palette (all 31 concept images pass).
+
+The agent writes a verdict, a repaired prompt and negative prompt, the Godot folder for the category (`res://Assets/Models/<category>/`) and import notes (scale, pivot, collision, materials). The guardrail refuses an APPROVE when the checks found problems and refuses a revised prompt that still breaks the guide. `python main_asset.py <files> --check-only` runs just the deterministic checks without any model.
+
+**Boat / Physics agent.** One fixed speed, steered only by **A and D** (`move_left`, `move_right`); W and S do nothing. The spec covers the OUTBOUND leg `DOCK_LIGHTHOUSE -> DOCK_PORT` (the Saltgate quays) and the RETURN leg back, waypoints, steering response and a rudder that returns to centre, automatic docking zones, collision recovery and handling checks. `waves_enabled` is false and a `tide_hook` marks where a tide force plugs in later.
+
+**Player Movement agent.** Walking and turning tuning (unsmoothed mouse look, delta-time movement, simultaneous move and turn, slope and step limits from the real island collider) plus seven glitch checks (slopes, lips, turning while moving, corners, falling through, frame rate, camera), each with a repeatable test. `tools/debug_walk.gd` in the Godot project is one such test.
+
+**Lighting agent.** Four phases (ISLAND, OUTBOUND, RETURN, BEACON_RELIT), the eclipsed or absent moon, lightning (flash-rate capped at 3 per second, reveals hazards, driven by phase and route position, never elapsed time), the lighthouse beacon, arc lamp, steam glow and windows, the boat lamp, and distant Saint Calder (amber and gold only). Every colour must be in the style guide palette and no light may be a navigation marker.
+
+Offline mode makes the first Boat attempt press a throttle key and the first Lighting attempt use a neon colour, so you can see the guardrails block and the agents retry. Pass `--no-demo-errors` to skip that. On Windows, set `PYTHONIOENCODING=utf-8` to silence harmless console encoding noise from CrewAI's live display.
+
+### Reminder: build the Tide / Wave agent next
+
+The **Tide / Wave agent is deliberately not built yet.** Build it once there is a traversable Godot level (the lighthouse island with the player walking and the boat crossing). The waves in the crossing are a game mechanic, but the rules still say otherwise, so do these first:
+
+1. Update `canon.py`, `validators.py` (`check_brief`) and `schemas.py` (`HazardType`) so waves are approved and say how a tide affects the crossing (the lore says the eclipse makes tides more aggressive).
+2. Add the agent to `roles.py` and run it in the crossing crew next to the Hazard Forecast agent, so Jeff's calls and the safe lane read the tide schedule.
+3. Connect it to the boat's `tide_hook` and set `waves_enabled` to true only then.
+4. Replace the cosmetic wave shader in `LightingTheStorm/scripts/world/sea.gd` with one driven by the same tide data.
+
 ## Files
 
 | File | Purpose |
@@ -224,6 +260,12 @@ Offline mode replays `offline_dialogue_draft.json` (the 61 lines first drafted f
 | `main_dialogue.py` | CLI for the dialogue crew |
 | `offline_dialogue_llm.py`, `offline_dialogue_draft.json` | Scripted model and the draft it replays |
 | `dialogue_crew_architecture.mermaid` | Dialogue crew diagram |
+| `style_guide.py` | Reads `style_guide.md` and runs the prompt and image style checks |
+| `world_schemas.py`, `world_validators.py`, `world_canon.py` | Contracts, checks and canon for the Asset, Boat, Player Movement and Lighting agents |
+| `asset_crew.py`, `main_asset.py` | The Asset agent and its CLI |
+| `world_crew.py`, `main_world.py` | The Boat, Player Movement and Lighting agents plus reviewer, and their CLI |
+| `offline_world_llm.py`, `llm_factory.py` | Scripted model for both new crews; real model setup |
+| `sample_submissions/` | Example FAL submissions (one good, one deliberately bad) |
 
 ## Scope and limits
 

@@ -1,0 +1,111 @@
+{
+  "generated_utc": "2026-10-15T09:58:00+00:00",
+  "spec_id": "BOAT_STEAM_LAUNCH_V1",
+  "vessel": "Gothic teal steam launch with brass trim",
+  "speed_mps": 3.0,
+  "steer_left_action": "move_left",
+  "steer_right_action": "move_right",
+  "throttle_actions": [],
+  "other_move_keys_do": "Nothing: W and S have no effect on the boat.",
+  "max_turn_rate_deg_s": 35.0,
+  "steer_response_s": 0.35,
+  "rudder_returns_to_centre": true,
+  "drift_factor": 0.15,
+  "legs": [
+    {
+      "leg_id": "OUTBOUND",
+      "from_zone": "DOCK_LIGHTHOUSE",
+      "to_zone": "DOCK_PORT",
+      "length_m": 1500,
+      "waypoints": [
+        {
+          "waypoint_id": "WP_OUT_01",
+          "route_m": 0,
+          "lateral_m": 0.0,
+          "note": "Leave the lighthouse jetty"
+        },
+        {
+          "waypoint_id": "WP_OUT_02",
+          "route_m": 500,
+          "lateral_m": -6.0,
+          "note": "Clear the island reef"
+        },
+        {
+          "waypoint_id": "WP_OUT_03",
+          "route_m": 1000,
+          "lateral_m": 4.0,
+          "note": "Open Gullwater, rocks to the right"
+        },
+        {
+          "waypoint_id": "WP_OUT_04",
+          "route_m": 1500,
+          "lateral_m": 0.0,
+          "note": "Saltgate quays"
+        }
+      ],
+      "feel": "Quiet steam chugging, rain starting, the beacon dark behind and Saint Calder's glow ahead."
+    },
+    {
+      "leg_id": "RETURN",
+      "from_zone": "DOCK_PORT",
+      "to_zone": "DOCK_LIGHTHOUSE",
+      "length_m": 1500,
+      "waypoints": [
+        {
+          "waypoint_id": "WP_RET_01",
+          "route_m": 0,
+          "lateral_m": 0.0,
+          "note": "Leave the quays with the burner"
+        },
+        {
+          "waypoint_id": "WP_RET_02",
+          "route_m": 500,
+          "lateral_m": 5.0,
+          "note": "Rocks and buoys"
+        },
+        {
+          "waypoint_id": "WP_RET_03",
+          "route_m": 1000,
+          "lateral_m": -4.0,
+          "note": "Narrows under Bracken Isle"
+        },
+        {
+          "waypoint_id": "WP_RET_04",
+          "route_m": 1500,
+          "lateral_m": 0.0,
+          "note": "Lighthouse jetty"
+        }
+      ],
+      "feel": "Roaring storm, rocks closing in, Jeff shouting directions over the wind."
+    }
+  ],
+  "docks": [
+    {
+      "zone_id": "DOCK_LIGHTHOUSE",
+      "approach_radius_m": 12.0,
+      "auto_dock": true,
+      "note": "Boat slows to a stop and ties up on entering the zone."
+    },
+    {
+      "zone_id": "DOCK_PORT",
+      "approach_radius_m": 12.0,
+      "auto_dock": true,
+      "note": "Boat stops at the Saltgate quays; the player lands to fetch the burner."
+    }
+  ],
+  "collision_recovery": "On a hazard hit the boat bounces off and is moved to the nearest SAFE point on the route with a small cost; the burner is never lost.",
+  "waves_enabled": false,
+  "tide_hook": "A Vector2 'water_push' added to the boat's velocity each physics frame, zero until the Tide / Wave agent supplies it.",
+  "handling_checks": [
+    "Hold A for 5 s: the boat turns at the maximum rate with no spin-out.",
+    "Release A and D: the rudder centres and the boat holds a straight line.",
+    "Press W and S: nothing happens to speed or heading.",
+    "Thread a 12 m gap between two rocks at full speed without hitting either.",
+    "Enter DOCK_PORT and DOCK_LIGHTHOUSE off-centre: docking completes automatically.",
+    "Alternate A and D quickly: no jitter in the camera or hull."
+  ],
+  "open_creator_decisions": [
+    "Whether the earlier return-crossing data (6 m/s) should be regenerated at the confirmed 3 m/s.",
+    "Whether Jeff, as a passenger, moves around the boat while it is steered."
+  ]
+}

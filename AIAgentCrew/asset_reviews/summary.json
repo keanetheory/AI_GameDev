@@ -1,0 +1,33 @@
+[
+  {
+    "asset_id": "lighthouse_exterior",
+    "category": "lighthouse",
+    "verdict": "APPROVE",
+    "findings": [],
+    "image_metrics": {
+      "mean_saturation": 0.103,
+      "mean_brightness": 0.558,
+      "neon_fraction": 0.0,
+      "near_palette_fraction": 0.987
+    }
+  },
+  {
+    "asset_id": "saint_calder_skyline",
+    "category": "saint_calder_city",
+    "verdict": "REVISE",
+    "findings": [
+      "Prompt must use the style descriptors (cel shading plus at least 3 of 4 groups). Missing: ['cel shading', 'ink outlines', 'muted palette', 'grimy hand-painted texture'].",
+      "Prompt contains a forbidden named reference touchstone.",
+      "Prompt contains a forbidden 'in the style of' reference.",
+      "Prompt contains a forbidden photoreal rendering.",
+      "Prompt contains a forbidden modern or sci-fi era.",
+      "Prompt contains a forbidden retired city name.",
+      "Prompt asks for 'neon', which the style guide lists as a negative.",
+      "Prompt uses colours outside the style guide palette: ['#00FFAA'].",
+      "Negative prompt is missing global negatives: ['modern clothing', 'cars', 'plastic', 'neon', 'smartphones', 'modern electrical fixtures', 'bright saturated colours', 'smooth photoreal rendering', 'clean glossy surfaces', 'anime style', 'text artefacts', 'real artist names', 'franchise characters'].",
+      "Saint Calder prompts must carry its amber and gold glow (style guide colour meanings).",
+      "Saint Calder prompts must say 'gothic' (1800s Gothic cathedral skyline)."
+    ],
+    "image_metrics": {}
+  }
+]

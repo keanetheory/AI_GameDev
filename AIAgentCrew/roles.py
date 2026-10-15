@@ -48,6 +48,12 @@ WORKERS = (
          ("Boat controller at one fixed speed", "Hazard collisions and recovery",
           "Tuning values held as data", "Stretch: wave layer behind an on/off setting"),
          "The developer plays the week-2 steering spike and makes the go/no-go call on feel"),
+    Role("Player Movement agent", "worker", (3, 4),
+         "On-foot controller spec: walking, turning, collision handling and glitch checks",
+         "Level collision rules, input actions, capsule and camera facts",
+         ("Player movement tuning as data", "Glitch checks with a repeatable test for each",
+          "Smooth turning and moving at the same time"),
+         "The developer walks the island with no snagging, jitter or camera lag (added after the Oct 2026 design submission)"),
     Role("Level Layout agent", "worker", (3,),
          "Greybox scenes, anchors",
          "Location sizes, beacon visibility, interaction anchors",
@@ -116,6 +122,18 @@ CROSSING_PIPELINE = (
 )
 
 
+# The agents the world crew runs (world_crew.py), in pipeline order.
+WORLD_PIPELINE = (
+    "Boat / Physics agent",
+    "Player Movement agent",
+    "Lighting agent",
+    "Canon and Review Orchestrator",
+)
+
+# The agent the asset review crew runs (asset_crew.py), once per FAL submission.
+ASSET_PIPELINE = ("Asset agent",)
+
+
 # The agents the opening-dialogue crew runs (dialogue_crew.py), in pipeline order.
 DIALOGUE_PIPELINE = (
     "Production Orchestrator",
@@ -128,5 +146,5 @@ def role(name: str) -> Role:
     return next(r for r in ROSTER if r.name == name)
 
 
-assert len(ORCHESTRATORS) == 2 and len(WORKERS) == 10
+assert len(ORCHESTRATORS) == 2 and len(WORKERS) == 11
 assert {r.name for r in ROSTER if r.in_crossing_crew} == set(CROSSING_PIPELINE)

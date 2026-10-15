@@ -1,0 +1,186 @@
+{
+  "spec_id": "LIGHTING_RIG_V1",
+  "phases": [
+    {
+      "phase_id": "ISLAND",
+      "ambient_colour": "#1F2A44",
+      "ambient_energy": 0.45,
+      "fog_colour": "#2C3A40",
+      "fog_density": 0.006,
+      "hazard_visibility_m": 120,
+      "lightning_interval_s": [
+        8.0,
+        20.0
+      ],
+      "note": "Cold dusk on the island, storm building."
+    },
+    {
+      "phase_id": "OUTBOUND",
+      "ambient_colour": "#1F2A44",
+      "ambient_energy": 0.4,
+      "fog_colour": "#2C3A40",
+      "fog_density": 0.008,
+      "hazard_visibility_m": 110,
+      "lightning_interval_s": [
+        6.0,
+        16.0
+      ],
+      "note": "Rain starting, Saint Calder's glow ahead."
+    },
+    {
+      "phase_id": "RETURN",
+      "ambient_colour": "#0E0E10",
+      "ambient_energy": 0.3,
+      "fog_colour": "#2C3A40",
+      "fog_density": 0.014,
+      "hazard_visibility_m": 70,
+      "lightning_interval_s": [
+        3.0,
+        9.0
+      ],
+      "note": "Roaring storm; lightning is how the rocks are seen."
+    },
+    {
+      "phase_id": "BEACON_RELIT",
+      "ambient_colour": "#1F2A44",
+      "ambient_energy": 0.4,
+      "fog_colour": "#2C3A40",
+      "fog_density": 0.012,
+      "hazard_visibility_m": 140,
+      "lightning_interval_s": [
+        6.0,
+        14.0
+      ],
+      "note": "The beacon sweeps the water; the sea is readable again."
+    }
+  ],
+  "moon": {
+    "state": "eclipsed",
+    "rim_colour": "#B9BEC4",
+    "rim_energy": 0.1,
+    "visible_disc": true,
+    "flighted_icon_hint": "A perfect black sphere with a faint silver rim over a dim cloud gap; never lit enough to light the scene."
+  },
+  "lightning": {
+    "colour": "#B9BEC4",
+    "peak_energy": 5.0,
+    "flash_duration_s": [
+      0.08,
+      0.3
+    ],
+    "max_flashes_per_second": 2.0,
+    "thunder_delay_s_per_100m": 0.29,
+    "driven_by": "phase_and_route_position",
+    "reveals_hazards": true,
+    "note": "Cold silver-white flash with a short afterglow; flashes place hazards in black silhouette against the sea."
+  },
+  "sources": [
+    {
+      "source_id": "LIGHT_BEACON",
+      "kind": "beacon",
+      "location": "Lighthouse lantern room",
+      "colour": "#B9BEC4",
+      "energy": 8.0,
+      "range_m": 400.0,
+      "behaviour": "Rotating beam; dark, then failing flicker, then steady sweep once relit.",
+      "godot_node": "SpotLight3D",
+      "casts_shadow": false,
+      "is_navigation_marker": false
+    },
+    {
+      "source_id": "LIGHT_ARC_LAMP",
+      "kind": "arc_lamp",
+      "location": "Lighthouse dynamo room",
+      "colour": "#B9BEC4",
+      "energy": 3.0,
+      "range_m": 12.0,
+      "behaviour": "Harsh crackling arc with a dynamo hum flicker.",
+      "godot_node": "OmniLight3D",
+      "casts_shadow": false,
+      "is_navigation_marker": false
+    },
+    {
+      "source_id": "LIGHT_STEAM_GLOW",
+      "kind": "steam_glow",
+      "location": "Basement boiler",
+      "colour": "#C07A1E",
+      "energy": 2.0,
+      "range_m": 8.0,
+      "behaviour": "Slow pulsing furnace glow that rises when coal is fed.",
+      "godot_node": "OmniLight3D",
+      "casts_shadow": false,
+      "is_navigation_marker": false
+    },
+    {
+      "source_id": "LIGHT_WINDOWS",
+      "kind": "window_lamp",
+      "location": "Keeper's cottage windows",
+      "colour": "#C07A1E",
+      "energy": 1.0,
+      "range_m": 6.0,
+      "behaviour": "Dim warm window light with a slight gas flicker.",
+      "godot_node": "MeshInstance3D emissive",
+      "casts_shadow": false,
+      "is_navigation_marker": false
+    },
+    {
+      "source_id": "LIGHT_BOAT_LAMP",
+      "kind": "boat_lamp",
+      "location": "Bow of the steam launch",
+      "colour": "#B8962E",
+      "energy": 2.5,
+      "range_m": 25.0,
+      "behaviour": "Steady brass lantern that sways with the hull; does not reveal hazards beyond its range.",
+      "godot_node": "SpotLight3D",
+      "casts_shadow": false,
+      "is_navigation_marker": false
+    },
+    {
+      "source_id": "LIGHT_SAINT_CALDER",
+      "kind": "saint_calder_lights",
+      "location": "Far shore, about 3 km inland",
+      "colour": "#C07A1E",
+      "energy": 1.5,
+      "range_m": 3000.0,
+      "behaviour": "Static emissive window cards with a faint electric shimmer.",
+      "godot_node": "MeshInstance3D emissive",
+      "casts_shadow": false,
+      "is_navigation_marker": false
+    }
+  ],
+  "beacon": {
+    "sweep_period_s": 8.0,
+    "beam_range_m": 400.0,
+    "colour": "#B9BEC4",
+    "states": [
+      "dark",
+      "failing flicker",
+      "relit steady sweep"
+    ]
+  },
+  "saint_calder": {
+    "distance_m": 3000.0,
+    "colours": [
+      "#C07A1E",
+      "#B8962E"
+    ],
+    "technique": "Emissive window cards and a cathedral silhouette billboard, depth-faded by fog, no real lights.",
+    "visible_through_fog": true,
+    "flicker": "Very slow random shimmer of a few windows; the cathedral stays steady.",
+    "is_navigation_marker": false,
+    "note": "Scenery only: warm glow against the dark coast. It must not line up as a goal marker for the crossing."
+  },
+  "max_dynamic_lights": 8,
+  "max_shadow_casters": 2,
+  "legibility_checks": [
+    "Hazards: at RETURN the nearest rock reads as a silhouette at its hazard_visibility_m with no flash.",
+    "Lightning: a flash never washes out a hazard to white; hazards read darker than the sea during a flash.",
+    "Beacon: dark at the start, then relit; the sweep is visible from DOCK_PORT without being a marker.",
+    "Saint Calder: visible through fog from the outbound start, amber and gold only, never brighter than the beacon.",
+    "Photosensitivity: record 60 s of RETURN and confirm no more than 3 flashes in any second."
+  ],
+  "open_creator_decisions": [
+    "How bright the eclipsed moon's silver rim may be.",
+    "Whether Saint Calder should flicker or stay fully steady."
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "asset_id": "sea_stack",
+  "category": "sea_rocks",
+  "fal_model": "fal-ai/hunyuan3d-v3/image-to-3d",
+  "prompt": "Tall angular sea stack rock spire of fractured slate with moss-capped ledges and pale salt-streaked base, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, mid-1800s coastal wilderness",
+  "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+  "source_image": "../../ConceptArt/sea_rocks/Angular Moss-Capped Sea Stack-1.png",
+  "view_images": {
+    "front": "../../ConceptArt/sea_rocks/Angular Moss-Capped Sea Stack-1.png",
+    "right": "derived/sea_stack_mid_view.png"
+  },
+  "notes": "Hazard rocks scattered along the crossing between the island and the Saltgate. Hero view plus the middle panel of the three-view sheet."
+}

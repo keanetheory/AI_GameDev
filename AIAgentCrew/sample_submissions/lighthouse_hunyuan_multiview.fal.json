@@ -1,0 +1,14 @@
+{
+  "asset_id": "lighthouse_exterior",
+  "category": "lighthouse",
+  "fal_model": "fal-ai/hunyuan3d/v2/multi-view",
+  "prompt": "Gothic coastal lighthouse complex on a rocky island, three-quarter view, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, mid-1800s stone and brick",
+  "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+  "source_image": "../../ConceptArt/lighthouse/Gothic lighthouse side elevation-4.png",
+  "view_images": {
+    "front": "../../ConceptArt/lighthouse/Gothic Coastal Lighthouse Complex-2.png",
+    "back": "../../ConceptArt/lighthouse/Gothic lighthouse complex, rear three-quarter view-1.png",
+    "left": "../../ConceptArt/lighthouse/Gothic lighthouse side elevation-4.png"
+  },
+  "notes": "Hero asset. Hunyuan3D multi-view takes images only; the prompt is kept for the style review and the record."
+}

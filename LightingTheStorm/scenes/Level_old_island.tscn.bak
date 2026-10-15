@@ -1,0 +1,74 @@
+[gd_scene load_steps=7 format=3 uid="uid://b601q1u1ked8s"]
+
+[ext_resource type="Script" path="res://scripts/world/collider_builder.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/world/sea.gd" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="3"]
+
+[sub_resource type="ProceduralSkyMaterial" id="sky"]
+sky_top_color = Color(0.12, 0.15, 0.2, 1)
+sky_horizon_color = Color(0.3, 0.34, 0.38, 1)
+ground_bottom_color = Color(0.05, 0.07, 0.09, 1)
+ground_horizon_color = Color(0.3, 0.34, 0.38, 1)
+
+[sub_resource type="Sky" id="sky_res"]
+sky_material = SubResource("sky")
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky_res")
+ambient_light_source = 3
+ambient_light_color = Color(0.35, 0.4, 0.5, 1)
+ambient_light_energy = 0.7
+tonemap_mode = 2
+fog_enabled = true
+fog_light_color = Color(0.32, 0.36, 0.4, 1)
+fog_density = 0.004
+
+[node name="Level" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866, -0.25, 0.433, 0, 0.866, 0.5, -0.5, -0.433, 0.75, 0, 40, 0)
+light_energy = 0.6
+shadow_enabled = true
+directional_shadow_max_distance = 300.0
+
+[node name="Sea" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.25, 0)
+script = ExtResource("2")
+
+[node name="Island" type="Node3D" parent="."]
+transform = Transform3D(45, 0, 0, 0, 45, 0, 0, 0, 45, 2.25, 22.275, -22.6)
+
+[node name="Visual" type="Node3D" parent="Island"]
+script = ExtResource("1")
+model_path = "res://Assets/Island/environment/8-island.glb"
+solid = false
+
+[node name="Collider" type="Node3D" parent="Island"]
+script = ExtResource("1")
+model_path = "res://Assets/Island/environment/8-island-collider.glb"
+visible_mesh = false
+
+[node name="Gangway" type="Node3D" parent="."]
+script = ExtResource("1")
+model_path = "res://Assets/Island/environment/1-gangway.glb"
+
+[node name="Gate" type="Node3D" parent="."]
+script = ExtResource("1")
+model_path = "res://Assets/Island/environment/1-gate.glb"
+solid = false
+
+[node name="Tunnel" type="Node3D" parent="."]
+script = ExtResource("1")
+model_path = "res://Assets/Island/environment/4-tunnel.glb"
+
+[node name="Barriers" type="Node3D" parent="."]
+script = ExtResource("1")
+model_path = "res://Assets/Island/environment/1-barriers.glb"
+visible_mesh = false
+
+[node name="Player" parent="." instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -0.5)

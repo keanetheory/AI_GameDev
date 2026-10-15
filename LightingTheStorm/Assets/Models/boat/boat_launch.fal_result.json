@@ -1,0 +1,23 @@
+{
+  "submission": {
+    "asset_id": "boat_launch",
+    "category": "boat",
+    "fal_model": "fal-ai/hunyuan3d-v3/image-to-3d",
+    "prompt": "Gothic teal steam launch, weathered clinker-planked wooden hull with brass trim, rope fenders, brass cleats, wooden steering wheel, small windscreen and a riveted teal engine housing, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, mid-1800s timber and brass",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "source_image": "../../ConceptArt/boat/Weathered teal motorboat side view-8.png",
+    "view_images": {
+      "front": "../../ConceptArt/boat/Gothic teal motorboat, brass-trimmed bow view-6.png",
+      "back": "../../ConceptArt/boat/Weathered teal motorboat, stern view-7.png",
+      "left": "../../ConceptArt/boat/Weathered teal motorboat side view-8.png"
+    },
+    "notes": "Bow, stern and side views. The overhead view is left out because it is not a side view."
+  },
+  "request_id": "01a13f53-d5f3-7c03-8b3a-3b1dc323175e",
+  "seed": null,
+  "textured": true,
+  "request": {
+    "generate_type": "Normal",
+    "face_count": 100000
+  }
+}

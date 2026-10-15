@@ -1,0 +1,22 @@
+{
+  "submission": {
+    "asset_id": "island_plateau",
+    "category": "island",
+    "fal_model": "fal-ai/hunyuan3d-v3/image-to-3d",
+    "prompt": "Craggy coastal island with a mossy rocky plateau, stone staircase and weathered timber dock, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, mid-1800s stone and timber",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "source_image": "../../ConceptArt/island/Island Plateau with Stone Staircase and Dock-1.png",
+    "view_images": {
+      "front": "../../ConceptArt/island/Island Plateau with Stone Staircase and Dock-1.png",
+      "back": "../../ConceptArt/island/Cel-shaded island with rocky plateau and dock-2.png"
+    },
+    "notes": "Bare island (no lighthouse). Views 1 and 2 are opposite 3/4 angles; the overhead image is left out because it is not a side view."
+  },
+  "request_id": "01a13f34-37f5-7e03-91c2-81f05c129b88",
+  "seed": null,
+  "textured": true,
+  "request": {
+    "generate_type": "Normal",
+    "face_count": 200000
+  }
+}
