@@ -136,7 +136,7 @@ seed = 9
 
 [node name="BoardwalkLink" type="Node3D" parent="."]
 script = ExtResource("8")
-points = PackedVector3Array(3.2, 3.1, 552.9, 3.2, 4.0, 555.2, 3.2, 4.9, 557.5)
+points = PackedVector3Array(3.2, 3.1, 552.9, 3.2, 4, 555.2, 3.2, 4.9, 557.5)
 width = 2.4
 seed = 3
 

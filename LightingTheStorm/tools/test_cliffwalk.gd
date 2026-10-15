@@ -36,18 +36,18 @@ func _begin() -> void:
 	var x0: float = _m.GAL_X0
 	if _leg == 0:
 		_wps.append(Vector3(60.0, 0.0, 555.6))       # on the east boardwalk
-		_wps.append(Vector3(40.0, 0.0, 556.8))
-		_wps.append(Vector3(30.0, 0.0, 558.5))
+		_wps.append(Vector3(44.0, 0.0, 556.6))
+		_wps.append(Vector3(38.0, 0.0, 557.6))
 	else:
 		_wps.append(Vector3(-6.0, 0.0, 552.4))       # on the west boardwalk
 		_wps.append(Vector3(4.0, 0.0, 552.6))
 		_wps.append(Vector3(3.2, 0.0, 556.0))        # up the link ramp
 		_wps.append(Vector3(3.2, 0.0, 558.4))
 	var k0 := 0 if _leg == 0 else int(x0 - 3.0)
-	var start_k := int(x0 - 30.0) if _leg == 0 else int(x0 - 3.0)
+	var start_k := int(x0 - 34.0) if _leg == 0 else int(x0 - 3.0)
 	for k in range(start_k, y.size(), 8):
 		var kk := mini(k, y.size() - 1)
-		_wps.append(Vector3(x0 - kk * 1.0, 0.0, z[kk] + 0.5 + minf(2.5, d[kk] * 0.5)))
+		_wps.append(Vector3(x0 - kk * 1.0, 0.0, z[kk] + 1.3))     # hug the front of the ledge
 	_p.global_position = Vector3(_wps[0].x, 4.0, _wps[0].z)
 	_p.velocity = Vector3.ZERO
 	print("-- leg: ", _names[_leg])
@@ -71,7 +71,7 @@ func _physics_process(_dt: float) -> bool:
 		_wp += 1
 		return false
 	var done := _wp == _wps.size() - 1 and dv.length() < 1.5
-	if done or _frames > 9000 or _p.global_position.y < -1.0:
+	if done or _frames > 5000 or _p.global_position.y < -1.0:
 		print("end: (%.1f, %.1f, %.1f) after %d frames; waypoint %d of %d; frames off the floor %d; %s" % [
 			_p.global_position.x, _p.global_position.y, _p.global_position.z, _frames, _wp + 1, _wps.size(), _off,
 			"REACHED THE TOP" if done else "DID NOT FINISH"])

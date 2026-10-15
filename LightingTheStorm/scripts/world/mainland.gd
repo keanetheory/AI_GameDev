@@ -36,6 +36,7 @@ const FOREST_ROAD := [Vector2(-196, 573.5), Vector2(-203, 579), Vector2(-206, 58
 @export var tree_seed := 11
 
 var _noise := FastNoiseLite.new()
+var _tops_real: Array[float] = []     # cliff-top height measured from the actual cliff meshes (see _measure_tops)
 var _road_xz: Array[Vector2] = []     # forest road samples, for keeping trees off it
 
 
@@ -45,6 +46,7 @@ func _ready() -> void:
 	_noise.seed = 7
 	_noise.frequency = 0.011
 	_noise.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH
+	_measure_tops()
 	_build_terrain()
 	_build_roads()
 	_build_trees()
@@ -52,11 +54,57 @@ func _ready() -> void:
 
 # ---------- ground ----------
 
+## Measures the top surface of the cliff pieces at z = 590, every 10 m, straight from their meshes (before
+## the walkway is cut). The baked TOPS table came from the solid collision hull, which stands a little
+## above the visible rock, so the plateau built from it floated above the real cliff top.
+func _measure_tops() -> void:
+	_tops_real.clear()
+	var cliffs := get_parent().get_node_or_null("Cliffs") if get_parent() else null
+	if cliffs == null:
+		return
+	var best: Array[float] = []
+	best.resize(TOPS.size())
+	best.fill(0.0)
+	const Z := 590.0
+	for node in cliffs.get_children():
+		for mi in node.find_children("*", "MeshInstance3D", true, false):
+			var m := mi as MeshInstance3D
+			if m.mesh == null:
+				continue
+			var xf := m.global_transform
+			var wb: AABB = xf * m.mesh.get_aabb()
+			if wb.position.z > Z or wb.end.z < Z:
+				continue
+			var faces := m.mesh.get_faces()
+			for t in range(0, faces.size(), 3):
+				var a := xf * faces[t]
+				var b := xf * faces[t + 1]
+				var c := xf * faces[t + 2]
+				if (a.z > Z and b.z > Z and c.z > Z) or (a.z < Z and b.z < Z and c.z < Z):
+					continue            # does not cross the line z = 590
+				var x_lo := minf(a.x, minf(b.x, c.x))
+				var x_hi := maxf(a.x, maxf(b.x, c.x))
+				var i0 := maxi(0, int(ceil((x_lo - TOPS_X0) / 10.0)))
+				var i1 := mini(best.size() - 1, int(floor((x_hi - TOPS_X0) / 10.0)))
+				for i in range(i0, i1 + 1):
+					var px := TOPS_X0 + i * 10.0
+					var d := (b.z - c.z) * (a.x - c.x) + (c.x - b.x) * (a.z - c.z)
+					if absf(d) < 0.000001:
+						continue
+					var l1 := ((b.z - c.z) * (px - c.x) + (c.x - b.x) * (Z - c.z)) / d
+					var l2 := ((c.z - a.z) * (px - c.x) + (a.x - c.x) * (Z - c.z)) / d
+					var l3 := 1.0 - l1 - l2
+					if l1 >= 0.0 and l2 >= 0.0 and l3 >= 0.0:
+						best[i] = maxf(best[i], l1 * a.y + l2 * b.y + l3 * c.y)
+	_tops_real = best
+
+
 func cliff_top(x: float) -> float:
 	var f := (x - TOPS_X0) / 10.0
 	var i := clampi(int(floor(f)), 0, TOPS.size() - 2)
-	var a: float = TOPS[i]
-	var b: float = TOPS[i + 1]
+	var table: Array = _tops_real if _tops_real.size() == TOPS.size() else TOPS
+	var a: float = table[i]
+	var b: float = table[i + 1]
 	if a < 20.0:
 		a = b
 	if b < 20.0:
@@ -68,7 +116,7 @@ func cliff_top(x: float) -> float:
 
 func terrain_h(x: float, z: float) -> float:
 	var t := smoothstep(598.0, 640.0, z)
-	var lip := cliff_top(x) - 2.0
+	var lip := cliff_top(x) - 0.4
 	var forest := 38.4 - 2.4 * smoothstep(600.0, 645.0, z) + _noise.get_noise_2d(x, z) * 3.0 * (1.0 - 0.7 * smoothstep(620.0, 650.0, z))
 	var h := lerpf(lip, forest, t)
 	var edge := minf(minf(x - TERRAIN_X.x, TERRAIN_X.y - x), TERRAIN_Z.y - z)
