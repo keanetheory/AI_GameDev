@@ -58,7 +58,7 @@ Claude applied every accepted change and produced the final image above.
 
 ## Generated Artifact #2: Character Dialogue Sequences
 
-Dialogue for Ted, Jeff and Daniel across the first three steps of *Lighting the Storm* (load coal into the boiler, let the stranded sailors in, retrieve the burner), written by a CrewAI "Opening Dialogue Crew" and revised after its own reviewer sent it back. The pathway from prompt to result is the diagram at the end of this section.
+Dialogue for Ted, Arthur and Daniel across the first three steps of *Lighting the Storm* (load coal into the boiler, let the stranded sailors in, retrieve the burner), written by a CrewAI "Opening Dialogue Crew" and revised after its own reviewer sent it back. The pathway from prompt to result is the diagram at the end of this section.
 
 **Start here:** [Character Dialogue Sequences index](Docs/Lore%20Build/dialogue/README.md)
 
@@ -74,7 +74,7 @@ Dialogue for Ted, Jeff and Daniel across the first three steps of *Lighting the 
 | Character | Lines | Page |
 |---|---|---|
 | Ted, the lighthouse master | 23 | [DIALOGUE_TED.md](Docs/Lore%20Build/dialogue/characters/DIALOGUE_TED.md) |
-| Jeff, the sailor who guides the crossing | 25 | [DIALOGUE_JEFF.md](Docs/Lore%20Build/dialogue/characters/DIALOGUE_JEFF.md) |
+| Arthur, the sailor who guides the crossing | 25 | [DIALOGUE_ARTHUR.md](Docs/Lore%20Build/dialogue/characters/DIALOGUE_ARTHUR.md) |
 | Daniel, the young sailor in the basement | 8 | [DIALOGUE_DANIEL.md](Docs/Lore%20Build/dialogue/characters/DIALOGUE_DANIEL.md) |
 
 Each page has the character's voice notes from the lore file, then every line with the game event that plays it, its delivery direction and any staging notes.
@@ -85,9 +85,9 @@ Each page has the character's voice notes from the lore file, then every line wi
 ### What was provided
 
 - **Ted introduces the player to the setting and each objective.** In the final version he sets the scene (eclipse, storm season, the Saltgate) and then gives the three tasks: feed the basement boiler, open the gate for the sailors, fetch the replacement burner. He is gruff and snarky and calls the city's rich "new money toffs".
-- **Jeff and Daniel** react at the gate, in the hall and on the launch. Jeff guides the crossing; Daniel settles by the boiler and is anxious and funny about it.
+- **Arthur and Daniel** react at the gate, in the hall and on the launch. Arthur guides the crossing; Daniel settles by the boiler and is anxious and funny about it.
 - **Dynamic behaviour, not just a script.** Key moments have alternates (17 groups, one plays at random each run), four stall ladders escalate hints when the player is stuck, assist mode adds a plain-text hint, and the player's handwritten journal updates as steps pass.
-- **The player is "the new guy"** and never speaks. Nothing mentions a timer, shows a marker or confirms a supernatural cause.
+- **The player is "Isaac"** and never speaks. Nothing mentions a timer, shows a marker or confirms a supernatural cause.
 
 ### How it was made: chat history
 
@@ -103,13 +103,13 @@ Claude read the GDD, the Lore Build and the Agent Crew's canon and call-sheet st
 
 **2. Refinements and a first pathway diagram**
 
-> Refer to the player as "the new guy"
+> Refer to the player as "Isaac"
 >
 > Ted's position is fine for now.
 >
 > Visualise your pathway - from my prompt, through to the lore, and which agents used - in a diagram if possible, demonstrating the agents generate dynamic content.
 
-Every "apprentice" became "the new guy". The first diagram stated plainly that the Agent Crew had not run.
+Every "apprentice" became "Isaac". The first diagram stated plainly that the Agent Crew had not run.
 
 **3. Challenge: make the agent crew do it**
 
@@ -121,7 +121,7 @@ Claude added a three-agent Dialogue task to `storm_crew` (Production Orchestrato
 
 > use the anthropic api key
 
-The live run needed a workspace ID, a model the workspace has, and no temperature setting. The first live model invented its own event IDs and broke its JSON, so the brief check was tightened to the game's real events (no content check was loosened). On the next run the guardrails blocked two Dialogue attempts (1 error, then 28) before the third passed. The reviewer then returned **REVISE**: Daniel's lines triggered outside the basement and Jeff's poster lines implied an outpost interior. It also miscounted the lines ("76" for 56).
+The live run needed a workspace ID, a model the workspace has, and no temperature setting. The first live model invented its own event IDs and broke its JSON, so the brief check was tightened to the game's real events (no content check was loosened). On the next run the guardrails blocked two Dialogue attempts (1 error, then 28) before the third passed. The reviewer then returned **REVISE**: Daniel's lines triggered outside the basement and Arthur's poster lines implied an outpost interior. It also miscounted the lines ("76" for 56).
 
 **5. Challenge: feed the reviewer's issues back**
 
@@ -133,7 +133,7 @@ The reviewer's six issues went back to the Dialogue agent, who changed 10 lines 
 
 - The re-reviewer is the same model marking its own fix, so this is not independent approval. The creator still approves voice and lore before anything is recorded.
 - The loader script has not been run inside Godot.
-- In the live version "the new guy" appears in about a third of the lines (19 of 56), which reads mechanical, and Ted's setting introduction is thinner than in the offline draft.
+- In the live version "Isaac" appears in about a third of the lines (19 of 56), which reads mechanical, and Ted's setting introduction is thinner than in the offline draft.
 - The offline run and the negative test used a scripted model (no API call); only the live runs used the Anthropic API.
 
 ### Pathway: from prompt, through the agent crew, to the game

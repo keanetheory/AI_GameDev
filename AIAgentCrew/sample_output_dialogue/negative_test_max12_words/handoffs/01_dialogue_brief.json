@@ -2,10 +2,10 @@
   "task_id": "GATE1_OPENING_DIALOGUE",
   "slice": "Gate 1 opening: steps 1-3 (coal, sailors, burner)",
   "max_words_per_line": 12,
-  "player_term": "the new guy",
+  "player_term": "Isaac",
   "speakers": [
     "TED",
-    "JEFF",
+    "ARTHUR",
     "DANIEL"
   ],
   "steps": [
@@ -21,7 +21,7 @@
       "step": 2,
       "title": "Let the sailors in",
       "location": "Lantern-room window, path, island gate",
-      "player_action": "Look out of the window, go down the path and open the gate for Jeff and Daniel.",
+      "player_action": "Look out of the window, go down the path and open the gate for Arthur and Daniel.",
       "starts_on": "SAILORS_MOORED",
       "ends_on": "DANIEL_IN_BASEMENT"
     },
@@ -29,7 +29,7 @@
       "step": 3,
       "title": "Fetch the burner",
       "location": "Dock, steam launch, outpost",
-      "player_action": "Board the launch with Jeff, cross the Gullwater and pick up the replacement burner.",
+      "player_action": "Board the launch with Arthur, cross the Gullwater and pick up the replacement burner.",
       "starts_on": "BURNER_BRIEFING",
       "ends_on": "RETURN_DEPARTED"
     }
@@ -104,7 +104,7 @@
     {
       "event_id": "SAILORS_INSIDE",
       "step": 2,
-      "note": "Jeff and Daniel reach the lighthouse hall.",
+      "note": "Arthur and Daniel reach the lighthouse hall.",
       "existing_crew_event": false
     },
     {
@@ -116,7 +116,7 @@
     {
       "event_id": "BURNER_BRIEFING",
       "step": 3,
-      "note": "Player talks with Ted and Jeff in the hall.",
+      "note": "Player talks with Ted and Arthur in the hall.",
       "existing_crew_event": false
     },
     {
@@ -164,7 +164,7 @@
     {
       "event_id": "RETURN_DEPARTED",
       "step": 3,
-      "note": "Existing crew event. Hands over to JEFF_RET_* calls.",
+      "note": "Existing crew event. Hands over to ARTHUR_RET_* calls.",
       "existing_crew_event": true
     },
     {
@@ -217,7 +217,7 @@
     }
   ],
   "constraints": [
-    "Refer to the player only as 'the new guy' (never 'apprentice'). The player never speaks.",
+    "Refer to the player only as 'Isaac' (never 'apprentice'). The player never speaks.",
     "Ted introduces the setting (eclipse, storm season, the Saltgate) and each step's objective.",
     "Step 1: shovel coal into the boiler in the basement engine room. Step 2: let the stranded sailors in through the island gate. Step 3: retrieve the replacement burner from the outpost across the Gullwater.",
     "Ted never names the passenger ship before the boarding threshold (BOARDING_THRESHOLD).",
@@ -231,8 +231,8 @@
   ],
   "open_creator_decisions": [
     "Which lines are voiced is a cost decision; subtitles exist for every line.",
-    "Why Jeff and Daniel were on the water (smugglers?) is left open.",
-    "Ted and Jeff's relationship is TBD in the lore; the 'drowned by now' exchange is a proposal.",
+    "Why Arthur and Daniel were on the water (smugglers?) is left open.",
+    "Ted and Arthur's relationship is TBD in the lore; the 'drowned by now' exchange is a proposal.",
     "Fail-reason and outcome lines belong to the Story / Fail-State agent."
   ]
 }

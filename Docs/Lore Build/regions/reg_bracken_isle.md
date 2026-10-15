@@ -25,7 +25,7 @@ status: draft
 
 ## Key Locations
 - **The path:** runs from the dock to the lighthouse. Jagged rocks on either side force everyone to stay on it.
-- **The gate:** a lockable gate on the path to keep intruders out. Early in the game, the player opens it for Jeff and Daniel. What it was originally built to keep out is TBD.
+- **The gate:** a lockable gate on the path to keep intruders out. Early in the game, the player opens it for Arthur and Daniel. What it was originally built to keep out is TBD.
 - **The engine room:** a coal-fired boiler drives a steam engine and dynamo, which power the beacon's electric arc lamp. The player's first task is to shovel coal here.
 - **The lantern room:** home of the beacon. Its arc lamp head is broken at the start of the game.
 - **The halls:** whispering and random bangs come from people hiding in the walls. Littered documents and posters praise the moon cycle and the Flighted.

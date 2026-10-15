@@ -1,0 +1,14 @@
+{
+  "asset_id": "saltgate_quay",
+  "category": "saltgate",
+  "fal_model": "fal-ai/hunyuan3d-v3/image-to-3d",
+  "prompt": "Abandoned gothic harbour quay, cobbled stone landing on weathered timber piles with cross bracing, two ruined stone cottages with broken clay-tile roofs, a timber workshop shed, a loading crane post, chains and rope rails, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, mid-1800s stone and timber",
+  "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+  "source_image": "../../ConceptArt/saltgate/Abandoned Stone Quay Port-1.png",
+  "view_images": {
+    "front": "../../ConceptArt/saltgate/Abandoned Stone Quay Port-1.png",
+    "right": "../../ConceptArt/saltgate/Right-end view of the timber quay-2.png",
+    "back": "../../ConceptArt/saltgate/Stone quay workshop, rear view-3.png"
+  },
+  "notes": "Saltgate quays = DOCK_PORT, where the player lands to fetch the burner. Three views of one complex: front, right end, rear."
+}

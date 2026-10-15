@@ -13,7 +13,7 @@
 
 **Creator decisions that are blocking:**
 - Which lines are voiced is a cost decision; subtitles exist for every line.
-- Why Jeff and Daniel were on the water (smugglers?) is left open.
-- Ted and Jeff's relationship is TBD in the lore; the 'drowned by now' exchange is a proposal.
+- Why Arthur and Daniel were on the water (smugglers?) is left open.
+- Ted and Arthur's relationship is TBD in the lore; the 'drowned by now' exchange is a proposal.
 - Fail-reason and outcome lines belong to the Story / Fail-State agent.
 - Creator to approve all voices before recording

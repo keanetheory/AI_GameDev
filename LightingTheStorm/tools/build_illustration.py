@@ -1,6 +1,6 @@
 """Draws the class-assignment illustration for the opening dialogue (SVG, then PNG via Edge).
 
-Reads data/dialogue/dialogue_opening.json so quotes, counts and event IDs always match the game data.
+Reads AIAgentCrew/sample_output_picked/dialogue_opening.json so quotes, counts and event IDs always match the game data.
 Run:  python tools/build_illustration.py
 """
 import html
@@ -11,20 +11,20 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT.parent / "Docs" / "Lore Build" / "dialogue"
-SRC = ROOT / "data" / "dialogue" / "dialogue_opening.json"
+SRC = ROOT.parent / "AIAgentCrew" / "sample_output_picked" / "dialogue_opening.json"  # creator-picked set (39 lines)
 SVG = DOCS / "illustration_opening_dialogue_flow.svg"
 PNG = DOCS / "illustration_opening_dialogue_flow.png"
 EDGE = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 
 W, H = 1600, 1000
 BG, INK, SLATE, STONE, SILVER, AMBER, GOLD = "#0E0E10", "#1F2A44", "#2C3A40", "#6B6B66", "#B9BEC4", "#C07A1E", "#B8962E"
-SPK = {"TED": "#1F2A44", "JEFF": "#2F4A34", "DANIEL": "#7A2620"}
+SPK = {"TED": "#1F2A44", "ARTHUR": "#2F4A34", "DANIEL": "#7A2620"}
 STEP_COL = {1: AMBER, 2: SILVER, 3: GOLD}
 SERIF, SANS, MONO = "Georgia, 'Times New Roman', serif", "'Segoe UI', Arial, sans-serif", "Consolas, 'Courier New', monospace"
 
 data = json.loads(SRC.read_text(encoding="utf-8"))
 lines = {l["line_id"]: l for l in data["lines"]}
-KEY_LINE = {1: "TED_S1_05", 2: "TED_S2_02", 3: "TED_S3_01"}
+KEY_LINE = {1: "TED_S1_05", 2: "TED_S2_01", 3: "TED_S3_02"}
 CHAIN = [("GAME_STARTED", 1), ("BOILER_FED", 1), ("BURNER_DIAGNOSED", 1), ("SAILORS_MOORED", 2), ("GATE_OPENED", 2),
          ("DANIEL_IN_BASEMENT", 2), ("BURNER_BRIEFING", 3), ("SHIP_SIGHTED", 3), ("BURNER_PICKED_UP", 3),
          ("RETURN_DEPARTED", 3)]
@@ -80,7 +80,7 @@ for i, st in enumerate(data["steps"]):
     add(f'<circle cx="{x+40}" cy="{Y0+37}" r="24" fill="{col}"/>')
     text(x + 40, Y0 + 47, str(st["step"]), 28, BG, SERIF, "bold", anchor="middle")
     text(x + 78, Y0 + 34, st["title"], 24, "#F2EFE6", SERIF, "bold")
-    text(x + 78, Y0 + 58, st["location"], 13, SILVER)
+    text(x + 78, Y0 + 58, textwrap.shorten(st["location"], 46, placeholder="…"), 13, SILVER)
     yy = Y0 + 102
     text(x + 24, yy, "PLAYER DOES", 12, col, SANS, "bold", spacing=2)
     n = wrapped(x + 24, yy + 22, st["player_action"], 52, 15, SILVER)
@@ -96,7 +96,7 @@ for i, st in enumerate(data["steps"]):
     yy = yy + 12 + bh + 34
     text(x + 24, yy, "ALSO SPEAKING", 12, col, SANS, "bold", spacing=2)
     cx = x + 24
-    for who in ("TED", "JEFF", "DANIEL"):
+    for who in ("TED", "ARTHUR", "DANIEL"):
         c = counts[st["step"]][who]
         if c:
             add(f'<circle cx="{cx+8}" cy="{yy+25}" r="8" fill="{SPK[who]}" stroke="{SILVER}" stroke-width="1.2"/>')
@@ -120,7 +120,7 @@ for k, (ev, st) in enumerate(CHAIN):
     text(x + pw / 2, cy + 21, ev, 11, BG, MONO, "bold", anchor="middle")
     if k < len(CHAIN) - 1:
         add(f'<polygon points="{x+pw+2},{cy+10} {x+pw+pg-2},{cy+16} {x+pw+2},{cy+22}" fill="{STONE}"/>')
-text(60, cy + 58, "Step 3 ends at RETURN_DEPARTED, where the Agent Crew's JEFF_RET_* calls take over for the return crossing.", 13, STONE, SANS, style="italic")
+text(60, cy + 58, "Step 3 ends at RETURN_DEPARTED, where the Agent Crew's ARTHUR_RET_* calls take over for the return crossing.", 13, STONE, SANS, style="italic")
 
 # ---------------- line budget chart ----------------
 by = 800
@@ -134,7 +134,7 @@ for r, (stp, label) in enumerate(rows):
     yb = by + 22 + r * 34
     text(60, yb + 17, label, 14, SILVER)
     bx = 230
-    for who in ("TED", "JEFF", "DANIEL"):
+    for who in ("TED", "ARTHUR", "DANIEL"):
         c = counts[stp][who]
         if c:
             add(f'<rect x="{bx}" y="{yb}" width="{c*scale}" height="24" fill="{SPK[who]}" stroke="{SILVER}" stroke-width="1"/>')
@@ -142,7 +142,7 @@ for r, (stp, label) in enumerate(rows):
             bx += c * scale
     text(bx + 10, yb + 17, f"{sum(counts[stp].values())} total", 12, STONE)
 lx = 60
-for who in ("TED", "JEFF", "DANIEL"):
+for who in ("TED", "ARTHUR", "DANIEL"):
     add(f'<rect x="{lx}" y="{by+168}" width="14" height="14" fill="{SPK[who]}" stroke="{SILVER}"/>')
     text(lx + 22, by + 180, who.title(), 13, SILVER)
     lx += 90
@@ -156,7 +156,7 @@ rules = [
     ("Voice, not markers", "Ted says where to go and why. Pillar 3: guidance comes from people."),
     ("No clock on screen", "No timer words or numbers. The storm and the ship's lights carry the pressure."),
     ("Stalls get a ladder", "Three nudges: a hint, a sharper hint, then the exact place to go."),
-    ("Options keep it fresh", "Key lines have alternates. Assist mode adds a plain-text hint."),
+    ("One line per moment", "The creator picked one line for every moment. Assist mode adds a plain-text hint."),
 ]
 for k, (h, d) in enumerate(rules):
     ry = by + 50 + k * 34

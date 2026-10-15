@@ -1,0 +1,82 @@
+[
+  {
+    "task": "OPENING_DIALOGUE_BRIEF",
+    "agent": "Production Orchestrator",
+    "attempt": 1,
+    "passed": true,
+    "errors": []
+  },
+  {
+    "task": "OPENING_DIALOGUE_WRITE",
+    "agent": "Dialogue agent",
+    "attempt": 1,
+    "passed": false,
+    "errors": [
+      "Output did not match the OpeningDialogue contract: Expecting ',' delimiter: line 1 column 8348 (char 8347) Hint: the reply was not valid JSON. Use only single quotes inside text values, escape any double quote with a backslash, and do not truncate the object."
+    ]
+  },
+  {
+    "task": "OPENING_DIALOGUE_WRITE",
+    "agent": "Dialogue agent",
+    "attempt": 2,
+    "passed": false,
+    "errors": [
+      "ARTHUR_S2_04: do not address the player as lad, lass or man.",
+      "DANIEL_OPT_01: unknown trigger SAILORS_SHELTERED.",
+      "DANIEL_OPT_02: unknown trigger SAILORS_SHELTERED.",
+      "ARTHUR_S2_05: unknown trigger SAILORS_SHELTERED.",
+      "TED_S2_04: unknown trigger SAILORS_SHELTERED.",
+      "TED_S3_01: unknown trigger STEP_3_STARTED.",
+      "TED_S3_02: unknown trigger STEP_3_STARTED.",
+      "ARTHUR_S3_01: unknown trigger BOAT_BOARDED.",
+      "ARTHUR_S3_02: unknown trigger BOAT_BOARDED.",
+      "ARTHUR_S3_03: unknown trigger CROSSING_STARTED.",
+      "ARTHUR_S3_05: unknown trigger BURNER_RETRIEVED.",
+      "SAILORS_INSIDE: no line plays on this event.",
+      "DANIEL_IN_BASEMENT: no line plays on this event.",
+      "BURNER_BRIEFING: no line plays on this event.",
+      "BOARDING_THRESHOLD: no line plays on this event.",
+      "SHIP_SIGHTED: no line plays on this event.",
+      "BOAT_CAST_OFF: no line plays on this event.",
+      "OUTBOUND_NEAR_MISS: no line plays on this event.",
+      "OUTBOUND_COLLISION: no line plays on this event.",
+      "BURNER_PICKED_UP: no line plays on this event.",
+      "POSTER_EXAMINED: no line plays on this event.",
+      "WALL_WHISPER_HEARD: no line plays on this event.",
+      "BASEMENT_BANG: no line plays on this event.",
+      "BASEMENT_TALK: no line plays on this event.",
+      "IDLE_OUTPOST: no line plays on this event.",
+      "IDLE_OUTPOST: nudge tiers must run 1..n with n >= 2, got [].",
+      "someone must call the player 'Isaac' at least once.",
+      "JRN_03: unknown trigger STEP_3_STARTED."
+    ]
+  },
+  {
+    "task": "OPENING_DIALOGUE_WRITE",
+    "agent": "Dialogue agent",
+    "attempt": 3,
+    "passed": true,
+    "errors": []
+  },
+  {
+    "task": "OPENING_DIALOGUE_REVIEW",
+    "agent": "Canon and Review Orchestrator",
+    "attempt": 1,
+    "passed": true,
+    "errors": []
+  },
+  {
+    "task": "OPENING_DIALOGUE_REVISE_1",
+    "agent": "Dialogue agent",
+    "attempt": 1,
+    "passed": true,
+    "errors": []
+  },
+  {
+    "task": "OPENING_DIALOGUE_REREVIEW_1",
+    "agent": "Canon and Review Orchestrator",
+    "attempt": 1,
+    "passed": true,
+    "errors": []
+  }
+]

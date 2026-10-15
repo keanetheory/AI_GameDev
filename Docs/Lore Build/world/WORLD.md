@@ -37,9 +37,9 @@ What covers the moon, and who are the Flighted? These are two sides of the same 
 
 ## Prototype Scenario
 1. The player shovels coal into the lighthouse engine to raise steam for the beacon, then discovers the beacon's arc lamp head is broken.
-2. Jeff and Daniel, locals whose boat was caught in the storm, arrive seeking shelter. The player opens the path gate to let them in.
-3. A passenger ship appears on the horizon. Ted and Jeff are stunned: "A passenger ship? NOW? But the lighthouse beacon is broken!"
-4. The player and Jeff take the steam launch across the Gullwater to the Saltgate (about 10 minutes; calm outbound) to retrieve a replacement lamp head.
+2. Arthur and Daniel, locals whose boat was caught in the storm, arrive seeking shelter. The player opens the path gate to let them in.
+3. A passenger ship appears on the horizon. Ted and Arthur are stunned: "A passenger ship? NOW? But the lighthouse beacon is broken!"
+4. The player and Arthur take the steam launch across the Gullwater to the Saltgate (about 10 minutes; calm outbound) to retrieve a replacement lamp head.
 5. The return crossing brings rising current, wind, rain, and a loud storm.
 6. The player must install the lamp head before the ship reaches the reef.
    - **Fail state:** the passenger ship runs aground on Bracken Isle.

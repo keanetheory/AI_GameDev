@@ -17,7 +17,7 @@ To move people and goods in and out of Saint Calder without being spotted by For
 TBD (L5).
 
 ## Beliefs & Internal Divisions
-TBD. Could Jeff and Daniel be smugglers? (open question)
+TBD. Could Arthur and Daniel be smugglers? (open question)
 
 ## Resources & Reach
 TBD.

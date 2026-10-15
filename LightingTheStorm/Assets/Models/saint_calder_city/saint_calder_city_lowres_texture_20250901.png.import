@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://bqaoyw3ehuau5"
+path.s3tc="res://.godot/imported/saint_calder_city_lowres_texture_20250901.png-67df60281905b3042859b0ad2a370cad.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "917e3ea11d5f849572e67c5afb98e2df"
+}
+
+[deps]
+
+source_file="res://Assets/Models/saint_calder_city/saint_calder_city_lowres_texture_20250901.png"
+dest_files=["res://.godot/imported/saint_calder_city_lowres_texture_20250901.png-67df60281905b3042859b0ad2a370cad.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

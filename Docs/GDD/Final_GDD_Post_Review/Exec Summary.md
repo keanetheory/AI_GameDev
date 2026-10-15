@@ -4,13 +4,13 @@ Status: build brief derived from the source GDD, updated 1 October 2026 after th
 
 Change log (post-review amendments to the 25 September 2026 version)
 
-- The rowboat crash is removed. Jeff and Daniel, overwhelmed by the storm, moor on the island seeking shelter; Ted sees them from the window and the player opens the island gate.
+- The rowboat crash is removed. Arthur and Daniel, overwhelmed by the storm, moor on the island seeking shelter; Ted sees them from the window and the player opens the island gate.
 - Fail-state contract added: what the player perceives when the deadline expires, per location, and what happens next.
 - Deadline timer now starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the outpost let the player get a feel for the boat. The ship is introduced at the boarding threshold.
 - Storm escalation is split: what the player perceives follows elapsed time; what the player collides with follows phase and route position.
 - Core folk-horror discoveries move to the lighthouse and island, before boarding. The outpost keeps a lighter set.
 - Ted’s presence is to be locked by the end of week 3; he is staged at the lamp for the final repair and both outcomes (voice and position only).
-- Jeff’s motivation stated. Daniel’s role fixed (basement, no reaction recorded).
+- Arthur’s motivation stated. Daniel’s role fixed (basement, no reaction recorded).
 - Gate 1 includes two repairs; further repairs move to Gate 2 and the full game.
 - Gate 1 retry model is “fail, then restart the slice”; the full retry and save model is settled before Gate 2. “Unlocked routes” is dropped; route branching is a Gate 2 cut-list candidate.
 - A Gate 2+ estimate and ranked cut list placeholder is added. Decisions log added at the end.
@@ -20,14 +20,14 @@ Change log (post-review amendments to the 25 September 2026 version)
 
 ## Pitch and player promise
 
-A new apprentice repairs the failing lighthouse on Bracken Isle with keeper Ted. Overwhelmed by the storm, two sailors, Jeff and Daniel, moor their rowboat on the island and look for shelter. Ted sees them from the window and tells the apprentice to open the island gate. Jeff, who can see the storm turning nasty, then crosses the water with the apprentice for a replacement beacon burner. The player must bring it back and restore the light before a passenger ship reaches the rocks. This is a first-person, single-player, atmospheric adventure for PC, designed for a 30 minute complete playthrough. The central player skill is steering a powered boat past rocks and other hazards while the storm worsens. Wave hazards are a stretch goal (see Scope and release target).
+A new apprentice repairs the failing lighthouse on Bracken Isle with keeper Ted. Overwhelmed by the storm, two sailors, Arthur and Daniel, moor their rowboat on the island and look for shelter. Ted sees them from the window and tells the apprentice to open the island gate. Arthur, who can see the storm turning nasty, then crosses the water with the apprentice for a replacement beacon burner. The player must bring it back and restore the light before a passenger ship reaches the rocks. This is a first-person, single-player, atmospheric adventure for PC, designed for a 30 minute complete playthrough. The central player skill is steering a powered boat past rocks and other hazards while the storm worsens. Wave hazards are a stretch goal (see Scope and release target).
 
 The experience should deliver sustained dread, hands-on mechanical work, and a consequential ending. It has no combat, monster reveal, or jump scares. Folk-horror details invite interpretation without confirming a supernatural cause.
 
 Design pillars
 1. The light must return: everything leads back to the beacon. It is what you repair, it guides you home, and it decides whether the ship lives. Test: does this connect to getting the light back, or to what happens if it fails?
 2. The storm sets the clock: pressure comes from the world (the approaching ship’s lights, worsening weather, falling visibility, and rocks in the dark), never from a timer, meter, or enemy. Elapsed time drives what the player perceives (sound, lightning, wind, the ship’s lights); phase and route position drive what the player collides with (hazard density). Test: can the player feel time running out without any UI?
-3. Your hands, your eyes: everything is first-person and physical. You fix things by hand, see the sailors arrive from the window, and see or hear the ship’s fate from where you stand; guidance comes from Ted and Jeff, not markers. Test: is this happening to the player in the world, or being shown to them?
+3. Your hands, your eyes: everything is first-person and physical. You fix things by hand, see the sailors arrive from the window, and see or hear the ship’s fate from where you stand; guidance comes from Ted and Arthur, not markers. Test: is this happening to the player in the world, or being shown to them?
 4. Dread you can read: sustained unease and ambiguity, never jump scares or a confirmed monster, but the player always knows what to do and why they failed (one steering control, clear hazards, fair and recoverable mistakes, and a stated reason on failure). Test: does this add unease without adding confusion?
 
 Scope rule: small world, read closely. One lighthouse, one stretch of sea, one abandoned outpost, and no new major locations.
@@ -39,11 +39,11 @@ The pillars and the scope rule govern cuts and reviews. A feature that fails a p
 |Step                  |Player action                                                                                                                         |Result / gate                                                                                  |
 |----------------------|--------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
 |1. Repairs            |Follow Ted’s live guidance; diagnose and fix a small set of mechanical systems using a fixed toolkit. The Gate 1 slice has two repairs; later repairs belong to Gate 2 and the full game.|The beacon alone still flickers. Repair work teaches interaction. Untimed lighthouse exploration and its discoveries sit here.|
-|2. Shelter and gate   |Ted prompts the player to look out of the window, where Jeff and Daniel’s rowboat has moored on the island, the sailors overwhelmed by the storm. Ted tells the player to open the island gate.|Jeff and Daniel make their own way into the lighthouse. Daniel goes down to the basement and stays there. Ted explains that the burner must be collected from the abandoned outpost.|
-|3. Boarding           |Meet Jeff at the engine boat. At the boarding threshold Ted names the passenger ship’s lights as the reason for the errand, and the ship appears on the horizon.|No deadline yet. The outbound crossing is free steering practice; the hidden passenger-ship deadline starts later, when the burner is aboard and the return crossing begins.|
-|4. Outbound           |Steer the boat past rocks and debris in the storm while Jeff shouts directions.                                                       |Reach the abandoned outpost.                                                                   |
+|2. Shelter and gate   |Ted prompts the player to look out of the window, where Arthur and Daniel’s rowboat has moored on the island, the sailors overwhelmed by the storm. Ted tells the player to open the island gate.|Arthur and Daniel make their own way into the lighthouse. Daniel goes down to the basement and stays there. Ted explains that the burner must be collected from the abandoned outpost.|
+|3. Boarding           |Meet Arthur at the engine boat. At the boarding threshold Ted names the passenger ship’s lights as the reason for the errand, and the ship appears on the horizon.|No deadline yet. The outbound crossing is free steering practice; the hidden passenger-ship deadline starts later, when the burner is aboard and the return crossing begins.|
+|4. Outbound           |Steer the boat past rocks and debris in the storm while Arthur shouts directions.                                                       |Reach the abandoned outpost.                                                                   |
 |5. Pickup             |Find and pick up the replacement burner.                                                                                              |The burner is aboard.                                                                          |
-|6. Return             |With the burner aboard, steer back through a worsening storm, with denser hazards and lower visibility, guided by Jeff’s directions. The hidden deadline starts as the boat sets off.                          |Reach the lighthouse. On arrival Jeff says something like “go go go, don’t wait for me.”      |
+|6. Return             |With the burner aboard, steer back through a worsening storm, with denser hazards and lower visibility, guided by Arthur’s directions. The hidden deadline starts as the boat sets off.                          |Reach the lighthouse. On arrival Arthur says something like “go go go, don’t wait for me.”      |
 |7. Final repair       |Climb to the lamp, where Ted waits, and fit the burner.                                                                               |The beacon is restored, or the deadline runs out first.                                        |
 |8. Outcome            |Watch the ship from the lamp room.                                                                                                    |Win: the ship sails calmly into port; Ted reacts. Fail: the ship crashes into the island; Ted reacts (see Fail-state contract).|
 
@@ -61,7 +61,7 @@ The deadline only runs from the start of the return crossing, so there is no fai
 |In the lamp room                |The player sees the ship hit the island from the lamp room, and the audio still sounds. The lamp room needs a clear sightline to the ship’s route and the island rocks.|
 |Elsewhere in the lighthouse (stairs) |Audio only, as on the crossing, unless a window sightline exists.                                                    |
 
-Every fail shows a short line saying why the player failed (for example, that the beacon was not relit in time), delivered by Ted or Jeff or recorded in the journal, so Pillar 4 holds. Ted reacts to both outcomes from the lamp room using voice lines only; his reaction is staged by position, not a separate cutscene.
+Every fail shows a short line saying why the player failed (for example, that the beacon was not relit in time), delivered by Ted or Arthur or recorded in the journal, so Pillar 4 holds. Ted reacts to both outcomes from the lamp room using voice lines only; his reaction is staged by position, not a separate cutscene.
 
 Retry model: for Gate 1, a fail returns the player to the start of the slice (fail, then restart). The full retry and save model is settled before Gate 2 (see Technical Strategy). Any future save must not store remaining time in a way that can produce an unwinnable save.
 
@@ -69,10 +69,10 @@ Retry model: for Gate 1, a fail returns the player to the start of the slice (fa
 
 • Apprentice: the player. Never speaks; characterised by actions and a handwritten objective journal. Moral beats are given to the apprentice by others, which is intended.
 - Ted: gruff, experienced keeper; gives spoken directions during repairs, with a guarded sense of care. He sees the sailors from the window, names the ship at the boarding threshold, and waits at the lamp for the final repair and the outcome. Presence is to be locked by the end of week 3 (see Decisions log).
-- Jeff: older, coarse seaman and the player’s companion on both crossings. He has realised the storm is getting nasty and wants to stop the ship being wrecked, which is why he helps despite his reluctance. After the second crossing he tells the player to go on without him. His reaction to the outcome is not recorded.
+- Arthur: older, coarse seaman and the player’s companion on both crossings. He has realised the storm is getting nasty and wants to stop the ship being wrecked, which is why he helps despite his reluctance. After the second crossing he tells the player to go on without him. His reaction to the outcome is not recorded.
 - Daniel: younger sailor from the rowboat; shaken by the storm and just glad to be alive. He goes to the basement and stays there. His reaction to the outcome is not recorded.
 
-Two boats appear and must stay visibly distinct: Jeff and Daniel’s rowboat, moored on Bracken Isle, and the powered engine boat the player steers.
+Two boats appear and must stay visibly distinct: Arthur and Daniel’s rowboat, moored on Bracken Isle, and the powered engine boat the player steers.
 
 The lighthouse uses warm lamplight against blue-grey storm light. The beam remains a navigational and dramatic anchor. The abandoned outpost, log fragments, shrines, symbols, and subtly strange architecture suggest a history without settling its cause. Audio favours wind, rain, machinery, buoy bells, and a distant foghorn over musical stingers.
 
@@ -80,11 +80,11 @@ Folk-horror discoveries: the core discoveries are placed in the lighthouse and o
 
 ## Scope and release target
 
-Full game, about 30 minutes: three compact locations, lighthouse repairs, the sailors’ arrival and the island gate, two crossings with Jeff, a final repair under the running ship deadline, win and fail outcomes, optional discoveries, and controller support. PC via Steam is the initial release target. The creator makes final decisions on tone, steering feel, and story.
+Full game, about 30 minutes: three compact locations, lighthouse repairs, the sailors’ arrival and the island gate, two crossings with Arthur, a final repair under the running ship deadline, win and fail outcomes, optional discoveries, and controller support. PC via Steam is the initial release target. The creator makes final decisions on tone, steering feel, and story.
 
 Wave hazards are a stretch goal for both the prototype and the full game. The crossings must work without them: the challenge comes from steering past rocks, reefs, buoys, and debris in a worsening storm, and the sea surface can move for atmosphere without affecting the boat. Waves that push or roll the boat are added only after steering has passed its go/no-go test and only if the schedule has room; they are the first thing cut if it slips.
 
-First playable prototype (Gate 1), about 10 minutes: two lighthouse repairs, Ted seeing the rowboat moored from the window, opening the island gate, meeting Jeff at the engine boat, an outbound crossing to the outpost, burner pickup, a return crossing to the lighthouse, fitting the burner, and both outcomes. Greybox art and placeholder audio are acceptable. The prototype must prove that hazards are readable and steering is enjoyable before broader production. Wave hazards are included only if time allows. Crossing penalty rules are deliberately loose for Gate 1 and must be reviewed for the full-game build.
+First playable prototype (Gate 1), about 10 minutes: two lighthouse repairs, Ted seeing the rowboat moored from the window, opening the island gate, meeting Arthur at the engine boat, an outbound crossing to the outpost, burner pickup, a return crossing to the lighthouse, fitting the burner, and both outcomes. Greybox art and placeholder audio are acceptable. The prototype must prove that hazards are readable and steering is enjoyable before broader production. Wave hazards are included only if time allows. Crossing penalty rules are deliberately loose for Gate 1 and must be reviewed for the full-game build.
 
 Out of first-prototype scope: further lighthouse repairs beyond the first two, full outpost exploration, optional discoveries, final art, route branching on the return crossing, and a finished Steam release flow. These remain in the full-game brief or on the cut list.
 
@@ -120,8 +120,8 @@ Full game:
 |Return-crossing shortcut         |Dropped for now. “Unlocked routes” removed from the save contract. Branching is a Gate 2 cut-list candidate.                  |
 |Folk-horror discoveries          |Core discoveries in the lighthouse and island, before boarding, tied to why the beacon failed; lighter set at the outpost. No significant outpost detail until the prototype is complete.|
 |Ted                              |Lock his presence by the end of week 3. Staged at the lamp for the climax and outcome, voice and position only.               |
-|Sailors’ arrival                 |No crash. Jeff and Daniel moor on the island seeking shelter; Ted sees them from the window; the player opens the island gate.|
-|Jeff                             |Motivated by stopping the ship from crashing. Tells the player to go on without him after the second crossing.               |
+|Sailors’ arrival                 |No crash. Arthur and Daniel moor on the island seeking shelter; Ted sees them from the window; the player opens the island gate.|
+|Arthur                             |Motivated by stopping the ship from crashing. Tells the player to go on without him after the second crossing.               |
 |Daniel                           |In the basement; no reaction to the outcome recorded.                                                                         |
 |Repairs                          |Two for Gate 1; more at Gate 2 and in the full game.                                                                          |
 |Apprentice                       |Never speaks; others give the moral beat.                                                                                     |

@@ -17,7 +17,7 @@ status: locked
 # Daniel
 
 ## Summary
-A local whose boat was caught in the storm with Jeff. They seek shelter at the lighthouse, and the player lets them through the gate. His role during the crossing (stays with Ted?) is TBD.
+A local whose boat was caught in the storm with Arthur. They seek shelter at the lighthouse, and the player lets them through the gate. His role during the crossing (stays with Ted?) is TBD.
 
 ## Appearance
 - **build:** strong, heavy
@@ -43,7 +43,7 @@ TBD.
 TBD.
 
 ## History
-- **backstory:** caught in the storm with Jeff and sought shelter on Bracken Isle.
+- **backstory:** caught in the storm with Arthur and sought shelter on Bracken Isle.
 
 ## Beliefs
 TBD.
@@ -56,7 +56,7 @@ TBD.
 ## Relationships
 | Character | Relationship | Notes |
 |---|---|---|
-| [[chr_jeff]] | Companion | Shared boat |
+| [[chr_arthur]] | Companion | Shared boat |
 | [[chr_ted]] | TBD | |
 | [[chr_player]] | TBD | |
 

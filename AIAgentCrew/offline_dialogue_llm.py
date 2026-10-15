@@ -65,7 +65,7 @@ class OfflineDialogueLLM(BaseLLM):
             "slice": "Gate 1 opening: steps 1-3 (coal, sailors, burner)",
             "max_words_per_line": self.max_words,
             "player_term": PLAYER_TERM,
-            "speakers": ["TED", "JEFF", "DANIEL"],
+            "speakers": ["TED", "ARTHUR", "DANIEL"],
             "steps": OPENING_STEPS,
             "events": [{"event_id": e[0], "step": e[1], "note": e[2], "existing_crew_event": e[3]}
                        for e in OPENING_EVENTS],
@@ -96,7 +96,7 @@ class OfflineDialogueLLM(BaseLLM):
         ship_lines = sorted((x for x in lines if SHIP_WORD.search(x.text) and x.trigger in order),
                             key=lambda x: order.index(x.trigger))
         first_ship = ship_lines[0] if ship_lines else None
-        n_term = sum(1 for x in lines if brief.player_term in x.text.lower())
+        n_term = sum(1 for x in lines if brief.player_term.lower() in x.text.lower())
         p = lambda c, e: {"check": c, "result": "pass", "evidence": e}
         report = self._report(p, brief, dlg, lines, longest, speakers, groups, ladders, first_ship, n_term)
         if revise:  # simulated reviewer finding, for testing the loop without a model
@@ -116,7 +116,7 @@ class OfflineDialogueLLM(BaseLLM):
                 p("2. The storm sets the clock",
                   f"No timer, deadline or number in any of {len(lines)} lines or {len(dlg.journal)} journal entries."),
                 p("3. Your hands, your eyes",
-                  "Guidance is spoken by Ted and Jeff; assist hints are opt-in text, never markers. "
+                  "Guidance is spoken by Ted and Arthur; assist hints are opt-in text, never markers. "
                   f"The player is only called '{brief.player_term}' and never speaks."),
                 p("4. Dread you can read",
                   f"Each step has an objective line and a {len(ladders)}-ladder nudge system; "
@@ -135,7 +135,7 @@ class OfflineDialogueLLM(BaseLLM):
             "issues": [],
             "open_creator_decisions": brief.open_creator_decisions + ["Creator to approve all voices before recording"],
             "handoff_summary": (f"Opening dialogue for Gate 1: {len(lines)} lines "
-                                f"(Ted {speakers.get('TED', 0)}, Jeff {speakers.get('JEFF', 0)}, "
+                                f"(Ted {speakers.get('TED', 0)}, Arthur {speakers.get('ARTHUR', 0)}, "
                                 f"Daniel {speakers.get('DANIEL', 0)}), {len(groups)} alternate groups, "
                                 f"{len(ladders)} nudge ladders, {len(dlg.journal)} journal entries. "
                                 "All contract checks pass. Voice and lore need creator approval before recording."),

@@ -14,7 +14,7 @@
 
 **Creator decisions that are blocking:**
 - Which lines are voiced is a cost decision for the creator; subtitles exist for every line.
-- Why Jeff and Daniel were on the water (smugglers?) remains open; no line states or implies a reason.
-- Ted and Jeff's relationship is TBD in the lore; the 'drowned by now' exchange (JEFF_S2_05, TED_S2_04) is flagged as a proposal only.
+- Why Arthur and Daniel were on the water (smugglers?) remains open; no line states or implies a reason.
+- Ted and Arthur's relationship is TBD in the lore; the 'drowned by now' exchange (ARTHUR_S2_05, TED_S2_04) is flagged as a proposal only.
 - Fail-reason and outcome lines belong to the Story / Fail-State agent and are not written here.
-- Where the Flighted poster physically sits is still undecided; JEFF_S0_12 and JEFF_S0_13 are deliberately location-neutral.
+- Where the Flighted poster physically sits is still undecided; ARTHUR_S0_12 and ARTHUR_S0_13 are deliberately location-neutral.

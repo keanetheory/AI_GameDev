@@ -1,0 +1,78 @@
+{
+  "spec_id": "PLAYER_FIRST_PERSON_V1",
+  "walk_speed_mps": 3.5,
+  "sprint_speed_mps": 6.0,
+  "accel_time_s": 0.12,
+  "decel_time_s": 0.1,
+  "air_control": 0.3,
+  "jump_velocity_mps": 4.5,
+  "mouse_sensitivity_rad_per_px": 0.0025,
+  "mouse_smoothing": false,
+  "pitch_limit_deg": 85.0,
+  "gamepad_look_speed_deg_s": 180.0,
+  "move_while_turning": true,
+  "capsule_radius_m": 0.3,
+  "capsule_height_m": 1.7,
+  "eye_height_m": 1.6,
+  "step_height_m": 0.4,
+  "max_floor_angle_deg": 60.0,
+  "floor_snap_m": 0.5,
+  "uses_delta_time": true,
+  "head_bob_amplitude_m": 0.0,
+  "fall_respawn_y_m": -40.0,
+  "glitch_checks": [
+    {
+      "check_id": "MOVE_01",
+      "symptom": "Player stops dead on a rock slope slightly over 45 degrees",
+      "likely_cause": "Default floor angle is 45 degrees and the generated rock is rough",
+      "mitigation": "Raise max_floor_angle to 60 degrees and keep floor_stop_on_slope off",
+      "test": "Walk straight up the island slope at walk and sprint speed with tools/debug_walk.gd; progress must not stall."
+    },
+    {
+      "check_id": "MOVE_02",
+      "symptom": "Snagging or stalling on small lips and plank edges",
+      "likely_cause": "Trimesh edges higher than the capsule skin",
+      "mitigation": "Step-up: if blocked, test a raised capsule and lift by step_height",
+      "test": "Walk along the gangway and across plank joints; no stall and no visible hop."
+    },
+    {
+      "check_id": "MOVE_03",
+      "symptom": "Camera lags or snaps when turning while moving",
+      "likely_cause": "Smoothed mouse look or rotating the wrong node",
+      "mitigation": "Rotate the body on yaw and the Head on pitch directly from raw mouse motion, no smoothing",
+      "test": "Walk forward while sweeping the mouse; turning must track the mouse 1:1 and the path must curve smoothly."
+    },
+    {
+      "check_id": "MOVE_04",
+      "symptom": "Player wedged in a corner or between two walls",
+      "likely_cause": "Collision sliding into opposing normals",
+      "mitigation": "Allow six slides and a small safe_margin; add a nudge-out if velocity stays zero while input is held for 1 s",
+      "test": "Drive into the tunnel corner and the barrier corners holding two keys; the player must slide out."
+    },
+    {
+      "check_id": "MOVE_05",
+      "symptom": "Player falls through the island or sea collider",
+      "likely_cause": "Trimesh holes or a collider not loaded yet",
+      "mitigation": "Wait one physics frame after colliders are built before enabling movement; respawn below the fall limit",
+      "test": "Run the spawn test 20 times and sprint along every edge of the island; never fall through."
+    },
+    {
+      "check_id": "MOVE_06",
+      "symptom": "Speed changes with frame rate",
+      "likely_cause": "Movement scaled by frame count instead of delta",
+      "mitigation": "Use delta in all velocity changes and keep physics at a fixed rate",
+      "test": "Cap the game at 30, 60 and 144 fps and time the walk between two points; results must match."
+    },
+    {
+      "check_id": "MOVE_07",
+      "symptom": "Camera clips into walls or jitters on steps",
+      "likely_cause": "Camera parented to a body that moves in steps",
+      "mitigation": "Raise the Head smoothly (lerp the step offset) and keep the near clip at 0.05 m",
+      "test": "Walk into walls and up the stone steps; the view must not poke through geometry or judder."
+    }
+  ],
+  "open_creator_decisions": [
+    "Whether to add controller support at Gate 1.",
+    "Whether sprint is allowed inside the lighthouse."
+  ]
+}

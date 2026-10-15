@@ -7,7 +7,7 @@ Post-review amendments, 1 October 2026, compared with the 25 September 2026 orig
 ## Exec Summary
 
 ### Player Experience changes
-- No crash. Jeff and Daniel, overwhelmed by the storm, moor on the island seeking shelter. Ted sees them from the window and the player opens the island gate. Daniel goes to the basement; Jeff wants to stop the ship being wrecked and tells the player to go on after the second crossing.
+- No crash. Arthur and Daniel, overwhelmed by the storm, moor on the island seeking shelter. Ted sees them from the window and the player opens the island gate. Daniel goes to the basement; Arthur wants to stop the ship being wrecked and tells the player to go on after the second crossing.
 - Storm split. What the player perceives follows elapsed time; what they collide with follows phase and route position.
 - Discoveries. Core folk-horror discoveries move to the lighthouse and island. The outpost stays minimal until the prototype is complete.
 - Ted is staged at the lamp (voice and position only), with presence locked by the end of week 3. Gate 1 has two repairs. The apprentice never speaks.

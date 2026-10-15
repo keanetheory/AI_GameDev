@@ -11,7 +11,7 @@ status: draft
 |---|---|---|---|
 | 1 | A creepy, haunted lighthouse | Whispers and bangs in the halls, caused by people hiding in the walls | [[reg_bracken_isle]], [[sys_eclipse]] (partial) |
 | 2 | The mystery of the moon | A dark spherical object eclipses the moon each season | [[sys_eclipse]], [[fac_flighted]] (open) |
-| 3 | Funny, snarky characters | Gallows humour against a grim setting | [[chr_ted]], [[chr_jeff]], [[chr_daniel]] |
+| 3 | Funny, snarky characters | Gallows humour against a grim setting | [[chr_ted]], [[chr_arthur]], [[chr_daniel]] |
 | 4 | An intriguing city | Saint Calder: grand, Gothic, closed off | [[reg_saint_calder]] (expansion) |
 
 ## Idea Backlog

@@ -1,0 +1,12 @@
+{
+  "asset_id": "cliff_headland",
+  "category": "cliff_terrain",
+  "fal_model": "fal-ai/hunyuan3d-v3/image-to-3d",
+  "prompt": "Coastal cliff headland corner module, V-shaped promontory of fractured vertical slate rock faces with a mossy grass plateau on top and scree at the foot, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, mid-1800s coastal wilderness",
+  "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+  "source_image": "../../ConceptArt/cliff_terrain/Fractured Mossy Coastal Cliff Corner-2.png",
+  "view_images": {
+    "front": "../../ConceptArt/cliff_terrain/Fractured Mossy Coastal Cliff Corner-2.png"
+  },
+  "notes": "Headlands jutting into the channel and corner caps for the Saltgate coast (see ConceptArt/channel_scenes/position of both saltgate and the cliff terrain.png). 'Reverse view of rocky headland module-3' shows the same shape from nearly the same angle, so only one view is sent."
+}

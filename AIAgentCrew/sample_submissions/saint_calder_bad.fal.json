@@ -1,0 +1,8 @@
+{
+  "asset_id": "saint_calder_skyline",
+  "category": "saint_calder_city",
+  "fal_model": "fal-ai/image-to-3d (choose model)",
+  "prompt": "Brusskania city skyline at night, in the style of A Scanner Darkly, photorealistic, neon lights, modern towers, bright #00FFAA glow",
+  "negative_prompt": "blurry",
+  "notes": "Deliberately bad submission to show the checks."
+}

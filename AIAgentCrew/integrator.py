@@ -39,7 +39,7 @@ def build_game_data(state: dict) -> dict:
             "safe_lane": seg.safe_lane,
             "safe_point_id": seg.safe_point_id,
             "hazards": [h.model_dump() | {"route_m": start + h.distance_m} for h in seg.hazards],
-            "jeff_call": call.model_dump() | {"trigger_route_m": max(0, start - call.lead_m)},
+            "arthur_call": call.model_dump() | {"trigger_route_m": max(0, start - call.lead_m)},
         })
         start += sb.length_m
     return {
@@ -47,12 +47,12 @@ def build_game_data(state: dict) -> dict:
         "phase": "RETURN",
         "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "difficulty_preset": b.difficulty_preset,
-        "tuning": {"boat_speed_mps": b.boat_speed_mps, "jeff_call_lead_m": b.jeff_call_lead_m,
+        "tuning": {"boat_speed_mps": b.boat_speed_mps, "arthur_call_lead_m": b.arthur_call_lead_m,
                    "route_length_m": start, "waves_enabled": False},
         "dock_zone_id": f.dock_zone_id,
         "events": ["RETURN_DEPARTED", "SEGMENT_ENTERED", "HAZARD_COLLISION", "RECOVERY", "RETURN_ARRIVED"],
         "segments": segments,
-        "arrival_line": {"speaker": "JEFF", "line": c.arrival_line, "event": "RETURN_ARRIVED"},
+        "arrival_line": {"speaker": "ARTHUR", "line": c.arrival_line, "event": "RETURN_ARRIVED"},
     }
 
 
@@ -80,7 +80,7 @@ def write_outputs(state: dict, out_dir: str, mode: str) -> tuple[Path, list[str]
     (out / "HANDOFF.md").write_text(f"""# HANDOFF - GATE1_RETURN_CROSSING
 
 ## 1. Task and goal
-Generate Gate 1 return-crossing data for Lighting the Storm: segment tuning, hazard forecast with one safe-route signal per segment, and Jeff's direction calls that read from the same signal.
+Generate Gate 1 return-crossing data for Lighting the Storm: segment tuning, hazard forecast with one safe-route signal per segment, and Arthur's direction calls that read from the same signal.
 
 ## 2. Files changed
 - `return_crossing.json` (game data, stable IDs)
@@ -111,15 +111,15 @@ None. Uses the stable IDs and events from the Technical Strategy.
 """)
     (out / "REPORT.md").write_text(f"""# REPORT - GATE1_RETURN_CROSSING
 
-**What was delegated:** brief (Production Orchestrator), hazard forecast (Hazard Forecast agent), Jeff calls (Dialogue agent), canon review (Canon and Review Orchestrator).
+**What was delegated:** brief (Production Orchestrator), hazard forecast (Hazard Forecast agent), Arthur calls (Dialogue agent), canon review (Canon and Review Orchestrator).
 
-**What came back:** {len(data['segments'])} segments, {n_hz} hazards, {len(data['segments'])} Jeff calls, review verdict {r.verdict}.
+**What came back:** {len(data['segments'])} segments, {n_hz} hazards, {len(data['segments'])} Arthur calls, review verdict {r.verdict}.
 
 **What passed review:** all {len(r.pillar_checks) + len(r.decisions_log_checks)} pillar and Decisions-log checks; all deterministic contract checks.
 
 **What failed and why:** {'; '.join(r.issues) or 'Nothing in the final output (guardrail retries during the run are shown in the console log).'}
 
-**What remains:** creator playtest of steering feel, readability and pacing; voice approval for Jeff's lines.
+**What remains:** creator playtest of steering feel, readability and pacing; voice approval for Arthur's lines.
 
 **Creator decisions that are blocking:**
 {decisions}

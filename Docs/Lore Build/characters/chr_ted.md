@@ -36,7 +36,7 @@ The lighthouse master on Bracken Isle and the player's boss. A grizzled local in
 - **vocabulary:** calls city folk "new money toffs"
 - **verbal_habits:** grunts, coughs
 - **sample_lines:**
-  - "A passenger ship? NOW? But the lighthouse beacon is broken!" (shared with Jeff)
+  - "A passenger ship? NOW? But the lighthouse beacon is broken!" (shared with Arthur)
   - "What the hell is a passenger ship doing coming here, now?? It's not in the log!"
   - "What are you looking at, you a new money toff?? Get off your arse and sort out the light!"  
 - **voice_casting_notes:** gravelly older male, coastal accent
@@ -66,7 +66,7 @@ TBD.
 | Character | Relationship | Notes |
 |---|---|---|
 | [[chr_player]] | Boss | |
-| [[chr_jeff]] | TBD | Fellow local |
+| [[chr_arthur]] | TBD | Fellow local |
 | [[chr_daniel]] | TBD | Fellow local |
 
 ## Story Hooks

@@ -1,0 +1,22 @@
+{
+  "submission": {
+    "asset_id": "dock_landing",
+    "category": "dock",
+    "fal_model": "fal-ai/hunyuan3d-v3/image-to-3d",
+    "prompt": "Weathered timber landing jetty on heavy piles with cross bracing, plank deck, rusted iron straps, rope coil and mooring ring, boarding ladder, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, mid-1800s timber and iron",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "source_image": "../../ConceptArt/dock/Weathered timber landing jetty-3.png",
+    "view_images": {
+      "front": "../../ConceptArt/dock/Weathered timber landing jetty-3.png",
+      "left": "derived/dock_side_elevation.png"
+    },
+    "notes": "Hero 3/4 shot as the main view, side elevation cropped from the three-view turnaround sheet as the extra view."
+  },
+  "request_id": "01a13f4d-5681-75d1-9452-e879c8d8be9b",
+  "seed": null,
+  "textured": true,
+  "request": {
+    "generate_type": "Normal",
+    "face_count": 80000
+  }
+}

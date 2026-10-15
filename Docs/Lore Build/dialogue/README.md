@@ -1,20 +1,20 @@
 # Character Dialogue Sequences
 
-Dialogue for the opening of *Lighting the Storm* (Gate 1, steps 1-3), written by the Opening Dialogue Crew in `Agent Crew/storm_crew`.
+Dialogue for the opening of *Lighting the Storm* (Gate 1, steps 1-3), written by the Opening Dialogue Crew in `AIAgentCrew`, then picked line by line by the creator (see [the picks](DIALOGUE_OPENING_CREATOR_PICKS.md)).
 
 ## Characters
 
 | Character | Lines | Page |
 |---|---|---|
-| Ted | 23 | [DIALOGUE_TED.md](characters/DIALOGUE_TED.md) |
-| Jeff | 25 | [DIALOGUE_JEFF.md](characters/DIALOGUE_JEFF.md) |
-| Daniel | 8 | [DIALOGUE_DANIEL.md](characters/DIALOGUE_DANIEL.md) |
+| Ted | 18 | [DIALOGUE_TED.md](characters/DIALOGUE_TED.md) |
+| Arthur | 17 | [DIALOGUE_ARTHUR.md](characters/DIALOGUE_ARTHUR.md) |
+| Daniel | 4 | [DIALOGUE_DANIEL.md](characters/DIALOGUE_DANIEL.md) |
 
 ## Opening dialogue (all characters, by step and event)
 
-- [Final: after the revision round](DIALOGUE_OPENING_FINAL.md) · status `proposed`, 56 lines
-- [Iteration 1: live model, reviewer verdict REVISE](DIALOGUE_OPENING_LIVE.md)
-- [Offline draft: the scripted first version](DIALOGUE_OPENING.md)
+- [Current: creator-picked](DIALOGUE_OPENING_FINAL.md) · status `creator_picked`, 39 lines
+- [The creator's picks and what changed](DIALOGUE_OPENING_CREATOR_PICKS.md)
+- Archive, before the picks (56 lines): [live revised](archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_FINAL.md), [iteration 1, REVISE](archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_LIVE.md), [offline draft](archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING.md), [old pages and diagrams](archive/2026-10-15_before_creator_picks/)
 
 ## Diagrams
 

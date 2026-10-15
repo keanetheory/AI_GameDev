@@ -20,10 +20,10 @@ last_audit: 2026-10-12
 | L7 | n/a | Beyond target depth (5) |
 
 ## Other Open Items
-- Storm timing: calm outbound crossing after Jeff and Daniel's storm
+- Storm timing: calm outbound crossing after Arthur and Daniel's storm
 - Where in the Saltgate the replacement lamp head is stored
 - Daniel's role while the player is away
-- Character interviews (Section 6) for Ted, Jeff, Daniel, and the player
+- Character interviews (Section 6) for Ted, Arthur, Daniel, and the player
 
 ## Files
 | ID | Type | Name | Path | Status | Last updated |
@@ -51,6 +51,6 @@ last_audit: 2026-10-12
 | fac_political_class | faction | The Political Class | factions/fac_political_class.md | draft | 2026-10-12 |
 | ins_garrisons | institution | The Coastal Garrisons | institutions/ins_garrisons.md | draft | 2026-10-12 |
 | chr_ted | character | Ted | characters/chr_ted.md | draft | 2026-10-12 |
-| chr_jeff | character | Jeff | characters/chr_jeff.md | draft | 2026-10-12 |
+| chr_arthur | character | Arthur | characters/chr_arthur.md | draft | 2026-10-12 |
 | chr_daniel | character | Daniel | characters/chr_daniel.md | draft | 2026-10-12 |
 | chr_player | character | Player Character (TBD) | characters/chr_player.md | draft | 2026-10-12 |

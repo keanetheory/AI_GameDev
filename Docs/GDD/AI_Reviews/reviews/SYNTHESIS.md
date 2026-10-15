@@ -20,7 +20,7 @@ Moderator synthesis of six reviews (systems-designer, narrative-critic, player-p
 
 ### #3 — The passenger ship, the game's only stakes, is never introduced in-game, and the ending it resolves has no human payoff
 **Severity:** BLOCKING
-**Problem:** No scene tells the player the ship exists or what happens if the beacon stays dark. It first appears as a hidden deadline at boarding. Nobody aboard is named, the aftermath of a fail is undecided, and Ted, Jeff and Daniel never react to either outcome. The whole pressure design (Pillar 2) and the "consequential ending" depend on the player knowing and caring about this ship.
+**Problem:** No scene tells the player the ship exists or what happens if the beacon stays dark. It first appears as a hidden deadline at boarding. Nobody aboard is named, the aftermath of a fail is undecided, and Ted, Arthur and Daniel never react to either outcome. The whole pressure design (Pillar 2) and the "consequential ending" depend on the player knowing and caring about this ship.
 **Flagged by:** player-psychologist (#4, BLOCKING after Round 2), narrative-critic (#4, BLOCKING after Round 2), business-analyst (Round 2 X4), adversarial-qa (#5 frozen-ship bullet, MAJOR if psychologist #4 is adopted)
 **Cross-examination:** STRENGTHENED. Two reviewers raised it from MAJOR to BLOCKING. player-psychologist showed that four other findings depend on the ship being seen and understood: narrative-critic #4, systems-designer #3's milestones, and adversarial-qa #1 and #5. business-analyst added that the game currently has no pitch line, because a trailer can't sell stakes the game never sets up. The tension over pre-boarding visibility (adversarial-qa: out of sight or frozen) was resolved by player-psychologist and narrative-critic both proposing a reveal at the boarding threshold. adversarial-qa had already listed "showing it only at the boarding moment" as acceptable.
 
@@ -54,18 +54,18 @@ Moderator synthesis of six reviews (systems-designer, narrative-critic, player-p
 ### C. Should the return crossing branch into a riskier shortcut?
 - **player-psychologist (#5) and systems-designer (Round 2):** yes. It gives the pressure an outlet without a second control, gives repairs a mechanical output, uses the dead "unlocked routes" field, and adds replay value. systems-designer rates it MAJOR in combination.
 - **feasibility-lead:** no branching in the prototype. The hazard forecast is built around one safe-route signal, and week 4 is already overloaded. The cheaper answer is to cut the unused save field.
-- **adversarial-qa:** at fixed speed, a survivable shortcut is always optimal. It breaks the singular safe-route signal behind Jeff's calls and doubles the tuning load.
+- **adversarial-qa:** at fixed speed, a survivable shortcut is always optimal. It breaks the singular safe-route signal behind Arthur's calls and doubles the tuning load.
 - **business-analyst:** defer to Gate 2 and put it on the ranked cut list.
 - **Escalated decision:** Commit to route choice, which means designing the forecast API for multiple routes from day one, or remove "unlocked routes" from the save contract?
 
 ### D. Where should the optional folk-horror discoveries live?
 - **business-analyst, feasibility-lead:** move them before boarding, to the lighthouse and island. That removes the time penalty on the game's distinctive content, keeps prototype tuning data valid (the outpost won't grow after week 6), and reuses environments that already have to be built. narrative-critic partly agrees: the core of the wrongness can live in the lighthouse if it's tied to *why the beacon failed*.
-- **player-psychologist (who withdrew this fix in Round 2), citing systems-designer #4:** moving more untimed content into a front half that already holds about 20 of the 30 minutes makes the pacing imbalance worse. The preferred fix is to keep discoveries at the outpost, budget explicit exploration time, and have Jeff signal when it's used up.
+- **player-psychologist (who withdrew this fix in Round 2), citing systems-designer #4:** moving more untimed content into a front half that already holds about 20 of the 30 minutes makes the pacing imbalance worse. The preferred fix is to keep discoveries at the outpost, budget explicit exploration time, and have Arthur signal when it's used up.
 - **Escalated decision:** Protect the atmosphere by moving discoveries into the untimed act, or protect pacing by keeping them in the timed act with a budgeted allowance?
 
 ### E. How severe is Ted's open status, and should he return in the second half?
 - **narrative-critic:** BLOCKING. Beyond the open decision, Ted has no arc after Step 2. He should be at the lamp for the climax and react to both outcomes.
-- **business-analyst, feasibility-lead, adversarial-qa:** MAJOR with a "needed by" date (week 3 per feasibility-lead, before week 4 per business-analyst). feasibility-lead warns that every added Ted beat is unpriced voice-over cost, and would allow only lines delivered from the lighthouse (radio or window). business-analyst proposes spending the ending's human payoff on Ted and folding Daniel into Jeff.
+- **business-analyst, feasibility-lead, adversarial-qa:** MAJOR with a "needed by" date (week 3 per feasibility-lead, before week 4 per business-analyst). feasibility-lead warns that every added Ted beat is unpriced voice-over cost, and would allow only lines delivered from the lighthouse (radio or window). business-analyst proposes spending the ending's human payoff on Ted and folding Daniel into Arthur.
 - **Escalated decision:** Lock Ted's presence by a fixed week, and decide whether his second-half role is a staged scene or voice-only lines.
 
 ---

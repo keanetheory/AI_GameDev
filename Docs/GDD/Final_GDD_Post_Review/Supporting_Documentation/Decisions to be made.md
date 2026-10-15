@@ -10,8 +10,8 @@ A. Decided in the review
 4. Folk-horror discoveries. The core discoveries move into the lighthouse and island, before boarding, tied to why the beacon failed. The outpost keeps a lighter set.
 5. Ted (decision outcome). Lock his presence by the end of week 3. He is staged at the lamp for the climax and outcome, with voice and position only.
 6. Clock start. The deadline starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and outpost give the player a feel for the boat. The ship is introduced by Ted at the boarding threshold.
-7. Sailors’ arrival. There is no crash. Jeff and Daniel, overwhelmed by the storm, moor on the island seeking shelter. Ted sees them from the window and the player opens the island gate (the same gate).
-8. Jeff. His motivation is to stop the ship from crashing, as he has realised the storm is getting nasty. After the second crossing he tells the player to go on without him; his reaction to the outcome is not recorded.
+7. Sailors’ arrival. There is no crash. Arthur and Daniel, overwhelmed by the storm, moor on the island seeking shelter. Ted sees them from the window and the player opens the island gate (the same gate).
+8. Arthur. His motivation is to stop the ship from crashing, as he has realised the storm is getting nasty. After the second crossing he tells the player to go on without him; his reaction to the outcome is not recorded.
 9. Daniel after the gate. He goes to the basement; his reaction to the outcome is not recorded. (Was: item 2.)
 10. Fail presentation. The foghorn, the ship crashes into the island, silence, then a “Failed” title screen with a short reason line. There are three fail states, all after the return crossing begins: on the return crossing it is audio only; in the lamp room the ship is seen and the audio still sounds; on the stairs it is audio only unless a window sightline exists.
 11. Repairs at Gate 1. Two repairs. Further repairs belong to Gate 2 and the full game. (Replaces: item 11, “Prototype repair”, in part; see B7.)
@@ -25,7 +25,7 @@ Story and canon
 
 1. Ted’s presence. Confirm by the end of week 3 that he is present and speaks live; the design assumes so. Confirm before recording dialogue. Ted’s lamp-room lines are voice only; decide the final list of lines (each is voice-over cost).
 2. Discoveries content. Decide which discoveries live in the lighthouse and island and which stay at the outpost, and how each ties to why the beacon failed. The outpost is untimed and gets no significant added detail until the prototype is considered complete; ideas for more folk-horror, canon clues and documentation are parked in Dreams for the game.
-3. Fail reason line. Decide the wording and who delivers it (Ted, Jeff, or the journal).
+3. Fail reason line. Decide the wording and who delivers it (Ted, Arthur, or the journal).
 
 Ship deadline and fail state
 

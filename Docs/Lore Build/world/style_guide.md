@@ -32,7 +32,7 @@ status: locked
 | Black | #0E0E10 | The Flighted |
 | Silver | #B9BEC4 | The Flighted (the moon) |
 | Navy | #1F2A44 | The Flighted. Also Ted's colour: **a deliberate clue linking him to the Flighted**. Keep it consistent. |
-| Green | #2F4A34 | Jeff |
+| Green | #2F4A34 | Arthur |
 | Red | #7A2620 | Daniel |
 | Stone grey | #6B6B66 | Bracken Isle, the lighthouse |
 | Sea slate | #2C3A40 | The Gullwater |

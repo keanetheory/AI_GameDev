@@ -14,7 +14,7 @@
     {
       "check": "3. Your hands, your eyes",
       "result": "pass",
-      "evidence": "Guidance is Jeff's voice only (JEFF_RET_01, JEFF_RET_02, JEFF_RET_03, JEFF_RET_04, JEFF_RET_05); no markers."
+      "evidence": "Guidance is Arthur's voice only (ARTHUR_RET_01, ARTHUR_RET_02, ARTHUR_RET_03, ARTHUR_RET_04, ARTHUR_RET_05); no markers."
     },
     {
       "check": "4. Dread you can read",
@@ -39,7 +39,7 @@
       "evidence": "5 segments, one safe_lane each."
     },
     {
-      "check": "Jeff never disagrees",
+      "check": "Arthur never disagrees",
       "result": "pass",
       "evidence": "Every call direction equals its segment's safe_lane."
     },
@@ -58,7 +58,7 @@
   "open_creator_decisions": [
     "Exact collision time cost (loose for Gate 1)",
     "Deadline length after return-crossing playtest",
-    "Creator to approve Jeff's voice before recording"
+    "Creator to approve Arthur's voice before recording"
   ],
-  "handoff_summary": "Return-crossing data for Gate 1: 5 segments, 15 hazards, 5 Jeff calls. All contract checks pass. Feel, pacing and voice need creator playtesting."
+  "handoff_summary": "Return-crossing data for Gate 1: 5 segments, 15 hazards, 5 Arthur calls. All contract checks pass. Feel, pacing and voice need creator playtesting."
 }

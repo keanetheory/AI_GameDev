@@ -1,0 +1,51 @@
+{
+  "asset_id": "saint_calder_skyline",
+  "verdict": "REVISE",
+  "style_checks": [
+    {
+      "check": "Style descriptors",
+      "result": "fail",
+      "evidence": "Descriptor groups missing; added in the revised prompt."
+    },
+    {
+      "check": "Palette and colour",
+      "result": "fail",
+      "evidence": "No colours outside the style guide palette."
+    },
+    {
+      "check": "Era, tone and forbidden references",
+      "result": "fail",
+      "evidence": "No touchstones, artists, retired names or modern items in the positive prompt."
+    },
+    {
+      "check": "Negative prompt",
+      "result": "fail",
+      "evidence": "Global negatives were missing; merged into the revised negative prompt."
+    },
+    {
+      "check": "Source image look",
+      "result": "pass",
+      "evidence": "Image metrics: \"no source image\""
+    }
+  ],
+  "issues": [
+    "Prompt must use the style descriptors (cel shading plus at least 3 of 4 groups). Missing: ['cel shading', 'ink outlines', 'muted palette', 'grimy hand-painted texture'].",
+    "Prompt contains a forbidden named reference touchstone.",
+    "Prompt contains a forbidden 'in the style of' reference.",
+    "Prompt contains a forbidden photoreal rendering.",
+    "Prompt contains a forbidden modern or sci-fi era.",
+    "Prompt contains a forbidden retired city name.",
+    "Prompt asks for 'neon', which the style guide lists as a negative.",
+    "Prompt uses colours outside the style guide palette: ['#00FFAA'].",
+    "Negative prompt is missing global negatives: ['modern clothing', 'cars', 'plastic', 'neon', 'smartphones', 'modern electrical fixtures', 'bright saturated colours', 'smooth photoreal rendering', 'clean glossy surfaces', 'anime style', 'text artefacts', 'real artist names', 'franchise characters'].",
+    "Saint Calder prompts must carry its amber and gold glow (style guide colour meanings).",
+    "Saint Calder prompts must say 'gothic' (1800s Gothic cathedral skyline)."
+  ],
+  "revised_prompt": "Saint Calder city skyline at night, lights towers, bright glow, gritty dark cel-shaded, heavy ink outlines, muted, desaturated palette, grimy hand-painted textures, 1800s Gothic cathedral skyline, warm amber and gold electric glow",
+  "revised_negative_prompt": "blurry, modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+  "godot_target_folder": "res://Assets/Models/saint_calder_city/",
+  "import_notes": [
+    "Scale: a backdrop about 600 m wide, placed 3 km away. Pivot: bottom centre. Collision: none. Materials: emissive amber and gold windows only; keep everything else dark and fogged."
+  ],
+  "summary": "11 style problem(s) found; use the revised prompt and negative prompt."
+}

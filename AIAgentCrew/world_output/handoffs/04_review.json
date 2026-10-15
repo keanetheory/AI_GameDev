@@ -1,0 +1,62 @@
+{
+  "verdict": "PASS",
+  "pillar_checks": [
+    {
+      "check": "1. The light must return",
+      "result": "pass",
+      "evidence": "Lighting phases end at BEACON_RELIT; RETURN ends at DOCK_LIGHTHOUSE."
+    },
+    {
+      "check": "2. The storm sets the clock",
+      "result": "pass",
+      "evidence": "Lightning, fog and visibility are driven by phase and route position; no timers in any spec."
+    },
+    {
+      "check": "3. Your hands, your eyes",
+      "result": "pass",
+      "evidence": "First-person walking and A/D steering only; beacon and Saint Calder are scenery with is_navigation_marker false."
+    },
+    {
+      "check": "4. Dread you can read",
+      "result": "pass",
+      "evidence": "RETURN hazard_visibility_m 70 with lightning that reveals hazards; 7 glitch checks with tests."
+    }
+  ],
+  "decisions_log_checks": [
+    {
+      "check": "One fixed speed, A/D steering",
+      "result": "pass",
+      "evidence": "speed_mps 3.0; throttle_actions empty; W and S do nothing."
+    },
+    {
+      "check": "No waves or tides",
+      "result": "pass",
+      "evidence": "waves_enabled False; tide_hook reserved for the Tide / Wave agent."
+    },
+    {
+      "check": "No visible timer or markers",
+      "result": "pass",
+      "evidence": "All is_navigation_marker flags false; no timer wording."
+    },
+    {
+      "check": "Moon absent or eclipsed",
+      "result": "pass",
+      "evidence": "moon.state 'eclipsed'."
+    },
+    {
+      "check": "Hazards readable",
+      "result": "pass",
+      "evidence": "legibility_checks cover hazards, lightning, beacon and Saint Calder."
+    }
+  ],
+  "issues": [],
+  "open_creator_decisions": [
+    "Whether the earlier return-crossing data (6 m/s) should be regenerated at the confirmed 3 m/s.",
+    "Whether Arthur, as a passenger, moves around the boat while it is steered.",
+    "How bright the eclipsed moon's silver rim may be.",
+    "Whether Saint Calder should flicker or stay fully steady.",
+    "Whether to add controller support at Gate 1.",
+    "Whether sprint is allowed inside the lighthouse."
+  ],
+  "handoff_summary": "Boat, Player Movement and Lighting specs for the first traversable Godot level. All deterministic checks pass. Steering feel, walking feel, flash safety and hazard readability need creator playtesting. Tide and wave behaviour is deliberately not specified yet."
+}

@@ -1,0 +1,39 @@
+{
+  "asset_id": "lighthouse_exterior",
+  "verdict": "APPROVE",
+  "style_checks": [
+    {
+      "check": "Style descriptors",
+      "result": "pass",
+      "evidence": "Prompt covers cel shading plus at least three descriptor groups."
+    },
+    {
+      "check": "Palette and colour",
+      "result": "pass",
+      "evidence": "No colours outside the style guide palette."
+    },
+    {
+      "check": "Era, tone and forbidden references",
+      "result": "pass",
+      "evidence": "No touchstones, artists, retired names or modern items in the positive prompt."
+    },
+    {
+      "check": "Negative prompt",
+      "result": "pass",
+      "evidence": "Includes every global negative."
+    },
+    {
+      "check": "Source image look",
+      "result": "pass",
+      "evidence": "Image metrics: {\"mean_saturation\": 0.103, \"mean_brightness\": 0.558, \"neon_fraction\": 0.0, \"near_palette_fraction\": 0.987}"
+    }
+  ],
+  "issues": [],
+  "revised_prompt": "Gothic coastal lighthouse complex on a rocky island, three-quarter view, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey and slate, mid-1800s stone and brick",
+  "revised_negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+  "godot_target_folder": "res://Assets/Models/lighthouse/",
+  "import_notes": [
+    "Scale: author at 1 unit = 1 m (tower about 27 m). Pivot: centre of the base at ground level. Collision: trimesh from a decimated collider copy; keep the door and stair openings clear. Materials: keep the hand-painted albedo, set roughness high."
+  ],
+  "summary": "Submission ties into the style guide; use the prompt as written."
+}

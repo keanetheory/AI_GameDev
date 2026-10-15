@@ -14,7 +14,7 @@
     {
       "check": "3. Your hands, your eyes",
       "result": "pass",
-      "evidence": "Guidance is spoken by Ted and Jeff; assist hints are opt-in text, never markers. The player is only called 'the new guy' and never speaks."
+      "evidence": "Guidance is spoken by Ted and Arthur; assist hints are opt-in text, never markers. The player is only called 'Isaac' and never speaks."
     },
     {
       "check": "4. Dread you can read",
@@ -26,7 +26,7 @@
     {
       "check": "Player term",
       "result": "pass",
-      "evidence": "No line says 'apprentice'; 'the new guy' appears in 1 lines."
+      "evidence": "No line says 'apprentice'; 'Isaac' appears in 1 lines."
     },
     {
       "check": "Ship reveal at boarding",
@@ -57,10 +57,10 @@
   "issues": [],
   "open_creator_decisions": [
     "Which lines are voiced is a cost decision; subtitles exist for every line.",
-    "Why Jeff and Daniel were on the water (smugglers?) is left open.",
-    "Ted and Jeff's relationship is TBD in the lore; the 'drowned by now' exchange is a proposal.",
+    "Why Arthur and Daniel were on the water (smugglers?) is left open.",
+    "Ted and Arthur's relationship is TBD in the lore; the 'drowned by now' exchange is a proposal.",
     "Fail-reason and outcome lines belong to the Story / Fail-State agent.",
     "Creator to approve all voices before recording"
   ],
-  "handoff_summary": "Opening dialogue for Gate 1: 61 lines (Ted 35, Jeff 20, Daniel 6), 7 alternate groups, 4 nudge ladders, 7 journal entries. All contract checks pass. Voice and lore need creator approval before recording."
+  "handoff_summary": "Opening dialogue for Gate 1: 61 lines (Ted 35, Arthur 20, Daniel 6), 7 alternate groups, 4 nudge ladders, 7 journal entries. All contract checks pass. Voice and lore need creator approval before recording."
 }

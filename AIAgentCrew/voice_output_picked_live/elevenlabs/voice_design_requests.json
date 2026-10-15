@@ -1,0 +1,29 @@
+[
+ {
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-voice/design",
+  "body": {
+   "voice_description": "Gravelly older male, coastal accent. A weathered lighthouse keeper in his sixties or seventies with a low chest voice, deep rasp and a dry wheeze. Slow, clipped delivery that barks orders, grumbles under his breath and clears his throat or coughs mid-sentence. Sarcastic and impatient, with a faint buried warmth. Close and rough, projected to be heard over wind and stairwells.",
+   "text": "Eclipse, storm season, and the Saltgate howling. Of course they send a new money toff. Boiler's cold and the beacon's starving. Down to the engine room. Shovel coal, Isaac. Gauge is waking up. Put your back into it. Cracked clean through. The burner's finished. Hrmph. Nothing to mend up here.",
+   "model_id": "eleven_ttv_v3"
+  }
+ },
+ {
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-voice/design",
+  "body": {
+   "voice_description": "Wiry, old, frantic male voice. An elderly sailor with a thin, reedy, slightly cracked mid-high voice and a light northern sea-faring lilt. Fast and clipped, wry and friendly at rest, with a rising, breathless, rattled edge under pressure. He shouts over an engine, stays wary and keeps a warm joking undertone. Clearly higher and more nasal than a gravelly bass.",
+   "text": "Easy now, we mean no harm. Just cold and wet. The gate, please? Ted, you old rock. Thought you'd be drowned by now. Keep her off the rocks, Isaac. Watch the water, not the dark. Too close! Give the rocks some room, Isaac. There! Ship's lights, out in the swell. She can't see the rocks. No beacon.",
+   "model_id": "eleven_ttv_v3"
+  }
+ },
+ {
+  "speaker": "DANIEL",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-voice/design",
+  "body": {
+   "voice_description": "Young, enthusiastic male. A man in his early twenties with a bright, smooth, light tenor and a clean youthful southern English accent. Chatty and eager, with forced cheer that wobbles into anxiety. He trails off mid-sentence, laughs nervously, loses his breath and drops to a hushed half-whisper when spooked. No rasp or grit, warm and boyish.",
+   "text": "Down here suits me fine. Did the walls just... never mind. Warm is good. Arthur says it's just weather. I'm sure Arthur's right. He's usually right. Mostly. Did you hear that? Tell me you heard that. Pipes, right? Say pipes. Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming.",
+   "model_id": "eleven_ttv_v3"
+  }
+ }
+]

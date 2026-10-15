@@ -1,0 +1,22 @@
+{
+  "submission": {
+    "asset_id": "cliff_wall",
+    "category": "cliff_terrain",
+    "fal_model": "fal-ai/hunyuan3d-v3/image-to-3d",
+    "prompt": "Long straight coastal cliff wall module with fractured vertical slate rock faces, mossy grass plateau on top and scree at the foot, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, mid-1800s coastal wilderness",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "source_image": "../../ConceptArt/cliff_terrain/Mossy slate coastal cliff module-1.png",
+    "view_images": {
+      "front": "../../ConceptArt/cliff_terrain/Mossy slate coastal cliff module-1.png",
+      "back": "../../ConceptArt/cliff_terrain/Reverse three-quarter cliff terrain module-1.png"
+    },
+    "notes": "Straight wall module, tiled along the mainland coast behind Saltgate (see ConceptArt/channel_scenes/position of both saltgate and the cliff terrain.png). Front and reverse views of the same slab."
+  },
+  "request_id": "01a13f63-8ccd-7362-89d1-bb9be640e9cb",
+  "seed": null,
+  "textured": true,
+  "request": {
+    "generate_type": "Normal",
+    "face_count": 150000
+  }
+}

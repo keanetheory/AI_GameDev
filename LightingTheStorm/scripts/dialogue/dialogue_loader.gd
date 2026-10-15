@@ -1,5 +1,5 @@
 # dialogue_loader.gd - Godot 4 / GDScript
-# Reads dialogue_opening.json (Ted, Jeff and Daniel for steps 1-3 of the Gate 1 slice) and plays
+# Reads dialogue_opening.json (Ted, Arthur and Daniel for steps 1-3 of the Gate 1 slice) and plays
 # lines when the game reports a stable event ID. Attach to a Node (or make it an autoload) and call
 # trigger("BOILER_FED") etc. from the gameplay scripts. Lines in the same "group" are alternates:
 # one is picked at random. The loader never shows a timer or a quest marker (Pillars 2 and 3);

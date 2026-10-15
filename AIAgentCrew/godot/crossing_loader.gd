@@ -1,12 +1,12 @@
 # crossing_loader.gd - Godot 4 / GDScript
 # Reads the Storm Crossing Crew's return_crossing.json and feeds the return crossing:
-# hazard spawns, the single safe-route signal, and Jeff's calls (all from ONE forecast,
-# so Jeff can never disagree with the hazards). Attach to a Node in the sea scene and
+# hazard spawns, the single safe-route signal, and Arthur's calls (all from ONE forecast,
+# so Arthur can never disagree with the hazards). Attach to a Node in the sea scene and
 # call advance(route_m) each physics frame with the boat's distance along the route.
 extends Node
 
 signal segment_entered(segment_id: String, safe_lane: String)
-signal jeff_call(call_id: String, subtitle: String, direction: String)
+signal arthur_call(call_id: String, subtitle: String, direction: String)
 signal return_arrived(arrival_line: String)
 
 @export_file("*.json") var data_path := "res://data/return_crossing.json"
@@ -41,10 +41,10 @@ func advance(route_m: float) -> void:
 	if data.is_empty() or _arrived:
 		return
 	for seg in data["segments"]:
-		var call: Dictionary = seg["jeff_call"]
+		var call: Dictionary = seg["arthur_call"]
 		if route_m >= call["trigger_route_m"] and not _fired_calls.has(call["call_id"]):
 			_fired_calls[call["call_id"]] = true
-			jeff_call.emit(call["call_id"], call["subtitle"], call["direction"])
+			arthur_call.emit(call["call_id"], call["subtitle"], call["direction"])
 		var start: float = seg["start_m"]
 		if route_m >= start and route_m < start + seg["length_m"] and _current_segment != seg["segment_id"]:
 			_current_segment = seg["segment_id"]

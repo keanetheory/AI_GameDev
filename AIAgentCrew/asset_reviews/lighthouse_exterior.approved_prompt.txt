@@ -1,0 +1,9 @@
+PROMPT:
+Gothic coastal lighthouse complex on a rocky island, three-quarter view, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey and slate, mid-1800s stone and brick
+
+NEGATIVE PROMPT:
+modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters
+
+GODOT FOLDER: res://Assets/Models/lighthouse/
+IMPORT NOTES:
+- Scale: author at 1 unit = 1 m (tower about 27 m). Pivot: centre of the base at ground level. Collision: trimesh from a decimated collider copy; keep the door and stair openings clear. Materials: keep the hand-painted albedo, set roughness high.

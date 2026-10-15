@@ -32,9 +32,9 @@ JSON_RULE = (
 
 WRITER_BACKSTORY = (
     "You write for three coastfolk characters. Ted is a gruff, snarky lighthouse master who "
-    "calls city folk 'new money toffs' and introduces the setting and each objective. Jeff is a "
+    "calls city folk 'new money toffs' and introduces the setting and each objective. Arthur is a "
     "wry, wiry sailor, friendly but wary. Daniel is a light-hearted, anxious young sailor. The "
-    "player never speaks and is only ever called 'the new guy', used sparingly (about one line in "
+    "player never speaks and is only ever called 'Isaac', used sparingly (about one line in "
     "five at most). You never mention a timer, never confirm anything supernatural and never name "
     "the passenger ship before the boarding threshold."
 )
@@ -105,7 +105,7 @@ def build_dialogue_crew(llm, goal: str, verbose: bool = True, state: dict | None
     )
     dialogue_writer = Agent(
         role=DIALOGUE_PIPELINE[1],
-        goal="Write the opening dialogue for Ted, Jeff and Daniel as data that follows the brief exactly.",
+        goal="Write the opening dialogue for Ted, Arthur and Daniel as data that follows the brief exactly.",
         backstory=WRITER_BACKSTORY,
         **common,
     )
@@ -122,7 +122,7 @@ def build_dialogue_crew(llm, goal: str, verbose: bool = True, state: dict | None
             f"[TASK OPENING_DIALOGUE_BRIEF]\n{canon}\n\nCREATOR GOAL: {goal}\n\n"
             "Write the task brief for the Gate 1 opening dialogue. Use task_id 'GATE1_OPENING_DIALOGUE'. Set "
             f"max_words_per_line to {max_words}, player_term to the creator's decision, the three speakers TED, "
-            "JEFF, DANIEL, the three steps (coal, sailors, burner), the constraints the writer must follow and "
+            "ARTHUR, DANIEL, the three steps (coal, sailors, burner), the constraints the writer must follow and "
             "the open creator decisions this work touches. The game already defines its events: copy EXACTLY "
             "these events, in this order, as the brief's events (the game reports them; do not invent, rename "
             f"or drop any):\n{EVENT_LIST}\n\n{JSON_RULE}{_schema(DialogueBrief)}"
@@ -139,7 +139,7 @@ def build_dialogue_crew(llm, goal: str, verbose: bool = True, state: dict | None
             "with at least one line (except existing crew events). Add: a nudge ladder (consecutive tiers, "
             "hint then sharper then explicit) for every IDLE_* event; alternates (same group, same trigger, "
             "at least two) for repeated or key moments; assist_text on at least one objective line per step; "
-            "one journal entry per step. Line IDs look like TED_S1_01, JEFF_S3_N1a, DANIEL_OPT_01. "
+            "one journal entry per step. Line IDs look like TED_S1_01, ARTHUR_S3_N1a, DANIEL_OPT_01. "
             "Subtitles are 'SPEAKER: text'. Keep every line within max_words_per_line and call the player "
             "only by the brief's player_term. Every IDLE_* event in the brief needs its own lines with tier 1, "
             "2 and 3. Use ONLY single quotes inside text values (never a double quote) so the JSON stays valid; "

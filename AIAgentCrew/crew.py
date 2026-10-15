@@ -6,7 +6,7 @@ previous agent's validated output:
 
   1. Production Orchestrator       creator goal + canon     -> CrossingBrief
   2. Hazard Forecast agent         CrossingBrief            -> HazardForecast
-  3. Dialogue agent                HazardForecast + brief   -> JeffCallSheet
+  3. Dialogue agent                HazardForecast + brief   -> ArthurCallSheet
   4. Canon and Review Orchestrator all three                -> ReviewReport
 
 Each task has a guardrail that validates its JSON against the shared contract
@@ -19,7 +19,7 @@ from crewai import Agent, Crew, Process, Task
 
 from canon import canon_block
 from roles import CROSSING_PIPELINE
-from schemas import CrossingBrief, HazardForecast, JeffCallSheet, ReviewReport
+from schemas import CrossingBrief, HazardForecast, ArthurCallSheet, ReviewReport
 from validators import check_brief, check_calls, check_forecast, check_review, parse
 
 JSON_RULE = (
@@ -63,7 +63,7 @@ def build_crew(llm, goal: str, preset: str, segments: int, verbose: bool = True,
         return True, fc.model_dump_json(indent=2)
 
     def calls_guard(out):
-        sheet, err = parse(out.raw, JeffCallSheet)
+        sheet, err = parse(out.raw, ArthurCallSheet)
         if err:
             return False, err
         problems = check_calls(sheet, state["forecast"], state["brief"])
@@ -99,7 +99,7 @@ def build_crew(llm, goal: str, preset: str, segments: int, verbose: bool = True,
         role=CROSSING_PIPELINE[1],
         goal="Place readable hazards and one safe-route signal per segment, exactly as the brief specifies.",
         backstory=(
-            "You own the shared hazard forecast that the boat, the hazards and Jeff's calls all read. "
+            "You own the shared hazard forecast that the boat, the hazards and Arthur's calls all read. "
             "Your rule: dread you can read. A first-time player steering with one control at one fixed "
             "speed must always be able to see the threat and the way through."
         ),
@@ -107,9 +107,9 @@ def build_crew(llm, goal: str, preset: str, segments: int, verbose: bool = True,
     )
     dialogue_writer = Agent(
         role=CROSSING_PIPELINE[2],
-        goal="Write Jeff's shouted direction calls so they match the hazard forecast exactly.",
+        goal="Write Arthur's shouted direction calls so they match the hazard forecast exactly.",
         backstory=(
-            "You write for Jeff, an older, coarse seaman who is reluctant but wants to save the "
+            "You write for Arthur, an older, coarse seaman who is reluctant but wants to save the "
             "passenger ship. His calls are short, practical and shouted over wind. He never mentions "
             "a timer, never contradicts the safe route, and never confirms anything supernatural."
         ),
@@ -132,7 +132,7 @@ def build_crew(llm, goal: str, preset: str, segments: int, verbose: bool = True,
             f"{canon}\n\nCREATOR GOAL: {goal}\n\n"
             f"Write the task brief for the Gate 1 RETURN crossing data. Use task_id 'GATE1_RETURN_CROSSING', "
             f"difficulty_preset '{preset}', exactly {segments} segments (SEG_01..). Choose a fixed boat speed "
-            f"and Jeff call lead distance. Hazard density must rise along the route and route width must "
+            f"and Arthur call lead distance. Hazard density must rise along the route and route width must "
             f"narrow or hold (storm split: position-driven, never time-driven). allowed_hazards may only "
             f"include rock, reef, buoy, debris. List the constraints workers must follow and the open "
             f"creator decisions this work touches.\n\n{JSON_RULE}{_schema(CrossingBrief)}"
@@ -160,15 +160,15 @@ def build_crew(llm, goal: str, preset: str, segments: int, verbose: bool = True,
     )
     calls_task = Task(
         description=(
-            f"{canon}\n\nUsing the CrossingBrief and the HazardForecast, write one Jeff direction call per "
-            f"segment (call_id JEFF_RET_<seg>). Each call's direction MUST equal that segment's safe_lane, "
-            f"and lead_m must be at least the brief's jeff_call_lead_m. Lines: max 14 words, shouted, "
+            f"{canon}\n\nUsing the CrossingBrief and the HazardForecast, write one Arthur direction call per "
+            f"segment (call_id ARTHUR_RET_<seg>). Each call's direction MUST equal that segment's safe_lane, "
+            f"and lead_m must be at least the brief's arthur_call_lead_m. Lines: max 14 words, shouted, "
             f"left/right/centre in plain words so the player is never confused; no timers or numbers of "
-            f"seconds. Subtitles start 'JEFF: '. Also write arrival_line, Jeff's line on reaching the "
+            f"seconds. Subtitles start 'ARTHUR: '. Also write arrival_line, Arthur's line on reaching the "
             f"lighthouse jetty, in the spirit of 'go go go, don't wait for me'.\n\n"
-            f"{JSON_RULE}{_schema(JeffCallSheet)}"
+            f"{JSON_RULE}{_schema(ArthurCallSheet)}"
         ),
-        expected_output="A JeffCallSheet JSON object.",
+        expected_output="A ArthurCallSheet JSON object.",
         agent=dialogue_writer,
         context=[brief_task, forecast_task],
         guardrail=calls_guard,
@@ -176,9 +176,9 @@ def build_crew(llm, goal: str, preset: str, segments: int, verbose: bool = True,
     )
     review_task = Task(
         description=(
-            f"{canon}\n\nReview the CrossingBrief, HazardForecast and JeffCallSheet together. Write exactly "
+            f"{canon}\n\nReview the CrossingBrief, HazardForecast and ArthurCallSheet together. Write exactly "
             f"four pillar_checks (one per pillar, in order) and decisions_log_checks covering at least: "
-            f"storm split, no waves, single safe route (no branching), Jeff never disagrees with the "
+            f"storm split, no waves, single safe route (no branching), Arthur never disagrees with the "
             f"forecast, no visible timer, recoverable collisions. Each check has result pass/fail and "
             f"concrete evidence (cite IDs). verdict is PASS only if every check passes, otherwise REVISE "
             f"with issues listed. Carry forward open_creator_decisions. handoff_summary is 2-4 factual "

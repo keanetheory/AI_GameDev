@@ -20,7 +20,7 @@ status: draft
 
 ## The Crossing (gameplay)
 - **Outbound:** mild currents sway the boat a little. Calm and uneasy.
-- **Return:** current, wind, and rain build into a loud storm. Jeff guides the player through it.
+- **Return:** current, wind, and rain build into a loud storm. Arthur guides the player through it.
 - **Vessel:** a small steam launch with a mini steam engine.
 - **Visible landmarks:**
   - Fort Kestrel to the west and Fort Heron to the east, lit and flagged with no one visible

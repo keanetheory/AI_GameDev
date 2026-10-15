@@ -20,7 +20,7 @@ CUES = {
     "buoy": "red buoy light and clanging bell",
     "debris": "pale floating timber catching lightning",
 }
-JEFF = {
+ARTHUR = {
     "left": ["Hard left, lad! Rocks to starboard!", "Left! Get us left of that!"],
     "right": ["Bring her right! Right, now!", "Right, lad, right! Mind the reef!"],
     "centre": ["Hold her straight! Straight down the middle!", "Steady, middle! Don't you touch them!"],
@@ -70,7 +70,7 @@ class OfflineLLM(BaseLLM):
             })
         return {
             "task_id": "GATE1_RETURN_CROSSING", "crossing_id": "RETURN", "difficulty_preset": self.preset,
-            "boat_speed_mps": 6.0, "jeff_call_lead_m": 40 if assist else 30,
+            "boat_speed_mps": 6.0, "arthur_call_lead_m": 40 if assist else 30,
             "allowed_hazards": ["rock", "reef", "buoy", "debris"], "segments": segs,
             "constraints": ["One fixed speed, one steering axis", "No waves (stretch goal)",
                             "One safe lane per segment; no branching",
@@ -107,10 +107,10 @@ class OfflineLLM(BaseLLM):
             direction = s.safe_lane
             if not corrected and i == 1 and self.mistakes_made == 0:
                 direction = "left" if s.safe_lane != "left" else "right"  # deliberate first-draft error
-            line = JEFF[direction][i % 2]
-            calls.append({"call_id": f"JEFF_RET_{s.segment_id[-2:]}", "target_segment_id": s.segment_id,
-                          "direction": direction, "lead_m": brief.jeff_call_lead_m + 5,
-                          "line": line, "subtitle": f"JEFF: {line}"})
+            line = ARTHUR[direction][i % 2]
+            calls.append({"call_id": f"ARTHUR_RET_{s.segment_id[-2:]}", "target_segment_id": s.segment_id,
+                          "direction": direction, "lead_m": brief.arthur_call_lead_m + 5,
+                          "line": line, "subtitle": f"ARTHUR: {line}"})
         if not corrected:
             self.mistakes_made += 1
         return {"calls": calls, "arrival_line": "That's the jetty! Go, go, go - don't you wait for me!"}
@@ -124,22 +124,22 @@ class OfflineLLM(BaseLLM):
             "pillar_checks": [
                 p("1. The light must return", "Route ends at DOCK_LIGHTHOUSE; arrival line sends the player to the lamp."),
                 p("2. The storm sets the clock", "No timer words in any line; urgency carried by storm notes and density."),
-                p("3. Your hands, your eyes", f"Guidance is Jeff's voice only ({ids}); no markers."),
+                p("3. Your hands, your eyes", f"Guidance is Arthur's voice only ({ids}); no markers."),
                 p("4. Dread you can read", "Every hazard has a readability cue; one safe lane per segment."),
             ],
             "decisions_log_checks": [
                 p("Storm split", "hazard_density rises with segment index only."),
                 p("No waves", "allowed_hazards = rock, reef, buoy, debris."),
                 p("Single safe route", f"{len(fc.segments)} segments, one safe_lane each."),
-                p("Jeff never disagrees", "Every call direction equals its segment's safe_lane."),
+                p("Arthur never disagrees", "Every call direction equals its segment's safe_lane."),
                 p("No visible timer", "Deadline is never referenced numerically."),
                 p("Recoverable collisions", "Every segment has a SAFE_<seg> recovery point."),
             ],
             "issues": [],
             "open_creator_decisions": ["Exact collision time cost (loose for Gate 1)",
                                        "Deadline length after return-crossing playtest",
-                                       "Creator to approve Jeff's voice before recording"],
+                                       "Creator to approve Arthur's voice before recording"],
             "handoff_summary": (f"Return-crossing data for Gate 1: {len(fc.segments)} segments, "
-                                f"{sum(len(s.hazards) for s in fc.segments)} hazards, {len(calls.calls)} Jeff calls. "
+                                f"{sum(len(s.hazards) for s in fc.segments)} hazards, {len(calls.calls)} Arthur calls. "
                                 "All contract checks pass. Feel, pacing and voice need creator playtesting."),
         }

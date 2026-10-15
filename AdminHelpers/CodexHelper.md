@@ -12,18 +12,18 @@ The person in the screenshot has told Codex:
 
 That means when they come back tomorrow, Codex can read the dev log instead of having to reconstruct everything from scratch.
 
-## What this could look like for Brusskania
+## What this could look like for Saint Calder
 
 On your PC you might have your game here:
 
 ```text
-C:\GameDev\Brusskania\
+C:\GameDev\Saint Calder\
 ```
 
 And an Obsidian vault here:
 
 ```text
-C:\Users\Paul\Documents\Obsidian\Brusskania\
+C:\Users\Paul\Documents\Obsidian\Saint Calder\
 ```
 
 Inside the vault you might create:
@@ -39,7 +39,7 @@ World.md
 `Dev Log.md` could contain something as simple as:
 
 ```markdown
-# Brusskania Dev Log
+# Saint Calder Dev Log
 
 ## 22 September 2026
 
@@ -68,7 +68,7 @@ The clever bit is getting **Codex to update it automatically**.
 Inside:
 
 ```text
-C:\GameDev\Brusskania\
+C:\GameDev\Saint Calder\
 ```
 
 create:
@@ -80,13 +80,13 @@ AGENTS.md
 and put something like this inside:
 
 ```markdown
-# Brusskania development instructions
+# Saint Calder development instructions
 
 ## Development log
 
 After completing a meaningful development task, update:
 
-C:\Users\Paul\Documents\Obsidian\Brusskania\Dev Log.md
+C:\Users\Paul\Documents\Obsidian\Saint Calder\Dev Log.md
 
 Add:
 
@@ -102,16 +102,16 @@ Keep previous entries. Never overwrite the existing development history.
 
 Now Codex has standing instructions saying:
 
-**â€œWhen I work on Brusskania, keep my diary updated too.â€**
+**â€œWhen I work on Saint Calder, keep my diary updated too.â€**
 
 ## The easiest setup
 
-For Brusskania, I would actually make this even simpler at first.
+For Saint Calder, I would actually make this even simpler at first.
 
-Put the documentation **inside your Brusskania project**:
+Put the documentation **inside your Saint Calder project**:
 
 ```text
-Brusskania
+Saint Calder
 â”‚
 â”œâ”€â”€ AGENTS.md
 â”‚
@@ -126,7 +126,7 @@ Brusskania
     â””â”€â”€ Technical Notes.md
 ```
 
-Then tell Obsidian to open either `Brusskania` itself or the `docs` folder as a vault.
+Then tell Obsidian to open either `Saint Calder` itself or the `docs` folder as a vault.
 
 Now Codex and Obsidian are looking at **the exact same files**.
 
@@ -151,7 +151,7 @@ That's what the Discord message means by **â€œso it doesn't need to retread 
 
 ## A better long-term structure
 
-Rather than having **one gigantic dev log**, I'd give Codex a small set of permanent Brusskania documents:
+Rather than having **one gigantic dev log**, I'd give Codex a small set of permanent Saint Calder documents:
 
 ```text
 docs/
@@ -175,7 +175,7 @@ That starts turning the project into a kind of **external memory for Codex**.
 
 ## The mental model
 
-For Brusskania, the simplest way to think about it is:
+For Saint Calder, the simplest way to think about it is:
 
 **`AGENTS.md` = Codex's instructions**  
 **`docs/` = Codex's memory**  
@@ -186,4 +186,4 @@ You therefore don't really need to â€œconnect Codex to Obsidianâ€ at al
 
 You just arrange things so **Codex and Obsidian can both see the same Markdown files**.
 
-If you're about to start actually building Brusskania with Codex, this is worth setting up right at the beginning rather than retrofitting it later.
+If you're about to start actually building Saint Calder with Codex, this is worth setting up right at the beginning rather than retrofitting it later.

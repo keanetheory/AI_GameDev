@@ -1,0 +1,29 @@
+[
+ {
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-voice/design",
+  "body": {
+   "voice_description": "A gravelly older male voice in his late sixties with a rough coastal British accent, weathered by salt and tobacco. Gruff, dry and snarky, slow to warm up, with a rasp and an occasional cough. Speaks in short barking sentences.",
+   "text": "Eclipse, storm season, and the Saltgate howling. Of course they send a new money toff. Beacon's starved. Basement, engine room. Shovel coal into the boiler, Isaac.",
+   "model_id": "eleven_ttv_v3"
+  }
+ },
+ {
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-voice/design",
+  "body": {
+   "voice_description": "A wiry, old male voice, reedy and thin, with a coastal sailor's accent. Wry and warm underneath, quick and frantic under pressure, voice cracking when he shouts over wind and an engine.",
+   "text": "Hoy, up there! Open the gate, would you? We're soaked to the bone. Easy now, we mean no harm. Just cold and wet. The gate, please?",
+   "model_id": "eleven_ttv_v3"
+  }
+ },
+ {
+  "speaker": "DANIEL",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-voice/design",
+  "body": {
+   "voice_description": "A young male voice in his early twenties, bright and enthusiastic, soft coastal accent. Light-hearted and chatty, with nervous laughs and a voice that thins and speeds up when anxious.",
+   "text": "Oh, a boiler! Lovely. I'll just stay down here, where it's warm. And walled. Down here suits me fine. Did the walls just... never mind. Warm is good.",
+   "model_id": "eleven_ttv_v3"
+  }
+ }
+]
