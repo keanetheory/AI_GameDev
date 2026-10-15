@@ -24,6 +24,12 @@ extends Node3D
 ## building. Outside each box the push fades out over flatten_falloff metres, so rocks taper down.
 @export var flatten_boxes: Array[AABB] = []
 @export var flatten_falloff := 3.0
+## A path pressed into the mesh (this node's local space): a centre line whose y is the walking height,
+## e.g. stairs cut through a cliff lip. Vertices within press_half_width of the line and above it are
+## pressed down onto it; beyond that the push fades out over press_falloff metres. Never raises anything.
+@export var press_path: PackedVector3Array = PackedVector3Array()
+@export var press_half_width := 1.4
+@export var press_falloff := 1.5
 
 
 func _ready() -> void:
@@ -37,7 +43,7 @@ func _ready() -> void:
 	add_child(root)
 	for node in root.find_children("*", "MeshInstance3D", true, false):
 		var mi := node as MeshInstance3D
-		if not flatten_boxes.is_empty():
+		if not flatten_boxes.is_empty() or press_path.size() >= 2:
 			_flatten(mi)
 		if not carve_boxes.is_empty():
 			_carve(mi)
@@ -72,6 +78,15 @@ func _flatten(mi: MeshInstance3D) -> void:
 	var to_mesh := to_local.affine_inverse()
 	var flat := ArrayMesh.new()
 	var moved := 0
+	var reach := press_half_width + press_falloff
+	var press_box := AABB()
+	if press_path.size() >= 2:
+		press_box = AABB(press_path[0], Vector3.ZERO)
+		for q in press_path:
+			press_box = press_box.expand(q)
+		press_box = press_box.grow(reach)
+		press_box.size.y = 1e6          # any height: the test is in x/z only
+		press_box.position.y = -5e5
 	for surf in src.get_surface_count():
 		var arrays := src.surface_get_arrays(surf)
 		var verts: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
@@ -89,6 +104,8 @@ func _flatten(mi: MeshInstance3D) -> void:
 				var t := clampf(sqrt(dx * dx + dz * dz) / maxf(flatten_falloff, 0.001), 0.0, 1.0)
 				t = t * t * (3.0 - 2.0 * t)     # smoothstep: no crease where the taper starts or ends
 				target = minf(target, floor_y + (p.y - floor_y) * t)
+			if press_path.size() >= 2 and press_box.has_point(p):
+				target = minf(target, _press_target(p, reach))
 			if target < p.y - 0.001:
 				verts[i] = to_mesh * Vector3(p.x, target, p.z)
 				changed[i] = true
@@ -125,6 +142,26 @@ func _flatten(mi: MeshInstance3D) -> void:
 		flat.surface_set_material(flat.get_surface_count() - 1, src.surface_get_material(surf))
 	mi.mesh = flat
 	print("collider_builder: flattened ", moved, " vertices of ", model_path.get_file())
+
+
+# Height a vertex at local `p` is pressed down to by press_path (p.y itself when out of reach).
+func _press_target(p: Vector3, reach: float) -> float:
+	var best := INF
+	var y := p.y
+	for i in press_path.size() - 1:
+		var a := press_path[i]
+		var b := press_path[i + 1]
+		var ab := Vector2(b.x - a.x, b.z - a.z)
+		var t := clampf(Vector2(p.x - a.x, p.z - a.z).dot(ab) / maxf(ab.length_squared(), 1e-9), 0.0, 1.0)
+		var d := Vector2(p.x - a.x, p.z - a.z).distance_to(ab * t)
+		if d < best:
+			best = d
+			y = lerpf(a.y, b.y, t)
+	if best > reach or p.y <= y:
+		return p.y
+	var k := clampf((best - press_half_width) / maxf(press_falloff, 0.001), 0.0, 1.0)
+	k = k * k * (3.0 - 2.0 * k)
+	return y + (p.y - y) * k
 
 
 func _carve(mi: MeshInstance3D) -> void:

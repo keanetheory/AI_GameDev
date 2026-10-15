@@ -191,7 +191,7 @@ func _recover() -> void:
 	var back := maxi(0, _trail.size() - 1 - int(recovery_back_s / 0.5))
 	var target := Transform3D(global_transform.basis, global_position)
 	var found := false
-	for i in range(back, -1, -1):
+	for i in range(mini(back, _trail.size() - 1), -1, -1):   # empty trail (hit just after casting off): skip to the shove below
 		if not _hits_hazard(_trail[i]):
 			target = _trail[i]
 			found = true

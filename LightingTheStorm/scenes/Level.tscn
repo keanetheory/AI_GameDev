@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b601q1u1ked8s"]
+[gd_scene load_steps=12 format=3 uid="uid://b601q1u1ked8s"]
 
 [ext_resource type="Script" path="res://scripts/world/collider_builder.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/world/sea.gd" id="2"]
@@ -29,17 +29,6 @@ fog_enabled = true
 fog_light_color = Color(0.32, 0.36, 0.4, 1)
 fog_density = 0.004
 
-[sub_resource type="StandardMaterial3D" id="dock_wood"]
-albedo_color = Color(0.29, 0.23, 0.17, 1)
-roughness = 0.95
-
-[sub_resource type="BoxMesh" id="ramp_mesh"]
-material = SubResource("dock_wood")
-size = Vector3(3.2, 0.3, 3.6)
-
-[sub_resource type="BoxShape3D" id="ramp_shape"]
-size = Vector3(3.2, 0.3, 3.6)
-
 [node name="Level" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -56,37 +45,45 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 script = ExtResource("2")
 
 [node name="Island" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.2, 0)
 script = ExtResource("1")
-model_path = "res://Assets/Models/island/island_plateau.glb"
+model_path = "res://Assets/Models/island/island_craggy.glb"
 body_layers = 3
-carve_boxes = Array[AABB]([AABB(11, 1.6, 25, 14, 14, 13)])
-flatten_boxes = Array[AABB]([AABB(-9, 18.5, -7, 9.5, 12, 8.5)])
+carve_boxes = Array[AABB]([AABB(-26.5, 2.5, 18.8, 4, 6, 4.1), AABB(-40.5, 0.85, 12, 7.3, 5, 9.8), AABB(-34, 0.85, 12.5, 3.4, 5, 4.3), AABB(-35.5, 0.85, 22.6, 18.4, 8, 3.6), AABB(-17.2, 2.3, 22.9, 1.5, 7, 2.3)])
+flatten_boxes = Array[AABB]([AABB(-10, 10.9, -22, 30, 12, 27)])
+press_path = PackedVector3Array(-17.40, 2.26, 19.60, -17.32, 2.48, 19.11, -17.24, 2.76, 18.61, -17.15, 3.02, 18.12, -17.07, 3.28, 17.63, -16.99, 3.60, 17.13, -16.91, 3.93, 16.64, -16.82, 4.31, 16.15, -16.80, 4.63, 15.75, -16.80, 5.02, 15.25, -16.80, 5.17, 14.75, -16.80, 5.24, 14.25, -16.80, 5.29, 13.75, -16.80, 5.55, 13.25, -16.69, 5.76, 12.77, -16.48, 6.15, 12.32, -16.26, 6.55, 11.87, -16.04, 6.94, 11.42, -15.83, 7.33, 10.97, -15.61, 7.72, 10.52, -15.44, 7.93, 10.31, -15.12, 8.32, 9.93, -14.80, 8.71, 9.54, -14.47, 9.10, 9.16, -14.15, 9.49, 8.78, -13.83, 9.88, 8.39, -13.51, 10.27, 8.01, -13.29, 10.48, 7.87, -12.86, 10.70, 7.61, -12.43, 10.74, 7.36, -12.00, 10.80, 7.10, -11.57, 10.86, 6.84, -11.14, 10.89, 6.59, -11.00, 10.93, 6.50)
 
 [node name="Lighthouse" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 13.4, -12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 9.61, -8.5)
 script = ExtResource("1")
 model_path = "res://Assets/Models/lighthouse/lighthouse_exterior_v3.glb"
 
-[node name="Dock" type="Node3D" parent="."]
-transform = Transform3D(0.866, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866, 15, -1.2, 29.8)
-script = ExtResource("1")
-model_path = "res://Assets/Models/dock/dock_landing.glb"
-
-[node name="DockRamp" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.9455, 0.3256, 0, -0.3256, 0.9455, 14, 2.05, 24.7)
-
-[node name="Mesh" type="MeshInstance3D" parent="DockRamp"]
-mesh = SubResource("ramp_mesh")
-
-[node name="Shape" type="CollisionShape3D" parent="DockRamp"]
-shape = SubResource("ramp_shape")
-
 [node name="DockZoneLighthouse" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0.15, 35.8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 0.15, 20.7)
 script = ExtResource("5")
-berth_yaw_deg = -90.0
-landing = Vector3(15, 2.7, 29.5)
+radius = 5.0
+berth_yaw_deg = 90.0
+landing = Vector3(-25.3, 2.5, 20.7)
+
+[node name="DockZoneLighthouseSouth" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 0.15, 27.3)
+script = ExtResource("5")
+radius = 5.0
+berth_yaw_deg = 90.0
+landing = Vector3(-25.3, 2.5, 27.3)
+
+[node name="HarbourPierNorth" type="Node3D" parent="."]
+script = ExtResource("8")
+points = PackedVector3Array(-17.3, 1.5, 18.9, -19.2, 1.5, 20.7, -26.3, 1.5, 20.7)
+width = 2.4
+rail_both_sides = false
+seed = 11
+
+[node name="HarbourPierSouth" type="Node3D" parent="."]
+script = ExtResource("8")
+points = PackedVector3Array(-26.3, 1.5, 27.3, -19.6, 1.5, 27.3, -19.6, 1.5, 21.9)
+width = 2.4
+seed = 12
 
 [node name="DockZonePort" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.15, 527)
@@ -96,7 +93,7 @@ berth_yaw_deg = 90.0
 landing = Vector3(6, 4.4, 538.5)
 
 [node name="Boat" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0.15, 35.8)
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -29.5, 0.15, 20.7)
 script = ExtResource("4")
 speed = 10.0
 

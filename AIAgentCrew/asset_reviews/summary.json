@@ -1,14 +1,14 @@
 [
   {
-    "asset_id": "lighthouse_exterior_v3",
-    "category": "lighthouse",
+    "asset_id": "island_craggy",
+    "category": "island",
     "verdict": "APPROVE",
     "findings": [],
     "image_metrics": {
-      "mean_saturation": 0.103,
-      "mean_brightness": 0.558,
+      "mean_saturation": 0.123,
+      "mean_brightness": 0.55,
       "neon_fraction": 0.0,
-      "near_palette_fraction": 0.987
+      "near_palette_fraction": 0.977
     }
   }
 ]

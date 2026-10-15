@@ -3,8 +3,14 @@
 #    can be done anywhere).
 # 2. Hazards: sailing straight at a sea stack must register a hit and recover the boat.
 # 3. The full crossing out and back, weaving around the sea stacks with A/D only, docking each
-#    end and stepping ashore.
+#    end and stepping ashore. The lighthouse berth is in the harbour inlet on the island's west side
+#    (bow out, towards -X), so the route leaves west and comes back round into the inlet.
 extends SceneTree
+
+# Harbour exit and approach waypoints. These are passed by flat distance only (the stack waypoints
+# also count as passed once the boat is level with them in z).
+const HARBOUR_EXIT: Array[Vector3] = [Vector3(-50, 0, 20.7), Vector3(-58, 0, 48)]
+const HARBOUR_APPROACH: Array[Vector3] = [Vector3(-55, 0, 62), Vector3(-92, 0, 46), Vector3(-88, 0, 20.7)]
 
 var _lv: Node
 var _boat: Node3D
@@ -17,6 +23,7 @@ var _hits := 0
 var _wps: Array[Vector3] = []
 var _wp := 0
 var _stack_hit_pos := Vector3.ZERO
+var _last_pos := Vector3.ZERO     # boat position last frame, for reporting where a hit happened
 
 
 func _initialize() -> void:
@@ -33,17 +40,18 @@ func _physics_process(delta: float) -> bool:
 	if _f < 30:
 		return false
 	_t += delta
+	_last_pos = _boat.global_position
 	match _step:
 		0:
 			print("start: state=", _boat.state, " at ", _boat.global_position, " zone=", _boat.current_zone.zone_id,
 				" overlapping a hazard at the berth: ", _boat._hits_hazard(_boat.global_transform))
 			_boat.hazard_mask = 0
-			_player.global_position = Vector3(15, 3, 29.5)
+			_player.global_position = _zone("DOCK_LIGHTHOUSE").landing
 			_boat.board()
 			_boat.cast_off()
 			_next()
 		1:   # sail clear of the dock zone and check we hold full speed
-			_steer_to(Vector3(15, 0, 150))
+			_steer_to(Vector3(-60, 0, 150))
 			if _boat.global_position.z > 150.0 and _t > 4.0:
 				_release_all()
 				print("check: speed = %.2f m/s (boat.speed = %.1f)" % [_boat.velocity.length(), _boat.speed])
@@ -71,8 +79,11 @@ func _physics_process(delta: float) -> bool:
 				_next()
 		5:   # hazards back on: sail straight at the first stack
 			_boat.hazard_mask = 2
-			_boat.hazard_hit.connect(func(): _hits += 1)
-			_boat.global_position = Vector3(18, 0.15, 40)
+			_boat.hazard_hit.connect(func():
+				_hits += 1
+				if _step >= 8:
+					print("  hit near ", _last_pos))
+			_boat.global_position = Vector3(18, 0.15, 62)
 			_boat.rotation.y = PI      # bow towards +Z
 			_boat._leave_zone = _zone("DOCK_LIGHTHOUSE")   # we are leaving it, so no auto-dock
 			_boat._trail.clear()
@@ -91,13 +102,14 @@ func _physics_process(delta: float) -> bool:
 			if _t > 3.0:
 				print("hazard: after recovery overlapping=", _boat._hits_hazard(_boat.global_transform), " stun=%.1f" % _boat._stun)
 				# put it back at the berth for the crossing
-				_boat.global_position = Vector3(16.5, 0.15, 35.8)
-				_boat.rotation.y = deg_to_rad(-90)
+				var berth := _zone("DOCK_LIGHTHOUSE")
+				_boat.global_position = berth.global_position
+				_boat.rotation.y = deg_to_rad(berth.berth_yaw_deg)
 				_boat.state = _boat.State.DOCKED
 				_boat.current_zone = _zone("DOCK_LIGHTHOUSE")
 				_boat._leave_zone = null
 				_boat.cast_off()
-				_wps = _route_around_stacks(false)
+				_wps = HARBOUR_EXIT + _route_around_stacks(false)
 				_wp = 0
 				_hits = 0
 				_next()
@@ -114,7 +126,7 @@ func _physics_process(delta: float) -> bool:
 				_player.global_position = _zone("DOCK_PORT").landing
 				_boat.board()
 				_boat.cast_off()
-				_wps = _route_around_stacks(true)
+				_wps = _route_around_stacks(true) + HARBOUR_APPROACH
 				_wp = 0
 				_hits = 0
 				_next()
@@ -172,7 +184,8 @@ func _follow_route(final_target: Vector3) -> void:
 	if _wp < _wps.size():
 		target = _wps[_wp]
 		var flat := Vector2(_boat.global_position.x - target.x, _boat.global_position.z - target.z).length()
-		if absf(_boat.global_position.z - target.z) < 6.0 or flat < 8.0:
+		var harbour := HARBOUR_EXIT.has(target) or HARBOUR_APPROACH.has(target)
+		if flat < (12.0 if harbour else 8.0) or (not harbour and absf(_boat.global_position.z - target.z) < 6.0):
 			_wp += 1
 	_steer_to(target)
 
@@ -195,3 +208,4 @@ func _steer_to(target: Vector3) -> void:
 		Input.action_release("move_left")
 	else:
 		_release_all()
+
