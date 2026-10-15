@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://dlgb8mui5o1s5"
+path.s3tc="res://.godot/imported/lighthouse_exterior_0.png-d7c33d7c9d92d40df339c10e7f17af2f.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "751f8d59443702eee22e5b0e7e4e4e63"
+}
+
+[deps]
+
+source_file="res://Assets/Models/lighthouse/lighthouse_exterior_0.png"
+dest_files=["res://.godot/imported/lighthouse_exterior_0.png-d7c33d7c9d92d40df339c10e7f17af2f.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0
