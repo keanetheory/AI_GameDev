@@ -18,6 +18,7 @@ const TARGET_HEIGHT_M := {
 # e.g. an island whose height depends on its terrain.
 const TARGET_FOOTPRINT_M := {
 	"island": 90.0,
+	"saint_calder_city": 480.0,
 	"dock": 10.0,
 	"boat": 6.0,
 	"saltgate": 50.0,

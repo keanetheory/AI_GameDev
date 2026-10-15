@@ -111,7 +111,7 @@ func _physics_process(delta: float) -> bool:
 		9:
 			if _t > 1.5:
 				print("ashore: player ", _player.global_position, " on_floor=", _player.is_on_floor())
-				_player.global_position = Vector3(10, 3.3, 514)
+				_player.global_position = _zone("DOCK_PORT").landing
 				_boat.board()
 				_boat.cast_off()
 				_wps = _route_around_stacks(true)

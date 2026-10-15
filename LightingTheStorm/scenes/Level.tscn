@@ -1,10 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://b601q1u1ked8s"]
+[gd_scene load_steps=15 format=3 uid="uid://b601q1u1ked8s"]
 
 [ext_resource type="Script" path="res://scripts/world/collider_builder.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/world/sea.gd" id="2"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="3"]
 [ext_resource type="Script" path="res://scripts/world/boat.gd" id="4"]
 [ext_resource type="Script" path="res://scripts/world/dock_zone.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/world/mainland.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/world/flag.gd" id="7"]
+[ext_resource type="Script" path="res://scripts/world/boardwalk.gd" id="8"]
 
 [sub_resource type="ProceduralSkyMaterial" id="sky"]
 sky_top_color = Color(0.12, 0.15, 0.2, 1)
@@ -85,11 +88,11 @@ berth_yaw_deg = -90.0
 landing = Vector3(15, 2.7, 29.5)
 
 [node name="DockZonePort" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.15, 505)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.15, 527)
 script = ExtResource("5")
 zone_id = "DOCK_PORT"
 berth_yaw_deg = 90.0
-landing = Vector3(10, 3.3, 514)
+landing = Vector3(6, 4.4, 538.5)
 
 [node name="Boat" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0.15, 35.8)
@@ -102,9 +105,40 @@ model_path = "res://Assets/Models/boat/boat_launch.glb"
 solid = false
 
 [node name="Saltgate" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -1.6, 530)
+transform = Transform3D(0.839563, 0, 0.543262, 0, 1, 0, -0.543262, 0, 0.839563, 15, -1.6, 549.855)
 script = ExtResource("1")
 model_path = "res://Assets/Models/saltgate/saltgate_quay.glb"
+
+[node name="SaltgateWest" type="Node3D" parent="."]
+transform = Transform3D(0.927184, 0, -0.374607, 0, 1, 0, 0.374607, 0, 0.927184, -75, -1.6, 545.6)
+script = ExtResource("1")
+model_path = "res://Assets/Models/saltgate/saltgate_quay.glb"
+body_layers = 3
+
+[node name="SaltgateEast" type="Node3D" parent="."]
+transform = Transform3D(0.71934, 0, -0.694658, 0, 1, 0, 0.694658, 0, 0.71934, 105, -1.6, 546.6)
+script = ExtResource("1")
+model_path = "res://Assets/Models/saltgate/saltgate_quay.glb"
+body_layers = 3
+
+[node name="SaltgateFlag" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 3.2, 546)
+script = ExtResource("7")
+
+[node name="BoardwalkWest" type="Node3D" parent="."]
+script = ExtResource("8")
+points = PackedVector3Array(1, 3.05, 552.3, -22, 3.05, 552, -44, 3.03, 550.2, -65, 3, 548.3)
+
+[node name="BoardwalkEast" type="Node3D" parent="."]
+script = ExtResource("8")
+points = PackedVector3Array(34, 2.78, 555.2, 58, 2.72, 555, 80, 2.62, 554.7, 103, 2.5, 554.6)
+seed = 9
+
+[node name="BoardwalkLink" type="Node3D" parent="."]
+script = ExtResource("8")
+points = PackedVector3Array(3.2, 3.1, 552.9, 3.2, 4.0, 555.2, 3.2, 4.9, 557.5)
+width = 2.4
+seed = 3
 
 [node name="Cliffs" type="Node3D" parent="."]
 
@@ -114,13 +148,15 @@ script = ExtResource("1")
 model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
+double_sided = false
 
 [node name="CliffWall2" type="Node3D" parent="Cliffs"]
-transform = Transform3D(-1, 0, 0, 0, 1.6, 0, 0, 0, 1, -185, -3, 584)
+transform = Transform3D(1.08, 0, 0, 0, 1.6, 0, 0, 0, 1, -185, -3, 584)
 script = ExtResource("1")
 model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
+double_sided = false
 
 [node name="CliffWall3" type="Node3D" parent="Cliffs"]
 transform = Transform3D(1, 0, 0, 0, 1.4, 0, 0, 0, 1, -85, -3, 578)
@@ -128,13 +164,15 @@ script = ExtResource("1")
 model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
+double_sided = false
 
 [node name="CliffWall4" type="Node3D" parent="Cliffs"]
-transform = Transform3D(-1, 0, 0, 0, 1.7, 0, 0, 0, 1, 15, -3, 583)
+transform = Transform3D(0.94, 0, 0, 0, 1.7, 0, 0, 0, 1, 15, -3, 583)
 script = ExtResource("1")
 model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
+double_sided = false
 
 [node name="CliffWall5" type="Node3D" parent="Cliffs"]
 transform = Transform3D(1, 0, 0, 0, 1.35, 0, 0, 0, 1, 115, -3, 579)
@@ -142,13 +180,15 @@ script = ExtResource("1")
 model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
+double_sided = false
 
 [node name="CliffWall6" type="Node3D" parent="Cliffs"]
-transform = Transform3D(-1, 0, 0, 0, 1.5, 0, 0, 0, 1, 215, -3, 585)
+transform = Transform3D(1.06, 0, 0, 0, 1.5, 0, 0, 0, 1, 215, -3, 585)
 script = ExtResource("1")
 model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
+double_sided = false
 
 [node name="CliffWall7" type="Node3D" parent="Cliffs"]
 transform = Transform3D(1, 0, 0, 0, 1.45, 0, 0, 0, 1, 315, -3, 581)
@@ -156,6 +196,7 @@ script = ExtResource("1")
 model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
+double_sided = false
 
 [node name="Headland1" type="Node3D" parent="Cliffs"]
 transform = Transform3D(0.5638, 0, 0.2052, 0, 1.5, 0, -0.2052, 0, 0.5638, 150, -3, 545)
@@ -163,6 +204,7 @@ script = ExtResource("1")
 model_path = "res://Assets/Models/cliff_terrain/cliff_headland.glb"
 collision_kind = 1
 body_layers = 3
+double_sided = false
 
 [node name="Headland2" type="Node3D" parent="Cliffs"]
 transform = Transform3D(0.4096, 0, -0.2868, 0, 1.4, 0, 0.2868, 0, 0.4096, 262, -3, 538)
@@ -170,6 +212,7 @@ script = ExtResource("1")
 model_path = "res://Assets/Models/cliff_terrain/cliff_headland.glb"
 collision_kind = 1
 body_layers = 3
+double_sided = false
 
 [node name="CapWest" type="Node3D" parent="Cliffs"]
 transform = Transform3D(-0.6578, 0, 0.2394, 0, 1.5, 0, -0.2394, 0, -0.6578, -352, -3, 562)
@@ -177,6 +220,7 @@ script = ExtResource("1")
 model_path = "res://Assets/Models/cliff_terrain/cliff_headland.glb"
 collision_kind = 1
 body_layers = 3
+double_sided = false
 
 [node name="CapEast" type="Node3D" parent="Cliffs"]
 transform = Transform3D(-0.6062, 0, -0.35, 0, 1.5, 0, 0.35, 0, -0.6062, 392, -3, 562)
@@ -184,6 +228,7 @@ script = ExtResource("1")
 model_path = "res://Assets/Models/cliff_terrain/cliff_headland.glb"
 collision_kind = 1
 body_layers = 3
+double_sided = false
 
 [node name="SeaRocks" type="Node3D" parent="."]
 
@@ -221,6 +266,15 @@ script = ExtResource("1")
 model_path = "res://Assets/Models/sea_rocks/sea_stack.glb"
 collision_kind = 1
 body_layers = 3
+
+[node name="SaintCalder" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 15, 30, 865)
+script = ExtResource("1")
+model_path = "res://Assets/Models/saint_calder_city/saint_calder_city_lowres.glb"
+solid = false
+
+[node name="Mainland" type="Node3D" parent="."]
+script = ExtResource("6")
 
 [node name="Player" parent="." instance=ExtResource("3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 15.5, 8)

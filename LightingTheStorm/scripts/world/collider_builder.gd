@@ -1,5 +1,8 @@
 # collider_builder.gd - instances a .glb and gives every mesh trimesh collision.
 # Set visible_mesh = false for collision-only models (island collider, dock barriers).
+# @tool: it also runs in the editor so the models show in the 3D viewport. The instanced model and
+# its children have no owner, so they are never saved into the .tscn; collision is built at runtime only.
+@tool
 extends Node3D
 
 @export_file("*.glb") var model_path := ""
@@ -23,13 +26,15 @@ func _ready() -> void:
 	if scene == null:
 		push_error("Could not load %s" % model_path)
 		return
+	for old in get_children():   # re-entry (editor reload): never stack a second copy
+		old.queue_free()
 	var root := scene.instantiate()
 	add_child(root)
 	for node in root.find_children("*", "MeshInstance3D", true, false):
 		var mi := node as MeshInstance3D
 		if not carve_boxes.is_empty():
 			_carve(mi)
-		if solid:
+		if solid and not Engine.is_editor_hint():
 			if collision_kind == 1:
 				mi.create_convex_collision(true, true)
 			else:

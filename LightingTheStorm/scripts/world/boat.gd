@@ -3,7 +3,11 @@
 # a rudder that eases out and returns to centre, a little sideways drift, and automatic
 # docking when it enters a dock zone.
 # E boards (when on the dock) and casts off (when seated and tied up); Q steps back onto the dock.
+# The boat floats: it rides the same waves as the sea shader (Sea.wave_height), heaving, pitching and
+# rolling with them, and its hull has a solid deck the player can jump onto and stand on while it moves.
 extends Node3D
+
+const Sea := preload("res://scripts/world/sea.gd")
 
 signal docked(zone_id: String)
 signal departed(zone_id: String)
@@ -20,6 +24,9 @@ enum State { DOCKED, SAILING, DOCKING }
 @export var seat_offset := Vector3(0.0, 0.5, 0.2)   # where the player stands at the helm (boat space)
 @export var water_level := 0.5            # sea surface height
 @export var draft := 0.35                 # keel depth below the surface
+@export var wave_follow := 1.0            # 0 = ignore the waves, 1 = ride them exactly, >1 = exaggerate
+@export var half_length := 2.6            # bow/stern sample distance for pitch
+@export var half_beam := 1.3              # port/starboard sample distance for roll
 @export_flags_3d_physics var hazard_mask := 2          # physics layer of rocks, cliffs and the island
 @export var hull_size := Vector3(2.8, 1.2, 5.6)        # box used to detect hazard hits
 @export var recovery_back_s := 2.5        # on a hit, move back to where the boat was this long ago
@@ -41,10 +48,13 @@ var _trail_timer := 0.0
 var _hull_shape := BoxShape3D.new()
 var _player: Node3D = null
 var _prompt: Label
-@onready var _hull: Node3D = get_node_or_null("Hull")
+var _rig: Node3D            # holds the hull model and its collision; this is what pitches and rolls
+var _deck: AnimatableBody3D
+var _hull: Node3D
 
 
 func _ready() -> void:
+	_build_rig()
 	_hull_shape.size = hull_size
 	_prompt = Label.new()
 	_prompt.add_theme_font_size_override("font_size", 22)
@@ -67,7 +77,7 @@ func _ready() -> void:
 	if current_zone:
 		global_position = Vector3(current_zone.global_position.x, 0.0, current_zone.global_position.z)
 		rotation.y = deg_to_rad(current_zone.berth_yaw_deg)
-	_snap_to_water()
+	_float(0.0)
 
 
 func _physics_process(delta: float) -> void:
@@ -81,12 +91,10 @@ func _physics_process(delta: float) -> void:
 			_dock(delta)
 		State.DOCKED:
 			rudder = move_toward(rudder, 0.0, delta / steer_response_s)
-	_snap_to_water()
-	if _hull:
-		_hull.rotation.z = lerp(_hull.rotation.z, -rudder * 0.07, 1.0 - exp(-6.0 * delta))
+	_float(delta)
 	if driving and _player:
 		_player.rotate_y(rotation.y - yaw_before)   # the view turns with the boat
-		_player.global_position = to_global(seat_offset)
+		_player.global_position = _rig.to_global(seat_offset)
 	_handle_input()
 	_update_prompt()
 
@@ -204,8 +212,65 @@ func _recover() -> void:
 	hazard_hit.emit()
 
 
-func _snap_to_water() -> void:
-	global_position.y = water_level - draft
+## Rides the waves: height from the water under the hull, pitch and roll from the surface slope.
+func _float(delta: float) -> void:
+	var t: float = Sea.wave_time
+	var fwd := -global_transform.basis.z
+	var right := global_transform.basis.x
+	var p := global_position
+	var h_c := Sea.wave_height(p.x, p.z, t)
+	var h_bow := Sea.wave_height(p.x + fwd.x * half_length, p.z + fwd.z * half_length, t)
+	var h_stern := Sea.wave_height(p.x - fwd.x * half_length, p.z - fwd.z * half_length, t)
+	var h_right := Sea.wave_height(p.x + right.x * half_beam, p.z + right.z * half_beam, t)
+	var h_left := Sea.wave_height(p.x - right.x * half_beam, p.z - right.z * half_beam, t)
+	var avg := (h_c * 2.0 + h_bow + h_stern + h_right + h_left) / 6.0
+	global_position.y = water_level + avg * wave_follow - draft
+	var pitch := atan2((h_bow - h_stern) * wave_follow, half_length * 2.0)
+	var roll := atan2((h_right - h_left) * wave_follow, half_beam * 2.0) - rudder * 0.07
+	var k := 1.0 if delta <= 0.0 else 1.0 - exp(-8.0 * delta)
+	_rig.rotation.x = lerp_angle(_rig.rotation.x, pitch, k)
+	_rig.rotation.z = lerp_angle(_rig.rotation.z, roll, k)
+	if _deck:
+		_deck.global_transform = _rig.global_transform
+
+
+## The hull model and a solid deck. The deck is an AnimatableBody3D, so a player standing on it is
+## carried along as the boat heaves, tilts and sails.
+func _build_rig() -> void:
+	_rig = Node3D.new()
+	_rig.name = "Rig"
+	add_child(_rig)
+	_hull = get_node_or_null("Hull")
+	if _hull:
+		_hull.reparent(_rig, false)
+	_deck = AnimatableBody3D.new()
+	_deck.name = "Deck"
+	_deck.sync_to_physics = true
+	_deck.collision_layer = 1      # the player walks on it; layer 2 (hazards) is for rocks, so the boat never hits itself
+	_deck.collision_mask = 0
+	# Not a child of the moving rig: a kinematic body only reports platform velocity (so a standing
+	# player is carried) when ITS OWN transform changes. _float() copies the rig's transform onto it.
+	_deck.top_level = true
+	add_child(_deck)
+	_deck.global_transform = _rig.global_transform
+	if _hull == null:
+		return
+	var faces := PackedVector3Array()
+	for mi in _hull.find_children("*", "MeshInstance3D", true, false):
+		var m := mi as MeshInstance3D
+		if m.mesh == null:
+			continue
+		var to_rig := _rig.global_transform.affine_inverse() * m.global_transform   # the deck body sits at the rig, so rig space
+		for v in m.mesh.get_faces():
+			faces.append(to_rig * v)
+	if faces.is_empty():
+		return
+	var shape := ConcavePolygonShape3D.new()
+	shape.backface_collision = true
+	shape.set_faces(faces)
+	var cs := CollisionShape3D.new()
+	cs.shape = shape
+	_deck.add_child(cs)
 
 
 func _flat_distance(node: Node3D) -> float:
