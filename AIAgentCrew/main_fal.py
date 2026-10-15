@@ -27,7 +27,12 @@ PRICE_NOTE = "v2 multi-view: ~$0.16 white / $0.48 textured. v3: $0.225 white / $
 
 
 def data_uri(path: Path, max_side: int = 1024) -> str:
-    img = Image.open(path).convert("RGB")
+    img = Image.open(path)
+    if img.mode in ("RGBA", "LA", "P"):   # transparent concept art: put it on the neutral grey the other views use
+        img = img.convert("RGBA")
+        bg = Image.new("RGBA", img.size, (170, 172, 176, 255))
+        img = Image.alpha_composite(bg, img)
+    img = img.convert("RGB")
     img.thumbnail((max_side, max_side))
     buf = io.BytesIO()
     img.save(buf, "JPEG", quality=92)

@@ -1,0 +1,14 @@
+{
+  "asset_id": "saint_calder_city_lowres",
+  "category": "saint_calder_city",
+  "fal_model": "fal-ai/hunyuan3d-v3/image-to-3d",
+  "prompt": "Gothic walled city skyline of Saint Calder, tall central cathedral spire, tiered stone houses climbing a hill, crenellated curtain wall with pointed corner towers and arched gates, faint amber and gold lit windows, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, mid-1800s stone and slate",
+  "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+  "source_image": "../../ConceptArt/saint_calder_city/Saint Calder Gothic Fortress Skyline-2.png",
+  "view_images": {
+    "front": "../../ConceptArt/saint_calder_city/Saint Calder Gothic Fortress Skyline-2.png",
+    "back": "../../ConceptArt/saint_calder_city/Saint Calder rear gothic skyline-1.png",
+    "left": "../../ConceptArt/saint_calder_city/Saint Calder gothic side elevation-3.png"
+  },
+  "notes": "Low-res distant backdrop city seen from the Gullwater crossing. Front, rear and side skyline elevations; the stormy-channel painting is a scene, not an object, so it is left out."
+}
