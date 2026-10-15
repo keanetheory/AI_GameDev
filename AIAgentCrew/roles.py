@@ -148,3 +148,10 @@ def role(name: str) -> Role:
 
 assert len(ORCHESTRATORS) == 2 and len(WORKERS) == 11
 assert {r.name for r in ROSTER if r.in_crossing_crew} == set(CROSSING_PIPELINE)
+
+
+# The agents the voice casting crew runs (voice_crew.py), in pipeline order.
+VOICE_PIPELINE = (
+    "Sound agent",
+    "Canon and Review Orchestrator",
+)

@@ -14,7 +14,7 @@ from pathlib import Path
 
 MODE = sys.argv[1] if len(sys.argv) > 1 else "live"
 ROOT = Path(__file__).resolve().parent.parent
-CREW = ROOT.parent / "Agent Crew" / "storm_crew" / "storm_crew"
+CREW = ROOT.parent / "AIAgentCrew"
 RUN = CREW / ("sample_output_live_revised" if MODE == "live" else "sample_output_dialogue")
 OFFLINE = CREW / "sample_output_dialogue"
 DOCS = ROOT.parent / "Docs" / "Lore Build" / "dialogue"
@@ -344,7 +344,9 @@ gy2 = Y0 + 318
 box(EX, gy2, EW, COLH - 318, AMBER, sw=3)
 t(EX + 14, gy2 + 26, "In the game (dynamic)", 15, CREAM, SERIF, "bold")
 t(EX + 14, gy2 + 44, "dialogue_loader.gd reads the JSON", 11.5, AMBER, SANS, style="italic")
-bullets(EX + 16, gy2 + 70, ["events trigger the lines", f"{groups} alternate groups: a random", "option plays each run",
+alt_txt = ([f"{groups} alternate groups in the", "crew output; the creator kept", "one line per group"] if MODE == "live"
+           else [f"{groups} alternate groups: a random", "option plays each run"])
+bullets(EX + 16, gy2 + 70, ["events trigger the lines", *alt_txt,
                             f"{ladders} nudge ladders escalate", "when the player stalls", "assist mode adds a text hint"], 12, SILVER, 21)
 vline(EX + EW / 2, Y0 + 300, gy2)
 
@@ -417,6 +419,10 @@ if MODE == "live":
                        f"{len(checks_of(pass_review))} checks). The re-reviewer is the same model marking its own fix, so creator approval is still needed.", 12.5, SILVER)
         t(30, sy + 84, "Two checks were added after run 1: a line's step must match its event's step, and a reviewer's line counts must match the data. "
                        "Output was not copied into the game project.", 12.5, SILVER)
+        picked = load(CREW / "sample_output_picked" / "creator_picks.json")
+        pk = load(CREW / "sample_output_picked" / "dialogue_opening.json")
+        t(30, sy + 104, f"After the crew: the creator walked the {len(picked['picks'])} pick-one groups with the Canon reviewer's rules, keeping one line each "
+                        f"({len(lines)} to {len(pk['lines'])} lines, no random alternates) and rewording ARTHUR_S3_08. See sample_output_picked.", 12.5, SILVER)
     else:
         t(30, sy + 44, f"The reviewer returned {fr['verdict']}; the data is flagged {status}.", 12.5, SILVER)
 else:

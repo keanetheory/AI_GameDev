@@ -1,0 +1,626 @@
+[
+ {
+  "line_id": "TED_S1_01",
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<TED_VOICE_ID>",
+  "body": {
+   "text": "Eclipse, storm season, and the Saltgate howling. Of course they send a new money toff. [coughs]",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "speed": 0.95,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "TED_S1_03",
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<TED_VOICE_ID>",
+  "body": {
+   "text": "Boiler's cold and the beacon's starving. Down to the engine room. Shovel coal, Isaac.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "speed": 0.95,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "TED_S1_04",
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<TED_VOICE_ID>",
+  "body": {
+   "text": "That's the firebox. Feed it coal, mind your sleeves, and don't stand gawping.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.25,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "speed": 0.95,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "TED_S1_05",
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<TED_VOICE_ID>",
+  "body": {
+   "text": "There she goes. Keep shovelling; the needle won't climb on good intentions.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "speed": 0.95,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "TED_S1_08",
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<TED_VOICE_ID>",
+  "body": {
+   "text": "Gauge is waking up. Put your back into it.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.25,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "speed": 0.95,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "TED_S1_09",
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<TED_VOICE_ID>",
+  "body": {
+   "text": "Hear that dynamo whine? Good. Now up to the lantern room and look over the arc lamp.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "speed": 0.95,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "TED_S1_10",
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<TED_VOICE_ID>",
+  "body": {
+   "text": "Arc lamp's in the middle. Open her up and look at the burner.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.25,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "speed": 0.95,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "TED_S1_11",
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<TED_VOICE_ID>",
+  "body": {
+   "text": "Cracked clean through. The burner's finished. Hrmph. Nothing to mend up here. [coughs]",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "speed": 0.95,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "TED_S1_I1",
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<TED_VOICE_ID>",
+  "body": {
+   "text": "Standing there won't warm the boiler. Think where the heat comes from, Isaac.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "speed": 0.95,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "TED_S1_I2",
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<TED_VOICE_ID>",
+  "body": {
+   "text": "Basement, Isaac. The engine room. Coal's piled by the firebox.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "speed": 0.95,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "TED_S1_I3",
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<TED_VOICE_ID>",
+  "body": {
+   "text": "Go down to the engine room. Take the shovel. Load coal into the firebox.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.8,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "speed": 0.95,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "TED_S2_01",
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<TED_VOICE_ID>",
+  "body": {
+   "text": "Rowboat's moored at my dock. Stranded sailors, by the look. Go let them in at the island gate.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "speed": 0.95,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "TED_S2_03",
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<TED_VOICE_ID>",
+  "body": {
+   "text": "See them? Soaked and stranded. The gate's down the path from the dock. Go on.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "speed": 0.95,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "ARTHUR_S2_02",
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<ARTHUR_VOICE_ID>",
+  "body": {
+   "text": "Easy now, we mean no harm. Just cold and wet. The gate, please?",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.4,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "ARTHUR_S2_04",
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<ARTHUR_VOICE_ID>",
+  "body": {
+   "text": "Good hands on that gate. Daniel, move. Quick, now.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.25,
+    "similarity_boost": 0.8,
+    "style": 0.4,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "ARTHUR_S2_05",
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<ARTHUR_VOICE_ID>",
+  "body": {
+   "text": "Ted, you old rock. Thought you'd be drowned by now.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.4,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "TED_S2_04",
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<TED_VOICE_ID>",
+  "body": {
+   "text": "Thought the same of you. Hrmph. Dry yourselves. The boy can warm up downstairs. [coughs]",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "speed": 0.95,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "DANIEL_OPT_02",
+  "speaker": "DANIEL",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<DANIEL_VOICE_ID>",
+  "body": {
+   "text": "Down here suits me fine. Did the walls just... never mind. Warm is good.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.35,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "DANIEL_OPT_04",
+  "speaker": "DANIEL",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<DANIEL_VOICE_ID>",
+  "body": {
+   "text": "Arthur says it's just weather. I'm sure Arthur's right. He's usually right. Mostly. [nervous laugh]",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.35,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "DANIEL_OPT_06",
+  "speaker": "DANIEL",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<DANIEL_VOICE_ID>",
+  "body": {
+   "text": "[breathless] Did you hear that? Tell me you heard that. Pipes, right? Say pipes.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.35,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "DANIEL_OPT_08",
+  "speaker": "DANIEL",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<DANIEL_VOICE_ID>",
+  "body": {
+   "text": "[whispers] Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming. [nervous laugh]",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.35,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "TED_S2_I1",
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<TED_VOICE_ID>",
+  "body": {
+   "text": "Those sailors won't dry themselves on my dock, Isaac.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "speed": 0.95,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "TED_S2_I2",
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<TED_VOICE_ID>",
+  "body": {
+   "text": "The gate, Isaac. Down the path from the dock. Someone's shouting out there.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "speed": 0.95,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "TED_S2_I3",
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<TED_VOICE_ID>",
+  "body": {
+   "text": "Walk to the island gate and open it. Let them in.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.8,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "speed": 0.95,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "TED_S3_02",
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<TED_VOICE_ID>",
+  "body": {
+   "text": "No burner, no beacon. Outpost, across the Gullwater. Go with Arthur, Isaac. [coughs]",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "speed": 0.95,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "ARTHUR_S3_01",
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<ARTHUR_VOICE_ID>",
+  "body": {
+   "text": "In you get. One hand on the wheel, eyes on the rocks.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.4,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "ARTHUR_S3_03",
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<ARTHUR_VOICE_ID>",
+  "body": {
+   "text": "Keep her off the rocks, Isaac. Watch the water, not the dark.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.25,
+    "similarity_boost": 0.8,
+    "style": 0.4,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "ARTHUR_S3_07",
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<ARTHUR_VOICE_ID>",
+  "body": {
+   "text": "[breathless] Too close! Give the rocks some room, Isaac.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.25,
+    "similarity_boost": 0.8,
+    "style": 0.4,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "ARTHUR_S3_08",
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<ARTHUR_VOICE_ID>",
+  "body": {
+   "text": "Hold on! Swing wide of the rock and steer clear. Gently now.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.25,
+    "similarity_boost": 0.8,
+    "style": 0.4,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "ARTHUR_S3_11",
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<ARTHUR_VOICE_ID>",
+  "body": {
+   "text": "[hushed] There! Ship's lights, out in the swell. She can't see the rocks. No beacon.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.4,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "ARTHUR_S3_04",
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<ARTHUR_VOICE_ID>",
+  "body": {
+   "text": "There's the landing. Fetch the burner. I'll keep the engine turning.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.4,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "ARTHUR_S0_13",
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<ARTHUR_VOICE_ID>",
+  "body": {
+   "text": "Nothing there for us. Leave it be. The burner, the burner.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.4,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "ARTHUR_S3_05",
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<ARTHUR_VOICE_ID>",
+  "body": {
+   "text": "That's it? Good. Hold it close. Back across we go.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.4,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "ARTHUR_S3_I1",
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<ARTHUR_VOICE_ID>",
+  "body": {
+   "text": "Ted wants that burner, Isaac. Boat's waiting on you.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.4,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "ARTHUR_S3_I2",
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<ARTHUR_VOICE_ID>",
+  "body": {
+   "text": "Come on! The outpost, across the Gullwater. Get in the boat.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.25,
+    "similarity_boost": 0.8,
+    "style": 0.4,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "ARTHUR_S3_I3",
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<ARTHUR_VOICE_ID>",
+  "body": {
+   "text": "Board the boat, take the wheel, steer for the outpost landing. Go!",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.8,
+    "similarity_boost": 0.8,
+    "style": 0.4,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "ARTHUR_S3_O1",
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<ARTHUR_VOICE_ID>",
+  "body": {
+   "text": "Burner won't walk to the boat, Isaac.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.4,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "ARTHUR_S3_O2",
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<ARTHUR_VOICE_ID>",
+  "body": {
+   "text": "Find the burner! Keep looking. Look sharp!",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.25,
+    "similarity_boost": 0.8,
+    "style": 0.4,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ },
+ {
+  "line_id": "ARTHUR_S3_O3",
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<ARTHUR_VOICE_ID>",
+  "body": {
+   "text": "Find the burner, pick it up, and bring it to the boat.",
+   "model_id": "eleven_v3",
+   "voice_settings": {
+    "stability": 0.8,
+    "similarity_boost": 0.8,
+    "style": 0.4,
+    "speed": 1.05,
+    "use_speaker_boost": true
+   }
+  }
+ }
+]

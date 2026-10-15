@@ -1,8 +1,8 @@
 # Arthur: Dialogue
 
-Part of *Artifact #2: Character Dialogue Sequences*. [Opening dialogue (all characters)](../DIALOGUE_OPENING_FINAL.md) · [Lore file](../../characters/chr_arthur.md) · [Data (crew output)](../../../../Agent%20Crew/storm_crew/storm_crew/sample_output_live_revised/dialogue_opening.json)
+Part of *Artifact #2: Character Dialogue Sequences*. [Opening dialogue (all characters)](../DIALOGUE_OPENING_FINAL.md) · [Lore file](../../characters/chr_arthur.md) · [Data (creator-picked)](../../../../AIAgentCrew/sample_output_picked/dialogue_opening.json)
 
-**Status:** `proposed`. Written by the Opening Dialogue Crew with a live model (1 revision round(s)); reviewer verdict **PASS**. The creator approves voice and lore before anything is recorded.
+**Status:** `creator_picked`. Written by the Opening Dialogue Crew with a live model (0 revision round(s)), then the creator picked one line per 'pick one' group on 2026-10-15. Deterministic review verdict **PASS**. The creator approves voice and lore before anything is recorded.
 
 ## Voice (from the lore file)
 
@@ -16,40 +16,32 @@ Part of *Artifact #2: Character Dialogue Sequences*. [Opening dialogue (all char
 
 ## At a glance
 
-- **25 lines** across 3 sections, 8 alternate groups (the game plays one option at random).
-- By kind: discovery 3, nudge 6, reaction 16.
+- **17 lines** across 3 sections, 0 alternate groups (the creator picked one line per group, so none remain).
+- By kind: discovery 2, nudge 6, reaction 9.
 
 ## Optional discoveries
 
 | ID | Plays on | Kind | Line | Delivery |
 |---|---|---|---|---|
-| `ARTHUR_S0_12` | `POSTER_EXAMINED` | reaction · alt `ARTHUR_S0_POSTER` | "Old paper, Isaac. Don't dwell on it. The burner's what matters." | Wary, brusque. |
-| `ARTHUR_S0_13` | `POSTER_EXAMINED` | reaction · alt `ARTHUR_S0_POSTER` | "Nothing there for us. Leave it be. The burner, the burner." | Brusque, uneasy. |
+| `ARTHUR_S0_13` | `POSTER_EXAMINED` | reaction | "Nothing there for us. Leave it be. The burner, the burner." | Brusque, uneasy. |
 
 ## Step 2: Let the sailors in
 
 | ID | Plays on | Kind | Line | Delivery |
 |---|---|---|---|---|
-| `ARTHUR_S2_01` | `GATE_APPROACHED` | reaction · alt `ARTHUR_S2_GATE` | "Hoy, up there! Open the gate, would you? We're soaked to the bone." | Shouting over wind, friendly but wary. |
-| `ARTHUR_S2_02` | `GATE_APPROACHED` | reaction · alt `ARTHUR_S2_GATE` | "Easy now, we mean no harm. Just cold and wet. The gate, please?" | Wry, wary, hands raised. |
-| `ARTHUR_S2_03` | `GATE_OPENED` | reaction · alt `ARTHUR_S2_OPEN` | "Bless you, Isaac. Daniel, in you come, before the wind changes its mind." | Relieved, wry. |
-| `ARTHUR_S2_04` | `GATE_OPENED` | reaction · alt `ARTHUR_S2_OPEN` | "Good hands on that gate. Daniel, move. Quick, now." | Frantic, slightly flustered. |
+| `ARTHUR_S2_02` | `GATE_APPROACHED` | reaction | "Easy now, we mean no harm. Just cold and wet. The gate, please?" | Wry, wary, hands raised. |
+| `ARTHUR_S2_04` | `GATE_OPENED` | reaction | "Good hands on that gate. Daniel, move. Quick, now." | Frantic, slightly flustered. |
 | `ARTHUR_S2_05` | `SAILORS_INSIDE` | reaction | "Ted, you old rock. Thought you'd be drowned by now." | Wry, warm underneath. |
 
 ## Step 3: Fetch the replacement burner
 
 | ID | Plays on | Kind | Line | Delivery |
 |---|---|---|---|---|
-| `ARTHUR_S3_01` | `BOARDING_THRESHOLD` | reaction · alt `ARTHUR_S3_BOARD` | "In you get. One hand on the wheel, eyes on the rocks." | Wry, brisk, wary. |
-| `ARTHUR_S3_02` | `BOARDING_THRESHOLD` | reaction · alt `ARTHUR_S3_BOARD` | "Sit tight, Isaac. She steers easy if you let her." | Wry, steadying. |
-| `ARTHUR_S3_03` | `BOAT_CAST_OFF` | reaction · alt `ARTHUR_S3_CAST` | "Keep her off the rocks, Isaac. Watch the water, not the dark." | Frantic, shouting over the engine. |
-| `ARTHUR_S3_03B` | `BOAT_CAST_OFF` | reaction · alt `ARTHUR_S3_CAST` | "Off we go. Slow on the turns. The Gullwater forgives nothing." | Wry, tense, over the engine. |
-| `ARTHUR_S3_06` | `OUTBOUND_NEAR_MISS` | reaction · alt `ARTHUR_S3_NEAR` | "Rocks! Ease her over. Easy, easy. Good." | Sharp, frantic, then relieved. |
-| `ARTHUR_S3_07` | `OUTBOUND_NEAR_MISS` | reaction · alt `ARTHUR_S3_NEAR` | "Too close! Give the rocks some room, Isaac." | Sharp, breathless. |
-| `ARTHUR_S3_08` | `OUTBOUND_COLLISION` | reaction · alt `ARTHUR_S3_HIT` | "Hold on! Back her off the rock and steer clear. Gently now." | Shouted, rattled but steady. |
-| `ARTHUR_S3_09` | `OUTBOUND_COLLISION` | reaction · alt `ARTHUR_S3_HIT` | "That hull's taken worse. Reverse, turn wide, try again." | Gritted, wry, calming. |
-| `ARTHUR_S3_10` | `SHIP_SIGHTED` | discovery · alt `ARTHUR_S3_SHIP` | "Lights on the water! A big ship, and she's bearing for the rocks." | Hushed, alarmed, wry edge gone. |
-| `ARTHUR_S3_11` | `SHIP_SIGHTED` | discovery · alt `ARTHUR_S3_SHIP` | "There! Ship's lights, out in the swell. She can't see the rocks. No beacon." | Hushed, tight, urgent. |
+| `ARTHUR_S3_01` | `BOARDING_THRESHOLD` | reaction | "In you get. One hand on the wheel, eyes on the rocks." | Wry, brisk, wary. |
+| `ARTHUR_S3_03` | `BOAT_CAST_OFF` | reaction | "Keep her off the rocks, Isaac. Watch the water, not the dark." | Frantic, shouting over the engine. |
+| `ARTHUR_S3_07` | `OUTBOUND_NEAR_MISS` | reaction | "Too close! Give the rocks some room, Isaac." | Sharp, breathless. |
+| `ARTHUR_S3_08` | `OUTBOUND_COLLISION` | reaction | "Hold on! Swing wide of the rock and steer clear. Gently now." | Shouted, rattled but steady. |
+| `ARTHUR_S3_11` | `SHIP_SIGHTED` | discovery | "There! Ship's lights, out in the swell. She can't see the rocks. No beacon." | Hushed, tight, urgent. |
 | `ARTHUR_S3_04` | `OUTPOST_REACHED` | reaction | "There's the landing. Fetch the burner. I'll keep the engine turning." | Quick, tense. |
 | `ARTHUR_S3_05` | `BURNER_PICKED_UP` | discovery | "That's it? Good. Hold it close. Back across we go." | Relieved, still wary. |
 | `ARTHUR_S3_I1` | `IDLE_STEP_3` | nudge (tier 1) | "Ted wants that burner, Isaac. Boat's waiting on you." | Wry, nudging. |
@@ -61,9 +53,15 @@ Part of *Artifact #2: Character Dialogue Sequences*. [Opening dialogue (all char
 
 ## Staging, hints and notes
 
+- `ARTHUR_S2_02` *note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
+- `ARTHUR_S2_04` *note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
 - `ARTHUR_S2_05` *note:* Proposal: Ted and Arthur relationship is TBD in lore.
-- `ARTHUR_S0_12` *note:* Optional event; location-neutral. Gate: play only once Arthur is present (after SAILORS_INSIDE). Poster stays ambiguous.
-- `ARTHUR_S0_13` *note:* Optional event; location-neutral. Gate: play only once Arthur is present (after SAILORS_INSIDE). Poster stays ambiguous.
+- `ARTHUR_S3_01` *note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
+- `ARTHUR_S3_03` *note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
+- `ARTHUR_S3_07` *note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
+- `ARTHUR_S3_08` *note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. Reworded from: "Hold on! Back her off the rock and steer clear. Gently now."
+- `ARTHUR_S3_11` *note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
+- `ARTHUR_S0_13` *note:* Optional event; location-neutral. Gate: play only once Arthur is present (after SAILORS_INSIDE). Poster stays ambiguous. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
 - `ARTHUR_S3_I3` *assist hint:* Board the engine boat, steer across the Gullwater and land at the outpost to fetch the burner.
 - `ARTHUR_S3_O3` *assist hint:* Find the replacement burner, pick it up and bring it back to the boat.
 

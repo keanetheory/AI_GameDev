@@ -1,6 +1,6 @@
 """Draws the class-assignment illustration for the opening dialogue (SVG, then PNG via Edge).
 
-Reads data/dialogue/dialogue_opening.json so quotes, counts and event IDs always match the game data.
+Reads AIAgentCrew/sample_output_picked/dialogue_opening.json so quotes, counts and event IDs always match the game data.
 Run:  python tools/build_illustration.py
 """
 import html
@@ -11,7 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT.parent / "Docs" / "Lore Build" / "dialogue"
-SRC = ROOT / "data" / "dialogue" / "dialogue_opening.json"
+SRC = ROOT.parent / "AIAgentCrew" / "sample_output_picked" / "dialogue_opening.json"  # creator-picked set (39 lines)
 SVG = DOCS / "illustration_opening_dialogue_flow.svg"
 PNG = DOCS / "illustration_opening_dialogue_flow.png"
 EDGE = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
@@ -24,7 +24,7 @@ SERIF, SANS, MONO = "Georgia, 'Times New Roman', serif", "'Segoe UI', Arial, san
 
 data = json.loads(SRC.read_text(encoding="utf-8"))
 lines = {l["line_id"]: l for l in data["lines"]}
-KEY_LINE = {1: "TED_S1_05", 2: "TED_S2_02", 3: "TED_S3_01"}
+KEY_LINE = {1: "TED_S1_05", 2: "TED_S2_01", 3: "TED_S3_02"}
 CHAIN = [("GAME_STARTED", 1), ("BOILER_FED", 1), ("BURNER_DIAGNOSED", 1), ("SAILORS_MOORED", 2), ("GATE_OPENED", 2),
          ("DANIEL_IN_BASEMENT", 2), ("BURNER_BRIEFING", 3), ("SHIP_SIGHTED", 3), ("BURNER_PICKED_UP", 3),
          ("RETURN_DEPARTED", 3)]
@@ -80,7 +80,7 @@ for i, st in enumerate(data["steps"]):
     add(f'<circle cx="{x+40}" cy="{Y0+37}" r="24" fill="{col}"/>')
     text(x + 40, Y0 + 47, str(st["step"]), 28, BG, SERIF, "bold", anchor="middle")
     text(x + 78, Y0 + 34, st["title"], 24, "#F2EFE6", SERIF, "bold")
-    text(x + 78, Y0 + 58, st["location"], 13, SILVER)
+    text(x + 78, Y0 + 58, textwrap.shorten(st["location"], 46, placeholder="…"), 13, SILVER)
     yy = Y0 + 102
     text(x + 24, yy, "PLAYER DOES", 12, col, SANS, "bold", spacing=2)
     n = wrapped(x + 24, yy + 22, st["player_action"], 52, 15, SILVER)
@@ -156,7 +156,7 @@ rules = [
     ("Voice, not markers", "Ted says where to go and why. Pillar 3: guidance comes from people."),
     ("No clock on screen", "No timer words or numbers. The storm and the ship's lights carry the pressure."),
     ("Stalls get a ladder", "Three nudges: a hint, a sharper hint, then the exact place to go."),
-    ("Options keep it fresh", "Key lines have alternates. Assist mode adds a plain-text hint."),
+    ("One line per moment", "The creator picked one line for every moment. Assist mode adds a plain-text hint."),
 ]
 for k, (h, d) in enumerate(rules):
     ry = by + 50 + k * 34

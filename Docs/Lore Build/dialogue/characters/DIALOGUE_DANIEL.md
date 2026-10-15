@@ -1,8 +1,8 @@
 # Daniel: Dialogue
 
-Part of *Artifact #2: Character Dialogue Sequences*. [Opening dialogue (all characters)](../DIALOGUE_OPENING_FINAL.md) · [Lore file](../../characters/chr_daniel.md) · [Data (crew output)](../../../../Agent%20Crew/storm_crew/storm_crew/sample_output_live_revised/dialogue_opening.json)
+Part of *Artifact #2: Character Dialogue Sequences*. [Opening dialogue (all characters)](../DIALOGUE_OPENING_FINAL.md) · [Lore file](../../characters/chr_daniel.md) · [Data (creator-picked)](../../../../AIAgentCrew/sample_output_picked/dialogue_opening.json)
 
-**Status:** `proposed`. Written by the Opening Dialogue Crew with a live model (1 revision round(s)); reviewer verdict **PASS**. The creator approves voice and lore before anything is recorded.
+**Status:** `creator_picked`. Written by the Opening Dialogue Crew with a live model (0 revision round(s)), then the creator picked one line per 'pick one' group on 2026-10-15. Deterministic review verdict **PASS**. The creator approves voice and lore before anything is recorded.
 
 ## Voice (from the lore file)
 
@@ -12,40 +12,31 @@ Part of *Artifact #2: Character Dialogue Sequences*. [Opening dialogue (all char
 
 ## At a glance
 
-- **8 lines** across 2 sections, 4 alternate groups (the game plays one option at random).
-- By kind: reaction 8.
+- **4 lines** across 2 sections, 0 alternate groups (the creator picked one line per group, so none remain).
+- By kind: reaction 4.
 
 ## Optional discoveries
 
 | ID | Plays on | Kind | Line | Delivery |
 |---|---|---|---|---|
-| `DANIEL_OPT_03` | `BASEMENT_TALK` | reaction · alt `DANIEL_TALK` | "Oh, hello, Isaac! Don't mind me. I'm not going anywhere. Ever." | Light, anxious, trying to joke. |
-| `DANIEL_OPT_04` | `BASEMENT_TALK` | reaction · alt `DANIEL_TALK` | "Arthur says it's just weather. I'm sure Arthur's right. He's usually right. Mostly." | Anxious chatter, nervous laugh. |
-| `DANIEL_OPT_05` | `BASEMENT_BANG` | reaction · alt `DANIEL_BANG` | "That wasn't me! Pipes. Has to be the pipes. Old building, lots of pipes." | Startled, high and quick. |
-| `DANIEL_OPT_06` | `BASEMENT_BANG` | reaction · alt `DANIEL_BANG` | "Did you hear that? Tell me you heard that. Pipes, right? Say pipes." | Anxious, breathless. |
-| `DANIEL_OPT_07` | `WALL_WHISPER_HEARD` | reaction · alt `DANIEL_WHISPER` | "The wall's muttering again. It's the draught. Just the draught, in the stones." | Quiet, forced cheer, voice thin. |
-| `DANIEL_OPT_08` | `WALL_WHISPER_HEARD` | reaction · alt `DANIEL_WHISPER` | "Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming." | Whispered, nervous, half-laughing. |
+| `DANIEL_OPT_04` | `BASEMENT_TALK` | reaction | "Arthur says it's just weather. I'm sure Arthur's right. He's usually right. Mostly." | Anxious chatter, nervous laugh. |
+| `DANIEL_OPT_06` | `BASEMENT_BANG` | reaction | "Did you hear that? Tell me you heard that. Pipes, right? Say pipes." | Anxious, breathless. |
+| `DANIEL_OPT_08` | `WALL_WHISPER_HEARD` | reaction | "Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming." | Whispered, nervous, half-laughing. |
 
 ## Step 2: Let the sailors in
 
 | ID | Plays on | Kind | Line | Delivery |
 |---|---|---|---|---|
-| `DANIEL_OPT_01` | `DANIEL_IN_BASEMENT` | reaction · alt `DANIEL_SHELTER` | "Oh, a boiler! Lovely. I'll just stay down here, where it's warm. And walled." | Light, nervous laugh. |
-| `DANIEL_OPT_02` | `DANIEL_IN_BASEMENT` | reaction · alt `DANIEL_SHELTER` | "Down here suits me fine. Did the walls just... never mind. Warm is good." | Anxious, trailing off, forced cheer. |
+| `DANIEL_OPT_02` | `DANIEL_IN_BASEMENT` | reaction | "Down here suits me fine. Did the walls just... never mind. Warm is good." | Anxious, trailing off, forced cheer. |
 
 ## Staging, hints and notes
 
-- `DANIEL_OPT_01` *staging:* Daniel settles beside the boiler.
 - `DANIEL_OPT_02` *staging:* Daniel settles beside the boiler.
-- `DANIEL_OPT_02` *note:* Ambiguous hint only; never confirmed.
-- `DANIEL_OPT_03` *note:* Optional event. Basement only, after DANIEL_IN_BASEMENT.
-- `DANIEL_OPT_04` *note:* Optional event. Basement only, after DANIEL_IN_BASEMENT.
-- `DANIEL_OPT_05` *note:* Cause stays ambiguous. Optional event; basement only, after DANIEL_IN_BASEMENT.
-- `DANIEL_OPT_06` *note:* Cause stays ambiguous. Optional event; basement only, after DANIEL_IN_BASEMENT.
-- `DANIEL_OPT_07` *staging:* Daniel in the basement, close to the wall.
-- `DANIEL_OPT_07` *note:* Ambiguous; never confirm a cause. Optional event. Gate: play only when the player is in the basement and DANIEL_IN_BASEMENT has fired; never elsewhere.
+- `DANIEL_OPT_02` *note:* Ambiguous hint only; never confirmed. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
+- `DANIEL_OPT_04` *note:* Optional event. Basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
+- `DANIEL_OPT_06` *note:* Cause stays ambiguous. Optional event; basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
 - `DANIEL_OPT_08` *staging:* Daniel in the basement, close to the wall.
-- `DANIEL_OPT_08` *note:* Ambiguous; never confirm a cause. Optional event. Gate: play only when the player is in the basement and DANIEL_IN_BASEMENT has fired; never elsewhere.
+- `DANIEL_OPT_08` *note:* Ambiguous; never confirm a cause. Optional event. Gate: play only when the player is in the basement and DANIEL_IN_BASEMENT has fired; never elsewhere. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
 
 ---
 *Generated by `LightingTheStorm/tools/build_character_pages.py` from `dialogue_opening.json`. Do not edit by hand.*

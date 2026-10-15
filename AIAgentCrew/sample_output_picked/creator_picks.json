@@ -1,0 +1,43 @@
+{
+  "picks": {
+    "GAME_STARTED": "TED_S1_03",
+    "COAL_LOADED_FIRST": "TED_S1_05",
+    "COAL_LOADED_HALF": "TED_S1_08",
+    "SAILORS_MOORED": "TED_S2_01",
+    "GATE_APPROACHED": "ARTHUR_S2_02",
+    "GATE_OPENED": "ARTHUR_S2_04",
+    "DANIEL_IN_BASEMENT": "DANIEL_OPT_02",
+    "BURNER_BRIEFING": "TED_S3_02",
+    "BOARDING_THRESHOLD": "ARTHUR_S3_01",
+    "BOAT_CAST_OFF": "ARTHUR_S3_03",
+    "OUTBOUND_NEAR_MISS": "ARTHUR_S3_07",
+    "OUTBOUND_COLLISION": "ARTHUR_S3_08",
+    "SHIP_SIGHTED": "ARTHUR_S3_11",
+    "BASEMENT_TALK": "DANIEL_OPT_04",
+    "BASEMENT_BANG": "DANIEL_OPT_06",
+    "WALL_WHISPER_HEARD": "DANIEL_OPT_08",
+    "POSTER_EXAMINED": "ARTHUR_S0_13"
+  },
+  "rewords": {
+    "ARTHUR_S3_08": "Hold on! Swing wide of the rock and steer clear. Gently now."
+  },
+  "dropped": [
+    "ARTHUR_S0_12",
+    "ARTHUR_S2_01",
+    "ARTHUR_S2_03",
+    "ARTHUR_S3_02",
+    "ARTHUR_S3_03B",
+    "ARTHUR_S3_06",
+    "ARTHUR_S3_09",
+    "ARTHUR_S3_10",
+    "DANIEL_OPT_01",
+    "DANIEL_OPT_03",
+    "DANIEL_OPT_05",
+    "DANIEL_OPT_07",
+    "TED_S1_02",
+    "TED_S1_06",
+    "TED_S1_07",
+    "TED_S2_02",
+    "TED_S3_01"
+  ]
+}

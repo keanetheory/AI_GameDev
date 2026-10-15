@@ -10,8 +10,8 @@ import shutil
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-CREW = ROOT.parent / "Agent Crew" / "storm_crew" / "storm_crew"
-SRC = CREW / "sample_output_live_revised"
+CREW = ROOT.parent / "AIAgentCrew"
+SRC = CREW / "sample_output_picked"
 DOCS = ROOT.parent / "Docs" / "Lore Build" / "dialogue"
 LORE = ROOT.parent / "Docs" / "Lore Build" / "characters"
 OUT = DOCS / "characters"
@@ -45,12 +45,13 @@ for key, (name, chr_id) in CHAR.items():
     out = [f"# {name}: Dialogue", "",
            f"Part of *Artifact #2: Character Dialogue Sequences*. [Opening dialogue (all characters)](../DIALOGUE_OPENING_FINAL.md) · "
            f"[Lore file](../../characters/{chr_id}.md) · "
-           "[Data (crew output)](../../../../Agent%20Crew/storm_crew/storm_crew/sample_output_live_revised/dialogue_opening.json)", "",
-           f"**Status:** `{data['status']}`. Written by the Opening Dialogue Crew with a live model ({gen['revision_rounds']} revision round(s)); "
-           f"reviewer verdict **{review['verdict']}**. The creator approves voice and lore before anything is recorded.", "",
+           "[Data (creator-picked)](../../../../AIAgentCrew/sample_output_picked/dialogue_opening.json)", "",
+           f"**Status:** `{data['status']}`. Written by the Opening Dialogue Crew with a live model ({gen['revision_rounds']} revision round(s)), "
+           f"then the creator picked one line per 'pick one' group on 2026-10-15. Deterministic review verdict **{review['verdict']}**. "
+           "The creator approves voice and lore before anything is recorded.", "",
            "## Voice (from the lore file)", ""] + [f"> {ln}" for ln in lore_voice(chr_id)] + [
            "", "## At a glance", "",
-           f"- **{len(mine)} lines** across {len({x['step'] for x in mine})} sections, {len(groups)} alternate groups (the game plays one option at random).",
+           f"- **{len(mine)} lines** across {len({x['step'] for x in mine})} sections, {len(groups)} alternate groups (the creator picked one line per group, so none remain).",
            "- By kind: " + ", ".join(f"{k} {v}" for k, v in sorted(kinds.items())) + ".", ""]
     for step in sorted({x["step"] for x in mine}):
         out += [f"## {STEP_TITLE[step]}", "", "| ID | Plays on | Kind | Line | Delivery |", "|---|---|---|---|---|"]
@@ -73,13 +74,16 @@ shutil.copy(SRC / "DIALOGUE_OPENING.md", DOCS / "DIALOGUE_OPENING_FINAL.md")
 
 counts = {k: sum(1 for x in data["lines"] if x["speaker"] == k) for k in CHAR}
 idx = ["# Character Dialogue Sequences", "",
-       "Dialogue for the opening of *Lighting the Storm* (Gate 1, steps 1-3), written by the Opening Dialogue Crew in `Agent Crew/storm_crew`.", "",
+       "Dialogue for the opening of *Lighting the Storm* (Gate 1, steps 1-3), written by the Opening Dialogue Crew in `AIAgentCrew`, then picked line by line by the creator (see [the picks](DIALOGUE_OPENING_CREATOR_PICKS.md)).", "",
        "## Characters", "", "| Character | Lines | Page |", "|---|---|---|"]
 idx += [f"| {CHAR[k][0]} | {counts[k]} | [DIALOGUE_{k}.md](characters/DIALOGUE_{k}.md) |" for k in CHAR]
 idx += ["", "## Opening dialogue (all characters, by step and event)", "",
-        f"- [Final: after the revision round](DIALOGUE_OPENING_FINAL.md) · status `{data['status']}`, {len(data['lines'])} lines",
-        "- [Iteration 1: live model, reviewer verdict REVISE](DIALOGUE_OPENING_LIVE.md)",
-        "- [Offline draft: the scripted first version](DIALOGUE_OPENING.md)", "",
+        f"- [Current: creator-picked](DIALOGUE_OPENING_FINAL.md) · status `{data['status']}`, {len(data['lines'])} lines",
+        "- [The creator's picks and what changed](DIALOGUE_OPENING_CREATOR_PICKS.md)",
+        "- Archive, before the picks (56 lines): [live revised](archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_FINAL.md), "
+        "[iteration 1, REVISE](archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_LIVE.md), "
+        "[offline draft](archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING.md), "
+        "[old pages and diagrams](archive/2026-10-15_before_creator_picks/)", "",
         "## Diagrams", "",
         "- [Pathway from prompt to game, with the revision round](illustration_pathway_crew_run_live.png)",
         "- [Pathway for the scripted offline run](illustration_pathway_crew_run_offline.png)",

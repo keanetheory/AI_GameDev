@@ -1,0 +1,53 @@
+{
+ "verdict": "PASS",
+ "pillar_checks": [
+  {
+   "check": "1. The light must return",
+   "result": "pass",
+   "evidence": "Ted's objective lines keep their meaning; only delivery tags were added."
+  },
+  {
+   "check": "2. The storm sets the clock",
+   "result": "pass",
+   "evidence": "No timer or number wording in the 56 tts_text lines or previews."
+  },
+  {
+   "check": "3. Your hands, your eyes",
+   "result": "pass",
+   "evidence": "Guidance stays spoken by Ted and Arthur; voices carry no markers."
+  },
+  {
+   "check": "4. Dread you can read",
+   "result": "pass",
+   "evidence": "Daniel's whisper and bang lines gain only tone tags; no cause is named."
+  }
+ ],
+ "decisions_log_checks": [
+  {
+   "check": "Canon casting notes honoured",
+   "result": "pass",
+   "evidence": "TED: chr_ted: 'gravelly older male, coastal accent'; ARTHUR: chr_arthur: 'wiry, old, frantic'; DANIEL: chr_daniel: 'young, enthusiastic male'"
+  },
+  {
+   "check": "No real-person likeness",
+   "result": "pass",
+   "evidence": "All three descriptions describe sound only."
+  },
+  {
+   "check": "Script text unchanged",
+   "result": "pass",
+   "evidence": "All 56 tts_text lines equal the script once tags are stripped."
+  },
+  {
+   "check": "Voices distinct",
+   "result": "pass",
+   "evidence": "Timbre and pace differ for every pair of speakers."
+  }
+ ],
+ "issues": [],
+ "open_creator_decisions": [
+  "Which lines are voiced is a cost decision for the creator; character counts are in the report.",
+  "Creator approves each voice preview before any line is generated."
+ ],
+ "handoff_summary": "Voice casting for 3 speakers and 56 lines. All deterministic checks pass. Nothing has been sent to ElevenLabs; the creator approves voices first."
+}
