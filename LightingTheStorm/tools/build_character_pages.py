@@ -23,7 +23,7 @@ gen = data["generated_by"]
 STEP_TITLE = {s["step"]: f"Step {s['step']}: {s['title']}" for s in data["steps"]}
 STEP_TITLE[0] = "Optional discoveries"
 EV = {e["event_id"]: e["note"] for e in data["events"]}
-CHAR = {"TED": ("Ted", "chr_ted"), "JEFF": ("Jeff", "chr_jeff"), "DANIEL": ("Daniel", "chr_daniel")}
+CHAR = {"TED": ("Ted", "chr_ted"), "ARTHUR": ("Arthur", "chr_arthur"), "DANIEL": ("Daniel", "chr_daniel")}
 
 
 def lore_voice(chr_id: str) -> list[str]:

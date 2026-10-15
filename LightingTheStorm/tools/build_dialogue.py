@@ -6,7 +6,7 @@ Source of truth is this file. It writes:
 
 Rules enforced here come from the Agent Crew canon (canon.py, validators.py) and the
 Executive Summary: stable IDs, 'NAME: ' subtitles, short shouted lines, no timer words,
-no confirmed supernatural cause, the player ("the new guy") never speaks, no visible markers.
+no confirmed supernatural cause, the player ("Isaac") never speaks, no visible markers.
 
 SUPERSEDED: this was the first authoring script. The same checks now live in
 Agent Crew/storm_crew/storm_crew/validators.py and the Opening Dialogue Crew
@@ -28,7 +28,7 @@ BANNED = re.compile(r"\b(seconds?|minutes?|hours?|countdown|timer|clock|deadline
 
 SPEAKERS = {
     "TED": {"name": "Ted", "colour": "#1F2A44", "role": "Lighthouse master (boss)"},
-    "JEFF": {"name": "Jeff", "colour": "#2F4A34", "role": "Sailor, guides the crossing"},
+    "ARTHUR": {"name": "Arthur", "colour": "#2F4A34", "role": "Sailor, guides the crossing"},
     "DANIEL": {"name": "Daniel", "colour": "#7A2620", "role": "Young sailor, shelters in the basement"},
 }
 
@@ -37,10 +37,10 @@ STEPS = [
      "player_action": "Shovel coal into the boiler, then find the beacon's burner is broken.",
      "starts_on": "GAME_STARTED", "ends_on": "BURNER_DIAGNOSED"},
     {"step": 2, "title": "Let the sailors in", "location": "Lantern-room window, path, island gate",
-     "player_action": "Look out of the window, go down the path and open the gate for Jeff and Daniel.",
+     "player_action": "Look out of the window, go down the path and open the gate for Arthur and Daniel.",
      "starts_on": "SAILORS_MOORED", "ends_on": "DANIEL_IN_BASEMENT"},
     {"step": 3, "title": "Fetch the burner", "location": "Dock, steam launch, outpost",
-     "player_action": "Board the launch with Jeff, cross the Gullwater and pick up the replacement burner.",
+     "player_action": "Board the launch with Arthur, cross the Gullwater and pick up the replacement burner.",
      "starts_on": "BURNER_BRIEFING", "ends_on": "RETURN_DEPARTED"},
 ]
 
@@ -57,9 +57,9 @@ EVENTS = [
     ("WINDOW_LOOKED", 2, "Level Layout anchor", "Player looks out of the window at the dock.", False),
     ("GATE_APPROACHED", 2, "Level Layout anchor", "Player reaches the island gate.", False),
     ("GATE_OPENED", 2, "Gameplay / Systems", "Player opens the island gate.", False),
-    ("SAILORS_INSIDE", 2, "Gameplay / Systems", "Jeff and Daniel reach the lighthouse hall.", False),
+    ("SAILORS_INSIDE", 2, "Gameplay / Systems", "Arthur and Daniel reach the lighthouse hall.", False),
     ("DANIEL_IN_BASEMENT", 2, "Gameplay / Systems", "Daniel reaches the basement and stays there.", False),
-    ("BURNER_BRIEFING", 3, "Gameplay / Systems", "Player talks with Ted and Jeff in the hall.", False),
+    ("BURNER_BRIEFING", 3, "Gameplay / Systems", "Player talks with Ted and Arthur in the hall.", False),
     ("BOARDING_THRESHOLD", 3, "Level Layout anchor", "Player reaches the launch at the dock.", False),
     ("SHIP_SIGHTED", 3, "Story / Fail-State", "Passenger ship's lights appear on the horizon.", False),
     ("BOAT_CAST_OFF", 3, "Boat / Physics", "Outbound crossing begins (untimed steering practice).", False),
@@ -67,7 +67,7 @@ EVENTS = [
     ("OUTBOUND_COLLISION", 3, "Boat / Physics", "Boat hits a hazard (recoverable).", False),
     ("OUTPOST_REACHED", 3, "Level Layout anchor", "Boat docks at the abandoned outpost.", False),
     ("BURNER_PICKED_UP", 3, "Gameplay / Systems", "Replacement burner is aboard.", False),
-    ("RETURN_DEPARTED", 3, "Gameplay / Systems", "Existing crew event. Hands over to JEFF_RET_* calls.", True),
+    ("RETURN_DEPARTED", 3, "Gameplay / Systems", "Existing crew event. Hands over to ARTHUR_RET_* calls.", True),
     ("POSTER_EXAMINED", 0, "Interaction anchor", "Optional: player examines a Flighted poster.", False),
     ("WALL_WHISPER_HEARD", 0, "Audio trigger", "Optional: whisper in the lighthouse walls.", False),
     ("BASEMENT_BANG", 0, "Audio trigger", "Optional: bang in the basement wall.", False),
@@ -89,7 +89,7 @@ def L(id, step, beat, speaker, kind, trigger, text, delivery, **kw):
 # ============================ STEP 1 - FEED THE BOILER ============================
 B = "S1_WELCOME"
 L("TED_S1_01", 1, B, "TED", "intro", "GAME_STARTED",
-  "Hrmph. You're the new guy. Welcome to Bracken Isle. Try not to fall off it.",
+  "Hrmph. You're Isaac. Welcome to Bracken Isle. Try not to fall off it.",
   "gruff, dry; a cough after")
 L("TED_S1_02", 1, B, "TED", "setting", "GAME_STARTED",
   "No moon tonight. Something's sat on it again, and the sea hates it. Tides go savage, storms follow.",
@@ -161,37 +161,37 @@ L("TED_S2_02", 2, B, "TED", "objective", "WINDOW_LOOKED",
 
 B = "S2_NUDGE"
 L("TED_S2_N1", 2, B, "TED", "nudge", "IDLE_STEP_2",
-  "The gate, new guy. Those two won't dry themselves on the dock.", "impatient", tier=1, once=False)
+  "The gate, Isaac. Those two won't dry themselves on the dock.", "impatient", tier=1, once=False)
 L("TED_S2_N2", 2, B, "TED", "nudge", "IDLE_STEP_2",
   "Down the path to the iron gate. Open it. The sea isn't polite.", "sharper", tier=2, once=False)
 L("TED_S2_N3", 2, B, "TED", "nudge", "IDLE_STEP_2",
   "Out the door, down the path, iron gate. Open it. Go.", "bellowed", tier=3, once=False)
 
 B = "S2_GATE"
-L("JEFF_S2_01a", 2, B, "JEFF", "reaction", "GATE_APPROACHED",
+L("ARTHUR_S2_01a", 2, B, "ARTHUR", "reaction", "GATE_APPROACHED",
   "Open the gate, would you? I've been wet since breakfast and I'm starting to take it personally!",
-  "shouted over the wind, wry", group="S2_GATE_JEFF")
-L("JEFF_S2_01b", 2, B, "JEFF", "reaction", "GATE_APPROACHED",
+  "shouted over the wind, wry", group="S2_GATE_ARTHUR")
+L("ARTHUR_S2_01b", 2, B, "ARTHUR", "reaction", "GATE_APPROACHED",
   "Oi! Gate! Open up before the sea finishes what the storm started!",
-  "shouted, frantic", group="S2_GATE_JEFF")
+  "shouted, frantic", group="S2_GATE_ARTHUR")
 L("DANIEL_S2_01", 2, B, "DANIEL", "reaction", "GATE_APPROACHED",
   "Please! My hands have gone numb and I think my boots are full of fish!",
   "high, anxious, a nervous laugh", pause_before=0.5)
-L("JEFF_S2_02", 2, B, "JEFF", "reaction", "GATE_OPENED",
-  "Bless you. You'll be Ted's new guy, then. Jeff. The shivering one's Daniel.",
+L("ARTHUR_S2_02", 2, B, "ARTHUR", "reaction", "GATE_OPENED",
+  "Bless you. You'll be Isaac, then. Arthur. The shivering one's Daniel.",
   "friendly but wary", pause_before=0.6)
 L("DANIEL_S2_02", 2, B, "DANIEL", "reaction", "GATE_OPENED",
   "Thank you, thank you! This was my first trip out. I might just stay on this flipping lighthouse!",
   "light-hearted, anxious; canon sample line", pause_before=0.4)
-L("JEFF_S2_03", 2, B, "JEFF", "reaction", "GATE_OPENED",
+L("ARTHUR_S2_03", 2, B, "ARTHUR", "reaction", "GATE_OPENED",
   "Don't ask what we were doing out there. Ask me when I'm dry.",
   "evasive, a snort", pause_before=0.8,
-  note="Open hook: why Jeff and Daniel were on the water in eclipse season. Not answered.")
+  note="Open hook: why Arthur and Daniel were on the water in eclipse season. Not answered.")
 
 B = "S2_HALL"
-L("TED_S2_03", 2, B, "TED", "reaction", "SAILORS_INSIDE", "Jeff. Thought you'd have drowned by now.",
-  "dry", note="Ted and Jeff's relationship is TBD in the lore; this keeps it neutral.")
-L("JEFF_S2_04", 2, B, "JEFF", "reaction", "SAILORS_INSIDE",
+L("TED_S2_03", 2, B, "TED", "reaction", "SAILORS_INSIDE", "Arthur. Thought you'd have drowned by now.",
+  "dry", note="Ted and Arthur's relationship is TBD in the lore; this keeps it neutral.")
+L("ARTHUR_S2_04", 2, B, "ARTHUR", "reaction", "SAILORS_INSIDE",
   "Lovely to see you too, Ted. Still charming the guests, I see.", "wry", pause_before=0.5)
 L("TED_S2_04", 2, B, "TED", "reaction", "SAILORS_INSIDE",
   "Warm's down in the engine room. Take the boy and dry out. Don't touch my boiler.",
@@ -210,26 +210,26 @@ L("TED_S3_02", 3, B, "TED", "setting", "BURNER_BRIEFING",
   "Small thing, under a foot tall. Brass and iron, thick glass, carbon rods. Can't miss it.",
   "gruff, describing with his hands", pause_before=0.6)
 L("TED_S3_03", 3, B, "TED", "objective", "BURNER_BRIEFING",
-  "Launch is at the dock. Jeff knows that water better than I do. Go with him and do as he says.",
+  "Launch is at the dock. Arthur knows that water better than I do. Go with him and do as he says.",
   "an order, a cough", pause_before=0.6, journal_id="JRN_06",
-  assist_text="Go to the dock and board the steam launch with Jeff.")
-L("JEFF_S3_01a", 3, B, "JEFF", "reaction", "BURNER_BRIEFING",
+  assist_text="Go to the dock and board the steam launch with Arthur.")
+L("ARTHUR_S3_01a", 3, B, "ARTHUR", "reaction", "BURNER_BRIEFING",
   "Cross the Gullwater? In this? Hrmph. Fine. That sky's turning nasty, and somebody has to do it.",
-  "reluctant, then resolved", pause_before=0.8, group="S3_JEFF_AGREES")
-L("JEFF_S3_01b", 3, B, "JEFF", "reaction", "BURNER_BRIEFING",
+  "reluctant, then resolved", pause_before=0.8, group="S3_ARTHUR_AGREES")
+L("ARTHUR_S3_01b", 3, B, "ARTHUR", "reaction", "BURNER_BRIEFING",
   "Back out there? I've only just got dry! ...Aye, all right. Better the light's mended than we're sorry.",
-  "groaning, then resolved", pause_before=0.8, group="S3_JEFF_AGREES")
+  "groaning, then resolved", pause_before=0.8, group="S3_ARTHUR_AGREES")
 
 B = "S3_NUDGE"
 L("TED_S3_N1", 3, B, "TED", "nudge", "IDLE_STEP_3",
-  "Dock. Launch. Jeff's waiting, and he's not known for patience.", "impatient", tier=1, once=False)
+  "Dock. Launch. Arthur's waiting, and he's not known for patience.", "impatient", tier=1, once=False)
 L("TED_S3_N2", 3, B, "TED", "nudge", "IDLE_STEP_3",
   "Down the path, through the gate you opened, to the jetty. Steam launch.", "sharper", tier=2, once=False)
 L("TED_S3_N3", 3, B, "TED", "nudge", "IDLE_STEP_3",
   "Jetty. Launch. Burner. In that order.", "flat, final", tier=3, once=False)
 
 B = "S3_BOARDING"
-L("JEFF_S3_02", 3, B, "JEFF", "reaction", "BOARDING_THRESHOLD", "In you get. Mind the rail. It bites.",
+L("ARTHUR_S3_02", 3, B, "ARTHUR", "reaction", "BOARDING_THRESHOLD", "In you get. Mind the rail. It bites.",
   "brisk, from the launch")
 L("TED_S3_04", 3, B, "TED", "reaction", "BOARDING_THRESHOLD",
   "Wait! Look out on the water! Lights! That's a passenger ship!",
@@ -238,42 +238,42 @@ L("TED_S3_04", 3, B, "TED", "reaction", "BOARDING_THRESHOLD",
 L("TED_S3_05", 3, B, "TED", "reaction", "SHIP_SIGHTED",
   "What the hell is a passenger ship doing coming here, now?? It's not in the log!",
   "shocked; canon sample line")
-L("JEFF_S3_03", 3, B, "JEFF", "reaction", "SHIP_SIGHTED",
+L("ARTHUR_S3_03", 3, B, "ARTHUR", "reaction", "SHIP_SIGHTED",
   "A passenger ship? NOW? But the lighthouse beacon is broken!",
   "frantic; canon sample line shared with Ted", pause_before=0.6)
 L("TED_S3_06", 3, B, "TED", "objective", "SHIP_SIGHTED",
   "She's making for the Saltgate. Without my light she'll find the reef instead. Get me that burner!",
   "bellowed", pause_before=0.8)
-L("JEFF_S3_04", 3, B, "JEFF", "reaction", "SHIP_SIGHTED",
+L("ARTHUR_S3_04", 3, B, "ARTHUR", "reaction", "SHIP_SIGHTED",
   "Right. That settles it. Cast off, and hold on to something.", "grim, resolved", pause_before=0.6)
 
 B = "S3_OUTBOUND"
-L("JEFF_S3_05", 3, B, "JEFF", "objective", "BOAT_CAST_OFF",
+L("ARTHUR_S3_05", 3, B, "ARTHUR", "objective", "BOAT_CAST_OFF",
   "One wheel, one speed. She goes where you point her, and not a yard faster. Mind the rocks.",
   "shouted over the engine", journal_id="JRN_07",
   assist_text="Steer left and right to keep clear of rocks. The boat's speed is fixed. Head for the outpost.")
-L("JEFF_S3_06", 3, B, "JEFF", "reaction", "BOAT_CAST_OFF",
+L("ARTHUR_S3_06", 3, B, "ARTHUR", "reaction", "BOAT_CAST_OFF",
   "Easy does it. Get the feel of her.", "calmer, for now", pause_before=4.0)
-L("JEFF_S3_N1a", 3, B, "JEFF", "reaction", "OUTBOUND_NEAR_MISS",
+L("ARTHUR_S3_N1a", 3, B, "ARTHUR", "reaction", "OUTBOUND_NEAR_MISS",
   "Close! Another hand's width and we'd be lunch for the reef!", "shouted", group="S3_NEAR", once=False)
-L("JEFF_S3_N1b", 3, B, "JEFF", "reaction", "OUTBOUND_NEAR_MISS",
+L("ARTHUR_S3_N1b", 3, B, "ARTHUR", "reaction", "OUTBOUND_NEAR_MISS",
   "Steady! That rock didn't move. You did.", "shouted, dry", group="S3_NEAR", once=False)
-L("JEFF_S3_C1a", 3, B, "JEFF", "reaction", "OUTBOUND_COLLISION",
+L("ARTHUR_S3_C1a", 3, B, "ARTHUR", "reaction", "OUTBOUND_COLLISION",
   "Ugh! Gently! She's a boat, not a battering ram!", "pained", group="S3_HIT", once=False)
-L("JEFF_S3_C1b", 3, B, "JEFF", "reaction", "OUTBOUND_COLLISION",
+L("ARTHUR_S3_C1b", 3, B, "ARTHUR", "reaction", "OUTBOUND_COLLISION",
   "That's the rocks saying hello. Back on course!", "wry, then urgent", group="S3_HIT", once=False)
 
 B = "S3_OUTPOST"
-L("JEFF_S3_07", 3, B, "JEFF", "objective", "OUTPOST_REACHED",
+L("ARTHUR_S3_07", 3, B, "ARTHUR", "objective", "OUTPOST_REACHED",
   "That's the outpost. Find the burner. Brass, glass, under a foot tall. I'll hold the boat.",
   "brisk", assist_text="Search the outpost for the replacement burner. It is small, brass and glass.")
-L("JEFF_S3_N2", 3, B, "JEFF", "nudge", "IDLE_OUTPOST",
+L("ARTHUR_S3_N2", 3, B, "ARTHUR", "nudge", "IDLE_OUTPOST",
   "It's small, it's brass, and it won't find itself.", "impatient", tier=1, once=False)
-L("JEFF_S3_N3", 3, B, "JEFF", "nudge", "IDLE_OUTPOST",
-  "Look about, new guy. Brass and glass, under a foot tall.", "sharper", tier=2, once=False)
-L("JEFF_S3_08", 3, B, "JEFF", "reaction", "BURNER_PICKED_UP",
+L("ARTHUR_S3_N3", 3, B, "ARTHUR", "nudge", "IDLE_OUTPOST",
+  "Look about, Isaac. Brass and glass, under a foot tall.", "sharper", tier=2, once=False)
+L("ARTHUR_S3_08", 3, B, "ARTHUR", "reaction", "BURNER_PICKED_UP",
   "That's the one! Hold it tight. Aboard, and we go back.", "relieved, urgent",
-  note="Hands over to the Agent Crew's JEFF_RET_* calls at RETURN_DEPARTED.")
+  note="Hands over to the Agent Crew's ARTHUR_RET_* calls at RETURN_DEPARTED.")
 
 # ============================ OPTIONAL DISCOVERIES (no step) ============================
 B = "OPT"
@@ -295,8 +295,8 @@ JOURNAL = [
     ("JRN_02", 1, "BOILER_FED", "Steam is up and the beacon flickers. Ted wants me in the lantern room."),
     ("JRN_03", 1, "BURNER_DIAGNOSED", "The burner is cracked and burnt out. No burner, no light. Ted has no spare."),
     ("JRN_04", 2, "WINDOW_LOOKED", "Two sailors have moored at the dock. Ted says open the island gate."),
-    ("JRN_05", 2, "SAILORS_INSIDE", "Jeff and Daniel are in. Daniel is warming up by the boiler."),
-    ("JRN_06", 3, "BURNER_BRIEFING", "A spare burner is at the old outpost across the Gullwater. Take the launch with Jeff."),
+    ("JRN_05", 2, "SAILORS_INSIDE", "Arthur and Daniel are in. Daniel is warming up by the boiler."),
+    ("JRN_06", 3, "BURNER_BRIEFING", "A spare burner is at the old outpost across the Gullwater. Take the launch with Arthur."),
     ("JRN_07", 3, "BOAT_CAST_OFF", "A ship's lights on the water. We need that burner. Keep clear of the rocks."),
 ]
 
@@ -305,9 +305,9 @@ OPEN_QUESTIONS = [
     "Lore says 'lamp head'; the GDD says 'burner'. Dialogue uses 'burner' throughout.",
     "The engine room is assumed to be the basement (Daniel's shelter). Level Layout should confirm.",
     "Ted's position in steps 2-3 (lantern room, hall, shouting from the dock) is approved as written for now.",
-    "The player is addressed as 'the new guy' (creator decision). Nobody uses 'lad', 'lass' or 'man' for the player. Ted's 'the boy' refers to Daniel only.",
-    "Ted and Jeff's relationship is TBD in the lore. The 'drowned by now' exchange is a proposal.",
-    "Why Jeff and Daniel were on the water (smugglers?) is left open by JEFF_S2_03.",
+    "The player is addressed as 'Isaac' (creator decision). Nobody uses 'lad', 'lass' or 'man' for the player. Ted's 'the boy' refers to Daniel only.",
+    "Ted and Arthur's relationship is TBD in the lore. The 'drowned by now' exchange is a proposal.",
+    "Why Arthur and Daniel were on the water (smugglers?) is left open by ARTHUR_S2_03.",
     "Which lines are voiced is a cost decision (the AI Agent Strategy allows voice for Ted at the lamp). Subtitles are provided for every line.",
     "Fail-reason and outcome lines belong to the Story / Fail-State agent and are not included here.",
     "Step 1 is the only repair covered. The GDD's second Gate 1 repair is not part of this request.",
@@ -383,8 +383,8 @@ def md(data):
            "Status: **proposed**. Generated from `LightingTheStorm/tools/build_dialogue.py`. "
            "The creator approves voice and lore before anything is recorded.", "",
            "**Voice rules used** (from the Lore Build and Agent Crew canon): Ted is gruff, snarky and old-school, "
-           "calls city folk \"new money toffs\", and grunts and coughs. Jeff is wry, wiry and frantic under pressure. "
-           "Daniel is light-hearted and anxious. The player, called the new guy, never speaks. Nothing mentions a timer, shows a marker "
+           "calls city folk \"new money toffs\", and grunts and coughs. Arthur is wry, wiry and frantic under pressure. "
+           "Daniel is light-hearted and anxious. The player, called Isaac, never speaks. Nothing mentions a timer, shows a marker "
            "or confirms a supernatural cause.", "",
            "Lines marked *(canon)* reuse the sample lines in the character files. "
            "**Pick one** means the game plays one option at random.", ""]

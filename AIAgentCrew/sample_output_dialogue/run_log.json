@@ -12,10 +12,10 @@
     "attempt": 1,
     "passed": false,
     "errors": [
-      "TED_S1_01: refer to the player as 'the new guy', not 'apprentice'.",
+      "TED_S1_01: refer to the player as 'Isaac', not 'apprentice'.",
       "TED_S2_01: names the ship before BOARDING_THRESHOLD (trigger SAILORS_MOORED).",
       "TED_S3_02: say 'burner', not 'lamp head'.",
-      "someone must call the player 'the new guy' at least once."
+      "someone must call the player 'Isaac' at least once."
     ]
   },
   {

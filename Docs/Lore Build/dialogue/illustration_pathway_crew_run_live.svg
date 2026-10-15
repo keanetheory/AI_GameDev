@@ -30,7 +30,7 @@
 <rect x="30" y="360" width="250" height="142" rx="9" fill="#15181F" stroke="#B8962E" stroke-width="2"/>
 <text x="44" y="386" font-family="Georgia, serif" font-size="15" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">Request 2</text>
 <circle cx="46" cy="408" r="2.5" fill="#6B6B66"/>
-<text x="56" y="412" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Call the player “the new guy”</text>
+<text x="56" y="412" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Call the player “Isaac”</text>
 <circle cx="46" cy="429" r="2.5" fill="#6B6B66"/>
 <text x="56" y="433" font-family="'Segoe UI', Arial, sans-serif" font-size="12.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Ted's position is fine</text>
 <circle cx="46" cy="450" r="2.5" fill="#6B6B66"/>
@@ -64,7 +64,7 @@
 <rect x="310" y="256" width="270" height="128" rx="9" fill="#15181F" stroke="#B9BEC4" stroke-width="2"/>
 <text x="324" y="281" font-family="Georgia, serif" font-size="14" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">Lore Build</text>
 <circle cx="326" cy="300" r="2.5" fill="#6B6B66"/>
-<text x="336" y="304" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Ted, Jeff, Daniel, player files</text>
+<text x="336" y="304" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">Ted, Arthur, Daniel, player files</text>
 <circle cx="326" cy="319" r="2.5" fill="#6B6B66"/>
 <text x="336" y="323" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">style guide, pillars</text>
 <circle cx="326" cy="338" r="2.5" fill="#6B6B66"/>
@@ -187,7 +187,7 @@
 <rect x="1354" y="186" width="200" height="22" rx="11.0" fill="#6FA37A" stroke="#6FA37A" stroke-width="0"/>
 <text x="1454.0" y="201.5" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" fill="#0E0E10" font-weight="bold" text-anchor="middle" font-style="normal" letter-spacing="0">status: proposed</text>
 <text x="1354" y="236" font-family="Consolas, monospace" font-size="12" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">dialogue_opening.json</text>
-<text x="1354" y="253" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">56 lines (Ted 23, Jeff 25, Daniel 8)</text>
+<text x="1354" y="253" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">56 lines (Ted 23, Arthur 25, Daniel 8)</text>
 <text x="1354" y="276" font-family="Consolas, monospace" font-size="12" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">DIALOGUE_OPENING.md</text>
 <text x="1354" y="293" font-family="'Segoe UI', Arial, sans-serif" font-size="11.5" fill="#B9BEC4" font-weight="normal" text-anchor="start" font-style="normal" letter-spacing="0">review list for the creator</text>
 <text x="1354" y="316" font-family="Consolas, monospace" font-size="12" fill="#F2EFE6" font-weight="bold" text-anchor="start" font-style="normal" letter-spacing="0">run_log.json</text>

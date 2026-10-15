@@ -221,7 +221,7 @@ def check_lighting(s: LightingSpec, guide: StyleGuide) -> list[str]:
     if len(set(ids)) != len(ids):
         errs.append("source_id values must be unique.")
     if any(x.is_navigation_marker for x in s.sources) or s.saint_calder.is_navigation_marker:
-        errs.append("No light may be a navigation marker (Pillar 3: guidance comes from Ted and Jeff).")
+        errs.append("No light may be a navigation marker (Pillar 3: guidance comes from Ted and Arthur).")
     gold_amber = {guide.colour_meanings.get("Amber", "").upper(), guide.colour_meanings.get("Gold", "").upper()}
     for x in s.sources:
         if x.kind == "saint_calder_lights" and x.colour.upper() not in gold_amber:

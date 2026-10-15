@@ -76,7 +76,7 @@
           "note": "Lighthouse jetty"
         }
       ],
-      "feel": "Roaring storm, rocks closing in, Jeff shouting directions over the wind."
+      "feel": "Roaring storm, rocks closing in, Arthur shouting directions over the wind."
     }
   ],
   "docks": [
@@ -106,6 +106,6 @@
   ],
   "open_creator_decisions": [
     "Whether the earlier return-crossing data (6 m/s) should be regenerated at the confirmed 3 m/s.",
-    "Whether Jeff, as a passenger, moves around the boat while it is steered."
+    "Whether Arthur, as a passenger, moves around the boat while it is steered."
   ]
 }

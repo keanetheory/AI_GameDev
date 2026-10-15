@@ -38,7 +38,7 @@
 <text x="658" y="238" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">Lantern-room window, path, island gate</text>
 <text x="604" y="282" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="bold" font-style="normal" text-anchor="start" letter-spacing="2">PLAYER DOES</text>
 <text x="604" y="304.0" font-family="'Segoe UI', Arial, sans-serif" font-size="15" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">Look out of the window, go down the path and open</text>
-<text x="604" y="324.25" font-family="'Segoe UI', Arial, sans-serif" font-size="15" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">the gate for Jeff and Daniel.</text>
+<text x="604" y="324.25" font-family="'Segoe UI', Arial, sans-serif" font-size="15" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">the gate for Arthur and Daniel.</text>
 <text x="604" y="366" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B9BEC4" font-weight="bold" font-style="normal" text-anchor="start" letter-spacing="2">TED SAYS</text>
 <rect x="604" y="378" width="392" height="103" rx="6" fill="#1F2A44" stroke="#B9BEC4" stroke-opacity="0.35"/>
 <rect x="604" y="378" width="5" height="103" fill="#B9BEC4"/>
@@ -49,9 +49,9 @@
 <circle cx="612" cy="540" r="8" fill="#1F2A44" stroke="#B9BEC4" stroke-width="1.2"/>
 <text x="626" y="545" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">Ted 7</text>
 <circle cx="686" cy="540" r="8" fill="#2F4A34" stroke="#B9BEC4" stroke-width="1.2"/>
-<text x="700" y="545" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">Jeff 5</text>
-<circle cx="768" cy="540" r="8" fill="#7A2620" stroke="#B9BEC4" stroke-width="1.2"/>
-<text x="782" y="545" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">Daniel 3</text>
+<text x="700" y="545" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">Arthur 5</text>
+<circle cx="784" cy="540" r="8" fill="#7A2620" stroke="#B9BEC4" stroke-width="1.2"/>
+<text x="798" y="545" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">Daniel 3</text>
 <text x="604" y="632" font-family="Consolas, 'Courier New', monospace" font-size="12" fill="#6B6B66" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">SAILORS_MOORED  →  DANIEL_IN_BASEMENT</text>
 <path d="M1034 415 H1074" stroke="#C07A1E" stroke-width="3"/>
 <polygon points="1074,406 1090,415 1074,424" fill="#C07A1E"/>
@@ -62,8 +62,8 @@
 <text x="1178" y="214" font-family="Georgia, 'Times New Roman', serif" font-size="24" fill="#F2EFE6" font-weight="bold" font-style="normal" text-anchor="start" letter-spacing="0">Fetch the burner</text>
 <text x="1178" y="238" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">Dock, steam launch, outpost</text>
 <text x="1124" y="282" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B8962E" font-weight="bold" font-style="normal" text-anchor="start" letter-spacing="2">PLAYER DOES</text>
-<text x="1124" y="304.0" font-family="'Segoe UI', Arial, sans-serif" font-size="15" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">Board the launch with Jeff, cross the Gullwater and</text>
-<text x="1124" y="324.25" font-family="'Segoe UI', Arial, sans-serif" font-size="15" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">pick up the replacement burner.</text>
+<text x="1124" y="304.0" font-family="'Segoe UI', Arial, sans-serif" font-size="15" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">Board the launch with Arthur, cross the Gullwater</text>
+<text x="1124" y="324.25" font-family="'Segoe UI', Arial, sans-serif" font-size="15" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">and pick up the replacement burner.</text>
 <text x="1124" y="366" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#B8962E" font-weight="bold" font-style="normal" text-anchor="start" letter-spacing="2">TED SAYS</text>
 <rect x="1124" y="378" width="392" height="103" rx="6" fill="#1F2A44" stroke="#B9BEC4" stroke-opacity="0.35"/>
 <rect x="1124" y="378" width="5" height="103" fill="#B8962E"/>
@@ -74,7 +74,7 @@
 <circle cx="1132" cy="540" r="8" fill="#1F2A44" stroke="#B9BEC4" stroke-width="1.2"/>
 <text x="1146" y="545" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">Ted 9</text>
 <circle cx="1206" cy="540" r="8" fill="#2F4A34" stroke="#B9BEC4" stroke-width="1.2"/>
-<text x="1220" y="545" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">Jeff 15</text>
+<text x="1220" y="545" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">Arthur 15</text>
 <text x="1124" y="632" font-family="Consolas, 'Courier New', monospace" font-size="12" fill="#6B6B66" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">BURNER_BRIEFING  →  RETURN_DEPARTED</text>
 <text x="60" y="686" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#6B6B66" font-weight="bold" font-style="normal" text-anchor="start" letter-spacing="2">EVENT CHAIN  (each stable event ID triggers the next lines)</text>
 <rect x="60" y="700" width="136" height="32" rx="16" fill="#C07A1E"/>
@@ -106,7 +106,7 @@
 <polygon points="1390,710 1399,716 1390,722" fill="#6B6B66"/>
 <rect x="1401" y="700" width="136" height="32" rx="16" fill="#B8962E"/>
 <text x="1469.0" y="721" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#0E0E10" font-weight="bold" font-style="normal" text-anchor="middle" letter-spacing="0">RETURN_DEPARTED</text>
-<text x="60" y="758" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#6B6B66" font-weight="normal" font-style="italic" text-anchor="start" letter-spacing="0">Step 3 ends at RETURN_DEPARTED, where the Agent Crew's JEFF_RET_* calls take over for the return crossing.</text>
+<text x="60" y="758" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#6B6B66" font-weight="normal" font-style="italic" text-anchor="start" letter-spacing="0">Step 3 ends at RETURN_DEPARTED, where the Agent Crew's ARTHUR_RET_* calls take over for the return crossing.</text>
 <text x="60" y="800" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#6B6B66" font-weight="bold" font-style="normal" text-anchor="start" letter-spacing="2">AUTHORED LINES PER STEP</text>
 <text x="60" y="839" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">Feed the boiler</text>
 <rect x="230" y="822" width="289" height="24" fill="#1F2A44" stroke="#B9BEC4" stroke-width="1"/>
@@ -135,7 +135,7 @@
 <rect x="60" y="968" width="14" height="14" fill="#1F2A44" stroke="#B9BEC4"/>
 <text x="82" y="980" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">Ted</text>
 <rect x="150" y="968" width="14" height="14" fill="#2F4A34" stroke="#B9BEC4"/>
-<text x="172" y="980" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">Jeff</text>
+<text x="172" y="980" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">Arthur</text>
 <rect x="240" y="968" width="14" height="14" fill="#7A2620" stroke="#B9BEC4"/>
 <text x="262" y="980" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#B9BEC4" font-weight="normal" font-style="normal" text-anchor="start" letter-spacing="0">Daniel</text>
 <text x="340" y="980" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#6B6B66" font-weight="normal" font-style="italic" text-anchor="start" letter-spacing="0">61 lines in total</text>

@@ -14,7 +14,7 @@ from integrator import write_outputs
 
 DEFAULT_GOAL = (
     "Give me data for the Gate 1 return crossing from the outpost to the lighthouse: harder than "
-    "the outbound run, readable for a first-time player, with Jeff calling the way through."
+    "the outbound run, readable for a first-time player, with Arthur calling the way through."
 )
 
 

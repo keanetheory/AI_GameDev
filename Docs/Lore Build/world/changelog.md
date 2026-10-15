@@ -28,4 +28,4 @@ type: changelog
 | Fortresses | Fort Kestrel (west), Fort Heron (east) |
 
 ### Flagged (unresolved)
-- **Storm timing:** Jeff and Daniel were caught in a storm before the game begins, yet the outbound crossing is calm. Is this a lull between squalls?
+- **Storm timing:** Arthur and Daniel were caught in a storm before the game begins, yet the outbound crossing is calm. Is this a lull between squalls?

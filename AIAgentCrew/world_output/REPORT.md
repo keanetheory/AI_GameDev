@@ -10,7 +10,7 @@
 
 **Creator decisions that are blocking:**
 - Whether the earlier return-crossing data (6 m/s) should be regenerated at the confirmed 3 m/s.
-- Whether Jeff, as a passenger, moves around the boat while it is steered.
+- Whether Arthur, as a passenger, moves around the boat while it is steered.
 - How bright the eclipsed moon's silver rim may be.
 - Whether Saint Calder should flicker or stay fully steady.
 - Whether to add controller support at Gate 1.

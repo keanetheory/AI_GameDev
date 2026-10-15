@@ -1,7 +1,7 @@
 # HANDOFF - GATE1_RETURN_CROSSING
 
 ## 1. Task and goal
-Generate Gate 1 return-crossing data for Lighting the Storm: segment tuning, hazard forecast with one safe-route signal per segment, and Jeff's direction calls that read from the same signal.
+Generate Gate 1 return-crossing data for Lighting the Storm: segment tuning, hazard forecast with one safe-route signal per segment, and Arthur's direction calls that read from the same signal.
 
 ## 2. Files changed
 - `return_crossing.json` (game data, stable IDs)
@@ -12,17 +12,17 @@ Generate Gate 1 return-crossing data for Lighting the Storm: segment tuning, haz
 - Regenerate: `python main.py --offline --preset standard`
 
 ## 4. Observed behaviour
-Return-crossing data for Gate 1: 5 segments, 15 hazards, 5 Jeff calls. All contract checks pass. Feel, pacing and voice need creator playtesting.
+Return-crossing data for Gate 1: 5 segments, 15 hazards, 5 Arthur calls. All contract checks pass. Feel, pacing and voice need creator playtesting.
 5 segments, 15 hazards, route length 600 m. All deterministic contract checks passed (run mode: offline).
 
 - [PASS] 1. The light must return: Route ends at DOCK_LIGHTHOUSE; arrival line sends the player to the lamp.
 - [PASS] 2. The storm sets the clock: No timer words in any line; urgency carried by storm notes and density.
-- [PASS] 3. Your hands, your eyes: Guidance is Jeff's voice only (JEFF_RET_01, JEFF_RET_02, JEFF_RET_03, JEFF_RET_04, JEFF_RET_05); no markers.
+- [PASS] 3. Your hands, your eyes: Guidance is Arthur's voice only (ARTHUR_RET_01, ARTHUR_RET_02, ARTHUR_RET_03, ARTHUR_RET_04, ARTHUR_RET_05); no markers.
 - [PASS] 4. Dread you can read: Every hazard has a readability cue; one safe lane per segment.
 - [PASS] Storm split: hazard_density rises with segment index only.
 - [PASS] No waves: allowed_hazards = rock, reef, buoy, debris.
 - [PASS] Single safe route: 5 segments, one safe_lane each.
-- [PASS] Jeff never disagrees: Every call direction equals its segment's safe_lane.
+- [PASS] Arthur never disagrees: Every call direction equals its segment's safe_lane.
 - [PASS] No visible timer: Deadline is never referenced numerically.
 - [PASS] Recoverable collisions: Every segment has a SAFE_<seg> recovery point.
 
@@ -39,4 +39,4 @@ None. Uses the stable IDs and events from the Technical Strategy.
 ## 8. Open creator decisions
 - Exact collision time cost (loose for Gate 1)
 - Deadline length after return-crossing playtest
-- Creator to approve Jeff's voice before recording
+- Creator to approve Arthur's voice before recording

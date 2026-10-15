@@ -65,7 +65,7 @@ LIGHTING_FACTS = [
     "Lighthouse: the beacon (failing at the start, relit at the end), the arc lamp and dynamo room, steam furnace glow in the "
     "basement boiler, and warm window light. Sources are amber (#C07A1E) for steam and silver (#B9BEC4) for arc light.",
     "Saint Calder: far away, only a glow. Amber (#C07A1E) and gold (#B8962E) only; a Gothic cathedral is the brightest silhouette. "
-    "It is scenery, never a navigation marker (Pillar 3: guidance comes from Ted and Jeff).",
+    "It is scenery, never a navigation marker (Pillar 3: guidance comes from Ted and Arthur).",
     "Hazards must stay readable at the minimum visibility on every phase. The return has lower visibility than the outbound.",
     "Performance: the game targets a laptop GPU. Few dynamic lights, very few shadow casters.",
 ]

@@ -19,8 +19,8 @@ Part of *Artifact #2: Character Dialogue Sequences*. [Opening dialogue (all char
 
 | ID | Plays on | Kind | Line | Delivery |
 |---|---|---|---|---|
-| `DANIEL_OPT_03` | `BASEMENT_TALK` | reaction · alt `DANIEL_TALK` | "Oh, hello, the new guy! Don't mind me. I'm not going anywhere. Ever." | Light, anxious, trying to joke. |
-| `DANIEL_OPT_04` | `BASEMENT_TALK` | reaction · alt `DANIEL_TALK` | "Jeff says it's just weather. I'm sure Jeff's right. He's usually right. Mostly." | Anxious chatter, nervous laugh. |
+| `DANIEL_OPT_03` | `BASEMENT_TALK` | reaction · alt `DANIEL_TALK` | "Oh, hello, Isaac! Don't mind me. I'm not going anywhere. Ever." | Light, anxious, trying to joke. |
+| `DANIEL_OPT_04` | `BASEMENT_TALK` | reaction · alt `DANIEL_TALK` | "Arthur says it's just weather. I'm sure Arthur's right. He's usually right. Mostly." | Anxious chatter, nervous laugh. |
 | `DANIEL_OPT_05` | `BASEMENT_BANG` | reaction · alt `DANIEL_BANG` | "That wasn't me! Pipes. Has to be the pipes. Old building, lots of pipes." | Startled, high and quick. |
 | `DANIEL_OPT_06` | `BASEMENT_BANG` | reaction · alt `DANIEL_BANG` | "Did you hear that? Tell me you heard that. Pipes, right? Say pipes." | Anxious, breathless. |
 | `DANIEL_OPT_07` | `WALL_WHISPER_HEARD` | reaction · alt `DANIEL_WHISPER` | "The wall's muttering again. It's the draught. Just the draught, in the stones." | Quiet, forced cheer, voice thin. |

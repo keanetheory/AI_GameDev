@@ -9,7 +9,7 @@ import re
 from pydantic import BaseModel, ValidationError
 
 from canon import MAX_WORDS_PER_LINE, OPENING_EVENTS, PLAYER_TERM, SHIP_NAMED_FROM
-from schemas import (CrossingBrief, DialogueBrief, HazardForecast, JeffCallSheet, OpeningDialogue,
+from schemas import (CrossingBrief, DialogueBrief, HazardForecast, ArthurCallSheet, OpeningDialogue,
                      ReviewReport)
 
 TIMER_WORDS = re.compile(r"\b(\d+\s*(sec|second|min|minute)s?|timer|countdown|clock)\b", re.I)
@@ -82,26 +82,26 @@ def check_forecast(fc: HazardForecast, brief: CrossingBrief) -> list[str]:
     return errs
 
 
-def check_calls(sheet: JeffCallSheet, fc: HazardForecast, brief: CrossingBrief) -> list[str]:
+def check_calls(sheet: ArthurCallSheet, fc: HazardForecast, brief: CrossingBrief) -> list[str]:
     errs = []
     safe = {s.segment_id: s.safe_lane for s in fc.segments}
     seen = {c.target_segment_id for c in sheet.calls}
     for seg_id in safe:
         if seg_id not in seen:
-            errs.append(f"No Jeff call for {seg_id}; every segment needs one direction call.")
+            errs.append(f"No Arthur call for {seg_id}; every segment needs one direction call.")
     for c in sheet.calls:
         if c.target_segment_id not in safe:
             errs.append(f"{c.call_id} targets unknown segment {c.target_segment_id}.")
             continue
-        if c.call_id != f"JEFF_RET_{c.target_segment_id[-2:]}":
-            errs.append(f"{c.call_id}: ID must be JEFF_RET_{c.target_segment_id[-2:]}.")
+        if c.call_id != f"ARTHUR_RET_{c.target_segment_id[-2:]}":
+            errs.append(f"{c.call_id}: ID must be ARTHUR_RET_{c.target_segment_id[-2:]}.")
         if c.direction != safe[c.target_segment_id]:
             errs.append(f"{c.call_id} says '{c.direction}' but the forecast safe lane for "
-                        f"{c.target_segment_id} is '{safe[c.target_segment_id]}'. Jeff must never disagree.")
-        if c.lead_m < brief.jeff_call_lead_m:
-            errs.append(f"{c.call_id}: lead_m {c.lead_m} is below the brief minimum {brief.jeff_call_lead_m}.")
-        if not c.subtitle.upper().startswith("JEFF:"):
-            errs.append(f"{c.call_id}: subtitle needs speaker attribution 'JEFF: ...'.")
+                        f"{c.target_segment_id} is '{safe[c.target_segment_id]}'. Arthur must never disagree.")
+        if c.lead_m < brief.arthur_call_lead_m:
+            errs.append(f"{c.call_id}: lead_m {c.lead_m} is below the brief minimum {brief.arthur_call_lead_m}.")
+        if not c.subtitle.upper().startswith("ARTHUR:"):
+            errs.append(f"{c.call_id}: subtitle needs speaker attribution 'ARTHUR: ...'.")
         if len(c.line.split()) > 14:
             errs.append(f"{c.call_id}: line too long to shout over a storm (max 14 words).")
         if TIMER_WORDS.search(c.line):
@@ -221,7 +221,7 @@ def check_dialogue(sheet: OpeningDialogue, brief: DialogueBrief) -> list[str]:
             errs.append(f"step {s.step}: at least one objective needs assist_text.")
         if not any(j.step == s.step for j in sheet.journal):
             errs.append(f"step {s.step}: needs a journal entry.")
-    if not any(brief.player_term in ln.text.lower() for ln in sheet.lines):
+    if not any(brief.player_term.lower() in ln.text.lower() for ln in sheet.lines):
         errs.append(f"someone must call the player '{brief.player_term}' at least once.")
     for j in sheet.journal:
         if j.trigger not in events:

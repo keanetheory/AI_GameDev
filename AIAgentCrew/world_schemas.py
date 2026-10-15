@@ -166,7 +166,7 @@ class LightSource(BaseModel):
     behaviour: str = Field(description="Sweep, flicker, hum, failing, relit, and so on")
     godot_node: str = Field(description="Godot node type, e.g. SpotLight3D, OmniLight3D, MeshInstance3D emissive")
     casts_shadow: bool
-    is_navigation_marker: bool = Field(description="Must be false: guidance comes from Jeff and Ted, not markers")
+    is_navigation_marker: bool = Field(description="Must be false: guidance comes from Arthur and Ted, not markers")
 
 
 class BeaconSpec(BaseModel):

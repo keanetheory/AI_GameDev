@@ -5,7 +5,7 @@
   "difficulty_preset": "standard",
   "tuning": {
     "boat_speed_mps": 6.0,
-    "jeff_call_lead_m": 30,
+    "arthur_call_lead_m": 30,
     "route_length_m": 600,
     "waves_enabled": false
   },
@@ -45,13 +45,13 @@
           "route_m": 80
         }
       ],
-      "jeff_call": {
-        "call_id": "JEFF_RET_01",
+      "arthur_call": {
+        "call_id": "ARTHUR_RET_01",
         "target_segment_id": "SEG_01",
         "direction": "centre",
         "lead_m": 35,
         "line": "Hold her straight! Straight down the middle!",
-        "subtitle": "JEFF: Hold her straight! Straight down the middle!",
+        "subtitle": "ARTHUR: Hold her straight! Straight down the middle!",
         "trigger_route_m": 0
       }
     },
@@ -90,13 +90,13 @@
           "route_m": 210
         }
       ],
-      "jeff_call": {
-        "call_id": "JEFF_RET_02",
+      "arthur_call": {
+        "call_id": "ARTHUR_RET_02",
         "target_segment_id": "SEG_02",
         "direction": "left",
         "lead_m": 35,
         "line": "Left! Get us left of that!",
-        "subtitle": "JEFF: Left! Get us left of that!",
+        "subtitle": "ARTHUR: Left! Get us left of that!",
         "trigger_route_m": 85
       }
     },
@@ -135,13 +135,13 @@
           "route_m": 330
         }
       ],
-      "jeff_call": {
-        "call_id": "JEFF_RET_03",
+      "arthur_call": {
+        "call_id": "ARTHUR_RET_03",
         "target_segment_id": "SEG_03",
         "direction": "right",
         "lead_m": 35,
         "line": "Bring her right! Right, now!",
-        "subtitle": "JEFF: Bring her right! Right, now!",
+        "subtitle": "ARTHUR: Bring her right! Right, now!",
         "trigger_route_m": 205
       }
     },
@@ -180,13 +180,13 @@
           "route_m": 450
         }
       ],
-      "jeff_call": {
-        "call_id": "JEFF_RET_04",
+      "arthur_call": {
+        "call_id": "ARTHUR_RET_04",
         "target_segment_id": "SEG_04",
         "direction": "centre",
         "lead_m": 35,
         "line": "Steady, middle! Don't you touch them!",
-        "subtitle": "JEFF: Steady, middle! Don't you touch them!",
+        "subtitle": "ARTHUR: Steady, middle! Don't you touch them!",
         "trigger_route_m": 325
       }
     },
@@ -233,19 +233,19 @@
           "route_m": 576
         }
       ],
-      "jeff_call": {
-        "call_id": "JEFF_RET_05",
+      "arthur_call": {
+        "call_id": "ARTHUR_RET_05",
         "target_segment_id": "SEG_05",
         "direction": "left",
         "lead_m": 35,
         "line": "Hard left, lad! Rocks to starboard!",
-        "subtitle": "JEFF: Hard left, lad! Rocks to starboard!",
+        "subtitle": "ARTHUR: Hard left, lad! Rocks to starboard!",
         "trigger_route_m": 445
       }
     }
   ],
   "arrival_line": {
-    "speaker": "JEFF",
+    "speaker": "ARTHUR",
     "line": "That's the jetty! Go, go, go - don't you wait for me!",
     "event": "RETURN_ARRIVED"
   }

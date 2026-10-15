@@ -5,8 +5,8 @@ name: Coastfolk
 regions: [reg_bracken_isle, reg_gullwater, reg_saltgate, reg_calder_coast]
 inspiration_anchor: 1800s North Sea and British coastal communities (proposed)
 naming_rules:
-  phonetics: plain, everyday English names, often shortened (Ted, Jeff)
-  given_name_samples: [Ted, Jeff, Daniel, Martha, Walt]
+  phonetics: plain, everyday English names, often shortened (Ted, Arthur)
+  given_name_samples: [Ted, Arthur, Daniel, Martha, Walt]
   family_name_samples: [TBD]
   place_name_samples: [Bracken Isle, the Saltgate, the Gullwater]
 palette: ["#1F2A44", "#2F4A34", "#7A2620", "#0E0E10"]
@@ -25,7 +25,7 @@ Stone and mortar built to withstand the weather, like the lighthouse: battered b
 ### Everyday Clothing
 Oilskins, hefty wool jumpers against the cold, and heavy black, oily boots. Individuals are distinguished by the colour of their oilskins and jumpers:
 - Ted wears navy.
-- Jeff wears green.
+- Arthur wears green.
 - Daniel wears red.
 
 ### Armor & Weapons
@@ -49,7 +49,7 @@ Coastfolk are not one uniform people. Locals fall into several factions:
 - [[fac_smugglers]]: slip in and out of Saint Calder past the fortresses
 - [[fac_resistance]]: believe the Flighted are evil
 - [[fac_political_class]]: revere the Flighted but can't communicate with them
-- **Keepers and sailors:** Ted, Jeff, and Daniel
+- **Keepers and sailors:** Ted, Arthur, and Daniel
 
 They prey on and are preyed on by [[fac_city_elite]].
 

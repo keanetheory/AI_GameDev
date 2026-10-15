@@ -1,8 +1,8 @@
 ---
-id: chr_jeff
+id: chr_arthur
 type: character
-name: Jeff
-pronunciation: JEFF
+name: Arthur
+pronunciation: ARTHUR
 role: companion
 age: TBD
 culture: cul_coastfolk
@@ -14,10 +14,10 @@ palette: ["#2F4A34", "#0E0E10"]
 status: locked
 ---
 
-# Jeff
+# Arthur
 
 ## Summary
-A local whose boat was caught in the storm along with Daniel's. The player opens the gate to let them shelter at the lighthouse. Jeff joins the player on the steam launch and guides the crossing.
+A local whose boat was caught in the storm along with Daniel's. The player opens the gate to let them shelter at the lighthouse. Arthur joins the player on the steam launch and guides the crossing.
 
 ## Appearance
 - **build:** slim, old
@@ -69,7 +69,7 @@ TBD.
 | [[chr_ted]] | TBD | |
 
 ## Story Hooks
-- Why were Jeff and Daniel out on the water in eclipse season?
+- Why were Arthur and Daniel out on the water in eclipse season?
 
 ## Asset Prompts
 - **portrait:** "1800s coastal sailor, weathered face, green oilskin coat over a green heavy wool jumper, wry expression, soaked by rain, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, muted palette"

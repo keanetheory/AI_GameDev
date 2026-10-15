@@ -28,7 +28,7 @@ class CrossingBrief(BaseModel):
     crossing_id: Literal["RETURN"]
     difficulty_preset: Literal["assist", "standard"]
     boat_speed_mps: float = Field(gt=0, description="Fixed tuning value, not a player control")
-    jeff_call_lead_m: int = Field(ge=10, description="Minimum warning distance for Jeff's calls")
+    arthur_call_lead_m: int = Field(ge=10, description="Minimum warning distance for Arthur's calls")
     allowed_hazards: list[HazardType]
     segments: list[SegmentBrief] = Field(min_length=3, max_length=8)
     constraints: list[str]
@@ -57,18 +57,18 @@ class HazardForecast(BaseModel):
     segments: list[SegmentForecast]
 
 
-# ---------- Agent 3: Dialogue agent -> JeffCallSheet ----------
-class JeffCall(BaseModel):
-    call_id: str = Field(pattern=r"^JEFF_RET_\d{2}$")
+# ---------- Agent 3: Dialogue agent -> ArthurCallSheet ----------
+class ArthurCall(BaseModel):
+    call_id: str = Field(pattern=r"^ARTHUR_RET_\d{2}$")
     target_segment_id: str = Field(pattern=r"^SEG_\d{2}$")
     direction: Lane = Field(description="Must equal the forecast's safe_lane for the target segment")
     lead_m: int = Field(description="Metres before the target segment starts that the call fires")
-    line: str = Field(description="Jeff's spoken line, coarse seaman voice")
-    subtitle: str = Field(description="Subtitle text with speaker attribution, e.g. 'JEFF: ...'")
+    line: str = Field(description="Arthur's spoken line, coarse seaman voice")
+    subtitle: str = Field(description="Subtitle text with speaker attribution, e.g. 'ARTHUR: ...'")
 
 
-class JeffCallSheet(BaseModel):
-    calls: list[JeffCall]
+class ArthurCallSheet(BaseModel):
+    calls: list[ArthurCall]
     arrival_line: str = Field(description="Played on arrival at the lighthouse jetty")
 
 
@@ -89,7 +89,7 @@ class ReviewReport(BaseModel):
 
 
 # ================= Opening dialogue task (Dialogue agent) =================
-SpeakerId = Literal["TED", "JEFF", "DANIEL"]
+SpeakerId = Literal["TED", "ARTHUR", "DANIEL"]
 LineKind = Literal["intro", "setting", "objective", "reaction", "nudge", "discovery"]
 
 
@@ -124,7 +124,7 @@ class DialogueBrief(BaseModel):
 
 # ---------- Dialogue agent -> OpeningDialogue ----------
 class DialogueLine(BaseModel):
-    line_id: str = Field(pattern=r"^(TED|JEFF|DANIEL)_[A-Z0-9]+_[A-Za-z0-9]+$")
+    line_id: str = Field(pattern=r"^(TED|ARTHUR|DANIEL)_[A-Z0-9]+_[A-Za-z0-9]+$")
     step: int = Field(ge=0, le=3)
     beat: str
     speaker: SpeakerId

@@ -35,7 +35,7 @@ game = load(RUN / "dialogue_opening.json")
 final_review = load(RUN / "handoffs" / "03_dialogue_review.json")
 brief = load(RUN / "handoffs" / "01_dialogue_brief.json")
 lines = game["lines"]
-spk = {k: sum(1 for x in lines if x["speaker"] == k) for k in ("TED", "JEFF", "DANIEL")}
+spk = {k: sum(1 for x in lines if x["speaker"] == k) for k in ("TED", "ARTHUR", "DANIEL")}
 groups = len({x["group"] for x in lines if x.get("group")})
 ladders = sum(1 for e in game["events"] if e["event_id"].startswith("IDLE"))
 assert not (OFFLINE / "negative_test_max12_words" / "dialogue_opening.json").exists()
@@ -76,7 +76,7 @@ CATS = [("did not match", "reply was not valid JSON"), ("unknown trigger", "unkn
         ("apprentice", "says 'apprentice'"), ("lad, lass", "gendered address"),
         ("names the ship", "ship named too early"), ("lamp head", "says 'lamp head'"),
         ("words (max", "over the word limit"), ("timer, deadline", "timer or number"),
-        ("supernatural", "confirms supernatural"), ("at least once", "'the new guy' unused"),
+        ("supernatural", "confirms supernatural"), ("at least once", "'Isaac' unused"),
         ("events must be exactly", "invented event IDs"), ("does not match event", "step differs from event"),
         ("says 'all", "miscounted lines"), ("alternates", "alternate groups")]
 
@@ -243,7 +243,7 @@ bullets(AX + 16, Y0 + 52, ["Dialogue options from the GDD", "and the Lore Build 
                            "steps: coal, sailors, burner", "Follow the Agent Crew's style", "Godot 4 files + illustration"], 12.5, SILVER, 21)
 box(AX, Y0 + 210, AW, 142, GOLD)
 t(AX + 14, Y0 + 236, "Request 2", 15, CREAM, SERIF, "bold")
-bullets(AX + 16, Y0 + 262, ["Call the player \u201cthe new guy\u201d", "Ted's position is fine", "Visualise the pathway"], 12.5, SILVER, 21)
+bullets(AX + 16, Y0 + 262, ["Call the player \u201cIsaac\u201d", "Ted's position is fine", "Visualise the pathway"], 12.5, SILVER, 21)
 box(AX, Y0 + 366, AW, 220, AMBER, sw=3)
 t(AX + 14, Y0 + 392, "Request 3", 15, CREAM, SERIF, "bold")
 bullets(AX + 16, Y0 + 418, ["Add a Dialogue task to storm_crew", "Reuse the same checks, rerun it", "live with the Anthropic API key", "Then visualise the pathway"], 12.5, SILVER, 21)
@@ -256,7 +256,7 @@ bh = [92, 128, 138, 120]
 by = [Y0, Y0 + 106, Y0 + 248, Y0 + 400]
 srcs = [
     ("GDD", AMBER, ["Exec Summary: step table", "ship reveal at boarding", "player never speaks"]),
-    ("Lore Build", SILVER, ["Ted, Jeff, Daniel, player files", "style guide, pillars", "regions, steam power, coastfolk"]),
+    ("Lore Build", SILVER, ["Ted, Arthur, Daniel, player files", "style guide, pillars", "regions, steam power, coastfolk"]),
     ("Agent Crew (reused)", GOLD, ["roles.py: Dialogue agent", "schemas.py + validators.py", "TIMER_WORDS, 'SPEAKER:' subtitles", "guardrail + retry pattern"]),
     ("canon.py (new block)", AMBER, [f"{len(brief['speakers'])} voices, {len(brief['steps'])} steps", f"{len(brief['events'])} event IDs", f"{len(brief['constraints'])} dialogue rules"]),
 ]
@@ -333,7 +333,7 @@ bullets(DX + 16, yy2 + 30, ["no dialogue_opening.json", "only REPORT.md says why
 box(EX, Y0, EW, 300, AMBER, sw=3)
 t(EX + 14, Y0 + 26, "Files written", 15, CREAM, SERIF, "bold")
 pill(EX + 14, Y0 + 36, 200, f"status: {status}", PASS if status == "proposed" else BLOCK, size=11.5, h=22)
-files = [("dialogue_opening.json", f"{len(lines)} lines (Ted {spk['TED']}, Jeff {spk['JEFF']}, Daniel {spk['DANIEL']})"),
+files = [("dialogue_opening.json", f"{len(lines)} lines (Ted {spk['TED']}, Arthur {spk['ARTHUR']}, Daniel {spk['DANIEL']})"),
          ("DIALOGUE_OPENING.md", "review list for the creator"), ("run_log.json", f"{len(log)} guardrail attempts"),
          ("HANDOFF.md + REPORT.md", "fixed-format notes"), ("handoffs/*.json", "each agent's output, per round")]
 for i, (n, d) in enumerate(files):

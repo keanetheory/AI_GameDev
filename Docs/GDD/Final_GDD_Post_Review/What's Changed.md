@@ -19,7 +19,7 @@ At a glance
 |Engine confirmed (Godot 4)     |     ✔      |        ✔         |        ✔        |
 |Handoff format (HANDOFF.md)    |            |                  |        ✔        |
 
-Not changed in any document: the four pillars’ intent, the scope rule, waves as a stretch goal, the one-control fixed-speed boat, and Jeff as the only crossing companion.
+Not changed in any document: the four pillars’ intent, the scope rule, waves as a stretch goal, the one-control fixed-speed boat, and Arthur as the only crossing companion.
 
 ---
 
@@ -28,8 +28,8 @@ Not changed in any document: the four pillars’ intent, the scope rule, waves a
 File: Final_GDD_Post_Review/Exec Summary.md
 
 Story and cast
-• Crash removed. The rowboat no longer crashes. Jeff and Daniel, overwhelmed by the storm, moor on the island looking for shelter. Ted sees them from the window and tells the player to open the island gate (the same gate as before). Step 2 is renamed “Shelter and gate”.
-• Jeff. Motivation added: he has realised the storm is getting nasty and wants to stop the ship being wrecked. After the second crossing he tells the player to go on without him (“go go go, don’t wait for me”). His reaction to the outcome is not recorded.
+• Crash removed. The rowboat no longer crashes. Arthur and Daniel, overwhelmed by the storm, moor on the island looking for shelter. Ted sees them from the window and tells the player to open the island gate (the same gate as before). Step 2 is renamed “Shelter and gate”.
+• Arthur. Motivation added: he has realised the storm is getting nasty and wants to stop the ship being wrecked. After the second crossing he tells the player to go on without him (“go go go, don’t wait for me”). His reaction to the outcome is not recorded.
 • Daniel. Goes to the basement and stays there. His reaction to the outcome is not recorded.
 • Ted (Decision E). Presence to be locked by the end of week 3. He is staged at the lamp for the final repair and for both outcomes, with voice and position only (no separate cutscene). He also names the ship at the boarding threshold.
 • Apprentice. Stated explicitly as never speaking, so others give the moral beat.
@@ -74,7 +74,7 @@ Milestones and gates
 Six-week schedule (Issue: week 4 overloaded)
 • Week 2. Adds the hazard forecast to the feel work.
 • Week 3. Adds docking and disembarking; Ted’s presence must be locked by the end of this week.
-• Week 4. Rebalanced: one repair, window and gate, Jeff’s calls, return-crossing clock trigger, plus a first deadline tuning pass with an outside tester. The second repair is moved out.
+• Week 4. Rebalanced: one repair, window and gate, Arthur’s calls, return-crossing clock trigger, plus a first deadline tuning pass with an outside tester. The second repair is moved out.
 • Week 5. Now holds the second repair, the deadline, the fail-state presentation, the lamp-room sightline and Ted’s lamp voice lines. A risk note says this week is heavily loaded and that the creator, not an agent, decides what gives.
 • Week 6. Unchanged.
 

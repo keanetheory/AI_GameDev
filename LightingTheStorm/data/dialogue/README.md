@@ -1,6 +1,6 @@
 # Opening dialogue data (Godot 4)
 
-Ted, Jeff and Daniel lines for steps 1-3 of the Gate 1 slice, as data with stable IDs, in the same style as the Agent Crew's `return_crossing.json` (`JEFF_RET_*`). Status is **proposed**: the creator approves voice and lore before recording.
+Ted, Arthur and Daniel lines for steps 1-3 of the Gate 1 slice, as data with stable IDs, in the same style as the Agent Crew's `return_crossing.json` (`ARTHUR_RET_*`). Status is **proposed**: the creator approves voice and lore before recording.
 
 | File | Purpose |
 |---|---|
@@ -9,7 +9,7 @@ Ted, Jeff and Daniel lines for steps 1-3 of the Gate 1 slice, as data with stabl
 | `Agent Crew/.../main_dialogue.py` | Generates and validates this JSON through three CrewAI agents |
 | `../../tools/build_illustration.py` | Draws the assignment illustration from the JSON |
 
-The JSON is written by the **Opening Dialogue Crew** (`Agent Crew/storm_crew/storm_crew/main_dialogue.py`), whose guardrails reject any line that breaks a rule (over 22 words, a timer word or number, 'apprentice' instead of 'the new guy', an early mention of the ship, a broken nudge ladder and more). Regenerate with `python main_dialogue.py --offline --godot-dir <this project>`. `tools/build_dialogue.py` is the superseded first draft script and needs `--force`.
+The JSON is written by the **Opening Dialogue Crew** (`Agent Crew/storm_crew/storm_crew/main_dialogue.py`), whose guardrails reject any line that breaks a rule (over 22 words, a timer word or number, 'apprentice' instead of 'Isaac', an early mention of the ship, a broken nudge ladder and more). Regenerate with `python main_dialogue.py --offline --godot-dir <this project>`. `tools/build_dialogue.py` is the superseded first draft script and needs `--force`.
 
 ## Using it in Godot 4
 
@@ -37,7 +37,7 @@ With `auto_advance` on, each line lasts an estimated reading time. For real voic
 
 ## Line fields
 
-`line_id`, `step` (0 = optional), `beat`, `speaker` (`TED`/`JEFF`/`DANIEL`), `kind`, `trigger` (event ID), `text`, `subtitle` (`"TED: ..."`), `delivery` (voice direction), `pause_before`, `once`. Optional: `group` (alternates: one is picked at random), `tier` (nudge level), `assist_text`, `journal_id`, `staging`, `note`.
+`line_id`, `step` (0 = optional), `beat`, `speaker` (`TED`/`ARTHUR`/`DANIEL`), `kind`, `trigger` (event ID), `text`, `subtitle` (`"TED: ..."`), `delivery` (voice direction), `pause_before`, `once`. Optional: `group` (alternates: one is picked at random), `tier` (nudge level), `assist_text`, `journal_id`, `staging`, `note`.
 
 ## Not tested in the engine
 

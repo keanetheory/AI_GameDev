@@ -132,7 +132,7 @@ class OfflineWorldLLM(BaseLLM):
                     [(0, 0.0, "Leave the lighthouse jetty"), (500, -6.0, "Clear the island reef"),
                      (1000, 4.0, "Open Gullwater, rocks to the right"), (1500, 0.0, "Saltgate quays")]),
                 leg("RETURN", "DOCK_PORT", "DOCK_LIGHTHOUSE", "RET",
-                    "Roaring storm, rocks closing in, Jeff shouting directions over the wind.",
+                    "Roaring storm, rocks closing in, Arthur shouting directions over the wind.",
                     [(0, 0.0, "Leave the quays with the burner"), (500, 5.0, "Rocks and buoys"),
                      (1000, -4.0, "Narrows under Bracken Isle"), (1500, 0.0, "Lighthouse jetty")]),
             ],
@@ -155,7 +155,7 @@ class OfflineWorldLLM(BaseLLM):
             ],
             "open_creator_decisions": [
                 "Whether the earlier return-crossing data (6 m/s) should be regenerated at the confirmed 3 m/s.",
-                "Whether Jeff, as a passenger, moves around the boat while it is steered.",
+                "Whether Arthur, as a passenger, moves around the boat while it is steered.",
             ],
         }
 

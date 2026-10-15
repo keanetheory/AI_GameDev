@@ -3,7 +3,7 @@
   "crossing_id": "RETURN",
   "difficulty_preset": "standard",
   "boat_speed_mps": 6.0,
-  "jeff_call_lead_m": 30,
+  "arthur_call_lead_m": 30,
   "allowed_hazards": [
     "rock",
     "reef",

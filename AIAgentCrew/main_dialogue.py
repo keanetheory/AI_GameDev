@@ -20,8 +20,8 @@ from schemas import DialogueBrief, OpeningDialogue, ReviewReport
 DEFAULT_GOAL = (
     "Write the opening dialogue for the Gate 1 slice. Ted introduces the setting and what the player must do "
     "at each step: 1) load coal into the basement boiler for the light, 2) let the stranded sailors in through "
-    "the gate, 3) retrieve the replacement burner for the beacon. Include Jeff and Daniel. Call the player "
-    "'the new guy'."
+    "the gate, 3) retrieve the replacement burner for the beacon. Include Arthur and Daniel. Call the player "
+    "'Isaac'."
 )
 
 

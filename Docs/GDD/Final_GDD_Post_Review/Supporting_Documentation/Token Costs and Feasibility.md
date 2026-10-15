@@ -46,7 +46,7 @@ Prototype (10 minutes, 6 weeks)
 |Stretch: wave hazards, only if time allows  |15   |
 |Greybox levels and sightlines               |20   |
 |Interaction, repair, crash and gate         |30   |
-|Jeff’s cues and placeholder dialogue        |20   |
+|Arthur’s cues and placeholder dialogue        |20   |
 |State machine, deadline, endings and save   |20   |
 |Lighting, weather and audio integration     |30   |
 |Bug fixing and integration                  |40   |
@@ -124,7 +124,7 @@ Verdict: achievable in 6 weeks, with moderate confidence, if all of these hold:
 • You reserve week 6 for playtests with 3–5 new players and fixes.
 • Wave hazards stay a stretch goal. The crossings are built around rocks, buoys, and debris, which removes the hardest technical work (wave shader and matching buoyancy) from the critical path. If waves are not built, the 15 stretch tasks above are saved (about $30).
 
-Schedule: follow the six-week prototype schedule in Technical Strategy, which is the single source of truth. In short: week 1 setup, boat and hazards; week 2 steering go/no-go; week 3 both crossings; week 4 repair, crash, gate and Jeff; week 5 deadline and outcomes; week 6 playtests. Waves fit only into spare time from week 5 onwards.
+Schedule: follow the six-week prototype schedule in Technical Strategy, which is the single source of truth. In short: week 1 setup, boat and hazards; week 2 steering go/no-go; week 3 both crossings; week 4 repair, crash, gate and Arthur; week 5 deadline and outcomes; week 6 playtests. Waves fit only into spare time from week 5 onwards.
 
 Full game: not feasible in 6 weeks
 
@@ -134,7 +134,7 @@ A shippable full game means a 30-minute commercial Steam release with final art,
 |------------------------------------------------------------|-------|
 |Prototype                                                   |6      |
 |Remaining repairs, outpost exploration, discoveries         |3      |
-|Art: three locations, props, boat, and Ted, Jeff and Daniel models and animation|6–8|
+|Art: three locations, props, boat, and Ted, Arthur and Daniel models and animation|6–8|
 |Audio and voice                                             |2      |
 |Dialogue writing and recording (or AI voice)                |1–2    |
 |Lighting, weather polish and performance                    |2      |

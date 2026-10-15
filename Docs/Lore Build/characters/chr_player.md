@@ -19,7 +19,7 @@ status: locked
 ## Summary
 - Works at the Bracken Isle lighthouse under Ted.
 - **Starting task:** stokes the engine with coal, then discovers the beacon's lamp head is broken.
-- **Early choice:** opens the gate for Jeff and Daniel.
+- **Early choice:** opens the gate for Arthur and Daniel.
 - **Main objective:** crosses the Gullwater to the Saltgate for a replacement and races the storm back before the passenger ship hits the reef.
 
 ## Appearance
