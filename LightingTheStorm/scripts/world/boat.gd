@@ -153,12 +153,12 @@ func _sail(delta: float) -> void:
 			_trail.pop_front()
 	# Entering a zone other than the one we just left starts auto-docking. Berths that share a zone_id
 	# (the two in the lighthouse harbour) count as one place: none of them catches the boat until it
-	# has cleared them all, and coming back it ties up at the nearest.
+	# has cleared them all (berths and entrances), and coming back it ties up at the nearest.
 	var zones := get_tree().get_nodes_in_group("dock_zone")
 	if _leave_zone:
 		var clear := true
 		for zone in zones:
-			if zone.zone_id == _leave_zone.zone_id and _capture_distance(zone) <= zone.radius + 2.0:
+			if zone.zone_id == _leave_zone.zone_id and minf(_flat_distance(zone), _capture_distance(zone)) <= zone.radius + 2.0:
 				clear = false
 		if clear:
 			_leave_zone = null
@@ -179,17 +179,18 @@ func _dock(delta: float) -> void:
 	rotation.y = lerp_angle(rotation.y, deg_to_rad(current_zone.berth_yaw_deg), 1.0 - exp(-1.5 * delta))
 	var yaw_err := absf(angle_difference(rotation.y, deg_to_rad(current_zone.berth_yaw_deg)))
 	# With an entrance: first to the entrance, then (once turned to the berth heading) straight in.
-	var goal: Vector3 = current_zone.global_position if _at_entrance else current_zone.entrance
+	var heading_in := _at_entrance        # past the entrance (or none): the goal is the berth itself
+	var goal: Vector3 = current_zone.global_position if heading_in else current_zone.entrance
 	var berth := Vector3(goal.x, global_position.y, goal.z)
 	var to_berth := berth - global_position
 	var dist := to_berth.length()
-	if not _at_entrance and dist < 0.3:
+	if not heading_in and dist < 0.3:
 		_at_entrance = true
 	var hold: bool = _at_entrance and current_zone.entrance != Vector3.ZERO and yaw_err > 0.2
 	var step := 0.0 if hold else minf(dock_approach_speed, dist * 0.7 + 0.15) * delta   # slows as it nears the berth
 	velocity = to_berth.normalized() * (step / delta) if dist > 0.01 else Vector3.ZERO
 	global_position += to_berth.normalized() * minf(step, dist)
-	if _at_entrance and dist < 0.1 and yaw_err < 0.02:
+	if heading_in and dist < 0.1 and yaw_err < 0.02:
 		velocity = Vector3.ZERO
 		state = State.DOCKED
 		docked.emit(current_zone.zone_id)

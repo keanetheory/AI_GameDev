@@ -22,11 +22,17 @@ extends Node3D
 ## Boxes (in this node's local space) whose triangles are removed before collision is built,
 ## e.g. to cut a generated dock out of an island so a better one can replace it.
 @export var carve_boxes: Array[AABB] = []
-## Thin walls to cut out along a line, for generated walls that run at an angle through things that must
-## stay (a box would take a bite out of them). Consecutive pairs of points are the ends of each line (this
-## node's local space); triangles within carve_line_half_width of a line, and above the lower end's y, go.
+## Strips to cut out along a line: generated walls that run at an angle through things that must stay
+## (a box would take a bite out of them), or a corridor for stairs. Consecutive pairs of points are the
+## ends of each line (this node's local space); triangles within the half width of a line and above its
+## floor go. The floor runs from one end's y to the other's, so a line can follow a slope.
 @export var carve_lines: PackedVector3Array = PackedVector3Array()
 @export var carve_line_half_width := 0.6
+## Half width for each line in carve_lines (one per pair of points); lines without one use carve_line_half_width.
+@export var carve_line_half_widths: PackedFloat32Array = PackedFloat32Array()
+## When set, only the triangles inside these boxes (this node's local space) are kept: a piece of a model
+## reused on its own, e.g. a patch of the island's cliff face moved over a gap in the rock.
+@export var keep_boxes: Array[AABB] = []
 ## Boxes (in this node's local space) inside which vertices above the box floor (position.y) are pressed
 ## down onto it, e.g. so the island's boulders sink into the ground instead of poking through a
 ## building. Outside each box the push fades out over flatten_falloff metres, so rocks taper down.
@@ -53,7 +59,7 @@ func _ready() -> void:
 		var mi := node as MeshInstance3D
 		if not flatten_boxes.is_empty() or press_path.size() >= 2:
 			_flatten(mi)
-		if not carve_boxes.is_empty() or carve_lines.size() >= 2:
+		if not carve_boxes.is_empty() or carve_lines.size() >= 2 or not keep_boxes.is_empty():
 			_carve(mi)
 		if solid and not Engine.is_editor_hint():
 			if collision_kind == 1:
@@ -191,6 +197,12 @@ func _carve(mi: MeshInstance3D) -> void:
 		for t in range(0, idx.size(), 3):
 			var c := to_local * ((verts[idx[t]] + verts[idx[t + 1]] + verts[idx[t + 2]]) / 3.0)
 			var inside := false
+			if not keep_boxes.is_empty():
+				inside = true
+				for box in keep_boxes:
+					if box.has_point(c):
+						inside = false
+						break
 			for box in carve_boxes:
 				if box.has_point(c):
 					inside = true
@@ -200,12 +212,13 @@ func _carve(mi: MeshInstance3D) -> void:
 					break
 				var a := carve_lines[i]
 				var b := carve_lines[i + 1]
-				if c.y < minf(a.y, b.y):
-					continue
 				var ab := Vector2(b.x - a.x, b.z - a.z)
 				var ac := Vector2(c.x - a.x, c.z - a.z)
 				var along := clampf(ac.dot(ab) / maxf(ab.length_squared(), 1e-9), 0.0, 1.0)
-				inside = ac.distance_to(ab * along) < carve_line_half_width
+				if c.y < lerpf(a.y, b.y, along):
+					continue
+				var half := carve_line_half_widths[i / 2] if i / 2 < carve_line_half_widths.size() else carve_line_half_width
+				inside = ac.distance_to(ab * along) < half
 			if inside:
 				removed += 1
 			else:

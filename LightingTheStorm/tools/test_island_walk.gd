@@ -1,15 +1,15 @@
 # test_island_walk.gd - run: Godot --headless --path . --script res://tools/test_island_walk.gd
 # Walks the player along routes on the craggy island (island_craggy.glb), from the dock_harbour jetties up the
-# stone stairs to the plateau, on to the lighthouse and back down. Reports for each route whether the player got to the
+# HarbourStairs (stone_stairs.gd) to the plateau, on to the lighthouse and back down. Reports for each route whether the player got to the
 # end, how high they climbed and how long they spent off the floor (falling or stuck on a ledge).
 extends SceneTree
 
 # Each route: name, then world-space waypoints (y is ignored; the player starts 1.5 m above the first one).
 const ROUTES := [
-	["north jetty -> back quay -> stone stairs -> plateau", [Vector3(-27.0, 1.5, 14.7), Vector3(-18.6, 0, 14.7), Vector3(-18.4, 0, 19.6), Vector3(-17.4, 0, 19.6), Vector3(-16.9, 0, 17.0), Vector3(-16.8, 0, 13.0), Vector3(-15.6, 0, 10.5), Vector3(-13.5, 0, 8.0), Vector3(-9.0, 0, 6.0)]],
-	["south jetty -> back quay -> stone stairs", [Vector3(-27.0, 1.5, 26.3), Vector3(-18.6, 0, 26.3), Vector3(-18.4, 0, 19.6), Vector3(-17.4, 0, 19.6), Vector3(-16.9, 0, 16.0)]],
+	["north jetty -> back quay -> stone stairs -> plateau", [Vector3(-27.0, 1.5, 14.7), Vector3(-19.0, 0, 14.7), Vector3(-19.0, 0, 25.5), Vector3(-16.25, 0, 25.5), Vector3(-16.25, 0, 16.8), Vector3(-16.25, 0, 9.0), Vector3(-13.0, 0, 8.5), Vector3(-9.0, 0, 6.0)]],
+	["south jetty -> back quay -> stone stairs landing", [Vector3(-27.0, 1.5, 26.3), Vector3(-19.0, 0, 26.3), Vector3(-19.0, 0, 25.5), Vector3(-16.25, 0, 25.5), Vector3(-16.25, 0, 16.8)]],
 	["plateau -> lighthouse", [Vector3(-9.0, 10.0, 6.0), Vector3(2.0, 0, 10.0), Vector3(5.0, 0, 6.5)]],
-	["plateau -> stone stairs -> back quay -> north jetty", [Vector3(-9.0, 10.0, 6.0), Vector3(-13.5, 0, 8.0), Vector3(-15.6, 0, 10.5), Vector3(-16.8, 0, 13.0), Vector3(-16.9, 0, 17.0), Vector3(-17.4, 0, 19.6), Vector3(-18.4, 0, 19.6), Vector3(-18.6, 0, 14.7), Vector3(-26.0, 0, 14.7)]],
+	["plateau -> stone stairs -> back quay -> north jetty", [Vector3(-9.0, 10.0, 6.0), Vector3(-13.0, 0, 8.5), Vector3(-16.25, 0, 9.0), Vector3(-16.25, 0, 16.8), Vector3(-16.25, 0, 25.7), Vector3(-17.3, 0, 25.7), Vector3(-19.0, 0, 25.7), Vector3(-19.0, 0, 14.7), Vector3(-26.0, 0, 14.7)]],
 ]
 
 var _lv: Node

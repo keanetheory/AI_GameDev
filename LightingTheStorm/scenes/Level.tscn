@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b601q1u1ked8s"]
+[gd_scene load_steps=13 format=3 uid="uid://b601q1u1ked8s"]
 
 [ext_resource type="Script" path="res://scripts/world/collider_builder.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/world/sea.gd" id="2"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/world/mainland.gd" id="6"]
 [ext_resource type="Script" path="res://scripts/world/flag.gd" id="7"]
 [ext_resource type="Script" path="res://scripts/world/boardwalk.gd" id="8"]
+[ext_resource type="Script" path="res://scripts/world/stone_stairs.gd" id="9"]
 
 [sub_resource type="ProceduralSkyMaterial" id="sky"]
 sky_top_color = Color(0.12, 0.15, 0.2, 1)
@@ -49,16 +50,49 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.2, 0)
 script = ExtResource("1")
 model_path = "res://Assets/Models/island/island_craggy.glb"
 body_layers = 3
-carve_boxes = Array[AABB]([AABB(-40.5, 0.85, 12, 7.3, 5, 9.8), AABB(-41, 0.85, 12.4, 22.2, 12.35, 17.6), AABB(-18.8, 0.85, 22.5, 4, 12.35, 12.5), AABB(-22, 0.85, 30, 3.2, 12.35, 5), AABB(-15.5, 0.85, 23.2, 3.9, 12.35, 4.4), AABB(-18.8, 3.4, 15, 0.8, 1.6, 2.5)])
+carve_boxes = Array[AABB]([AABB(-40.5, 0.85, 12, 7.3, 5, 9.8), AABB(-41, 0.85, 12.4, 22.2, 12.35, 17.6), AABB(-18.8, 0.85, 22.5, 4, 12.35, 12.5), AABB(-22, 0.85, 30, 3.2, 12.35, 5), AABB(-15.5, 0.85, 23.2, 3.9, 12.35, 4.4), AABB(-19.9, 3.2, 12.2, 2.65, 12, 9)])
 carve_lines = PackedVector3Array(-15.2, 0.85, 24.9, -11.8, 0.85, 21.9, -11.8, 0.85, 21.9, -10.2, 0.85, 26.4, -10.2, 0.85, 26.4, -15.4, 0.85, 30.5, -12.4, 0.85, 22.6, -11.8, 0.85, 26.6, -10.8, 0.85, 25.6, -16, 0.85, 29.7)
 carve_line_half_width = 0.8
+carve_line_half_widths = PackedFloat32Array()
 flatten_boxes = Array[AABB]([AABB(-10, 10.9, -22, 30, 12, 27)])
-press_path = PackedVector3Array(-17.4, 2.26, 19.6, -17.32, 2.48, 19.11, -17.24, 2.76, 18.61, -17.15, 3.02, 18.12, -17.07, 3.28, 17.63, -16.99, 3.6, 17.13, -16.91, 3.93, 16.64, -16.82, 4.31, 16.15, -16.8, 4.63, 15.75, -16.8, 5.02, 15.25, -16.8, 5.17, 14.75, -16.8, 5.24, 14.25, -16.8, 5.29, 13.75, -16.8, 5.55, 13.25, -16.69, 5.76, 12.77, -16.48, 6.15, 12.32, -16.26, 6.55, 11.87, -16.04, 6.94, 11.42, -15.83, 7.33, 10.97, -15.61, 7.72, 10.52, -15.44, 7.93, 10.31, -15.12, 8.32, 9.93, -14.8, 8.71, 9.54, -14.47, 9.1, 9.16, -14.15, 9.49, 8.78, -13.83, 9.88, 8.39, -13.51, 10.27, 8.01, -13.29, 10.48, 7.87, -12.86, 10.7, 7.61, -12.43, 10.74, 7.36, -12, 10.8, 7.1, -11.57, 10.86, 6.84, -11.14, 10.89, 6.59, -11, 10.93, 6.5)
+press_path = PackedVector3Array()
+
+[node name="RockPatchSE" type="Node3D" parent="."]
+transform = Transform3D(0, 0, 1.4, 0, 1.4, 0, -1.4, 0, 0, -3.42, -1.66, -17.02)
+script = ExtResource("1")
+model_path = "res://Assets/Models/island/island_craggy.glb"
+body_layers = 3
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
+keep_boxes = Array[AABB]([AABB(-31.5, 0.9, -8.6, 6, 10, 4.2)])
+press_path = PackedVector3Array()
+
+[node name="RockPatchSE2" type="Node3D" parent="."]
+transform = Transform3D(0, 0, 0.9, 0, 0.9, 0, -0.9, 0, 0, -4.22, -1.21, -0.47)
+script = ExtResource("1")
+model_path = "res://Assets/Models/island/island_craggy.glb"
+body_layers = 3
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
+keep_boxes = Array[AABB]([AABB(-31.5, 0.9, -8.6, 6, 10, 4.2)])
+press_path = PackedVector3Array()
+
+[node name="RockPatchNE" type="Node3D" parent="."]
+transform = Transform3D(-0.85, 0, 0, 0, 0.85, 0, 0, 0, -0.85, -43.26, 0.93, 6.13)
+script = ExtResource("1")
+model_path = "res://Assets/Models/island/island_craggy.glb"
+body_layers = 3
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
+keep_boxes = Array[AABB]([AABB(-31.5, 0.9, -8.6, 6, 10, 4.2)])
+press_path = PackedVector3Array()
 
 [node name="Lighthouse" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 9.61, -8.5)
 script = ExtResource("1")
 model_path = "res://Assets/Models/lighthouse/lighthouse_exterior_v3.glb"
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="DockZoneLighthouse" type="Marker3D" parent="."]
@@ -83,6 +117,15 @@ script = ExtResource("1")
 model_path = "res://Assets/Models/dock/dock_harbour.glb"
 body_layers = 3
 tint = Color(0.78, 0.8, 0.88, 1)
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
+press_path = PackedVector3Array()
+
+[node name="HarbourStairs" type="Node3D" parent="."]
+script = ExtResource("9")
+points = PackedVector3Array(-16.25, 2.05, 26, -16.25, 2.05, 24, -16.25, 6.05, 17.5, -16.25, 6.05, 16, -16.25, 10.05, 9.5, -16.25, 10.05, 8.5)
+walls = PackedInt32Array(2, 3, 3, 3, 1)
+start_wall = true
 
 [node name="DockZonePort" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.15, 527)
@@ -100,12 +143,16 @@ speed = 10.0
 script = ExtResource("1")
 model_path = "res://Assets/Models/boat/boat_launch.glb"
 solid = false
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="Saltgate" type="Node3D" parent="."]
 transform = Transform3D(0.839563, 0, 0.543262, 0, 1, 0, -0.543262, 0, 0.839563, 15, -1.6, 549.855)
 script = ExtResource("1")
 model_path = "res://Assets/Models/saltgate/saltgate_quay.glb"
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="SaltgateWest" type="Node3D" parent="."]
@@ -113,6 +160,8 @@ transform = Transform3D(0.927184, 0, -0.374607, 0, 1, 0, 0.374607, 0, 0.927184, 
 script = ExtResource("1")
 model_path = "res://Assets/Models/saltgate/saltgate_quay.glb"
 body_layers = 3
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="SaltgateEast" type="Node3D" parent="."]
@@ -120,6 +169,8 @@ transform = Transform3D(0.71934, 0, -0.694658, 0, 1, 0, 0.694658, 0, 0.71934, 10
 script = ExtResource("1")
 model_path = "res://Assets/Models/saltgate/saltgate_quay.glb"
 body_layers = 3
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="SaltgateFlag" type="Node3D" parent="."]
@@ -150,6 +201,8 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="CliffWall2" type="Node3D" parent="Cliffs"]
@@ -159,6 +212,8 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="CliffWall3" type="Node3D" parent="Cliffs"]
@@ -168,6 +223,8 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="CliffWall4" type="Node3D" parent="Cliffs"]
@@ -177,6 +234,8 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="CliffWall5" type="Node3D" parent="Cliffs"]
@@ -186,6 +245,8 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="CliffWall6" type="Node3D" parent="Cliffs"]
@@ -195,6 +256,8 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="CliffWall7" type="Node3D" parent="Cliffs"]
@@ -204,6 +267,8 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="Headland1" type="Node3D" parent="Cliffs"]
@@ -213,24 +278,19 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_headland.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="Headland2" type="Node3D" parent="Cliffs"]
-transform = Transform3D(0.4096, 0, -0.2868, 0, 1.4, 0, 0.2868, 0, 0.4096, 262, -3, 538)
+transform = Transform3D(-0.396211, 0, -0.30503, 0, 1.4, 0, 0.30503, 0, -0.396211, -371.908, -3, 565.857)
 script = ExtResource("1")
 model_path = "res://Assets/Models/cliff_terrain/cliff_headland.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
-press_path = PackedVector3Array()
-
-[node name="CapWest" type="Node3D" parent="Cliffs"]
-transform = Transform3D(-0.6578, 0, 0.2394, 0, 1.5, 0, -0.2394, 0, -0.6578, -352, -3, 562)
-script = ExtResource("1")
-model_path = "res://Assets/Models/cliff_terrain/cliff_headland.glb"
-collision_kind = 1
-body_layers = 3
-double_sided = false
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="CapEast" type="Node3D" parent="Cliffs"]
@@ -240,6 +300,8 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_headland.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="SeaRocks" type="Node3D" parent="."]
@@ -250,14 +312,18 @@ script = ExtResource("1")
 model_path = "res://Assets/Models/sea_rocks/sea_stack.glb"
 collision_kind = 1
 body_layers = 3
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="SeaStack2" type="Node3D" parent="SeaRocks"]
-transform = Transform3D(0.475, 0, -0.8227, 0, 1.2, 0, 0.8227, 0, 0.475, 2, -3, 205)
+transform = Transform3D(0.475, 0, -0.8227, 0, 1.2, 0, 0.8227, 0, 0.475, -324.258, -3, 81.689)
 script = ExtResource("1")
 model_path = "res://Assets/Models/sea_rocks/sea_stack.glb"
 collision_kind = 1
 body_layers = 3
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="SeaStack3" type="Node3D" parent="SeaRocks"]
@@ -266,14 +332,18 @@ script = ExtResource("1")
 model_path = "res://Assets/Models/sea_rocks/sea_stack.glb"
 collision_kind = 1
 body_layers = 3
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="SeaStack4" type="Node3D" parent="SeaRocks"]
-transform = Transform3D(0.9397, 0, -0.342, 0, 1.1, 0, 0.342, 0, 0.9397, 6, -3, 368)
+transform = Transform3D(0.9397, 0, -0.342, 0, 1.1, 0, 0.342, 0, 0.9397, -78.9291, -3, 368)
 script = ExtResource("1")
 model_path = "res://Assets/Models/sea_rocks/sea_stack.glb"
 collision_kind = 1
 body_layers = 3
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="SeaStack5" type="Node3D" parent="SeaRocks"]
@@ -282,6 +352,68 @@ script = ExtResource("1")
 model_path = "res://Assets/Models/sea_rocks/sea_stack.glb"
 collision_kind = 1
 body_layers = 3
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
+press_path = PackedVector3Array()
+
+[node name="SeaStack9" type="Node3D" parent="SeaRocks"]
+transform = Transform3D(0.9011, 0, 0.6309, 0, 1, 0, -0.6309, 0, 0.9011, 171.189, -3, 125)
+script = ExtResource("1")
+model_path = "res://Assets/Models/sea_rocks/sea_stack.glb"
+collision_kind = 1
+body_layers = 3
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
+press_path = PackedVector3Array()
+
+[node name="SeaStack10" type="Node3D" parent="SeaRocks"]
+transform = Transform3D(-0.9959, 0, 0.8356, 0, 0.9, 0, -0.8356, 0, -0.9959, 554.422, -3.6586, 293.661)
+script = ExtResource("1")
+model_path = "res://Assets/Models/sea_rocks/sea_stack.glb"
+collision_kind = 1
+body_layers = 3
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
+press_path = PackedVector3Array()
+
+[node name="SeaStack11" type="Node3D" parent="SeaRocks"]
+transform = Transform3D(0.1997, 0, 1.1325, 0, 1, 0, -1.1325, 0, 0.1997, 353.014, -3, 440)
+script = ExtResource("1")
+model_path = "res://Assets/Models/sea_rocks/sea_stack.glb"
+collision_kind = 1
+body_layers = 3
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
+press_path = PackedVector3Array()
+
+[node name="SeaStack6" type="Node3D" parent="SeaRocks"]
+transform = Transform3D(0.997126, 0, -1.36455, 0, 1.83691, 0, 1.36455, 0, 0.997126, -234.784, -5.7, 374.441)
+script = ExtResource("1")
+model_path = "res://Assets/Models/sea_rocks/sea_stack.glb"
+collision_kind = 1
+body_layers = 3
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
+press_path = PackedVector3Array()
+
+[node name="SeaStack7" type="Node3D" parent="SeaRocks"]
+transform = Transform3D(-1.07974, 0, 0.724019, 0, 2.24511, 0, -0.724019, 0, -1.07974, -184.634, -5.7, 237.439)
+script = ExtResource("1")
+model_path = "res://Assets/Models/sea_rocks/sea_stack.glb"
+collision_kind = 1
+body_layers = 3
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
+press_path = PackedVector3Array()
+
+[node name="SeaStack8" type="Node3D" parent="SeaRocks"]
+transform = Transform3D(-0.604379, 0, -1.36737, 0, 2.04101, 0, 1.36737, 0, -0.604379, -183.694, -5.7, 16.084)
+script = ExtResource("1")
+model_path = "res://Assets/Models/sea_rocks/sea_stack.glb"
+collision_kind = 1
+body_layers = 3
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="SaintCalder" type="Node3D" parent="."]
@@ -289,6 +421,8 @@ transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 15, 30, 865)
 script = ExtResource("1")
 model_path = "res://Assets/Models/saint_calder_city/saint_calder_city_lowres.glb"
 solid = false
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
 
 [node name="Mainland" type="Node3D" parent="."]
