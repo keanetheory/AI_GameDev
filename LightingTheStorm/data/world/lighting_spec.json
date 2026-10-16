@@ -1,0 +1,311 @@
+{
+  "generated_utc": "2026-10-16T16:39:26+00:00",
+  "spec_id": "LIGHTING_RIG_V1",
+  "phases": [
+    {
+      "phase_id": "ISLAND",
+      "ambient_colour": "#1F2A44",
+      "ambient_energy": 0.5,
+      "fog_colour": "#2C3A40",
+      "fog_density": 0.006,
+      "hazard_visibility_m": 130,
+      "clouds": {
+        "trend": "gathering",
+        "coverage": 0.45,
+        "darkness": 0.35,
+        "base_height_m": 600.0,
+        "drift_mps": 2.5,
+        "top_colour": "#6B6B66",
+        "underside_colour": "#2C3A40",
+        "moon_gap": true,
+        "low_coverage": 0.0,
+        "low_opacity": 0.0,
+        "low_drift_mps": 0.0,
+        "low_colour": "#0E0E10",
+        "note": "Ominous banks rolling in off the sea and piling up behind the Saltgate; the supermoon still hangs clear above the island."
+      },
+      "rain": {
+        "intensity": 0.0,
+        "slant_deg": 0.0,
+        "colour": "#B9BEC4",
+        "note": "Dry. Wind only, and the smell of rain coming."
+      },
+      "lightning": {
+        "enabled": false,
+        "style": "none",
+        "interval_s": null,
+        "lights_cloud_base": false,
+        "note": "None yet; the storm is still gathering."
+      },
+      "note": "Cold moonlit dusk on the island before the player first sets off; the storm is on its way."
+    },
+    {
+      "phase_id": "OUTBOUND",
+      "ambient_colour": "#1F2A44",
+      "ambient_energy": 0.45,
+      "fog_colour": "#2C3A40",
+      "fog_density": 0.008,
+      "hazard_visibility_m": 110,
+      "clouds": {
+        "trend": "building",
+        "coverage": 0.7,
+        "darkness": 0.6,
+        "base_height_m": 450.0,
+        "drift_mps": 4.0,
+        "top_colour": "#2C3A40",
+        "underside_colour": "#1F2A44",
+        "moon_gap": true,
+        "low_coverage": 0.0,
+        "low_opacity": 0.0,
+        "low_drift_mps": 0.0,
+        "low_colour": "#0E0E10",
+        "note": "Darker and fuller; only a few sparse wisps cross the moon, so the light on the water comes and goes."
+      },
+      "rain": {
+        "intensity": 0.35,
+        "slant_deg": 15.0,
+        "colour": "#B9BEC4",
+        "note": "Starts soon after leaving the island: light at first, then steady."
+      },
+      "lightning": {
+        "enabled": false,
+        "style": "none",
+        "interval_s": null,
+        "lights_cloud_base": false,
+        "note": "Still none: the first flash waits for the burner."
+      },
+      "note": "The crossing to fetch the burner: rain starting, moonlight on the sea, Saint Calder's windows ahead."
+    },
+    {
+      "phase_id": "RETURN",
+      "ambient_colour": "#0E0E10",
+      "ambient_energy": 0.35,
+      "fog_colour": "#2C3A40",
+      "fog_density": 0.014,
+      "hazard_visibility_m": 70,
+      "clouds": {
+        "trend": "full",
+        "coverage": 0.9,
+        "darkness": 0.85,
+        "base_height_m": 300.0,
+        "drift_mps": 7.0,
+        "top_colour": "#0E0E10",
+        "underside_colour": "#2C3A40",
+        "moon_gap": true,
+        "low_coverage": 0.55,
+        "low_opacity": 0.65,
+        "low_drift_mps": 2.0,
+        "low_colour": "#0E0E10",
+        "note": "Dense, billowing near-black cloud, low and fast, lit at the edges; the moon shows through a few sparse clouds, cold and bright on the water. Beneath it a second, darker, ragged layer drifts slowly across the sky and over the moon; the lightning lights it through."
+      },
+      "rain": {
+        "intensity": 0.75,
+        "slant_deg": 30.0,
+        "colour": "#B9BEC4",
+        "note": "Heavy, wind-driven rain across the bow."
+      },
+      "lightning": {
+        "enabled": true,
+        "style": "cloud_to_cloud",
+        "interval_s": [
+          3.0,
+          9.0
+        ],
+        "lights_cloud_base": true,
+        "note": "A forked bolt runs between the clouds and strobes the cloud around it two to four times; for an instant the rocks drop into black silhouette."
+      },
+      "note": "Burner aboard: the storm breaks. Darker skies, lightning between the clouds, the moon the one steady light."
+    },
+    {
+      "phase_id": "BEACON_RELIT",
+      "ambient_colour": "#1F2A44",
+      "ambient_energy": 0.45,
+      "fog_colour": "#2C3A40",
+      "fog_density": 0.012,
+      "hazard_visibility_m": 140,
+      "clouds": {
+        "trend": "full",
+        "coverage": 0.88,
+        "darkness": 0.82,
+        "base_height_m": 310.0,
+        "drift_mps": 6.5,
+        "top_colour": "#0E0E10",
+        "underside_colour": "#2C3A40",
+        "moon_gap": true,
+        "low_coverage": 0.0,
+        "low_opacity": 0.0,
+        "low_drift_mps": 0.0,
+        "low_colour": "#0E0E10",
+        "note": "The storm holds near full strength; the beacon's sweep catches the cloud base on each turn."
+      },
+      "rain": {
+        "intensity": 0.7,
+        "slant_deg": 28.0,
+        "colour": "#B9BEC4",
+        "note": "Still driving hard."
+      },
+      "lightning": {
+        "enabled": true,
+        "style": "cloud_to_cloud",
+        "interval_s": [
+          4.0,
+          11.0
+        ],
+        "lights_cloud_base": true,
+        "note": "Barely fewer flashes than the return; the relit beacon is what changes, not the storm."
+      },
+      "note": "The beacon sweeps the water; the sea is readable again."
+    }
+  ],
+  "moon": {
+    "state": "full",
+    "look": "A huge, low supermoon, cold silver, hanging over the Gullwater.",
+    "colour": "#B9BEC4",
+    "light_energy": 0.6,
+    "disc_scale": 2.2,
+    "elevation_deg": 22.0,
+    "azimuth_deg": 0.0,
+    "position_note": "Low in the north, on the far side of the lighthouse from the Saltgate: it lights the crossings from behind the lighthouse and leaves the sky over Saint Calder dark, so the city's windows are the only light there.",
+    "visible_disc": true,
+    "lights_crossings": true,
+    "eclipse_note": "Later the Flighted ship slides across it, leaving a black sphere with a faint silver rim, and the moonlight drops away. Not part of this pass."
+  },
+  "lightning": {
+    "colour": "#B9BEC4",
+    "peak_energy": 5.0,
+    "flash_duration_s": [
+      0.08,
+      0.3
+    ],
+    "max_flashes_per_second": 2.0,
+    "thunder_delay_s_per_100m": 0.29,
+    "driven_by": "phase_and_route_position",
+    "reveals_hazards": true,
+    "bolt_visible": true,
+    "strobe_pulses": [
+      2,
+      4
+    ],
+    "strobe_gap_s": [
+      0.05,
+      0.12
+    ],
+    "strobe_scope": "local_cloud",
+    "note": "Cold silver-white flash between the clouds with a short afterglow, from the RETURN on; flashes place hazards in black silhouette against the sea."
+  },
+  "sources": [
+    {
+      "source_id": "LIGHT_BEACON",
+      "kind": "beacon",
+      "location": "Lighthouse lantern room",
+      "colour": "#B9BEC4",
+      "energy": 8.0,
+      "range_m": 400.0,
+      "behaviour": "Rotating beam; dark, then failing flicker, then steady sweep once relit.",
+      "godot_node": "SpotLight3D",
+      "casts_shadow": false,
+      "is_navigation_marker": false
+    },
+    {
+      "source_id": "LIGHT_ARC_LAMP",
+      "kind": "arc_lamp",
+      "location": "Lighthouse dynamo room",
+      "colour": "#B9BEC4",
+      "energy": 3.0,
+      "range_m": 12.0,
+      "behaviour": "Harsh crackling arc with a dynamo hum flicker.",
+      "godot_node": "OmniLight3D",
+      "casts_shadow": false,
+      "is_navigation_marker": false
+    },
+    {
+      "source_id": "LIGHT_STEAM_GLOW",
+      "kind": "steam_glow",
+      "location": "Basement boiler",
+      "colour": "#C07A1E",
+      "energy": 2.0,
+      "range_m": 8.0,
+      "behaviour": "Slow pulsing furnace glow that rises when coal is fed.",
+      "godot_node": "OmniLight3D",
+      "casts_shadow": false,
+      "is_navigation_marker": false
+    },
+    {
+      "source_id": "LIGHT_WINDOWS",
+      "kind": "window_lamp",
+      "location": "Keeper's cottage windows",
+      "colour": "#C07A1E",
+      "energy": 1.0,
+      "range_m": 6.0,
+      "behaviour": "Dim warm window light with a slight gas flicker.",
+      "godot_node": "MeshInstance3D emissive",
+      "casts_shadow": false,
+      "is_navigation_marker": false
+    },
+    {
+      "source_id": "LIGHT_BOAT_LAMP",
+      "kind": "boat_lamp",
+      "location": "Bow of the steam launch",
+      "colour": "#B8962E",
+      "energy": 2.5,
+      "range_m": 25.0,
+      "behaviour": "Steady brass lantern that sways with the hull; does not reveal hazards beyond its range.",
+      "godot_node": "SpotLight3D",
+      "casts_shadow": false,
+      "is_navigation_marker": false
+    },
+    {
+      "source_id": "LIGHT_SAINT_CALDER",
+      "kind": "saint_calder_lights",
+      "location": "Far shore, about 3 km inland",
+      "colour": "#C07A1E",
+      "energy": 1.5,
+      "range_m": 3000.0,
+      "behaviour": "Lit windows on emissive cards; each flickers on its own (a test), brighter the closer the player gets.",
+      "godot_node": "MeshInstance3D emissive",
+      "casts_shadow": false,
+      "is_navigation_marker": false
+    }
+  ],
+  "beacon": {
+    "sweep_period_s": 8.0,
+    "beam_range_m": 400.0,
+    "colour": "#B9BEC4",
+    "states": [
+      "dark",
+      "failing flicker",
+      "relit steady sweep"
+    ]
+  },
+  "saint_calder": {
+    "distance_m": 3000.0,
+    "colours": [
+      "#C07A1E",
+      "#B8962E"
+    ],
+    "technique": "Emissive window cards and a cathedral silhouette billboard, glow scaled by the player's distance and depth-faded by fog; no real lights.",
+    "window_lights": true,
+    "glow_at_lighthouse": 0.2,
+    "glow_at_saltgate": 0.7,
+    "seen_from_lighthouse": "A faint scatter of amber window lights low on the far shore, just visible through the haze.",
+    "seen_from_saltgate": "Rows of lit amber and gold windows climbing the hill behind the quays, the cathedral above them.",
+    "visible_through_fog": true,
+    "flicker": "Test: the windows flicker, each on its own - a few at a time dim and recover, never in step; the cathedral stays steady.",
+    "is_navigation_marker": false,
+    "note": "Scenery only: warm window light in the relative darkness the moon leaves over the city. It must not line up as a goal marker for the crossing."
+  },
+  "max_dynamic_lights": 8,
+  "max_shadow_casters": 2,
+  "legibility_checks": [
+    "Hazards: at RETURN the nearest rock reads as a silhouette at its hazard_visibility_m with no flash.",
+    "Lightning: a flash never washes out a hazard to white; hazards read darker than the sea during a flash.",
+    "Beacon: dark at the start, then relit; the sweep is visible from DOCK_PORT without being a marker.",
+    "Saint Calder: visible through fog from the outbound start, amber and gold only, never brighter than the beacon.",
+    "Photosensitivity: record 60 s of RETURN and confirm no more than 3 flashes in any second.",
+    "Moon: on both crossings the moonlit sea reads clearly and rocks show as dark shapes against it without a flash.",
+    "Rain: at RETURN intensity the rain never hides a hazard inside its hazard_visibility_m."
+  ],
+  "open_creator_decisions": [
+    "Keep Saint Calder's window flicker after the vibe test, or make the windows steady."
+  ]
+}

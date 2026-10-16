@@ -24,7 +24,7 @@ status: draft
 | The Saltgate | Port district | Saint Calder's natural harbour | n/a (abandoned) | A dead district on the city's edge, hinting at an unfriendly or closed-off city |
 
 ## Key Locations
-- **The quays:** the player lands here to retrieve the replacement beacon lamp head. The exact storage location is TBD.
+- **The quays:** the player lands here with Arthur to retrieve the replacement beacon burner. The exact storage location is TBD.
 - **The road to Saint Calder:** visible running inland to the city, about a 20-minute walk.
 - **Flags:** tattered amber-and-gold standards of Saint Calder.
 

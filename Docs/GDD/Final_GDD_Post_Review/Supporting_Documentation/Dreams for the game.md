@@ -1,6 +1,6 @@
 Lighting the Storm — Dreams for the Game
 
-Status: ideas outside the prototype and full-game scope, 25 September 2026, updated 1 October 2026 (added “More outpost detail”; Daniel’s reason for being shaken updated after the crash was removed). Nothing here is canon or scheduled. Build an item only after the creator approves it, and only if it still fits the four design pillars and the scope rule in the Executive Summary.
+Status: ideas outside the prototype and full-game scope, 25 September 2026, updated 1 October 2026 (added “More Saltgate detail”; Daniel’s reason for being shaken updated after the crash was removed). Nothing here is canon or scheduled. Build an item only after the creator approves it, and only if it still fits the four design pillars and the scope rule in the Executive Summary.
 
 Companion choice
 
@@ -25,9 +25,9 @@ An ending unlocked by piecing together journal fragments, shrines, and symbols a
 
 • Tension to resolve: the source GDD promises to reveal what the symbols “actually mean”, which conflicts with the rule that the supernatural stays unconfirmed. Proposed: reveal historical relationships or events while leaving the supernatural explanation open.
 
-More outpost detail
+More Saltgate detail
 
-Until the prototype is considered complete, the outpost stays minimal and no significant detail is added to it. After that, it could carry more folk-horror atmosphere, canon clues and in-world documentation: additional log fragments, shrines, symbols, notes and subtly strange architecture that suggest the history of the island and the earlier keepers without settling its cause.
+Until the prototype is considered complete, the Saltgate stays minimal and no significant detail is added to it. After that, it could carry more folk-horror atmosphere, canon clues and in-world documentation: additional log fragments, shrines, symbols, notes and subtly strange architecture that suggest the history of the island and the earlier keepers without settling its cause.
 
 • Needs: additional authored props and documents, journal entries, optional discovery interactions, and audio and lighting passes, all as data with stable IDs.
 • Constraint: it must keep to the scope rule (no new major location) and stay unexplained, so the supernatural is never confirmed. The outpost is untimed, so any discovery here should not push pacing against the 30-minute target.

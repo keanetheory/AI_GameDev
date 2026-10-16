@@ -17,7 +17,7 @@ status: locked
 # Arthur
 
 ## Summary
-A local whose boat was caught in the storm along with Daniel's. The player opens the gate to let them shelter at the lighthouse. Arthur joins the player on the steam launch and guides the crossing.
+A local whose boat was caught in the storm along with Daniel's. They moor their rowboat at the dock, and the player opens the island gate to let them shelter at the lighthouse. After Ted finds the beacon's burner broken, Arthur joins the player on the steam launch and guides the crossing to the Saltgate quays and back.
 
 ## Appearance
 - **build:** slim, old
@@ -58,7 +58,7 @@ TBD.
 
 ## Motivation
 - **wants:** to fix the lighthouse, to save the ship, to help the player 
-- **fears:** the ship will crash
+- **fears:** the ship will run aground
 - **will_never:** provide poor directions
 
 ## Relationships

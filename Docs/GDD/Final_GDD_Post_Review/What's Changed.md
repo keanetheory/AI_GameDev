@@ -151,6 +151,34 @@ Later amendments
 • Deadline length. To be reviewed once the boat crossing back from the outpost has been tested.
 • Outbound crossing penalties. Deferred by the creator.
 
+---
+
+2026-10-16 story beats
+
+The creator fixed the order of the story. The beats are canon and supersede the earlier step table where they differ. Recorded in the Exec Summary, Technical Strategy, AI Agent Strategy and Decisions to be made, and in the Lore Build.
+
+The beats, in order
+1. Arrival. The player (Isaac, “the new guy”) starts outside the lighthouse. Ted opens the door (“You’re the new guy, then”) and the player comes in.
+2. Coal. After a beat, Ted sends the player down to the basement to shovel coal into the boiler.
+3. Shelter and gate. Arthur and Daniel moor their rowboat at the dock; the player opens the island gate, on the path from the dock to the lighthouse, to let them in. Daniel stays in the basement.
+4. Beacon diagnosis. The dynamo runs but the beacon stays dark. Ted takes the player up to the lantern room, finds the burner broken and says a new one is needed. Ted identifies it, and only after the sailors are in.
+5. Outbound. The player takes the steam launch across the Gullwater with Arthur and retrieves the replacement burner from the Saltgate quays.
+6. Return. The storm escalates: darker skies, heavier rain, lightning between the clouds.
+7. Final repair. The player gets back to the lighthouse and fits the burner to the beacon before the passenger ship runs aground. Win: the ship sails safely past and into port.
+
+What changed
+• Arrival outside. The game now starts outside the lighthouse with Ted opening the door, instead of with repairs already under way. Step 1 of the sequence is now “Arrival and coal”.
+• Burner identified by Ted after the gate. The broken burner is no longer found in the first step. A new step, “Beacon diagnosis”, sits between the gate and boarding; the sequence table now has nine steps.
+• Two repairs replaced. The generic “two repairs” for Gate 1 are now feeding the boiler with coal and fitting the burner. Week 4 holds the arrival and coal; week 5 holds the diagnosis and the burner fit. Cut-list item 3 now reads “repairs beyond feeding the boiler and fitting the burner”.
+• Outpost becomes the Saltgate. The crossing’s destination is the Saltgate quays, Saint Calder’s abandoned harbour. “The abandoned outpost” is no longer used.
+• “Runs aground” is canon again. The fail wording returns to “the ship runs aground on the island” (the 1 October amendment had changed it to “crashes into the island”). The win is the ship sailing safely past the rocks and into port.
+• The part is “the burner”. It sits in the beacon’s arc lamp. This supersedes the Lore Build’s earlier resolution that the part is “the arc lamp head”.
+• Outbound weather. The outbound crossing is no longer calm: the rain sets in. The storm escalates on the return.
+• State contract. Phases are now ARRIVAL_AND_COAL → SHELTER_AND_GATE → BEACON_DIAGNOSIS → BOARDING → OUTBOUND → SALTGATE → RETURN → FINAL_REPAIR → RESOLUTION. Event IDs added or renamed: GAME_STARTED (outside, Ted opens the door), LIGHTHOUSE_ENTERED, BEACON_STILL_DARK, LAMP_ROOM_ENTERED, BURNER_DIAGNOSED (now after DANIEL_IN_BASEMENT), SALTGATE_REACHED (was OUTPOST_REACHED) and IDLE_SALTGATE (was IDLE_OUTPOST). Lighting phases: ISLAND (beats 1–4), OUTBOUND (5), RETURN (6), BEACON_RELIT (7).
+• Opening dialogue. Three steps: 1, Arrive and feed the boiler (beats 1–2); 2, Let the sailors in (beat 3); 3, Fix the beacon: fetch the burner (beats 4–5).
+
+Not changed: the ship is still introduced by Ted at the boarding threshold, the clock still starts on the return departure, the fail-state contract’s three locations, Daniel staying in the basement, and Arthur as the only crossing companion.
+
 Related files
 
 • Final_GDD_Post_Review/Lighting the Storm - Design Submission (.md and .pdf) and Design Brief (.md and .pdf) were regenerated from these changes.

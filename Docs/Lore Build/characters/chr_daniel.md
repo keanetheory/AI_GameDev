@@ -17,7 +17,7 @@ status: locked
 # Daniel
 
 ## Summary
-A local whose boat was caught in the storm with Arthur. They seek shelter at the lighthouse, and the player lets them through the gate. His role during the crossing (stays with Ted?) is TBD.
+A local whose boat was caught in the storm with Arthur. They moor at the dock and seek shelter at the lighthouse, and the player lets them through the island gate. Daniel goes down to the basement and stays there, by the boiler, while the player and Arthur make the crossing (resolved 2026-10-16).
 
 ## Appearance
 - **build:** strong, heavy
@@ -61,7 +61,7 @@ TBD.
 | [[chr_player]] | TBD | |
 
 ## Story Hooks
-- What does Daniel do (or see) in the lighthouse while the player is away?
+- What does Daniel see or hear in the basement while the player is away?
 
 ## Asset Prompts
 - **portrait:** "1800s coastal sailor, weathered face, red oilskin coat over a red heavy wool jumper, soaked by rain, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, muted palette"

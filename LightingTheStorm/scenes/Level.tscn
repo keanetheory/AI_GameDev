@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b601q1u1ked8s"]
+[gd_scene load_steps=14 format=3 uid="uid://b601q1u1ked8s"]
 
 [ext_resource type="Script" path="res://scripts/world/collider_builder.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/world/sea.gd" id="2"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://scripts/world/flag.gd" id="7"]
 [ext_resource type="Script" path="res://scripts/world/boardwalk.gd" id="8"]
 [ext_resource type="Script" path="res://scripts/world/stone_stairs.gd" id="9"]
+[ext_resource type="Script" path="res://scripts/world/lighting_rig.gd" id="10"]
 
 [sub_resource type="ProceduralSkyMaterial" id="sky"]
 sky_top_color = Color(0.12, 0.15, 0.2, 1)
@@ -427,6 +428,9 @@ press_path = PackedVector3Array()
 
 [node name="Mainland" type="Node3D" parent="."]
 script = ExtResource("6")
+
+[node name="LightingRig" type="Node3D" parent="."]
+script = ExtResource("10")
 
 [node name="Player" parent="." instance=ExtResource("3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 15.5, 8)

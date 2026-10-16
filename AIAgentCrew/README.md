@@ -2,11 +2,32 @@
 
 **Game:** *Lighting the Storm* — a first-person, single-player atmospheric folk-horror adventure for PC, built in Godot 4 with GDScript.
 
-**What this crew produces:** the game data for the **return crossing** of the Gate 1 vertical slice — the timed boat run from the abandoned outpost back to the Bracken Isle lighthouse with the replacement beacon burner aboard. One run of the crew outputs `return_crossing.json`, which the game loads directly, plus the `HANDOFF.md` and `REPORT.md` notes the creator uses to review the work before merging it.
+**What this crew produces:** the game data for the **return crossing** of the Gate 1 vertical slice — the boat run from the Saltgate quays back to the Bracken Isle lighthouse with the replacement beacon burner aboard. One run of the crew outputs `return_crossing.json`, which the game loads directly, plus the `HANDOFF.md` and `REPORT.md` notes the creator uses to review the work before merging it.
+
+## The story these crews serve
+
+The creator fixed the story beats on 2026-10-16. They live in `canon.py` (`STORY_BEATS`) and every crew's canon text includes them, so no agent can reorder the game:
+
+1. **Arrival.** The player, Isaac, starts outside the lighthouse. Ted opens the door ("You're the new guy, then") and Isaac comes in.
+2. **Coal.** After a beat, Ted sends Isaac to the basement to shovel coal into the boiler.
+3. **The sailors.** Arthur and Daniel moor their rowboat at the dock; Isaac opens the island gate on the path to let them in. Daniel stays in the basement.
+4. **The burner.** The dynamo runs but the beacon stays dark. Ted takes Isaac up to the lantern room, finds the burner broken and says a new one is needed.
+5. **First crossing.** Isaac takes the steam launch across the Gullwater with Arthur and retrieves the replacement burner from the Saltgate quays.
+6. **The storm escalates** on the way back.
+7. **The race.** Isaac must reach the lighthouse and fit the burner to the beacon before the passenger ship runs aground.
+
+| Beats | Covered by |
+|---|---|
+| 1-5 | Opening Dialogue Crew (step 1 = beats 1-2, step 2 = beat 3, step 3 = beats 4-5); creator picks in `sample_output_picked/` |
+| 5-7 | World crew (`OUTBOUND`, `RETURN` and `BEACON_RELIT` lighting phases; the boat's two legs) |
+| 6-7 | Storm Crossing Crew (the return crossing data and Arthur's calls) |
+| 7 (fail and win) | Story / Fail-State agent (role defined, not built yet) |
+
+Words fixed by the beats: the part is **the burner** (never "lamp head"); the destination is **the Saltgate** (never "the outpost"); the fail is the ship **running aground**.
 
 ## Why the game needs this
 
-In *Lighting the Storm*, the apprentice steers a powered boat with one control at one fixed speed while Arthur, an old seaman, shouts directions over the storm. The return crossing is where the hidden ship deadline is running, so it is the part of the game where the design rules matter most. The design documents set several hard rules for it:
+In *Lighting the Storm*, Isaac steers a powered boat with one control at one fixed speed while Arthur, an old seaman, shouts directions over the storm. The return crossing is where the hidden ship deadline is running, so it is the part of the game where the design rules matter most. The design documents set several hard rules for it:
 
 - Hazard density, route width and visibility must rise with route position, never with elapsed time (the "storm split").
 - There is one shared hazard forecast with a single safe-route signal per segment, and Arthur's calls must never disagree with it.
@@ -146,7 +167,7 @@ output/
 
 ## The Opening Dialogue Crew (second pipeline)
 
-A second crew writes the Gate 1 **opening dialogue** (steps 1-3: coal in the basement boiler, let the stranded sailors in, retrieve the burner) for Ted, Arthur and Daniel. It uses the same roster, the same schema + validator + guardrail pattern and the same offline mode as the crossing crew. Three of the twelve roles run:
+A second crew writes the Gate 1 **opening dialogue** for Ted, Arthur and Daniel: step 1 *Arrive and feed the boiler* (story beats 1-2), step 2 *Let the sailors in* (beat 3) and step 3 *Fetch a new burner* (beats 4-5: Ted finds the burner broken, then the Saltgate crossing). It uses the same roster, the same schema + validator + guardrail pattern and the same offline mode as the crossing crew. Three of the twelve roles run:
 
 | # | Agent | Input | Output | Guardrail (validators.py) |
 |---|---|---|---|---|
@@ -199,11 +220,29 @@ python main_dialogue.py --offline --max-words 12       # negative test: the chec
 python main_dialogue.py --offline --godot-dir ../../../LightingTheStorm   # also copies the JSON into the game project
 ```
 
-Offline mode replays `offline_dialogue_draft.json` (the 61 lines first drafted for the creator). As with the crossing crew, its first attempt deliberately contains faults (an 'apprentice', an early mention of the ship, a 'lamp head') so the console shows `Guardrail blocked (attempt 1/4)` and the corrected retry. Use `--no-demo-errors` to skip that. Every attempt is recorded in `run_log.json`. `sample_output_dialogue/` holds a complete run plus the negative test.
+Offline mode replays `offline_dialogue_draft.json` (the 62-line draft, in the canon beat order since 2026-10-16). As with the crossing crew, its first attempt deliberately contains faults (an 'apprentice', an early mention of the ship, a 'lamp head') so the console shows `Guardrail blocked (attempt 1/4)` and the corrected retry. Use `--no-demo-errors` to skip that. Every attempt is recorded in `run_log.json`. `sample_output_dialogue/` holds a complete run plus the negative test.
 
 **Live runs.** Set `ANTHROPIC_API_KEY` in `.env`. If Anthropic answers 400 about a workspace, also set `ANTHROPIC_WORKSPACE_ID` (the key is not workspace-scoped). If it answers 404 for the model, set `CREW_MODEL` to one your workspace has (for example `anthropic/claude-sonnet-5-5`). A REVIEW verdict of REVISE still writes files, but marks the JSON `needs_revision` and lists the reviewer's issues; read them before using the lines. `sample_output_live/` holds the first live run.
 
 **Revision loop.** If the reviewer returns REVISE, the crew does not stop: its failed checks and issues go back to the Dialogue agent (`dialogue_revision.py`), the corrected dialogue goes through the same `check_dialogue` guardrail, and the Canon and Review Orchestrator re-reviews it (up to `--max-revisions`, default 2). Superseded rounds are kept in `handoffs/history_round*`. Two checks were added after the first live run: a line's `step` must equal its trigger event's step, and a reviewer's "all N lines" claims must match the data. `python main_dialogue.py --revise-from sample_output_live --out sample_output_live_revised` continues a saved run; `--simulate-revise` (offline) tests the loop for free. `sample_output_live_revised/` holds the live run after one revision (verdict PASS, 14 of 14 checks).
+
+**Creator picks and the story beats.** The game's dialogue is the creator's line-by-line picks, not a raw crew run. `apply_creator_picks.py` keeps one line per group from `sample_output_live_revised/`, then `story_beats.py` puts the lines in the canon beat order (2026-10-16: the arrival line at the door, TED_S1_03 moved to `LIGHTHOUSE_ENTERED`, the burner lines moved to step 3, the new TED_S3_00 on `BEACON_STILL_DARK`, `OUTPOST_REACHED` renamed `SALTGATE_REACHED`). Lines keep their IDs, so voice and subtitle references stay valid. The result goes to `sample_output_picked/` (40 lines, deterministic review PASS):
+
+```
+python apply_creator_picks.py --install                       # also writes LightingTheStorm/data/dialogue/dialogue_opening.json
+python ../LightingTheStorm/tools/build_character_pages.py     # Docs/Lore Build/dialogue pages from the picked set
+python ../LightingTheStorm/tools/build_illustration.py        # the opening-dialogue flow illustration
+```
+
+The rewritten lines (TED_S1_01, TED_S1_09, TED_S1_10, TED_S1_11, TED_S3_02, ARTHUR_S3_04) and the new TED_S3_00 still need a Dialogue agent and Canon re-review before recording.
+
+## The Voice Casting Crew and the ElevenLabs sender (fifth pipeline)
+
+The **Sound agent** writes a voice casting for Ted, Arthur and Daniel (voice descriptions, delivery and per-line direction) from the opening dialogue, and the Canon and Review Orchestrator checks it (`voice_crew.py`, `voice_schemas.py`, `voice_validators.py`, `voice_integrator.py`). `python main_voice.py --offline` runs it with the scripted model; `--dialogue` picks the dialogue file to cast (default: `sample_output_picked/`).
+
+`main_elevenlabs.py` sends the casting to ElevenLabs in three stages, each a dry run unless `--send` is given: `design` (voice previews), `save` (the picked previews into the voice library, writing `elevenlabs/voices.json`) and `tts` (line audio, spends credits, into `elevenlabs/lines/<LINE_ID>.mp3`). `voice_output_picked_live/` holds the creator's picked casting and audio.
+
+**Stale audio (2026-10-16):** the story-beat revision rewrote six lines that already have audio in `voice_output_picked_live/elevenlabs/lines/` (TED_S1_01, TED_S1_09, TED_S1_10, TED_S1_11, TED_S3_02, ARTHUR_S3_04), and TED_S3_00 has none. Regenerate them with `tts` once the new lines are approved. The game does not play line audio yet.
 
 ## The Asset agent and the World Crew (third and fourth pipelines)
 
@@ -228,7 +267,13 @@ The agent writes a verdict, a repaired prompt and negative prompt, the Godot fol
 
 **Player Movement agent.** Walking and turning tuning (unsmoothed mouse look, delta-time movement, simultaneous move and turn, slope and step limits from the real island collider) plus seven glitch checks (slopes, lips, turning while moving, corners, falling through, frame rate, camera), each with a repeatable test. `tools/debug_walk.gd` in the Godot project is one such test.
 
-**Lighting agent.** Four phases (ISLAND, OUTBOUND, RETURN, BEACON_RELIT), the eclipsed or absent moon, lightning (flash-rate capped at 3 per second, reveals hazards, driven by phase and route position, never elapsed time), the lighthouse beacon, arc lamp, steam glow and windows, the boat lamp, and distant Saint Calder (amber and gold only). Every colour must be in the style guide palette and no light may be a navigation marker.
+**Lighting agent.** Four phases (ISLAND, OUTBOUND, RETURN, BEACON_RELIT), each with clouds, rain and lightning: ominous clouds gathering and dry on the island, darker and fuller with rain starting on the outbound crossing, darker skies with lightning between the clouds from the return on. A huge silver supermoon lights both crossings through a gap in the cloud (the Flighted ship that eclipses it comes later). Lightning is flash-rate capped at 3 per second, reveals hazards and is driven by phase and route position, never elapsed time. Also covered: the lighthouse beacon, arc lamp, steam glow and windows, the boat lamp, and distant Saint Calder (amber and gold only; its lit windows are just visible from the lighthouse and more obvious from the Saltgate). Every colour must be in the style guide palette and no light may be a navigation marker.
+
+The phases follow the story beats: ISLAND covers beats 1-4, OUTBOUND beat 5, RETURN beat 6 and BEACON_RELIT beat 7. The storm stays near full strength once the beacon is relit. The supermoon sits low on the far side of the lighthouse from the Saltgate, so it lights the crossings and leaves Saint Calder dark; Saint Calder's lit windows flicker (a creator test). On the RETURN only, lightning shows a forked bolt that strobes the cloud around it 2-4 times per strike (the flicker stays in that cloud; the one scene-wide flash per strike stays inside the photosensitivity cap), and a second, darker, part-transparent cloud layer drifts slowly across the sky and the moon and is lit through by the strikes. The checks in `world_validators.py` enforce all of this, and the title splash screen is the look reference.
+
+**In Godot,** `LightingTheStorm/scripts/world/lighting_rig.gd` (a `LightingRig` node in `Level.tscn`) reads `data/world/lighting_spec.json` and builds the moonlight, the storm sky (`storm_sky.gdshader`), rain, lightning and Saint Calder's windows. The phase follows the boat (it blends to OUTBOUND when the boat leaves the island and to RETURN when it leaves the Saltgate); F5-F8 jump to a phase for testing. `python main_world.py --offline --godot-dir ../LightingTheStorm` copies the specs into `data/world/`.
+
+**FAL sender.** `main_fal.py` sends an approved `*.fal.json` submission to FAL (Hunyuan3D) and saves the model under `LightingTheStorm/Assets/Models/<category>/`. It is a dry run unless `--go` is given; run `main_asset.py --check-only` on the submission first. Hunyuan3D v3 returns 4096 textures: downscale them with `LightingTheStorm/tools/downscale_glb_texture.py`.
 
 Offline mode makes the first Boat attempt press a throttle key and the first Lighting attempt use a neon colour, so you can see the guardrails block and the agents retry. Pass `--no-demo-errors` to skip that. On Windows, set `PYTHONIOENCODING=utf-8` to silence harmless console encoding noise from CrewAI's live display.
 
@@ -250,7 +295,9 @@ The **Tide / Wave agent is deliberately not built yet.** Build it once there is 
 | `crew.py` | The four crossing agents, their tasks, context links and guardrails |
 | `schemas.py` | Pydantic contracts for every handoff |
 | `validators.py` | Deterministic cross-checks (the game's rules as code) |
-| `canon.py` | Canon taken from the three design documents |
+| `canon.py` | Canon taken from the three design documents, plus the creator's `STORY_BEATS` |
+| `story_beats.py` | Puts an opening-dialogue line set in the canon beat order (used by `apply_creator_picks.py`) |
+| `apply_creator_picks.py` | Builds the game's dialogue from the creator's picks; `--install` copies it into the game |
 | `integrator.py` | Final checks; writes game data, HANDOFF.md and REPORT.md |
 | `offline_llm.py` | Scripted LLM for runs without a key |
 | `godot/crossing_loader.gd` | Reads the output in the game |
@@ -265,7 +312,10 @@ The **Tide / Wave agent is deliberately not built yet.** Build it once there is 
 | `asset_crew.py`, `main_asset.py` | The Asset agent and its CLI |
 | `world_crew.py`, `main_world.py` | The Boat, Player Movement and Lighting agents plus reviewer, and their CLI |
 | `offline_world_llm.py`, `llm_factory.py` | Scripted model for both new crews; real model setup |
-| `sample_submissions/` | Example FAL submissions (one good, one deliberately bad) |
+| `sample_submissions/` | FAL submissions (examples and the real island, dock and model jobs) |
+| `main_fal.py` | Sends an approved FAL submission and saves the model into the game |
+| `voice_crew.py`, `main_voice.py`, `voice_*.py` | The Voice Casting crew, its contracts, checks and output |
+| `main_elevenlabs.py` | Sends the voice casting to ElevenLabs (design, save, tts) |
 
 ## Scope and limits
 

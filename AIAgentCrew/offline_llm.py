@@ -64,7 +64,7 @@ class OfflineLLM(BaseLLM):
                 "hazard_density": round((0.15 if assist else 0.25) + t * 0.5, 2),
                 "route_width_m": int(40 - t * (14 if assist else 22)),
                 "min_visibility_m": int(90 - t * 30),
-                "storm_note": ["Leaving the outpost lee; swell rising", "Open water; rain thickening",
+                "storm_note": ["Leaving the Saltgate lee; swell rising", "Open water; rain thickening",
                                "Rocks closing in; beacon dark ahead", "Narrows under Bracken Isle",
                                "Final run to the jetty; foghorn close"][min(i, 4)],
             })

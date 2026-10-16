@@ -63,7 +63,7 @@ func trigger(event_id: String) -> void:
 
 
 ## Call when the player has made no progress on a step. key is "IDLE_STEP_1", "IDLE_STEP_2",
-## "IDLE_STEP_3" or "IDLE_OUTPOST". Each call escalates one tier (1 hint, 2 sharper, 3 explicit).
+## "IDLE_STEP_3" or "IDLE_SALTGATE". Each call escalates one tier (1 hint, 2 sharper, 3 explicit).
 func idle(key: String) -> void:
 	if data.is_empty() or _playing:
 		return

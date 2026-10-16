@@ -19,6 +19,8 @@ status: locked
 ## Summary
 The lighthouse master on Bracken Isle and the player's boss. A grizzled local in his late 60s with a snarky tongue and contempt for the city's "new money toffs." He is a **potential link to the Flighted**, and may be the only person who can communicate with them.
 
+**Opening role (story beats, 2026-10-16):** he opens the lighthouse door to the player ("You're the new guy, then"), lets him in and, after a beat, sends him to the basement to feed the boiler. He sees the sailors' rowboat from the window and sends the player to the island gate. Once the sailors are in and the beacon stays dark, he takes the player up to the lantern room, finds the burner broken and says a new one is needed.
+
 ## Appearance
 - **build:** old, but muscular build
 - **first_impression:** reluctantly accomodating to the player
@@ -36,6 +38,7 @@ The lighthouse master on Bracken Isle and the player's boss. A grizzled local in
 - **vocabulary:** calls city folk "new money toffs"
 - **verbal_habits:** grunts, coughs
 - **sample_lines:**
+  - "You're the new guy, then." (opening the door)
   - "A passenger ship? NOW? But the lighthouse beacon is broken!" (shared with Arthur)
   - "What the hell is a passenger ship doing coming here, now?? It's not in the log!"
   - "What are you looking at, you a new money toff?? Get off your arse and sort out the light!"  
@@ -65,7 +68,7 @@ TBD.
 ## Relationships
 | Character | Relationship | Notes |
 |---|---|---|
-| [[chr_player]] | Boss | |
+| [[chr_player]] | Boss | Greets him at the door as "the new guy" |
 | [[chr_arthur]] | TBD | Fellow local |
 | [[chr_daniel]] | TBD | Fellow local |
 
@@ -77,5 +80,5 @@ TBD.
 - **portrait:** "Grizzled lighthouse keeper in his late 60s, weathered face, navy oilskin coat over a navy heavy wool jumper, sardonic expression, 1800s coastal setting, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, muted palette"
 - **full_body:** "Full body, older 1800s lighthouse keeper, navy oilskin coat, navy cable-knit jumper, heavy black oily boots, slightly stooped, gritty dark cel-shaded style, heavy ink outlines, character turnaround sheet"
 - **sprite_or_model_notes:** first-person game NPC; needs readable silhouette and face for dialogue
-- **animation_notes:** idle grumbling, pointing out to sea, shocked reaction at the sight of the ship
+- **animation_notes:** opening the lighthouse door, idle grumbling, pointing out to sea, opening the arc lamp to inspect the burner, shocked reaction at the sight of the ship
 - **negative_prompt:** "green or red clothing, chain mail, modern raincoat, photoreal"
