@@ -48,3 +48,16 @@ Post-review amendments, 1 October 2026, compared with the 25 September 2026 orig
 • Design Submission and Design Brief (MD and PDF) regenerated to match.
 • Additional/Decisions to be made.md rewritten: 14 decided items, 19 still open.
 • Additional/Dreams for the game.md: new “More outpost detail” entry.
+
+---
+
+## 2026-10-16 story beats
+
+The creator fixed the story order. See “What’s Changed.md” for the full list.
+- Arrival outside. The player (Isaac, “the new guy”) starts outside the lighthouse; Ted opens the door, then sends him to the basement to shovel coal into the boiler.
+- Burner identified by Ted after the gate. The sailors moor at the dock and the player opens the island gate; only then, with the dynamo running and the beacon still dark, does Ted find the burner broken in the lantern room.
+- Outpost becomes the Saltgate. The crossing goes to the Saltgate quays, Saint Calder’s abandoned harbour. The outbound crossing brings rain; the storm escalates on the return.
+- “Runs aground” is canon again for the fail state; the win is the ship sailing safely past and into port.
+- The part is “the burner” (it sits in the arc lamp), superseding the Lore Build’s “arc lamp head”.
+- Gate 1 “two repairs” become feeding the boiler and fitting the burner.
+- Phases: ARRIVAL_AND_COAL → SHELTER_AND_GATE → BEACON_DIAGNOSIS → BOARDING → OUTBOUND → SALTGATE → RETURN → FINAL_REPAIR → RESOLUTION. OUTPOST_REACHED and IDLE_OUTPOST are renamed SALTGATE_REACHED and IDLE_SALTGATE. Lighting phases: ISLAND, OUTBOUND, RETURN, BEACON_RELIT.

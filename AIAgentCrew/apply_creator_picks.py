@@ -8,11 +8,20 @@ Every group becomes a single line, so the game has no random alternates left. Th
 computed from the data by deterministic checks (it is not a model review); the live crew review of the 56-line
 set is kept in sample_output_live_revised/.
 
-Run: python apply_creator_picks.py
+After the picks, story_beats.revise() puts the lines in the creator's canon story order (2026-10-16: arrival
+outside the lighthouse, coal, sailors, then Ted finds the burner broken, then the Saltgate crossing). The brief's
+steps and events come from canon.py, so the data always matches the canon order.
+
+Run: python apply_creator_picks.py   (then copy sample_output_picked/dialogue_opening.json into the game with
+--install, which writes LightingTheStorm/data/dialogue/dialogue_opening.json)
 """
 import json
 import re
+import sys
 from pathlib import Path
+
+from canon import OPENING_DIALOGUE_RULES, OPENING_EVENTS, OPENING_STEPS
+from story_beats import revise
 
 from dialogue_integrator import build_game_data, review_list
 from schemas import DialogueBrief, OpeningDialogue, ReviewReport
@@ -45,7 +54,7 @@ OPEN_DECISIONS = [
     "Ted and Arthur's relationship is TBD in the lore; the 'drowned by now' exchange (ARTHUR_S2_05, TED_S2_04) is a proposal only.",
     "Arthur-knows-more thread: the picks DANIEL_OPT_04 ('Arthur says it's just weather') and ARTHUR_S0_13 (uneasy about the poster) together hint that Arthur knows about the Flighted. His link to them is undecided in the lore.",
     "ARTHUR_S3_08 was reworded by the creator's pick (drops 'back her off', which implied a reverse control); needs a Dialogue agent and Canon re-review.",
-    "LightingTheStorm/data/dialogue/dialogue_opening.json is the older 61-line draft and does not contain these picks; replace it deliberately.",
+    "Story-beat revision (2026-10-16): TED_S1_01, TED_S1_09, TED_S1_10, TED_S1_11, TED_S3_02, ARTHUR_S3_04 and the new TED_S3_00 were rewritten to the creator's beat order; they need a Dialogue agent and Canon re-review before recording.",
     "Fail-reason and outcome lines belong to the Story / Fail-State agent and are not written here.",
     "Where the Flighted poster physically sits is still undecided; ARTHUR_S0_13 is location-neutral.",
 ]
@@ -53,7 +62,13 @@ OPEN_DECISIONS = [
 
 def main() -> None:
     raw = json.loads((SRC / "dialogue_opening.json").read_text(encoding="utf-8"))
-    brief = DialogueBrief.model_validate_json((SRC / "handoffs" / "01_dialogue_brief.json").read_text(encoding="utf-8"))
+    brief_raw = json.loads((SRC / "handoffs" / "01_dialogue_brief.json").read_text(encoding="utf-8"))
+    # steps, events and rules follow the canon story beats (the live run predates them)
+    brief_raw["steps"] = OPENING_STEPS
+    brief_raw["events"] = [{"event_id": e[0], "step": e[1], "note": e[2], "existing_crew_event": e[3]} for e in OPENING_EVENTS]
+    keep = [c for c in brief_raw["constraints"] if not re.search(r"outpost|eclipse|step 1 shovel|IDLE_OUTPOST", c, re.I)]
+    brief_raw["constraints"] = OPENING_DIALOGUE_RULES[:3] + keep
+    brief = DialogueBrief.model_validate(brief_raw)
     log = json.loads((SRC / "run_log.json").read_text(encoding="utf-8"))
     ids = {ln["line_id"] for ln in raw["lines"]}
     unknown = [i for i in PICKS.values() if i not in ids]
@@ -78,7 +93,7 @@ def main() -> None:
     left = [t for t in PICKS if sum(1 for x in raw["lines"] if x["trigger"] == t and x.get("group")) == 0]
     assert not left, f"picks for groups that do not exist: {left}"
 
-    dialogue = OpeningDialogue.model_validate({"lines": kept, "journal": raw["journal"]})
+    dialogue = OpeningDialogue.model_validate(revise({"lines": kept, "journal": raw["journal"]}, "picked"))
     problems = check_dialogue_brief(brief) + check_dialogue(dialogue, brief)
     assert not problems, problems
 
@@ -120,8 +135,8 @@ def main() -> None:
     state = {"dialogue_brief": brief, "dialogue": dialogue, "dialogue_review": report, "log": log, "history": []}
     data = build_game_data(state, "creator_picks")
     data["status"] = "creator_picked"
-    data["notes"] = ("Creator walkthrough picks applied on 2026-10-15 to the live revised crew output. "
-                     "Creator still approves voice and lore before recording.")
+    data["notes"] = ("Creator walkthrough picks applied on 2026-10-15 to the live revised crew output, then the "
+                     "creator's story-beat order applied on 2026-10-16. Creator still approves voice and lore before recording.")
     data["generated_by"].update({"pipeline": "dialogue_crew.py + apply_creator_picks.py", "source": "sample_output_live_revised",
                                  "creator_picks": len(PICKS), "lines_dropped": len(raw["lines"]) - len(kept),
                                  "review_verdict": "PASS (deterministic, not a model review)"})
@@ -131,16 +146,20 @@ def main() -> None:
     (OUT / "dialogue_opening.json").write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     md = review_list(data, report.open_creator_decisions)
     md = re.sub(r"Status: \*\*.*?\n", "Status: **creator_picked**. Creator walkthrough picks applied (17 'pick one' groups, one line kept each) "
-                "to the live revised crew output. Review below is deterministic, not a model review.\n", md, count=1)
+                "to the live revised crew output, then the 2026-10-16 story-beat order. Review below is deterministic, not a model review.\n", md, count=1)
     md = md.replace("**Pick one** means the game plays one option at random.", "There are no random alternates left: the creator chose one line per group.")
     (OUT / "DIALOGUE_OPENING.md").write_text(md, encoding="utf-8")
     (OUT / "handoffs" / "01_dialogue_brief.json").write_text(brief.model_dump_json(indent=2), encoding="utf-8")
     (OUT / "handoffs" / "02_dialogue.json").write_text(dialogue.model_dump_json(indent=2), encoding="utf-8")
     (OUT / "handoffs" / "03_dialogue_review.json").write_text(report.model_dump_json(indent=2), encoding="utf-8")
     (OUT / "run_log.json").write_text(json.dumps(log, indent=2), encoding="utf-8")
+    if "--install" in sys.argv:
+        game = HERE.parent / "LightingTheStorm" / "data" / "dialogue" / "dialogue_opening.json"
+        game.write_text((OUT / "dialogue_opening.json").read_text(encoding="utf-8"), encoding="utf-8")
+        print(f"installed {game}")
     (OUT / "creator_picks.json").write_text(json.dumps({"picks": PICKS, "rewords": REWORD,
                                                         "dropped": sorted(ids - {x.line_id for x in lines})}, indent=2), encoding="utf-8")
-    print(f"wrote {OUT}: {len(kept)} lines ({len(raw['lines']) - len(kept)} dropped), verdict {report.verdict}")
+    print(f"wrote {OUT}: {len(dialogue.lines)} lines ({len(raw['lines']) - len(kept)} dropped), verdict {report.verdict}")
 
 
 if __name__ == "__main__":

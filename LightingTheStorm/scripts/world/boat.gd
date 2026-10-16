@@ -42,6 +42,7 @@ var current_zone: Node3D = null
 var driving := false
 
 var _leave_zone: Node3D = null
+var _at_entrance := true          # docking: past the zone's entrance (or it has none)
 var _stun := 0.0
 var _trail: Array[Transform3D] = []      # recent clear positions, newest last
 var _trail_timer := 0.0
@@ -150,29 +151,46 @@ func _sail(delta: float) -> void:
 		_trail.append(global_transform)
 		if _trail.size() > 40:
 			_trail.pop_front()
-	# Entering a zone other than the one we just left starts auto-docking.
-	for zone in get_tree().get_nodes_in_group("dock_zone"):
-		var d := _flat_distance(zone)
-		if zone == _leave_zone:
-			if d > zone.radius + 2.0:
-				_leave_zone = null
-		elif d < zone.radius:
-			current_zone = zone
-			state = State.DOCKING
-			break
+	# Entering a zone other than the one we just left starts auto-docking. Berths that share a zone_id
+	# (the two in the lighthouse harbour) count as one place: none of them catches the boat until it
+	# has cleared them all (berths and entrances), and coming back it ties up at the nearest.
+	var zones := get_tree().get_nodes_in_group("dock_zone")
+	if _leave_zone:
+		var clear := true
+		for zone in zones:
+			if zone.zone_id == _leave_zone.zone_id and minf(_flat_distance(zone), _capture_distance(zone)) <= zone.radius + 2.0:
+				clear = false
+		if clear:
+			_leave_zone = null
+	var nearest: Node3D = null
+	for zone in zones:
+		if _leave_zone and zone.zone_id == _leave_zone.zone_id:
+			continue
+		if _capture_distance(zone) < zone.radius and (nearest == null or _capture_distance(zone) < _capture_distance(nearest)):
+			nearest = zone
+	if nearest:
+		current_zone = nearest
+		state = State.DOCKING
+		_at_entrance = nearest.entrance == Vector3.ZERO
 
 
 func _dock(delta: float) -> void:
 	rudder = move_toward(rudder, 0.0, delta / steer_response_s)
-	var berth := Vector3(current_zone.global_position.x, global_position.y, current_zone.global_position.z)
-	var to_berth := berth - global_position
-	var dist := to_berth.length()
-	var step := minf(dock_approach_speed, dist * 0.7 + 0.15) * delta   # slows as it nears the berth
-	velocity = to_berth.normalized() * (step / delta) if dist > 0.01 else Vector3.ZERO
-	global_position += to_berth.normalized() * minf(step, dist)
 	rotation.y = lerp_angle(rotation.y, deg_to_rad(current_zone.berth_yaw_deg), 1.0 - exp(-1.5 * delta))
 	var yaw_err := absf(angle_difference(rotation.y, deg_to_rad(current_zone.berth_yaw_deg)))
-	if dist < 0.1 and yaw_err < 0.02:
+	# With an entrance: first to the entrance, then (once turned to the berth heading) straight in.
+	var heading_in := _at_entrance        # past the entrance (or none): the goal is the berth itself
+	var goal: Vector3 = current_zone.global_position if heading_in else current_zone.entrance
+	var berth := Vector3(goal.x, global_position.y, goal.z)
+	var to_berth := berth - global_position
+	var dist := to_berth.length()
+	if not heading_in and dist < 0.3:
+		_at_entrance = true
+	var hold: bool = _at_entrance and current_zone.entrance != Vector3.ZERO and yaw_err > 0.2
+	var step := 0.0 if hold else minf(dock_approach_speed, dist * 0.7 + 0.15) * delta   # slows as it nears the berth
+	velocity = to_berth.normalized() * (step / delta) if dist > 0.01 else Vector3.ZERO
+	global_position += to_berth.normalized() * minf(step, dist)
+	if heading_in and dist < 0.1 and yaw_err < 0.02:
 		velocity = Vector3.ZERO
 		state = State.DOCKED
 		docked.emit(current_zone.zone_id)
@@ -275,6 +293,12 @@ func _build_rig() -> void:
 
 func _flat_distance(node: Node3D) -> float:
 	return Vector2(global_position.x - node.global_position.x, global_position.z - node.global_position.z).length()
+
+
+## Flat distance to where a dock zone catches the boat (its entrance, or the berth).
+func _capture_distance(zone: Node3D) -> float:
+	var p: Vector3 = zone.capture_point()
+	return Vector2(global_position.x - p.x, global_position.z - p.z).length()
 
 
 # --- input and prompt ---

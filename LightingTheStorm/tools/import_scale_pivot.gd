@@ -13,13 +13,14 @@ extends EditorScenePostImport
 # before importing its FAL model; unlisted categories are left untouched.
 const TARGET_HEIGHT_M := {
 	"lighthouse": 27.0,
+	"Characters": 1.83,  # Ted, 6 ft
 }
 # Categories sized by their longest horizontal extent (X or Z) instead of height,
 # e.g. an island whose height depends on its terrain.
 const TARGET_FOOTPRINT_M := {
 	"island": 90.0,
 	"saint_calder_city": 480.0,
-	"dock": 10.0,
+	"dock": 20.0,   # dock_harbour: quay with a two-boat bay, spans the island's harbour inlet
 	"boat": 6.0,
 	"saltgate": 50.0,
 	"cliff_terrain": 120.0,

@@ -40,3 +40,43 @@ Known rough edges in the level, with where they come from and what would fix the
 - Keep the code builders for the editor only, and load the baked meshes in the game.
 - Build the collision offline too (for example as `.res` shapes).
 - Cut the triangle counts of the cliff pieces and the generated models before baking, which also reduces collision cost.
+
+## 4. Re-record the dialogue lines the story beats changed
+
+**What you see:** six lines already have ElevenLabs audio in `AIAgentCrew/voice_output_picked_live/elevenlabs/lines/` that no longer matches their text: TED_S1_01, TED_S1_09, TED_S1_10, TED_S1_11, TED_S3_02 and ARTHUR_S3_04. The new TED_S3_00 has no audio at all. The game does not play line audio yet, so nothing breaks today.
+
+**Why:** the 2026-10-16 story-beat revision (`AIAgentCrew/story_beats.py`) rewrote those lines and added TED_S3_00 so the opening follows the canon order.
+
+**Ideas:**
+- First get the seven lines through a Dialogue agent and Canon review (see item 5).
+- Then regenerate them with `python main_elevenlabs.py tts --casting voice_output_picked_live --lines TED_S1_01 TED_S1_09 TED_S1_10 TED_S1_11 TED_S3_02 ARTHUR_S3_04 TED_S3_00` (dry run first; add `--send` to spend credits).
+
+## 5. Review the rewritten opening lines
+
+**What you see:** TED_S1_01 (the door greeting), TED_S1_09, TED_S1_10, TED_S1_11, TED_S3_02, ARTHUR_S3_04 and the new TED_S3_00 were written for the story beats and have only passed the deterministic checks.
+
+**Why:** they need a Dialogue agent and Canon re-review, and the creator's sign-off on voice and lore, before recording.
+
+**Ideas:**
+- Run the dialogue crew live over them, or walk them through like the 2026-10-15 creator picks.
+- Record the outcome in `Docs/Lore Build/dialogue/DIALOGUE_OPENING_CREATOR_PICKS.md`.
+
+## 6. Confirm the GDD's week 5 fallback wording
+
+**What you see:** the risk plan in the GDD now reads "simplifying the lantern-room diagnosis and burner fit" (it was "dropping the second repair", which no longer exists).
+
+**Why:** the wording was written during the story-beat clean-up, not by the creator.
+
+**Ideas:** confirm or rewrite it in `Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md` and `AI Agent Strategy.md`.
+
+## 7. Wire the story events into the level
+
+**What you see:** none of the opening dialogue plays in a normal playthrough. The level has no lighthouse door, no island gate and no lantern-room trigger, and nothing reports the story events (GAME_STARTED, LIGHTHOUSE_ENTERED, BOILER_FED, SAILORS_MOORED, GATE_OPENED, DANIEL_IN_BASEMENT, BEACON_STILL_DARK, LAMP_ROOM_ENTERED, BURNER_DIAGNOSED, BURNER_BRIEFING, BOARDING_THRESHOLD, SALTGATE_REACHED, BURNER_PICKED_UP and the IDLE_* nudges).
+
+**Why:** the dialogue data (`data/dialogue/dialogue_opening.json`) and its loader (`scripts/dialogue/dialogue_loader.gd`) exist and work when driven by hand, but the level work so far has been terrain, the dock, the stairs and lighting.
+
+**Ideas:**
+- Add a `DialogueLoader` node (or autoload) to `Level.tscn`.
+- Start the player outside the lighthouse door, with Ted there (beat 1).
+- Add trigger areas for the lighthouse door, the basement, the island gate on the path from the dock and the lantern room, plus the boiler and burner interactions, each calling `trigger()` with its event ID.
+- Add the beacon-relit trigger for the lighting rig's BEACON_RELIT phase (beat 7), which has none yet.

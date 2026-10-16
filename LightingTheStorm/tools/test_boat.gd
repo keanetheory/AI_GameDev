@@ -3,14 +3,14 @@
 #    can be done anywhere).
 # 2. Hazards: sailing straight at a sea stack must register a hit and recover the boat.
 # 3. The full crossing out and back, weaving around the sea stacks with A/D only, docking each
-#    end and stepping ashore. The lighthouse berth is in the harbour inlet on the island's west side
+#    end and stepping ashore. The lighthouse berths are in the bay of the stone harbour (dock_harbour) on the island's west side
 #    (bow out, towards -X), so the route leaves west and comes back round into the inlet.
 extends SceneTree
 
 # Harbour exit and approach waypoints. These are passed by flat distance only (the stack waypoints
 # also count as passed once the boat is level with them in z).
 const HARBOUR_EXIT: Array[Vector3] = [Vector3(-50, 0, 20.7), Vector3(-58, 0, 48)]
-const HARBOUR_APPROACH: Array[Vector3] = [Vector3(-55, 0, 62), Vector3(-92, 0, 46), Vector3(-88, 0, 20.7)]
+const HARBOUR_APPROACH: Array[Vector3] = [Vector3(-55, 0, 62), Vector3(-92, 0, 46), Vector3(-88, 0, 20.5), Vector3(-52, 0, 20.5)]
 
 var _lv: Node
 var _boat: Node3D

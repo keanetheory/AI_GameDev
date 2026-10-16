@@ -1,7 +1,7 @@
 ---
 id: chr_player
 type: character
-name: TBD
+name: Isaac
 pronunciation: TBD
 role: protagonist
 age: TBD
@@ -17,10 +17,11 @@ status: locked
 # The Player Character
 
 ## Summary
-- Works at the Bracken Isle lighthouse under Ted.
-- **Starting task:** stokes the engine with coal, then discovers the beacon's lamp head is broken.
-- **Early choice:** opens the gate for Arthur and Daniel.
-- **Main objective:** crosses the Gullwater to the Saltgate for a replacement and races the storm back before the passenger ship hits the reef.
+- Isaac, "the new guy": arrives at the Bracken Isle lighthouse to work under Ted. The game starts outside the lighthouse; Ted opens the door and lets him in. He never speaks.
+- **Starting task:** after a beat, Ted sends him to the basement to shovel coal into the boiler.
+- **Early choice:** opens the island gate for Arthur and Daniel.
+- **Then:** follows Ted up to the lantern room, where Ted finds the beacon's burner broken.
+- **Main objective:** crosses the Gullwater with Arthur to the Saltgate quays for a replacement burner, races the escalating storm back, and fits the burner before the passenger ship runs aground.
 
 ## Appearance
 First-person: hands, sleeves, and boots visible.
@@ -32,7 +33,7 @@ First-person: hands, sleeves, and boots visible.
 |---|---|---|---|---|
 | Stoke engine | sys_steam_power | Raises steam for the beacon | Coal, time | n/a |
 | Pilot launch | sys_steam_power | Crosses the Gullwater | Coal | Harder in storm |
-| Replace lamp head | sys_steam_power | Restores the beacon | Requires the replacement part | Race against the ship |
+| Fit the burner | sys_steam_power | Restores the beacon | Requires the replacement burner | Race against the ship |
 
 ## Everything Else
 TBD (next session: Character Interview).

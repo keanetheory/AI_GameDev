@@ -11,7 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT.parent / "Docs" / "Lore Build" / "dialogue"
-SRC = ROOT.parent / "AIAgentCrew" / "sample_output_picked" / "dialogue_opening.json"  # creator-picked set (39 lines)
+SRC = ROOT.parent / "AIAgentCrew" / "sample_output_picked" / "dialogue_opening.json"  # creator-picked set in canon beat order (40 lines)
 SVG = DOCS / "illustration_opening_dialogue_flow.svg"
 PNG = DOCS / "illustration_opening_dialogue_flow.png"
 EDGE = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
@@ -24,10 +24,11 @@ SERIF, SANS, MONO = "Georgia, 'Times New Roman', serif", "'Segoe UI', Arial, san
 
 data = json.loads(SRC.read_text(encoding="utf-8"))
 lines = {l["line_id"]: l for l in data["lines"]}
-KEY_LINE = {1: "TED_S1_05", 2: "TED_S2_01", 3: "TED_S3_02"}
-CHAIN = [("GAME_STARTED", 1), ("BOILER_FED", 1), ("BURNER_DIAGNOSED", 1), ("SAILORS_MOORED", 2), ("GATE_OPENED", 2),
-         ("DANIEL_IN_BASEMENT", 2), ("BURNER_BRIEFING", 3), ("SHIP_SIGHTED", 3), ("BURNER_PICKED_UP", 3),
-         ("RETURN_DEPARTED", 3)]
+KEY_LINE = {1: "TED_S1_01", 2: "TED_S2_01", 3: "TED_S3_02"}
+# canon story-beat order (2026-10-16): arrival and coal, sailors, then Ted finds the burner broken
+CHAIN = [("GAME_STARTED", 1), ("BOILER_FED", 1), ("SAILORS_MOORED", 2), ("GATE_OPENED", 2),
+         ("DANIEL_IN_BASEMENT", 2), ("BURNER_DIAGNOSED", 3), ("BURNER_BRIEFING", 3), ("SHIP_SIGHTED", 3),
+         ("BURNER_PICKED_UP", 3), ("RETURN_DEPARTED", 3)]
 
 o = []
 

@@ -1,4 +1,4 @@
-"""Opening Dialogue Crew - CrewAI pipeline for Lighting the Storm (Gate 1 steps 1-3).
+"""Opening Dialogue Crew - CrewAI pipeline for Lighting the Storm (Gate 1 steps 1-3 = story beats 1-5).
 
 A second pipeline beside the Storm Crossing Crew (crew.py), built from the same roster (roles.py)
 and the same contract style (schemas.py + validators.py). Three agents run in sequence, each
@@ -122,7 +122,8 @@ def build_dialogue_crew(llm, goal: str, verbose: bool = True, state: dict | None
             f"[TASK OPENING_DIALOGUE_BRIEF]\n{canon}\n\nCREATOR GOAL: {goal}\n\n"
             "Write the task brief for the Gate 1 opening dialogue. Use task_id 'GATE1_OPENING_DIALOGUE'. Set "
             f"max_words_per_line to {max_words}, player_term to the creator's decision, the three speakers TED, "
-            "ARTHUR, DANIEL, the three steps (coal, sailors, burner), the constraints the writer must follow and "
+            "ARTHUR, DANIEL, the three steps (arrival and coal, sailors, Ted finds the burner broken and the Saltgate "
+            "crossing), the constraints the writer must follow and "
             "the open creator decisions this work touches. The game already defines its events: copy EXACTLY "
             "these events, in this order, as the brief's events (the game reports them; do not invent, rename "
             f"or drop any):\n{EVENT_LIST}\n\n{JSON_RULE}{_schema(DialogueBrief)}"
