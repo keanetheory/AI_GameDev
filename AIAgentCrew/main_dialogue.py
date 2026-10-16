@@ -18,9 +18,11 @@ from dialogue_revision import build_revision_crew
 from schemas import DialogueBrief, OpeningDialogue, ReviewReport
 
 DEFAULT_GOAL = (
-    "Write the opening dialogue for the Gate 1 slice. Ted introduces the setting and what the player must do "
-    "at each step: 1) load coal into the basement boiler for the light, 2) let the stranded sailors in through "
-    "the gate, 3) retrieve the replacement burner for the beacon. Include Arthur and Daniel. Call the player "
+    "Write the opening dialogue for the Gate 1 slice, following the canon story beats. The game starts outside "
+    "the lighthouse: Ted opens the door and greets the player as the new guy. Inside, after a beat, Ted sets the "
+    "scene and the objectives: 1) load coal into the basement boiler, 2) let the stranded sailors in through the "
+    "island gate, 3) once they are in, Ted finds the beacon's burner broken and sends the player across the "
+    "Gullwater with Arthur to fetch the replacement from the Saltgate. Include Arthur and Daniel. Call the player "
     "'Isaac'."
 )
 

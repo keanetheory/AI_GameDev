@@ -13,7 +13,7 @@ reference_touchstones: [A Scanner Darkly, Borderlands]  # for human reference on
 era: mid-to-late 1800s gaslight and steam
 coverage: { L1: 80, L2: 100, L3: 85, L4: 25, L5: 10, L6: 0, L7: 0 }
 status: locked
-last_updated: 2026-10-12
+last_updated: 2026-10-16
 ---
 
 # Corvaine
@@ -36,12 +36,15 @@ See [[pillars]].
 What covers the moon, and who are the Flighted? These are two sides of the same mystery. The player confronts it directly in a later expansion; the prototype only hints at it.
 
 ## Prototype Scenario
-1. The player shovels coal into the lighthouse engine to raise steam for the beacon, then discovers the beacon's arc lamp head is broken.
-2. Arthur and Daniel, locals whose boat was caught in the storm, arrive seeking shelter. The player opens the path gate to let them in.
-3. A passenger ship appears on the horizon. Ted and Arthur are stunned: "A passenger ship? NOW? But the lighthouse beacon is broken!"
-4. The player and Arthur take the steam launch across the Gullwater to the Saltgate (about 10 minutes; calm outbound) to retrieve a replacement lamp head.
-5. The return crossing brings rising current, wind, rain, and a loud storm.
-6. The player must install the lamp head before the ship reaches the reef.
+Story beats fixed by the creator on 2026-10-16.
+1. The player (Isaac, "the new guy") starts outside the lighthouse. Ted opens the door ("You're the new guy, then") and the player comes in.
+2. After a beat, Ted sends the player to the basement to shovel coal into the boiler.
+3. Arthur and Daniel, locals whose boat was caught in the storm, moor their rowboat at the dock seeking shelter. The player opens the island gate, on the path from the dock to the lighthouse, to let them in. Daniel stays in the basement.
+4. The dynamo runs but the beacon stays dark. Ted takes the player up to the lantern room, finds the burner broken, and says a new one is needed.
+5. A passenger ship appears on the horizon as the player boards. Ted and Arthur are stunned: "A passenger ship? NOW? But the lighthouse beacon is broken!" The player and Arthur take the steam launch across the Gullwater to the Saltgate quays (about 10 minutes; the rain sets in) to retrieve a replacement burner.
+6. On the return the storm escalates: darker skies, heavier rain, lightning between the clouds.
+7. The player must get back to the lighthouse and fit the burner to the beacon before the passenger ship runs aground.
+   - **Win:** the ship sails safely past and into port.
    - **Fail state:** the passenger ship runs aground on Bracken Isle.
 
 ## Expansion Plans

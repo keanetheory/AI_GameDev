@@ -1,0 +1,12 @@
+{
+  "asset_id": "dock_harbour",
+  "category": "dock",
+  "fal_model": "fal-ai/hunyuan3d-v3/image-to-3d",
+  "prompt": "Small stone harbour quay with two weathered timber jetties on thick round piles either side of a wide open boat bay, jetty decks flush with the quay top, chunky timber mooring posts, curved dressed-stone outer walls with rubble at their base, three stone steps at the back-right corner, straight flat back edge, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, mid-1800s stone and timber",
+  "negative_prompt": "water, sea, waves, boats, ropes, railings, handrails, gates, ladders, crates, barrels, lanterns, people, cliff, island, modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+  "source_image": "../../ConceptArt/dock/newdock/new dock front on.png",
+  "view_images": {
+    "front": "../../ConceptArt/dock/newdock/new dock front on.png"
+  },
+  "notes": "Replaces the harbour baked into island_craggy and the two temporary timber landing stages. Single front-on view (the back sits against the cliff). Bay is about half the dock width so two 6 m boats berth bow-in side by side; the back-right steps meet the foot of the island's stone stairs at the east end of the inlet. Target footprint about 20 m."
+}

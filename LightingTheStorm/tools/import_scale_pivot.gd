@@ -13,13 +13,14 @@ extends EditorScenePostImport
 # before importing its FAL model; unlisted categories are left untouched.
 const TARGET_HEIGHT_M := {
 	"lighthouse": 27.0,
+	"Characters": 1.83,  # Ted, 6 ft
 }
 # Categories sized by their longest horizontal extent (X or Z) instead of height,
 # e.g. an island whose height depends on its terrain.
 const TARGET_FOOTPRINT_M := {
 	"island": 90.0,
 	"saint_calder_city": 480.0,
-	"dock": 10.0,
+	"dock": 20.0,   # dock_harbour: quay with a two-boat bay, spans the island's harbour inlet
 	"boat": 6.0,
 	"saltgate": 50.0,
 	"cliff_terrain": 120.0,
@@ -61,7 +62,23 @@ func _post_import(scene: Node) -> Object:
 
 	print("import_scale_pivot: %s scaled x%.4f (target %.1f m), result %.1f x %.1f x %.1f m, pivot at base centre" % [
 		get_source_file().get_file(), s, target, bounds.size.x * s, bounds.size.y * s, bounds.size.z * s])
+	_matte(scene)
 	return scene
+
+
+# glTF's metallic factor defaults to 1 when a generator leaves it out (Hunyuan3D multi-view does), which
+# renders stone and brick as dark metal with no diffuse light. Nothing in the game is metal-textured,
+# so any material without a metallic map is made fully non-metallic.
+func _matte(scene: Node) -> void:
+	for node in scene.find_children("*", "MeshInstance3D", true, false):
+		var mesh := (node as MeshInstance3D).mesh
+		if mesh == null:
+			continue
+		for i in mesh.get_surface_count():
+			var mat := mesh.surface_get_material(i) as BaseMaterial3D
+			if mat and mat.metallic > 0.0 and mat.metallic_texture == null:
+				print("import_scale_pivot: %s surface %d metallic %.2f -> 0" % [get_source_file().get_file(), i, mat.metallic])
+				mat.metallic = 0.0
 
 
 # Combined AABB of every mesh under `node`, in the scene root's space.

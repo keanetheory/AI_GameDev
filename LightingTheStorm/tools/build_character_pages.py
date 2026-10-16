@@ -1,6 +1,6 @@
 """Builds the per-character dialogue pages and the dialogue index from the crew's final output.
 
-Source: Agent Crew/storm_crew/storm_crew/sample_output_live_revised/dialogue_opening.json
+Source: AIAgentCrew/sample_output_picked/dialogue_opening.json (creator picks + 2026-10-16 story beats)
 Writes: Docs/Lore Build/dialogue/characters/DIALOGUE_<NAME>.md, DIALOGUE_OPENING_FINAL.md, README.md
 Run:    python tools/build_character_pages.py
 """

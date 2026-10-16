@@ -1,15 +1,22 @@
 # Opening dialogue data (Godot 4)
 
-Ted, Arthur and Daniel lines for steps 1-3 of the Gate 1 slice, as data with stable IDs, in the same style as the Agent Crew's `return_crossing.json` (`ARTHUR_RET_*`). Status is **proposed**: the creator approves voice and lore before recording.
+Ted, Arthur and Daniel lines for steps 1-3 of the Gate 1 slice, as data with stable IDs, in the same style as the Agent Crew's `return_crossing.json` (`ARTHUR_RET_*`). The steps follow the creator's story beats (2026-10-16, `AIAgentCrew/canon.py` `STORY_BEATS`):
+
+1. **Arrive and feed the boiler.** The game starts outside the lighthouse; Ted opens the door (`GAME_STARTED`: "You're the new guy, then"). Inside, after a beat (`LIGHTHOUSE_ENTERED`), he sends Isaac down to shovel coal (`BOILER_FED` ends the step).
+2. **Let the sailors in.** `SAILORS_MOORED` ... `GATE_OPENED` (the island gate on the path from the dock) ... `DANIEL_IN_BASEMENT`.
+3. **Fetch a new burner.** `BEACON_STILL_DARK` (the dynamo runs, the light stays dark) -> `LAMP_ROOM_ENTERED` -> `BURNER_DIAGNOSED` (Ted finds the burner broken) -> `BURNER_BRIEFING` -> the crossing to `SALTGATE_REACHED` -> `BURNER_PICKED_UP` -> `RETURN_DEPARTED`, where the crossing crew's `ARTHUR_RET_*` calls take over.
+
+Status is **creator_picked**: one line per moment, chosen by the creator. The lines rewritten for the story beats still need a review, and the creator approves voice and lore before recording.
 
 | File | Purpose |
 |---|---|
-| `dialogue_opening.json` | The game data: speakers, steps, events, 61 lines, 7 journal entries |
+| `dialogue_opening.json` | The game data: speakers, steps, events, 40 lines, 3 journal entries |
 | `../../scripts/dialogue/dialogue_loader.gd` | Plays lines when the game reports an event ID |
-| `Agent Crew/.../main_dialogue.py` | Generates and validates this JSON through three CrewAI agents |
+| `AIAgentCrew/apply_creator_picks.py` | Builds this JSON from the creator's picks in the story-beat order (`--install` writes it here) |
+| `AIAgentCrew/main_dialogue.py` | Generates and validates dialogue through three CrewAI agents |
 | `../../tools/build_illustration.py` | Draws the assignment illustration from the JSON |
 
-The JSON is written by the **Opening Dialogue Crew** (`Agent Crew/storm_crew/storm_crew/main_dialogue.py`), whose guardrails reject any line that breaks a rule (over 22 words, a timer word or number, 'apprentice' instead of 'Isaac', an early mention of the ship, a broken nudge ladder and more). Regenerate with `python main_dialogue.py --offline --godot-dir <this project>`. `tools/build_dialogue.py` is the superseded first draft script and needs `--force`.
+The lines come from the **Opening Dialogue Crew** (`AIAgentCrew/main_dialogue.py`), whose guardrails reject any line that breaks a rule (over 22 words, a timer word or number, 'apprentice' instead of 'Isaac', an early mention of the ship, a broken nudge ladder and more), then the creator's picks. Rebuild this file with `python apply_creator_picks.py --install` in `AIAgentCrew/`. `tools/build_dialogue.py` is the superseded first draft script and needs `--force`.
 
 ## Using it in Godot 4
 
@@ -41,4 +48,4 @@ With `auto_advance` on, each line lasts an estimated reading time. For real voic
 
 ## Not tested in the engine
 
-The JSON is validated by the build script. `dialogue_loader.gd` follows the same patterns as `crossing_loader.gd` but has not been run in Godot, so check it on first import.
+The JSON is validated by the build script. `dialogue_loader.gd` has been run headless against this file (2026-10-16): the events fire their lines and journal entries. Nothing in the level reports the events yet.

@@ -11,26 +11,26 @@
   "steps": [
     {
       "step": 1,
-      "title": "Feed the boiler",
-      "location": "Basement engine room, then the lantern room",
-      "player_action": "Shovel coal into the boiler firebox until the gauge reaches working pressure and the dynamo whines and the beacon flickers. Then climb to the lantern room and inspect the arc lamp to find the burner broken.",
+      "title": "Arrive and feed the boiler",
+      "location": "Outside the lighthouse door, the hall, the basement engine room",
+      "player_action": "Wait outside until Ted opens the door, step into the lighthouse, then go down to the basement and shovel coal into the boiler until the gauge reaches working pressure.",
       "starts_on": "GAME_STARTED",
-      "ends_on": "BURNER_DIAGNOSED"
+      "ends_on": "BOILER_FED"
     },
     {
       "step": 2,
       "title": "Let the sailors in",
-      "location": "Lighthouse window, dock and island gate, then the hall and basement",
-      "player_action": "Notice the moored rowboat, go to the island gate and open it for the stranded sailors Arthur and Daniel. Daniel goes down to the basement and stays there.",
+      "location": "Lighthouse window, the path from the dock, the island gate",
+      "player_action": "Notice the moored rowboat, go down the path and open the island gate for the stranded sailors Arthur and Daniel. Daniel goes down to the basement and stays there.",
       "starts_on": "SAILORS_MOORED",
       "ends_on": "DANIEL_IN_BASEMENT"
     },
     {
       "step": 3,
-      "title": "Fetch the replacement burner",
-      "location": "Hall, dock and launch, the Gullwater crossing, and the abandoned outpost",
-      "player_action": "Talk with Ted and Arthur in the hall, board the launch at the dock, steer the powered engine boat across the Gullwater with Arthur guiding, dock at the abandoned outpost and pick up the replacement burner.",
-      "starts_on": "BURNER_BRIEFING",
+      "title": "Fetch a new burner",
+      "location": "Lantern room, hall, dock, steam launch, the Saltgate quays",
+      "player_action": "Follow Ted up to the lantern room, where he finds the burner broken; then board the steam launch with Arthur, cross the Gullwater and pick up the replacement burner at the Saltgate quays.",
+      "starts_on": "BEACON_STILL_DARK",
       "ends_on": "RETURN_DEPARTED"
     }
   ],
@@ -38,7 +38,13 @@
     {
       "event_id": "GAME_STARTED",
       "step": 1,
-      "note": "New game begins at the lighthouse entrance.",
+      "note": "New game begins OUTSIDE the lighthouse; Ted opens the door.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "LIGHTHOUSE_ENTERED",
+      "step": 1,
+      "note": "Player steps inside; after a beat Ted sends them to the boiler.",
       "existing_crew_event": false
     },
     {
@@ -62,19 +68,7 @@
     {
       "event_id": "BOILER_FED",
       "step": 1,
-      "note": "Gauge reaches working pressure; dynamo whines, beacon flickers.",
-      "existing_crew_event": false
-    },
-    {
-      "event_id": "LAMP_ROOM_ENTERED",
-      "step": 1,
-      "note": "Player enters the lantern room.",
-      "existing_crew_event": false
-    },
-    {
-      "event_id": "BURNER_DIAGNOSED",
-      "step": 1,
-      "note": "Player inspects the arc lamp and finds the burner broken.",
+      "note": "Gauge reaches working pressure; the dynamo whines (the beacon stays dark).",
       "existing_crew_event": false
     },
     {
@@ -114,6 +108,24 @@
       "existing_crew_event": false
     },
     {
+      "event_id": "BEACON_STILL_DARK",
+      "step": 3,
+      "note": "Dynamo running but the beacon stays dark; Ted heads up to the lantern room.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "LAMP_ROOM_ENTERED",
+      "step": 3,
+      "note": "Player follows Ted into the lantern room.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "BURNER_DIAGNOSED",
+      "step": 3,
+      "note": "Ted opens the arc lamp, finds the burner broken and says a new one is needed.",
+      "existing_crew_event": false
+    },
+    {
       "event_id": "BURNER_BRIEFING",
       "step": 3,
       "note": "Player talks with Ted and Arthur in the hall.",
@@ -150,9 +162,9 @@
       "existing_crew_event": false
     },
     {
-      "event_id": "OUTPOST_REACHED",
+      "event_id": "SALTGATE_REACHED",
       "step": 3,
-      "note": "Boat docks at the abandoned outpost.",
+      "note": "Boat docks at the Saltgate quays.",
       "existing_crew_event": false
     },
     {
@@ -210,24 +222,24 @@
       "existing_crew_event": false
     },
     {
-      "event_id": "IDLE_OUTPOST",
+      "event_id": "IDLE_SALTGATE",
       "step": 3,
-      "note": "Player has not found the burner at the outpost.",
+      "note": "Player has not found the burner at the Saltgate quays.",
       "existing_crew_event": false
     }
   ],
   "constraints": [
+    "Refer to the player only as 'Isaac' (never 'apprentice'). The player never speaks.",
+    "The game starts outside the lighthouse: Ted opens the door and greets Isaac as the new guy, then, once Isaac is inside, introduces the setting (storm season, the Saltgate) and each step's objective.",
+    "Step 1: shovel coal into the boiler in the basement engine room. Step 2: let the stranded sailors in through the island gate. Step 3: Ted finds the burner broken in the lantern room (only after the sailors are in), then Isaac retrieves the replacement from the Saltgate quays across the Gullwater.",
     "Refer to the player only as 'Isaac'. Never use 'apprentice'. The player never speaks, so write no player lines.",
     "Do not address the player as lad, lass or man. Ted's 'the boy' means Daniel only.",
-    "Ted introduces the setting (eclipse, storm season, the Saltgate) and the objective of each step: step 1 shovel coal into the basement boiler, step 2 let the stranded sailors in through the island gate, step 3 retrieve the replacement burner from the outpost across the Gullwater.",
     "Ted must never name the passenger ship before BOARDING_THRESHOLD. Before that event, refer to it at most as lights or something out on the water, if at all.",
     "Say 'burner' only. Never write 'lamp head'.",
     "No timers, countdowns, numbers or deadline talk. Pressure comes from the world (ship lights, weather, visibility, rocks), never from a clock or meter.",
     "Never confirm a supernatural cause. Keep the Flighted poster (POSTER_EXAMINED) and the wall whispers (WALL_WHISPER_HEARD, BASEMENT_BANG) ambiguous, with plausible mundane readings left open.",
-    "Add no significant outpost detail. Daniel stays in the basement after DANIEL_IN_BASEMENT, so give him no lines elsewhere.",
     "Voices: Ted is gruff, snarky and old-school, calls city folk 'new money toffs' and uses grunts and coughs. Arthur is wry and frantic under pressure, friendly but wary, and guides the crossing. Daniel is light-hearted and anxious.",
     "Reuse the canon sample lines where they fit. Keep every line to 22 words or fewer, short enough to shout over a storm.",
-    "Every IDLE_* event (IDLE_STEP_1, IDLE_STEP_2, IDLE_STEP_3, IDLE_OUTPOST) needs a nudge ladder of consecutive tiers: hint, then sharper, then explicit.",
     "Alternates share a group and a trigger. Every alternate group has at least two options.",
     "Guidance comes from Ted and Arthur in the world, never markers. The player must always know what to do and why.",
     "Write nothing for RETURN_DEPARTED: it is an existing crew event that hands over to ARTHUR_RET_* calls. Do not write ARTHUR_RET_* lines.",

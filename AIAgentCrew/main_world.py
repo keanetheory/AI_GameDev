@@ -50,7 +50,7 @@ def write_outputs(state: dict, out_dir: str, mode: str, guide) -> tuple[Path, li
     (out / "HANDOFF.md").write_text(f"""# HANDOFF - WORLD SPECS (boat, player movement, lighting)
 
 ## 1. Task and goal
-Specify the steam launch (dock <-> Saltgate port, fixed speed, A/D steering), smooth on-foot movement, and the lighting rig (eclipsed moon, lightning, lighthouse lights, distant Saint Calder) for the first traversable Godot level.
+Specify the steam launch (dock <-> Saltgate port, fixed speed, A/D steering), smooth on-foot movement, and the lighting rig (supermoon, clouds, rain and lightning by phase, lighthouse lights, distant Saint Calder) for the first traversable Godot level.
 
 ## 2. Files changed
 - `boat_spec.json`, `player_movement_spec.json`, `lighting_spec.json`

@@ -4,6 +4,20 @@ Walkthrough on 2026-10-15. Each of the 17 "pick one" groups in the live revised 
 
 The Canon review in the walkthrough used the crew's rules (the live crew could not run: the Anthropic key in `.env` was rejected). The review stored with the picked data is computed by deterministic checks, not by a model.
 
+**Story-beat revision, 2026-10-16.** The creator then fixed the story order (`AIAgentCrew/canon.py` `STORY_BEATS`): the player starts outside and Ted opens the door; after a beat, coal; then the sailors; only then does Ted find the burner broken; then the Saltgate crossing. `AIAgentCrew/story_beats.py` applies that to these picks without changing any line ID:
+
+| Line | Change |
+|---|---|
+| `TED_S1_01` | Now the greeting at the door: "Hrmph. You're the new guy, then. Storm season, and they send me a new money toff. In." |
+| `TED_S1_03` | Moved to `LIGHTHOUSE_ENTERED` (inside, after a beat) |
+| `TED_S1_09` | Step 1 ends at the boiler: "Now we'll see if the old girl lights." |
+| `TED_S3_00` | **New**, on `BEACON_STILL_DARK`: Ted takes Isaac up to the lantern room |
+| `TED_S1_10`, `TED_S1_11` | Moved to step 3; Ted opens the lamp and finds the burner broken ("We need a new one.") |
+| `TED_S3_02` | "There's a spare at the Saltgate" (was "Outpost") |
+| `ARTHUR_S3_04`, Arthur's step 3 nudges | The Saltgate quays instead of the outpost; `OUTPOST_REACHED` and `IDLE_OUTPOST` are now `SALTGATE_REACHED` and `IDLE_SALTGATE` |
+
+The set is now 40 lines. The rewritten lines need a Dialogue agent and Canon re-review, and new audio, before recording.
+
 ## Picks
 
 | Step | Plays on | Kept | Dropped | Canon note at the time |

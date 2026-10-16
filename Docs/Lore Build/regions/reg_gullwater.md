@@ -19,8 +19,8 @@ status: draft
 - Tides are aggressive in eclipse season.
 
 ## The Crossing (gameplay)
-- **Outbound:** mild currents sway the boat a little. Calm and uneasy.
-- **Return:** current, wind, and rain build into a loud storm. Arthur guides the player through it.
+- **Outbound:** the first crossing, to the Saltgate quays for the burner. Currents sway the boat and the rain sets in; uneasy rather than calm.
+- **Return:** the storm escalates: darker skies, heavier rain, lightning between the clouds, stronger current and wind. Arthur guides the player through it.
 - **Vessel:** a small steam launch with a mini steam engine.
 - **Visible landmarks:**
   - Fort Kestrel to the west and Fort Heron to the east, lit and flagged with no one visible
@@ -36,10 +36,10 @@ status: draft
 - **palette:** ["#2C3A40", "#0E0E10", "#B9BEC4"]
 - **key_materials:** [black water, white spray, wet timber hull, brass engine fittings]
 - **lighting_mood:** a moonless dark; the fortress lights and distant city glow are the only reference points.
-- **weather:** calm swell, rising to driving rain and towering waves.
+- **weather:** a rolling swell and setting-in rain outbound, rising to driving rain, lightning and towering waves on the return.
 
 ## Ambient Audio Direction
-- **Outbound:** soft chugging, lapping water, distant gulls.
+- **Outbound:** soft chugging, lapping water, rain beginning to patter on the hull, distant gulls.
 - **Return:** roaring wind, rain hammering the hull, thunder, groaning timber.
 
 ## Asset Prompts

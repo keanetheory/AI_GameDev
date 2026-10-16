@@ -58,7 +58,7 @@ Claude applied every accepted change and produced the final image above.
 
 ## Generated Artifact #2: Character Dialogue Sequences
 
-Dialogue for Ted, Arthur and Daniel across the first three steps of *Lighting the Storm* (load coal into the boiler, let the stranded sailors in, retrieve the burner), written by a CrewAI "Opening Dialogue Crew" and revised after its own reviewer sent it back. The pathway from prompt to result is the diagram at the end of this section.
+Dialogue for Ted, Arthur and Daniel across the first three steps of *Lighting the Storm* (arrive and feed the boiler, let the stranded sailors in, fix the beacon by fetching the burner from the Saltgate), written by a CrewAI "Opening Dialogue Crew" and revised after its own reviewer sent it back. The pathway from prompt to result is the diagram at the end of this section.
 
 **Start here:** [Character Dialogue Sequences index](Docs/Lore%20Build/dialogue/README.md)
 
@@ -84,7 +84,7 @@ Each page has the character's voice notes from the lore file, then every line wi
 
 ### What was provided
 
-- **Ted introduces the player to the setting and each objective.** In the final version he sets the scene (eclipse, storm season, the Saltgate) and then gives the three tasks: feed the basement boiler, open the gate for the sailors, fetch the replacement burner. He is gruff and snarky and calls the city's rich "new money toffs".
+- **Ted introduces the player to the setting and each objective.** In the final version he sets the scene (eclipse, storm season, the Saltgate) and then gives the three tasks: feed the basement boiler, open the gate for the sailors, fetch the replacement burner. Under the creator's story beats of 2026-10-16, the game starts outside the lighthouse with Ted opening the door to "the new guy", and Ted only finds the burner broken, in the lantern room, after the sailors are in; the burner comes from the Saltgate quays. He is gruff and snarky and calls the city's rich "new money toffs".
 - **Arthur and Daniel** react at the gate, in the hall and on the launch. Arthur guides the crossing; Daniel settles by the boiler and is anxious and funny about it.
 - **Dynamic behaviour, not just a script.** Key moments have alternates (17 groups, one plays at random each run), four stall ladders escalate hints when the player is stuck, assist mode adds a plain-text hint, and the player's handwritten journal updates as steps pass.
 - **The player is "Isaac"** and never speaks. Nothing mentions a timer, shows a marker or confirms a supernatural cause.
@@ -98,6 +98,8 @@ Each page has the character's voice notes from the lore file, then every line wi
 > Refer to the Agent Crew for direction and styles.
 >
 > Generate a list of files that can be used by a Godot4 game engine and provide a separate illustration for inclusion in a class assignment I need to hand in.
+
+*Note (2026-10-16): the creator has since fixed the story beats, which supersede the step order in this prompt. Step 1 is now arriving outside the lighthouse (Ted opens the door) and feeding the boiler; step 2 is letting the sailors in; step 3 is fixing the beacon: Ted finds the burner broken in the lantern room, then the player fetches the replacement from the Saltgate quays.*
 
 Claude read the GDD, the Lore Build and the Agent Crew's canon and call-sheet style, then wrote 61 lines as Godot JSON, a loader script and a flow illustration. It used the crew as a style guide and did not run it.
 

@@ -12,7 +12,7 @@ from schemas import OpeningDialogue
 from voice_crew import build_voice_crew
 from voice_integrator import write_outputs
 
-DEFAULT_DIALOGUE = Path(__file__).with_name("sample_output_live_revised") / "dialogue_opening.json"
+DEFAULT_DIALOGUE = Path(__file__).with_name("sample_output_picked") / "dialogue_opening.json"  # the game's dialogue
 
 
 def main() -> int:

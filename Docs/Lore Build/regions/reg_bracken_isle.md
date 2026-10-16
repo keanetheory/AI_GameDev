@@ -21,13 +21,14 @@ status: draft
 | Settlement | Size | Why it is here | Food/Water source | Notes |
 |---|---|---|---|---|
 | The lighthouse | Single building | Guards the approach to the Saltgate. During eclipses it is the only true light by which ships can see the rocks. | TBD | Stone and mortar, battered but robust. Haunted halls. |
-| The dock | Small jetty | The only safe landing, facing the Saltgate | n/a | Home berth of the steam launch |
+| The dock | Small jetty | The only safe landing, facing the Saltgate | n/a | Home berth of the steam launch. Arthur and Daniel moor their rowboat here. |
 
 ## Key Locations
+- **The lighthouse door:** the game starts here, outside, until Ted opens the door to "the new guy".
 - **The path:** runs from the dock to the lighthouse. Jagged rocks on either side force everyone to stay on it.
-- **The gate:** a lockable gate on the path to keep intruders out. Early in the game, the player opens it for Arthur and Daniel. What it was originally built to keep out is TBD.
-- **The engine room:** a coal-fired boiler drives a steam engine and dynamo, which power the beacon's electric arc lamp. The player's first task is to shovel coal here.
-- **The lantern room:** home of the beacon. Its arc lamp head is broken at the start of the game.
+- **The gate:** a lockable gate on the path to keep intruders out. After feeding the boiler, the player opens it for Arthur and Daniel. What it was originally built to keep out is TBD.
+- **The engine room:** a coal-fired boiler drives a steam engine and dynamo, which power the beacon's electric arc lamp. The player's first task, once Ted has let him in, is to shovel coal here. Daniel stays down here once the sailors are in.
+- **The lantern room:** home of the beacon. The burner in its arc lamp is broken from the start, but nobody knows until the dynamo is running and the beacon stays dark; Ted then brings the player up here and finds it.
 - **The halls:** whispering and random bangs come from people hiding in the walls. Littered documents and posters praise the moon cycle and the Flighted.
 - **The flags:** tattered amber-and-gold flags of Saint Calder, a neglected royal standard.
 
@@ -38,7 +39,7 @@ status: draft
 TBD (L5).
 
 ## Current Tensions
-- The beacon is dead, and a passenger ship is approaching.
+- The beacon stays dark even with the dynamo running (its burner is broken), and a passenger ship is approaching.
 - People are hiding inside the walls.
 - Flighted propaganda sits inside the lighthouse itself.
 - The keeper, Ted, may be connected to the Flighted.

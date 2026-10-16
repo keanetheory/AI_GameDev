@@ -1,7 +1,7 @@
 # HANDOFF - WORLD SPECS (boat, player movement, lighting)
 
 ## 1. Task and goal
-Specify the steam launch (dock <-> Saltgate port, fixed speed, A/D steering), smooth on-foot movement, and the lighting rig (eclipsed moon, lightning, lighthouse lights, distant Saint Calder) for the first traversable Godot level.
+Specify the steam launch (dock <-> Saltgate port, fixed speed, A/D steering), smooth on-foot movement, and the lighting rig (supermoon, clouds, rain and lightning by phase, lighthouse lights, distant Saint Calder) for the first traversable Godot level.
 
 ## 2. Files changed
 - `boat_spec.json`, `player_movement_spec.json`, `lighting_spec.json`
@@ -21,7 +21,8 @@ Boat, Player Movement and Lighting specs for the first traversable Godot level. 
 - [PASS] One fixed speed, A/D steering: speed_mps 3.0; throttle_actions empty; W and S do nothing.
 - [PASS] No waves or tides: waves_enabled False; tide_hook reserved for the Tide / Wave agent.
 - [PASS] No visible timer or markers: All is_navigation_marker flags false; no timer wording.
-- [PASS] Moon absent or eclipsed: moon.state 'eclipsed'.
+- [PASS] Moon: supermoon until the eclipse is added: moon.state 'full', light_energy 0.6, lights_crossings True.
+- [PASS] Storm builds by phase: Clouds gather on the island, darken and fill with rain outbound; lightning between the clouds from the RETURN.
 - [PASS] Hazards readable: legibility_checks cover hazards, lightning, beacon and Saint Calder.
 
 ## 5. Not verified
@@ -37,7 +38,6 @@ Adds a Player Movement agent to the roster (the design submission has ten worker
 ## 8. Open creator decisions
 - Whether the earlier return-crossing data (6 m/s) should be regenerated at the confirmed 3 m/s.
 - Whether Arthur, as a passenger, moves around the boat while it is steered.
-- How bright the eclipsed moon's silver rim may be.
-- Whether Saint Calder should flicker or stay fully steady.
+- Keep Saint Calder's window flicker after the vibe test, or make the windows steady.
 - Whether to add controller support at Gate 1.
 - Whether sprint is allowed inside the lighthouse.

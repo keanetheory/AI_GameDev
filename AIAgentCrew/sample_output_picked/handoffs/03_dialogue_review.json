@@ -4,17 +4,17 @@
     {
       "check": "1. The light must return",
       "result": "pass",
-      "evidence": "Each step keeps an objective line with an assist hint: step 1: TED_S1_03, TED_S1_09, TED_S1_I3; step 2: TED_S2_01, TED_S2_I3; step 3: TED_S3_02, ARTHUR_S3_I3, ARTHUR_S3_O3."
+      "evidence": "Each step keeps an objective line with an assist hint: step 1: TED_S1_03, TED_S1_I3; step 2: TED_S2_01, TED_S2_I3; step 3: TED_S3_00, TED_S3_02, ARTHUR_S3_I3, ARTHUR_S3_O3."
     },
     {
       "check": "2. The storm sets the clock",
       "result": "pass",
-      "evidence": "Regex check: no timer, deadline or number word in 39 lines or 3 journal entries."
+      "evidence": "Regex check: no timer, deadline or number word in 40 lines or 3 journal entries."
     },
     {
       "check": "3. Your hands, your eyes",
       "result": "pass",
-      "evidence": "Guidance is spoken by Ted and Arthur; assist hints are opt-in text. The player never speaks; 'Isaac' appears in 10 of 39 lines (TED_S1_03, TED_S1_I1, TED_S1_I2, TED_S2_I1, TED_S2_I2, TED_S3_02, ARTHUR_S3_03, ARTHUR_S3_07, ARTHUR_S3_I1, ARTHUR_S3_O1)."
+      "evidence": "Guidance is spoken by Ted and Arthur; assist hints are opt-in text. The player never speaks; 'Isaac' appears in 11 of 40 lines (TED_S1_03, TED_S3_00, TED_S3_02, ARTHUR_S3_03, ARTHUR_S3_07, TED_S1_I1, TED_S1_I2, TED_S2_I1, TED_S2_I2, ARTHUR_S3_I1, ARTHUR_S3_O1)."
     },
     {
       "check": "4. Dread you can read",
@@ -26,7 +26,7 @@
     {
       "check": "Player term",
       "result": "pass",
-      "evidence": "No line says 'apprentice'; 'Isaac' appears in 10 lines."
+      "evidence": "No line says 'apprentice'; 'Isaac' appears in 11 lines."
     },
     {
       "check": "Ship reveal at boarding",
@@ -51,9 +51,9 @@
     "Ted and Arthur's relationship is TBD in the lore; the 'drowned by now' exchange (ARTHUR_S2_05, TED_S2_04) is a proposal only.",
     "Arthur-knows-more thread: the picks DANIEL_OPT_04 ('Arthur says it's just weather') and ARTHUR_S0_13 (uneasy about the poster) together hint that Arthur knows about the Flighted. His link to them is undecided in the lore.",
     "ARTHUR_S3_08 was reworded by the creator's pick (drops 'back her off', which implied a reverse control); needs a Dialogue agent and Canon re-review.",
-    "LightingTheStorm/data/dialogue/dialogue_opening.json is the older 61-line draft and does not contain these picks; replace it deliberately.",
+    "Story-beat revision (2026-10-16): TED_S1_01, TED_S1_09, TED_S1_10, TED_S1_11, TED_S3_02, ARTHUR_S3_04 and the new TED_S3_00 were rewritten to the creator's beat order; they need a Dialogue agent and Canon re-review before recording.",
     "Fail-reason and outcome lines belong to the Story / Fail-State agent and are not written here.",
     "Where the Flighted poster physically sits is still undecided; ARTHUR_S0_13 is location-neutral."
   ],
-  "handoff_summary": "Creator-picked opening dialogue: 39 lines (Ted 18, Arthur 17, Daniel 4), 3 journal entries, no random alternates. All deterministic contract checks pass. This review is computed, not a model review; ARTHUR_S3_08 was reworded and needs a crew re-review."
+  "handoff_summary": "Creator-picked opening dialogue: 40 lines (Ted 19, Arthur 17, Daniel 4), 3 journal entries, no random alternates. All deterministic contract checks pass. This review is computed, not a model review; ARTHUR_S3_08 was reworded and needs a crew re-review."
 }

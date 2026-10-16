@@ -23,11 +23,14 @@ SPEAKER_META = {
 
 ASSUMPTIONS = [
     "Lore vs GDD: WORLD.md puts the ship reveal before the crossing; the GDD (1 Oct 2026) puts it at the boarding threshold. The brief follows the GDD.",
-    "Lore says 'lamp head'; the GDD says 'burner'. Dialogue uses 'burner'.",
+    "The part is the 'burner' (creator canon, 2026-10-16; supersedes the lore's earlier 'arc lamp head').",
+    "Story order follows canon.STORY_BEATS (2026-10-16): arrival outside, coal, sailors, then Ted finds the burner "
+    "broken, then the Saltgate crossing.",
     "The engine room is assumed to be the basement (Daniel's shelter). Level Layout should confirm.",
     "Decided by the creator: the player is 'Isaac'; Ted's position in steps 2-3 is fine as written.",
     "Existing offline Arthur return-crossing lines (offline_llm.py) still say 'lad'; the dialogue checks would reject that for the player.",
-    "Step 1 is the only repair covered. The GDD's second Gate 1 repair is not part of this task.",
+    "Step 1's coal is the only repair before the crossing; the burner fit at the end (beat 7) belongs to the "
+    "Story / Fail-State agent.",
 ]
 
 

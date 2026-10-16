@@ -3,7 +3,7 @@
   "reviewer_issues": [],
   "game": "Lighting the Storm",
   "slice": "Gate 1",
-  "notes": "Creator walkthrough picks applied on 2026-10-15 to the live revised crew output. Creator still approves voice and lore before recording.",
+  "notes": "Creator walkthrough picks applied on 2026-10-15 to the live revised crew output, then the creator's story-beat order applied on 2026-10-16. Creator still approves voice and lore before recording.",
   "generated_by": {
     "pipeline": "dialogue_crew.py + apply_creator_picks.py",
     "mode": "creator_picks",
@@ -16,7 +16,7 @@
     "revision_rounds": 0,
     "revision_attempts": 1,
     "review_verdict": "PASS (deterministic, not a model review)",
-    "generated_utc": "2026-10-15T14:35:51+00:00",
+    "generated_utc": "2026-10-16T16:44:42+00:00",
     "source": "sample_output_live_revised",
     "creator_picks": 17,
     "lines_dropped": 17
@@ -41,26 +41,26 @@
   "steps": [
     {
       "step": 1,
-      "title": "Feed the boiler",
-      "location": "Basement engine room, then the lantern room",
-      "player_action": "Shovel coal into the boiler firebox until the gauge reaches working pressure and the dynamo whines and the beacon flickers. Then climb to the lantern room and inspect the arc lamp to find the burner broken.",
+      "title": "Arrive and feed the boiler",
+      "location": "Outside the lighthouse door, the hall, the basement engine room",
+      "player_action": "Wait outside until Ted opens the door, step into the lighthouse, then go down to the basement and shovel coal into the boiler until the gauge reaches working pressure.",
       "starts_on": "GAME_STARTED",
-      "ends_on": "BURNER_DIAGNOSED"
+      "ends_on": "BOILER_FED"
     },
     {
       "step": 2,
       "title": "Let the sailors in",
-      "location": "Lighthouse window, dock and island gate, then the hall and basement",
-      "player_action": "Notice the moored rowboat, go to the island gate and open it for the stranded sailors Arthur and Daniel. Daniel goes down to the basement and stays there.",
+      "location": "Lighthouse window, the path from the dock, the island gate",
+      "player_action": "Notice the moored rowboat, go down the path and open the island gate for the stranded sailors Arthur and Daniel. Daniel goes down to the basement and stays there.",
       "starts_on": "SAILORS_MOORED",
       "ends_on": "DANIEL_IN_BASEMENT"
     },
     {
       "step": 3,
-      "title": "Fetch the replacement burner",
-      "location": "Hall, dock and launch, the Gullwater crossing, and the abandoned outpost",
-      "player_action": "Talk with Ted and Arthur in the hall, board the launch at the dock, steer the powered engine boat across the Gullwater with Arthur guiding, dock at the abandoned outpost and pick up the replacement burner.",
-      "starts_on": "BURNER_BRIEFING",
+      "title": "Fetch a new burner",
+      "location": "Lantern room, hall, dock, steam launch, the Saltgate quays",
+      "player_action": "Follow Ted up to the lantern room, where he finds the burner broken; then board the steam launch with Arthur, cross the Gullwater and pick up the replacement burner at the Saltgate quays.",
+      "starts_on": "BEACON_STILL_DARK",
       "ends_on": "RETURN_DEPARTED"
     }
   ],
@@ -69,7 +69,14 @@
       "event_id": "GAME_STARTED",
       "step": 1,
       "emitted_by": "game",
-      "note": "New game begins at the lighthouse entrance.",
+      "note": "New game begins OUTSIDE the lighthouse; Ted opens the door.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "LIGHTHOUSE_ENTERED",
+      "step": 1,
+      "emitted_by": "game",
+      "note": "Player steps inside; after a beat Ted sends them to the boiler.",
       "existing_crew_event": false
     },
     {
@@ -97,21 +104,7 @@
       "event_id": "BOILER_FED",
       "step": 1,
       "emitted_by": "game",
-      "note": "Gauge reaches working pressure; dynamo whines, beacon flickers.",
-      "existing_crew_event": false
-    },
-    {
-      "event_id": "LAMP_ROOM_ENTERED",
-      "step": 1,
-      "emitted_by": "game",
-      "note": "Player enters the lantern room.",
-      "existing_crew_event": false
-    },
-    {
-      "event_id": "BURNER_DIAGNOSED",
-      "step": 1,
-      "emitted_by": "game",
-      "note": "Player inspects the arc lamp and finds the burner broken.",
+      "note": "Gauge reaches working pressure; the dynamo whines (the beacon stays dark).",
       "existing_crew_event": false
     },
     {
@@ -157,6 +150,27 @@
       "existing_crew_event": false
     },
     {
+      "event_id": "BEACON_STILL_DARK",
+      "step": 3,
+      "emitted_by": "game",
+      "note": "Dynamo running but the beacon stays dark; Ted heads up to the lantern room.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "LAMP_ROOM_ENTERED",
+      "step": 3,
+      "emitted_by": "game",
+      "note": "Player follows Ted into the lantern room.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "BURNER_DIAGNOSED",
+      "step": 3,
+      "emitted_by": "game",
+      "note": "Ted opens the arc lamp, finds the burner broken and says a new one is needed.",
+      "existing_crew_event": false
+    },
+    {
       "event_id": "BURNER_BRIEFING",
       "step": 3,
       "emitted_by": "game",
@@ -199,10 +213,10 @@
       "existing_crew_event": false
     },
     {
-      "event_id": "OUTPOST_REACHED",
+      "event_id": "SALTGATE_REACHED",
       "step": 3,
       "emitted_by": "game",
-      "note": "Boat docks at the abandoned outpost.",
+      "note": "Boat docks at the Saltgate quays.",
       "existing_crew_event": false
     },
     {
@@ -269,10 +283,10 @@
       "existing_crew_event": false
     },
     {
-      "event_id": "IDLE_OUTPOST",
+      "event_id": "IDLE_SALTGATE",
       "step": 3,
       "emitted_by": "game",
-      "note": "Player has not found the burner at the outpost.",
+      "note": "Player has not found the burner at the Saltgate quays.",
       "existing_crew_event": false
     }
   ],
@@ -284,13 +298,13 @@
       "speaker": "TED",
       "kind": "setting",
       "trigger": "GAME_STARTED",
-      "text": "Eclipse, storm season, and the Saltgate howling. Of course they send a new money toff.",
-      "subtitle": "TED: Eclipse, storm season, and the Saltgate howling. Of course they send a new money toff.",
+      "text": "Hrmph. You're the new guy, then. Storm season, and they send me a new money toff. In.",
+      "subtitle": "TED: Hrmph. You're the new guy, then. Storm season, and they send me a new money toff. In.",
       "delivery": "Gruff, weary, dry. Ends on a cough.",
       "pause_before": 1.0,
       "once": true,
-      "staging": "Ted at the lighthouse entrance, wind audible outside.",
-      "note": "Introduces eclipse, storm season and the Saltgate."
+      "staging": "Isaac stands outside the lighthouse door in the wind; Ted opens it and looks him over.",
+      "note": "Introduces eclipse, storm season and the Saltgate. | Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
     },
     {
       "line_id": "TED_S1_03",
@@ -298,16 +312,16 @@
       "beat": "Step 1 objective (alternate)",
       "speaker": "TED",
       "kind": "objective",
-      "trigger": "GAME_STARTED",
+      "trigger": "LIGHTHOUSE_ENTERED",
       "text": "Boiler's cold and the beacon's starving. Down to the engine room. Shovel coal, Isaac.",
       "subtitle": "TED: Boiler's cold and the beacon's starving. Down to the engine room. Shovel coal, Isaac.",
       "delivery": "Blunt, barking an order.",
-      "pause_before": 1.5,
+      "pause_before": 2.0,
       "once": true,
       "assist_text": "Go to the basement engine room and shovel coal into the boiler firebox until the gauge climbs.",
       "journal_id": "JRN_01",
-      "staging": "Ted points toward the basement stairs.",
-      "note": "Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped."
+      "staging": "Inside the hall, after a beat. Ted points toward the basement stairs.",
+      "note": "Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
     },
     {
       "line_id": "TED_S1_04",
@@ -357,81 +371,12 @@
       "speaker": "TED",
       "kind": "objective",
       "trigger": "BOILER_FED",
-      "text": "Hear that dynamo whine? Good. Now up to the lantern room and look over the arc lamp.",
-      "subtitle": "TED: Hear that dynamo whine? Good. Now up to the lantern room and look over the arc lamp.",
+      "text": "Hear that dynamo whine? Good. Now we'll see if the old girl lights.",
+      "subtitle": "TED: Hear that dynamo whine? Good. Now we'll see if the old girl lights.",
       "delivery": "Gruff, a rare note of satisfaction.",
       "pause_before": 0.8,
       "once": true,
-      "assist_text": "Climb to the lantern room and inspect the arc lamp."
-    },
-    {
-      "line_id": "TED_S1_10",
-      "step": 1,
-      "beat": "Lantern room entry",
-      "speaker": "TED",
-      "kind": "reaction",
-      "trigger": "LAMP_ROOM_ENTERED",
-      "text": "Arc lamp's in the middle. Open her up and look at the burner.",
-      "subtitle": "TED: Arc lamp's in the middle. Open her up and look at the burner.",
-      "delivery": "Shouted up the stairs, wheezing.",
-      "pause_before": 0.0,
-      "once": true
-    },
-    {
-      "line_id": "TED_S1_11",
-      "step": 1,
-      "beat": "Burner diagnosed",
-      "speaker": "TED",
-      "kind": "discovery",
-      "trigger": "BURNER_DIAGNOSED",
-      "text": "Cracked clean through. The burner's finished. Hrmph. Nothing to mend up here.",
-      "subtitle": "TED: Cracked clean through. The burner's finished. Hrmph. Nothing to mend up here.",
-      "delivery": "Low, grim, with a cough.",
-      "pause_before": 0.8,
-      "once": true
-    },
-    {
-      "line_id": "TED_S1_I1",
-      "step": 1,
-      "beat": "Idle step 1 hint",
-      "speaker": "TED",
-      "kind": "nudge",
-      "trigger": "IDLE_STEP_1",
-      "text": "Standing there won't warm the boiler. Think where the heat comes from, Isaac.",
-      "subtitle": "TED: Standing there won't warm the boiler. Think where the heat comes from, Isaac.",
-      "delivery": "Dry, sarcastic.",
-      "pause_before": 0.0,
-      "once": false,
-      "tier": 1
-    },
-    {
-      "line_id": "TED_S1_I2",
-      "step": 1,
-      "beat": "Idle step 1 sharper",
-      "speaker": "TED",
-      "kind": "nudge",
-      "trigger": "IDLE_STEP_1",
-      "text": "Basement, Isaac. The engine room. Coal's piled by the firebox.",
-      "subtitle": "TED: Basement, Isaac. The engine room. Coal's piled by the firebox.",
-      "delivery": "Impatient, louder.",
-      "pause_before": 0.0,
-      "once": false,
-      "tier": 2
-    },
-    {
-      "line_id": "TED_S1_I3",
-      "step": 1,
-      "beat": "Idle step 1 explicit",
-      "speaker": "TED",
-      "kind": "nudge",
-      "trigger": "IDLE_STEP_1",
-      "text": "Go down to the engine room. Take the shovel. Load coal into the firebox.",
-      "subtitle": "TED: Go down to the engine room. Take the shovel. Load coal into the firebox.",
-      "delivery": "Flat, slow and clear, exasperated.",
-      "pause_before": 0.0,
-      "once": false,
-      "tier": 3,
-      "assist_text": "Go to the basement engine room, take the shovel and load coal into the firebox until the gauge climbs."
+      "note": "Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
     },
     {
       "line_id": "TED_S2_01",
@@ -535,90 +480,48 @@
       "note": "Ambiguous hint only; never confirmed. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped."
     },
     {
-      "line_id": "DANIEL_OPT_04",
-      "step": 0,
-      "beat": "Daniel chats in basement (alternate)",
-      "speaker": "DANIEL",
-      "kind": "reaction",
-      "trigger": "BASEMENT_TALK",
-      "text": "Arthur says it's just weather. I'm sure Arthur's right. He's usually right. Mostly.",
-      "subtitle": "DANIEL: Arthur says it's just weather. I'm sure Arthur's right. He's usually right. Mostly.",
-      "delivery": "Anxious chatter, nervous laugh.",
-      "pause_before": 0.0,
-      "once": false,
-      "note": "Optional event. Basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped."
-    },
-    {
-      "line_id": "DANIEL_OPT_06",
-      "step": 0,
-      "beat": "Basement bang (alternate)",
-      "speaker": "DANIEL",
-      "kind": "reaction",
-      "trigger": "BASEMENT_BANG",
-      "text": "Did you hear that? Tell me you heard that. Pipes, right? Say pipes.",
-      "subtitle": "DANIEL: Did you hear that? Tell me you heard that. Pipes, right? Say pipes.",
-      "delivery": "Anxious, breathless.",
-      "pause_before": 0.0,
-      "once": false,
-      "note": "Cause stays ambiguous. Optional event; basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped."
-    },
-    {
-      "line_id": "DANIEL_OPT_08",
-      "step": 0,
-      "beat": "Wall whisper heard (alternate)",
-      "speaker": "DANIEL",
-      "kind": "reaction",
-      "trigger": "WALL_WHISPER_HEARD",
-      "text": "Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming.",
-      "subtitle": "DANIEL: Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming.",
-      "delivery": "Whispered, nervous, half-laughing.",
-      "pause_before": 0.0,
-      "once": false,
-      "staging": "Daniel in the basement, close to the wall.",
-      "note": "Ambiguous; never confirm a cause. Optional event. Gate: play only when the player is in the basement and DANIEL_IN_BASEMENT has fired; never elsewhere. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped."
-    },
-    {
-      "line_id": "TED_S2_I1",
-      "step": 2,
-      "beat": "Idle step 2 hint",
+      "line_id": "TED_S3_00",
+      "step": 3,
+      "beat": "S3_BEACON",
       "speaker": "TED",
-      "kind": "nudge",
-      "trigger": "IDLE_STEP_2",
-      "text": "Those sailors won't dry themselves on my dock, Isaac.",
-      "subtitle": "TED: Those sailors won't dry themselves on my dock, Isaac.",
-      "delivery": "Dry, impatient.",
-      "pause_before": 0.0,
-      "once": false,
-      "tier": 1
+      "kind": "objective",
+      "trigger": "BEACON_STILL_DARK",
+      "text": "Dynamo's running and still no light. Something's wrong up top. Lantern room, Isaac. With me.",
+      "subtitle": "TED: Dynamo's running and still no light. Something's wrong up top. Lantern room, Isaac. With me.",
+      "delivery": "Gruff and uneasy, looking up the stairs; the hum of the dynamo under him.",
+      "pause_before": 1.5,
+      "once": true,
+      "assist_text": "Follow Ted up the tower stairs to the lantern room.",
+      "staging": "Ted at the foot of the tower stairs, looking up at the dark lantern.",
+      "note": "Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
     },
     {
-      "line_id": "TED_S2_I2",
-      "step": 2,
-      "beat": "Idle step 2 sharper",
+      "line_id": "TED_S1_10",
+      "step": 3,
+      "beat": "Lantern room entry",
       "speaker": "TED",
-      "kind": "nudge",
-      "trigger": "IDLE_STEP_2",
-      "text": "The gate, Isaac. Down the path from the dock. Someone's shouting out there.",
-      "subtitle": "TED: The gate, Isaac. Down the path from the dock. Someone's shouting out there.",
-      "delivery": "Louder, irritated.",
+      "kind": "reaction",
+      "trigger": "LAMP_ROOM_ENTERED",
+      "text": "Arc lamp's in the middle. Let's open her up and see what's ailing her.",
+      "subtitle": "TED: Arc lamp's in the middle. Let's open her up and see what's ailing her.",
+      "delivery": "Shouted up the stairs, wheezing.",
       "pause_before": 0.0,
-      "once": false,
-      "tier": 2
+      "once": true,
+      "note": "Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
     },
     {
-      "line_id": "TED_S2_I3",
-      "step": 2,
-      "beat": "Idle step 2 explicit",
+      "line_id": "TED_S1_11",
+      "step": 3,
+      "beat": "Burner diagnosed",
       "speaker": "TED",
-      "kind": "nudge",
-      "trigger": "IDLE_STEP_2",
-      "text": "Walk to the island gate and open it. Let them in.",
-      "subtitle": "TED: Walk to the island gate and open it. Let them in.",
-      "delivery": "Flat, slow and clear.",
-      "pause_before": 0.0,
-      "once": false,
-      "tier": 3,
-      "assist_text": "Walk to the island gate near the dock and open it to let the sailors in."
+      "kind": "discovery",
+      "trigger": "BURNER_DIAGNOSED",
+      "text": "Cracked clean through. The burner's finished. Hrmph. We need a new one.",
+      "subtitle": "TED: Cracked clean through. The burner's finished. Hrmph. We need a new one.",
+      "delivery": "Low, grim, with a cough.",
+      "pause_before": 0.8,
+      "once": true,
+      "note": "Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
     },
     {
       "line_id": "TED_S3_02",
@@ -627,15 +530,15 @@
       "speaker": "TED",
       "kind": "objective",
       "trigger": "BURNER_BRIEFING",
-      "text": "No burner, no beacon. Outpost, across the Gullwater. Go with Arthur, Isaac.",
-      "subtitle": "TED: No burner, no beacon. Outpost, across the Gullwater. Go with Arthur, Isaac.",
+      "text": "No burner, no beacon. There's a spare at the Saltgate, across the Gullwater. Go with Arthur, Isaac.",
+      "subtitle": "TED: No burner, no beacon. There's a spare at the Saltgate, across the Gullwater. Go with Arthur, Isaac.",
       "delivery": "Grim, urgent, coughing.",
       "pause_before": 0.8,
       "once": true,
-      "assist_text": "Board Arthur's engine boat and cross the Gullwater to the outpost to retrieve the replacement burner.",
+      "assist_text": "Board the steam launch with Arthur and cross the Gullwater to the Saltgate quays to fetch the replacement burner.",
       "journal_id": "JRN_03",
       "staging": "Ted in the lighthouse hall, lamplight swaying as the wind shakes the walls.",
-      "note": "Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped."
+      "note": "Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
     },
     {
       "line_id": "ARTHUR_S3_01",
@@ -648,6 +551,20 @@
       "subtitle": "ARTHUR: In you get. One hand on the wheel, eyes on the rocks.",
       "delivery": "Wry, brisk, wary.",
       "pause_before": 0.0,
+      "once": true,
+      "note": "Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped."
+    },
+    {
+      "line_id": "ARTHUR_S3_11",
+      "step": 3,
+      "beat": "Ship sighted (alternate)",
+      "speaker": "ARTHUR",
+      "kind": "discovery",
+      "trigger": "SHIP_SIGHTED",
+      "text": "There! Ship's lights, out in the swell. She can't see the rocks. No beacon.",
+      "subtitle": "ARTHUR: There! Ship's lights, out in the swell. She can't see the rocks. No beacon.",
+      "delivery": "Hushed, tight, urgent.",
+      "pause_before": 0.5,
       "once": true,
       "note": "Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped."
     },
@@ -694,30 +611,30 @@
       "note": "Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. Reworded from: \"Hold on! Back her off the rock and steer clear. Gently now.\""
     },
     {
-      "line_id": "ARTHUR_S3_11",
-      "step": 3,
-      "beat": "Ship sighted (alternate)",
-      "speaker": "ARTHUR",
-      "kind": "discovery",
-      "trigger": "SHIP_SIGHTED",
-      "text": "There! Ship's lights, out in the swell. She can't see the rocks. No beacon.",
-      "subtitle": "ARTHUR: There! Ship's lights, out in the swell. She can't see the rocks. No beacon.",
-      "delivery": "Hushed, tight, urgent.",
-      "pause_before": 0.5,
-      "once": true,
-      "note": "Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped."
-    },
-    {
       "line_id": "ARTHUR_S3_04",
       "step": 3,
-      "beat": "Outpost reached",
+      "beat": "Saltgate reached",
       "speaker": "ARTHUR",
       "kind": "reaction",
-      "trigger": "OUTPOST_REACHED",
-      "text": "There's the landing. Fetch the burner. I'll keep the engine turning.",
-      "subtitle": "ARTHUR: There's the landing. Fetch the burner. I'll keep the engine turning.",
+      "trigger": "SALTGATE_REACHED",
+      "text": "There's the Saltgate quay. Fetch the burner. I'll keep the engine turning.",
+      "subtitle": "ARTHUR: There's the Saltgate quay. Fetch the burner. I'll keep the engine turning.",
       "delivery": "Quick, tense.",
       "pause_before": 0.5,
+      "once": true,
+      "note": "Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
+    },
+    {
+      "line_id": "ARTHUR_S3_05",
+      "step": 3,
+      "beat": "Burner picked up",
+      "speaker": "ARTHUR",
+      "kind": "discovery",
+      "trigger": "BURNER_PICKED_UP",
+      "text": "That's it? Good. Hold it close. Back across we go.",
+      "subtitle": "ARTHUR: That's it? Good. Hold it close. Back across we go.",
+      "delivery": "Relieved, still wary.",
+      "pause_before": 0.0,
       "once": true
     },
     {
@@ -735,17 +652,133 @@
       "note": "Optional event; location-neutral. Gate: play only once Arthur is present (after SAILORS_INSIDE). Poster stays ambiguous. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped."
     },
     {
-      "line_id": "ARTHUR_S3_05",
-      "step": 3,
-      "beat": "Burner picked up",
-      "speaker": "ARTHUR",
-      "kind": "discovery",
-      "trigger": "BURNER_PICKED_UP",
-      "text": "That's it? Good. Hold it close. Back across we go.",
-      "subtitle": "ARTHUR: That's it? Good. Hold it close. Back across we go.",
-      "delivery": "Relieved, still wary.",
+      "line_id": "DANIEL_OPT_08",
+      "step": 0,
+      "beat": "Wall whisper heard (alternate)",
+      "speaker": "DANIEL",
+      "kind": "reaction",
+      "trigger": "WALL_WHISPER_HEARD",
+      "text": "Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming.",
+      "subtitle": "DANIEL: Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming.",
+      "delivery": "Whispered, nervous, half-laughing.",
       "pause_before": 0.0,
-      "once": true
+      "once": false,
+      "staging": "Daniel in the basement, close to the wall.",
+      "note": "Ambiguous; never confirm a cause. Optional event. Gate: play only when the player is in the basement and DANIEL_IN_BASEMENT has fired; never elsewhere. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped."
+    },
+    {
+      "line_id": "DANIEL_OPT_06",
+      "step": 0,
+      "beat": "Basement bang (alternate)",
+      "speaker": "DANIEL",
+      "kind": "reaction",
+      "trigger": "BASEMENT_BANG",
+      "text": "Did you hear that? Tell me you heard that. Pipes, right? Say pipes.",
+      "subtitle": "DANIEL: Did you hear that? Tell me you heard that. Pipes, right? Say pipes.",
+      "delivery": "Anxious, breathless.",
+      "pause_before": 0.0,
+      "once": false,
+      "note": "Cause stays ambiguous. Optional event; basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped."
+    },
+    {
+      "line_id": "DANIEL_OPT_04",
+      "step": 0,
+      "beat": "Daniel chats in basement (alternate)",
+      "speaker": "DANIEL",
+      "kind": "reaction",
+      "trigger": "BASEMENT_TALK",
+      "text": "Arthur says it's just weather. I'm sure Arthur's right. He's usually right. Mostly.",
+      "subtitle": "DANIEL: Arthur says it's just weather. I'm sure Arthur's right. He's usually right. Mostly.",
+      "delivery": "Anxious chatter, nervous laugh.",
+      "pause_before": 0.0,
+      "once": false,
+      "note": "Optional event. Basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped."
+    },
+    {
+      "line_id": "TED_S1_I1",
+      "step": 1,
+      "beat": "Idle step 1 hint",
+      "speaker": "TED",
+      "kind": "nudge",
+      "trigger": "IDLE_STEP_1",
+      "text": "Standing there won't warm the boiler. Think where the heat comes from, Isaac.",
+      "subtitle": "TED: Standing there won't warm the boiler. Think where the heat comes from, Isaac.",
+      "delivery": "Dry, sarcastic.",
+      "pause_before": 0.0,
+      "once": false,
+      "tier": 1
+    },
+    {
+      "line_id": "TED_S1_I2",
+      "step": 1,
+      "beat": "Idle step 1 sharper",
+      "speaker": "TED",
+      "kind": "nudge",
+      "trigger": "IDLE_STEP_1",
+      "text": "Basement, Isaac. The engine room. Coal's piled by the firebox.",
+      "subtitle": "TED: Basement, Isaac. The engine room. Coal's piled by the firebox.",
+      "delivery": "Impatient, louder.",
+      "pause_before": 0.0,
+      "once": false,
+      "tier": 2
+    },
+    {
+      "line_id": "TED_S1_I3",
+      "step": 1,
+      "beat": "Idle step 1 explicit",
+      "speaker": "TED",
+      "kind": "nudge",
+      "trigger": "IDLE_STEP_1",
+      "text": "Go down to the engine room. Take the shovel. Load coal into the firebox.",
+      "subtitle": "TED: Go down to the engine room. Take the shovel. Load coal into the firebox.",
+      "delivery": "Flat, slow and clear, exasperated.",
+      "pause_before": 0.0,
+      "once": false,
+      "tier": 3,
+      "assist_text": "Go to the basement engine room, take the shovel and load coal into the firebox until the gauge climbs."
+    },
+    {
+      "line_id": "TED_S2_I1",
+      "step": 2,
+      "beat": "Idle step 2 hint",
+      "speaker": "TED",
+      "kind": "nudge",
+      "trigger": "IDLE_STEP_2",
+      "text": "Those sailors won't dry themselves on my dock, Isaac.",
+      "subtitle": "TED: Those sailors won't dry themselves on my dock, Isaac.",
+      "delivery": "Dry, impatient.",
+      "pause_before": 0.0,
+      "once": false,
+      "tier": 1
+    },
+    {
+      "line_id": "TED_S2_I2",
+      "step": 2,
+      "beat": "Idle step 2 sharper",
+      "speaker": "TED",
+      "kind": "nudge",
+      "trigger": "IDLE_STEP_2",
+      "text": "The gate, Isaac. Down the path from the dock. Someone's shouting out there.",
+      "subtitle": "TED: The gate, Isaac. Down the path from the dock. Someone's shouting out there.",
+      "delivery": "Louder, irritated.",
+      "pause_before": 0.0,
+      "once": false,
+      "tier": 2
+    },
+    {
+      "line_id": "TED_S2_I3",
+      "step": 2,
+      "beat": "Idle step 2 explicit",
+      "speaker": "TED",
+      "kind": "nudge",
+      "trigger": "IDLE_STEP_2",
+      "text": "Walk to the island gate and open it. Let them in.",
+      "subtitle": "TED: Walk to the island gate and open it. Let them in.",
+      "delivery": "Flat, slow and clear.",
+      "pause_before": 0.0,
+      "once": false,
+      "tier": 3,
+      "assist_text": "Walk to the island gate near the dock and open it to let the sailors in."
     },
     {
       "line_id": "ARTHUR_S3_I1",
@@ -768,8 +801,8 @@
       "speaker": "ARTHUR",
       "kind": "nudge",
       "trigger": "IDLE_STEP_3",
-      "text": "Come on! The outpost, across the Gullwater. Get in the boat.",
-      "subtitle": "ARTHUR: Come on! The outpost, across the Gullwater. Get in the boat.",
+      "text": "Come on! The Saltgate, across the Gullwater. Get in the boat.",
+      "subtitle": "ARTHUR: Come on! The Saltgate, across the Gullwater. Get in the boat.",
       "delivery": "Frantic, louder.",
       "pause_before": 0.0,
       "once": false,
@@ -782,21 +815,21 @@
       "speaker": "ARTHUR",
       "kind": "nudge",
       "trigger": "IDLE_STEP_3",
-      "text": "Board the boat, take the wheel, steer for the outpost landing. Go!",
-      "subtitle": "ARTHUR: Board the boat, take the wheel, steer for the outpost landing. Go!",
+      "text": "Board the boat, take the wheel, steer for the Saltgate quays. Go!",
+      "subtitle": "ARTHUR: Board the boat, take the wheel, steer for the Saltgate quays. Go!",
       "delivery": "Flat, urgent, clear.",
       "pause_before": 0.0,
       "once": false,
       "tier": 3,
-      "assist_text": "Board the engine boat, steer across the Gullwater and land at the outpost to fetch the burner."
+      "assist_text": "Board the engine boat, steer across the Gullwater and land at the Saltgate quays to fetch the burner."
     },
     {
       "line_id": "ARTHUR_S3_O1",
       "step": 3,
-      "beat": "Idle outpost hint",
+      "beat": "Idle Saltgate hint",
       "speaker": "ARTHUR",
       "kind": "nudge",
-      "trigger": "IDLE_OUTPOST",
+      "trigger": "IDLE_SALTGATE",
       "text": "Burner won't walk to the boat, Isaac.",
       "subtitle": "ARTHUR: Burner won't walk to the boat, Isaac.",
       "delivery": "Dry, calling from the landing.",
@@ -807,10 +840,10 @@
     {
       "line_id": "ARTHUR_S3_O2",
       "step": 3,
-      "beat": "Idle outpost sharper",
+      "beat": "Idle Saltgate sharper",
       "speaker": "ARTHUR",
       "kind": "nudge",
-      "trigger": "IDLE_OUTPOST",
+      "trigger": "IDLE_SALTGATE",
       "text": "Find the burner! Keep looking. Look sharp!",
       "subtitle": "ARTHUR: Find the burner! Keep looking. Look sharp!",
       "delivery": "Frantic, louder.",
@@ -821,10 +854,10 @@
     {
       "line_id": "ARTHUR_S3_O3",
       "step": 3,
-      "beat": "Idle outpost explicit",
+      "beat": "Idle Saltgate explicit",
       "speaker": "ARTHUR",
       "kind": "nudge",
-      "trigger": "IDLE_OUTPOST",
+      "trigger": "IDLE_SALTGATE",
       "text": "Find the burner, pick it up, and bring it to the boat.",
       "subtitle": "ARTHUR: Find the burner, pick it up, and bring it to the boat.",
       "delivery": "Flat, urgent, clear.",
@@ -839,7 +872,7 @@
       "journal_id": "JRN_01",
       "step": 1,
       "trigger": "GAME_STARTED",
-      "text": "Ted says the beacon is starved. Shovel coal into the boiler in the basement engine room until the gauge climbs."
+      "text": "Ted has let me in. The beacon is starved: shovel coal into the boiler in the basement engine room until the gauge climbs."
     },
     {
       "journal_id": "JRN_02",
@@ -851,7 +884,7 @@
       "journal_id": "JRN_03",
       "step": 3,
       "trigger": "BURNER_BRIEFING",
-      "text": "The burner is cracked. Cross the Gullwater with Arthur, fetch the replacement burner from the outpost, and bring it back."
+      "text": "Ted found the beacon's burner cracked. Cross the Gullwater with Arthur, fetch the replacement burner from the Saltgate quays, and bring it back."
     }
   ]
 }

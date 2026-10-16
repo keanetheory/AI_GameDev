@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bedqowsftydfe"
-path="res://.godot/imported/lighthouse_exterior.glb-966111ceb38caea5f3950a5f623e8646.scn"
+uid="uid://bq34pemw2dmbh"
+path="res://.godot/imported/dock_harbour.glb-33290dada2ce9c249db7d6b34d113a2a.scn"
 
 [deps]
 
-source_file="res://Assets/Models/lighthouse/lighthouse_exterior.glb"
-dest_files=["res://.godot/imported/lighthouse_exterior.glb-966111ceb38caea5f3950a5f623e8646.scn"]
+source_file="res://Assets/Models/dock/dock_harbour.glb"
+dest_files=["res://.godot/imported/dock_harbour.glb-33290dada2ce9c249db7d6b34d113a2a.scn"]
 
 [params]
 

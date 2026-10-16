@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://br48tro8ta3ui"
-path="res://.godot/imported/lighthouse_exterior_white.glb-6b9eebb2716f787c94364d1ab4876694.scn"
+uid="uid://beh0a5nbuhk1j"
+path="res://.godot/imported/lighthouse_exterior_v3.glb-d71babc3eb0458d9b8f2f08630b82f2a.scn"
 
 [deps]
 
-source_file="res://Assets/Models/lighthouse/lighthouse_exterior_white.glb"
-dest_files=["res://.godot/imported/lighthouse_exterior_white.glb-6b9eebb2716f787c94364d1ab4876694.scn"]
+source_file="res://Assets/Models/lighthouse/lighthouse_exterior_v3.glb"
+dest_files=["res://.godot/imported/lighthouse_exterior_v3.glb-d71babc3eb0458d9b8f2f08630b82f2a.scn"]
 
 [params]
 
@@ -30,7 +30,7 @@ animation/fps=30
 animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
-import_script/path=""
+import_script/path="res://tools/import_scale_pivot.gd"
 _subresources={}
 gltf/naming_version=1
 gltf/embedded_image_handling=1
