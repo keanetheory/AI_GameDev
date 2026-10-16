@@ -1,14 +1,14 @@
 [
   {
-    "asset_id": "island_craggy",
-    "category": "island",
+    "asset_id": "dock_harbour",
+    "category": "dock",
     "verdict": "APPROVE",
     "findings": [],
     "image_metrics": {
-      "mean_saturation": 0.123,
-      "mean_brightness": 0.55,
+      "mean_saturation": 0.149,
+      "mean_brightness": 0.64,
       "neon_fraction": 0.0,
-      "near_palette_fraction": 0.977
+      "near_palette_fraction": 0.963
     }
   }
 ]

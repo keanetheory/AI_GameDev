@@ -49,41 +49,40 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.2, 0)
 script = ExtResource("1")
 model_path = "res://Assets/Models/island/island_craggy.glb"
 body_layers = 3
-carve_boxes = Array[AABB]([AABB(-26.5, 2.5, 18.8, 4, 6, 4.1), AABB(-40.5, 0.85, 12, 7.3, 5, 9.8), AABB(-34, 0.85, 12.5, 3.4, 5, 4.3), AABB(-35.5, 0.85, 22.6, 18.4, 8, 3.6), AABB(-17.2, 2.3, 22.9, 1.5, 7, 2.3)])
+carve_boxes = Array[AABB]([AABB(-40.5, 0.85, 12, 7.3, 5, 9.8), AABB(-41, 0.85, 12.4, 22.2, 12.35, 17.6), AABB(-18.8, 0.85, 22.5, 4, 12.35, 12.5), AABB(-22, 0.85, 30, 3.2, 12.35, 5), AABB(-15.5, 0.85, 23.2, 3.9, 12.35, 4.4), AABB(-18.8, 3.4, 15, 0.8, 1.6, 2.5)])
+carve_lines = PackedVector3Array(-15.2, 0.85, 24.9, -11.8, 0.85, 21.9, -11.8, 0.85, 21.9, -10.2, 0.85, 26.4, -10.2, 0.85, 26.4, -15.4, 0.85, 30.5, -12.4, 0.85, 22.6, -11.8, 0.85, 26.6, -10.8, 0.85, 25.6, -16, 0.85, 29.7)
+carve_line_half_width = 0.8
 flatten_boxes = Array[AABB]([AABB(-10, 10.9, -22, 30, 12, 27)])
-press_path = PackedVector3Array(-17.40, 2.26, 19.60, -17.32, 2.48, 19.11, -17.24, 2.76, 18.61, -17.15, 3.02, 18.12, -17.07, 3.28, 17.63, -16.99, 3.60, 17.13, -16.91, 3.93, 16.64, -16.82, 4.31, 16.15, -16.80, 4.63, 15.75, -16.80, 5.02, 15.25, -16.80, 5.17, 14.75, -16.80, 5.24, 14.25, -16.80, 5.29, 13.75, -16.80, 5.55, 13.25, -16.69, 5.76, 12.77, -16.48, 6.15, 12.32, -16.26, 6.55, 11.87, -16.04, 6.94, 11.42, -15.83, 7.33, 10.97, -15.61, 7.72, 10.52, -15.44, 7.93, 10.31, -15.12, 8.32, 9.93, -14.80, 8.71, 9.54, -14.47, 9.10, 9.16, -14.15, 9.49, 8.78, -13.83, 9.88, 8.39, -13.51, 10.27, 8.01, -13.29, 10.48, 7.87, -12.86, 10.70, 7.61, -12.43, 10.74, 7.36, -12.00, 10.80, 7.10, -11.57, 10.86, 6.84, -11.14, 10.89, 6.59, -11.00, 10.93, 6.50)
+press_path = PackedVector3Array(-17.4, 2.26, 19.6, -17.32, 2.48, 19.11, -17.24, 2.76, 18.61, -17.15, 3.02, 18.12, -17.07, 3.28, 17.63, -16.99, 3.6, 17.13, -16.91, 3.93, 16.64, -16.82, 4.31, 16.15, -16.8, 4.63, 15.75, -16.8, 5.02, 15.25, -16.8, 5.17, 14.75, -16.8, 5.24, 14.25, -16.8, 5.29, 13.75, -16.8, 5.55, 13.25, -16.69, 5.76, 12.77, -16.48, 6.15, 12.32, -16.26, 6.55, 11.87, -16.04, 6.94, 11.42, -15.83, 7.33, 10.97, -15.61, 7.72, 10.52, -15.44, 7.93, 10.31, -15.12, 8.32, 9.93, -14.8, 8.71, 9.54, -14.47, 9.1, 9.16, -14.15, 9.49, 8.78, -13.83, 9.88, 8.39, -13.51, 10.27, 8.01, -13.29, 10.48, 7.87, -12.86, 10.7, 7.61, -12.43, 10.74, 7.36, -12, 10.8, 7.1, -11.57, 10.86, 6.84, -11.14, 10.89, 6.59, -11, 10.93, 6.5)
 
 [node name="Lighthouse" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 9.61, -8.5)
 script = ExtResource("1")
 model_path = "res://Assets/Models/lighthouse/lighthouse_exterior_v3.glb"
+press_path = PackedVector3Array()
 
 [node name="DockZoneLighthouse" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 0.15, 20.7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 0.15, 18.2)
 script = ExtResource("5")
-radius = 5.0
+radius = 8.0
 berth_yaw_deg = 90.0
-landing = Vector3(-25.3, 2.5, 20.7)
+landing = Vector3(-27, 2.5, 14.7)
+entrance = Vector3(-41, 0.15, 18.2)
 
 [node name="DockZoneLighthouseSouth" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 0.15, 27.3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 0.15, 22.8)
 script = ExtResource("5")
-radius = 5.0
+radius = 8.0
 berth_yaw_deg = 90.0
-landing = Vector3(-25.3, 2.5, 27.3)
+landing = Vector3(-27, 2.5, 26.3)
+entrance = Vector3(-41, 0.15, 22.8)
 
-[node name="HarbourPierNorth" type="Node3D" parent="."]
-script = ExtResource("8")
-points = PackedVector3Array(-17.3, 1.5, 18.9, -19.2, 1.5, 20.7, -26.3, 1.5, 20.7)
-width = 2.4
-rail_both_sides = false
-seed = 11
-
-[node name="HarbourPierSouth" type="Node3D" parent="."]
-script = ExtResource("8")
-points = PackedVector3Array(-26.3, 1.5, 27.3, -19.6, 1.5, 27.3, -19.6, 1.5, 21.9)
-width = 2.4
-seed = 12
+[node name="Harbour" type="Node3D" parent="."]
+transform = Transform3D(0, 0, -1, 0, 1.25, 0, 1, 0, 0, -25.9, 0.1, 20.5)
+script = ExtResource("1")
+model_path = "res://Assets/Models/dock/dock_harbour.glb"
+body_layers = 3
+tint = Color(0.78, 0.8, 0.88, 1)
 
 [node name="DockZonePort" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.15, 527)
@@ -93,7 +92,7 @@ berth_yaw_deg = 90.0
 landing = Vector3(6, 4.4, 538.5)
 
 [node name="Boat" type="Node3D" parent="."]
-transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -29.5, 0.15, 20.7)
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -27, 0.15, 18.2)
 script = ExtResource("4")
 speed = 10.0
 
@@ -101,23 +100,27 @@ speed = 10.0
 script = ExtResource("1")
 model_path = "res://Assets/Models/boat/boat_launch.glb"
 solid = false
+press_path = PackedVector3Array()
 
 [node name="Saltgate" type="Node3D" parent="."]
 transform = Transform3D(0.839563, 0, 0.543262, 0, 1, 0, -0.543262, 0, 0.839563, 15, -1.6, 549.855)
 script = ExtResource("1")
 model_path = "res://Assets/Models/saltgate/saltgate_quay.glb"
+press_path = PackedVector3Array()
 
 [node name="SaltgateWest" type="Node3D" parent="."]
 transform = Transform3D(0.927184, 0, -0.374607, 0, 1, 0, 0.374607, 0, 0.927184, -75, -1.6, 545.6)
 script = ExtResource("1")
 model_path = "res://Assets/Models/saltgate/saltgate_quay.glb"
 body_layers = 3
+press_path = PackedVector3Array()
 
 [node name="SaltgateEast" type="Node3D" parent="."]
 transform = Transform3D(0.71934, 0, -0.694658, 0, 1, 0, 0.694658, 0, 0.71934, 105, -1.6, 546.6)
 script = ExtResource("1")
 model_path = "res://Assets/Models/saltgate/saltgate_quay.glb"
 body_layers = 3
+press_path = PackedVector3Array()
 
 [node name="SaltgateFlag" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 3.2, 546)
@@ -147,6 +150,7 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+press_path = PackedVector3Array()
 
 [node name="CliffWall2" type="Node3D" parent="Cliffs"]
 transform = Transform3D(1.08, 0, 0, 0, 1.6, 0, 0, 0, 1, -185, -3, 584)
@@ -155,6 +159,7 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+press_path = PackedVector3Array()
 
 [node name="CliffWall3" type="Node3D" parent="Cliffs"]
 transform = Transform3D(1, 0, 0, 0, 1.4, 0, 0, 0, 1, -85, -3, 578)
@@ -163,6 +168,7 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+press_path = PackedVector3Array()
 
 [node name="CliffWall4" type="Node3D" parent="Cliffs"]
 transform = Transform3D(0.94, 0, 0, 0, 1.7, 0, 0, 0, 1, 15, -3, 583)
@@ -171,6 +177,7 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+press_path = PackedVector3Array()
 
 [node name="CliffWall5" type="Node3D" parent="Cliffs"]
 transform = Transform3D(1, 0, 0, 0, 1.35, 0, 0, 0, 1, 115, -3, 579)
@@ -179,6 +186,7 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+press_path = PackedVector3Array()
 
 [node name="CliffWall6" type="Node3D" parent="Cliffs"]
 transform = Transform3D(1.06, 0, 0, 0, 1.5, 0, 0, 0, 1, 215, -3, 585)
@@ -187,6 +195,7 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+press_path = PackedVector3Array()
 
 [node name="CliffWall7" type="Node3D" parent="Cliffs"]
 transform = Transform3D(1, 0, 0, 0, 1.45, 0, 0, 0, 1, 315, -3, 581)
@@ -195,6 +204,7 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+press_path = PackedVector3Array()
 
 [node name="Headland1" type="Node3D" parent="Cliffs"]
 transform = Transform3D(0.5638, 0, 0.2052, 0, 1.5, 0, -0.2052, 0, 0.5638, 150, -3, 545)
@@ -203,6 +213,7 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_headland.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+press_path = PackedVector3Array()
 
 [node name="Headland2" type="Node3D" parent="Cliffs"]
 transform = Transform3D(0.4096, 0, -0.2868, 0, 1.4, 0, 0.2868, 0, 0.4096, 262, -3, 538)
@@ -211,6 +222,7 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_headland.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+press_path = PackedVector3Array()
 
 [node name="CapWest" type="Node3D" parent="Cliffs"]
 transform = Transform3D(-0.6578, 0, 0.2394, 0, 1.5, 0, -0.2394, 0, -0.6578, -352, -3, 562)
@@ -219,6 +231,7 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_headland.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+press_path = PackedVector3Array()
 
 [node name="CapEast" type="Node3D" parent="Cliffs"]
 transform = Transform3D(-0.6062, 0, -0.35, 0, 1.5, 0, 0.35, 0, -0.6062, 392, -3, 562)
@@ -227,6 +240,7 @@ model_path = "res://Assets/Models/cliff_terrain/cliff_headland.glb"
 collision_kind = 1
 body_layers = 3
 double_sided = false
+press_path = PackedVector3Array()
 
 [node name="SeaRocks" type="Node3D" parent="."]
 
@@ -236,6 +250,7 @@ script = ExtResource("1")
 model_path = "res://Assets/Models/sea_rocks/sea_stack.glb"
 collision_kind = 1
 body_layers = 3
+press_path = PackedVector3Array()
 
 [node name="SeaStack2" type="Node3D" parent="SeaRocks"]
 transform = Transform3D(0.475, 0, -0.8227, 0, 1.2, 0, 0.8227, 0, 0.475, 2, -3, 205)
@@ -243,6 +258,7 @@ script = ExtResource("1")
 model_path = "res://Assets/Models/sea_rocks/sea_stack.glb"
 collision_kind = 1
 body_layers = 3
+press_path = PackedVector3Array()
 
 [node name="SeaStack3" type="Node3D" parent="SeaRocks"]
 transform = Transform3D(-0.9959, 0, 0.8356, 0, 0.9, 0, -0.8356, 0, -0.9959, 27, -3, 292)
@@ -250,6 +266,7 @@ script = ExtResource("1")
 model_path = "res://Assets/Models/sea_rocks/sea_stack.glb"
 collision_kind = 1
 body_layers = 3
+press_path = PackedVector3Array()
 
 [node name="SeaStack4" type="Node3D" parent="SeaRocks"]
 transform = Transform3D(0.9397, 0, -0.342, 0, 1.1, 0, 0.342, 0, 0.9397, 6, -3, 368)
@@ -257,6 +274,7 @@ script = ExtResource("1")
 model_path = "res://Assets/Models/sea_rocks/sea_stack.glb"
 collision_kind = 1
 body_layers = 3
+press_path = PackedVector3Array()
 
 [node name="SeaStack5" type="Node3D" parent="SeaRocks"]
 transform = Transform3D(0.1997, 0, 1.1325, 0, 1, 0, -1.1325, 0, 0.1997, 23, -3, 440)
@@ -264,12 +282,14 @@ script = ExtResource("1")
 model_path = "res://Assets/Models/sea_rocks/sea_stack.glb"
 collision_kind = 1
 body_layers = 3
+press_path = PackedVector3Array()
 
 [node name="SaintCalder" type="Node3D" parent="."]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 15, 30, 865)
 script = ExtResource("1")
 model_path = "res://Assets/Models/saint_calder_city/saint_calder_city_lowres.glb"
 solid = false
+press_path = PackedVector3Array()
 
 [node name="Mainland" type="Node3D" parent="."]
 script = ExtResource("6")
