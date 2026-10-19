@@ -55,6 +55,7 @@ var _hull: Node3D
 
 
 func _ready() -> void:
+	add_to_group("boat")   # GameState finds the boat by this group and turns its signals into events
 	_build_rig()
 	_hull_shape.size = hull_size
 	_prompt = Label.new()

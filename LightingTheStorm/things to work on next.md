@@ -71,12 +71,11 @@ Known rough edges in the level, with where they come from and what would fix the
 
 ## 7. Wire the story events into the level
 
-**What you see:** none of the opening dialogue plays in a normal playthrough. The level has no lighthouse door, no island gate and no lantern-room trigger, and nothing reports the story events (GAME_STARTED, LIGHTHOUSE_ENTERED, BOILER_FED, SAILORS_MOORED, GATE_OPENED, DANIEL_IN_BASEMENT, BEACON_STILL_DARK, LAMP_ROOM_ENTERED, BURNER_DIAGNOSED, BURNER_BRIEFING, BOARDING_THRESHOLD, SALTGATE_REACHED, BURNER_PICKED_UP and the IDLE_* nudges).
+**What you see:** most of the opening dialogue does not play in a normal playthrough. The `GameState` and `Dialogue` autoloads exist (`scripts/core/game_state.gd`, `scripts/dialogue/dialogue_loader.gd`) and already report GAME_STARTED (Ted's door greeting), BOAT_CAST_OFF, SALTGATE_REACHED, RETURN_DEPARTED (needs BURNER_PICKED_UP first; F11 fires it for testing) and RETURN_ARRIVED. The level has no lighthouse door, no island gate and no lantern-room trigger, so nothing yet reports LIGHTHOUSE_ENTERED, BOILER_FED, SAILORS_MOORED, GATE_OPENED, DANIEL_IN_BASEMENT, BEACON_STILL_DARK, LAMP_ROOM_ENTERED, BURNER_DIAGNOSED, BURNER_BRIEFING, BOARDING_THRESHOLD, BURNER_PICKED_UP or the IDLE_* nudges.
 
-**Why:** the dialogue data (`data/dialogue/dialogue_opening.json`) and its loader (`scripts/dialogue/dialogue_loader.gd`) exist and work when driven by hand, but the level work so far has been terrain, the dock, the stairs and lighting.
+**Why:** the level work so far has been terrain, the dock, the stairs and lighting. The event bus is in place (see `HANDOFF_T01_GameState.md`); what is missing is the scenery that fires the events.
 
 **Ideas:**
-- Add a `DialogueLoader` node (or autoload) to `Level.tscn`.
 - Start the player outside the lighthouse door, with Ted there (beat 1).
-- Add trigger areas for the lighthouse door, the basement, the island gate on the path from the dock and the lantern room, plus the boiler and burner interactions, each calling `trigger()` with its event ID.
+- Add trigger areas for the lighthouse door, the basement, the island gate on the path from the dock and the lantern room, plus the boiler and burner interactions, each calling `GameState.emit_event("EVENT_ID")` (never `Dialogue.trigger()` or the phase directly).
 - Add the beacon-relit trigger for the lighting rig's BEACON_RELIT phase (beat 7), which has none yet.

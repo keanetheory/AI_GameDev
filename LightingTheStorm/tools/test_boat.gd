@@ -11,6 +11,11 @@ extends SceneTree
 # also count as passed once the boat is level with them in z).
 const HARBOUR_EXIT: Array[Vector3] = [Vector3(-50, 0, 20.7), Vector3(-58, 0, 48)]
 const HARBOUR_APPROACH: Array[Vector3] = [Vector3(-55, 0, 62), Vector3(-92, 0, 46), Vector3(-88, 0, 20.5), Vector3(-52, 0, 20.5)]
+# Only stacks this close (in x) to the straight lane between the island and the Saltgate are woven round. The
+# level also has stacks far out to the sides; routing to those sent the boat back past the harbour mouth, where
+# it (correctly) auto-docked at the lighthouse again.
+const LANE_HALF_WIDTH := 100.0
+const LANE_Z_MIN := 60.0
 
 var _lv: Node
 var _boat: Node3D
@@ -118,6 +123,9 @@ func _physics_process(delta: float) -> bool:
 			if _boat.state == _boat.State.DOCKED:
 				_release_all()
 				print("outbound: docked at ", _boat.current_zone.zone_id, " after %.0f s with %d hits" % [_t, _hits])
+				if _boat.current_zone.zone_id != "DOCK_PORT":
+					_fail("outbound leg docked at %s, want DOCK_PORT" % _boat.current_zone.zone_id)
+					return true
 				_boat.disembark()
 				_next()
 		9:
@@ -135,6 +143,9 @@ func _physics_process(delta: float) -> bool:
 			if _boat.state == _boat.State.DOCKED:
 				_release_all()
 				print("return: docked at ", _boat.current_zone.zone_id, " after %.0f s with %d hits" % [_t, _hits])
+				if _boat.current_zone.zone_id != "DOCK_LIGHTHOUSE":
+					_fail("return leg docked at %s, want DOCK_LIGHTHOUSE" % _boat.current_zone.zone_id)
+					return true
 				_boat.disembark()
 				_next()
 		11:
@@ -143,9 +154,16 @@ func _physics_process(delta: float) -> bool:
 				print("DONE")
 				quit()
 	if _t > 400.0:
-		print("TIMEOUT in step ", _step, " state=", _boat.state, " at ", _boat.global_position, " hits=", _hits)
-		quit()
+		_fail("TIMEOUT in step %d state=%d at %s hits=%d" % [_step, _boat.state, _boat.global_position, _hits])
+		return true
 	return false
+
+
+## Ends the run with a non-zero exit code so a script or CI can tell a failed run from a pass.
+func _fail(why: String) -> void:
+	_release_all()
+	print("FAIL: ", why)
+	quit(1)
 
 
 func _next() -> void:
@@ -173,6 +191,8 @@ func _route_around_stacks(returning: bool) -> Array[Vector3]:
 	var pts: Array[Vector3] = []
 	for stack in _lv.get_node("SeaRocks").get_children():
 		var p: Vector3 = stack.global_position
+		if absf(p.x) > LANE_HALF_WIDTH or p.z < LANE_Z_MIN:
+			continue
 		var side := 22.0 if p.x < 14.0 else -22.0
 		pts.append(Vector3(p.x + side, 0.0, p.z))
 	pts.sort_custom(func(a, b): return a.z > b.z if returning else a.z < b.z)

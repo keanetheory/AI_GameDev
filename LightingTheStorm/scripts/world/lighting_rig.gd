@@ -4,7 +4,8 @@
 # lit windows, and sets the environment's ambient light and fog for the current phase.
 #
 # Phases follow the game: ISLAND until the boat leaves the island, OUTBOUND on the way to the Saltgate, RETURN
-# once it leaves the Saltgate with the burner. BEACON_RELIT has no trigger yet. F5-F8 jump straight to a phase
+# once it leaves the Saltgate with the burner, BEACON_RELIT once the burner is fitted. The GameState autoload
+# calls set_phase() as the story moves (follow_boat_signals is off by default). F5-F8 jump straight to a phase
 # (ISLAND, OUTBOUND, RETURN, BEACON_RELIT) so the look can be compared; each change blends over blend_s.
 # Runtime only: nothing here touches the scene in the editor, so nothing it builds is saved into Level.tscn.
 extends Node3D
@@ -53,6 +54,9 @@ void fragment() {
 ## Share of strikes placed in front of the camera (the rest land anywhere around it).
 @export_range(0.0, 1.0) var in_view_share := 0.75
 @export var debug_keys := true
+## false: the GameState autoload drives the phases (scripts/core/game_state.gd). true: the rig also follows the
+## boat's departed signal itself, for running the scene on its own. Leave false in the game or both would drive it.
+@export var follow_boat_signals := false
 
 var phase := ""
 var _spec: Dictionary = {}
@@ -80,6 +84,7 @@ var _headless := false
 
 
 func _ready() -> void:
+	add_to_group("lighting_rig")   # GameState finds the rig by this group and drives set_phase()
 	_headless = DisplayServer.get_name() == "headless"
 	var f := FileAccess.open(spec_path, FileAccess.READ)
 	if f == null:
@@ -98,7 +103,7 @@ func _ready() -> void:
 		_build_label()
 		_build_windows.call_deferred()
 	var b := get_node_or_null(boat)
-	if b and b.has_signal("departed"):
+	if follow_boat_signals and b and b.has_signal("departed"):
 		b.departed.connect(_on_boat_departed)
 	set_phase(start_phase, true)
 

@@ -1,14 +1,38 @@
 [
   {
-    "asset_id": "dock_harbour",
-    "category": "dock",
+    "asset_id": "burner_replacement",
+    "category": "prop",
+    "verdict": "APPROVE",
+    "findings": [],
+    "image_metrics": {
+      "mean_saturation": 0.195,
+      "mean_brightness": 0.424,
+      "neon_fraction": 0.0,
+      "near_palette_fraction": 0.986
+    }
+  },
+  {
+    "asset_id": "burner_broken",
+    "category": "prop",
+    "verdict": "APPROVE",
+    "findings": [],
+    "image_metrics": {
+      "mean_saturation": 0.188,
+      "mean_brightness": 0.411,
+      "neon_fraction": 0.0,
+      "near_palette_fraction": 0.979
+    }
+  },
+  {
+    "asset_id": "rowboat",
+    "category": "boat",
     "verdict": "APPROVE",
     "findings": [],
     "image_metrics": {
       "mean_saturation": 0.149,
-      "mean_brightness": 0.64,
+      "mean_brightness": 0.434,
       "neon_fraction": 0.0,
-      "near_palette_fraction": 0.963
+      "near_palette_fraction": 0.991
     }
   }
 ]
