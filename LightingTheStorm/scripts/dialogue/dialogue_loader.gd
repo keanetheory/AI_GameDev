@@ -28,6 +28,7 @@ var _played := {}
 var _idle_tier := {}
 var _queue: Array = []
 var _playing := false
+var _generation := 0   # bumped by reset_for_restart() so a line still being played from the old attempt is dropped
 
 
 func _ready() -> void:
@@ -63,7 +64,7 @@ func trigger(event_id: String) -> void:
 
 
 ## Call when the player has made no progress on a step. key is "IDLE_STEP_1", "IDLE_STEP_2",
-## "IDLE_STEP_3" or "IDLE_OUTPOST". Each call escalates one tier (1 hint, 2 sharper, 3 explicit).
+## "IDLE_STEP_3" or "IDLE_SALTGATE". Each call escalates one tier (1 hint, 2 sharper, 3 explicit).
 func idle(key: String) -> void:
 	if data.is_empty() or _playing:
 		return
@@ -92,6 +93,8 @@ func reset_for_restart() -> void:
 	_played.clear()
 	_idle_tier.clear()
 	_queue.clear()
+	_generation += 1    # a _play_queue() coroutine mid-line sees this on waking and returns without speaking
+	_playing = false
 
 
 func _pick_lines(candidates: Array) -> Array:
@@ -126,11 +129,14 @@ func _enqueue(lines: Array) -> void:
 
 func _play_queue() -> void:
 	_playing = true
+	var gen := _generation
 	while not _queue.is_empty():
 		var line: Dictionary = _queue.pop_front()
 		var pause: float = float(line.get("pause_before", 0.0))
 		if pause > 0.0:
 			await get_tree().create_timer(pause).timeout
+			if gen != _generation:
+				return   # the slice was restarted while waiting; leave _playing to the new attempt
 		line_started.emit(line["line_id"], line["speaker"], line["subtitle"], line["delivery"])
 		if assist_mode and line.has("assist_text"):
 			assist_hint.emit(int(line["step"]), line["assist_text"])
@@ -138,6 +144,8 @@ func _play_queue() -> void:
 			await get_tree().create_timer(_reading_time(line)).timeout
 		else:
 			await playback_done
+		if gen != _generation:
+			return
 		line_finished.emit(line["line_id"])
 	_playing = false
 

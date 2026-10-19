@@ -11,6 +11,7 @@ Purpose: let a solo creator delegate bounded implementation and content tasks wh
 • Fail-state brief and example orchestrator brief updated: three fail states, all after the return crossing begins (return crossing, lamp room, stairs).
 • Added a working rule: no significant outpost detail until the creator considers the prototype complete.
 • Engine confirmed by the creator as Godot 4 with GDScript, after reviewing the Engine Comparison pros and cons. Agents use Godot’s text-based files.
+• 16 October 2026, story beats: role scopes, the outpost rule and the checklist updated for the creator’s fixed beats (arrival outside with Ted opening the door, coal into the boiler, sailors and the island gate, Ted finding the burner broken in the lantern room, the Saltgate quays as the destination, “runs aground” as the fail wording). “Two Gate 1 repairs” now reads feeding the boiler and fitting the burner.
 
 ## Working rules for every agent
 
@@ -20,7 +21,7 @@ Purpose: let a solo creator delegate bounded implementation and content tasks wh
 4. Return actual editable outputs, source files and licences/provenance for external assets, import settings, test instructions, and known limitations. Mockups or prose alone do not count as implementation.
 5. Run the relevant project import/build and focused checks. State what you observed, what you could not verify, and which human decision remains.
 6. The creator reviews and merges each change. AI output is a first pass; dialogue performance, art fit, tuning, and story interpretation require human judgement.
-7. Do not build anything marked Proposed, deferred, or on the cut list (waves, route branching, further repairs beyond the first two) without the creator’s go-ahead. Do not add significant detail to the outpost until the creator considers the prototype complete.
+7. Do not build anything marked Proposed, deferred, or on the cut list (waves, route branching, further repairs beyond feeding the boiler and fitting the burner) without the creator’s go-ahead. Do not add significant detail to the Saltgate until the creator considers the prototype complete.
 
 ## Orchestration and oversight
 
@@ -28,7 +29,7 @@ The creator delegates goals to orchestrators; orchestrators delegate bounded tas
 
 |Orchestrator              |Responsibility                                                                                                                                  |Escalates to the creator when                                                         |
 |--------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
-|Production Orchestrator   |Turns a creator goal or gate into a task list; writes task briefs; assigns work to worker roles; orders dependencies; tracks status against the six-week schedule; keeps event IDs and contracts in sync across agents; assembles the integrated build.|A schedule exit test is missed; a contract must change; two tasks conflict; week 5 load slips (second repair, waves). |
+|Production Orchestrator   |Turns a creator goal or gate into a task list; writes task briefs; assigns work to worker roles; orders dependencies; tracks status against the six-week schedule; keeps event IDs and contracts in sync across agents; assembles the integrated build.|A schedule exit test is missed; a contract must change; two tasks conflict; week 5 load slips (burner diagnosis and fit, waves). |
 |Canon and Review Orchestrator|Checks every handoff against the review checklist, the four pillars, the scope rule, and the Decisions log; blocks work that decides an unresolved story point; keeps the Decisions log and changed contracts current; collects QA findings.|A canon question appears (for example Ted, retry model, penalty rules); a pillar test fails; a fail-state or ship-reveal rule is unclear.|
 
 ## Orchestrator rules:
@@ -45,9 +46,9 @@ The creator delegates goals to orchestrators; orchestrators delegate bounded tas
 |----------------|-----------------------------------------------------------------------------------|--------------------------------------------------------------|---------------------------------------------------|
 |Boat/Physics    |Steering spike, hazard collisions, boat reaction, docking, recovery, tunable parameters. Wave fields only as a later stretch task.|Hazard forecast API, one steering axis, recovery event, dock zones.|Creator plays Gate 0; readable, enjoyable steering.|
 |Hazard Forecast |Shared hazard forecast and single safe-route signal read by hazards, boat reaction and Arthur’s calls.|Route data, hazard placement, difficulty presets.|Arthur’s calls never disagree with the forecast; one route only until branching is approved.|
-|Level Layout    |Greybox lighthouse route, window view of the moored rowboat and island gate, short sea corridor, outpost pickup, lamp-room sightline to the ship and island rocks.|Location sizes, beacon visibility, interaction anchors.       |Traversal and camera checks in engine.             |
-|Gameplay/Systems|Phase controller, repair interaction (two repairs for Gate 1), shelter and gate trigger, boarding trigger, return-departure clock trigger, cargo, win and fail states, restart.|Stable event and save IDs from Technical Strategy.            |Gate 1 complete end-to-end; no dead ends.          |
-|Story/Fail-State|Fail-state presentation (horn, crash, silence, “Failed” screen, reason line), ship reveal at the boarding threshold, Ted’s lamp-room staging and lines.|Fail-state contract, phase events, Decisions log.|Fail reason understood from every expiry location; no cutaway camera.|
+|Level Layout    |Greybox lighthouse route, window view of the moored rowboat and island gate, short sea corridor, the Saltgate quays pickup, lantern-room route for Ted’s burner diagnosis, lamp-room sightline to the ship and island rocks.|Location sizes, beacon visibility, interaction anchors.       |Traversal and camera checks in engine.             |
+|Gameplay/Systems|Phase controller following the story beats, arrival and coal-feeding interaction, shelter and gate trigger, beacon diagnosis trigger (only after the sailors are in), boarding trigger, return-departure clock trigger, cargo, win and fail states, restart.|Stable event and save IDs from Technical Strategy.            |Gate 1 complete end-to-end; no dead ends.          |
+|Story/Fail-State|Fail-state presentation (horn, the ship runs aground, silence, “Failed” screen, reason line), ship reveal at the boarding threshold, Ted’s lamp-room staging and lines.|Fail-state contract, phase events, Decisions log.|Fail reason understood from every expiry location; no cutaway camera.|
 |Lighting        |Beacon sweep, warm/cold contrast, storm visibility presets.                        |Scene anchors, performance budget, hazard visibility rules.   |Beacon and hazards remain legible at every phase. |
 |Sound           |Layered storm, machinery and foghorn, ship impact, cue mix; source list and licences. Perceptual storm cues follow elapsed time.|Escalation events and speaker priority.                       |Arthur’s warnings remain audible; no shock stingers. |
 |Asset           |Props and modular set dressing with source meshes and import notes.                |Scale, pivot, collision, palette and approved reference sheet.|Assets import cleanly and fit the intended tone.   |
@@ -114,7 +115,7 @@ Rules:
 - Are state changes and event IDs consistent with the shared contract?
 - Does it pass its task’s concrete acceptance checks?
 - Does it pass each design pillar’s test and the scope rule, and avoid deciding an unresolved story point?
-- Does it respect the Decisions log (return-crossing clock start, storm split, two Gate 1 repairs, no crash, fail-state contract)?
+- Does it respect the Decisions log (story beats in order, return-crossing clock start, storm split, Gate 1 work of feeding the boiler and fitting the burner, no crash, the Saltgate as the destination, fail-state contract)?
 - What did human playtesting reveal about feel, clarity, and pacing?
 - Has the orchestrator reported the result, including failures and blocked decisions?
 - Is there a complete HANDOFF.md in the standard format, with data in the agreed file types?

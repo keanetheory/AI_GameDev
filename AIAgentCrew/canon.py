@@ -8,12 +8,29 @@ GAME_TITLE = "Lighting the Storm"
 
 PITCH = (
     "Lighting the Storm is a first-person, single-player atmospheric folk-horror adventure "
-    "for PC (Godot 4, GDScript). A new apprentice repairs the failing lighthouse on Bracken "
-    "Isle with keeper Ted. Sailors Arthur and Daniel moor on the island seeking shelter. Arthur "
-    "crosses the water with the apprentice in a powered engine boat to fetch a replacement "
-    "beacon burner from an abandoned outpost. The player must bring it back and relight the "
-    "beacon before a passenger ship reaches the rocks."
+    "for PC (Godot 4, GDScript). Isaac, the new hand, arrives at the lighthouse on Bracken Isle and "
+    "keeper Ted lets him in. He feeds the boiler, opens the island gate for two stranded sailors, "
+    "Arthur and Daniel, and then Ted finds the beacon's burner broken. Isaac crosses the Gullwater "
+    "with Arthur in the steam launch to fetch a replacement burner from the Saltgate. On the way "
+    "back the storm escalates, and he must reach the lighthouse and fit the burner to the beacon "
+    "before a passenger ship runs aground."
 )
+
+# The creator's canonical story beats (2026-10-16). Every crew, doc and game data set follows this order.
+STORY_BEATS = [
+    "1. Arrival: the player starts OUTSIDE the lighthouse. Ted opens the door ('You're the new guy, then') "
+    "and the player comes into the lighthouse.",
+    "2. After a beat, Ted sends the player to the basement to shovel coal into the boiler.",
+    "3. Two stranded sailors, Arthur and Daniel, moor at the dock; the player opens the island gate (on the "
+    "path from the dock) to let them in. Daniel stays in the basement.",
+    "4. The dynamo runs but the beacon stays dark: Ted takes the player up to the lantern room, finds the "
+    "burner broken and says a new one is needed.",
+    "5. First crossing (OUTBOUND): the player takes the steam launch across the Gullwater with Arthur and "
+    "retrieves the replacement burner from the Saltgate quays.",
+    "6. The storm escalates (RETURN): darker skies, heavier rain, lightning.",
+    "7. The player must get back to the lighthouse and fit the burner to the beacon before the passenger "
+    "ship runs aground (BEACON_RELIT).",
+]
 
 PILLARS = [
     "1. The light must return - everything leads back to the beacon.",
@@ -41,14 +58,15 @@ RETURN_CROSSING_RULES = [
     "Docking is automatic inside the lighthouse dock zone (DOCK_LIGHTHOUSE).",
     "On arrival Arthur says something like 'go go go, don't wait for me'.",
     "No visible timer, quest markers, combat, monsters, jump scares or non-first-person cameras.",
-    "Do not add significant outpost detail; do not invent new major locations.",
+    "Do not add significant Saltgate detail; do not invent new major locations.",
 ]
 
 CHARACTERS = {
     "Arthur": "Older, coarse seaman, the player's companion on both crossings. Reluctant, but he has "
             "realised the storm is turning nasty and wants to stop the ship being wrecked. Shouts "
             "short, practical directions over the wind.",
-    "Ted": "Gruff keeper, staged at the lamp in the second half. Not present on the boat.",
+    "Ted": "Gruff keeper, present inside the lighthouse throughout; staged at the lamp in the second half. "
+           "Not present on the boat.",
     "Apprentice": "The player. Never speaks.",
 }
 
@@ -75,7 +93,8 @@ def canon_block() -> str:
     ids = "\n".join(f"- {k}: {v}" for k, v in STABLE_IDS.items())
     chars = "\n".join(f"- {k}: {v}" for k, v in CHARACTERS.items())
     return (
-        f"GAME: {GAME_TITLE}\n{PITCH}\n\nDESIGN PILLARS:\n" + "\n".join(PILLARS)
+        "STORY BEATS (creator canon, in order):\n" + "\n".join(STORY_BEATS) + "\n\n"
+        + f"GAME: {GAME_TITLE}\n{PITCH}\n\nDESIGN PILLARS:\n" + "\n".join(PILLARS)
         + "\n\nRETURN CROSSING RULES (canon, Decisions log):\n"
         + "\n".join(f"- {r}" for r in RETURN_CROSSING_RULES)
         + f"\n\nCHARACTERS:\n{chars}\n\nSTABLE IDS:\n{ids}\n\nOPEN CREATOR DECISIONS (do not decide these):\n"
@@ -98,40 +117,47 @@ OPENING_SPEAKERS = {
     "DANIEL": "Younger sailor, light-hearted and anxious. Shelters in the basement and stays there.",
 }
 
+# The three dialogue steps cover story beats 1-5 (beats 6-7 belong to the crossing crew and the
+# Story / Fail-State agent).
 OPENING_STEPS = [
-    {"step": 1, "title": "Feed the boiler", "location": "Engine room (basement), then lantern room",
-     "player_action": "Shovel coal into the boiler, then find the beacon's burner is broken.",
-     "starts_on": "GAME_STARTED", "ends_on": "BURNER_DIAGNOSED"},
-    {"step": 2, "title": "Let the sailors in", "location": "Lantern-room window, path, island gate",
-     "player_action": "Look out of the window, go down the path and open the gate for Arthur and Daniel.",
+    {"step": 1, "title": "Arrive and feed the boiler", "location": "Outside the lighthouse door, the hall, the basement engine room",
+     "player_action": "Wait outside until Ted opens the door, step into the lighthouse, then go down to the basement "
+                      "and shovel coal into the boiler until the gauge reaches working pressure.",
+     "starts_on": "GAME_STARTED", "ends_on": "BOILER_FED"},
+    {"step": 2, "title": "Let the sailors in", "location": "Lighthouse window, the path from the dock, the island gate",
+     "player_action": "Notice the moored rowboat, go down the path and open the island gate for the stranded sailors "
+                      "Arthur and Daniel. Daniel goes down to the basement and stays there.",
      "starts_on": "SAILORS_MOORED", "ends_on": "DANIEL_IN_BASEMENT"},
-    {"step": 3, "title": "Fetch the burner", "location": "Dock, steam launch, outpost",
-     "player_action": "Board the launch with Arthur, cross the Gullwater and pick up the replacement burner.",
-     "starts_on": "BURNER_BRIEFING", "ends_on": "RETURN_DEPARTED"},
+    {"step": 3, "title": "Fetch a new burner", "location": "Lantern room, hall, dock, steam launch, the Saltgate quays",
+     "player_action": "Follow Ted up to the lantern room, where he finds the burner broken; then board the steam launch "
+                      "with Arthur, cross the Gullwater and pick up the replacement burner at the Saltgate quays.",
+     "starts_on": "BEACON_STILL_DARK", "ends_on": "RETURN_DEPARTED"},
 ]
 
 # (event_id, step, note, existing_crew_event). Order matters: the ship may not be named before BOARDING_THRESHOLD.
 OPENING_EVENTS = [
-    ("GAME_STARTED", 1, "New game begins at the lighthouse entrance.", False),
+    ("GAME_STARTED", 1, "New game begins OUTSIDE the lighthouse; Ted opens the door.", False),
+    ("LIGHTHOUSE_ENTERED", 1, "Player steps inside; after a beat Ted sends them to the boiler.", False),
     ("ENGINE_ROOM_ENTERED", 1, "Player enters the basement engine room.", False),
     ("COAL_LOADED_FIRST", 1, "First shovelful lands in the firebox.", False),
     ("COAL_LOADED_HALF", 1, "Steam gauge reaches roughly half.", False),
-    ("BOILER_FED", 1, "Gauge reaches working pressure; dynamo whines, beacon flickers.", False),
-    ("LAMP_ROOM_ENTERED", 1, "Player enters the lantern room.", False),
-    ("BURNER_DIAGNOSED", 1, "Player inspects the arc lamp and finds the burner broken.", False),
+    ("BOILER_FED", 1, "Gauge reaches working pressure; the dynamo whines (the beacon stays dark).", False),
     ("SAILORS_MOORED", 2, "Rowboat appears moored at the dock (no crash).", False),
     ("WINDOW_LOOKED", 2, "Player looks out of the window at the dock.", False),
     ("GATE_APPROACHED", 2, "Player reaches the island gate.", False),
     ("GATE_OPENED", 2, "Player opens the island gate.", False),
     ("SAILORS_INSIDE", 2, "Arthur and Daniel reach the lighthouse hall.", False),
     ("DANIEL_IN_BASEMENT", 2, "Daniel reaches the basement and stays there.", False),
+    ("BEACON_STILL_DARK", 3, "Dynamo running but the beacon stays dark; Ted heads up to the lantern room.", False),
+    ("LAMP_ROOM_ENTERED", 3, "Player follows Ted into the lantern room.", False),
+    ("BURNER_DIAGNOSED", 3, "Ted opens the arc lamp, finds the burner broken and says a new one is needed.", False),
     ("BURNER_BRIEFING", 3, "Player talks with Ted and Arthur in the hall.", False),
     ("BOARDING_THRESHOLD", 3, "Player reaches the launch at the dock.", False),
     ("SHIP_SIGHTED", 3, "Passenger ship's lights appear on the horizon.", False),
     ("BOAT_CAST_OFF", 3, "Outbound crossing begins (untimed steering practice).", False),
     ("OUTBOUND_NEAR_MISS", 3, "Boat clears a hazard narrowly.", False),
     ("OUTBOUND_COLLISION", 3, "Boat hits a hazard (recoverable).", False),
-    ("OUTPOST_REACHED", 3, "Boat docks at the abandoned outpost.", False),
+    ("SALTGATE_REACHED", 3, "Boat docks at the Saltgate quays.", False),
     ("BURNER_PICKED_UP", 3, "Replacement burner is aboard.", False),
     ("RETURN_DEPARTED", 3, "Existing crew event. Hands over to ARTHUR_RET_* calls.", True),
     ("POSTER_EXAMINED", 0, "Optional: player examines a Flighted poster.", False),
@@ -141,21 +167,45 @@ OPENING_EVENTS = [
     ("IDLE_STEP_1", 1, "Player has made no progress on step 1.", False),
     ("IDLE_STEP_2", 2, "Player has made no progress on step 2.", False),
     ("IDLE_STEP_3", 3, "Player has made no progress on step 3 (reaching the dock).", False),
-    ("IDLE_OUTPOST", 3, "Player has not found the burner at the outpost.", False),
+    ("IDLE_SALTGATE", 3, "Player has not found the burner at the Saltgate quays.", False),
 ]
+
+# Events after the opening, reported by the game's GameState autoload. Accepted by the creator on
+# 19 October 2026 (first proposed in LightingTheStorm/HANDOFF_T01_GameState.md). Kept apart from
+# OPENING_EVENTS because the opening dialogue brief must cover exactly that list.
+LATER_EVENTS = [
+    ("RETURN_ARRIVED", "Boat docks at DOCK_LIGHTHOUSE during RETURN; Arthur's arrival line plays."),
+    ("BURNER_FITTED", "The burner is fitted to the beacon; the beacon is relit."),
+    ("SHIP_WIN", "The ship passes the rocks safely into port. Resolves once per attempt."),
+    ("SHIP_FAIL", "The deadline runs out; the ship breaks up on the rock next to the island. Resolves once per attempt."),
+]
+
+# The phase each event starts (forward only). Mirrors PHASE_ON_EVENT in scripts/core/game_state.gd.
+PHASE_ON_EVENT = {
+    "BOILER_FED": "SHELTER_AND_GATE", "DANIEL_IN_BASEMENT": "BEACON_DIAGNOSIS", "BURNER_BRIEFING": "BOARDING",
+    "BOAT_CAST_OFF": "OUTBOUND", "SALTGATE_REACHED": "SALTGATE", "RETURN_DEPARTED": "RETURN",
+    "RETURN_ARRIVED": "FINAL_REPAIR", "BURNER_FITTED": "FINAL_REPAIR", "SHIP_WIN": "RESOLUTION", "SHIP_FAIL": "RESOLUTION",
+}
+
+# Creator wording, 19 October 2026. Ted voices it; the "Failed" screen shows it as a subtitle.
+FAIL_REASON_LINE = {"speaker": "Ted",
+                    "text": "All is lost for those on board...the storm takes more lives. What were you doing, you money toff!"}
 
 SHIP_NAMED_FROM = "BOARDING_THRESHOLD"  # Exec Summary: the ship is introduced at the boarding threshold
 
 OPENING_DIALOGUE_RULES = [
     f"Refer to the player only as '{PLAYER_TERM}' (never 'apprentice'). The player never speaks.",
-    "Ted introduces the setting (eclipse, storm season, the Saltgate) and each step's objective.",
+    "The game starts outside the lighthouse: Ted opens the door and greets Isaac as the new guy, then, once "
+    "Isaac is inside, introduces the setting (storm season, the Saltgate) and each step's objective.",
     "Step 1: shovel coal into the boiler in the basement engine room. Step 2: let the stranded sailors in "
-    "through the island gate. Step 3: retrieve the replacement burner from the outpost across the Gullwater.",
+    "through the island gate. Step 3: Ted finds the burner broken in the lantern room (only after the sailors "
+    "are in), then Isaac retrieves the replacement from the Saltgate quays across the Gullwater.",
+    "The burner is found broken in step 3, never in step 1. The destination is the Saltgate, never 'the outpost'.",
     "Ted never names the passenger ship before the boarding threshold (BOARDING_THRESHOLD).",
     "Say 'burner', never 'lamp head'. No timers, countdowns, numbers or deadline talk.",
     "Never confirm a supernatural cause. Flighted and wall-whisper details stay ambiguous.",
     "Do not address the player as lad, lass or man. Ted's 'the boy' means Daniel.",
-    "Add no significant outpost detail. Daniel stays in the basement.",
+    "Add no significant Saltgate detail. Daniel stays in the basement.",
     "Reuse the canon sample lines where they fit. Lines stay short enough to shout over a storm.",
     "Every IDLE_* event gets a nudge ladder of consecutive tiers (hint, sharper, explicit).",
     "Alternates share a group and a trigger; every group has at least two options.",
@@ -165,7 +215,7 @@ OPENING_OPEN_DECISIONS = [
     "Which lines are voiced is a cost decision; subtitles exist for every line.",
     "Why Arthur and Daniel were on the water (smugglers?) is left open.",
     "Ted and Arthur's relationship is TBD in the lore; the 'drowned by now' exchange is a proposal.",
-    "Fail-reason and outcome lines belong to the Story / Fail-State agent.",
+    "The fail reason line is fixed (FAIL_REASON_LINE); other outcome lines belong to the Story / Fail-State agent.",
 ]
 
 
@@ -173,7 +223,8 @@ def dialogue_canon_block() -> str:
     """Canon text for the dialogue agents (the crossing canon_block stays untouched)."""
     voices = "\n".join(f"- {k}: {v}" for k, v in OPENING_SPEAKERS.items())
     return (
-        f"GAME: {GAME_TITLE}\n{PITCH}\n\nDESIGN PILLARS:\n" + "\n".join(PILLARS)
+        "STORY BEATS (creator canon, in order):\n" + "\n".join(STORY_BEATS) + "\n\n"
+        + f"GAME: {GAME_TITLE}\n{PITCH}\n\nDESIGN PILLARS:\n" + "\n".join(PILLARS)
         + f"\n\nVOICES:\n{voices}\n\nDIALOGUE RULES (canon, Decisions log):\n"
         + "\n".join(f"- {r}" for r in OPENING_DIALOGUE_RULES)
         + "\n\nOPEN CREATOR DECISIONS (do not decide these):\n"

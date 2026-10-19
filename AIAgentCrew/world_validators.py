@@ -169,6 +169,8 @@ def check_player(p: PlayerMovementSpec) -> list[str]:
 
 
 # ---------------- Lighting agent ----------------
+SALTGATE_BEARING_DEG = 180.0   # the Saltgate (and Saint Calder behind it) is due south of the lighthouse: +Z in Level.tscn
+
 def _hexes(obj) -> list[str]:
     """Every string that starts with '#' anywhere in a dumped model."""
     if isinstance(obj, str):
@@ -198,21 +200,89 @@ def check_lighting(s: LightingSpec, guide: StyleGuide) -> list[str]:
         errs.append("RETURN fog_density must be at least OUTBOUND's.")
     if ph["BEACON_RELIT"].hazard_visibility_m < ph["RETURN"].hazard_visibility_m:
         errs.append("BEACON_RELIT visibility must be at least RETURN's: the relit beacon helps.")
+    # Lightning per phase: only once the burner is collected (RETURN on), always within the flash cap.
     min_gap = 1.0 / s.lightning.max_flashes_per_second
     for p in s.phases:
-        lo, hi = p.lightning_interval_s
-        if lo > hi or lo < min_gap:
-            errs.append(f"{p.phase_id}: lightning_interval_s {p.lightning_interval_s} must satisfy "
-                        f"{min_gap:.2f} s <= min <= max (photosensitivity cap).")
-    if ph["RETURN"].lightning_interval_s[1] > ph["OUTBOUND"].lightning_interval_s[1]:
-        errs.append("RETURN lightning must be at least as frequent as OUTBOUND.")
+        lt = p.lightning
+        if lt.enabled:
+            if lt.interval_s is None or lt.style == "none":
+                errs.append(f"{p.phase_id}: enabled lightning needs a style and interval_s.")
+            elif lt.interval_s[0] > lt.interval_s[1] or lt.interval_s[0] < min_gap:
+                errs.append(f"{p.phase_id}: lightning interval_s {lt.interval_s} must satisfy "
+                            f"{min_gap:.2f} s <= min <= max (photosensitivity cap).")
+        elif lt.interval_s is not None or lt.style != "none":
+            errs.append(f"{p.phase_id}: disabled lightning must have style 'none' and interval_s null.")
+    for pid in ("ISLAND", "OUTBOUND"):
+        if ph[pid].lightning.enabled:
+            errs.append(f"{pid}: no lightning yet; it starts on the RETURN once the burner is collected.")
+    if not ph["RETURN"].lightning.enabled or ph["RETURN"].lightning.style != "cloud_to_cloud":
+        errs.append("RETURN: lightning must be on and flash between the clouds (style 'cloud_to_cloud').")
+    # Clouds: ominous and gathering on the island, darker and fuller outbound, darkest on the return.
+    c = {pid: ph[pid].clouds for pid in ph}
+    if c["ISLAND"].trend != "gathering":
+        errs.append("ISLAND clouds must be 'gathering' (ominous, before the player first sets off).")
+    if not (c["OUTBOUND"].coverage > c["ISLAND"].coverage and c["OUTBOUND"].darkness > c["ISLAND"].darkness):
+        errs.append("OUTBOUND clouds must be fuller and darker than ISLAND.")
+    if not (c["RETURN"].coverage >= c["OUTBOUND"].coverage and c["RETURN"].darkness > c["OUTBOUND"].darkness):
+        errs.append("RETURN skies must be darker than OUTBOUND, and at least as full.")
+    # Creator decision 2026-10-16: the storm stays near full strength once the beacon is relit.
+    bc, rc = ph["BEACON_RELIT"], ph["RETURN"]
+    if (bc.clouds.darkness < 0.9 * rc.clouds.darkness or bc.rain.intensity < 0.8 * rc.rain.intensity
+            or not bc.lightning.enabled):
+        errs.append("BEACON_RELIT: the storm stays near full strength (clouds at least 90% as dark and rain at least "
+                    "80% as heavy as RETURN, lightning still on).")
+    # Creator decision 2026-10-16: a second, darker layer drifts slowly across the sky on the RETURN only,
+    # thin enough for the lightning to light it through, and free to cross the moon.
+    for pid in ("ISLAND", "OUTBOUND", "BEACON_RELIT"):
+        if ph[pid].clouds.low_coverage != 0:
+            errs.append(f"{pid}: the second (low) cloud layer belongs to the RETURN only; low_coverage must be 0.")
+    lo = ph["RETURN"].clouds
+    if lo.low_coverage <= 0:
+        errs.append("RETURN: the second, darker cloud layer must be present (low_coverage above 0).")
+    if not 0.3 <= lo.low_opacity <= 0.85:
+        errs.append("RETURN: low_opacity must be 0.3-0.85, so the lightning lights the layer through.")
+    if lo.low_drift_mps >= lo.drift_mps:
+        errs.append("RETURN: the low layer moves slowly - low_drift_mps must be below the main layer's drift_mps.")
+    # Rain: dry on the island, starts on the outbound crossing, no lighter on the return.
+    r = {pid: ph[pid].rain.intensity for pid in ph}
+    if r["ISLAND"] != 0:
+        errs.append("ISLAND must be dry: the rain starts on the outbound crossing.")
+    if r["OUTBOUND"] <= 0:
+        errs.append("OUTBOUND rain must have started (intensity above 0).")
+    if r["RETURN"] < r["OUTBOUND"]:
+        errs.append("RETURN rain must be at least as heavy as OUTBOUND.")
     fl, fh = s.lightning.flash_duration_s
     if not (0.03 <= fl <= fh <= 0.5):
         errs.append("flash_duration_s must satisfy 0.03 <= min <= max <= 0.5 s.")
+    pl, ph_ = s.lightning.strobe_pulses
+    if not 1 <= pl <= ph_ <= 5:
+        errs.append("lightning.strobe_pulses must satisfy 1 <= min <= max <= 5.")
+    gl, gh = s.lightning.strobe_gap_s
+    if not 0.04 <= gl <= gh <= 0.25:
+        errs.append("lightning.strobe_gap_s must satisfy 0.04 <= min <= max <= 0.25 s.")
+    if ph["RETURN"].lightning.enabled and not s.lightning.bolt_visible:
+        errs.append("lightning.bolt_visible must be true: the return shows the bolts between the clouds.")
     if not s.lightning.reveals_hazards:
         errs.append("lightning.reveals_hazards must be true: a flash must never hide a hazard.")
     if s.moon.state == "absent" and s.moon.visible_disc:
         errs.append("moon.state 'absent' cannot have a visible disc.")
+    if s.moon.state == "full":
+        # Supermoon vibe until the Flighted ship eclipses it: big, bright, and it lights both crossings.
+        if not (s.moon.visible_disc and s.moon.lights_crossings):
+            errs.append("A full moon must show its disc and light both crossings.")
+        if s.moon.light_energy < 0.35:
+            errs.append("moon.light_energy must be at least 0.35 so the moon lights the crossings.")
+        if s.moon.disc_scale < 1.2:
+            errs.append("moon.disc_scale must be at least 1.2 for the supermoon look.")
+        # Creator decision 2026-10-16: the moon sits on the far side of the lighthouse from the Saltgate, so it
+        # lights the crossings and leaves Saint Calder (beyond the Saltgate) in relative darkness.
+        off = abs((s.moon.azimuth_deg - SALTGATE_BEARING_DEG + 180.0) % 360.0 - 180.0)
+        if off < 135.0:
+            errs.append(f"moon.azimuth_deg {s.moon.azimuth_deg} is only {off:.0f} deg from the Saltgate bearing "
+                        f"({SALTGATE_BEARING_DEG}); it must sit on the far side of the lighthouse (at least 135 deg away).")
+        for pid in ("OUTBOUND", "RETURN"):
+            if not ph[pid].clouds.moon_gap:
+                errs.append(f"{pid}: the clouds must leave a moon_gap so the moon can light the crossing.")
     kinds = {x.kind for x in s.sources}
     for need in ("beacon", "arc_lamp", "steam_glow", "boat_lamp", "saint_calder_lights"):
         if need not in kinds:
@@ -228,6 +298,13 @@ def check_lighting(s: LightingSpec, guide: StyleGuide) -> list[str]:
             errs.append(f"{x.source_id}: Saint Calder lights must be amber or gold.")
     if any(c.upper() not in gold_amber for c in s.saint_calder.colours):
         errs.append("saint_calder.colours must be amber and gold only.")
+    sc = s.saint_calder
+    if not sc.window_lights:
+        errs.append("saint_calder.window_lights must be true: the city's windows are lit.")
+    if not 0 < sc.glow_at_lighthouse <= 0.35:
+        errs.append("saint_calder.glow_at_lighthouse must be above 0 and at most 0.35: only just visible from the lighthouse.")
+    if sc.glow_at_saltgate <= sc.glow_at_lighthouse:
+        errs.append("saint_calder.glow_at_saltgate must be stronger than glow_at_lighthouse: it is more obvious at the Saltgate.")
     if not s.saint_calder.visible_through_fog:
         errs.append("saint_calder.visible_through_fog must be true: the city is the distant glow the crossing is seen against.")
     if not 3 <= s.beacon.sweep_period_s <= 15:
@@ -242,7 +319,7 @@ def check_lighting(s: LightingSpec, guide: StyleGuide) -> list[str]:
     if sum(x.casts_shadow for x in s.sources) > s.max_shadow_casters:
         errs.append("More shadow-casting sources than max_shadow_casters.")
     blob = " ".join(s.legibility_checks).lower()
-    for topic in ("hazard", "lightning", "saint calder", "beacon"):
+    for topic in ("hazard", "lightning", "saint calder", "beacon", "moon", "rain"):
         if topic not in blob:
             errs.append(f"legibility_checks must cover '{topic}'.")
     if TIMER_WORDS.search(" ".join(s.legibility_checks) + " " + s.lightning.note):

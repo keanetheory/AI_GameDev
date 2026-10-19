@@ -62,7 +62,7 @@ class OfflineDialogueLLM(BaseLLM):
     def _brief(self):
         return {
             "task_id": "GATE1_OPENING_DIALOGUE",
-            "slice": "Gate 1 opening: steps 1-3 (coal, sailors, burner)",
+            "slice": "Gate 1 opening: steps 1-3 (arrival and coal, sailors, beacon and burner)",
             "max_words_per_line": self.max_words,
             "player_term": PLAYER_TERM,
             "speakers": ["TED", "ARTHUR", "DANIEL"],

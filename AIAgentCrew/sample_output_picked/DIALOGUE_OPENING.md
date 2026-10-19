@@ -1,28 +1,32 @@
 # Opening Dialogue: Steps 1-3 (Gate 1 slice)
 
-Status: **creator_picked**. Creator walkthrough picks applied (17 'pick one' groups, one line kept each) to the live revised crew output. Review below is deterministic, not a model review.
+Status: **creator_picked**. Creator walkthrough picks applied (17 'pick one' groups, one line kept each) to the live revised crew output, then the 2026-10-16 story-beat order. Review below is deterministic, not a model review.
 
 **Voice rules used:** Ted is gruff, snarky and old-school, calls city folk "new money toffs", and grunts and coughs. Arthur is wry, wiry and frantic under pressure. Daniel is light-hearted and anxious. The player, called Isaac, never speaks. Nothing mentions a timer, shows a marker or confirms a supernatural cause.
 
 Lines reusing a canon sample line say so in their delivery note. There are no random alternates left: the creator chose one line per group.
 
-## Step 1: Feed the boiler
+## Step 1: Arrive and feed the boiler
 
-*Location:* Basement engine room, then the lantern room  
-*Player does:* Shovel coal into the boiler firebox until the gauge reaches working pressure and the dynamo whines and the beacon flickers. Then climb to the lantern room and inspect the arc lamp to find the burner broken.
+*Location:* Outside the lighthouse door, the hall, the basement engine room  
+*Player does:* Wait outside until Ted opens the door, step into the lighthouse, then go down to the basement and shovel coal into the boiler until the gauge reaches working pressure.
 
 ### On `GAME_STARTED`
-*New game begins at the lighthouse entrance.*
+*New game begins OUTSIDE the lighthouse; Ted opens the door.*
 
-- **TED** `TED_S1_01` (setting): "Eclipse, storm season, and the Saltgate howling. Of course they send a new money toff."  
+- **TED** `TED_S1_01` (setting): "Hrmph. You're the new guy, then. Storm season, and they send me a new money toff. In."  
   *delivery: Gruff, weary, dry. Ends on a cough.*
-  *staging:* Ted at the lighthouse entrance, wind audible outside.
-  *note:* Introduces eclipse, storm season and the Saltgate.
+  *staging:* Isaac stands outside the lighthouse door in the wind; Ted opens it and looks him over.
+  *note:* Introduces eclipse, storm season and the Saltgate. | Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken).
+
+### On `LIGHTHOUSE_ENTERED`
+*Player steps inside; after a beat Ted sends them to the boiler.*
+
 - **TED** `TED_S1_03` (objective): "Boiler's cold and the beacon's starving. Down to the engine room. Shovel coal, Isaac."  
   *delivery: Blunt, barking an order.*
   *assist hint:* Go to the basement engine room and shovel coal into the boiler firebox until the gauge climbs.
-  *staging:* Ted points toward the basement stairs.
-  *note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
+  *staging:* Inside the hall, after a beat. Ted points toward the basement stairs.
+  *note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken).
 
 ### On `ENGINE_ROOM_ENTERED`
 *Player enters the basement engine room.*
@@ -45,23 +49,11 @@ Lines reusing a canon sample line say so in their delivery note. There are no ra
   *note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
 
 ### On `BOILER_FED`
-*Gauge reaches working pressure; dynamo whines, beacon flickers.*
+*Gauge reaches working pressure; the dynamo whines (the beacon stays dark).*
 
-- **TED** `TED_S1_09` (objective): "Hear that dynamo whine? Good. Now up to the lantern room and look over the arc lamp."  
+- **TED** `TED_S1_09` (objective): "Hear that dynamo whine? Good. Now we'll see if the old girl lights."  
   *delivery: Gruff, a rare note of satisfaction.*
-  *assist hint:* Climb to the lantern room and inspect the arc lamp.
-
-### On `LAMP_ROOM_ENTERED`
-*Player enters the lantern room.*
-
-- **TED** `TED_S1_10` (reaction): "Arc lamp's in the middle. Open her up and look at the burner."  
-  *delivery: Shouted up the stairs, wheezing.*
-
-### On `BURNER_DIAGNOSED`
-*Player inspects the arc lamp and finds the burner broken.*
-
-- **TED** `TED_S1_11` (discovery): "Cracked clean through. The burner's finished. Hrmph. Nothing to mend up here."  
-  *delivery: Low, grim, with a cough.*
+  *note:* Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken).
 
 ### On `IDLE_STEP_1`
 *Player has made no progress on step 1.*
@@ -76,8 +68,8 @@ Lines reusing a canon sample line say so in their delivery note. There are no ra
 
 ## Step 2: Let the sailors in
 
-*Location:* Lighthouse window, dock and island gate, then the hall and basement  
-*Player does:* Notice the moored rowboat, go to the island gate and open it for the stranded sailors Arthur and Daniel. Daniel goes down to the basement and stays there.
+*Location:* Lighthouse window, the path from the dock, the island gate  
+*Player does:* Notice the moored rowboat, go down the path and open the island gate for the stranded sailors Arthur and Daniel. Daniel goes down to the basement and stays there.
 
 ### On `SAILORS_MOORED`
 *Rowboat appears moored at the dock (no crash).*
@@ -137,25 +129,55 @@ Lines reusing a canon sample line say so in their delivery note. There are no ra
   *delivery: Flat, slow and clear.*
   *assist hint:* Walk to the island gate near the dock and open it to let the sailors in.
 
-## Step 3: Fetch the replacement burner
+## Step 3: Fetch a new burner
 
-*Location:* Hall, dock and launch, the Gullwater crossing, and the abandoned outpost  
-*Player does:* Talk with Ted and Arthur in the hall, board the launch at the dock, steer the powered engine boat across the Gullwater with Arthur guiding, dock at the abandoned outpost and pick up the replacement burner.
+*Location:* Lantern room, hall, dock, steam launch, the Saltgate quays  
+*Player does:* Follow Ted up to the lantern room, where he finds the burner broken; then board the steam launch with Arthur, cross the Gullwater and pick up the replacement burner at the Saltgate quays.
+
+### On `BEACON_STILL_DARK`
+*Dynamo running but the beacon stays dark; Ted heads up to the lantern room.*
+
+- **TED** `TED_S3_00` (objective): "Dynamo's running and still no light. Something's wrong up top. Lantern room, Isaac. With me."  
+  *delivery: Gruff and uneasy, looking up the stairs; the hum of the dynamo under him.*
+  *assist hint:* Follow Ted up the tower stairs to the lantern room.
+  *staging:* Ted at the foot of the tower stairs, looking up at the dark lantern.
+  *note:* Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken).
+
+### On `LAMP_ROOM_ENTERED`
+*Player follows Ted into the lantern room.*
+
+- **TED** `TED_S1_10` (reaction): "Arc lamp's in the middle. Let's open her up and see what's ailing her."  
+  *delivery: Shouted up the stairs, wheezing.*
+  *note:* Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken).
+
+### On `BURNER_DIAGNOSED`
+*Ted opens the arc lamp, finds the burner broken and says a new one is needed.*
+
+- **TED** `TED_S1_11` (discovery): "Cracked clean through. The burner's finished. Hrmph. We need a new one."  
+  *delivery: Low, grim, with a cough.*
+  *note:* Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken).
 
 ### On `BURNER_BRIEFING`
 *Player talks with Ted and Arthur in the hall.*
 
-- **TED** `TED_S3_02` (objective): "No burner, no beacon. Outpost, across the Gullwater. Go with Arthur, Isaac."  
+- **TED** `TED_S3_02` (objective): "No burner, no beacon. There's a spare at the Saltgate, across the Gullwater. Go with Arthur, Isaac."  
   *delivery: Grim, urgent, coughing.*
-  *assist hint:* Board Arthur's engine boat and cross the Gullwater to the outpost to retrieve the replacement burner.
+  *assist hint:* Board the steam launch with Arthur and cross the Gullwater to the Saltgate quays to fetch the replacement burner.
   *staging:* Ted in the lighthouse hall, lamplight swaying as the wind shakes the walls.
-  *note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
+  *note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken).
 
 ### On `BOARDING_THRESHOLD`
 *Player reaches the launch at the dock.*
 
 - **ARTHUR** `ARTHUR_S3_01` (reaction): "In you get. One hand on the wheel, eyes on the rocks."  
   *delivery: Wry, brisk, wary.*
+  *note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
+
+### On `SHIP_SIGHTED`
+*Passenger ship's lights appear on the horizon.*
+
+- **ARTHUR** `ARTHUR_S3_11` (discovery): "There! Ship's lights, out in the swell. She can't see the rocks. No beacon."  
+  *delivery: Hushed, tight, urgent.*
   *note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
 
 ### On `BOAT_CAST_OFF`
@@ -179,18 +201,12 @@ Lines reusing a canon sample line say so in their delivery note. There are no ra
   *delivery: Shouted, rattled but steady.*
   *note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. Reworded from: "Hold on! Back her off the rock and steer clear. Gently now."
 
-### On `SHIP_SIGHTED`
-*Passenger ship's lights appear on the horizon.*
+### On `SALTGATE_REACHED`
+*Boat docks at the Saltgate quays.*
 
-- **ARTHUR** `ARTHUR_S3_11` (discovery): "There! Ship's lights, out in the swell. She can't see the rocks. No beacon."  
-  *delivery: Hushed, tight, urgent.*
-  *note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
-
-### On `OUTPOST_REACHED`
-*Boat docks at the abandoned outpost.*
-
-- **ARTHUR** `ARTHUR_S3_04` (reaction): "There's the landing. Fetch the burner. I'll keep the engine turning."  
+- **ARTHUR** `ARTHUR_S3_04` (reaction): "There's the Saltgate quay. Fetch the burner. I'll keep the engine turning."  
   *delivery: Quick, tense.*
+  *note:* Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken).
 
 ### On `BURNER_PICKED_UP`
 *Replacement burner is aboard.*
@@ -203,14 +219,14 @@ Lines reusing a canon sample line say so in their delivery note. There are no ra
 
 - **ARTHUR** `ARTHUR_S3_I1` (nudge tier 1): "Ted wants that burner, Isaac. Boat's waiting on you."  
   *delivery: Wry, nudging.*
-- **ARTHUR** `ARTHUR_S3_I2` (nudge tier 2): "Come on! The outpost, across the Gullwater. Get in the boat."  
+- **ARTHUR** `ARTHUR_S3_I2` (nudge tier 2): "Come on! The Saltgate, across the Gullwater. Get in the boat."  
   *delivery: Frantic, louder.*
-- **ARTHUR** `ARTHUR_S3_I3` (nudge tier 3): "Board the boat, take the wheel, steer for the outpost landing. Go!"  
+- **ARTHUR** `ARTHUR_S3_I3` (nudge tier 3): "Board the boat, take the wheel, steer for the Saltgate quays. Go!"  
   *delivery: Flat, urgent, clear.*
-  *assist hint:* Board the engine boat, steer across the Gullwater and land at the outpost to fetch the burner.
+  *assist hint:* Board the engine boat, steer across the Gullwater and land at the Saltgate quays to fetch the burner.
 
-### On `IDLE_OUTPOST`
-*Player has not found the burner at the outpost.*
+### On `IDLE_SALTGATE`
+*Player has not found the burner at the Saltgate quays.*
 
 - **ARTHUR** `ARTHUR_S3_O1` (nudge tier 1): "Burner won't walk to the boat, Isaac."  
   *delivery: Dry, calling from the landing.*
@@ -225,19 +241,12 @@ Lines reusing a canon sample line say so in their delivery note. There are no ra
 *Location:* Lighthouse and basement  
 *Player does:* Unprompted reactions to the haunted-lighthouse details (Pillar 1).
 
-### On `BASEMENT_TALK`
-*Optional: player stands near Daniel.*
+### On `POSTER_EXAMINED`
+*Optional: player examines a Flighted poster.*
 
-- **DANIEL** `DANIEL_OPT_04` (reaction): "Arthur says it's just weather. I'm sure Arthur's right. He's usually right. Mostly."  
-  *delivery: Anxious chatter, nervous laugh.*
-  *note:* Optional event. Basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
-
-### On `BASEMENT_BANG`
-*Optional: bang in the basement wall.*
-
-- **DANIEL** `DANIEL_OPT_06` (reaction): "Did you hear that? Tell me you heard that. Pipes, right? Say pipes."  
-  *delivery: Anxious, breathless.*
-  *note:* Cause stays ambiguous. Optional event; basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
+- **ARTHUR** `ARTHUR_S0_13` (reaction): "Nothing there for us. Leave it be. The burner, the burner."  
+  *delivery: Brusque, uneasy.*
+  *note:* Optional event; location-neutral. Gate: play only once Arthur is present (after SAILORS_INSIDE). Poster stays ambiguous. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
 
 ### On `WALL_WHISPER_HEARD`
 *Optional: whisper in the lighthouse walls.*
@@ -247,20 +256,27 @@ Lines reusing a canon sample line say so in their delivery note. There are no ra
   *staging:* Daniel in the basement, close to the wall.
   *note:* Ambiguous; never confirm a cause. Optional event. Gate: play only when the player is in the basement and DANIEL_IN_BASEMENT has fired; never elsewhere. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
 
-### On `POSTER_EXAMINED`
-*Optional: player examines a Flighted poster.*
+### On `BASEMENT_BANG`
+*Optional: bang in the basement wall.*
 
-- **ARTHUR** `ARTHUR_S0_13` (reaction): "Nothing there for us. Leave it be. The burner, the burner."  
-  *delivery: Brusque, uneasy.*
-  *note:* Optional event; location-neutral. Gate: play only once Arthur is present (after SAILORS_INSIDE). Poster stays ambiguous. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
+- **DANIEL** `DANIEL_OPT_06` (reaction): "Did you hear that? Tell me you heard that. Pipes, right? Say pipes."  
+  *delivery: Anxious, breathless.*
+  *note:* Cause stays ambiguous. Optional event; basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
+
+### On `BASEMENT_TALK`
+*Optional: player stands near Daniel.*
+
+- **DANIEL** `DANIEL_OPT_04` (reaction): "Arthur says it's just weather. I'm sure Arthur's right. He's usually right. Mostly."  
+  *delivery: Anxious chatter, nervous laugh.*
+  *note:* Optional event. Basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
 
 ## Objective journal (handwritten, Isaac's own words)
 
 | ID | Step | Written on | Entry |
 |---|---|---|---|
-| `JRN_01` | 1 | `GAME_STARTED` | Ted says the beacon is starved. Shovel coal into the boiler in the basement engine room until the gauge climbs. |
+| `JRN_01` | 1 | `GAME_STARTED` | Ted has let me in. The beacon is starved: shovel coal into the boiler in the basement engine room until the gauge climbs. |
 | `JRN_02` | 2 | `SAILORS_MOORED` | A rowboat is moored at the dock. Open the island gate and let the stranded sailors in. |
-| `JRN_03` | 3 | `BURNER_BRIEFING` | The burner is cracked. Cross the Gullwater with Arthur, fetch the replacement burner from the outpost, and bring it back. |
+| `JRN_03` | 3 | `BURNER_BRIEFING` | Ted found the beacon's burner cracked. Cross the Gullwater with Arthur, fetch the replacement burner from the Saltgate quays, and bring it back. |
 
 ## Open creator decisions
 
@@ -269,17 +285,18 @@ Lines reusing a canon sample line say so in their delivery note. There are no ra
 3. Ted and Arthur's relationship is TBD in the lore; the 'drowned by now' exchange (ARTHUR_S2_05, TED_S2_04) is a proposal only.
 4. Arthur-knows-more thread: the picks DANIEL_OPT_04 ('Arthur says it's just weather') and ARTHUR_S0_13 (uneasy about the poster) together hint that Arthur knows about the Flighted. His link to them is undecided in the lore.
 5. ARTHUR_S3_08 was reworded by the creator's pick (drops 'back her off', which implied a reverse control); needs a Dialogue agent and Canon re-review.
-6. LightingTheStorm/data/dialogue/dialogue_opening.json is the older 61-line draft and does not contain these picks; replace it deliberately.
+6. Story-beat revision (2026-10-16): TED_S1_01, TED_S1_09, TED_S1_10, TED_S1_11, TED_S3_02, ARTHUR_S3_04 and the new TED_S3_00 were rewritten to the creator's beat order; they need a Dialogue agent and Canon re-review before recording.
 7. Fail-reason and outcome lines belong to the Story / Fail-State agent and are not written here.
 8. Where the Flighted poster physically sits is still undecided; ARTHUR_S0_13 is location-neutral.
 
 ## Assumptions to confirm
 
 1. Lore vs GDD: WORLD.md puts the ship reveal before the crossing; the GDD (1 Oct 2026) puts it at the boarding threshold. The brief follows the GDD.
-2. Lore says 'lamp head'; the GDD says 'burner'. Dialogue uses 'burner'.
-3. The engine room is assumed to be the basement (Daniel's shelter). Level Layout should confirm.
-4. Decided by the creator: the player is 'Isaac'; Ted's position in steps 2-3 is fine as written.
-5. Existing offline Arthur return-crossing lines (offline_llm.py) still say 'lad'; the dialogue checks would reject that for the player.
-6. Step 1 is the only repair covered. The GDD's second Gate 1 repair is not part of this task.
+2. The part is the 'burner' (creator canon, 2026-10-16; supersedes the lore's earlier 'arc lamp head').
+3. Story order follows canon.STORY_BEATS (2026-10-16): arrival outside, coal, sailors, then Ted finds the burner broken, then the Saltgate crossing.
+4. The engine room is assumed to be the basement (Daniel's shelter). Level Layout should confirm.
+5. Decided by the creator: the player is 'Isaac'; Ted's position in steps 2-3 is fine as written.
+6. Existing offline Arthur return-crossing lines (offline_llm.py) still say 'lad'; the dialogue checks would reject that for the player.
+7. Step 1's coal is the only repair before the crossing; the burner fit at the end (beat 7) belongs to the Story / Fail-State agent.
 
-*39 lines: Ted 18, Arthur 17, Daniel 4.*
+*40 lines: Ted 19, Arthur 17, Daniel 4.*

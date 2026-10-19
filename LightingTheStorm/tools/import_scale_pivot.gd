@@ -13,17 +13,24 @@ extends EditorScenePostImport
 # before importing its FAL model; unlisted categories are left untouched.
 const TARGET_HEIGHT_M := {
 	"lighthouse": 27.0,
+	"Characters": 1.83,  # Ted, 6 ft
+	"prop": 0.9,         # burner_broken / burner_replacement: carried in both hands, fits the arc lamp
 }
 # Categories sized by their longest horizontal extent (X or Z) instead of height,
 # e.g. an island whose height depends on its terrain.
 const TARGET_FOOTPRINT_M := {
 	"island": 90.0,
 	"saint_calder_city": 480.0,
-	"dock": 10.0,
+	"dock": 20.0,   # dock_harbour: quay with a two-boat bay, spans the island's harbour inlet
 	"boat": 6.0,
 	"saltgate": 50.0,
 	"cliff_terrain": 120.0,
 	"sea_rocks": 22.0,
+}
+# Per-model footprint overrides (file name without extension) for a model that shares a folder with
+# differently sized ones.
+const TARGET_FOOTPRINT_BY_FILE_M := {
+	"rowboat": 4.2,   # Arthur and Daniel's two-man rowboat, smaller than the 6 m steam launch
 }
 # Turns a category's model about Y so it faces Godot's forward axis (-Z).
 # Generated models face whichever way the concept views did.
@@ -45,7 +52,11 @@ func _post_import(scene: Node) -> Object:
 
 	var s: float
 	var target: float
-	if TARGET_FOOTPRINT_M.has(category):
+	var file_key := get_source_file().get_file().get_basename()
+	if TARGET_FOOTPRINT_BY_FILE_M.has(file_key):
+		target = TARGET_FOOTPRINT_BY_FILE_M[file_key]
+		s = target / maxf(bounds.size.x, bounds.size.z)
+	elif TARGET_FOOTPRINT_M.has(category):
 		target = TARGET_FOOTPRINT_M[category]
 		s = target / maxf(bounds.size.x, bounds.size.z)
 	else:

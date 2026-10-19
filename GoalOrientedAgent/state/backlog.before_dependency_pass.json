@@ -1,0 +1,898 @@
+{
+  "goal": "Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.",
+  "analysed_at": "2026-10-19T14:04:08",
+  "requirements": [
+    {
+      "id": "R01",
+      "text": "Slice starts with the player outside the lighthouse; Ted opens the door ('You're the new guy, then') and the player enters (GAME_STARTED, LIGHTHOUSE_ENTERED).",
+      "source": "Exec Summary, Story and gameplay sequence step 1; Technical Strategy Gate 1 and state contract",
+      "status": "unmet",
+      "evidence": "LightingTheStorm/scenes/Level.tscn has no door, no Ted node and no trigger areas; the Lighthouse node is only the exterior glb (lighthouse_exterior_v3.glb). Assets/Characters/ted.glb exists but is not instanced in Level.tscn. 'things to work on next.md' item 7 confirms."
+    },
+    {
+      "id": "R02",
+      "text": "Player feeds the boiler with coal in the basement (first hands-on job); steam comes up and the dynamo runs (BOILER_FED).",
+      "source": "Exec Summary step 1 and Decisions log (Repairs); Technical Strategy 'Repairs, shelter and gate'",
+      "status": "unmet",
+      "evidence": "No boiler, basement or interaction code in LightingTheStorm/scripts or Level.tscn. The 'interact' action exists in project.godot but only boat.gd reads it; the Lighthouse has no interior."
+    },
+    {
+      "id": "R03",
+      "text": "Ted at the window shows the sailors' rowboat moored at the dock; the player opens the island gate; Arthur and Daniel walk in on a scripted path and Daniel stays in the basement. The rowboat is visibly distinct from the engine boat.",
+      "source": "Exec Summary step 2 and 'Two boats'; Technical Strategy shelter and gate sequence",
+      "status": "unmet",
+      "evidence": "Assets/Island/environment/1-gate.glb exists as a model, but there is no gate interaction, no rowboat model (Assets/Models/boat has only boat_launch.glb), and no Arthur/Daniel models or NPC scripts."
+    },
+    {
+      "id": "R04",
+      "text": "Beacon diagnosis only after the sailors are in: the dynamo runs, the beacon stays dark, Ted takes the player to the lantern room, opens the arc lamp and finds the burner broken (BEACON_STILL_DARK, LAMP_ROOM_ENTERED, BURNER_DIAGNOSED).",
+      "source": "Exec Summary step 3; Technical Strategy state contract",
+      "status": "unmet",
+      "evidence": "No lantern room or lamp in the scene. data/dialogue/dialogue_opening.json has the lines (TED_S3_00 on BEACON_STILL_DARK etc.), but nothing fires these events."
+    },
+    {
+      "id": "R05",
+      "text": "Boarding: player meets Arthur at the engine boat; at the boarding threshold Ted names the ship and the ship appears on the horizon; no deadline yet.",
+      "source": "Exec Summary step 4; Pillar 3; Technical Strategy deadline rules",
+      "status": "partial",
+      "evidence": "boat.gd lets the player board with E and cast off (board(), cast_off()), but there is no Arthur aboard, no BOARDING_THRESHOLD/SHIP_SIGHTED event and no ship object anywhere in Level.tscn."
+    },
+    {
+      "id": "R06",
+      "text": "Boat: one steering axis, one fixed speed, no throttle, automatic docking at the Saltgate quays and the lighthouse jetty, and recovery to a safe point on a hit.",
+      "source": "Technical Strategy 'Boat and weather simulation'; Exec Summary Outcome checks",
+      "status": "met",
+      "evidence": "LightingTheStorm/scripts/world/boat.gd (fixed speed, Input.get_axis steer, _dock(), _recover() with trail); dock_zone.gd; Level.tscn DockZoneLighthouse/South and DockZonePort; spec in data/world/boat_spec.json. Not play-verified (no editor). Note Level.tscn overrides speed=10.0 vs spec 3.0."
+    },
+    {
+      "id": "R07",
+      "text": "Hazards (rocks, reefs, buoys, debris) are readable, with a shared hazard forecast and a single safe-route signal that Arthur's calls read from.",
+      "source": "Technical Strategy boat/weather section; AI Agent Strategy (Hazard Forecast); Exec Summary Pillar 4",
+      "status": "partial",
+      "evidence": "Level.tscn has SeaStack1-11, cliffs and headlands as static hazards (layer 2). No buoys or debris. AIAgentCrew/output/return_crossing.json and AIAgentCrew/godot/crossing_loader.gd exist but there is no LightingTheStorm/data/return_crossing.json and nothing in the game uses the loader (grep for 'return_crossing' in LightingTheStorm: no matches)."
+    },
+    {
+      "id": "R08",
+      "text": "Outbound crossing to the Saltgate quays and return crossing to the lighthouse are playable end to end, with harder return hazards.",
+      "source": "Exec Summary steps 5 and 7; Technical Strategy Gate 1 and week 3",
+      "status": "partial",
+      "evidence": "The geometry exists: DockZoneLighthouse at about z=18, DockZonePort at z=527, Saltgate quay models. The boat can sail between them. No separate return hazard density or route-position difficulty, and the full slice cannot be completed because the surrounding beats are missing."
+    },
+    {
+      "id": "R09",
+      "text": "Player finds and picks up the replacement burner at the Saltgate; it is carried aboard and can never be permanently lost (BURNER_PICKED_UP).",
+      "source": "Exec Summary step 6; Technical Strategy invariants and failure policy",
+      "status": "unmet",
+      "evidence": "No burner object, pickup or cargo state in any script. lighting_rig.gd line 131 sets RETURN on any departure from DOCK_PORT with the comment 'means the burner is aboard'."
+    },
+    {
+      "id": "R10",
+      "text": "The only timer is a hidden numeric ship deadline that starts once on RETURN_DEPARTED (burner aboard), is inactive before then, stops in menus, and has a debug time scale and event log.",
+      "source": "Exec Summary Fail-state contract; Technical Strategy 'Repairs, shelter and gate, and final pressure' and Invariants; Pillar 2",
+      "status": "unmet",
+      "evidence": "GameState provides the event log and RETURN_DEPARTED event, but there is still no numeric deadline, ship or time scale (T07). The old note 'no game state autoload exists' no longer holds."
+    },
+    {
+      "id": "R11",
+      "text": "Storm split: sound, rain, lightning, wind and ship lights follow elapsed deadline time; hazard density and visibility follow phase and route position only.",
+      "source": "Exec Summary decisions log (Storm escalation); Technical Strategy weather channels; Pillar 2",
+      "status": "partial",
+      "evidence": "lighting_rig.gd has phases ISLAND/OUTBOUND/RETURN/BEACON_RELIT driven by boat departed signals, with F5-F8 debug jumps. There is no elapsed-time driver and no hazard-density channel; BEACON_RELIT has no trigger."
+    },
+    {
+      "id": "R12",
+      "text": "Final repair: player climbs to the lamp, Ted waits there, and the player fits the burner to the beacon (final hands-on job); Arthur says 'go go go, don't wait for me' on arrival.",
+      "source": "Exec Summary step 7-8; Technical Strategy 'Repairs'",
+      "status": "unmet",
+      "evidence": "No lamp, no burner-fit interaction, no arrival trigger on the lighthouse dock zone. Arrival line exists only as crew data (AIAgentCrew/output/return_crossing.json)."
+    },
+    {
+      "id": "R13",
+      "text": "Win and fail outcomes resolve exactly once per attempt: win = ship sails safely into port; fail = foghorn, ship runs aground, silence, 'Failed' title screen with a reason line. The lamp room has a clear sightline; no cutaway camera.",
+      "source": "Exec Summary Fail-state contract; Technical Strategy fail-state presentation; Pillar 4",
+      "status": "unmet",
+      "evidence": "No ship, no outcome code, no title/fail screen, no audio nodes (grep for AudioStreamPlayer in LightingTheStorm *.gd/*.tscn: none). The lighthouse has no lamp room."
+    },
+    {
+      "id": "R14",
+      "text": "After a fail the player can restart the slice from its start.",
+      "source": "Exec Summary Retry model and Outcome checks; Technical Strategy Gate 1 acceptance",
+      "status": "partial",
+      "evidence": "GameState.restart() resets the attempt state, resets Dialogue (now also dropping a stale line) and calls reload_current_scene(). F9 triggers it. The state reset is covered by the headless test, but the scene reload was not run and there is no fail screen to call it yet."
+    },
+    {
+      "id": "R15",
+      "text": "Explicit phase state machine (ARRIVAL_AND_COAL through RESOLUTION) with stable event IDs; every transition has a single owner; audio, UI and dialogue respond to events and never drive progression.",
+      "source": "Technical Strategy 'Core state contract'; AI Agent Strategy rule 4",
+      "status": "partial",
+      "evidence": "GameState autoload has the Phase enum in Technical Strategy order, emit_event with stable IDs (canon.py OPENING_EVENTS plus four proposed), one-shot rules and an event log. Headless test_game_state.gd passes. Still partial: nothing in the level reports most opening events yet (no door, boiler, gate or lantern-room triggers), and the four new IDs and phase boundaries await the creator."
+    },
+    {
+      "id": "R16",
+      "text": "Guidance comes from Ted and Arthur by voice/subtitle and a handwritten objective journal, with no markers or visible timer; apprentice never speaks; spoken navigation cues have subtitles with speaker attribution.",
+      "source": "Pillar 3; Technical Strategy 'Presentation and accessibility'; Exec Summary Cast",
+      "status": "partial",
+      "evidence": "dialogue_loader.gd emits line_started/journal_entry_added with subtitle text and speaker, but there is no subtitle or journal UI and no audio playback ('the game does not play line audio yet', things to work on next.md item 4). No timer or markers exist, which satisfies the negative rule by absence."
+    },
+    {
+      "id": "R17",
+      "text": "The slice is playable on keyboard and controller, with controller prompts.",
+      "source": "Technical Strategy Gate 1 acceptance; Decisions to be made B14 (open: is controller needed for the prototype?)",
+      "status": "unmet",
+      "evidence": "project.godot [input] has only InputEventKey bindings; player.gd uses mouse-motion look only; boat prompts are hard-coded '[E]', '[A] / [D]'."
+    },
+    {
+      "id": "R18",
+      "text": "Placeholder audio: layered wind and rain, machinery, buoy bells, foghorn, ship impact; states mixed by phase; no shock stingers.",
+      "source": "Exec Summary 'Cast and atmosphere'; Technical Strategy presentation; AI Agent Strategy (Sound)",
+      "status": "unmet",
+      "evidence": "No AudioStreamPlayer in scenes or scripts; no audio files under LightingTheStorm/Assets."
+    },
+    {
+      "id": "R19",
+      "text": "Warm lamplight against blue-grey storm light; the beam is a navigational anchor from the sea; beacon and hazards stay legible in every phase; greybox art is acceptable.",
+      "source": "Exec Summary 'Cast and atmosphere'; AI Agent Strategy (Lighting)",
+      "status": "partial",
+      "evidence": "lighting_rig.gd (532 lines) builds sky, rain, lightning and lit windows per phase from data/world/lighting_spec.json. No working beacon beam because there is no lamp; 'things to work on next.md' item 2 reports the walkway as nearly black; legibility of hazards in each phase not verified in-engine."
+    },
+    {
+      "id": "R20",
+      "text": "Scope and hard rules are respected: first-person only, no combat/jump scares/visible timer/markers, one lighthouse + one sea + the Saltgate, no waves, no branching, no added significant Saltgate detail.",
+      "source": "Exec Summary scope rule; AI Agent Strategy working rules 3 and 7",
+      "status": "partial",
+      "evidence": "No violating features found in scripts. A debug label 'Lighting: <phase>' (lighting_rig.gd _build_label) and F5-F8 phase hotkeys are on-screen debug UI that must not ship. Mainland.gd builds a large generated mainland with about 2,600 trees and a walkway, which is beyond a 'minimal' Saltgate; not verified against the creator's intent."
+    },
+    {
+      "id": "R21",
+      "text": "Each agent task ends with a HANDOFF.md; game data uses JSON/.tres with stable IDs; the project documents engine version and conventions.",
+      "source": "AI Agent Strategy 'Handoff format'; Technical Strategy 'Engine and project shape'",
+      "status": "partial",
+      "evidence": "AIAgentCrew produces HANDOFF.md/REPORT.md and JSON data (world_output/, output/). LightingTheStorm/readme.md is empty (0 B). project.godot pins 4.3 Forward Plus. The game folder has no task HANDOFF.md files; the crew's boat_spec/lighting_spec are copied into data/world but only lighting_spec is consumed."
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Create the central GameState autoload: phase machine, event bus, restart",
+      "priority": 10,
+      "category": "code",
+      "summary": "Add a GameState autoload (register in project.godot) holding the phase enum (ARRIVAL_AND_COAL \u2192 \u2026 \u2192 RESOLUTION), an emit_event(event_id) bus with a debug event log, and a restart() that reloads the slice. Add the DialogueLoader as a child or autoload, and connect GameState events to DialogueLoader.trigger(), the lighting rig's set_phase() and the boat's signals. Every other Gate 1 task hangs off this contract.",
+      "why_this_score": "Nothing else can be wired without it, and the slice cannot run end to end, so it is a 10. It is not scored lower because six other tasks depend on it.",
+      "evidence": [
+        "Technical Strategy: Core state contract",
+        "LightingTheStorm/project.godot has no [autoload]",
+        "LightingTheStorm/scripts/dialogue/dialogue_loader.gd",
+        "LightingTheStorm/things to work on next.md item 7"
+      ],
+      "requirement_ids": [
+        "R15",
+        "R14",
+        "R10"
+      ],
+      "owner_role": "Gameplay / Systems agent",
+      "effort": "M",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "status": "open",
+      "result": {
+        "outcome": "partial",
+        "summary": "T01's premise was out of date. `GameState` and `Dialogue` are already registered in `project.godot`, and `scripts/core/game_state.gd` already has the phase enum, `emit_event()`, the event log, `restart()` and the wiring to Dialogue, the lighting rig and the boat. I verified that against the contract and the headless test passes. I made two small fixes, wrote the missing handoff note, and reworded item 7 of the work list. Two things are not done. I couldn't update the agent bookkeeping, which is outside my write area. And `test_boat.gd` times out, which I traced to something other than GameState.\n\n**Contract check (by reading `game_state.gd` and `canon.py`):** all of these match.\n- The phase order is correct.\n- The 32 canon event IDs match in order, plus four proposed IDs.\n- Events are one-shot per attempt, except the two OUTBOUND ones.\n- The outcome resolves once.\n- The phase only moves forward.\n- The lighthouse dock zones use the default `DOCK_LIGHTHOUSE`, and the port zone is `DOCK_PORT`.\n\n**Fixes:**\n- **Stale dialogue line on restart:** `dialogue_loader.gd` now has a generation counter. A line that is mid-wait when you restart is dropped instead of spoken in the new attempt.\n- **Debug key F11:** it fires `BURNER_PICKED_UP`, inside the existing `debug_keys` gate. Without it, leaving the Saltgate never reaches RETURN until the pickup task (T06) exists.\n- **Test:** I added one check to `test_game_state.gd` for the restart fix.\n\n**Not done:**\n- **Bookkeeping:** I did not touch `GoalOrientedAgent/BACKLOG.md` or `HANDOFF.md`. They sit outside my write area, and BACKLOG says it is generated from `state/backlog.json`. Marking T01 done and correcting the stale \"no [autoload]\" evidence needs to happen there.\n- **`test_boat.gd`:** it exits 0 but ends with `TIMEOUT in step 10`, and its outbound leg re-docks at the lighthouse instead of reaching the Saltgate. So it does not currently prove docking works end to end.",
+        "files_changed": [
+          "LightingTheStorm/scripts/dialogue/dialogue_loader.gd",
+          "LightingTheStorm/scripts/core/game_state.gd",
+          "LightingTheStorm/tools/test_game_state.gd",
+          "LightingTheStorm/things to work on next.md",
+          "LightingTheStorm/HANDOFF_T01_GameState.md"
+        ],
+        "verified": [
+          "Read game_state.gd, dialogue_loader.gd, test_game_state.gd and the OPENING_EVENTS list in AIAgentCrew/canon.py. The phase order and event IDs match, and the four proposed IDs are the only additions.",
+          "Ran `test_game_state.gd` headless on Godot 4.3 before and after my edits. Both runs print `RESULT: OK (0 failed)` with exit code 0, and the second has one extra PASS line.",
+          "Ran `test_boat.gd` headless. The handling and hazard-recovery checks pass, but the crossing part times out in step 10. `git diff` shows the only uncommitted boat.gd change is the `add_to_group(\"boat\")` line, so GameState is not the cause. I did not find the actual cause.",
+          "Checked Level.tscn lines 95-150. The lighthouse dock zones use the default DOCK_LIGHTHOUSE and DockZonePort sets DOCK_PORT. I also checked that lighting_rig.gd has `follow_boat_signals = false`.",
+          "Confirmed by `git diff` that project.godot's [autoload] section and boat.gd's group line are uncommitted working-copy changes."
+        ],
+        "needs_human_check": [
+          "Open the project in Godot 4.3. Under Project Settings > Autoload, confirm Dialogue and GameState are listed, with no script errors in the Output panel.",
+          "Run Level.tscn. Confirm the console shows `[GameState] #1 GAME_STARTED` and Ted's TED_S1_01 line. Press F10 to see the event log.",
+          "Cast off from the lighthouse and dock at the Saltgate. Confirm BOAT_CAST_OFF is logged once and the phase goes to OUTBOUND. Then confirm SALTGATE_REACHED on docking.",
+          "At the Saltgate, press F11, then cast off. Confirm RETURN_DEPARTED fires and the lighting changes to RETURN.",
+          "Press F9 and confirm the level reloads cleanly. The player should be outside, the boat at the lighthouse dock, the mouse and camera working, the attempt counter up, and Ted's greeting played again. Press F9 while a line is still playing to check the stale line does not appear.",
+          "Accept or rename the four proposed event IDs (RETURN_ARRIVED, BURNER_FITTED, SHIP_WIN, SHIP_FAIL) and the phase boundaries listed in HANDOFF_T01_GameState.md section 7.",
+          "Decide whether to repair `tools/test_boat.gd` now (see the open issue below)."
+        ],
+        "requirement_updates": [
+          {
+            "id": "R15",
+            "status": "partial",
+            "evidence": "GameState autoload has the Phase enum in Technical Strategy order, emit_event with stable IDs (canon.py OPENING_EVENTS plus four proposed), one-shot rules and an event log. Headless test_game_state.gd passes. Still partial: nothing in the level reports most opening events yet (no door, boiler, gate or lantern-room triggers), and the four new IDs and phase boundaries await the creator."
+          },
+          {
+            "id": "R14",
+            "status": "partial",
+            "evidence": "GameState.restart() resets the attempt state, resets Dialogue (now also dropping a stale line) and calls reload_current_scene(). F9 triggers it. The state reset is covered by the headless test, but the scene reload was not run and there is no fail screen to call it yet."
+          },
+          {
+            "id": "R10",
+            "status": "unmet",
+            "evidence": "GameState provides the event log and RETURN_DEPARTED event, but there is still no numeric deadline, ship or time scale (T07). The old note 'no game state autoload exists' no longer holds."
+          }
+        ],
+        "open_issues": [
+          "`tools/test_boat.gd` finishes with `TIMEOUT in step 10 ... hits=150` yet exits 0, because it does not fail on a timeout. In step 8 the boat re-docks at DOCK_LIGHTHOUSE after 23 s instead of reaching DOCK_PORT, and the return leg then keeps hitting something near (-31.9, 0.7, 21). It is not caused by GameState. My unverified guess is that it predates the two-berth harbour (two zones share the id DOCK_LIGHTHOUSE and boat.gd skips zones by id when leaving).",
+          "BACKLOG.md and HANDOFF.md under GoalOrientedAgent were not updated (outside my write area; BACKLOG.md is generated from state/backlog.json). T01 still reads 'open' with stale evidence 'project.godot has no [autoload]', and R10 and R15 cite the same stale claim.",
+          "The event log records each event under the phase it had before that event's own phase change (BOILER_FED is logged under ARRIVAL_AND_COAL). This is how it is written; it could mislead QA readers.",
+          "The restart path through `reload_current_scene()` and the stale-line timing fix are not play-tested (no editor access)."
+        ],
+        "follow_up_tasks": [
+          {
+            "title": "Repair tools/test_boat.gd for the two-berth harbour and make it fail on timeout",
+            "priority": 5,
+            "category": "test",
+            "summary": "The crossing test times out in step 10 and the outbound leg re-docks at DOCK_LIGHTHOUSE instead of reaching DOCK_PORT. Find out whether the test or the boat's zone handling is wrong (two zones share the id DOCK_LIGHTHOUSE), fix it, and make the script exit non-zero on TIMEOUT so QA can rely on it.",
+            "why_this_score": "It is the only automated proof that docking works end to end, and the Gate 1 slice depends on docking at both ends. It is not higher because the boat has been playable by hand.",
+            "evidence": [
+              "LightingTheStorm/tools/test_boat.gd",
+              "LightingTheStorm/scripts/world/boat.gd",
+              "LightingTheStorm/scenes/Level.tscn DockZoneLighthouse and DockZoneLighthouseSouth",
+              "Technical Strategy: Boat and weather simulation (docking)"
+            ],
+            "requirement_ids": [
+              "R06",
+              "R08"
+            ],
+            "owner_role": "Boat / Physics agent",
+            "effort": "S",
+            "agent_can_execute": true,
+            "blocked_by": ""
+          },
+          {
+            "title": "Accept the proposed event IDs and phase boundaries into the contract docs",
+            "priority": 7,
+            "category": "decision",
+            "summary": "RETURN_ARRIVED, BURNER_FITTED, SHIP_WIN, SHIP_FAIL and the PHASE_ON_EVENT table exist only in game_state.gd. The creator or orchestrators should accept or rename them, then copy the result into canon.py and the Technical Strategy state-contract paragraph so T02-T08 build on the same names.",
+            "why_this_score": "Six other tasks inherit these names, so a late rename is expensive. It is only a decision, not code.",
+            "evidence": [
+              "LightingTheStorm/HANDOFF_T01_GameState.md section 7",
+              "LightingTheStorm/scripts/core/game_state.gd EVENTS and PHASE_ON_EVENT",
+              "Technical Strategy: Core state contract"
+            ],
+            "requirement_ids": [
+              "R15"
+            ],
+            "owner_role": "Canon and Review Orchestrator",
+            "effort": "S",
+            "agent_can_execute": false,
+            "blocked_by": "Creator or orchestrator approval"
+          }
+        ]
+      }
+    },
+    {
+      "id": "T02",
+      "title": "Greybox lighthouse interior route: door, hall, basement, tower stairs, lantern room",
+      "priority": 10,
+      "category": "scene",
+      "summary": "The Lighthouse node is an exterior glb only. Build a greybox interior following ConceptArt/narrative_blueprints (entry hall, basement boiler room, stairs, lantern room), the entrance door, a window with a view of the dock and rowboat, and a lamp room window with a clear sightline to the ship route and island rocks. Player start moves outside the door, and interaction anchors are added for the other tasks.",
+      "why_this_score": "Steps 1-4 and 8-9 all happen inside the building, so the slice cannot be played without it. It is not an 11 because it only needs greybox and is a scene task that can be checked by walking.",
+      "evidence": [
+        "Exec Summary steps 1-4, 8-9",
+        "Level.tscn Lighthouse node (exterior model only)",
+        "ConceptArt/narrative_blueprints/Brussskania Lighthouse Blueprint Poster.png"
+      ],
+      "requirement_ids": [
+        "R01",
+        "R02",
+        "R04",
+        "R12",
+        "R13"
+      ],
+      "owner_role": "Level Layout agent",
+      "effort": "L",
+      "agent_can_execute": false,
+      "blocked_by": "Needs the Godot editor to place and walk-test the interior and sightlines; the Ted-lock decision affects how Ted is staged.",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T03",
+      "title": "Generic first-person interaction system and the boiler coal job",
+      "priority": 9,
+      "category": "code",
+      "summary": "Add a raycast/Area-based interactable (using the existing 'interact' action) with a short prompt, then the boiler interaction: pick up and shovel coal until the gauge climbs, emitting BOILER_FED and starting the dynamo hum/effect. Prompts must be diegetic text, not quest markers.",
+      "why_this_score": "It is the first hands-on job and the template for the gate and burner interactions, so it is needed for Gate 1. It is below 10 because the state controller and interior come first.",
+      "evidence": [
+        "Exec Summary step 1",
+        "LightingTheStorm/project.godot (interact action)",
+        "scripts/world/boat.gd only consumer of interact"
+      ],
+      "requirement_ids": [
+        "R02",
+        "R16"
+      ],
+      "owner_role": "Gameplay / Systems agent",
+      "effort": "M",
+      "agent_can_execute": true,
+      "blocked_by": "Depends on the GameState task and the interior greybox.",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T04",
+      "title": "Window moment, moored rowboat, island gate and sailors' scripted walk-in",
+      "priority": 9,
+      "category": "scene",
+      "summary": "Add a distinct rowboat at the island dock visible from the window, trigger the SAILORS_MOORED window moment with a short-delay fallback, make the existing island gate (1-gate.glb) a single interaction, and script Arthur and Daniel walking to the lighthouse and Daniel to the basement (DANIEL_IN_BASEMENT). Needs placeholder Arthur and Daniel meshes.",
+      "why_this_score": "Beat 3 is a required slice stage and gates the diagnosis, so it is 9. It is below 10 because it can use capsule placeholders.",
+      "evidence": [
+        "Exec Summary step 2 and 'Two boats'",
+        "Technical Strategy shelter and gate sequence",
+        "Assets/Island/environment/1-gate.glb",
+        "ConceptArt/characters (Arthur, Daniel sheets), ConceptArt/dock"
+      ],
+      "requirement_ids": [
+        "R03"
+      ],
+      "owner_role": "Level Layout agent",
+      "effort": "L",
+      "agent_can_execute": false,
+      "blocked_by": "Needs the editor to place the rowboat, gate and NPC paths; greybox Arthur and Daniel and the rowboat do not exist yet.",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T05",
+      "title": "Lantern room diagnosis: Ted opens the arc lamp and finds the burner broken",
+      "priority": 9,
+      "category": "code",
+      "summary": "Implement the BEACON_DIAGNOSIS trigger that fires only after DANIEL_IN_BASEMENT, with Ted leading the player to the lantern room, the arc lamp opening, BURNER_DIAGNOSED and BURNER_BRIEFING opening the way to the boat. Reuse the dialogue lines in dialogue_opening.json.",
+      "why_this_score": "It is the story pivot that sends the player to the Saltgate, so it is needed to pass Gate 1. It is under 10 because it can be a simple triggered sequence once the interior and state exist.",
+      "evidence": [
+        "Exec Summary step 3",
+        "Technical Strategy BEACON_DIAGNOSIS",
+        "data/dialogue/dialogue_opening.json lines TED_S3_00..02"
+      ],
+      "requirement_ids": [
+        "R04"
+      ],
+      "owner_role": "Gameplay / Systems agent",
+      "effort": "M",
+      "agent_can_execute": true,
+      "blocked_by": "Depends on GameState, the interior and Ted being in the scene.",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T06",
+      "title": "Burner pickup at the Saltgate, boat cargo, and the return-departure clock trigger",
+      "priority": 10,
+      "category": "code",
+      "summary": "Add a burner pickup at the Saltgate quays (Assets/Models/saltgate), carried as cargo aboard the boat and never lost on a hit. Casting off from DOCK_PORT with the burner aboard emits RETURN_DEPARTED, which starts the single hidden deadline once. Change lighting_rig.gd so RETURN depends on the burner event, not just any departure from DOCK_PORT.",
+      "why_this_score": "The clock start is the core pillar-2 mechanic and a stated Gate 1 acceptance item, so a 10. Not higher because it does not need to be pretty.",
+      "evidence": [
+        "Technical Strategy invariants: deadline inactive until the return-departure event",
+        "scripts/world/lighting_rig.gd line 131",
+        "boat.gd departed signal"
+      ],
+      "requirement_ids": [
+        "R09",
+        "R10"
+      ],
+      "owner_role": "Gameplay / Systems agent",
+      "effort": "M",
+      "agent_can_execute": true,
+      "blocked_by": "Depends on GameState.",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T07",
+      "title": "Hidden ship deadline with ship placeholder, elapsed-time lighting and debug time scale",
+      "priority": 10,
+      "category": "code",
+      "summary": "Implement a numeric internal deadline timer (no UI), pausing in menus, with a placeholder ship whose lights hold at the horizon until the clock starts and then approach. Expose a debug time scale and event log. The value is a placeholder constant until playtests set it.",
+      "why_this_score": "The ship and the deadline are the only stakes; without them neither outcome exists. It is a 10 for the same reason as the outcome task.",
+      "evidence": [
+        "Technical Strategy deadline rules and 'Provide a debug time scale and event log'",
+        "Pillar 2"
+      ],
+      "requirement_ids": [
+        "R10",
+        "R05",
+        "R11"
+      ],
+      "owner_role": "Gameplay / Systems agent",
+      "effort": "M",
+      "agent_can_execute": true,
+      "blocked_by": "Depends on GameState and the burner/return trigger. The final deadline length is a creator decision (B4), so use a labelled placeholder.",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T08",
+      "title": "Win and fail outcomes: final burner fit, foghorn, grounding, silence, 'Failed' screen with reason, restart",
+      "priority": 10,
+      "category": "code",
+      "summary": "Add the burner-fit interaction at the lamp (Ted waiting there, BEACON_RELIT), then resolve WIN or FAIL exactly once. FAIL plays foghorn, ship grounding, silence and a title screen with a reason line, and restarts the slice; the three expiry locations (crossing, lamp room, stairs) get their audio-only or sightline presentation, with a visual or subtitle alternative.",
+      "why_this_score": "Both outcomes and restart are explicit Gate 1 acceptance items, so a 10. Not lower because without it the slice has no ending.",
+      "evidence": [
+        "Exec Summary Fail-state contract",
+        "Technical Strategy fail-state presentation and Gate 1 acceptance",
+        "no outcome code in LightingTheStorm/scripts"
+      ],
+      "requirement_ids": [
+        "R12",
+        "R13",
+        "R14"
+      ],
+      "owner_role": "Story / Fail-State agent",
+      "effort": "L",
+      "agent_can_execute": false,
+      "blocked_by": "The fail reason line wording and who delivers it (B3) and the audio-only accessibility alternative (B8) are open creator decisions; the lamp room sightline needs editor checks.",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T09",
+      "title": "Decide the fail reason line, deliverer and audio-only fail alternative",
+      "priority": 8,
+      "category": "decision",
+      "summary": "The creator must choose the wording of the short line shown on 'Failed' and who delivers it (Ted, Arthur or the journal), and what subtitle or visual alternative replaces the audio-only fail cue on the crossing and the stairs. Agents must not choose these.",
+      "why_this_score": "It directly blocks the outcome task and Pillar 4's 'told why', but it is a quick decision, so 8 and not 10.",
+      "evidence": [
+        "Decisions to be made B3 and B8",
+        "Exec Summary Fail-state contract"
+      ],
+      "requirement_ids": [
+        "R13"
+      ],
+      "owner_role": "Canon and Review Orchestrator",
+      "effort": "S",
+      "agent_can_execute": false,
+      "blocked_by": "Creator decision.",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T10",
+      "title": "Integrate the crossing crew's hazard forecast: data file, loader, placed buoys/debris, Arthur calls",
+      "priority": 8,
+      "category": "code",
+      "summary": "Copy return_crossing.json into LightingTheStorm/data, add crossing_loader.gd to the scene with a route-position feed from the boat, spawn hazards (rocks, buoys, debris) from it, and play Arthur's calls as subtitles from the same safe-lane signal. Add an equivalent, easier outbound forecast. Do not add waves or branching.",
+      "why_this_score": "Readable hazards and Arthur's guidance are the central skill and Pillar 4. It is below 10 because the slice runs with only static rocks, and the pipeline already exists.",
+      "evidence": [
+        "AIAgentCrew/output/return_crossing.json",
+        "AIAgentCrew/godot/crossing_loader.gd",
+        "Technical Strategy hazard forecast",
+        "Level.tscn SeaStack nodes only"
+      ],
+      "requirement_ids": [
+        "R07",
+        "R08",
+        "R16"
+      ],
+      "owner_role": "Hazard Forecast agent",
+      "effort": "M",
+      "agent_can_execute": true,
+      "blocked_by": "Best done after Arthur is in the boat; steering feel play check needed.",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T11",
+      "title": "Put Arthur aboard and add the arrival 'go go go' beat on the lighthouse dock",
+      "priority": 7,
+      "category": "code",
+      "summary": "Seat Arthur on the engine boat as the only companion, fire BOARDING_THRESHOLD (Ted introduces the ship) and the SALTGATE_REACHED and arrival events from dock-zone arrival. Plays his line on return arrival, then he leaves the player to climb.",
+      "why_this_score": "Companion guidance is part of the beats but the slice can be tested with the loader's lines alone, so 7.",
+      "evidence": [
+        "Exec Summary steps 4-7 and Cast",
+        "boat.gd docked signal",
+        "dialogue_opening.json"
+      ],
+      "requirement_ids": [
+        "R05",
+        "R08",
+        "R12"
+      ],
+      "owner_role": "Gameplay / Systems agent",
+      "effort": "M",
+      "agent_can_execute": true,
+      "blocked_by": "Depends on GameState and the crossing integration.",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T12",
+      "title": "Subtitle and journal UI fed by the DialogueLoader signals",
+      "priority": 7,
+      "category": "code",
+      "summary": "Add a CanvasLayer showing speaker-attributed subtitles from line_started and a handwritten-style journal reading journal_entry_added. No quest markers and no timer; the assist hint stays off by default.",
+      "why_this_score": "Without it, guidance and the journal are invisible and no voice audio is playing, but the slice is technically completable by greybox. 7 reflects importance without blocking core logic.",
+      "evidence": [
+        "Pillar 3; Technical Strategy accessibility",
+        "dialogue_loader.gd signals have no listeners"
+      ],
+      "requirement_ids": [
+        "R16"
+      ],
+      "owner_role": "Dialogue agent",
+      "effort": "M",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T13",
+      "title": "Drive perceptual storm cues from elapsed deadline time and trigger BEACON_RELIT",
+      "priority": 7,
+      "category": "code",
+      "summary": "In lighting_rig.gd, add a blend by normalised elapsed deadline time for rain, lightning, wind audio and ship lights while keeping hazard density and visibility on route position. Add the BEACON_RELIT trigger and a beam sweep.",
+      "why_this_score": "This implements the storm-split decision and Pillar 2, but the slice works with phase-only lighting, so 7.",
+      "evidence": [
+        "Exec Summary decisions log (Storm escalation)",
+        "lighting_rig.gd phases and 'BEACON_RELIT has no trigger yet'"
+      ],
+      "requirement_ids": [
+        "R11",
+        "R19"
+      ],
+      "owner_role": "Lighting agent",
+      "effort": "M",
+      "agent_can_execute": true,
+      "blocked_by": "Depends on the deadline task.",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T14",
+      "title": "Placeholder audio: wind, rain, machinery, buoy bell, foghorn, ship impact, mix by phase",
+      "priority": 6,
+      "category": "audio",
+      "summary": "Add placeholder audio buses and AudioStreamPlayers for wind, rain, boiler/dynamo, buoy bells, foghorn and impact, mixed by phase and with Arthur's calls kept audible. Record source and licence per file and wire the six re-recorded voice lines later.",
+      "why_this_score": "Audio carries the deadline when there is no UI and the fail cue on the crossing. Placeholder is acceptable per Gate 1, so 6.",
+      "evidence": [
+        "Exec Summary atmosphere; AI Agent Strategy (Sound)",
+        "no AudioStreamPlayer anywhere in LightingTheStorm"
+      ],
+      "requirement_ids": [
+        "R18",
+        "R13"
+      ],
+      "owner_role": "Sound agent",
+      "effort": "M",
+      "agent_can_execute": false,
+      "blocked_by": "Needs audio source files and licences; sound choices need creator ears.",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T15",
+      "title": "Decide whether the prototype needs controller support, then add bindings and prompts",
+      "priority": 6,
+      "category": "decision",
+      "summary": "Technical Strategy Gate 1 requires keyboard and controller but the Exec Summary puts controller in the full game (B14). The creator should settle this. If yes, add joypad bindings (steer, interact, look), a gamepad look in player.gd and prompt glyphs in the boat label.",
+      "why_this_score": "It is a Gate 1 acceptance line with an open doc contradiction, so it matters, but it is not required to play the slice with a keyboard.",
+      "evidence": [
+        "Decisions to be made B14",
+        "LightingTheStorm/project.godot has only InputEventKey",
+        "scripts/player/player.gd mouse look only"
+      ],
+      "requirement_ids": [
+        "R17"
+      ],
+      "owner_role": "Player Movement agent",
+      "effort": "M",
+      "agent_can_execute": false,
+      "blocked_by": "Creator decision B14, then a controller test in the editor.",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T16",
+      "title": "Lock Ted's presence and final lamp-room line list",
+      "priority": 7,
+      "category": "decision",
+      "summary": "Confirm Ted is present and speaks live and settle which lamp-room lines to record, since every line is voice-over cost. The GDD requires this by the end of week 3. Dialogue and staging work for the lantern room depends on it.",
+      "why_this_score": "It is a dated GDD milestone and blocks the Ted staging and recording, but the design already assumes yes, so 7.",
+      "evidence": [
+        "Exec Summary decisions log (Ted); Decisions to be made B1",
+        "Assets/Characters/ted.glb exists"
+      ],
+      "requirement_ids": [
+        "R04",
+        "R12"
+      ],
+      "owner_role": "Canon and Review Orchestrator",
+      "effort": "S",
+      "agent_can_execute": false,
+      "blocked_by": "Creator decision.",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T17",
+      "title": "Tune and record the Gate 0 steering go/no-go (speed, route length, time per crossing)",
+      "priority": 6,
+      "category": "test",
+      "summary": "Level.tscn overrides the boat's speed to 10.0 m/s while boat_spec.json says 3.0, and the route is about 500 m. Play both crossings, record crossing times against the 10-minute target, tune speed, steering and recovery as data, and write the go/no-go for the creator.",
+      "why_this_score": "Steering feel is the largest production risk but it is a creator judgment that needs a playtest, so it is 6 and not higher.",
+      "evidence": [
+        "Technical Strategy week 2 go/no-go",
+        "Level.tscn Boat speed=10.0",
+        "data/world/boat_spec.json speed_mps 3.0",
+        "DockZonePort at z=527"
+      ],
+      "requirement_ids": [
+        "R06",
+        "R08"
+      ],
+      "owner_role": "Boat / Physics agent",
+      "effort": "M",
+      "agent_can_execute": false,
+      "blocked_by": "Needs a human playtest in the Godot editor.",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T18",
+      "title": "Review the rewritten opening lines and re-record the six changed voice lines",
+      "priority": 4,
+      "category": "dialogue",
+      "summary": "Run TED_S1_01, S1_09, S1_10, S1_11, S3_02, ARTHUR_S3_04 and the new TED_S3_00 through Dialogue and Canon review and the creator's sign-off, record the outcome in DIALOGUE_OPENING_CREATOR_PICKS.md, then regenerate audio (dry run first). Add the playback hook to the game later.",
+      "why_this_score": "The game does not play audio yet, so nothing breaks today. It must be done before voice is hooked up, so 4.",
+      "evidence": [
+        "things to work on next.md items 4 and 5",
+        "AIAgentCrew/voice_output_picked_live/elevenlabs/lines"
+      ],
+      "requirement_ids": [
+        "R16"
+      ],
+      "owner_role": "Dialogue agent",
+      "effort": "M",
+      "agent_can_execute": false,
+      "blocked_by": "Creator sign-off on voice and lore; ElevenLabs credits for regeneration.",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T19",
+      "title": "Set a placeholder deadline length and write the crossing-penalty values",
+      "priority": 5,
+      "category": "decision",
+      "summary": "The deadline length and exact collision costs are deliberately undecided until the return crossing is tested. Record a clearly labelled placeholder deadline, the outbound-crossing penalty (B9, deferred) and the collision cost so the QA tuning pass has numbers to compare against.",
+      "why_this_score": "It is needed for the tuning pass but cannot be settled before the crossing exists, so 5.",
+      "evidence": [
+        "Decisions to be made B4, B9, B11",
+        "Exec Summary Crossing penalties 'loose for Gate 1'"
+      ],
+      "requirement_ids": [
+        "R10",
+        "R08"
+      ],
+      "owner_role": "Production Orchestrator",
+      "effort": "S",
+      "agent_can_execute": false,
+      "blocked_by": "Creator decision after the crossing is playable.",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T20",
+      "title": "QA scenario list and automated state-transition checks for the Gate 1 slice",
+      "priority": 5,
+      "category": "test",
+      "summary": "Write a reproducible scenario list covering each phase transition, the clock starting once, the exactly-once outcome, restart, each fail expiry location and a keyboard/controller pass. Add headless GDScript checks beside the existing tools/test_boat.gd where practical.",
+      "why_this_score": "Gate checks need evidence, but it only becomes useful once the state controller exists, so 5.",
+      "evidence": [
+        "Technical Strategy 'Validation and integration'",
+        "AI Agent Strategy (QA)",
+        "tools/test_boat.gd"
+      ],
+      "requirement_ids": [
+        "R15",
+        "R13",
+        "R14"
+      ],
+      "owner_role": "QA agent",
+      "effort": "M",
+      "agent_can_execute": true,
+      "blocked_by": "Depends on the GameState task.",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T21",
+      "title": "Strip or gate debug UI (lighting label, F5-F8 phase jumps) behind a debug flag",
+      "priority": 3,
+      "category": "code",
+      "summary": "lighting_rig.gd shows an on-screen 'Lighting: <phase>' label and lets F5-F8 jump phases. Hide these unless a debug setting is on, so they cannot be mistaken for a HUD in tester builds.",
+      "why_this_score": "Minor polish and a possible pillar-3 irritation. Not needed for the slice to run, so 3.",
+      "evidence": [
+        "scripts/world/lighting_rig.gd _build_label and F5-F8 handling"
+      ],
+      "requirement_ids": [
+        "R20"
+      ],
+      "owner_role": "Lighting agent",
+      "effort": "S",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T22",
+      "title": "Write LightingTheStorm/readme.md and per-task HANDOFF.md template; reconcile doc gaps",
+      "priority": 4,
+      "category": "doc",
+      "summary": "The game readme is empty. Document engine version (4.3 Forward Plus per project.godot), how to run, controls, event IDs, scene ownership and a HANDOFF.md template. Also flag the controller contradiction (Tech Strategy vs Exec Summary) and the unconfirmed week-5 fallback wording (item 6) for the creator.",
+      "why_this_score": "Helps agents and the creator review each change, but does not block play, so 4.",
+      "evidence": [
+        "LightingTheStorm/readme.md (0 B)",
+        "AI Agent Strategy 'Handoff format'",
+        "things to work on next.md item 6"
+      ],
+      "requirement_ids": [
+        "R21"
+      ],
+      "owner_role": "Production Orchestrator",
+      "effort": "S",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T23",
+      "title": "Bake mainland/cliff carving and collision to cut level load time",
+      "priority": 3,
+      "category": "code",
+      "summary": "mainland.gd and collider_builder.gd carve about 22,000 triangles, build trees and collision at every load (about 10 s headless). Bake the carved meshes, height table and collision as resources and keep builders editor-only.",
+      "why_this_score": "Quality of life for testing and builds, not a gate requirement, so 3.",
+      "evidence": [
+        "things to work on next.md item 3",
+        "scripts/world/mainland.gd _ready()"
+      ],
+      "requirement_ids": [
+        "R20"
+      ],
+      "owner_role": "Level Layout agent",
+      "effort": "L",
+      "agent_can_execute": false,
+      "blocked_by": "Needs the Godot editor to bake and verify.",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T24",
+      "title": "Fix walkway rock-wall teeth and brighten the dark walkway",
+      "priority": 2,
+      "category": "scene",
+      "summary": "Clip cliff triangles at the floor plane (or add a rubble skirt) and lighten the walkway vertex colours or add warm lamps, after checking against the final lighting pass.",
+      "why_this_score": "Visual polish on a mainland walkway outside the core path, and the Saltgate must stay minimal, so 2.",
+      "evidence": [
+        "things to work on next.md items 1 and 2",
+        "scripts/world/mainland.gd _build_gallery()"
+      ],
+      "requirement_ids": [
+        "R19"
+      ],
+      "owner_role": "Asset agent",
+      "effort": "M",
+      "agent_can_execute": false,
+      "blocked_by": "Needs editor visual checks; also check against the 'no significant Saltgate detail' rule.",
+      "status": "deferred",
+      "result": null,
+      "note": "low value until lighting pass"
+    },
+    {
+      "id": "T25",
+      "title": "Repair tools/test_boat.gd for the two-berth harbour and make it fail on timeout",
+      "priority": 5,
+      "category": "test",
+      "summary": "The crossing test times out in step 10 and the outbound leg re-docks at DOCK_LIGHTHOUSE instead of reaching DOCK_PORT. Find out whether the test or the boat's zone handling is wrong (two zones share the id DOCK_LIGHTHOUSE), fix it, and make the script exit non-zero on TIMEOUT so QA can rely on it.",
+      "why_this_score": "It is the only automated proof that docking works end to end, and the Gate 1 slice depends on docking at both ends. It is not higher because the boat has been playable by hand.",
+      "evidence": [
+        "LightingTheStorm/tools/test_boat.gd",
+        "LightingTheStorm/scripts/world/boat.gd",
+        "LightingTheStorm/scenes/Level.tscn DockZoneLighthouse and DockZoneLighthouseSouth",
+        "Technical Strategy: Boat and weather simulation (docking)"
+      ],
+      "requirement_ids": [
+        "R06",
+        "R08"
+      ],
+      "owner_role": "Boat / Physics agent",
+      "effort": "S",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T26",
+      "title": "Accept the proposed event IDs and phase boundaries into the contract docs",
+      "priority": 7,
+      "category": "decision",
+      "summary": "RETURN_ARRIVED, BURNER_FITTED, SHIP_WIN, SHIP_FAIL and the PHASE_ON_EVENT table exist only in game_state.gd. The creator or orchestrators should accept or rename them, then copy the result into canon.py and the Technical Strategy state-contract paragraph so T02-T08 build on the same names.",
+      "why_this_score": "Six other tasks inherit these names, so a late rename is expensive. It is only a decision, not code.",
+      "evidence": [
+        "LightingTheStorm/HANDOFF_T01_GameState.md section 7",
+        "LightingTheStorm/scripts/core/game_state.gd EVENTS and PHASE_ON_EVENT",
+        "Technical Strategy: Core state contract"
+      ],
+      "requirement_ids": [
+        "R15"
+      ],
+      "owner_role": "Canon and Review Orchestrator",
+      "effort": "S",
+      "agent_can_execute": false,
+      "blocked_by": "Creator or orchestrator approval",
+      "status": "open",
+      "result": null
+    }
+  ],
+  "history": [
+    {
+      "time": "2026-10-19T14:04:08",
+      "task_id": "-",
+      "event": "analysed",
+      "note": "21 requirements, 24 tasks"
+    },
+    {
+      "time": "2026-10-19T14:04:08",
+      "task_id": "-",
+      "event": "session-end",
+      "note": "the creator said the requirements are met"
+    },
+    {
+      "time": "2026-10-19T14:05:32",
+      "task_id": "T01",
+      "event": "planned",
+      "note": ""
+    },
+    {
+      "time": "2026-10-19T14:05:32",
+      "task_id": "T01",
+      "event": "cancelled",
+      "note": ""
+    },
+    {
+      "time": "2026-10-19T14:05:32",
+      "task_id": "T24",
+      "event": "deferred",
+      "note": "low value until lighting pass"
+    },
+    {
+      "time": "2026-10-19T14:05:32",
+      "task_id": "-",
+      "event": "session-end",
+      "note": "the creator said the requirements are met"
+    },
+    {
+      "time": "2026-10-19T14:11:33",
+      "task_id": "T01",
+      "event": "planned",
+      "note": ""
+    },
+    {
+      "time": "2026-10-19T14:31:39",
+      "task_id": "T01",
+      "event": "execute-error",
+      "note": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CgBgLUG3PQSLMLQ4H28i4'}"
+    },
+    {
+      "time": "2026-10-19T14:36:05",
+      "task_id": "T01",
+      "event": "planned",
+      "note": ""
+    },
+    {
+      "time": "2026-10-19T15:23:59",
+      "task_id": "T01",
+      "event": "executed",
+      "note": "partial: T01's premise was out of date. `GameState` and `Dialogue` are already registered in `project.godot`, and `scripts/core/game_state.gd` already has the phase enum, `emit_event()`, the event log, `restar"
+    }
+  ]
+}

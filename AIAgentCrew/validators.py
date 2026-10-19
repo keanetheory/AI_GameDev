@@ -141,7 +141,7 @@ def check_dialogue_brief(brief: DialogueBrief, max_words: int | None = None) -> 
     if brief.player_term != PLAYER_TERM:
         errs.append(f"player_term must be '{PLAYER_TERM}' (creator decision), got '{brief.player_term}'.")
     if [s.step for s in brief.steps] != [1, 2, 3]:
-        errs.append("steps must be 1, 2, 3 in order (coal, sailors, burner).")
+        errs.append("steps must be 1, 2, 3 in order (arrival and coal, sailors, beacon and burner).")
     ids = [e.event_id for e in brief.events]
     if len(ids) != len(set(ids)):
         errs.append("event IDs must be unique.")

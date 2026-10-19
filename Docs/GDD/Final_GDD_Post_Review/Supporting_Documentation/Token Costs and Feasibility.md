@@ -70,7 +70,7 @@ Additional work after the prototype:
 |Workstream                                         |Tasks|
 |---------------------------------------------------|-----|
 |Remaining lighthouse repairs                       |40   |
-|Outpost exploration and optional discoveries       |40   |
+|Saltgate exploration and optional discoveries       |40   |
 |Full dialogue, journal text and subtitles          |40   |
 |Final art integration (import, materials, collision, LODs)|80|
 |Final audio mix                                    |30   |
@@ -133,7 +133,7 @@ A shippable full game means a 30-minute commercial Steam release with final art,
 |Area                                                        |Weeks  |
 |------------------------------------------------------------|-------|
 |Prototype                                                   |6      |
-|Remaining repairs, outpost exploration, discoveries         |3      |
+|Remaining repairs, Saltgate exploration, discoveries         |3      |
 |Art: three locations, props, boat, and Ted, Arthur and Daniel models and animation|6–8|
 |Audio and voice                                             |2      |
 |Dialogue writing and recording (or AI voice)                |1–2    |

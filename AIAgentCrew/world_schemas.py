@@ -123,6 +123,37 @@ class PlayerMovementSpec(BaseModel):
 
 
 # ================= Lighting agent =================
+class CloudSpec(BaseModel):
+    trend: Literal["gathering", "building", "full", "breaking"] = Field(description="How the sky is changing in this phase")
+    coverage: float = Field(ge=0, le=1, description="Share of the sky under cloud")
+    darkness: float = Field(ge=0, le=1, description="0 = moonlit grey cloud, 1 = near-black storm cloud")
+    base_height_m: float = Field(gt=0, description="Height of the cloud base above the sea")
+    drift_mps: float = Field(ge=0, description="How fast the cloud moves across the sky")
+    top_colour: HexColour
+    underside_colour: HexColour
+    moon_gap: bool = Field(description="The cloud thins to sparse wisps across the moon, so it shows through")
+    low_coverage: float = Field(ge=0, le=1, description="Second, lower layer of darker cloud: share of the sky (0 = none)")
+    low_opacity: float = Field(ge=0, le=1, description="How solid the low layer is; below 1 so lightning shows through it")
+    low_drift_mps: float = Field(ge=0, description="How fast the low layer moves across the sky")
+    low_colour: HexColour
+    note: str
+
+
+class RainSpec(BaseModel):
+    intensity: float = Field(ge=0, le=1, description="0 = dry, 1 = the heaviest rain in the game")
+    slant_deg: float = Field(ge=0, le=60, description="How far the wind blows the rain off vertical")
+    colour: HexColour
+    note: str
+
+
+class PhaseLightning(BaseModel):
+    enabled: bool
+    style: Literal["none", "cloud_to_cloud", "cloud_to_sea"] = Field(description="Where the flashes run")
+    interval_s: tuple[float, float] | None = Field(description="Min and max gap between flashes; null when disabled")
+    lights_cloud_base: bool = Field(description="A flash lights the underside of the cloud it runs through")
+    note: str
+
+
 class LightPhase(BaseModel):
     phase_id: Literal["ISLAND", "OUTBOUND", "RETURN", "BEACON_RELIT"]
     ambient_colour: HexColour
@@ -130,16 +161,24 @@ class LightPhase(BaseModel):
     fog_colour: HexColour
     fog_density: float = Field(ge=0, le=0.05)
     hazard_visibility_m: int = Field(ge=20, description="Distance at which hazards stay readable")
-    lightning_interval_s: tuple[float, float] = Field(description="Min and max gap between flashes in this phase")
+    clouds: CloudSpec
+    rain: RainSpec
+    lightning: PhaseLightning
     note: str
 
 
 class MoonSpec(BaseModel):
-    state: Literal["absent", "eclipsed"]
-    rim_colour: HexColour
-    rim_energy: float = Field(ge=0, le=0.3)
+    state: Literal["absent", "eclipsed", "full"] = Field(description="'full' until the Flighted ship eclipses it")
+    look: str = Field(description="The vibe, e.g. a huge low supermoon")
+    colour: HexColour
+    light_energy: float = Field(ge=0, le=2.0, description="Moonlight (DirectionalLight3D) energy")
+    disc_scale: float = Field(ge=1.0, le=4.0, description="Apparent size of the disc compared with an ordinary moon")
+    elevation_deg: float = Field(ge=5, le=80)
+    azimuth_deg: float = Field(ge=0, lt=360, description="Compass bearing from the lighthouse: 0 = north (Godot -Z), 180 = south (+Z, the Saltgate)")
+    position_note: str = Field(description="Where it sits and what that does to the scene")
     visible_disc: bool
-    flighted_icon_hint: str = Field(description="How the dark sphere over a silver moon is hinted, if at all")
+    lights_crossings: bool = Field(description="Moonlight is strong enough to light the outbound and return crossings")
+    eclipse_note: str = Field(description="How the later eclipse (the Flighted ship) will change it")
 
 
 class LightningSpec(BaseModel):
@@ -150,6 +189,12 @@ class LightningSpec(BaseModel):
     thunder_delay_s_per_100m: float = Field(gt=0)
     driven_by: Literal["phase_and_route_position"] = Field(description="Never elapsed time (storm split)")
     reveals_hazards: bool = Field(description="A flash lights hazards in silhouette; it must never hide them")
+    bolt_visible: bool = Field(description="A forked bolt is drawn in the sky during the flash")
+    strobe_pulses: tuple[int, int] = Field(description="Min and max flickers of the cloud around the strike in one flash")
+    strobe_gap_s: tuple[float, float] = Field(description="Min and max time between those flickers")
+    strobe_scope: Literal["local_cloud"] = Field(
+        description="The flickers stay in the cloud around the strike; only the one scene-wide flash counts "
+                    "towards max_flashes_per_second")
     note: str
 
 
@@ -180,6 +225,11 @@ class SaintCalderSpec(BaseModel):
     distance_m: float = Field(gt=500)
     colours: list[HexColour]
     technique: str = Field(description="How it is built: emissive window cards, billboard, sprite points")
+    window_lights: bool = Field(description="The city's windows are lit")
+    glow_at_lighthouse: float = Field(ge=0, le=1, description="How strongly it reads from the lighthouse (0-1)")
+    glow_at_saltgate: float = Field(ge=0, le=1, description="How strongly it reads from the Saltgate quays (0-1)")
+    seen_from_lighthouse: str
+    seen_from_saltgate: str
     visible_through_fog: bool
     flicker: str
     is_navigation_marker: bool

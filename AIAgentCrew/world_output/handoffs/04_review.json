@@ -39,9 +39,14 @@
       "evidence": "All is_navigation_marker flags false; no timer wording."
     },
     {
-      "check": "Moon absent or eclipsed",
+      "check": "Moon: supermoon until the eclipse is added",
       "result": "pass",
-      "evidence": "moon.state 'eclipsed'."
+      "evidence": "moon.state 'full', light_energy 0.6, lights_crossings True."
+    },
+    {
+      "check": "Storm builds by phase",
+      "result": "pass",
+      "evidence": "Clouds gather on the island, darken and fill with rain outbound; lightning between the clouds from the RETURN."
     },
     {
       "check": "Hazards readable",
@@ -53,8 +58,7 @@
   "open_creator_decisions": [
     "Whether the earlier return-crossing data (6 m/s) should be regenerated at the confirmed 3 m/s.",
     "Whether Arthur, as a passenger, moves around the boat while it is steered.",
-    "How bright the eclipsed moon's silver rim may be.",
-    "Whether Saint Calder should flicker or stay fully steady.",
+    "Keep Saint Calder's window flicker after the vibe test, or make the windows steady.",
     "Whether to add controller support at Gate 1.",
     "Whether sprint is allowed inside the lighthouse."
   ],

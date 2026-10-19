@@ -78,9 +78,10 @@ def build_world_crew(llm, guide: StyleGuide, verbose: bool = True, state: dict |
     )
     lighting_agent = Agent(
         role=WORLD_PIPELINE[2],
-        goal="Specify the whole lighting rig: eclipsed moon, lightning, the lighthouse lights and distant Saint Calder, in the locked style.",
+        goal="Specify the whole lighting rig: the supermoon, clouds, rain and lightning per phase, the lighthouse lights and distant Saint Calder, in the locked style.",
         backstory=(
-            "You light Lighting the Storm. The moon is eclipsed, so the only strong light is electric arc and steam. "
+            "You light Lighting the Storm. Until the Flighted ship eclipses it, a huge silver supermoon lights the "
+            "crossings through a break in a storm that builds phase by phase; arc and steam light do the rest. "
             "Storm light is cold and high-contrast; Saint Calder is a warm amber and gold glow far away. You protect "
             "hazard readability above mood, stay inside the style guide palette, never strobe, and never turn a light "
             "into a quest marker."
@@ -129,13 +130,24 @@ def build_world_crew(llm, guide: StyleGuide, verbose: bool = True, state: dict |
     lighting_task = Task(
         description=(
             f"[TASK LIGHTING_SPEC]\n{canon}\n\n{style_block(guide)}\n\n{lighting_canon()}\n\n"
-            "Write the LightingSpec. Four phases ISLAND, OUTBOUND, RETURN, BEACON_RELIT (return is darker, foggier and "
-            "more thundery than outbound; relit beacon improves visibility). The moon is absent or eclipsed. Lightning "
-            "is safe (capped flash rate), driven by phase and route position, and reveals hazards. Sources must include "
+            "Write the LightingSpec. Four phases ISLAND, OUTBOUND, RETURN, BEACON_RELIT, each with clouds, rain and "
+            "lightning. ISLAND: ominous clouds gathering, dry, no lightning. OUTBOUND: clouds darker and fuller, rain starts, "
+            "no lightning. RETURN: darker skies, rain at least as heavy, lightning flashing between the clouds "
+            "(cloud_to_cloud) with a visible forked bolt that strobes the cloud around it a few times per strike "
+            "(local to that cloud; the one scene-wide flash per strike stays inside the cap); also foggier, with "
+            "lower hazard visibility. Only a few sparse clouds cross the moon. On the RETURN only, add a second, darker, part-transparent low "
+            "layer (low_coverage, low_opacity 0.3-0.85, low_drift_mps slower than drift_mps) that drifts across the "
+            "sky and the moon and is lit through by the lightning; low_coverage is 0 in every other phase. The relit beacon improves visibility. The moon is "
+            "a full, huge silver supermoon that lights both crossings through a moon gap in the clouds (the Flighted ship "
+            "eclipses it later); it sits low on the far side of the lighthouse from the Saltgate (azimuth near 0, the "
+            "Saltgate is at 180), leaving Saint Calder in relative darkness. The storm stays near full strength once the "
+            "beacon is relit. Saint Calder's windows are lit and flicker (a test): just visible from the lighthouse, more "
+            "obvious from the Saltgate. Lightning is safe (capped flash rate), driven by phase and route position, and reveals hazards. "
+            "Sources must include "
             "the lighthouse beacon, arc lamp, steam glow, a boat lamp, windows, and the distant Saint Calder lights "
             "(amber and gold only, never a navigation marker). Use ONLY palette colours from the style guide. Keep "
-            "dynamic lights and shadow casters within budget. Give at least four legibility_checks covering hazards, "
-            "lightning, the beacon and Saint Calder."
+            "dynamic lights and shadow casters within budget. Give legibility_checks covering hazards, lightning, the "
+            "beacon, Saint Calder, the moon and the rain."
             f"\n\n{JSON_RULE}{_schema(LightingSpec)}"
         ),
         expected_output="A LightingSpec JSON object.", agent=lighting_agent,
@@ -146,7 +158,7 @@ def build_world_crew(llm, guide: StyleGuide, verbose: bool = True, state: dict |
             f"[TASK WORLD_REVIEW]\n{canon}\n\nReview the BoatSpec, PlayerMovementSpec and LightingSpec together. "
             "Write exactly four pillar_checks (one per pillar, in order) and decisions_log_checks covering at least: "
             "one fixed speed and A/D steering, no waves or tides, no timer, no markers (Saint Calder and beacon are "
-            "scenery), the moon absent or eclipsed, hazards readable. Each check has result pass or fail and concrete "
+            "scenery), the supermoon lighting both crossings until the Flighted ship eclipses it, the storm building by phase in the canon story-beat order, hazards readable. Each check has result pass or fail and concrete "
             "evidence citing spec fields. verdict is PASS only if every check passes, otherwise REVISE with issues "
             "listed. Carry forward open_creator_decisions. handoff_summary is 2-4 factual sentences."
             f"\n\n{JSON_RULE}{_schema(ReviewReport)}"

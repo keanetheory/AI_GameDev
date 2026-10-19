@@ -57,7 +57,7 @@ WORKERS = (
     Role("Level Layout agent", "worker", (3,),
          "Greybox scenes, anchors",
          "Location sizes, beacon visibility, interaction anchors",
-         ("Greybox lighthouse, sea corridor and outpost", "Interaction anchors for other agents",
+         ("Greybox lighthouse, sea corridor and the Saltgate quays", "Interaction anchors for other agents",
           "Sightline checks for the window view and the ending"),
          "Traversal and sightline checks in the engine"),
     Role("Gameplay / Systems agent", "worker", (1, 2),

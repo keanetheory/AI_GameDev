@@ -1,0 +1,13 @@
+{
+  "asset_id": "burner_replacement",
+  "category": "prop",
+  "fal_model": "fal-ai/hunyuan3d-v3/image-to-3d",
+  "prompt": "Lighthouse beacon burner replacement unit, a compact transportable brass and iron burner assembly: perforated brass ring-flame burner head on curved iron struts, riveted brass fuel tank with an engraved trident emblem, side pressure cylinder, brass adjustment valve wheel, ignition housing with a small chain, flexible fuel line, heavy iron mounting base with four forged lifting rings, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, mid-1800s brass and iron",
+  "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+  "source_image": "../../ConceptArt/burner/Replacement Burner.png",
+  "view_images": {
+    "front": "derived/burner_replacement_front.png",
+    "left": "derived/burner_replacement_side.png"
+  },
+  "notes": "Replacement burner (T28): sits on the ground at the Saltgate dock near the DOCK_PORT landing; the player carries it in his hands back to the island and fits it in the lamp. Front and side views cropped from the concept sheet (derived/). About 1 m tall; the lifting rings are the hand-hold."
+}
