@@ -1,0 +1,21 @@
+{
+  "submission": {
+    "asset_id": "rowboat",
+    "category": "boat",
+    "fal_model": "fal-ai/hunyuan3d-v3/image-to-3d",
+    "prompt": "Crude hand-built wooden rowboat for two men, clinker-planked weathered hull with tarred seams and patch repairs, iron strap fittings and rowlocks, three plank thwart benches, two wooden oars, rope coil and iron mooring ring at the bow, worn keel, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, mid-1800s timber and iron",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "source_image": "../../ConceptArt/rowboat/Crude Rowboat Concept Sheet.png",
+    "view_images": {
+      "front": "derived/rowboat_front.png",
+      "left": "derived/rowboat_side.png"
+    },
+    "notes": "Arthur and Daniel's rowboat (T30), moored at the island dock and seen from the lighthouse window. Must read as clearly different from the teal steam launch. Bow and side views cropped from the concept sheet (derived/); the caption on the side crop was painted out."
+  },
+  "request_id": "01a154be-04a6-7580-8dca-8a7efac393fe",
+  "seed": null,
+  "textured": true,
+  "request": {
+    "generate_type": "Normal"
+  }
+}

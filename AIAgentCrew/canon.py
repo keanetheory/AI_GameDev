@@ -65,7 +65,8 @@ CHARACTERS = {
     "Arthur": "Older, coarse seaman, the player's companion on both crossings. Reluctant, but he has "
             "realised the storm is turning nasty and wants to stop the ship being wrecked. Shouts "
             "short, practical directions over the wind.",
-    "Ted": "Gruff keeper, staged at the lamp in the second half. Not present on the boat.",
+    "Ted": "Gruff keeper, present inside the lighthouse throughout; staged at the lamp in the second half. "
+           "Not present on the boat.",
     "Apprentice": "The player. Never speaks.",
 }
 
@@ -169,6 +170,27 @@ OPENING_EVENTS = [
     ("IDLE_SALTGATE", 3, "Player has not found the burner at the Saltgate quays.", False),
 ]
 
+# Events after the opening, reported by the game's GameState autoload. Accepted by the creator on
+# 19 October 2026 (first proposed in LightingTheStorm/HANDOFF_T01_GameState.md). Kept apart from
+# OPENING_EVENTS because the opening dialogue brief must cover exactly that list.
+LATER_EVENTS = [
+    ("RETURN_ARRIVED", "Boat docks at DOCK_LIGHTHOUSE during RETURN; Arthur's arrival line plays."),
+    ("BURNER_FITTED", "The burner is fitted to the beacon; the beacon is relit."),
+    ("SHIP_WIN", "The ship passes the rocks safely into port. Resolves once per attempt."),
+    ("SHIP_FAIL", "The deadline runs out; the ship breaks up on the rock next to the island. Resolves once per attempt."),
+]
+
+# The phase each event starts (forward only). Mirrors PHASE_ON_EVENT in scripts/core/game_state.gd.
+PHASE_ON_EVENT = {
+    "BOILER_FED": "SHELTER_AND_GATE", "DANIEL_IN_BASEMENT": "BEACON_DIAGNOSIS", "BURNER_BRIEFING": "BOARDING",
+    "BOAT_CAST_OFF": "OUTBOUND", "SALTGATE_REACHED": "SALTGATE", "RETURN_DEPARTED": "RETURN",
+    "RETURN_ARRIVED": "FINAL_REPAIR", "BURNER_FITTED": "FINAL_REPAIR", "SHIP_WIN": "RESOLUTION", "SHIP_FAIL": "RESOLUTION",
+}
+
+# Creator wording, 19 October 2026. Ted voices it; the "Failed" screen shows it as a subtitle.
+FAIL_REASON_LINE = {"speaker": "Ted",
+                    "text": "All is lost for those on board...the storm takes more lives. What were you doing, you money toff!"}
+
 SHIP_NAMED_FROM = "BOARDING_THRESHOLD"  # Exec Summary: the ship is introduced at the boarding threshold
 
 OPENING_DIALOGUE_RULES = [
@@ -193,7 +215,7 @@ OPENING_OPEN_DECISIONS = [
     "Which lines are voiced is a cost decision; subtitles exist for every line.",
     "Why Arthur and Daniel were on the water (smugglers?) is left open.",
     "Ted and Arthur's relationship is TBD in the lore; the 'drowned by now' exchange is a proposal.",
-    "Fail-reason and outcome lines belong to the Story / Fail-State agent.",
+    "The fail reason line is fixed (FAIL_REASON_LINE); other outcome lines belong to the Story / Fail-State agent.",
 ]
 
 

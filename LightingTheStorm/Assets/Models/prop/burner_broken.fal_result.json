@@ -1,0 +1,21 @@
+{
+  "submission": {
+    "asset_id": "burner_broken",
+    "category": "prop",
+    "fal_model": "fal-ai/hunyuan3d-v3/image-to-3d",
+    "prompt": "Broken lighthouse beacon burner, the same brass and iron burner assembly as the replacement but damaged: cracked and torn perforated brass burner head, fractured ignition housing, scorched dented brass fuel tank with an engraved trident emblem, split fuel line, seized valve wheel, rusted heavy iron mounting base with bent lifting rings and fallen debris, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, mid-1800s brass and iron",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "source_image": "../../ConceptArt/burner/Broken Burner.png",
+    "view_images": {
+      "front": "derived/burner_broken_front.png",
+      "left": "derived/burner_broken_side.png"
+    },
+    "notes": "Broken burner (T28): sits in the arc lamp in the lantern room until Ted diagnoses it (BURNER_DIAGNOSED). Same footprint as the replacement so both fit the same lamp socket. Front and side views cropped from the concept sheet (derived/)."
+  },
+  "request_id": "01a154be-0495-7a81-96a9-c61fc6b23eb7",
+  "seed": null,
+  "textured": true,
+  "request": {
+    "generate_type": "Normal"
+  }
+}
