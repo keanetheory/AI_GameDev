@@ -12,6 +12,8 @@
 # pickup task exists, nothing else does, so without it leaving the Saltgate never starts the RETURN phase).
 extends Node
 
+const DebugFlags := preload("res://scripts/core/debug_flags.gd")
+
 signal event_emitted(id: String, phase: int)
 signal phase_changed(old_phase: int, new_phase: int)
 signal restarted
@@ -66,6 +68,7 @@ const LIGHTING_FOR_PHASE := {
 }
 
 @export var debug_log := true
+## F9 restart, F10 event log, F11 burner stand-in. Only ever on in a debug build (see debug_flags.gd).
 @export var debug_keys := true
 ## RETURN_DEPARTED needs BURNER_PICKED_UP first (invariant: a pickup precedes the return). Until the pickup task
 ## exists nothing fires BURNER_PICKED_UP, so leaving the Saltgate does not start RETURN unless this is off.
@@ -86,6 +89,7 @@ var _lighting_phase := ""
 
 
 func _ready() -> void:
+	debug_keys = debug_keys and DebugFlags.allowed()
 	_dialogue = get_node_or_null("/root/Dialogue")
 	if _dialogue == null:
 		push_error("GameState: the Dialogue autoload is missing (project.godot [autoload])")

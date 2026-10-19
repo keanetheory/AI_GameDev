@@ -1,0 +1,96 @@
+# Lighting the Storm
+
+A first-person, single-player atmospheric folk-horror adventure for PC. The player is Isaac, new to a storm-bound lighthouse on the Bracken Isle. The beacon has failed, a replacement burner has to be fetched across the Gullwater from the Saltgate, and a passenger ship is steaming towards the rocks. See `../Docs/GDD/Final_GDD_Post_Review/` for the design (Exec Summary, Technical Strategy, AI Agent Strategy).
+
+This folder is the Godot project. It is a Gate 1 vertical slice in progress, built with help from the agents described in `../AIAgentCrew/` and driven by `../GoalOrientedAgent/`.
+
+## Engine and running it
+
+- **Godot 4.3** (`config/features` in `project.godot`: 4.3, Forward Plus), GDScript only.
+- Open this folder (`LightingTheStorm/project.godot`) in the editor and press F5. The main scene is `scenes/Level.tscn`. The level builds a lot of geometry at start-up, so loading takes about ten seconds.
+- A `.godot/` folder is created on first import and is not committed.
+
+## Controls
+
+| Key | Does |
+|---|---|
+| W A S D | Walk (on foot); steer left and right in the boat (W and S do nothing there: one speed, one axis) |
+| Shift / Space | Sprint / jump |
+| Mouse | Look. Esc frees the mouse, a click captures it again |
+| E | Interact: open the door, pick up the burner, board the boat, cast off |
+| Q | Step out of the boat onto the dock |
+| J | Open or close the journal (the game keeps running) |
+
+Prompts appear at the bottom of the view as `[E] Open the door`. There are no markers, no timer and no HUD, by design (Pillars 2 and 3).
+
+## Debug keys (debug builds only)
+
+These show in the editor and in debug exports, and never in a release export. To switch them off in a debug build as well (for a tester), run `godot --path . -- --no-debug-ui`. The logic is in `scripts/core/debug_flags.gd`.
+
+| Key | Does |
+|---|---|
+| F5 F6 F7 F8 | Jump the lighting rig to ISLAND, OUTBOUND, RETURN, BEACON_RELIT (and show a "Lighting: ..." label) |
+| F9 | Restart the slice (attempt counter goes up) |
+| F10 | Print the GameState event log to the Output panel |
+| F11 | Fire `BURNER_PICKED_UP` as a stand-in for picking up the burner |
+
+## How the code is organised
+
+| Folder | What is in it |
+|---|---|
+| `scenes/` | `Level.tscn` (the whole slice, the main scene) and `Player.tscn`. The `.bak` files are old layouts. |
+| `scripts/core/` | `game_state.gd` (the GameState autoload) and `debug_flags.gd` |
+| `scripts/dialogue/` | `dialogue_loader.gd` (the Dialogue autoload) |
+| `scripts/interaction/` | `interaction_manager.gd` (the Interaction autoload) and `interactable.gd` |
+| `scripts/ui/` | `subtitle_ui.gd` (the Subtitles autoload: subtitles and the journal) |
+| `scripts/player/` | `player.gd`, the first-person walker |
+| `scripts/world/` | Boat, dock zones, sea, lighting rig, door, burner pickup, mainland and terrain builders |
+| `data/` | Game data as JSON: `dialogue/dialogue_opening.json`, `world/boat_spec.json`, `lighting_spec.json`, `player_movement_spec.json`. Tuning lives here, not in code. |
+| `Assets/` | Models (`.glb`), textures. New `.glb` files need the import script set and textures downscaled to 2048 (`tools/downscale_glb_texture.py`). |
+| `tools/` | Headless tests (`test_*.gd`), build scripts and checks. `archive/` holds old generations and is ignored by Godot. |
+
+### The four autoloads
+
+They start before the level, in this order, and talk to each other by signal, never by reaching into each other's variables:
+
+1. **Dialogue** reads `dialogue_opening.json` and plays Ted's, Arthur's and Daniel's lines when told an event happened. It emits `line_started`, `line_finished` and `journal_entry_added`.
+2. **GameState** holds the story phase and is the one place any system reports an event. It forwards events to Dialogue, drives the lighting rig, and turns the boat's signals into events.
+3. **Interaction** is the only on-foot reader of the E key. It offers the best `Interactable` in reach and shows its prompt.
+4. **Subtitles** shows the current line and keeps the journal. It only listens.
+
+## Rules for adding gameplay
+
+1. **Report what happened with `GameState.emit_event("EVENT_ID")`.** Never set `GameState.phase` yourself and never call `Dialogue.trigger()` directly.
+2. **Event IDs are fixed.** An unknown ID is refused (a warning in debug builds). Every event except `OUTBOUND_NEAR_MISS` and `OUTBOUND_COLLISION` fires once per attempt. The list, in story order:
+
+   `GAME_STARTED, LIGHTHOUSE_ENTERED, ENGINE_ROOM_ENTERED, COAL_LOADED_FIRST, COAL_LOADED_HALF, BOILER_FED, SAILORS_MOORED, WINDOW_LOOKED, GATE_APPROACHED, GATE_OPENED, SAILORS_INSIDE, DANIEL_IN_BASEMENT, BEACON_STILL_DARK, LAMP_ROOM_ENTERED, BURNER_DIAGNOSED, BURNER_BRIEFING, BOARDING_THRESHOLD, SHIP_SIGHTED, BOAT_CAST_OFF, OUTBOUND_NEAR_MISS, OUTBOUND_COLLISION, SALTGATE_REACHED, BURNER_PICKED_UP, RETURN_DEPARTED, POSTER_EXAMINED, WALL_WHISPER_HEARD, BASEMENT_BANG, BASEMENT_TALK, IDLE_STEP_1, IDLE_STEP_2, IDLE_STEP_3, IDLE_SALTGATE`
+
+   plus `RETURN_ARRIVED, BURNER_FITTED, SHIP_WIN, SHIP_FAIL` (accepted additions). The source of truth is `EVENTS` in `scripts/core/game_state.gd` and `OPENING_EVENTS` in `../AIAgentCrew/canon.py`.
+3. **Phases** run ARRIVAL_AND_COAL, SHELTER_AND_GATE, BEACON_DIAGNOSIS, BOARDING, OUTBOUND, SALTGATE, RETURN, FINAL_REPAIR, RESOLUTION, and only move forward. The event that moves each one is the table `PHASE_ON_EVENT` in `game_state.gd`.
+4. **Anything the player uses is an `Interactable`.** Extend it by path (`extends "res://scripts/interaction/interactable.gd"`), override `prompt_text()` and `interact()`, and report to GameState from there. See `scripts/world/door.gd` and `burner_pickup.gd`. Keep interactables outside the boat's `board_radius`, because the boat keeps its own E.
+5. **Listen, do not drive.** Audio, UI and dialogue respond to events. They never move the story on.
+6. **Keep tuning values in `data/`.** Say in your handoff what a human must check by playing.
+
+## Tests
+
+Headless, from this folder. Each exits 0 when every check passes and prints `RESULT: OK`.
+
+```bash
+godot --headless --path . --script res://tools/test_game_state.gd     # phase machine, events, restart
+godot --headless --path . --script res://tools/test_interaction.gd    # interaction system
+godot --headless --path . --script res://tools/test_subtitles.gd      # subtitles and journal
+godot --headless --path . --script res://tools/test_door.gd           # the lighthouse door
+godot --headless --path . --script res://tools/test_burner_pickup.gd  # burner pickup
+godot --headless --path . --script res://tools/test_interior_walk.gd  # walk the interior route
+godot --headless --path . --script res://tools/test_boat.gd           # boat handling, hazards, both crossings
+godot --headless --path . --script res://tools/test_debug_flags.gd    # run again with  -- --no-debug-ui  to check the off state
+```
+
+A headless run proves logic. It cannot judge feel, looks, lighting or sightlines, so every change still needs a play-through in the editor. The Output panel will print `Parameter "m" is null` from the level's meshes in headless runs; that is the dummy renderer and is expected.
+
+## Working with the agents
+
+- `../GoalOrientedAgent/` keeps the backlog (`BACKLOG.md`), the build order (`GOA Dependency Order.md`) and the log of agent runs (`DEVLOG.md`, `Agent-only runs.md`).
+- Every agent task ends with a handoff note next to its work, written from `HANDOFF_TEMPLATE.md`. `HANDOFF_T01_GameState.md` is a worked example.
+- Agents propose; the creator decides story, canon and feel. Open decisions are in `../Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md`.
+- Known rough edges in the level are in `things to work on next.md`.

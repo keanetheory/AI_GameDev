@@ -10,6 +10,8 @@
 # Runtime only: nothing here touches the scene in the editor, so nothing it builds is saved into Level.tscn.
 extends Node3D
 
+const DebugFlags := preload("res://scripts/core/debug_flags.gd")
+
 const PHASES := ["ISLAND", "OUTBOUND", "RETURN", "BEACON_RELIT"]
 const SKY_SHADER := preload("res://scripts/world/storm_sky.gdshader")
 const WINDOW_SHADER := "
@@ -53,6 +55,7 @@ void fragment() {
 @export var window_count := 600
 ## Share of strikes placed in front of the camera (the rest land anywhere around it).
 @export_range(0.0, 1.0) var in_view_share := 0.75
+## F5-F8 phase jumps and the "Lighting: <phase>" label. Only ever on in a debug build (see debug_flags.gd).
 @export var debug_keys := true
 ## false: the GameState autoload drives the phases (scripts/core/game_state.gd). true: the rig also follows the
 ## boat's departed signal itself, for running the scene on its own. Leave false in the game or both would drive it.
@@ -84,6 +87,7 @@ var _headless := false
 
 
 func _ready() -> void:
+	debug_keys = debug_keys and DebugFlags.allowed()
 	add_to_group("lighting_rig")   # GameState finds the rig by this group and drives set_phase()
 	_headless = DisplayServer.get_name() == "headless"
 	var f := FileAccess.open(spec_path, FileAccess.READ)
@@ -100,7 +104,8 @@ func _ready() -> void:
 	if not _headless:
 		_build_sky()
 		_build_rain()
-		_build_label()
+		if debug_keys:
+			_build_label()
 		_build_windows.call_deferred()
 	var b := get_node_or_null(boat)
 	if follow_boat_signals and b and b.has_signal("departed"):

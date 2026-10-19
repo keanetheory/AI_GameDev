@@ -63,3 +63,202 @@ created   LightingTheStorm/HANDOFF_T01_GameState.md  (+91 -0)
 created   LightingTheStorm/things to work on next.md.tmp_check  (+0 -0)
 modified  LightingTheStorm/things to work on next.md  (+3 -4)
 ```
+
+## 2026-10-19 18:12 - T03 Generic first-person interaction system (raycast, prompt, the 'interact' action) (score 9)
+
+**Outcome:** done  - agent-only run A1 (no API)
+
+Added the generic interaction system: an Interaction autoload that is the single on-foot consumer of the interact action and owns the one prompt label, and a reusable Interactable node (prompt, reach, facing, enabled, overridable can_interact/prompt_text/interact). It picks the nearest, most central usable target, stays quiet while seated in the boat or when blocked, and reads the key label from the input map. Not yet wired to the door or burner, which still carry their own prompts.
+
+**Files changed:**
+- LightingTheStorm/scripts/interaction/interactable.gd
+- LightingTheStorm/scripts/interaction/interaction_manager.gd
+- LightingTheStorm/tools/test_interaction.gd
+- LightingTheStorm/project.godot (Interaction autoload)
+
+**Decisions:**
+- Autoload manager plus a node, not per-node polling, so only one E consumer and one prompt exist.
+- Extend by script path, not class_name, so it works in headless tests before the editor rescans.
+- Existing door.gd, burner_pickup.gd and boat.gd were not edited: another session is working in them. Converting them is run A5.
+- Hold-to-use was left out; the boiler job (T33) can use repeated presses and add it if needed.
+
+**Verified:**
+- tools/test_interaction.gd: 18 checks pass headless on Godot 4.3 (focus, prompt, use-once, look away, reach, enabled, nearest wins, overrides, boat, blocked).
+- test_game_state, test_door and test_burner_pickup still report RESULT: OK.
+
+**Creator still needs to check:**
+- In the editor, add an Interactable to a scene and confirm the prompt shows at the bottom and E fires it; check the prompt does not collide with the door and burner prompts when near them.
+- Check E near the boat's board_radius does not double-fire (the boat keeps its own E).
+
+**Open issues:**
+- door.gd and burner_pickup.gd still have their own prompt and reach code (run A5).
+- Headless runs of test_door and test_burner_pickup print 'Parameter m is null' errors; they come from the level, not from the interaction system.
+
+**Diff summary:**
+```
+created   LightingTheStorm/scripts/interaction/interactable.gd
+created   LightingTheStorm/scripts/interaction/interaction_manager.gd
+created   LightingTheStorm/tools/test_interaction.gd
+modified  LightingTheStorm/project.godot  (+1 -0)
+```
+
+## 2026-10-19 18:14 - T12 Subtitle and journal UI fed by the DialogueLoader signals (score 7)
+
+**Outcome:** done  - agent-only run A2 (no API)
+
+Added the Subtitles autoload: speaker-attributed subtitles shown on Dialogue.line_started and hidden on line_finished, a journal that writes entries from journal_entry_added (repeat ids ignored, order kept) in a handwritten-style face, a brief 'Journal updated [J]' note, a journal action on J that opens and closes the panel without pausing the game, an assist hint shown only when Dialogue.assist_mode is on, and a full clear on GameState.restarted. No timer and no markers.
+
+**Files changed:**
+- LightingTheStorm/scripts/ui/subtitle_ui.gd
+- LightingTheStorm/tools/test_subtitles.gd
+- LightingTheStorm/project.godot (Subtitles autoload, journal input action on J)
+
+**Decisions:**
+- An autoload, like Dialogue and GameState, so no scene edit was needed (Level.tscn has uncommitted work from another session).
+- The subtitle text already carries the speaker ('TED: ...'), so it is shown as written and only coloured per speaker.
+- The journal does not pause the game: the hidden deadline must keep running.
+- The 'Journal updated' note is the only on-screen cue; it fades after about 5 seconds and has no icon or marker.
+
+**Verified:**
+- tools/test_subtitles.gd: 20 checks pass headless on Godot 4.3, including the real opening dialogue (GAME_STARTED shows Ted's first line and writes JRN_01).
+- test_interaction, test_game_state and test_door still report RESULT: OK.
+
+**Creator still needs to check:**
+- In the game: subtitle readability over the storm and the lighthouse, size and position, and that it does not collide with the interaction prompt.
+- The journal panel look and the handwriting face on your machine (it falls back to the default font if none of the named fonts are installed).
+- Whether J is the key you want.
+
+**Open issues:**
+- Subtitle size, font and speaker colours are placeholders for the creator to tune.
+- Controller button for the journal is undecided (see T15).
+
+**Diff summary:**
+```
+created   LightingTheStorm/scripts/ui/subtitle_ui.gd
+created   LightingTheStorm/tools/test_subtitles.gd
+modified  LightingTheStorm/project.godot  (+1 autoload, +1 input action)
+```
+
+## 2026-10-19 19:12 - T21 Strip or gate debug UI (lighting label, F5-F8 phase jumps) behind a debug flag (score 3)
+
+**Outcome:** done  - agent-only run A3 (no API)
+
+The lighting phase label and the F5-F8 keys, and GameState's F9-F11 keys, now follow one flag (scripts/core/debug_flags.gd): on in a debug build, always off in a release export, and switchable off in a debug build with the user argument --no-debug-ui. The label is no longer built when the aids are off.
+
+**Files changed:**
+- LightingTheStorm/scripts/core/debug_flags.gd
+- LightingTheStorm/scripts/world/lighting_rig.gd
+- LightingTheStorm/scripts/core/game_state.gd
+- LightingTheStorm/tools/test_debug_flags.gd
+
+**Decisions:**
+- One shared flag for both scripts so a tester build is switched with one argument.
+- A debug export still shows the aids unless --no-debug-ui is passed: a tester debug build is the builder's, and release builds are always clean.
+- The existing exported debug_keys stay as per-node overrides; they can only turn the aids off, never force them on in a release.
+
+**Verified:**
+- tools/test_debug_flags.gd run twice: with no argument the keys act (F8 changes the lighting phase, F9 restarts) and with -- --no-debug-ui they do nothing; 5 checks pass each time.
+
+**Creator still needs to check:**
+- In the editor, confirm the 'Lighting: <phase>' label still shows in a normal run and is gone with --no-debug-ui (headless runs never build the label).
+
+**Diff summary:**
+```
+modified  LightingTheStorm/scripts/world/lighting_rig.gd
+modified  LightingTheStorm/scripts/core/game_state.gd
+created   LightingTheStorm/scripts/core/debug_flags.gd
+created   LightingTheStorm/tools/test_debug_flags.gd
+```
+
+## 2026-10-19 19:12 - T22 Write LightingTheStorm/readme.md and per-task HANDOFF.md template; reconcile doc gaps (score 4)
+
+**Outcome:** done  - agent-only run A4 (no API)
+
+Wrote LightingTheStorm/readme.md (engine, running, controls, debug keys, code layout, the four autoloads, rules for adding gameplay with the event and phase lists, how to run every headless test, how the agents work) and HANDOFF_TEMPLATE.md in the AI Agent Strategy's handoff format.
+
+**Files changed:**
+- LightingTheStorm/readme.md
+- LightingTheStorm/HANDOFF_TEMPLATE.md
+
+**Decisions:**
+- The readme lists the event IDs and phases and points to game_state.gd and canon.py as the source of truth, so it can be checked rather than trusted.
+- The handoff template mirrors the eight sections of HANDOFF_T01_GameState.md.
+
+**Verified:**
+- Read-through against project.godot (inputs, autoloads), boat.gd and player.gd (controls), game_state.gd (events, phases), and the tools folder (test list).
+
+**Creator still needs to check:**
+- Skim it for anything that misstates how you run or export the project.
+- The two flagged items from the task are still yours: the controller contradiction (settled by T15) and the week-5 fallback wording.
+
+**Diff summary:**
+```
+created   LightingTheStorm/readme.md
+created   LightingTheStorm/HANDOFF_TEMPLATE.md
+```
+
+## 2026-10-19 19:12 - A5 Fold the door and burner prompts into the interaction system (agent-only run, no backlog id)
+
+**Outcome:** done
+
+`door.gd` and `burner_pickup.gd` each carried their own prompt label, reach test and E handling, and `door.gd` said T03 should absorb them. Both are now Interactables: the Interaction autoload owns the one prompt and the E key, and each script only says what E does. Behaviour is unchanged.
+
+**Files changed:**
+- LightingTheStorm/scripts/world/door.gd
+- LightingTheStorm/scripts/world/burner_pickup.gd
+- LightingTheStorm/scripts/interaction/interactable.gd (added `reach_point()` so a door measures reach from its doorway)
+- LightingTheStorm/tools/test_door.gd, tools/test_burner_pickup.gd (read the prompt from the Interaction autoload)
+
+**Decisions:**
+- The door's reach (2.6 m) and aim point (1.4 m above the doorway middle) and the burner's aim (0.45 m) are kept as they were, set in each script's `_init` and overrides.
+- The burner reports it is not usable once held, so its prompt goes away as before.
+
+**Verified:** test_door, test_burner_pickup, test_interior_walk, test_interaction, test_subtitles, test_game_state and test_boat all pass (headless, Godot 4.3). `boat.gd` was not changed; it keeps its own E.
+
+**Creator still needs to check:** in the editor, the door and burner prompts look and behave as before (one prompt at a time, bottom of the view), and E near the boat does not double-fire.
+
+## 2026-10-19 20:16 - T29 Hand carry: pick up the burner, hold it on the boat, fit it at the lamp (score 10)
+
+**Outcome:** done  - agent-only run A6 (no API)
+
+Built the carry system on top of the existing burner pickup. A Carry autoload is the player's hands: one item at a time, held in view, with no drop key, so an item can only be put down in a CarrySocket. CarrySocket is an Interactable offering '[E] Put the burner down' and '[E] Pick up the burner'. The boat gets a cargo slot on its rig (so what is stowed rides with the hull through waves and hazard recoveries), reachable from the lighthouse landing. burner_pickup.gd now hands the burner to Carry. The boat leaves E to the slot when it is offered, so one press cannot both stow and board. The lamp socket (T32) can reuse CarrySocket with allow_take off.
+
+**Files changed:**
+- LightingTheStorm/scripts/interaction/carry_manager.gd
+- LightingTheStorm/scripts/interaction/carry_socket.gd
+- LightingTheStorm/scripts/interaction/interactable.gd (vertical_reach)
+- LightingTheStorm/scripts/world/burner_pickup.gd
+- LightingTheStorm/scripts/world/boat.gd (cargo slot, E deferral)
+- LightingTheStorm/project.godot (Carry autoload)
+- LightingTheStorm/tools/test_carry.gd
+
+**Decisions:**
+- Hands are an autoload and sockets are Interactables, so prompts and the E key stay in one place (the Interaction autoload).
+- The creator's rule (A18) is enforced by construction: there is no release path except Carry.place() into a socket that accepts the item.
+- The first hold records the item's rest transform and hold pose as metadata, so a socket can set it down at its original size and the hands can pick it up again exactly as before.
+- The boat's cargo slot is optional for the player: the burner stays in hand by default and the slot is where it can be set down. burner_aboard stays true while it is stowed.
+- The slot reach is 4.5 m flat and 3.5 m vertical so the burner can be taken back from the lighthouse landing (3.7 m away and 2.6 m above the deck) without jumping aboard.
+- Not changed: GameState (burner_aboard already follows the pickup event), and the other session's door.gd.
+
+**Verified:**
+- tools/test_carry.gd passes 8 of 8 repeat runs: one item at a time, nothing offered with no socket in reach, no drop action, stow on the deck without also boarding, burner rests on the deck, survives a hazard recovery in the same place, casting off fires RETURN_DEPARTED, taken back from the lighthouse landing, held through boarding and a recovery, a restart clears the hands.
+- test_door, test_burner_pickup, test_interaction, test_game_state, test_subtitles, test_interior_walk, test_debug_flags report RESULT: OK and test_boat completes (DONE).
+
+**Creator still needs to check:**
+- In the game: set the burner down on the deck, sail, and take it back at the lighthouse; check the look of the slot position, the prompts and that E near the boat does not double-fire.
+- Whether you want the burner to be stowable at all, or kept in hands for the whole crossing.
+
+**Open issues:**
+- At the Saltgate the berth is about 12 m from the landing, so the slot can only be used by walking to the boat (the boat's own E boards from up to 10 m away). If the creator wants stowing at the quay without walking aboard, move the berth closer or add a second socket near the landing.
+- An earlier version of the test stood on the deck at the lighthouse and failed one run in eight (the player was pushed off against the jetty); the test now stands on the landing, which is what exposed the real reach problem fixed here.
+
+**Diff summary:**
+```
+created   LightingTheStorm/scripts/interaction/carry_manager.gd
+created   LightingTheStorm/scripts/interaction/carry_socket.gd
+created   LightingTheStorm/tools/test_carry.gd
+modified  LightingTheStorm/scripts/world/burner_pickup.gd
+modified  LightingTheStorm/scripts/world/boat.gd
+modified  LightingTheStorm/scripts/interaction/interactable.gd
+modified  LightingTheStorm/project.godot  (+1 autoload)
+```

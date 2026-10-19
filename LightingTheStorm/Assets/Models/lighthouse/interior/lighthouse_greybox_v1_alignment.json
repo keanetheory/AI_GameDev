@@ -1,0 +1,46 @@
+{
+  "coordinate_frame": "GODOT IMPORT LOCAL, units metres; approximate alignment to exterior postimport centred bounding base",
+  "scale_from_original_glb": 34.30122038439098,
+  "original_glb_bounds": [
+    [
+      -0.46089801,
+      0,
+      -0.42912501
+    ],
+    [
+      0.415252,
+      0.78714401,
+      0.36002699
+    ]
+  ],
+  "pivot_original": [
+    -0.0228230059,
+    0,
+    -0.0345490128
+  ],
+  "assumed_ground_level_m": 3.5,
+  "main_house_centre_xz": [
+    -3.0,
+    3.0
+  ],
+  "main_house_long_axis_xz": [
+    0.7071067811865475,
+    -0.7071067811865475
+  ],
+  "tower_centre_xz": [
+    3.45,
+    3.45
+  ],
+  "entry_marker_local_u_v": [
+    0,
+    -2.75
+  ],
+  "warning": "PROTOTYPE: entry location and floor/collision intersection must be checked in Godot; spiral stairs are non-compliant placeholder; exterior GLB untouched; bedroom under roof to verify",
+  "parts_count": 274,
+  "gameplay": [
+    "shovel coal",
+    "admit sailors via front door later",
+    "receive task",
+    "return to install arc lamp head"
+  ]
+}

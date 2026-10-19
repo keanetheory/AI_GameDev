@@ -22,6 +22,7 @@ enum State { DOCKED, SAILING, DOCKING }
 @export var dock_approach_speed := 3.0    # m/s, eased down to nothing at the berth
 @export var board_radius := 10.0          # how close the player must be to board
 @export var seat_offset := Vector3(0.0, 0.5, 0.2)   # where the player stands at the helm (boat space)
+@export var cargo_offset := Vector3(0.0, 0.13, 1.3)  # the cargo slot on the deck, aft of the helm (boat space)
 @export var water_level := 0.5            # sea surface height
 @export var draft := 0.35                 # keel depth below the surface
 @export var wave_follow := 1.0            # 0 = ignore the waves, 1 = ride them exactly, >1 = exaggerate
@@ -52,6 +53,7 @@ var _prompt: Label
 var _rig: Node3D            # holds the hull model and its collision; this is what pitches and rolls
 var _deck: AnimatableBody3D
 var _hull: Node3D
+var cargo: Node3D           # the cargo slot (a CarrySocket); what is put down on the deck rides with the hull
 
 
 func _ready() -> void:
@@ -259,6 +261,13 @@ func _build_rig() -> void:
 	_rig = Node3D.new()
 	_rig.name = "Rig"
 	add_child(_rig)
+	cargo = load("res://scripts/interaction/carry_socket.gd").new()   # a child of the rig, so it pitches and rolls with the boat
+	cargo.name = "CargoSlot"
+	cargo.position = cargo_offset
+	cargo.prompt = "Put it down"
+	cargo.reach = 4.5            # the dock's landing is a few metres off the deck and above it, and the burner is
+	cargo.vertical_reach = 3.5   # taken back from there, so it must be reachable without jumping aboard
+	_rig.add_child(cargo)
 	_hull = get_node_or_null("Hull")
 	if _hull:
 		_hull.reparent(_rig, false)
@@ -306,12 +315,18 @@ func _capture_distance(zone: Node3D) -> float:
 
 func _handle_input() -> void:
 	if Input.is_action_just_pressed("interact"):
-		if not driving and state == State.DOCKED and _player_in_reach():
+		if not driving and state == State.DOCKED and _player_in_reach() and not _interaction_busy():
 			board()
 		elif driving and state == State.DOCKED:
 			cast_off()
 	elif Input.is_action_just_pressed("disembark"):
 		disembark()
+
+
+## The Interaction autoload is offering something else right now (the cargo slot): leave that E to it.
+func _interaction_busy() -> bool:
+	var im := get_node_or_null("/root/Interaction")
+	return im != null and im.focus != null
 
 
 func _player_in_reach() -> bool:
@@ -324,7 +339,7 @@ func _player_in_reach() -> bool:
 func _update_prompt() -> void:
 	var text := ""
 	if not driving:
-		if state == State.DOCKED and _player_in_reach():
+		if state == State.DOCKED and _player_in_reach() and not _interaction_busy():
 			text = "[E] Board the launch"
 	elif state == State.DOCKED:
 		text = "[E] Cast off      [Q] Step onto the dock"

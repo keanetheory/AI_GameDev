@@ -22,6 +22,13 @@ extends Node3D
 ## Boxes (in this node's local space) whose triangles are removed before collision is built,
 ## e.g. to cut a generated dock out of an island so a better one can replace it.
 @export var carve_boxes: Array[AABB] = []
+## Rotated boxes to cut out, for things that are not aligned with the axes (the lighthouse basement in the island).
+## Each transform maps the unit cube (-0.5..0.5 on every axis) onto the box, in this node's local space.
+@export var carve_oriented: Array[Transform3D] = []
+## Upright cylinders to cut out (the lighthouse's lantern deck over the stairs, its lamp). Each AABB is the
+## cylinder's bounding box in this node's local space: the circle (or ellipse) inscribed in its x/z extent, between
+## its bottom and top.
+@export var carve_cylinders: Array[AABB] = []
 ## Strips to cut out along a line: generated walls that run at an angle through things that must stay
 ## (a box would take a bite out of them), or a corridor for stairs. Consecutive pairs of points are the
 ## ends of each line (this node's local space); triangles within the half width of a line and above its
@@ -44,6 +51,13 @@ extends Node3D
 @export var press_path: PackedVector3Array = PackedVector3Array()
 @export var press_half_width := 1.4
 @export var press_falloff := 1.5
+## Meshes whose name ends with this are reference markers (the interior greybox's G_entry_marker and so on): they
+## are hidden and get no collision, and stay in the tree so scripts can read their positions.
+@export var marker_suffix := "_marker"
+## Greybox colouring for untextured models: the first key (checked in order) found in a mesh's name picks its flat
+## colour, so floors, stairs and walls can be told apart; "*" is the colour for names that match no key. Replaces the
+## model's materials (the glTF importer gives material-less meshes a plain default one), so only set it on greyboxes.
+@export var colour_by_name: Dictionary = {}
 
 
 func _ready() -> void:
@@ -57,9 +71,12 @@ func _ready() -> void:
 	add_child(root)
 	for node in root.find_children("*", "MeshInstance3D", true, false):
 		var mi := node as MeshInstance3D
+		if marker_suffix != "" and String(mi.name).ends_with(marker_suffix):
+			mi.visible = false
+			continue
 		if not flatten_boxes.is_empty() or press_path.size() >= 2:
 			_flatten(mi)
-		if not carve_boxes.is_empty() or carve_lines.size() >= 2 or not keep_boxes.is_empty():
+		if not carve_boxes.is_empty() or not carve_oriented.is_empty() or not carve_cylinders.is_empty() or carve_lines.size() >= 2 or not keep_boxes.is_empty():
 			_carve(mi)
 		if solid and not Engine.is_editor_hint():
 			if collision_kind == 1:
@@ -83,7 +100,26 @@ func _ready() -> void:
 						mat.cull_mode = BaseMaterial3D.CULL_DISABLED
 					mat.albedo_color *= tint
 					mi.set_surface_override_material(i, mat)
+		if not colour_by_name.is_empty():
+			_colour_greybox(mi)
 		mi.visible = visible_mesh
+
+
+func _colour_greybox(mi: MeshInstance3D) -> void:
+	var lower := String(mi.name).to_lower()
+	var colour = colour_by_name.get("*")
+	for key in colour_by_name:
+		if key != "*" and lower.contains(String(key).to_lower()):
+			colour = colour_by_name[key]
+			break
+	if colour == null:
+		return
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = colour
+	mat.roughness = 0.95
+	if double_sided:
+		mat.cull_mode = BaseMaterial3D.CULL_DISABLED
+	mi.material_override = mat
 
 
 func _flatten(mi: MeshInstance3D) -> void:
@@ -187,6 +223,9 @@ func _carve(mi: MeshInstance3D) -> void:
 	var to_local := global_transform.affine_inverse() * mi.global_transform
 	var carved := ArrayMesh.new()
 	var removed := 0
+	var oriented_inv: Array[Transform3D] = []
+	for xf in carve_oriented:
+		oriented_inv.append(xf.affine_inverse())
 	for surf in src.get_surface_count():
 		var arrays := src.surface_get_arrays(surf)
 		var verts: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
@@ -207,6 +246,20 @@ func _carve(mi: MeshInstance3D) -> void:
 				if box.has_point(c):
 					inside = true
 					break
+			for inv in oriented_inv:
+				if inside:
+					break
+				var q := inv * c
+				inside = absf(q.x) <= 0.5 and absf(q.y) <= 0.5 and absf(q.z) <= 0.5
+			for cyl in carve_cylinders:
+				if inside:
+					break
+				if c.y < cyl.position.y or c.y > cyl.end.y:
+					continue
+				var mid := cyl.get_center()
+				var dx := (c.x - mid.x) / maxf(cyl.size.x * 0.5, 1e-6)
+				var dz := (c.z - mid.z) / maxf(cyl.size.z * 0.5, 1e-6)
+				inside = dx * dx + dz * dz <= 1.0
 			for i in range(0, carve_lines.size() - 1, 2):
 				if inside:
 					break
