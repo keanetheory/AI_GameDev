@@ -82,6 +82,25 @@ Every task carries a "why this score" line saying why it is not one point higher
 - **Honest about verification.** The agent cannot run the Godot editor, so each result lists what it verified and what you still have to check by playing.
 - **Everything is logged.** `logs/session_*.md` records the agent's reasoning notes, every tool call (collapsible), every plan and diff, and every line you typed.
 
+## Agent-only runs: what the agent did on its own, with the creator's approval
+
+After the first analysis the creator asked the agent to carry on without the Anthropic API, using a Claude Code session in the agent's role. Each run below was started on the creator's go-ahead, kept to the safety rules above (new files first, a headless test for every change, an honest list of what only a human can check), and logged. The full table, the ground rules, what is still waiting and the run log are in **[Agent-only runs.md](Agent-only%20runs.md)**; each run's details (files, decisions, what was verified, what the creator still checks) are in [DEVLOG.md](DEVLOG.md).
+
+| Run | Task | What the agent did on its own | Checked by |
+|---|---|---|---|
+| A1 | T03 | Built the interaction system: an `Interaction` autoload that is the single reader of the E key and owns the one on-screen prompt, plus a reusable `Interactable`. | `test_interaction.gd`, 18 checks |
+| A2 | T12 | Built the `Subtitles` autoload: speaker-attributed subtitles, a journal opened with J, no timer and no markers. | `test_subtitles.gd`, 20 checks |
+| A3 | T21 | Put the lighting label and the F5-F11 debug keys behind one flag: on in debug builds, off in release, and off in a debug build with `-- --no-debug-ui`. | `test_debug_flags.gd`, run with the flag on and off |
+| A4 | T22 | Wrote the game's `readme.md` (controls, debug keys, code layout, event and phase rules, how to run every test) and `HANDOFF_TEMPLATE.md`. | read against the code |
+| A5 | (none) | Moved the door and the burner pickup, which each had their own prompt and reach code, onto the interaction system without changing behaviour. | door, burner and interior-walk tests |
+| A6 | T29 | Built the carry system: hands (`Carry`) that hold one item with no drop key, sockets (`CarrySocket`) as the only places to put it, and a cargo slot on the boat that rides with the hull. | `test_carry.gd`, 8 of 8 repeat runs |
+
+Things worth knowing about how these went:
+
+- **A flaky test was treated as a bug, not noise.** The first carry test failed about one run in eight. Instead of re-running until green, the agent traced it to a real problem (the boat's cargo slot was out of reach from the lighthouse dock), fixed the reach, corrected a wrong assumption of its own about the Saltgate dock, and only logged the task once the test passed eight times in a row.
+- **Nothing was committed or play-tested by the agent.** Every run ends with a list for the creator to check in the Godot editor.
+- **It stayed out of other work.** Files another session was editing were left alone until that work landed (that is why A5 waited).
+
 ## Files
 
 | Path | Purpose |

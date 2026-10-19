@@ -1,0 +1,200 @@
+{
+  "coordinate_frame": "Godot exterior postimport local, Y up, metres, zero additional transform",
+  "scale_from_original_glb": 34.30122038439098,
+  "original_glb_bounds": [
+    [
+      -0.46089801,
+      0,
+      -0.42912501
+    ],
+    [
+      0.415252,
+      0.78714401,
+      0.36002699
+    ]
+  ],
+  "pivot_original": [
+    -0.0228230059,
+    0,
+    -0.0345490128
+  ],
+  "assumed_ground_level_m": 0.97,
+  "main_house_centre_xz": [
+    -3.73473,
+    4.88877
+  ],
+  "main_house_long_axis_xz": [
+    0.9024,
+    -0.4309
+  ],
+  "tower_centre_xz": [
+    3.5,
+    3.6
+  ],
+  "entry_marker_local_u_v": [
+    0,
+    2.1
+  ],
+  "warning": "Revised GLB, not certified walkable. The EXTERIOR mesh still has a solid house-to-tower wall requiring separate carving/collision regeneration. L1 removed. Heightmap is top-down only, not volumetric; flood-fill not run.",
+  "parts_count": 184,
+  "gameplay": [
+    "shovel coal",
+    "admit sailors via front door later",
+    "receive task",
+    "return to install arc lamp head"
+  ],
+  "version": "3.0 revised prototype",
+  "ground_floor_y": 0.97,
+  "basement_floor_y": -2.0,
+  "upper_floor_y": null,
+  "lantern_floor_y": 17.9,
+  "entry_door": {
+    "centre": [
+      -3.494,
+      0.97,
+      8.874
+    ],
+    "normal": [
+      0.4309,
+      0.0,
+      0.9024
+    ],
+    "width": 1.8,
+    "height": 3.0,
+    "along_wall": [
+      0.9024,
+      0.0,
+      -0.4309
+    ]
+  },
+  "door_centre": [
+    -3.494,
+    0.97,
+    8.874
+  ],
+  "door_normal": [
+    0.4309,
+    0.0,
+    0.9024
+  ],
+  "door_width": 1.8,
+  "markers": {
+    "G_entry_marker": [
+      -4.3989,
+      1.12,
+      6.979
+    ],
+    "G_ted_greeting_marker": [
+      -5.6171,
+      1.12,
+      7.5607
+    ],
+    "G_window_view_marker": [
+      -6.1732,
+      1.12,
+      6.164
+    ],
+    "B1_boiler_interaction_marker": [
+      -5.9704,
+      -1.85,
+      4.8482
+    ],
+    "B1_coal_pickup_marker": [
+      -5.3302,
+      -1.85,
+      6.5371
+    ],
+    "B1_daniel_marker": [
+      -0.9267,
+      -1.85,
+      5.4318
+    ],
+    "Lantern_arc_lamp_socket_marker": [
+      3.5,
+      18.5,
+      3.6
+    ],
+    "Lantern_ted_marker": [
+      2.0298,
+      18.05,
+      2.8509
+    ]
+  },
+  "checks": [
+    {
+      "check": "Door opening 1.8 x 3.0 x 0.3m clear",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "Inward-swing occupied sector clear (conservative approximate)",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "House parts under surveyed roof (conservative)",
+      "passed": true,
+      "details": {
+        "above_roof": [],
+        "unsampled": []
+      }
+    },
+    {
+      "check": "Every part >=0.3m inside measured exterior wall",
+      "passed": false,
+      "details": "Unavailable: overhead heightmap includes ground and rocks; no surveyed exterior wall boundaries"
+    },
+    {
+      "check": "All tower parts inside interpolated (outer-0.4m) radius",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "Stairs riser <=.20m",
+      "passed": true,
+      "details": 0.18562499999999998
+    },
+    {
+      "check": "Stairs tread >=.28m",
+      "passed": true,
+      "details": 0.2984513020910303
+    },
+    {
+      "check": "Stairs width >=.90m",
+      "passed": true,
+      "details": 0.9299999999999999
+    },
+    {
+      "check": "Stairs headroom >=2.1m (theoretical pitch)",
+      "passed": true,
+      "details": "theoretical pitch only; the lantern stairwell gap requires in-engine capsule verification"
+    },
+    {
+      "check": "Capsule flood-fill: entry to basement Daniel",
+      "passed": false,
+      "details": "Not validated by a 0.1m capsule-aware voxel flood-fill; geometry requires Godot nav/collision testing"
+    },
+    {
+      "check": "Capsule flood-fill: entry to lantern socket",
+      "passed": false,
+      "details": "Not validated by a 0.1m capsule-aware voxel flood-fill; stairs and gallery need practical alignment testing"
+    },
+    {
+      "check": "Part count <=400",
+      "passed": true,
+      "details": 184
+    },
+    {
+      "check": "Closed meshes, outward normals",
+      "passed": true,
+      "details": []
+    }
+  ],
+  "revision_notes": [
+    "Lantern slab at y=17.9 (was 20.5)",
+    "Tower annular ground floor added and entry located outside guard core",
+    "House interior east partition has an aperture, but the existing exterior mesh still needs a corresponding cut",
+    "Lantern gallery has a stairwell opening covering the final 14 treads",
+    "Optional L1 bedroom omitted because it lacked stairs and roof clearance is unverified"
+  ]
+}

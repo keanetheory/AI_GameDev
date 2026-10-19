@@ -7,7 +7,7 @@
       "text": "Slice starts with the player outside the lighthouse; Ted opens the door ('You're the new guy, then') and the player enters (GAME_STARTED, LIGHTHOUSE_ENTERED).",
       "source": "Exec Summary, Story and gameplay sequence step 1; Technical Strategy Gate 1 and state contract",
       "status": "unmet",
-      "evidence": "LightingTheStorm/scenes/Level.tscn has no door, no Ted node and no trigger areas; the Lighthouse node is only the exterior glb (lighthouse_exterior_v3.glb). Assets/Characters/ted.glb exists but is not instanced in Level.tscn. 'things to work on next.md' item 7 confirms."
+      "evidence": "LightingTheStorm/scenes/Level.tscn has no door, no Ted node and no trigger areas; the Lighthouse node is only the exterior glb (lighthouse_exterior_v3.glb). Assets/Characters/ted.glb exists but is not instanced in Level.tscn. 'things to work on next.md' item 7 confirms. 19 Oct 2026: the main door is now in the level and opens with E (scripts/world/door.gd); a greybox interior (v3) is walkable behind it. Ted is not yet placed at the door."
     },
     {
       "id": "R02",
@@ -62,8 +62,8 @@
       "id": "R09",
       "text": "Player finds and picks up the replacement burner at the Saltgate; it is carried aboard and can never be permanently lost (BURNER_PICKED_UP).",
       "source": "Exec Summary step 6; Technical Strategy invariants and failure policy",
-      "status": "unmet",
-      "evidence": "No burner object, pickup or cargo state in any script. lighting_rig.gd line 131 sets RETURN on any departure from DOCK_PORT with the comment 'means the burner is aboard'."
+      "status": "met",
+      "evidence": "scripts/world/burner_pickup.gd + BurnerPickup in Level.tscn: E picks the burner up on the Saltgate landing, it is held in view (parented to the camera, so a hazard recovery cannot lose it, and there is no drop), and BURNER_PICKED_UP gates RETURN_DEPARTED. tools/test_burner_pickup.gd passes headless. Play-tested by the creator on 19 Oct 2026: works."
     },
     {
       "id": "R10",
@@ -294,7 +294,10 @@
       "agent_can_execute": false,
       "blocked_by": "Needs the Godot editor to place and walk-test the interior and sightlines.",
       "status": "open",
-      "result": null,
+      "result": {
+        "outcome": "partial",
+        "summary": "19 Oct 2026: greybox v3 (creator-generated from greybox_v2_prompt.md + greybox_v3_fixes_prompt.md) is in Level.tscn as LighthouseInterior. The real player walks it end to end: tools/test_interior_walk.gd presses E to open the main door from the porch, then walks the player's own physics body to the dock window, down the switchback to Daniel in the basement, and up the 96-step spiral to the lamp socket on the lantern floor (local y 17.9) - all pass. tools/check_interior_reach.gd (shared flood fill in tools/interior_reach.gd) reaches all 8 markers. Exterior carves: doorway 1.7 m deep, basement, lantern deck over the stairwell (r 2.3) and the exterior's own lamp; island carved under the basement; new collider_builder options carve_oriented, carve_cylinders, colour_by_name and marker_suffix. 15 warm interior lamps (hall, basement, along the spiral, lantern) and greybox colours (floors brown, stairs ochre, walls pale, props slate). Still open: the exterior's lantern glazing is an opaque mesh, so there is no view out of the lamp room yet (needed for the ship sightline, T31/T08); the 0.45 m lamp mount can be climbed; v3's own generator checks (raycast headroom) were not run, the Godot walk test stands in for them."
+      },
       "build_wave": 2,
       "depends_on": [],
       "build_order": 8
@@ -319,8 +322,37 @@
       "effort": "M",
       "agent_can_execute": true,
       "blocked_by": "Tasks T15. Controller decision (T15) settles the prompt glyphs.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Added the generic interaction system: an Interaction autoload that is the single on-foot consumer of the interact action and owns the one prompt label, and a reusable Interactable node (prompt, reach, facing, enabled, overridable can_interact/prompt_text/interact). It picks the nearest, most central usable target, stays quiet while seated in the boat or when blocked, and reads the key label from the input map. Not yet wired to the door or burner, which still carry their own prompts.",
+        "files_changed": [
+          "LightingTheStorm/scripts/interaction/interactable.gd",
+          "LightingTheStorm/scripts/interaction/interaction_manager.gd",
+          "LightingTheStorm/tools/test_interaction.gd",
+          "LightingTheStorm/project.godot (Interaction autoload)"
+        ],
+        "decisions": [
+          "Autoload manager plus a node, not per-node polling, so only one E consumer and one prompt exist.",
+          "Extend by script path, not class_name, so it works in headless tests before the editor rescans.",
+          "Existing door.gd, burner_pickup.gd and boat.gd were not edited: another session is working in them. Converting them is run A5.",
+          "Hold-to-use was left out; the boiler job (T33) can use repeated presses and add it if needed."
+        ],
+        "verified": [
+          "tools/test_interaction.gd: 18 checks pass headless on Godot 4.3 (focus, prompt, use-once, look away, reach, enabled, nearest wins, overrides, boat, blocked).",
+          "test_game_state, test_door and test_burner_pickup still report RESULT: OK."
+        ],
+        "needs_human_check": [
+          "In the editor, add an Interactable to a scene and confirm the prompt shows at the bottom and E fires it; check the prompt does not collide with the door and burner prompts when near them.",
+          "Check E near the boat's board_radius does not double-fire (the boat keeps its own E)."
+        ],
+        "open_issues": [
+          "door.gd and burner_pickup.gd still have their own prompt and reach code (run A5).",
+          "Headless runs of test_door and test_burner_pickup print 'Parameter m is null' errors; they come from the level, not from the interaction system."
+        ],
+        "requirement_updates": [],
+        "follow_up_tasks": []
+      },
       "build_wave": 1,
       "depends_on": [
         "T15"
@@ -408,8 +440,11 @@
       "effort": "M",
       "agent_can_execute": true,
       "blocked_by": "Tasks T25, T26, T28, T29. The boat must reliably reach DOCK_PORT (T25).",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "19 Oct 2026: the replacement burner (Assets/Models/prop/burner_replacement.glb) stands on the Saltgate landing platform at (4.5, 4.4, 540.5), 2.5 m from the landing and 13.6 m from the berth, outside the boat's 10 m board radius so one E cannot both pick up and board. scripts/world/burner_pickup.gd shows '[E] Pick up the burner' within 2.5 m when facing it; E reparents the model to the camera (low and centred, no shadow) and fires GameState.emit_event('BURNER_PICKED_UP'). Boarding and casting off use the boat's own E, and casting off from DOCK_PORT then fires RETURN_DEPARTED (phase RETURN). New headless test tools/test_burner_pickup.gd drives all of it through the real E key: 13 checks pass, exit 0. Checked in the real renderer with a screenshot. The F11 stand-in is still there for debugging (inside debug_keys). Play-tested by the creator on 19 Oct 2026: works."
+      },
       "build_wave": 3,
       "depends_on": [
         "T25",
@@ -587,8 +622,37 @@
       "effort": "M",
       "agent_can_execute": true,
       "blocked_by": "",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Added the Subtitles autoload: speaker-attributed subtitles shown on Dialogue.line_started and hidden on line_finished, a journal that writes entries from journal_entry_added (repeat ids ignored, order kept) in a handwritten-style face, a brief 'Journal updated [J]' note, a journal action on J that opens and closes the panel without pausing the game, an assist hint shown only when Dialogue.assist_mode is on, and a full clear on GameState.restarted. No timer and no markers.",
+        "files_changed": [
+          "LightingTheStorm/scripts/ui/subtitle_ui.gd",
+          "LightingTheStorm/tools/test_subtitles.gd",
+          "LightingTheStorm/project.godot (Subtitles autoload, journal input action on J)"
+        ],
+        "decisions": [
+          "An autoload, like Dialogue and GameState, so no scene edit was needed (Level.tscn has uncommitted work from another session).",
+          "The subtitle text already carries the speaker ('TED: ...'), so it is shown as written and only coloured per speaker.",
+          "The journal does not pause the game: the hidden deadline must keep running.",
+          "The 'Journal updated' note is the only on-screen cue; it fades after about 5 seconds and has no icon or marker."
+        ],
+        "verified": [
+          "tools/test_subtitles.gd: 20 checks pass headless on Godot 4.3, including the real opening dialogue (GAME_STARTED shows Ted's first line and writes JRN_01).",
+          "test_interaction, test_game_state and test_door still report RESULT: OK."
+        ],
+        "needs_human_check": [
+          "In the game: subtitle readability over the storm and the lighthouse, size and position, and that it does not collide with the interaction prompt.",
+          "The journal panel look and the handwriting face on your machine (it falls back to the default font if none of the named fonts are installed).",
+          "Whether J is the key you want."
+        ],
+        "open_issues": [
+          "Subtitle size, font and speaker colours are placeholders for the creator to tune.",
+          "Controller button for the journal is undecided (see T15)."
+        ],
+        "requirement_updates": [],
+        "follow_up_tasks": []
+      },
       "build_wave": 1,
       "depends_on": [],
       "build_order": 6
@@ -828,8 +892,31 @@
       "effort": "S",
       "agent_can_execute": true,
       "blocked_by": "",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "The lighting phase label and the F5-F8 keys, and GameState's F9-F11 keys, now follow one flag (scripts/core/debug_flags.gd): on in a debug build, always off in a release export, and switchable off in a debug build with the user argument --no-debug-ui. The label is no longer built when the aids are off.",
+        "files_changed": [
+          "LightingTheStorm/scripts/core/debug_flags.gd",
+          "LightingTheStorm/scripts/world/lighting_rig.gd",
+          "LightingTheStorm/scripts/core/game_state.gd",
+          "LightingTheStorm/tools/test_debug_flags.gd"
+        ],
+        "decisions": [
+          "One shared flag for both scripts so a tester build is switched with one argument.",
+          "A debug export still shows the aids unless --no-debug-ui is passed: a tester debug build is the builder's, and release builds are always clean.",
+          "The existing exported debug_keys stay as per-node overrides; they can only turn the aids off, never force them on in a release."
+        ],
+        "verified": [
+          "tools/test_debug_flags.gd run twice: with no argument the keys act (F8 changes the lighting phase, F9 restarts) and with -- --no-debug-ui they do nothing; 5 checks pass each time."
+        ],
+        "needs_human_check": [
+          "In the editor, confirm the 'Lighting: <phase>' label still shows in a normal run and is gone with --no-debug-ui (headless runs never build the label)."
+        ],
+        "open_issues": [],
+        "requirement_updates": [],
+        "follow_up_tasks": []
+      },
       "build_wave": 1,
       "depends_on": [],
       "build_order": 7
@@ -853,8 +940,29 @@
       "effort": "S",
       "agent_can_execute": true,
       "blocked_by": "Tasks T26.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Wrote LightingTheStorm/readme.md (engine, running, controls, debug keys, code layout, the four autoloads, rules for adding gameplay with the event and phase lists, how to run every headless test, how the agents work) and HANDOFF_TEMPLATE.md in the AI Agent Strategy's handoff format.",
+        "files_changed": [
+          "LightingTheStorm/readme.md",
+          "LightingTheStorm/HANDOFF_TEMPLATE.md"
+        ],
+        "decisions": [
+          "The readme lists the event IDs and phases and points to game_state.gd and canon.py as the source of truth, so it can be checked rather than trusted.",
+          "The handoff template mirrors the eight sections of HANDOFF_T01_GameState.md."
+        ],
+        "verified": [
+          "Read-through against project.godot (inputs, autoloads), boat.gd and player.gd (controls), game_state.gd (events, phases), and the tools folder (test list)."
+        ],
+        "needs_human_check": [
+          "Skim it for anything that misstates how you run or export the project.",
+          "The two flagged items from the task are still yours: the controller contradiction (settled by T15) and the week-5 fallback wording."
+        ],
+        "open_issues": [],
+        "requirement_updates": [],
+        "follow_up_tasks": []
+      },
       "build_wave": 5,
       "depends_on": [
         "T26"
@@ -1046,8 +1154,42 @@
       "effort": "M",
       "agent_can_execute": true,
       "blocked_by": "Tasks T03, T27. T03 (interaction system); T27 (how it is carried).",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Built the carry system on top of the existing burner pickup. A Carry autoload is the player's hands: one item at a time, held in view, with no drop key, so an item can only be put down in a CarrySocket. CarrySocket is an Interactable offering '[E] Put the burner down' and '[E] Pick up the burner'. The boat gets a cargo slot on its rig (so what is stowed rides with the hull through waves and hazard recoveries), reachable from the lighthouse landing. burner_pickup.gd now hands the burner to Carry. The boat leaves E to the slot when it is offered, so one press cannot both stow and board. The lamp socket (T32) can reuse CarrySocket with allow_take off.",
+        "files_changed": [
+          "LightingTheStorm/scripts/interaction/carry_manager.gd",
+          "LightingTheStorm/scripts/interaction/carry_socket.gd",
+          "LightingTheStorm/scripts/interaction/interactable.gd (vertical_reach)",
+          "LightingTheStorm/scripts/world/burner_pickup.gd",
+          "LightingTheStorm/scripts/world/boat.gd (cargo slot, E deferral)",
+          "LightingTheStorm/project.godot (Carry autoload)",
+          "LightingTheStorm/tools/test_carry.gd"
+        ],
+        "decisions": [
+          "Hands are an autoload and sockets are Interactables, so prompts and the E key stay in one place (the Interaction autoload).",
+          "The creator's rule (A18) is enforced by construction: there is no release path except Carry.place() into a socket that accepts the item.",
+          "The first hold records the item's rest transform and hold pose as metadata, so a socket can set it down at its original size and the hands can pick it up again exactly as before.",
+          "The boat's cargo slot is optional for the player: the burner stays in hand by default and the slot is where it can be set down. burner_aboard stays true while it is stowed.",
+          "The slot reach is 4.5 m flat and 3.5 m vertical so the burner can be taken back from the lighthouse landing (3.7 m away and 2.6 m above the deck) without jumping aboard.",
+          "Not changed: GameState (burner_aboard already follows the pickup event), and the other session's door.gd."
+        ],
+        "verified": [
+          "tools/test_carry.gd passes 8 of 8 repeat runs: one item at a time, nothing offered with no socket in reach, no drop action, stow on the deck without also boarding, burner rests on the deck, survives a hazard recovery in the same place, casting off fires RETURN_DEPARTED, taken back from the lighthouse landing, held through boarding and a recovery, a restart clears the hands.",
+          "test_door, test_burner_pickup, test_interaction, test_game_state, test_subtitles, test_interior_walk, test_debug_flags report RESULT: OK and test_boat completes (DONE)."
+        ],
+        "needs_human_check": [
+          "In the game: set the burner down on the deck, sail, and take it back at the lighthouse; check the look of the slot position, the prompts and that E near the boat does not double-fire.",
+          "Whether you want the burner to be stowable at all, or kept in hands for the whole crossing."
+        ],
+        "open_issues": [
+          "At the Saltgate the berth is about 12 m from the landing, so the slot can only be used by walking to the boat (the boat's own E boards from up to 10 m away). If the creator wants stowing at the quay without walking aboard, move the berth closer or add a second socket near the landing.",
+          "An earlier version of the test stood on the deck at the lighthouse and failed one run in eight (the player was pushed off against the jetty); the test now stands on the landing, which is what exposed the real reach problem fixed here."
+        ],
+        "requirement_updates": [],
+        "follow_up_tasks": []
+      },
       "id": "T29",
       "title": "Hand carry: pick up the burner, hold it on the boat, fit it at the lamp",
       "priority": 10,
@@ -1112,7 +1254,7 @@
       "title": "Passenger ship placeholder, its approach route and the grounding point",
       "priority": 9,
       "owner_role": "Level Layout agent",
-      "summary": "A placeholder passenger ship with lights and a path from the horizon toward the port that the deadline drives. On a win it passes one of the rocks right next to the island safely; on a fail it crashes and breaks up on that rock. The rock must be in clear view from the lamp room, which has views all around (creator, 19 October 2026).",
+      "summary": "A placeholder passenger ship with lights and a path from the horizon toward the port that the deadline drives. On a win it passes one of the rocks right next to the island safely; on a fail it crashes and breaks up on that rock. The rock must be in clear view from the lamp room, which has views all around (creator, 19 October 2026). Note (19 Oct 2026): the exterior lighthouse's lantern glazing is an opaque textured mesh, so the lamp room has no view out until its window panels are carved or replaced with glass.",
       "why_this_score": "T07, T08 and the ship-sighted beat of T11 depend on it, so 9.",
       "build_wave": 2,
       "depends_on": [],
@@ -1337,6 +1479,66 @@
       "task_id": "T08",
       "event": "updated",
       "note": "creator: on the stairs the player sees nothing; the crash plays out (A26)"
+    },
+    {
+      "time": "2026-10-19T16:43:07",
+      "task_id": "T06",
+      "event": "executed",
+      "note": "done: burner on the Saltgate quay, E pick-up, held in view, RETURN_DEPARTED on cast-off; test_burner_pickup.gd passes"
+    },
+    {
+      "time": "2026-10-19T16:51:45",
+      "task_id": "T06",
+      "event": "verified",
+      "note": "creator play-tested the Saltgate pickup: works"
+    },
+    {
+      "time": "2026-10-19T17:04:21",
+      "task_id": "T02",
+      "event": "executed",
+      "note": "greybox v1 loaded; main door actionable (door.gd, test_door.gd); greybox misaligned with the exterior door"
+    },
+    {
+      "time": "2026-10-19T17:46:28",
+      "task_id": "T02",
+      "event": "executed",
+      "note": "greybox v2 in; door, hall and basement reachable; tower/lantern fixes in greybox_v3_fixes_prompt.md"
+    },
+    {
+      "time": "2026-10-19T18:11:23",
+      "task_id": "T02",
+      "event": "executed",
+      "note": "greybox v3 in; real-player walk test passes porch -> window -> basement -> lantern"
+    },
+    {
+      "time": "2026-10-19T18:12:51",
+      "task_id": "T03",
+      "event": "executed",
+      "note": "agent-only run A1"
+    },
+    {
+      "time": "2026-10-19T18:14:43",
+      "task_id": "T12",
+      "event": "executed",
+      "note": "agent-only run A2"
+    },
+    {
+      "time": "2026-10-19T19:12:20",
+      "task_id": "T21",
+      "event": "executed",
+      "note": "agent-only run A3 (no API)"
+    },
+    {
+      "time": "2026-10-19T19:12:20",
+      "task_id": "T22",
+      "event": "executed",
+      "note": "agent-only run A4 (no API)"
+    },
+    {
+      "time": "2026-10-19T20:16:22",
+      "task_id": "T29",
+      "event": "executed",
+      "note": "agent-only run A6"
     }
   ]
 }

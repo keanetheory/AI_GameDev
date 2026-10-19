@@ -1,0 +1,18 @@
+{
+  "what": "The exterior lighthouse's main entry door, measured in Godot on 19 Oct 2026 by ray scans against lighthouse_exterior_v3.glb as imported (scaled to 27 m, pivot at the base centre).",
+  "coordinate_frame": "Same as lighthouse_greybox_v1_alignment.json: the exterior model's post-import local frame, metres. World = local + (5, 9.61, -8.5), no rotation (the Lighthouse node in Level.tscn).",
+  "door_centre_at_sill_local": [-3.494, 0.97, 8.874],
+  "door_outward_normal_local": [0.4309, 0.0, 0.9024],
+  "door_yaw_deg_from_plus_z": 25.5,
+  "door_along_wall_local": [0.9024, 0.0, -0.4309],
+  "door_width_m": 1.8,
+  "door_height_m": 3.0,
+  "porch_depth_m": 1.2,
+  "porch_note": "The door is set 1.2 m back in an arched porch on the house's north face, at its west end next to the tower; the porch floor is at the sill height.",
+  "greybox_v1_mismatch": {
+    "entry_side": "greybox_v1 puts its entry on the house's south face (entry_marker_local_u_v [0, -2.75] = local (-4.94, 1.06), facing (-0.707, -0.707)); that side of the exterior is a boulder plinth with windows and no door.",
+    "floor_height": "greybox_v1 ground floor top is local y 3.6; the exterior door sill is local y 0.97, so the ground floor is 2.63 m above the door.",
+    "rotation": "greybox_v1 walls run at 45 deg (long axis (0.707, -0.707)); the exterior's north wall at the door runs along (0.9024, -0.4309), about 20 deg off.",
+    "roof": "greybox_v1 L1 walls (top local y 9.2) show above the exterior's roof from the south side."
+  }
+}
