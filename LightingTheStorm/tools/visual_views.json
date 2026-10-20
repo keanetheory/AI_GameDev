@@ -1,0 +1,231 @@
+{
+  "views": [
+    {
+      "name": "walk_along",
+      "from": [
+        20,
+        8,
+        552
+      ],
+      "to": [
+        -60,
+        14,
+        566
+      ],
+      "note": "walking up the cut from the quay"
+    },
+    {
+      "name": "walk_up_wall",
+      "from": [
+        30,
+        6,
+        556
+      ],
+      "to": [
+        34,
+        25,
+        580
+      ],
+      "note": "looking up the back wall of the walkway"
+    },
+    {
+      "name": "walk_base",
+      "from": [
+        -20,
+        13.5,
+        556.5
+      ],
+      "to": [
+        -34,
+        11.5,
+        563
+      ],
+      "note": "the wall base and floor"
+    },
+    {
+      "name": "top_near",
+      "from": [
+        -150,
+        36.5,
+        566.5
+      ],
+      "to": [
+        -190,
+        41,
+        570
+      ],
+      "note": "near the top end, along the walkway"
+    },
+    {
+      "name": "top_end",
+      "from": [
+        -168,
+        38.5,
+        566
+      ],
+      "to": [
+        -196,
+        41,
+        572
+      ],
+      "note": "the walkway running into the cliff top"
+    },
+    {
+      "name": "top_from_path",
+      "from": [
+        -203,
+        40.5,
+        584
+      ],
+      "to": [
+        -180,
+        43,
+        568
+      ],
+      "note": "from the path, looking back at the top end"
+    },
+    {
+      "name": "path_earth",
+      "from": [
+        -200,
+        40.3,
+        579
+      ],
+      "to": [
+        -183,
+        39,
+        608
+      ],
+      "note": "the earth path at eye height"
+    },
+    {
+      "name": "top_overview",
+      "from": [
+        -190,
+        75,
+        545
+      ],
+      "to": [
+        -198,
+        38,
+        574
+      ],
+      "note": "the junction from above"
+    },
+    {
+      "name": "sea_view",
+      "from": [
+        40,
+        6,
+        380
+      ],
+      "to": [
+        -40,
+        20,
+        565
+      ],
+      "note": "the cliff and quay from the boat"
+    },
+    {
+      "name": "cove_main",
+      "from": [
+        5,
+        7,
+        400
+      ],
+      "to": [
+        5,
+        22,
+        560
+      ],
+      "note": "the main cove from the boat: quay, walkway, the flanking headlands"
+    },
+    {
+      "name": "cove_west",
+      "from": [
+        -150,
+        7,
+        420
+      ],
+      "to": [
+        -300,
+        22,
+        570
+      ],
+      "note": "the west cove"
+    },
+    {
+      "name": "cove_east",
+      "from": [
+        150,
+        7,
+        420
+      ],
+      "to": [
+        300,
+        22,
+        570
+      ],
+      "note": "the east cove"
+    },
+    {
+      "name": "ledge_close",
+      "from": [
+        -20,
+        13.5,
+        556.5
+      ],
+      "to": [
+        -40,
+        12,
+        566
+      ],
+      "note": "the ledge and the cliff face it grows from"
+    },
+    {
+      "name": "lhi_lamp_out",
+      "from": [
+        8.5,
+        29.1,
+        -4.9
+      ],
+      "to": [
+        8.5,
+        28.5,
+        40
+      ],
+      "note": "the lamp room looking out towards the Saltgate"
+    },
+    {
+      "name": "lhi_tower_win",
+      "from": [
+        7.16,
+        24.9,
+        -4.03
+      ],
+      "to": [
+        -48,
+        0.8,
+        24
+      ],
+      "note": "the tower landing window looking at the water where the rowboat arrives"
+    },
+    {
+      "name": "lhi_lantern_ext",
+      "from": [
+        18,
+        32,
+        4
+      ],
+      "to": [
+        8.5,
+        29.5,
+        -5
+      ],
+      "note": "the lantern from outside: glazed, open-sided, on posts"
+    }
+  ],
+  "max_dark_ratio": 0.25,
+  "dark_luma": 32,
+  "max_black_cells": 5
+}

@@ -1,0 +1,210 @@
+{
+  "id": "lighthouse_interior_assessor",
+  "kind": "assessor",
+  "name": "Lighthouse - Interior Assessment Agent",
+  "reviews": "lighthouse_interior_creator",
+  "feedback_to": [
+    "lighthouse_interior_creator"
+  ],
+  "mandate": "Hold the Lighthouse Interior Creator Agent to the Interior Plan V4 blueprint (B1 basement, G ground, L1 keeper's quarters, L2 control and diagnostics, L3 lantern room, left hut, right annex), the GDD beats (door, coal, window, lantern diagnosis, burner fit) and the exterior model's real dimensions: a walkable route, rooms that match the plan, sightlines that match GDD decisions 22 and 26, and lighting inside the budget. Offline AI Crew and deterministic checks only.",
+  "keywords": [
+    "lighthouse",
+    "interior",
+    "basement",
+    "boiler",
+    "engine room",
+    "lantern room",
+    "arc lamp",
+    "stairs",
+    "spiral",
+    "hallway",
+    "keeper",
+    "window",
+    "sightline",
+    "greybox",
+    "gray box",
+    "door",
+    "poster",
+    "flighted",
+    "wall voids",
+    "whisper",
+    "dynamo"
+  ],
+  "rubric_focus": [
+    "Every objective is scored 1-10 with a reason it is not one point higher or lower.",
+    "Dimensions come from the exterior model (alignment JSON, measured door), not from guesses.",
+    "Rooms are traced to the blueprint legend, and anything invented beyond it is marked as an addition for the creator to approve.",
+    "The player route is tested for headroom, step height and collision, not eyeballed.",
+    "Real lighthouse logic holds: tapering thick walls, spiral stair with landing windows, lantern room on top with a gallery, service levels below."
+  ],
+  "must_cover": [
+    {
+      "id": "LHI-M1",
+      "topic": "Greybox amended to match the exterior model's dimensions",
+      "min_priority": 10,
+      "terms_any": [
+        "exterior model",
+        "exterior dimensions",
+        "match the exterior",
+        "alignment"
+      ],
+      "template": {
+        "id": "LHI-T1",
+        "title": "Fit the greybox to the exterior model",
+        "detail": "Use the alignment JSON and the measured door.",
+        "why_score": "Named by the creator as a must.",
+        "acceptance": [
+          "interior footprint inside exterior walls"
+        ],
+        "checks": [
+          {
+            "type": "file_exists",
+            "path": "LightingTheStorm/Assets/Models/lighthouse/interior/lighthouse_greybox_v3_alignment.json"
+          }
+        ],
+        "refs": [
+          "LightingTheStorm/Assets/Models/lighthouse/interior/lighthouse_greybox_v3_alignment.json"
+        ],
+        "depends_on": []
+      }
+    },
+    {
+      "id": "LHI-M2",
+      "topic": "Rooms built per the Interior Plan V4 blueprint",
+      "min_priority": 10,
+      "terms_any": [
+        "blueprint",
+        "interior plan",
+        "rooms"
+      ],
+      "template": {
+        "id": "LHI-T2",
+        "title": "Build the rooms from the blueprint",
+        "detail": "B1, G, L1, L2, L3, left hut, right annex.",
+        "why_score": "Named by the creator as a must.",
+        "acceptance": [
+          "every blueprint room exists in the greybox"
+        ],
+        "checks": [
+          {
+            "type": "file_exists",
+            "path": "ConceptArt/narrative_blueprints/Brussskania Lighthouse Blueprint Poster.png"
+          }
+        ],
+        "refs": [
+          "ConceptArt/narrative_blueprints/Brussskania Lighthouse Blueprint Poster.png"
+        ],
+        "depends_on": []
+      }
+    },
+    {
+      "id": "LHI-M3",
+      "topic": "Concept art alignment (exterior and interior concept art)",
+      "min_priority": 8,
+      "terms_any": [
+        "concept art",
+        "concept"
+      ],
+      "template": {
+        "id": "LHI-T3",
+        "title": "Align to concept art",
+        "detail": "Compare to ConceptArt/lighthouse.",
+        "why_score": "Named by the creator.",
+        "acceptance": [
+          "differences listed"
+        ],
+        "checks": [
+          {
+            "type": "file_exists",
+            "path": "ConceptArt/lighthouse/Gothic Coastal Lighthouse Complex-2.png"
+          }
+        ],
+        "refs": [
+          "ConceptArt/lighthouse/Gothic Coastal Lighthouse Complex-2.png"
+        ],
+        "depends_on": []
+      }
+    },
+    {
+      "id": "LHI-M4",
+      "topic": "Walkable route with collision, headroom and step height",
+      "min_priority": 10,
+      "terms_any": [
+        "walkable",
+        "collision",
+        "headroom",
+        "step height"
+      ],
+      "template": {
+        "id": "LHI-T4",
+        "title": "Prove the interior route is walkable",
+        "detail": "Walk test with the player capsule.",
+        "why_score": "A blocked route stops the slice.",
+        "acceptance": [
+          "door to lantern room walkable"
+        ],
+        "checks": [
+          {
+            "type": "manual",
+            "note": "Run the interior walk test."
+          }
+        ],
+        "refs": [],
+        "depends_on": []
+      }
+    },
+    {
+      "id": "LHI-M5",
+      "topic": "Sightlines: window to dock and rowboat, lamp room to ship route and island rock",
+      "min_priority": 9,
+      "terms_any": [
+        "sightline",
+        "window view",
+        "lamp room"
+      ],
+      "template": {
+        "id": "LHI-T5",
+        "title": "Prove the two GDD sightlines",
+        "detail": "Window to dock and rowboat, lamp room to rock.",
+        "why_score": "GDD decisions 22 and 26.",
+        "acceptance": [
+          "both visible"
+        ],
+        "checks": [
+          {
+            "type": "manual",
+            "note": "Check in Godot."
+          }
+        ],
+        "refs": [],
+        "depends_on": []
+      }
+    }
+  ],
+  "canon_gates": [],
+  "work_checks": [
+    {
+      "type": "mesh_audit",
+      "path": "LightingTheStorm/Assets/Models/lighthouse/interior/lighthouse_greybox_v3.glb",
+      "max_hole_loops": 0,
+      "no_empty_meshes": true
+    },
+    {
+      "type": "scene_node",
+      "scene": "LightingTheStorm/scenes/Level.tscn",
+      "pattern": "LighthouseInterior|LighthouseDoor|LighthouseThreshold",
+      "min": 3
+    },
+    {
+      "type": "file_exists",
+      "path": "LightingTheStorm/scripts/world/interior_lights.gd"
+    },
+    {
+      "type": "file_exists",
+      "path": "LightingTheStorm/tools/test_sightlines.gd"
+    }
+  ],
+  "offline_crew_consults": [
+    "read AIAgentCrew/world_output/lighting_spec.json (already generated; do not regenerate)"
+  ]
+}

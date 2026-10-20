@@ -1,0 +1,44 @@
+{
+  "id": "waves_assessor",
+  "kind": "assessor",
+  "name": "Waves - Assessment Agent",
+  "reviews": "wave_creator",
+  "feedback_to": ["wave_creator", "Boat / Physics agent", "Lighting agent"],
+  "mandate": "Hold the Wave Creator Agent to the lore (the eclipse makes tides aggressive and storms follow), the GDD (waves are a stretch goal; the crossings must work without them; reduced-intensity preset; wave hits cost no deadline time outbound) and the creator's intent (the first crossing is easy and simple, the last is hectic and stormy). Guard the canon gate: waves are unapproved in canon.py, validators.py, schemas.py and world_canon.py until the creator clears it.",
+  "keywords": ["wave", "waves", "tide", "tides", "swell", "storm", "surge", "sea state", "eclipse", "aggressive", "crossing", "outbound", "return", "water_push", "reduced hazard", "hazard intensity", "capsize", "spray", "rain", "wind"],
+  "rubric_focus": [
+    "Every objective is scored 1-10 with a reason it is not one point higher or lower.",
+    "Difficulty is a curve across phases with first crossing lowest and last crossing highest, defined as numbers the creator can tune.",
+    "Waves must be switchable off and must scale down under the reduced hazard-intensity preset.",
+    "Waves never break the one-control promise: no new inputs, the push is applied through the existing water_push hook.",
+    "Open design questions stay with the creator: the workshop proposes, the creator decides."
+  ],
+  "must_cover": [
+    {"id": "WAV-M1", "topic": "Sea-state curve: first crossing easy, last crossing hectic and stormy", "min_priority": 10,
+     "terms_any": ["first crossing", "last crossing", "sea state", "difficulty curve", "intensity curve"],
+     "template": {"id": "WAV-T1", "title": "Define the sea-state curve across the crossings", "detail": "Numbers per phase, first crossing easiest, last most stormy.", "why_score": "Named by the creator as a must.", "acceptance": ["curve defined as data and approved by the creator"], "checks": [{"type": "file_exists", "path": "LightingTheStorm/data/world/wave_spec.json"}], "refs": [], "depends_on": []}},
+    {"id": "WAV-M2", "topic": "Canon and validators updated to allow waves only after the creator clears the gate", "min_priority": 10,
+     "terms_any": ["canon.py", "validators", "unapproved", "canon gate", "decision 20"],
+     "template": {"id": "WAV-T2", "title": "Clear the waves canon gate", "detail": "Update canon.py, validators.py, schemas.py and world_canon.py after the creator says so.", "why_score": "Four files still say waves are not approved.", "acceptance": ["no file contradicts the approved wave design"], "checks": [{"type": "grep", "path": "AIAgentCrew/canon.py", "pattern": "NOT approved", "max": 0}], "refs": ["AIAgentCrew/canon.py"], "depends_on": []}},
+    {"id": "WAV-M3", "topic": "Waves switchable off and scaled by the reduced hazard-intensity preset", "min_priority": 9,
+     "terms_any": ["waves off", "on/off", "switch", "reduced hazard", "reduced-intensity", "accessibility"],
+     "template": {"id": "WAV-T3", "title": "Wave off switch and reduced preset", "detail": "Setting plus scaling.", "why_score": "GDD accessibility rule.", "acceptance": ["waves off gives a fair crossing"], "checks": [{"type": "manual", "note": "Play with waves off."}], "refs": [], "depends_on": []}},
+    {"id": "WAV-M4", "topic": "Applied through the existing water_push hook, no new controls", "min_priority": 9,
+     "terms_any": ["water_push", "tide hook"],
+     "template": {"id": "WAV-T4", "title": "Apply tides through water_push", "detail": "No new inputs.", "why_score": "One-control promise.", "acceptance": ["water_push driven by sea state"], "checks": [{"type": "grep", "path": "LightingTheStorm/scripts/world/boat.gd", "pattern": "water_push", "min": 2}], "refs": ["LightingTheStorm/scripts/world/boat.gd"], "depends_on": []}},
+    {"id": "WAV-M5", "topic": "Lighting, audio and sea visuals follow the sea state", "min_priority": 7,
+     "terms_any": ["lighting agent", "sound agent", "spray", "shader", "audio"],
+     "template": {"id": "WAV-T5", "title": "Sea state drives lighting, audio and visuals", "detail": "Hooks for the Lighting and Sound agents.", "why_score": "Waves must read.", "acceptance": ["hooks documented"], "checks": [{"type": "manual", "note": "Review hooks."}], "refs": [], "depends_on": []}}
+  ],
+  "canon_gates": [
+    {"id": "WAVES_DECISION20", "pattern": "wave|tide|swell|sea state",
+     "message": "waves are an unapproved stretch goal in the GDD (Decision 20) and in canon.py, validators.py, schemas.py and world_canon.py; the creator must clear this gate in the creator spec (gates_cleared.WAVES_DECISION20)",
+     "fix": "creator confirms Decision 20 in chat; record it in the spec"}
+  ],
+  "work_checks": [
+    {"type": "grep", "path": "LightingTheStorm/scripts/world/boat.gd", "pattern": "water_push", "min": 2},
+    {"type": "grep", "path": "LightingTheStorm/scripts/world/sea.gd", "pattern": "wave_height", "min": 2},
+    {"type": "file_exists", "path": "LightingTheStorm/data/world/wave_spec.json"}
+  ],
+  "offline_crew_consults": ["read AIAgentCrew/world_output/lighting_spec.json and boat_spec.json (already generated; do not regenerate)"]
+}

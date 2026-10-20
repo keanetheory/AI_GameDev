@@ -5,6 +5,13 @@ type: changelog
 
 # Changelog
 
+## 2026-10-20: Waves and tides approved by the creator
+
+- Waves are no longer a stretch goal. The sea has a state from 0 (glass) to 5 (storm). The first crossing (outbound) is easy, state 1 to 2; the return is hectic, state 3 to 5, building as the storm does; the water is calmer at both docks.
+- The eclipse link (tides turn aggressive while the moon is covered) will be shown as a dimming cover over the supermoon on the return. No sphere is shown and the eclipse is not explained; the Flighted ship still arrives later.
+- Crossing speed: 8 m/s, held as data, to be confirmed after playtest.
+- Source: GERFramework/workshops/wave_design_workshop.md (D1-D10). The GDD Decisions log has NOT been edited; see GERFramework/reports/wave_gdd_decision_proposals.md.
+
 ## 2026-10-16: Story beats fixed by the creator
 
 ### Story beats (canon, in order)

@@ -48,7 +48,7 @@ def build_game_data(state: dict) -> dict:
         "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "difficulty_preset": b.difficulty_preset,
         "tuning": {"boat_speed_mps": b.boat_speed_mps, "arthur_call_lead_m": b.arthur_call_lead_m,
-                   "route_length_m": start, "waves_enabled": False},
+                   "route_length_m": start, "waves_enabled": True},
         "dock_zone_id": f.dock_zone_id,
         "events": ["RETURN_DEPARTED", "SEGMENT_ENTERED", "HAZARD_COLLISION", "RECOVERY", "RETURN_ARRIVED"],
         "segments": segments,

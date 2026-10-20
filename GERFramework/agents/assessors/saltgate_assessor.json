@@ -1,0 +1,207 @@
+{
+  "id": "saltgate_assessor",
+  "kind": "assessor",
+  "name": "Saltgate Assessment Agent",
+  "reviews": "saltgate_creator",
+  "feedback_to": [
+    "saltgate_creator",
+    "cliffside_creator"
+  ],
+  "mandate": "Hold the Saltgate Creator Agent to the lore (an abandoned, dark, eerie harbour district of Saint Calder), the GDD (Saltgate minimal until the prototype is complete; burner pickup; docking and disembarking) and the quay concept art: polished huts and port, a smooth boat-to-quay arrival, a port that grows out of the cliff, and canon respected (no people, no invented reason for abandonment). Offline AI Crew and deterministic checks only.",
+  "keywords": [
+    "saltgate",
+    "quay",
+    "quays",
+    "port",
+    "harbour",
+    "hut",
+    "warehouse",
+    "dock",
+    "disembark",
+    "step ashore",
+    "burner",
+    "abandoned",
+    "flag",
+    "amber",
+    "saint calder",
+    "boardwalk",
+    "timber pier"
+  ],
+  "rubric_focus": [
+    "Every objective is scored 1-10 with a reason it is not one point higher or lower.",
+    "The arrival is tested as a player would do it: Q to step ashore, then walk, with no snag, gap or lost camera.",
+    "Lore holds: abandoned, almost no light, tattered amber and gold flags, why it was abandoned stays TBD.",
+    "The GDD says the Saltgate stays minimal until the prototype is complete: polish beyond that is a creator decision."
+  ],
+  "must_cover": [
+    {
+      "id": "SLT-M1",
+      "topic": "Smooth player experience stepping off the boat",
+      "min_priority": 10,
+      "terms_any": [
+        "step ashore",
+        "disembark",
+        "off the boat",
+        "arrival"
+      ],
+      "template": {
+        "id": "SLT-T1",
+        "title": "Smooth disembark from boat to quay",
+        "detail": "Walk-test arrival.",
+        "why_score": "Named by the creator as a must.",
+        "acceptance": [
+          "no snag, gap or camera jump"
+        ],
+        "checks": [
+          {
+            "type": "manual",
+            "note": "Play it in Godot."
+          }
+        ],
+        "refs": [],
+        "depends_on": []
+      }
+    },
+    {
+      "id": "SLT-M2",
+      "topic": "Port seamlessly integrated into the cliffside",
+      "min_priority": 10,
+      "terms_any": [
+        "integrated into the cliff",
+        "cliff seam",
+        "grows out of the cliff",
+        "port-to-cliff",
+        "cliffside agent"
+      ],
+      "template": {
+        "id": "SLT-T2",
+        "title": "Integrate the port into the cliffside",
+        "detail": "Shared joint with the Cliffside agent.",
+        "why_score": "Named by the creator as a must.",
+        "acceptance": [
+          "no gap or floating edge at the joint"
+        ],
+        "checks": [
+          {
+            "type": "manual",
+            "note": "Inspect in Godot."
+          }
+        ],
+        "refs": [],
+        "depends_on": []
+      }
+    },
+    {
+      "id": "SLT-M3",
+      "topic": "Huts and port visuals polished",
+      "min_priority": 8,
+      "terms_any": [
+        "hut",
+        "huts",
+        "warehouse",
+        "polish"
+      ],
+      "template": {
+        "id": "SLT-T3",
+        "title": "Polish the huts and port",
+        "detail": "Materials, silhouettes, broken windows.",
+        "why_score": "Named by the creator.",
+        "acceptance": [
+          "reads as abandoned 1800s harbour"
+        ],
+        "checks": [
+          {
+            "type": "manual",
+            "note": "Review against concept art."
+          }
+        ],
+        "refs": [],
+        "depends_on": []
+      }
+    },
+    {
+      "id": "SLT-M4",
+      "topic": "No empty or hollow meshes at the Saltgate",
+      "min_priority": 9,
+      "terms_any": [
+        "hollow",
+        "empty mesh",
+        "hole",
+        "empty spot"
+      ],
+      "template": {
+        "id": "SLT-T4",
+        "title": "Audit Saltgate meshes",
+        "detail": "Run the mesh audit.",
+        "why_score": "Same quality bar as island and cliff.",
+        "acceptance": [
+          "zero empty meshes, zero hole loops"
+        ],
+        "checks": [
+          {
+            "type": "mesh_audit",
+            "path": "LightingTheStorm/Assets/Models/saltgate/saltgate_quay.glb",
+            "max_hole_loops": 0
+          }
+        ],
+        "refs": [
+          "LightingTheStorm/Assets/Models/saltgate/saltgate_quay.glb"
+        ],
+        "depends_on": []
+      }
+    },
+    {
+      "id": "SLT-M5",
+      "topic": "Experience, Canon and World agents consulted on arrival flow",
+      "min_priority": 8,
+      "terms_any": [
+        "canon agent",
+        "canon and review",
+        "world crew",
+        "experience"
+      ],
+      "template": {
+        "id": "SLT-T5",
+        "title": "Consult Experience, Canon and World agents",
+        "detail": "Offline crew consultation recorded.",
+        "why_score": "Named by the creator.",
+        "acceptance": [
+          "consultation recorded"
+        ],
+        "checks": [
+          {
+            "type": "manual",
+            "note": "Record the consultation."
+          }
+        ],
+        "refs": [],
+        "depends_on": []
+      }
+    }
+  ],
+  "canon_gates": [],
+  "work_checks": [
+    {
+      "type": "mesh_audit",
+      "path": "LightingTheStorm/Assets/Models/saltgate/saltgate_quay.glb",
+      "max_hole_loops": 0,
+      "max_degenerate_ratio": 0.001,
+      "max_texture_px": 2048
+    },
+    {
+      "type": "mesh_audit",
+      "path": "LightingTheStorm/Assets/Models/dock/dock_harbour.glb",
+      "max_hole_loops": 0,
+      "max_degenerate_ratio": 0.001
+    },
+    {
+      "type": "scene_node",
+      "scene": "LightingTheStorm/scenes/Level.tscn",
+      "pattern": "Saltgate.*|Boardwalk.*|DockZonePort|BurnerPickup",
+      "min": 7
+    }
+  ],
+  "offline_crew_consults": [
+    "python main_asset.py sample_submissions/saltgate_hunyuan_v3.fal.json --check-only"
+  ]
+}

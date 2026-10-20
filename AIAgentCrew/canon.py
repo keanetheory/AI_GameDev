@@ -47,7 +47,7 @@ RETURN_CROSSING_RULES = [
     "The return crossing is phase RETURN: burner aboard, Arthur is the only companion.",
     "The hidden ship deadline starts on the return-departure event; it is never shown as a number.",
     "The boat has ONE fixed speed (no throttle) and ONE steering axis.",
-    "Hazards are rocks, reefs, buoys and floating debris. Wave hazards are a stretch goal and are NOT approved.",
+    "Hazards are rocks, reefs, buoys and floating debris. Waves are approved by the creator (2026-10-20): a sea state that rises from the first crossing (easy) to the return (hectic), always switchable off, never a new control.",
     "Storm split: hazard density, route width and visibility needed to read hazards follow phase "
     "and ROUTE POSITION only - never elapsed time. Density should rise (never fall) along the route.",
     "The return crossing is harder than the outbound: denser hazards, lower visibility, narrower route.",

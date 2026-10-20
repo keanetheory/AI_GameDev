@@ -6,6 +6,9 @@
 extends SceneTree
 
 const Reach := preload("res://tools/interior_reach.gd")
+## Places in the furnished rooms that must be reachable on foot from the porch.
+const ROOM_ANCHORS := ["boiler_interaction", "coal_pickup", "daniel", "l1_landing", "l1_hall", "l1_quarters", "l1_radio", "l1_mess",
+	"l1_ring", "l2_landing", "l2_control", "l2_instruments", "lamp_stand"]
 
 var _lv: Node
 var _f := 0
@@ -40,6 +43,8 @@ func _run() -> void:
 	print("REACH reachable spots: ", reach.seen.size())
 	var missing := 0
 	for name in markers(_lv):
+		if name == "Lantern_arc_lamp_socket_marker":   # inside the lamp now; ANCHOR_lamp_stand covers reaching it
+			continue
 		var w: Vector3 = markers(_lv)[name]
 		var near := reach.nearest(w, true)
 		var ok := not near.is_empty() and Vector2(near["pos"].x - w.x, near["pos"].z - w.z).length() < 0.8 and absf(near["pos"].y - w.y) < 0.5
@@ -77,4 +82,10 @@ static func markers(level: Node) -> Dictionary:
 	for name in ali["markers"]:
 		var p: Array = ali["markers"][name]
 		out[name] = Reach.LIGHTHOUSE + Vector3(p[0], p[1] - 0.15, p[2])   # marker centres sit 0.15 above their floor
+	# the furnished rooms' places (interior_rooms.gd): ANCHOR_<role> -> world position
+	var rooms := level.get_node_or_null("InteriorRooms")
+	if rooms != null and rooms.get("anchors") is Dictionary:
+		for role in ROOM_ANCHORS:
+			if rooms.anchors.has(role):
+				out["ANCHOR_" + role] = rooms.anchors[role]
 	return out

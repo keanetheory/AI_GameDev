@@ -1,0 +1,853 @@
+{
+ "creator": "cliffside_creator",
+ "phase": "executing",
+ "plan_loops": 1,
+ "work_loops": 2,
+ "objectives": [
+  {
+   "id": "CLF-01",
+   "title": "Audit every cliff mesh and every module seam for empty, hollow and holed geometry, then repair",
+   "priority": 10,
+   "why_score": "Named a must by the creator; a gap in a cliff wall is visible from every crossing. Not 9 because the two cliff meshes audit clean, so the live risk is the seams between the 10 placed modules.",
+   "detail": "Baseline: cliff_wall.glb and cliff_headland.glb are 150k triangles each with 0 hole loops and 0 empty meshes. The risk is where the ten placed pieces (CliffWall1-7, Headland1-2, CapEast) meet. Write tools/test_cliff_seams.gd to measure the gap between adjacent module bounds and any see-through crack along the line, and report each seam. Repair by overlapping, nudging or adding a rock filler, not by regenerating via FAL.",
+   "acceptance": [
+    "mesh audit: zero empty meshes, zero hole loops on both cliff meshes",
+    "tools/test_cliff_seams.gd exists and reports no seam gap above the agreed tolerance"
+   ],
+   "owner": "Cliffside Creator Agent",
+   "checks": [
+    {
+     "type": "mesh_audit",
+     "path": "LightingTheStorm/Assets/Models/cliff_terrain/cliff_wall.glb",
+     "max_hole_loops": 0,
+     "max_degenerate_ratio": 0.001
+    },
+    {
+     "type": "mesh_audit",
+     "path": "LightingTheStorm/Assets/Models/cliff_terrain/cliff_headland.glb",
+     "max_hole_loops": 0,
+     "max_degenerate_ratio": 0.001
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/test_cliff_seams.gd"
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/Assets/Models/cliff_terrain/cliff_wall.glb",
+    "LightingTheStorm/scenes/Level.tscn"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "Offline AI Crew"
+   ]
+  },
+  {
+   "id": "CLF-02",
+   "title": "Make the walkway from the Saltgate to the cliff top an extension of the cliff stone mesh",
+   "priority": 10,
+   "why_score": "Named a must by the creator, and it is the main walk of the second half of the slice. Not 9 because the road is already cut into a copy of the cliff mesh; what remains is every place it still reads as a separate object.",
+   "detail": "mainland.gd already cuts the harbour road into the cliff face as a ledge made from a copy of the cliff mesh and texture. Audit the whole run from the quay to the plateau for places that still read as a bolt-on: the start where timber boardwalks meet it, the stone stairs (stone_stairs.gd), the ramp surface material, the outer edge, the retaining wall, and the top where it meets the plateau. Every stone surface the player walks on uses the cliff's mesh and texture set, with the cliff's moss and cracks continuing across it, rock lip at the outer edge, and no flat planes with a different material.",
+   "acceptance": [
+    "from quay to cliff top every walked stone surface uses the cliff material and texture set",
+    "no visible seam, step or colour break between cliff face and walkway",
+    "the outer edge has a rock lip, not a hard cut"
+   ],
+   "owner": "Cliffside Creator Agent",
+   "checks": [
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/mainland.gd",
+     "pattern": "COPY of the cliff mesh",
+     "min": 1
+    },
+    {
+     "type": "manual",
+     "note": "Walk quay to cliff top in Godot; list each place the walkway reads as separate."
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/scripts/world/mainland.gd",
+    "LightingTheStorm/scripts/world/stone_stairs.gd",
+    "LightingTheStorm/scripts/world/boardwalk.gd"
+   ],
+   "depends_on": [
+    "CLF-01"
+   ],
+   "collaborates": [
+    "Saltgate Creator Agent",
+    "Level Layout agent"
+   ]
+  },
+  {
+   "id": "CLF-12",
+   "title": "Fix the black backing wall above the plateau and the torn grass ribbons over the walkway end",
+   "priority": 10,
+   "why_score": "Both are visible on the main walk and the black wall is a regression from the last fix. Not a lasting fix (CLF-13 replaces the cutting) but it keeps the build clean meanwhile.",
+   "detail": "Lower the backing wall well below the plateau and end it earlier; remove the leftover grassy top-of-cliff triangles that hang over the cut.",
+   "acceptance": [
+    "no backing wall visible above the plateau from the path",
+    "no hanging grass ribbon over the walkway end in screenshots from the walkway"
+   ],
+   "owner": "Cliffside Creator Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/test_walkway_continuity.gd"
+    },
+    {
+     "type": "manual",
+     "note": "Screenshots from the walkway and from the path (CLF-17 will automate)."
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/scripts/world/mainland.gd"
+   ],
+   "depends_on": [],
+   "collaborates": []
+  },
+  {
+   "id": "CLF-03",
+   "title": "Root trees, path edges and props into the rock so they read as natural, not placed",
+   "priority": 9,
+   "why_score": "Named a must by the creator. Not 10 because the walkway itself (CLF-02) comes first.",
+   "detail": "mainland.gd scatters 2,600 trees on the plateau using the measured cliff-top heights. Check: no tree base floats or sinks relative to the rock or terrain, roots or rubble hide each base, trees keep off the road and ramp, the path edge breaks up into gravel, moss and fallen stone rather than a ruler-straight line, and props (flags, posts, lamps) sit on the rock with contact shadows or grounding decals. Vary scale and lean with wind from the sea.",
+   "acceptance": [
+    "no floating or buried trees in a sweep along the walkway and plateau edge",
+    "path edge has no hard straight line against the rock or ground"
+   ],
+   "owner": "Cliffside Creator Agent",
+   "checks": [
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/mainland.gd",
+     "pattern": "tree_count|tree_seed",
+     "min": 2
+    },
+    {
+     "type": "manual",
+     "note": "Walk the walkway and plateau edge in Godot and look for floating or buried trees."
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/scripts/world/mainland.gd"
+   ],
+   "depends_on": [
+    "CLF-02"
+   ],
+   "collaborates": [
+    "Lighting agent"
+   ]
+  },
+  {
+   "id": "CLF-04",
+   "title": "Set a cliffside load-time and memory budget, measure it headless, and cut cost until it is met",
+   "priority": 9,
+   "why_score": "Named a must by the creator. The baseline is the worst in the level: two 26 MB meshes with 4096 textures instanced ten times plus 2,600 trees generated at load. Not 10 because it does not stop the slice running.",
+   "detail": "Baseline: cliff_wall.glb 26.0 MB, 150k triangles, 4096 texture (about 89 MB VRAM); cliff_headland.glb 26.3 MB, same. Proposed budget (creator to confirm): each cliff mesh under 15 MB with a 2048 texture (project convention), instances share one resource, the 2,600 trees are one MultiMesh, and the mainland carving and collision are baked instead of generated at load (GOA backlog T23). Write tools/measure_load_time.gd (shared with the Island agent) to time the cliffside headless.",
+   "acceptance": [
+    "each cliff mesh <= 15 MB and <= 2048 px texture",
+    "mainland carving and collision are baked or the creator has accepted the load cost",
+    "measured cliffside load time inside the creator-confirmed budget"
+   ],
+   "owner": "Cliffside Creator Agent",
+   "checks": [
+    {
+     "type": "mesh_audit",
+     "path": "LightingTheStorm/Assets/Models/cliff_terrain/cliff_wall.glb",
+     "max_mb": 15,
+     "max_texture_px": 2048,
+     "max_vram_mb": 30
+    },
+    {
+     "type": "mesh_audit",
+     "path": "LightingTheStorm/Assets/Models/cliff_terrain/cliff_headland.glb",
+     "max_mb": 15,
+     "max_texture_px": 2048,
+     "max_vram_mb": 30
+    },
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/mainland.gd",
+     "pattern": "MultiMesh",
+     "min": 1
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/measure_load_time.gd"
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/Assets/Models/cliff_terrain/cliff_wall.glb",
+    "LightingTheStorm/scripts/world/mainland.gd",
+    "GoalOrientedAgent/BACKLOG.md"
+   ],
+   "depends_on": [
+    "CLF-01"
+   ],
+   "collaborates": [
+    "Asset agent"
+   ]
+  },
+  {
+   "id": "CLF-05",
+   "title": "Prove there are no empty spots or collision gaps along the walkway, cliff top and plateau",
+   "priority": 9,
+   "why_score": "Named a must by the creator; a gap in the collider or a missing patch of ground behind the cliff is a fall-through or a visible void. Not 10 because the walk currently works end to end.",
+   "detail": "Write tools/test_walkway_continuity.gd: ray-sweep the ramp, the stairs, the lip and the plateau behind the cliff, and walk the Player capsule from the quay to the road to the city gate. Fail on any gap, any invisible wall, and any place the camera can see behind the cliff to empty sky or sea.",
+   "acceptance": [
+    "tools/test_walkway_continuity.gd exists and passes headless",
+    "no camera angle from the walkway shows a void"
+   ],
+   "owner": "Cliffside Creator Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/test_walkway_continuity.gd"
+    },
+    {
+     "type": "manual",
+     "note": "Run the test and walk the route."
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/scripts/world/mainland.gd",
+    "LightingTheStorm/scripts/world/stone_stairs.gd"
+   ],
+   "depends_on": [
+    "CLF-02"
+   ],
+   "collaborates": [
+    "Experience (Player Movement + QA agents)"
+   ]
+  },
+  {
+   "id": "CLF-06",
+   "title": "Write the port-to-cliff joint contract with the Saltgate agent and build the cliff side of it",
+   "priority": 9,
+   "why_score": "Two agents share one seam and the creator wants the port grown into the cliff; without a written contract each will move it. Not 10 because it supports CLF-02 and SLT-02 rather than being a deliverable itself.",
+   "detail": "Write GERFramework/contracts/port_cliff_joint.md with the Saltgate agent: joint position, heights, which mesh overlaps which, materials on both sides, collision handover, and who may change what. Then build the cliff side: the cliff base wraps behind and under the quay edge.",
+   "acceptance": [
+    "contract file exists and both creator agents list it as met",
+    "no gap, floating edge or material break at the joint"
+   ],
+   "owner": "Cliffside Creator Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "GERFramework/contracts/port_cliff_joint.md"
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/Assets/Models/saltgate/saltgate_quay.glb",
+    "ConceptArt/channel_scenes/position of both saltgate and the cliff terrain.png"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "Saltgate Creator Agent"
+   ]
+  },
+  {
+   "id": "CLF-13",
+   "title": "Replace the load-time cutting with a baked, closed walkway ledge attached to the uncut cliff face",
+   "priority": 9,
+   "why_score": "Removes the whole class of cutting artefacts and the load-time carve. Not 10 because CLF-12 keeps the current build clean meanwhile.",
+   "detail": "A bake tool measures the cliff face along the walkway line, builds a closed ledge (floor, shelf, toe, end caps) buried into the face and saves it as a profile file (data/world/walkway_profile.json) that the level turns into the ledge and its collision at start. The cliff modules are no longer cut. The Saltgate joint contract heights apply.",
+   "acceptance": [
+    "no triangles are cut from the cliff modules",
+    "the ledge is built from a baked profile file loaded at start",
+    "walk tests and the path walk pass",
+    "no see-through gap between ledge and cliff"
+   ],
+   "owner": "Cliffside Creator Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/bake_walkway.gd"
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/data/world/walkway_profile.json"
+    },
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/mainland.gd",
+     "pattern": "_carve_mesh|CutWall",
+     "max": 0
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/scripts/world/mainland.gd",
+    "GERFramework/contracts/port_cliff_joint.md"
+   ],
+   "depends_on": [
+    "CLF-14"
+   ],
+   "collaborates": [
+    "Saltgate Creator Agent"
+   ]
+  },
+  {
+   "id": "CLF-14",
+   "title": "Coves layout: headlands and three coves, the quay in the main one, driven by one data table",
+   "priority": 9,
+   "why_score": "The creator's decision (three coves, quay in the main one), matching the concept art. Highest-risk change so it goes before the dressing. Not 10 because the build is playable without it.",
+   "detail": "Replace the ten hand-placed cliff nodes with a data table (data/world/cliff_layout.json) read by a layout script. Coastline: east and west headlands flank the main cove that holds the quay and the walkway; two smaller coves recessed inland between the other headlands. Coves recede inland (higher z) so the boat route (z up to about 527) stays clear; the quay stays inside the main cove; the cliff top stays about 38 m where the walkway ends.",
+   "acceptance": [
+    "layout is one data file",
+    "three coves visible from the boat",
+    "boat test still passes and no module intrudes on the route",
+    "cliff seam test passes with no gap"
+   ],
+   "owner": "Cliffside Creator Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/data/world/cliff_layout.json"
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/scripts/world/cliff_layout.gd"
+    },
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/data/world/cliff_layout.json",
+     "pattern": "\"cove\"",
+     "min": 10
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/scenes/Level.tscn",
+    "ConceptArt/channel_scenes/position of both saltgate and the cliff terrain.png"
+   ],
+   "depends_on": [
+    "CLF-12"
+   ],
+   "collaborates": [
+    "Level Layout agent",
+    "Saltgate Creator Agent",
+    "Boat / Physics agent"
+   ]
+  },
+  {
+   "id": "CLF-07",
+   "title": "Verify cliff faces, wet rock and fog read in every phase with the Lighting agent",
+   "priority": 8,
+   "why_score": "The cliffs are the largest surface in the return crossing; they must catch lightning and the beacon without going flat or glowing. Not 9 because the rig exists and this is verification.",
+   "detail": "Capture the cliff from the channel and from the walkway in OUTBOUND, RETURN and BEACON_RELIT. Check roughness and wetness response, lightning catching ridges, fog depth, and that the moonlit supermoon colour reads on the slate. Report fixes to the Lighting agent; fix materials here.",
+   "acceptance": [
+    "captures reviewed per phase",
+    "no emissive leak, no flat shading"
+   ],
+   "owner": "Cliffside Creator Agent",
+   "checks": [
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/lighting_rig.gd",
+     "pattern": "OUTBOUND|RETURN|BEACON_RELIT",
+     "min": 3
+    },
+    {
+     "type": "manual",
+     "note": "Capture each phase in Godot."
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/scripts/world/lighting_rig.gd"
+   ],
+   "depends_on": [
+    "CLF-01"
+   ],
+   "collaborates": [
+    "Lighting agent"
+   ]
+  },
+  {
+   "id": "CLF-08",
+   "title": "Decide where timber ends and rock begins on the walkway, and its width",
+   "priority": 8,
+   "why_score": "The creator wants the walkway to be stone, but the lore calls for rotting timber piers at the quay and the current build has wooden boardwalks at the start. Not higher because there is a safe default.",
+   "detail": "Proposal: timber on the quay and piers only; from the first step off the quay the climb is cliff stone, cut 6 m wide as today (ROAD_W) with a rock lip. The boardwalk links stay on the quay only.",
+   "acceptance": [
+    "the creator has chosen the boundary and width"
+   ],
+   "owner": "Cliffside Creator Agent",
+   "needs_creator": true,
+   "decision": "Does timber stop at the quay edge and stone start at the first step? Keep the 6 m width? Recommendation: yes to both.",
+   "checks": [
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/mainland.gd",
+     "pattern": "ROAD_W",
+     "min": 1
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/scripts/world/boardwalk.gd",
+    "Docs/Lore Build/regions/reg_saltgate.md"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "Creator",
+    "Saltgate Creator Agent"
+   ]
+  },
+  {
+   "id": "CLF-15",
+   "title": "Cove base dressing: rubble and scree, sea stacks at the headland feet, spray hooks",
+   "priority": 8,
+   "why_score": "The concept art's missing foot detail. Not 9 because the layout and walkway come first.",
+   "detail": "Scattered rock rubble and scree at the cliff foot in the cliff's own material, a few existing sea stacks moved to the headland bases without entering the boat route, and a spray effect at the headland feet driven by Sea.state (hook for the Wave agent).",
+   "acceptance": [
+    "rubble visible along the cliff foot from the boat",
+    "stacks clear of the route",
+    "spray rises with Sea.state"
+   ],
+   "owner": "Cliffside Creator Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/scripts/world/cliff_dressing.gd"
+    }
+   ],
+   "refs": [
+    "ConceptArt/channel_scenes/position of both saltgate and the cliff terrain.png"
+   ],
+   "depends_on": [
+    "CLF-14"
+   ],
+   "collaborates": [
+    "Wave Creator Agent",
+    "Boat / Physics agent"
+   ]
+  },
+  {
+   "id": "CLF-09",
+   "title": "Compare the cliffside to the cliff and channel concept art and list every deliberate difference",
+   "priority": 7,
+   "why_score": "Art direction is locked by the concept art; the cliffs define the channel read. Not 8 because differences are cheap once listed.",
+   "detail": "Compare module silhouettes, moss and slate colour, and the placement image (position of Saltgate and cliff terrain) against in-engine captures.",
+   "acceptance": [
+    "a comparison note lists each difference as accepted or fixed"
+   ],
+   "owner": "Cliffside Creator Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "GERFramework/reports/cliffside_concept_comparison.md"
+    }
+   ],
+   "refs": [
+    "ConceptArt/channel_scenes/position of both saltgate and the cliff terrain.png",
+    "ConceptArt/cliff_terrain/Cliff Section Three-View Turnaround-1.png"
+   ],
+   "depends_on": [],
+   "collaborates": []
+  },
+  {
+   "id": "CLF-16",
+   "title": "Slimmer pines and a softer path edge",
+   "priority": 7,
+   "why_score": "Closest remaining gap to the concept art. Not 8 because it is dressing.",
+   "detail": "Replace the squat cone trees with taller, slimmer, ragged pines with irregular tiers; blur the path edge into the ground.",
+   "acceptance": [
+    "pines are visibly slimmer and irregular",
+    "no ruler-straight path edge in screenshots"
+   ],
+   "owner": "Cliffside Creator Agent",
+   "checks": [
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/mainland.gd",
+     "pattern": "_pine_mesh",
+     "min": 1
+    }
+   ],
+   "refs": [
+    "ConceptArt/channel_scenes/position of both saltgate and the cliff terrain.png"
+   ],
+   "depends_on": [
+    "CLF-14"
+   ],
+   "collaborates": [
+    "Lighting agent"
+   ]
+  },
+  {
+   "id": "CLF-10",
+   "title": "Run the offline AI Crew over the cliff FAL submissions and record the result",
+   "priority": 6,
+   "why_score": "Keeps any future regeneration inside the style guide at zero token cost. Not higher because it checks prompts, not shipped meshes.",
+   "detail": "Run main_asset.py --check-only on cliff_wall_hunyuan_v3.fal.json and cliff_headland_hunyuan_v3.fal.json.",
+   "acceptance": [
+    "offline asset check passes"
+   ],
+   "owner": "Cliffside Creator Agent",
+   "checks": [
+    {
+     "type": "crew_offline",
+     "command": [
+      "main_asset.py",
+      "sample_submissions/cliff_wall_hunyuan_v3.fal.json",
+      "--check-only"
+     ]
+    }
+   ],
+   "refs": [
+    "AIAgentCrew/sample_submissions/cliff_wall_hunyuan_v3.fal.json"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "Offline AI Crew",
+    "Asset agent"
+   ]
+  },
+  {
+   "id": "CLF-17",
+   "title": "Visual regression check: fixed camera views along the walk, failing on black areas or missing ground",
+   "priority": 6,
+   "why_score": "My headless tests could not see black faces or hanging sheets; this is the check that would have caught them. Built first so every later step is checked.",
+   "detail": "A script renders fixed camera positions (walkway, top junction, path, the cliff from the sea, each cove) and a checker fails if a frame has a large near-black area or a band of pure sky/sea where ground should be.",
+   "acceptance": [
+    "tools/visual_check.py renders every view and reports pass or fail per view"
+   ],
+   "owner": "Cliffside Creator Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/visual_check.py"
+    }
+   ],
+   "refs": [
+    "GERFramework/shoot.sh"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "QA agent"
+   ]
+  },
+  {
+   "id": "CLF-11",
+   "title": "Visibility ranges and distant LOD for the cliff line seen from the channel",
+   "priority": 5,
+   "why_score": "The cliff line is seen along the whole crossing but needs only silhouette detail at distance. Not 6 because load time (CLF-04) comes first.",
+   "detail": "Add visibility ranges and a cheaper stand-in for far modules; keep the silhouette and the Saltgate gap readable.",
+   "acceptance": [
+    "no pop-in visible from the boat",
+    "frame time stable along the channel"
+   ],
+   "owner": "Cliffside Creator Agent",
+   "checks": [
+    {
+     "type": "manual",
+     "note": "Handed to the Lighting agent (reports/handoff_to_lighting_agent_cliffside.md); not built by the Cliffside agent."
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/scenes/Level.tscn"
+   ],
+   "depends_on": [
+    "CLF-04"
+   ],
+   "collaborates": []
+  }
+ ],
+ "records": {
+  "CLF-01": {
+   "status": "done",
+   "note": "Continuous rock plug behind the cut wall (floor to cliff top): 105 of 105 inland views end on rock, none see through; seams test still 0 gaps",
+   "at": "2026-10-20T16:36:53+00:00"
+  },
+  "CLF-02": {
+   "status": "done",
+   "note": "Floor now tucks 2 m under the back wall, shelf and toe scale with the cut, cut and floor taper out flush at the top end",
+   "at": "2026-10-20T16:36:53+00:00"
+  },
+  "CLF-03": {
+   "status": "done",
+   "note": "Path is packed earth (procedural texture, pebbles), wandering edges, grassy shoulder, flush with ground (was 2 m proud), joined to the walkway end. Trees darker, leaned, back from the lip",
+   "at": "2026-10-20T16:36:54+00:00"
+  },
+  "CLF-04": {
+   "status": "done",
+   "note": "Creator accepted the 2.5 s cliffside load (2026-10-20); meshes 26 -> 10.6 MB, 2048 textures. Baking not required",
+   "at": "2026-10-20T16:53:50+00:00"
+  },
+  "CLF-05": {
+   "status": "done",
+   "note": "tools/test_walkway_continuity.gd all pass; tools/test_path_walk.gd: walked from the walkway top along the earth path to the city gate, no drop-through. Path now has collision",
+   "at": "2026-10-20T16:36:53+00:00"
+  },
+  "CLF-06": {
+   "status": "in_progress",
+   "note": "Contract v2 on file; the Saltgate agent has not built anything. Ledge start now matches the boardwalk deck (2.75 -> 3.0 over 6 m) and the quay front edge as before",
+   "at": "2026-10-20T18:19:23+00:00"
+  },
+  "CLF-07": {
+   "status": "done",
+   "note": "Handed to the Lighting agent 2026-10-20 (reports/handoff_to_lighting_agent_cliffside.md): fog and distance visibility",
+   "at": "2026-10-20T16:53:51+00:00"
+  },
+  "CLF-09": {
+   "status": "done",
+   "note": "reports/cliffside_concept_comparison.md",
+   "at": "2026-10-20T15:55:29+00:00"
+  },
+  "CLF-10": {
+   "status": "done",
+   "note": "offline asset check passes",
+   "at": "2026-10-20T15:55:29+00:00"
+  },
+  "CLF-11": {
+   "status": "done",
+   "note": "Interpreted from the creator's reply as handed to the Lighting agent with the fog (same handoff note). Not built by the Cliffside agent",
+   "at": "2026-10-20T16:53:51+00:00"
+  },
+  "CLF-08": {
+   "status": "done",
+   "note": "Creator decided 2026-10-20: timber stops at the quay, stone starts at the first step; 6 m width kept",
+   "at": "2026-10-20T16:53:50+00:00"
+  },
+  "CLF-12": {
+   "status": "done",
+   "note": "Superseded by CLF-13: the black wall was the floor's back edge standing 3 m above the ground at the top end (the ramp rose past the cliff top); the ribbons were leftovers of cutting. The cut is gone: nothing is cut from the cliff. tools/test_cliff_clean.gd guards it",
+   "at": "2026-10-20T18:19:22+00:00"
+  },
+  "CLF-17": {
+   "status": "done",
+   "note": "tools/visual_check.py (13 views) catches gross cases only (a view from inside rock scores 100%); shadowed rock and a black wall can look alike to a pixel measure. Geometry faults are covered by test_cliff_clean.gd and the visible-mesh ray tests (tools/mesh_rays.gd)",
+   "at": "2026-10-20T18:19:23+00:00"
+  },
+  "CLF-13": {
+   "status": "done",
+   "note": "Ledge built against the uncut cliff from a baked profile (tools/bake_walkway.gd -> data/world/walkway_profile.json); no cutting, no plug, no wall copies; ends flush with the cliff top at x -184, path starts there. Cliff modules along the walkway use exact trimesh colliders. Walk tests, path walk, continuity and visible-mesh checks pass",
+   "at": "2026-10-20T18:19:22+00:00"
+  },
+  "CLF-14": {
+   "status": "done",
+   "note": "Three coves from data/world/cliff_layout.json (cliff_layout.gd): west and east coves recessed up to 18 m, main cove (quay, walkway) between two headlands. Boat route unchanged (81 s out, 94 s back), seam test passes (13,323 rays at 0.5 m, none through)",
+   "at": "2026-10-20T18:19:22+00:00"
+  },
+  "CLF-15": {
+   "status": "done",
+   "note": "scripts/world/cliff_dressing.gd: 1,152 stones of rubble from the baked waterline, 8 shore stacks at the four headland tips (cheap cylinder colliders), 20 spray emitters driven by Sea.state. Spray is faint behind the Lighting agent's storm fog; needs a human look",
+   "at": "2026-10-20T18:19:23+00:00"
+  },
+  "CLF-16": {
+   "status": "done",
+   "note": "Three tall, narrow, ragged pine variants replace the squat cones (scripts/world/mainland.gd _pine_mesh); path now fades in from the ledge end; earth path flush with ground",
+   "at": "2026-10-20T18:19:23+00:00"
+  }
+ },
+ "history": [
+  {
+   "kind": "plan_review",
+   "loop": 1,
+   "at": "2026-10-20T14:25:24+00:00",
+   "findings": [],
+   "changes": []
+  },
+  {
+   "kind": "work_review",
+   "loop": 1,
+   "at": "2026-10-20T15:55:33+00:00",
+   "findings": [
+    {
+     "severity": "warn",
+     "objective": "CLF-11",
+     "message": "LightingTheStorm/scenes/Level.tscn: /visibility_range|lod/ matched 0 (need >= 1)",
+     "fix": "fix and re-run",
+     "auto": null
+    }
+   ],
+   "statuses": {
+    "CLF-01": "passing",
+    "CLF-02": "needs_human",
+    "CLF-03": "needs_human",
+    "CLF-04": "passing",
+    "CLF-05": "needs_human",
+    "CLF-06": "passing",
+    "CLF-07": "needs_human",
+    "CLF-08": "passing",
+    "CLF-09": "passing",
+    "CLF-10": "passing",
+    "CLF-11": "failing",
+    "cliffside_assessor#0": "passing",
+    "cliffside_assessor#1": "passing",
+    "cliffside_assessor#2": "passing"
+   }
+  },
+  {
+   "kind": "work_review",
+   "loop": 2,
+   "at": "2026-10-20T16:01:46+00:00",
+   "findings": [
+    {
+     "severity": "warn",
+     "objective": "CLF-11",
+     "message": "LightingTheStorm/scenes/Level.tscn: /visibility_range|lod/ matched 0 (need >= 1)",
+     "fix": "fix and re-run",
+     "auto": null
+    }
+   ],
+   "statuses": {
+    "CLF-01": "passing",
+    "CLF-02": "needs_human",
+    "CLF-03": "needs_human",
+    "CLF-04": "passing",
+    "CLF-05": "needs_human",
+    "CLF-06": "passing",
+    "CLF-07": "needs_human",
+    "CLF-08": "passing",
+    "CLF-09": "passing",
+    "CLF-10": "passing",
+    "CLF-11": "failing",
+    "cliffside_assessor#0": "passing",
+    "cliffside_assessor#1": "passing",
+    "cliffside_assessor#2": "passing"
+   }
+  },
+  {
+   "kind": "work_review",
+   "loop": 3,
+   "at": "2026-10-20T16:37:04+00:00",
+   "findings": [
+    {
+     "severity": "warn",
+     "objective": "CLF-11",
+     "message": "LightingTheStorm/scenes/Level.tscn: /visibility_range|lod/ matched 0 (need >= 1)",
+     "fix": "fix and re-run",
+     "auto": null
+    }
+   ],
+   "statuses": {
+    "CLF-01": "passing",
+    "CLF-02": "needs_human",
+    "CLF-03": "needs_human",
+    "CLF-04": "passing",
+    "CLF-05": "needs_human",
+    "CLF-06": "passing",
+    "CLF-07": "needs_human",
+    "CLF-08": "passing",
+    "CLF-09": "passing",
+    "CLF-10": "passing",
+    "CLF-11": "failing",
+    "cliffside_assessor#0": "passing",
+    "cliffside_assessor#1": "passing",
+    "cliffside_assessor#2": "passing"
+   }
+  },
+  {
+   "kind": "plan_amendment",
+   "at": "2026-10-20",
+   "note": "Creator approved CLF-12,13,14,15,16,17 and: three coves with the quay in the main one; same cliff-top height; start CLF-12 now. Work review loops reset to 0 for this batch.",
+   "quote": "1. Approved 2. Three coves with the quay in the main one 3. Yes 4. Yes"
+  },
+  {
+   "kind": "work_review",
+   "loop": 1,
+   "at": "2026-10-20T18:19:29+00:00",
+   "findings": [
+    {
+     "severity": "block",
+     "objective": "CLF-13",
+     "message": "LightingTheStorm/Assets/Models/cliff_terrain/walkway_ledge.res is missing",
+     "fix": "fix and re-run",
+     "auto": null
+    },
+    {
+     "severity": "block",
+     "objective": "CLF-13",
+     "message": "recorded done but checks fail",
+     "fix": "reopen and fix",
+     "auto": null
+    },
+    {
+     "severity": "warn",
+     "objective": "CLF-11",
+     "message": "LightingTheStorm/scenes/Level.tscn: /visibility_range|lod/ matched 0 (need >= 1)",
+     "fix": "fix and re-run",
+     "auto": null
+    },
+    {
+     "severity": "block",
+     "objective": "CLF-11",
+     "message": "recorded done but checks fail",
+     "fix": "reopen and fix",
+     "auto": null
+    },
+    {
+     "severity": "block",
+     "objective": null,
+     "message": "assessor check failed: LightingTheStorm/scenes/Level.tscn: 0 nodes match /CliffWall\\d|Headland\\d|CapEast/ (need >= 10)",
+     "fix": "fix and re-run",
+     "auto": null
+    }
+   ],
+   "statuses": {
+    "CLF-01": "passing",
+    "CLF-02": "needs_human",
+    "CLF-12": "needs_human",
+    "CLF-03": "needs_human",
+    "CLF-04": "passing",
+    "CLF-05": "needs_human",
+    "CLF-06": "passing",
+    "CLF-13": "failing",
+    "CLF-14": "passing",
+    "CLF-07": "needs_human",
+    "CLF-08": "passing",
+    "CLF-15": "passing",
+    "CLF-09": "passing",
+    "CLF-16": "passing",
+    "CLF-10": "passing",
+    "CLF-17": "passing",
+    "CLF-11": "failing",
+    "cliffside_assessor#0": "passing",
+    "cliffside_assessor#1": "passing",
+    "cliffside_assessor#2": "failing"
+   }
+  },
+  {
+   "kind": "work_review",
+   "loop": 2,
+   "at": "2026-10-20T18:20:12+00:00",
+   "findings": [],
+   "statuses": {
+    "CLF-01": "passing",
+    "CLF-02": "needs_human",
+    "CLF-12": "needs_human",
+    "CLF-03": "needs_human",
+    "CLF-04": "passing",
+    "CLF-05": "needs_human",
+    "CLF-06": "passing",
+    "CLF-13": "passing",
+    "CLF-14": "passing",
+    "CLF-07": "needs_human",
+    "CLF-08": "passing",
+    "CLF-15": "passing",
+    "CLF-09": "passing",
+    "CLF-16": "passing",
+    "CLF-10": "passing",
+    "CLF-17": "passing",
+    "CLF-11": "needs_human",
+    "cliffside_assessor#0": "passing",
+    "cliffside_assessor#1": "passing",
+    "cliffside_assessor#2": "passing",
+    "cliffside_assessor#3": "passing"
+   }
+  }
+ ],
+ "approval": {
+  "at": "2026-10-20T15:24:58+00:00",
+  "quote": "commit this work, this is fine for now. run through the Cliffside Creator Agent now."
+ },
+ "knowledge_note": "knowledge up to date",
+ "last_findings": [],
+ "last_blocks": 0,
+ "last_work": {
+  "blocks": 0,
+  "open": [
+   "CLF-06"
+  ]
+ }
+}

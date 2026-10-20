@@ -60,8 +60,8 @@ def check_asset_review(review: AssetReview, sub: FalSubmission, findings: list[s
 # ---------------- Boat agent ----------------
 def check_boat(b: BoatSpec) -> list[str]:
     errs = []
-    if not 2.0 <= b.speed_mps <= 8.0:
-        errs.append(f"speed_mps {b.speed_mps} is outside 2-8 m/s (lore: about 10 minutes over 1-2 km).")
+    if not 2.0 <= b.speed_mps <= 12.0:
+        errs.append(f"speed_mps {b.speed_mps} is outside 2-12 m/s (creator chose 8 m/s on 2026-10-20; the GDD says 10).")
     if b.steer_left_action != "move_left" or b.steer_right_action != "move_right":
         errs.append("Steering must use the move_left and move_right actions (A and D).")
     if b.throttle_actions:
@@ -74,8 +74,6 @@ def check_boat(b: BoatSpec) -> list[str]:
         errs.append("steer_response_s must be 0.1-1.0 s so steering is smooth but responsive.")
     if not b.rudder_returns_to_centre:
         errs.append("rudder_returns_to_centre must be true so releasing A and D flies the boat straight.")
-    if b.waves_enabled:
-        errs.append("waves_enabled must be false: waves are not approved until the Tide / Wave agent is built.")
     if not re.search(r"tide|wave", b.tide_hook, re.I):
         errs.append("tide_hook must name where a tide or wave force plugs in later.")
     legs = {l.leg_id: l for l in b.legs}

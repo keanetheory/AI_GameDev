@@ -28,7 +28,7 @@ WORLD_FACTS = [
     "a warm amber and gold electric glow, a Gothic cathedral as the brightest silhouette, Greymantle dark on the horizon.",
     "The eclipse: a perfect black sphere with a faint silver rim will cover the moon. For now (creator decision, "
     "2026-10-16) the moon is a huge, bright supermoon that lights both crossings; the Flighted ship that eclipses it "
-    "is added later. Tides turn aggressive and storms begin. Waves are NOT approved yet (see the Tide / Wave agent reminder).",
+    "is added later. Tides turn aggressive and storms begin. Waves are approved (creator, 2026-10-20): the Wave Creator Agent owns them; see data/world/wave_spec.json.",
     "The steam launch is a gothic teal boat with brass trim. Audio: quiet chugging outbound, wind, rain and roaring storm on the return.",
     "The lighthouse runs on an arc lamp driven by a steam engine and dynamo. Tonight the beacon has failed; relighting it is the goal.",
 ]
@@ -40,10 +40,10 @@ BOAT_RULES = [
     "The route is DOCK_LIGHTHOUSE -> DOCK_PORT (OUTBOUND) and DOCK_PORT -> DOCK_LIGHTHOUSE (RETURN). Docking is automatic inside a dock zone.",
     "The return is harder than the outbound: closer rocks, lower visibility, a narrower route.",
     "Collisions recover to a nearby safe point; the burner is never permanently lost.",
-    "Waves and tides are NOT part of the boat yet. waves_enabled must be false and the spec names the hook where a tide force "
-    "will plug in later.",
-    "CREATOR DECISION (confirmed): the fixed speed is 3 m/s for now and will be tuned by playtesting. The earlier "
-    "return-crossing data (6 m/s) is out of date on this point; note it, do not raise it as a question.",
+    "Waves and tides are approved (creator, 2026-10-20). They push the boat only through the water_push hook, always by less than "
+    "A/D steering can cancel, and waves_enabled is the on/off switch. The first crossing is easy, the return hectic.",
+    "CREATOR DECISION (confirmed 2026-10-20): the fixed speed is 8 m/s, held as data (speed_mps) and to be confirmed after playtest. "
+    "It replaces the earlier 3 m/s and differs from GDD Decision 24 (10 m/s); note it, do not raise it as a question.",
     "CREATOR DECISION (confirmed): W and S do nothing because the boat has no throttle. The port is the Saltgate quays (DOCK_PORT).",
 ]
 

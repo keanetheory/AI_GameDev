@@ -48,8 +48,6 @@ def check_brief(brief: CrossingBrief) -> list[str]:
     widths = [s.route_width_m for s in brief.segments]
     if any(b > a for a, b in zip(widths, widths[1:])):
         errs.append(f"route_width_m must narrow or hold along the return crossing; got {widths}.")
-    if "wave" in " ".join(brief.allowed_hazards).lower():
-        errs.append("Wave hazards are a stretch goal and are not approved.")
     return errs
 
 

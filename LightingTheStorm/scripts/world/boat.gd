@@ -12,10 +12,12 @@ const Sea := preload("res://scripts/world/sea.gd")
 signal docked(zone_id: String)
 signal departed(zone_id: String)
 signal hazard_hit
+## A wave (not a rock) hit the boat: it slows briefly and takes on water. WaveSystem calls apply_wave_hit(); it never happens outbound.
+signal wave_hit(water: float)
 
 enum State { DOCKED, SAILING, DOCKING }
 
-@export var speed := 3.0                  # m/s, fixed
+@export var speed := 8.0                  # m/s, fixed. Overridden by speed_mps in data/world/boat_spec.json (Wave workshop D4: held as data)
 @export var max_turn_rate_deg := 35.0     # deg/s at full rudder
 @export var steer_response_s := 0.35      # time for the rudder to swing from centre to full
 @export var drift_factor := 0.15          # share of the old velocity kept each second (sideways slide)
@@ -39,12 +41,17 @@ var velocity := Vector3.ZERO
 ## Tide / Wave hook from the spec: a push in m/s added to the boat's velocity each physics frame.
 ## Zero until the Tide / Wave agent supplies it.
 var water_push := Vector2.ZERO
+## Water taken on from wave hits, 0 (dry) to 1 (swamped). Drains slowly. Feedback for the HUD and Sound; no input is needed to bail.
+var water_in_boat := 0.0
 var current_zone: Node3D = null
 var driving := false
 
 var _leave_zone: Node3D = null
 var _at_entrance := true          # docking: past the zone's entrance (or it has none)
 var _stun := 0.0
+var _slow := 0.0                  # seconds of wave-hit slow-down left
+var _slow_factor := 1.0
+var _water_drain := 0.02
 var _trail: Array[Transform3D] = []      # recent clear positions, newest last
 var _trail_timer := 0.0
 var _hull_shape := BoxShape3D.new()
@@ -57,6 +64,7 @@ var cargo: Node3D           # the cargo slot (a CarrySocket); what is put down o
 
 
 func _ready() -> void:
+	_load_speed_from_spec()
 	add_to_group("boat")   # GameState finds the boat by this group and turns its signals into events
 	_build_rig()
 	_hull_shape.size = hull_size
@@ -131,6 +139,27 @@ func disembark() -> void:
 	_player.stop_driving(current_zone.landing)
 
 
+## Wave hit (Wave workshop D3): a brief slow-down and some water in the boat. Never a capsize.
+func apply_wave_hit(slow_s: float, slow_factor: float, water: float, drain_per_s: float) -> void:
+	if state != State.SAILING:
+		return
+	_slow = slow_s
+	_slow_factor = slow_factor
+	_water_drain = drain_per_s
+	water_in_boat = minf(1.0, water_in_boat + water)
+	wave_hit.emit(water_in_boat)
+
+
+## The crossing speed is data (boat_spec.json speed_mps), so it can be retuned after playtests without code.
+func _load_speed_from_spec() -> void:
+	var f := FileAccess.open("res://data/world/boat_spec.json", FileAccess.READ)
+	if f == null:
+		return
+	var d = JSON.parse_string(f.get_as_text())
+	if d is Dictionary and d.has("speed_mps"):
+		speed = float(d["speed_mps"])
+
+
 # --- movement ---
 
 func _sail(delta: float) -> void:
@@ -142,7 +171,10 @@ func _sail(delta: float) -> void:
 		velocity = Vector3.ZERO
 		return
 	var forward := -global_transform.basis.z
-	velocity = velocity.lerp(forward * speed, 1.0 - pow(drift_factor, delta))
+	_slow = maxf(0.0, _slow - delta)
+	water_in_boat = move_toward(water_in_boat, 0.0, _water_drain * delta)
+	var speed_now := speed * (_slow_factor if _slow > 0.0 else 1.0)
+	velocity = velocity.lerp(forward * speed_now, 1.0 - pow(drift_factor, delta))
 	var push := Vector3(water_push.x, 0.0, water_push.y)
 	global_position += (velocity + push) * delta
 	if _hits_hazard(global_transform):

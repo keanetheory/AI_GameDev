@@ -8,7 +8,7 @@ extends SceneTree
 
 const Reach := preload("res://tools/interior_reach.gd")
 const Check := preload("res://tools/check_interior_reach.gd")
-const TARGETS := ["G_window_view_marker", "B1_daniel_marker", "Lantern_arc_lamp_socket_marker"]
+const TARGETS := ["G_window_view_marker", "ANCHOR_boiler_interaction", "ANCHOR_coal_pickup", "B1_daniel_marker", "ANCHOR_l1_mess", "ANCHOR_l1_quarters", "ANCHOR_l2_control", "ANCHOR_l2_instruments", "ANCHOR_lamp_stand", "Lantern_ted_marker"]
 
 var _lv: Node
 var _player: CharacterBody3D

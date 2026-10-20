@@ -1,0 +1,67 @@
+{
+  "id": "lighthouse_exterior_assessor",
+  "kind": "assessor",
+  "name": "Lighthouse - Exterior Assessment Agent",
+  "reviews": null,
+  "feedback_to": [
+    "lighthouse_interior_creator",
+    "island_creator"
+  ],
+  "mandate": "Assess the existing lighthouse exterior model (lighthouse_exterior_v3.glb) against the lore, the GDD and the lighthouse concept art, and report what the Lighthouse Interior and Island creators must respect: the true dimensions, the solid house-to-tower wall that still needs carving, the door, the silhouette as the beacon landmark, and mesh and texture health. There is no exterior creator in this batch, so this agent reviews the existing asset and the plan of any creator whose work touches it.",
+  "keywords": [
+    "lighthouse",
+    "exterior",
+    "tower",
+    "beacon",
+    "lantern",
+    "gallery",
+    "silhouette",
+    "landmark",
+    "door",
+    "stone",
+    "mortar",
+    "chimney",
+    "hut",
+    "annex",
+    "gothic",
+    "arc lamp"
+  ],
+  "rubric_focus": [
+    "Measured facts first: scale, bounds, tower and house centres, door position from the alignment JSON.",
+    "The exterior is the beacon landmark from the sea: silhouette readable at distance in every phase.",
+    "Texture and mesh budgets measured, and the 4096 to 2048 texture rule applied.",
+    "Fixing the exterior (regenerating via FAL) costs credits and is a creator decision."
+  ],
+  "must_cover": [],
+  "canon_gates": [],
+  "work_checks": [
+    {
+      "type": "mesh_audit",
+      "path": "LightingTheStorm/Assets/Models/lighthouse/lighthouse_exterior_v3.glb",
+      "max_hole_loops": 0,
+      "max_texture_px": 2048,
+      "max_degenerate_ratio": 0.001,
+      "priority": 9
+    },
+    {
+      "type": "file_exists",
+      "path": "LightingTheStorm/Assets/Models/lighthouse/interior/lighthouse_greybox_v3_alignment.json",
+      "priority": 8
+    },
+    {
+      "type": "file_exists",
+      "path": "LightingTheStorm/Assets/Models/lighthouse/interior/exterior_door_measured.json",
+      "priority": 8
+    },
+    {
+      "type": "scene_node",
+      "scene": "LightingTheStorm/scenes/Level.tscn",
+      "pattern": "Lighthouse",
+      "min": 1,
+      "priority": 5
+    }
+  ],
+  "offline_crew_consults": [
+    "python main_asset.py sample_submissions/lighthouse_hunyuan_v3.fal.json --check-only"
+  ]
+}

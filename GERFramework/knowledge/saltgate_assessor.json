@@ -1,0 +1,3052 @@
+{
+ "assessor": "saltgate_assessor",
+ "ingested_utc": "2026-10-20T15:05:26+00:00",
+ "keywords": [
+  "saltgate",
+  "quay",
+  "quays",
+  "port",
+  "harbour",
+  "hut",
+  "warehouse",
+  "dock",
+  "disembark",
+  "step ashore",
+  "burner",
+  "abandoned",
+  "flag",
+  "amber",
+  "saint calder",
+  "boardwalk",
+  "timber pier"
+ ],
+ "files_read": 51,
+ "sources": {
+  "Docs/Lore Build/characters/chr_arthur.md": {
+   "sha": "f49a202f55c6926b",
+   "headings": [
+    "Arthur",
+    "Summary",
+    "Appearance",
+    "Costume & Equipment",
+    "Voice",
+    "Abilities",
+    "Weaknesses",
+    "History",
+    "Beliefs",
+    "Motivation",
+    "Relationships",
+    "Story Hooks",
+    "Asset Prompts"
+   ],
+   "domain_hits": 2,
+   "hits": [
+    {
+     "line": 20,
+     "text": "A local whose boat was caught in the storm along with Daniel's. They moor their rowboat at the dock, and the player opens the island gate to let them shelter at the lighthouse. After Ted finds the beacon's burner broken, Arthur joins the player on the steam launch and guides the crossing to the Saltgate quays and back."
+    },
+    {
+     "line": 75,
+     "text": "- **portrait:** \"1800s coastal sailor, weathered face, green oilskin coat over a green heavy wool jumper, wry expression, soaked by rain, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, muted palette\""
+    }
+   ]
+  },
+  "Docs/Lore Build/characters/chr_daniel.md": {
+   "sha": "6a2d4c351fd111c2",
+   "headings": [
+    "Daniel",
+    "Summary",
+    "Appearance",
+    "Costume & Equipment",
+    "Voice",
+    "Abilities",
+    "Weaknesses",
+    "History",
+    "Beliefs",
+    "Motivation",
+    "Relationships",
+    "Story Hooks",
+    "Asset Prompts"
+   ],
+   "domain_hits": 2,
+   "hits": [
+    {
+     "line": 20,
+     "text": "A local whose boat was caught in the storm with Arthur. They moor at the dock and seek shelter at the lighthouse, and the player lets them through the island gate. Daniel goes down to the basement and stays there, by the boiler, while the player and Arthur make the crossing (resolved 2026-10-16)."
+    },
+    {
+     "line": 67,
+     "text": "- **portrait:** \"1800s coastal sailor, weathered face, red oilskin coat over a red heavy wool jumper, soaked by rain, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, muted palette\""
+    }
+   ]
+  },
+  "Docs/Lore Build/characters/chr_player.md": {
+   "sha": "d14e229c83d1cfea",
+   "headings": [
+    "The Player Character",
+    "Summary",
+    "Appearance",
+    "Abilities",
+    "Everything Else",
+    "Asset Prompts"
+   ],
+   "domain_hits": 3,
+   "hits": [
+    {
+     "line": 23,
+     "text": "- **Then:** follows Ted up to the lantern room, where Ted finds the beacon's burner broken."
+    },
+    {
+     "line": 24,
+     "text": "- **Main objective:** crosses the Gullwater with Arthur to the Saltgate quays for a replacement burner, races the escalating storm back, and fits the burner before the passenger ship runs aground."
+    },
+    {
+     "line": 36,
+     "text": "| Fit the burner | sys_steam_power | Restores the beacon | Requires the replacement burner | Race against the ship |"
+    }
+   ]
+  },
+  "Docs/Lore Build/characters/chr_ted.md": {
+   "sha": "52869f7701378edb",
+   "headings": [
+    "Ted",
+    "Summary",
+    "Appearance",
+    "Costume & Equipment",
+    "Voice",
+    "Abilities",
+    "Weaknesses",
+    "History",
+    "Beliefs",
+    "Motivation",
+    "Relationships",
+    "Story Hooks",
+    "Asset Prompts"
+   ],
+   "domain_hits": 3,
+   "hits": [
+    {
+     "line": 22,
+     "text": "**Opening role (story beats, 2026-10-16):** he opens the lighthouse door to the player (\"You're the new guy, then\"), lets him in and, after a beat, sends him to the basement to feed the boiler. He sees the sailors' rowboat from the window and sends the player to the island gate. Once the sailors are in and the beacon stays dark, he takes the player up to the lantern room, finds the burner broken a"
+    },
+    {
+     "line": 80,
+     "text": "- **portrait:** \"Grizzled lighthouse keeper in his late 60s, weathered face, navy oilskin coat over a navy heavy wool jumper, sardonic expression, 1800s coastal setting, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, muted palette\""
+    },
+    {
+     "line": 83,
+     "text": "- **animation_notes:** opening the lighthouse door, idle grumbling, pointing out to sea, opening the arc lamp to inspect the burner, shocked reaction at the sight of the ship"
+    }
+   ]
+  },
+  "Docs/Lore Build/cultures/cul_calder_city.md": {
+   "sha": "ebd7d597cb43f599",
+   "headings": [
+    "Saint Calder City Folk",
+    "Surface Identity (L3)",
+    "Internal Variation",
+    "Beliefs & Values (L5)",
+    "Relations With Other Peoples"
+   ],
+   "domain_hits": 5,
+   "hits": [
+    {
+     "line": 4,
+     "text": "name: Saint Calder City Folk"
+    },
+    {
+     "line": 11,
+     "text": "place_name_samples: [Saint Calder]"
+    },
+    {
+     "line": 18,
+     "text": "# Saint Calder City Folk"
+    },
+    {
+     "line": 23,
+     "text": "- **Royal standard:** amber and gold."
+    },
+    {
+     "line": 39,
+     "text": "| [[cul_coastfolk]] | TBD (they abandoned the coast) | TBD |"
+    }
+   ]
+  },
+  "Docs/Lore Build/cultures/cul_coastfolk.md": {
+   "sha": "edaad3963fdcf819",
+   "headings": [
+    "Coastfolk",
+    "Surface Identity (L3)",
+    "Architecture",
+    "Everyday Clothing",
+    "Armor & Weapons",
+    "Ceremonial Dress",
+    "Symbols & Heraldry",
+    "Silhouette Description",
+    "Music & Sound",
+    "Internal Variation",
+    "Beliefs & Values (L5)",
+    "Common Beliefs",
+    "Internal Arguments",
+    "Traditions (and their practical origins)",
+    "Taboos",
+    "Contradictions",
+    "Relations With Other Peoples",
+    "Asset Prompts"
+   ],
+   "domain_hits": 6,
+   "hits": [
+    {
+     "line": 5,
+     "text": "regions: [reg_bracken_isle, reg_gullwater, reg_saltgate, reg_calder_coast]"
+    },
+    {
+     "line": 11,
+     "text": "place_name_samples: [Bracken Isle, the Saltgate, the Gullwater]"
+    },
+    {
+     "line": 38,
+     "text": "They live under Saint Calder's amber-and-gold standard, which hangs neglected on the coast."
+    },
+    {
+     "line": 49,
+     "text": "- [[fac_smugglers]]: slip in and out of Saint Calder past the fortresses"
+    },
+    {
+     "line": 76,
+     "text": "| [[cul_calder_city]] | Distrust and resentment (Ted: \"new money toffs\") | TBD. Linked to the city abandoning the Saltgate? |"
+    },
+    {
+     "line": 80,
+     "text": "- **negative_prompt:** \"chain mail, armour, amber and gold finery, Flighted iconography, modern raincoat, plastic, bright colours\""
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/characters/DIALOGUE_ARTHUR.md": {
+   "sha": "2bf625f7b5e03bf6",
+   "headings": [
+    "Arthur: Dialogue",
+    "Voice (from the lore file)",
+    "At a glance",
+    "Optional discoveries",
+    "Step 2: Let the sailors in",
+    "Step 3: Fetch the replacement burner",
+    "Staging, hints and notes"
+   ],
+   "domain_hits": 11,
+   "hits": [
+    {
+     "line": 26,
+     "text": "| `ARTHUR_S0_12` | `POSTER_EXAMINED` | reaction \u00b7 alt `ARTHUR_S0_POSTER` | \"Old paper, Isaac. Don't dwell on it. The burner's what matters.\" | Wary, brusque. |"
+    },
+    {
+     "line": 27,
+     "text": "| `ARTHUR_S0_13` | `POSTER_EXAMINED` | reaction \u00b7 alt `ARTHUR_S0_POSTER` | \"Nothing there for us. Leave it be. The burner, the burner.\" | Brusque, uneasy. |"
+    },
+    {
+     "line": 39,
+     "text": "## Step 3: Fetch the replacement burner"
+    },
+    {
+     "line": 53,
+     "text": "| `ARTHUR_S3_04` | `OUTPOST_REACHED` | reaction | \"There's the landing. Fetch the burner. I'll keep the engine turning.\" | Quick, tense. |"
+    },
+    {
+     "line": 54,
+     "text": "| `ARTHUR_S3_05` | `BURNER_PICKED_UP` | discovery | \"That's it? Good. Hold it close. Back across we go.\" | Relieved, still wary. |"
+    },
+    {
+     "line": 55,
+     "text": "| `ARTHUR_S3_I1` | `IDLE_STEP_3` | nudge (tier 1) | \"Ted wants that burner, Isaac. Boat's waiting on you.\" | Wry, nudging. |"
+    },
+    {
+     "line": 58,
+     "text": "| `ARTHUR_S3_O1` | `IDLE_OUTPOST` | nudge (tier 1) | \"Burner won't walk to the boat, Isaac.\" | Dry, calling from the landing. |"
+    },
+    {
+     "line": 59,
+     "text": "| `ARTHUR_S3_O2` | `IDLE_OUTPOST` | nudge (tier 2) | \"Find the burner! Keep looking. Look sharp!\" | Frantic, louder. |"
+    },
+    {
+     "line": 60,
+     "text": "| `ARTHUR_S3_O3` | `IDLE_OUTPOST` | nudge (tier 3) | \"Find the burner, pick it up, and bring it to the boat.\" | Flat, urgent, clear. |"
+    },
+    {
+     "line": 67,
+     "text": "- `ARTHUR_S3_I3` *assist hint:* Board the engine boat, steer across the Gullwater and land at the outpost to fetch the burner."
+    },
+    {
+     "line": 68,
+     "text": "- `ARTHUR_S3_O3` *assist hint:* Find the replacement burner, pick it up and bring it back to the boat."
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/characters/DIALOGUE_DANIEL.md": {
+   "sha": "364cf1bff3e28574",
+   "headings": [
+    "Daniel: Dialogue",
+    "Voice (from the lore file)",
+    "At a glance",
+    "Optional discoveries",
+    "Step 2: Let the sailors in",
+    "Staging, hints and notes"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/characters/DIALOGUE_TED.md": {
+   "sha": "9d4d127ea72f59ce",
+   "headings": [
+    "Ted: Dialogue",
+    "Voice (from the lore file)",
+    "At a glance",
+    "Step 1: Feed the boiler",
+    "Step 2: Let the sailors in",
+    "Step 3: Fetch the replacement burner",
+    "Staging, hints and notes"
+   ],
+   "domain_hits": 17,
+   "hits": [
+    {
+     "line": 27,
+     "text": "| `TED_S1_01` | `GAME_STARTED` | setting | \"Eclipse, storm season, and the Saltgate howling. Of course they send a new money toff.\" | Gruff, weary, dry. Ends on a cough. |"
+    },
+    {
+     "line": 36,
+     "text": "| `TED_S1_10` | `LAMP_ROOM_ENTERED` | reaction | \"Arc lamp's in the middle. Open her up and look at the burner.\" | Shouted up the stairs, wheezing. |"
+    },
+    {
+     "line": 37,
+     "text": "| `TED_S1_11` | `BURNER_DIAGNOSED` | discovery | \"Cracked clean through. The burner's finished. Hrmph. Nothing to mend up here.\" | Low, grim, with a cough. |"
+    },
+    {
+     "line": 46,
+     "text": "| `TED_S2_01` | `SAILORS_MOORED` | objective \u00b7 alt `TED_S2_OBJ` | \"Rowboat's moored at my dock. Stranded sailors, by the look. Go let them in at the island gate.\" | Gruff, reluctantly charitable. |"
+    },
+    {
+     "line": 47,
+     "text": "| `TED_S2_02` | `SAILORS_MOORED` | objective \u00b7 alt `TED_S2_OBJ` | \"Someone's tied up at my dock. Down to the island gate, Isaac. Open it for them.\" | Gruff, reluctantly charitable. |"
+    },
+    {
+     "line": 48,
+     "text": "| `TED_S2_03` | `WINDOW_LOOKED` | reaction | \"See them? Soaked and stranded. The gate's down the path from the dock. Go on.\" | Grunting, gesturing. |"
+    },
+    {
+     "line": 50,
+     "text": "| `TED_S2_I1` | `IDLE_STEP_2` | nudge (tier 1) | \"Those sailors won't dry themselves on my dock, Isaac.\" | Dry, impatient. |"
+    },
+    {
+     "line": 51,
+     "text": "| `TED_S2_I2` | `IDLE_STEP_2` | nudge (tier 2) | \"The gate, Isaac. Down the path from the dock. Someone's shouting out there.\" | Louder, irritated. |"
+    },
+    {
+     "line": 54,
+     "text": "## Step 3: Fetch the replacement burner"
+    },
+    {
+     "line": 58,
+     "text": "| `TED_S3_01` | `BURNER_BRIEFING` | objective \u00b7 alt `TED_S3_OBJ` | \"Spare burner's at the outpost across the Gullwater. Arthur's boat will take you, Isaac.\" | Grim, urgent, coughing. |"
+    },
+    {
+     "line": 59,
+     "text": "| `TED_S3_02` | `BURNER_BRIEFING` | objective \u00b7 alt `TED_S3_OBJ` | \"No burner, no beacon. Outpost, across the Gullwater. Go with Arthur, Isaac.\" | Grim, urgent, coughing. |"
+    },
+    {
+     "line": 64,
+     "text": "- `TED_S1_01` *note:* Introduces eclipse, storm season and the Saltgate."
+    },
+    {
+     "line": 72,
+     "text": "- `TED_S2_01` *assist hint:* Go to the island gate by the dock and open it for the stranded sailors."
+    },
+    {
+     "line": 74,
+     "text": "- `TED_S2_02` *assist hint:* Go to the island gate by the dock and open it for the stranded sailors."
+    },
+    {
+     "line": 76,
+     "text": "- `TED_S2_I3` *assist hint:* Walk to the island gate near the dock and open it to let the sailors in."
+    },
+    {
+     "line": 78,
+     "text": "- `TED_S3_01` *assist hint:* Board Arthur's engine boat and cross the Gullwater to the outpost to retrieve the replacement burner."
+    },
+    {
+     "line": 80,
+     "text": "- `TED_S3_02` *assist hint:* Board Arthur's engine boat and cross the Gullwater to the outpost to retrieve the replacement burner."
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING.md": {
+   "sha": "c23f2eb63d5e210f",
+   "headings": [
+    "Opening Dialogue: Steps 1-3 (Gate 1 slice)",
+    "Step 1: Feed the boiler",
+    "On `GAME_STARTED`",
+    "On `IDLE_STEP_1`",
+    "On `ENGINE_ROOM_ENTERED`",
+    "On `COAL_LOADED_FIRST`",
+    "On `COAL_LOADED_HALF`",
+    "On `BOILER_FED`",
+    "On `LAMP_ROOM_ENTERED`",
+    "On `BURNER_DIAGNOSED`",
+    "Step 2: Let the sailors in",
+    "On `SAILORS_MOORED`",
+    "On `WINDOW_LOOKED`",
+    "On `IDLE_STEP_2`",
+    "On `GATE_APPROACHED`",
+    "On `GATE_OPENED`",
+    "On `SAILORS_INSIDE`",
+    "On `DANIEL_IN_BASEMENT`",
+    "Step 3: Fetch the burner",
+    "On `BURNER_BRIEFING`",
+    "On `IDLE_STEP_3`",
+    "On `BOARDING_THRESHOLD`",
+    "On `SHIP_SIGHTED`",
+    "On `BOAT_CAST_OFF`",
+    "On `OUTBOUND_NEAR_MISS`",
+    "On `OUTBOUND_COLLISION`",
+    "On `OUTPOST_REACHED`",
+    "On `IDLE_OUTPOST`",
+    "On `BURNER_PICKED_UP`",
+    "Optional discoveries",
+    "On `POSTER_EXAMINED`",
+    "On `WALL_WHISPER_HEARD`",
+    "On `BASEMENT_BANG`",
+    "On `BASEMENT_TALK`",
+    "Objective journal (handwritten, Isaac's own words)",
+    "Open creator decisions",
+    "Assumptions to confirm"
+   ],
+   "domain_hits": 35,
+   "hits": [
+    {
+     "line": 12,
+     "text": "*Player does:* Shovel coal into the boiler, then find the beacon's burner is broken."
+    },
+    {
+     "line": 21,
+     "text": "- **TED** `TED_S1_03` (setting): \"Across the water's the Saltgate. Dead harbour. The new money toffs in Saint Calder won't say why.\""
+    },
+    {
+     "line": 78,
+     "text": "*assist hint:* Walk up to the arc lamp and inspect the burner at its centre."
+    },
+    {
+     "line": 81,
+     "text": "### On `BURNER_DIAGNOSED`"
+    },
+    {
+     "line": 82,
+     "text": "*Player inspects the arc lamp and finds the burner broken.*"
+    },
+    {
+     "line": 84,
+     "text": "- **TED** `TED_S1_11` (reaction): \"Cracked glass, rods burnt to stubs. That burner's finished. Hrmph. And I've no spare.\""
+    },
+    {
+     "line": 86,
+     "text": "- **TED** `TED_S1_12` (reaction): \"No burner, no light. No light, and the rocks do what rocks do.\""
+    },
+    {
+     "line": 95,
+     "text": "*Rowboat appears moored at the dock (no crash).*"
+    },
+    {
+     "line": 97,
+     "text": "- **TED** `TED_S2_01` (objective): \"Oi! Window! There's a rowboat tied up at the dock. Two men, soaked to the bone.\""
+    },
+    {
+     "line": 99,
+     "text": "*assist hint:* Walk to the lantern room window and look at the dock."
+    },
+    {
+     "line": 103,
+     "text": "*Player looks out of the window at the dock.*"
+    },
+    {
+     "line": 112,
+     "text": "- **TED** `TED_S2_N1` (nudge tier 1): \"The gate, Isaac. Those two won't dry themselves on the dock.\""
+    },
+    {
+     "line": 159,
+     "text": "## Step 3: Fetch the burner"
+    },
+    {
+     "line": 161,
+     "text": "*Location:* Dock, steam launch, outpost"
+    },
+    {
+     "line": 162,
+     "text": "*Player does:* Board the launch with Arthur, cross the Gullwater and pick up the replacement burner."
+    },
+    {
+     "line": 164,
+     "text": "### On `BURNER_BRIEFING`"
+    },
+    {
+     "line": 167,
+     "text": "- **TED** `TED_S3_01` (setting): \"Now listen. The burner's gone and I've no spare. There's one at the old outpost across the Gullwater.\""
+    },
+    {
+     "line": 172,
+     "text": "- **TED** `TED_S3_03` (objective): \"Launch is at the dock. Arthur knows that water better than I do. Go with him and do as he says.\""
+    },
+    {
+     "line": 174,
+     "text": "*assist hint:* Go to the dock and board the steam launch with Arthur."
+    },
+    {
+     "line": 182,
+     "text": "*Player has made no progress on step 3 (reaching the dock).*"
+    },
+    {
+     "line": 184,
+     "text": "- **TED** `TED_S3_N1` (nudge tier 1): \"Dock. Launch. Arthur's waiting, and he's not known for patience.\""
+    },
+    {
+     "line": 188,
+     "text": "- **TED** `TED_S3_N3` (nudge tier 3): \"Jetty. Launch. Burner. In that order.\""
+    },
+    {
+     "line": 192,
+     "text": "*Player reaches the launch at the dock.*"
+    },
+    {
+     "line": 207,
+     "text": "- **TED** `TED_S3_06` (objective): \"She's making for the Saltgate. Without my light she'll find the reef instead. Get me that burner!\""
+    },
+    {
+     "line": 240,
+     "text": "*Boat docks at the abandoned outpost.*"
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_FINAL.md": {
+   "sha": "3bc3483c054c150d",
+   "headings": [
+    "Opening Dialogue: Steps 1-3 (Gate 1 slice)",
+    "Step 1: Feed the boiler",
+    "On `GAME_STARTED`",
+    "On `ENGINE_ROOM_ENTERED`",
+    "On `COAL_LOADED_FIRST`",
+    "On `COAL_LOADED_HALF`",
+    "On `BOILER_FED`",
+    "On `LAMP_ROOM_ENTERED`",
+    "On `BURNER_DIAGNOSED`",
+    "On `IDLE_STEP_1`",
+    "Step 2: Let the sailors in",
+    "On `SAILORS_MOORED`",
+    "On `WINDOW_LOOKED`",
+    "On `GATE_APPROACHED`",
+    "On `GATE_OPENED`",
+    "On `SAILORS_INSIDE`",
+    "On `DANIEL_IN_BASEMENT`",
+    "On `IDLE_STEP_2`",
+    "Step 3: Fetch the replacement burner",
+    "On `BURNER_BRIEFING`",
+    "On `BOARDING_THRESHOLD`",
+    "On `BOAT_CAST_OFF`",
+    "On `OUTBOUND_NEAR_MISS`",
+    "On `OUTBOUND_COLLISION`",
+    "On `SHIP_SIGHTED`",
+    "On `OUTPOST_REACHED`",
+    "On `BURNER_PICKED_UP`",
+    "On `IDLE_STEP_3`",
+    "On `IDLE_OUTPOST`",
+    "Optional discoveries",
+    "On `BASEMENT_TALK`",
+    "On `BASEMENT_BANG`",
+    "On `WALL_WHISPER_HEARD`",
+    "On `POSTER_EXAMINED`",
+    "Objective journal (handwritten, Isaac's own words)",
+    "Open creator decisions",
+    "Assumptions to confirm"
+   ],
+   "domain_hits": 45,
+   "hits": [
+    {
+     "line": 12,
+     "text": "*Player does:* Shovel coal into the boiler firebox until the gauge reaches working pressure and the dynamo whines and the beacon flickers. Then climb to the lantern room and inspect the arc lamp to find the burner broken."
+    },
+    {
+     "line": 17,
+     "text": "- **TED** `TED_S1_01` (setting): \"Eclipse, storm season, and the Saltgate howling. Of course they send a new money toff.\""
+    },
+    {
+     "line": 20,
+     "text": "*note:* Introduces eclipse, storm season and the Saltgate."
+    },
+    {
+     "line": 65,
+     "text": "- **TED** `TED_S1_10` (reaction): \"Arc lamp's in the middle. Open her up and look at the burner.\""
+    },
+    {
+     "line": 68,
+     "text": "### On `BURNER_DIAGNOSED`"
+    },
+    {
+     "line": 69,
+     "text": "*Player inspects the arc lamp and finds the burner broken.*"
+    },
+    {
+     "line": 71,
+     "text": "- **TED** `TED_S1_11` (discovery): \"Cracked clean through. The burner's finished. Hrmph. Nothing to mend up here.\""
+    },
+    {
+     "line": 87,
+     "text": "*Location:* Lighthouse window, dock and island gate, then the hall and basement"
+    },
+    {
+     "line": 91,
+     "text": "*Rowboat appears moored at the dock (no crash).*"
+    },
+    {
+     "line": 94,
+     "text": "- **TED** `TED_S2_01` (objective): \"Rowboat's moored at my dock. Stranded sailors, by the look. Go let them in at the island gate.\""
+    },
+    {
+     "line": 96,
+     "text": "*assist hint:* Go to the island gate by the dock and open it for the stranded sailors."
+    },
+    {
+     "line": 98,
+     "text": "- **TED** `TED_S2_02` (objective): \"Someone's tied up at my dock. Down to the island gate, Isaac. Open it for them.\""
+    },
+    {
+     "line": 100,
+     "text": "*assist hint:* Go to the island gate by the dock and open it for the stranded sailors."
+    },
+    {
+     "line": 104,
+     "text": "*Player looks out of the window at the dock.*"
+    },
+    {
+     "line": 106,
+     "text": "- **TED** `TED_S2_03` (reaction): \"See them? Soaked and stranded. The gate's down the path from the dock. Go on.\""
+    },
+    {
+     "line": 152,
+     "text": "- **TED** `TED_S2_I1` (nudge tier 1): \"Those sailors won't dry themselves on my dock, Isaac.\""
+    },
+    {
+     "line": 154,
+     "text": "- **TED** `TED_S2_I2` (nudge tier 2): \"The gate, Isaac. Down the path from the dock. Someone's shouting out there.\""
+    },
+    {
+     "line": 158,
+     "text": "*assist hint:* Walk to the island gate near the dock and open it to let the sailors in."
+    },
+    {
+     "line": 160,
+     "text": "## Step 3: Fetch the replacement burner"
+    },
+    {
+     "line": 162,
+     "text": "*Location:* Hall, dock and launch, the Gullwater crossing, and the abandoned outpost"
+    },
+    {
+     "line": 163,
+     "text": "*Player does:* Talk with Ted and Arthur in the hall, board the launch at the dock, steer the powered engine boat across the Gullwater with Arthur guiding, dock at the abandoned outpost and pick up the replacement burner."
+    },
+    {
+     "line": 165,
+     "text": "### On `BURNER_BRIEFING`"
+    },
+    {
+     "line": 169,
+     "text": "- **TED** `TED_S3_01` (objective): \"Spare burner's at the outpost across the Gullwater. Arthur's boat will take you, Isaac.\""
+    },
+    {
+     "line": 171,
+     "text": "*assist hint:* Board Arthur's engine boat and cross the Gullwater to the outpost to retrieve the replacement burner."
+    },
+    {
+     "line": 173,
+     "text": "- **TED** `TED_S3_02` (objective): \"No burner, no beacon. Outpost, across the Gullwater. Go with Arthur, Isaac.\""
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_LIVE.md": {
+   "sha": "9b88d78e16fe9329",
+   "headings": [
+    "Opening Dialogue: Steps 1-3 (Gate 1 slice)",
+    "Step 1: Feed the boiler",
+    "On `GAME_STARTED`",
+    "On `ENGINE_ROOM_ENTERED`",
+    "On `COAL_LOADED_FIRST`",
+    "On `COAL_LOADED_HALF`",
+    "On `BOILER_FED`",
+    "On `LAMP_ROOM_ENTERED`",
+    "On `BURNER_DIAGNOSED`",
+    "On `IDLE_STEP_1`",
+    "Step 2: Let the sailors in",
+    "On `SAILORS_MOORED`",
+    "On `WINDOW_LOOKED`",
+    "On `GATE_APPROACHED`",
+    "On `GATE_OPENED`",
+    "On `SAILORS_INSIDE`",
+    "On `DANIEL_IN_BASEMENT`",
+    "On `BASEMENT_TALK`",
+    "On `BASEMENT_BANG`",
+    "On `WALL_WHISPER_HEARD`",
+    "On `IDLE_STEP_2`",
+    "Step 3: Fetch the replacement burner",
+    "On `BURNER_BRIEFING`",
+    "On `BOARDING_THRESHOLD`",
+    "On `BOAT_CAST_OFF`",
+    "On `OUTBOUND_NEAR_MISS`",
+    "On `OUTBOUND_COLLISION`",
+    "On `SHIP_SIGHTED`",
+    "On `OUTPOST_REACHED`",
+    "On `POSTER_EXAMINED`",
+    "On `BURNER_PICKED_UP`",
+    "On `IDLE_STEP_3`",
+    "On `IDLE_OUTPOST`",
+    "Optional discoveries",
+    "Objective journal (handwritten, Isaac's own words)",
+    "Open creator decisions",
+    "Assumptions to confirm"
+   ],
+   "domain_hits": 46,
+   "hits": [
+    {
+     "line": 12,
+     "text": "*Player does:* Shovel coal into the boiler firebox until the gauge reaches working pressure and the dynamo whines and the beacon flickers. Then climb to the lantern room and inspect the arc lamp to find the burner broken."
+    },
+    {
+     "line": 17,
+     "text": "- **TED** `TED_S1_01` (setting): \"Eclipse, storm season, and the Saltgate howling. Of course they send a new money toff.\""
+    },
+    {
+     "line": 20,
+     "text": "*note:* Introduces eclipse, storm season and the Saltgate."
+    },
+    {
+     "line": 65,
+     "text": "- **TED** `TED_S1_10` (reaction): \"Arc lamp's in the middle. Open her up and look at the burner.\""
+    },
+    {
+     "line": 68,
+     "text": "### On `BURNER_DIAGNOSED`"
+    },
+    {
+     "line": 69,
+     "text": "*Player inspects the arc lamp and finds the burner broken.*"
+    },
+    {
+     "line": 71,
+     "text": "- **TED** `TED_S1_11` (discovery): \"Cracked clean through. The burner's finished. Hrmph. Nothing to mend up here.\""
+    },
+    {
+     "line": 87,
+     "text": "*Location:* Lighthouse window, dock and island gate, then the hall and basement"
+    },
+    {
+     "line": 91,
+     "text": "*Rowboat appears moored at the dock (no crash).*"
+    },
+    {
+     "line": 94,
+     "text": "- **TED** `TED_S2_01` (objective): \"Rowboat's moored at my dock. Stranded sailors, by the look. Go let them in at the island gate.\""
+    },
+    {
+     "line": 96,
+     "text": "*assist hint:* Go to the island gate by the dock and open it for the stranded sailors."
+    },
+    {
+     "line": 98,
+     "text": "- **TED** `TED_S2_02` (objective): \"Someone's tied up at my dock. Down to the island gate, Isaac. Open it for them.\""
+    },
+    {
+     "line": 100,
+     "text": "*assist hint:* Go to the island gate by the dock and open it for the stranded sailors."
+    },
+    {
+     "line": 104,
+     "text": "*Player looks out of the window at the dock.*"
+    },
+    {
+     "line": 106,
+     "text": "- **TED** `TED_S2_03` (reaction): \"See them? Soaked and stranded. The gate's down the path from the dock. Go on.\""
+    },
+    {
+     "line": 183,
+     "text": "- **TED** `TED_S2_I1` (nudge tier 1): \"Those sailors won't dry themselves on my dock, Isaac.\""
+    },
+    {
+     "line": 185,
+     "text": "- **TED** `TED_S2_I2` (nudge tier 2): \"The gate, Isaac. Down the path from the dock. Someone's shouting out there.\""
+    },
+    {
+     "line": 189,
+     "text": "*assist hint:* Walk to the island gate near the dock and open it to let the sailors in."
+    },
+    {
+     "line": 191,
+     "text": "## Step 3: Fetch the replacement burner"
+    },
+    {
+     "line": 193,
+     "text": "*Location:* Hall, dock and launch, the Gullwater crossing, and the abandoned outpost"
+    },
+    {
+     "line": 194,
+     "text": "*Player does:* Talk with Ted and Arthur in the hall, board the launch at the dock, steer the powered engine boat across the Gullwater with Arthur guiding, dock at the abandoned outpost and pick up the replacement burner."
+    },
+    {
+     "line": 196,
+     "text": "### On `BURNER_BRIEFING`"
+    },
+    {
+     "line": 200,
+     "text": "- **TED** `TED_S3_01` (objective): \"Spare burner's at the outpost across the Gullwater. Arthur's boat will take you, Isaac.\""
+    },
+    {
+     "line": 202,
+     "text": "*assist hint:* Board Arthur's engine boat and cross the Gullwater to the outpost to retrieve the replacement burner."
+    },
+    {
+     "line": 203,
+     "text": "*staging:* Ted at the dock, lantern swinging."
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/README.md": {
+   "sha": "27725672b62bf425",
+   "headings": [
+    "Character Dialogue Sequences",
+    "Characters",
+    "Opening dialogue (all characters, by step and event)",
+    "Diagrams"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/dialogue/characters/DIALOGUE_ARTHUR.md": {
+   "sha": "8ce78bf7d60cdb23",
+   "headings": [
+    "Arthur: Dialogue",
+    "Voice (from the lore file)",
+    "At a glance",
+    "Optional discoveries",
+    "Step 2: Let the sailors in",
+    "Step 3: Fetch a new burner",
+    "Staging, hints and notes"
+   ],
+   "domain_hits": 13,
+   "hits": [
+    {
+     "line": 26,
+     "text": "| `ARTHUR_S0_13` | `POSTER_EXAMINED` | reaction | \"Nothing there for us. Leave it be. The burner, the burner.\" | Brusque, uneasy. |"
+    },
+    {
+     "line": 36,
+     "text": "## Step 3: Fetch a new burner"
+    },
+    {
+     "line": 45,
+     "text": "| `ARTHUR_S3_04` | `SALTGATE_REACHED` | reaction | \"There's the Saltgate quay. Fetch the burner. I'll keep the engine turning.\" | Quick, tense. |"
+    },
+    {
+     "line": 46,
+     "text": "| `ARTHUR_S3_05` | `BURNER_PICKED_UP` | discovery | \"That's it? Good. Hold it close. Back across we go.\" | Relieved, still wary. |"
+    },
+    {
+     "line": 47,
+     "text": "| `ARTHUR_S3_I1` | `IDLE_STEP_3` | nudge (tier 1) | \"Ted wants that burner, Isaac. Boat's waiting on you.\" | Wry, nudging. |"
+    },
+    {
+     "line": 48,
+     "text": "| `ARTHUR_S3_I2` | `IDLE_STEP_3` | nudge (tier 2) | \"Come on! The Saltgate, across the Gullwater. Get in the boat.\" | Frantic, louder. |"
+    },
+    {
+     "line": 49,
+     "text": "| `ARTHUR_S3_I3` | `IDLE_STEP_3` | nudge (tier 3) | \"Board the boat, take the wheel, steer for the Saltgate quays. Go!\" | Flat, urgent, clear. |"
+    },
+    {
+     "line": 50,
+     "text": "| `ARTHUR_S3_O1` | `IDLE_SALTGATE` | nudge (tier 1) | \"Burner won't walk to the boat, Isaac.\" | Dry, calling from the landing. |"
+    },
+    {
+     "line": 51,
+     "text": "| `ARTHUR_S3_O2` | `IDLE_SALTGATE` | nudge (tier 2) | \"Find the burner! Keep looking. Look sharp!\" | Frantic, louder. |"
+    },
+    {
+     "line": 52,
+     "text": "| `ARTHUR_S3_O3` | `IDLE_SALTGATE` | nudge (tier 3) | \"Find the burner, pick it up, and bring it to the boat.\" | Flat, urgent, clear. |"
+    },
+    {
+     "line": 64,
+     "text": "- `ARTHUR_S3_04` *note:* Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
+    },
+    {
+     "line": 66,
+     "text": "- `ARTHUR_S3_I3` *assist hint:* Board the engine boat, steer across the Gullwater and land at the Saltgate quays to fetch the burner."
+    },
+    {
+     "line": 67,
+     "text": "- `ARTHUR_S3_O3` *assist hint:* Find the replacement burner, pick it up and bring it back to the boat."
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/characters/DIALOGUE_DANIEL.md": {
+   "sha": "9adf5eadd78ecd4c",
+   "headings": [
+    "Daniel: Dialogue",
+    "Voice (from the lore file)",
+    "At a glance",
+    "Optional discoveries",
+    "Step 2: Let the sailors in",
+    "Staging, hints and notes"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/dialogue/characters/DIALOGUE_TED.md": {
+   "sha": "1bf6a9c9b2f58480",
+   "headings": [
+    "Ted: Dialogue",
+    "Voice (from the lore file)",
+    "At a glance",
+    "Step 1: Arrive and feed the boiler",
+    "Step 2: Let the sailors in",
+    "Step 3: Fetch a new burner",
+    "Staging, hints and notes"
+   ],
+   "domain_hits": 17,
+   "hits": [
+    {
+     "line": 42,
+     "text": "| `TED_S2_01` | `SAILORS_MOORED` | objective | \"Rowboat's moored at my dock. Stranded sailors, by the look. Go let them in at the island gate.\" | Gruff, reluctantly charitable. |"
+    },
+    {
+     "line": 43,
+     "text": "| `TED_S2_03` | `WINDOW_LOOKED` | reaction | \"See them? Soaked and stranded. The gate's down the path from the dock. Go on.\" | Grunting, gesturing. |"
+    },
+    {
+     "line": 45,
+     "text": "| `TED_S2_I1` | `IDLE_STEP_2` | nudge (tier 1) | \"Those sailors won't dry themselves on my dock, Isaac.\" | Dry, impatient. |"
+    },
+    {
+     "line": 46,
+     "text": "| `TED_S2_I2` | `IDLE_STEP_2` | nudge (tier 2) | \"The gate, Isaac. Down the path from the dock. Someone's shouting out there.\" | Louder, irritated. |"
+    },
+    {
+     "line": 49,
+     "text": "## Step 3: Fetch a new burner"
+    },
+    {
+     "line": 55,
+     "text": "| `TED_S1_11` | `BURNER_DIAGNOSED` | discovery | \"Cracked clean through. The burner's finished. Hrmph. We need a new one.\" | Low, grim, with a cough. |"
+    },
+    {
+     "line": 56,
+     "text": "| `TED_S3_02` | `BURNER_BRIEFING` | objective | \"No burner, no beacon. There's a spare at the Saltgate, across the Gullwater. Go with Arthur, Isaac.\" | Grim, urgent, coughing. |"
+    },
+    {
+     "line": 61,
+     "text": "- `TED_S1_01` *note:* Introduces eclipse, storm season and the Saltgate. | Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
+    },
+    {
+     "line": 63,
+     "text": "- `TED_S1_03` *note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
+    },
+    {
+     "line": 67,
+     "text": "- `TED_S1_09` *note:* Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
+    },
+    {
+     "line": 70,
+     "text": "- `TED_S2_01` *assist hint:* Go to the island gate by the dock and open it for the stranded sailors."
+    },
+    {
+     "line": 73,
+     "text": "- `TED_S3_00` *note:* Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
+    },
+    {
+     "line": 75,
+     "text": "- `TED_S1_10` *note:* Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
+    },
+    {
+     "line": 76,
+     "text": "- `TED_S1_11` *note:* Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
+    },
+    {
+     "line": 78,
+     "text": "- `TED_S3_02` *note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
+    },
+    {
+     "line": 79,
+     "text": "- `TED_S3_02` *assist hint:* Board the steam launch with Arthur and cross the Gullwater to the Saltgate quays to fetch the replacement burner."
+    },
+    {
+     "line": 81,
+     "text": "- `TED_S2_I3` *assist hint:* Walk to the island gate near the dock and open it to let the sailors in."
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/DIALOGUE_OPENING_CREATOR_PICKS.md": {
+   "sha": "54bb5321d8f0479d",
+   "headings": [
+    "Opening Dialogue: Creator Picks",
+    "Picks",
+    "Reword",
+    "Effects to be aware of"
+   ],
+   "domain_hits": 5,
+   "hits": [
+    {
+     "line": 7,
+     "text": "**Story-beat revision, 2026-10-16.** The creator then fixed the story order (`AIAgentCrew/canon.py` `STORY_BEATS`): the player starts outside and Ted opens the door; after a beat, coal; then the sailors; only then does Ted find the burner broken; then the Saltgate crossing. `AIAgentCrew/story_beats.py` applies that to these picks without changing any line ID:"
+    },
+    {
+     "line": 15,
+     "text": "| `TED_S1_10`, `TED_S1_11` | Moved to step 3; Ted opens the lamp and finds the burner broken (\"We need a new one.\") |"
+    },
+    {
+     "line": 16,
+     "text": "| `TED_S3_02` | \"There's a spare at the Saltgate\" (was \"Outpost\") |"
+    },
+    {
+     "line": 17,
+     "text": "| `ARTHUR_S3_04`, Arthur's step 3 nudges | The Saltgate quays instead of the outpost; `OUTPOST_REACHED` and `IDLE_OUTPOST` are now `SALTGATE_REACHED` and `IDLE_SALTGATE` |"
+    },
+    {
+     "line": 32,
+     "text": "| 3 | `BURNER_BRIEFING` | `TED_S3_02` | `TED_S3_01` | Dropped line said \"Arthur's boat\", which clashes with the rowboat and Ted's launch. |"
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/DIALOGUE_OPENING_FINAL.md": {
+   "sha": "87db7f25041c6167",
+   "headings": [
+    "Opening Dialogue: Steps 1-3 (Gate 1 slice)",
+    "Step 1: Arrive and feed the boiler",
+    "On `GAME_STARTED`",
+    "On `LIGHTHOUSE_ENTERED`",
+    "On `ENGINE_ROOM_ENTERED`",
+    "On `COAL_LOADED_FIRST`",
+    "On `COAL_LOADED_HALF`",
+    "On `BOILER_FED`",
+    "On `IDLE_STEP_1`",
+    "Step 2: Let the sailors in",
+    "On `SAILORS_MOORED`",
+    "On `WINDOW_LOOKED`",
+    "On `GATE_APPROACHED`",
+    "On `GATE_OPENED`",
+    "On `SAILORS_INSIDE`",
+    "On `DANIEL_IN_BASEMENT`",
+    "On `IDLE_STEP_2`",
+    "Step 3: Fetch a new burner",
+    "On `BEACON_STILL_DARK`",
+    "On `LAMP_ROOM_ENTERED`",
+    "On `BURNER_DIAGNOSED`",
+    "On `BURNER_BRIEFING`",
+    "On `BOARDING_THRESHOLD`",
+    "On `SHIP_SIGHTED`",
+    "On `BOAT_CAST_OFF`",
+    "On `OUTBOUND_NEAR_MISS`",
+    "On `OUTBOUND_COLLISION`",
+    "On `SALTGATE_REACHED`",
+    "On `BURNER_PICKED_UP`",
+    "On `IDLE_STEP_3`",
+    "On `IDLE_SALTGATE`",
+    "Optional discoveries",
+    "On `POSTER_EXAMINED`",
+    "On `WALL_WHISPER_HEARD`",
+    "On `BASEMENT_BANG`",
+    "On `BASEMENT_TALK`",
+    "Objective journal (handwritten, Isaac's own words)",
+    "Open creator decisions",
+    "Assumptions to confirm"
+   ],
+   "domain_hits": 49,
+   "hits": [
+    {
+     "line": 20,
+     "text": "*note:* Introduces eclipse, storm season and the Saltgate. | Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
+    },
+    {
+     "line": 29,
+     "text": "*note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
+    },
+    {
+     "line": 56,
+     "text": "*note:* Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
+    },
+    {
+     "line": 71,
+     "text": "*Location:* Lighthouse window, the path from the dock, the island gate"
+    },
+    {
+     "line": 75,
+     "text": "*Rowboat appears moored at the dock (no crash).*"
+    },
+    {
+     "line": 77,
+     "text": "- **TED** `TED_S2_01` (objective): \"Rowboat's moored at my dock. Stranded sailors, by the look. Go let them in at the island gate.\""
+    },
+    {
+     "line": 79,
+     "text": "*assist hint:* Go to the island gate by the dock and open it for the stranded sailors."
+    },
+    {
+     "line": 84,
+     "text": "*Player looks out of the window at the dock.*"
+    },
+    {
+     "line": 86,
+     "text": "- **TED** `TED_S2_03` (reaction): \"See them? Soaked and stranded. The gate's down the path from the dock. Go on.\""
+    },
+    {
+     "line": 124,
+     "text": "- **TED** `TED_S2_I1` (nudge tier 1): \"Those sailors won't dry themselves on my dock, Isaac.\""
+    },
+    {
+     "line": 126,
+     "text": "- **TED** `TED_S2_I2` (nudge tier 2): \"The gate, Isaac. Down the path from the dock. Someone's shouting out there.\""
+    },
+    {
+     "line": 130,
+     "text": "*assist hint:* Walk to the island gate near the dock and open it to let the sailors in."
+    },
+    {
+     "line": 132,
+     "text": "## Step 3: Fetch a new burner"
+    },
+    {
+     "line": 134,
+     "text": "*Location:* Lantern room, hall, dock, steam launch, the Saltgate quays"
+    },
+    {
+     "line": 135,
+     "text": "*Player does:* Follow Ted up to the lantern room, where he finds the burner broken; then board the steam launch with Arthur, cross the Gullwater and pick up the replacement burner at the Saltgate quays."
+    },
+    {
+     "line": 144,
+     "text": "*note:* Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
+    },
+    {
+     "line": 151,
+     "text": "*note:* Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
+    },
+    {
+     "line": 153,
+     "text": "### On `BURNER_DIAGNOSED`"
+    },
+    {
+     "line": 154,
+     "text": "*Ted opens the arc lamp, finds the burner broken and says a new one is needed.*"
+    },
+    {
+     "line": 156,
+     "text": "- **TED** `TED_S1_11` (discovery): \"Cracked clean through. The burner's finished. Hrmph. We need a new one.\""
+    },
+    {
+     "line": 158,
+     "text": "*note:* Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
+    },
+    {
+     "line": 160,
+     "text": "### On `BURNER_BRIEFING`"
+    },
+    {
+     "line": 163,
+     "text": "- **TED** `TED_S3_02` (objective): \"No burner, no beacon. There's a spare at the Saltgate, across the Gullwater. Go with Arthur, Isaac.\""
+    },
+    {
+     "line": 165,
+     "text": "*assist hint:* Board the steam launch with Arthur and cross the Gullwater to the Saltgate quays to fetch the replacement burner."
+    },
+    {
+     "line": 167,
+     "text": "*note:* Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/README.md": {
+   "sha": "01ebe1f11089ace4",
+   "headings": [
+    "Character Dialogue Sequences",
+    "Characters",
+    "Opening dialogue (all characters, by step and event)",
+    "Diagrams"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/factions/fac_city_elite.md": {
+   "sha": "0bbd55145b0b3333",
+   "headings": [
+    "The City Elite",
+    "Goal",
+    "Origin (link events)",
+    "Beliefs & Internal Divisions",
+    "Resources & Reach",
+    "Allies & Enemies",
+    "Emblem & Visual Identity"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/factions/fac_farmers.md": {
+   "sha": "1cb02a9c68f6d23c",
+   "headings": [
+    "The Farmers",
+    "Goal",
+    "Origin (link events)",
+    "Beliefs & Internal Divisions",
+    "Resources & Reach",
+    "Allies & Enemies",
+    "Emblem & Visual Identity"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/factions/fac_flighted.md": {
+   "sha": "ee221ac086abf3ed",
+   "headings": [
+    "The Flighted",
+    "Goal",
+    "Origin (link events)",
+    "Beliefs & Internal Divisions",
+    "Propaganda (in-world documents & posters)",
+    "Emblem & Visual Identity"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/factions/fac_political_class.md": {
+   "sha": "ad11444e2a3aac3a",
+   "headings": [
+    "The Political Class",
+    "Goal",
+    "Origin (link events)",
+    "Beliefs & Internal Divisions",
+    "Resources & Reach",
+    "Allies & Enemies",
+    "Emblem & Visual Identity"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/factions/fac_resistance.md": {
+   "sha": "f0cd900078954e09",
+   "headings": [
+    "The Resistance",
+    "Goal",
+    "Origin (link events)",
+    "Beliefs & Internal Divisions",
+    "Resources & Reach",
+    "Allies & Enemies",
+    "Emblem & Visual Identity"
+   ],
+   "domain_hits": 1,
+   "hits": [
+    {
+     "line": 6,
+     "text": "regions: [reg_saint_calder, reg_saltgate]"
+    }
+   ]
+  },
+  "Docs/Lore Build/factions/fac_smugglers.md": {
+   "sha": "b7e4862c8e4f70f8",
+   "headings": [
+    "The Smugglers",
+    "Goal",
+    "Origin (link events)",
+    "Beliefs & Internal Divisions",
+    "Resources & Reach",
+    "Allies & Enemies",
+    "Emblem & Visual Identity"
+   ],
+   "domain_hits": 2,
+   "hits": [
+    {
+     "line": 6,
+     "text": "regions: [reg_gullwater, reg_saltgate, reg_calder_coast]"
+    },
+    {
+     "line": 14,
+     "text": "To move people and goods in and out of Saint Calder without being spotted by Fort Kestrel and Fort Heron."
+    }
+   ]
+  },
+  "Docs/Lore Build/institutions/ins_garrisons.md": {
+   "sha": "ab4ca3e69fa27533",
+   "headings": [
+    "The Coastal Garrisons",
+    "Function",
+    "Resources",
+    "Goals & Long-Term Incentives",
+    "Constraints",
+    "How It Shapes Politics",
+    "Failure Mode (what happens if it collapses)",
+    "Internal Tensions",
+    "Visual Identity & Asset Prompts"
+   ],
+   "domain_hits": 1,
+   "hits": [
+    {
+     "line": 6,
+     "text": "regions: [reg_calder_coast, reg_gullwater, reg_saltgate]"
+    }
+   ]
+  },
+  "Docs/Lore Build/manifest.md": {
+   "sha": "cce9a438d6bf4412",
+   "headings": [
+    "Manifest",
+    "Coverage",
+    "Other Open Items",
+    "Files"
+   ],
+   "domain_hits": 6,
+   "hits": [
+    {
+     "line": 16,
+     "text": "| L3 Surface Identity | 85 | Garrison uniform colours; Saint Calder culture look and naming; player character colour |"
+    },
+    {
+     "line": 18,
+     "text": "| L5 Deep Culture & History | 10 | Why the Saltgate was abandoned; eras; traditions; taboos; contested accounts |"
+    },
+    {
+     "line": 24,
+     "text": "- Where in the Saltgate quays the replacement burner is stored"
+    },
+    {
+     "line": 39,
+     "text": "| reg_saltgate | region | The Saltgate | regions/reg_saltgate.md | draft | 2026-10-16 |"
+    },
+    {
+     "line": 41,
+     "text": "| reg_saint_calder | region | Saint Calder | regions/reg_saint_calder.md | draft | 2026-10-12 |"
+    },
+    {
+     "line": 43,
+     "text": "| cul_calder_city | culture | Saint Calder City Folk | cultures/cul_calder_city.md | draft | 2026-10-12 |"
+    }
+   ]
+  },
+  "Docs/Lore Build/regions/reg_bracken_isle.md": {
+   "sha": "d80eac57cca47fb9",
+   "headings": [
+    "Bracken Isle",
+    "Geography & Climate (and why)",
+    "Settlements",
+    "Key Locations",
+    "Resources & Trade",
+    "Ruins & Historical Sites",
+    "Current Tensions",
+    "Environment Art Direction",
+    "Ambient Audio Direction",
+    "Asset Prompts"
+   ],
+   "domain_hits": 8,
+   "hits": [
+    {
+     "line": 23,
+     "text": "| The lighthouse | Single building | Guards the approach to the Saltgate. During eclipses it is the only true light by which ships can see the rocks. | TBD | Stone and mortar, battered but robust. Haunted halls. |"
+    },
+    {
+     "line": 24,
+     "text": "| The dock | Small jetty | The only safe landing, facing the Saltgate | n/a | Home berth of the steam launch. Arthur and Daniel moor their rowboat here. |"
+    },
+    {
+     "line": 28,
+     "text": "- **The path:** runs from the dock to the lighthouse. Jagged rocks on either side force everyone to stay on it."
+    },
+    {
+     "line": 31,
+     "text": "- **The lantern room:** home of the beacon. The burner in its arc lamp is broken from the start, but nobody knows until the dynamo is running and the beacon stays dark; Ted then brings the player up here and finds it."
+    },
+    {
+     "line": 33,
+     "text": "- **The flags:** tattered amber-and-gold flags of Saint Calder, a neglected royal standard."
+    },
+    {
+     "line": 42,
+     "text": "- The beacon stays dark even with the dynamo running (its burner is broken), and a passenger ship is approaching."
+    },
+    {
+     "line": 58,
+     "text": "- **Outside:** howling wind, surf crashing on the rocks, flags snapping."
+    },
+    {
+     "line": 62,
+     "text": "- **environment_concept:** \"A small windswept rocky island at night under a moonless sky, a battered stone and mortar lighthouse on its high point, a single narrow path from a small timber dock winding between jagged black rocks, an iron gate across the path, a few wind-bent trees, tattered amber and gold flags, sea spray, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, "
+    }
+   ]
+  },
+  "Docs/Lore Build/regions/reg_calder_coast.md": {
+   "sha": "af43d51466cbbe37",
+   "headings": [
+    "The Calder Coast",
+    "Geography & Climate (and why)",
+    "Settlements",
+    "Current Tensions",
+    "Environment Art Direction",
+    "Asset Prompts"
+   ],
+   "domain_hits": 7,
+   "hits": [
+    {
+     "line": 17,
+     "text": "- The mainland coastline flanking the Saltgate."
+    },
+    {
+     "line": 23,
+     "text": "| Fort Kestrel | Fortress | Guards the western coast, about one mile west of the lighthouse | TBD | Manned and active. Lit and flying flags, but no one visible on the walls. |"
+    },
+    {
+     "line": 24,
+     "text": "| Fort Heron | Fortress | Guards the mouth of the Marrow, about one mile east of the lighthouse | TBD | Manned and active. Lit and flying flags, but no one visible. The Marrow is too small for the passenger ship. |"
+    },
+    {
+     "line": 27,
+     "text": "- Smugglers try to slip in and out of Saint Calder without being spotted by the fortresses."
+    },
+    {
+     "line": 28,
+     "text": "- What do the fortresses guard if the harbour is dead?"
+    },
+    {
+     "line": 32,
+     "text": "- **key_materials:** [heavy grey stone, iron, lit windows, flag poles]"
+    },
+    {
+     "line": 36,
+     "text": "- **fortress_concept:** \"Massive 1800s coastal stone fortress at night on a rocky shore, every window lit by electric light, flags flying, ramparts completely empty of people, black moonless sky, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, ominous\""
+    }
+   ]
+  },
+  "Docs/Lore Build/regions/reg_gullwater.md": {
+   "sha": "85d78bafe6cdf05a",
+   "headings": [
+    "The Gullwater",
+    "Geography & Climate (and why)",
+    "The Crossing (gameplay)",
+    "Current Tensions",
+    "Environment Art Direction",
+    "Ambient Audio Direction",
+    "Asset Prompts"
+   ],
+   "domain_hits": 5,
+   "hits": [
+    {
+     "line": 17,
+     "text": "- The sea between Bracken Isle and the Saltgate. The crossing takes about 10 minutes by steam launch (roughly 1\u20132 km)."
+    },
+    {
+     "line": 22,
+     "text": "- **Outbound:** the first crossing, to the Saltgate quays for the burner. Currents sway the boat and the rain sets in; uneasy rather than calm."
+    },
+    {
+     "line": 26,
+     "text": "- Fort Kestrel to the west and Fort Heron to the east, lit and flagged with no one visible"
+    },
+    {
+     "line": 27,
+     "text": "- The Saltgate ahead"
+    },
+    {
+     "line": 46,
+     "text": "- **environment_concept:** \"Small 1800s steam launch crossing a dark sea at night, a distant battered lighthouse behind, two lit coastal fortresses flying flags on either side, a passenger steamship on the horizon, rising storm waves and driving rain, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, muted desaturated palette, tense\""
+    }
+   ]
+  },
+  "Docs/Lore Build/regions/reg_saint_calder.md": {
+   "sha": "57d351068876f5a3",
+   "headings": [
+    "Saint Calder",
+    "Geography & Climate (and why)",
+    "Key Locations",
+    "Current Tensions",
+    "Environment Art Direction",
+    "Asset Prompts"
+   ],
+   "domain_hits": 6,
+   "hits": [
+    {
+     "line": 4,
+     "text": "name: Saint Calder"
+    },
+    {
+     "line": 14,
+     "text": "# Saint Calder"
+    },
+    {
+     "line": 19,
+     "text": "- The capital-like city of Corvaine, inland behind the Saltgate and linked to it by a road (about a 20-minute walk)."
+    },
+    {
+     "line": 27,
+     "text": "- Unfriendly or closed off. It abandoned its own harbour."
+    },
+    {
+     "line": 28,
+     "text": "- Its royal standard (amber and gold) hangs neglected and tattered on the coast."
+    },
+    {
+     "line": 36,
+     "text": "- **skyline_concept:** \"Distant 1800s city skyline at night seen from the sea, a towering Gothic cathedral at its centre, windows glowing with electric light, a giant dark mountain on the horizon to the north, a road leading down to an abandoned harbour, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, muted palette with warm amber light\""
+    }
+   ]
+  },
+  "Docs/Lore Build/regions/reg_saltgate.md": {
+   "sha": "3e5f132d5af02d6a",
+   "headings": [
+    "The Saltgate",
+    "Geography & Climate (and why)",
+    "Settlements",
+    "Key Locations",
+    "Resources & Trade",
+    "Ruins & Historical Sites",
+    "Current Tensions",
+    "Environment Art Direction",
+    "Ambient Audio Direction",
+    "Asset Prompts"
+   ],
+   "domain_hits": 17,
+   "hits": [
+    {
+     "line": 2,
+     "text": "id: reg_saltgate"
+    },
+    {
+     "line": 4,
+     "text": "name: The Saltgate"
+    },
+    {
+     "line": 6,
+     "text": "terrain: [harbour, quays, jagged channel]"
+    },
+    {
+     "line": 10,
+     "text": "population_density: abandoned"
+    },
+    {
+     "line": 14,
+     "text": "# The Saltgate"
+    },
+    {
+     "line": 17,
+     "text": "- The harbour of Saint Calder, on the coast directly across the Gullwater from Bracken Isle."
+    },
+    {
+     "line": 19,
+     "text": "- **During eclipses:** the port's light is almost completely gone, so the lighthouse is the only reliable guide."
+    },
+    {
+     "line": 24,
+     "text": "| The Saltgate | Port district | Saint Calder's natural harbour | n/a (abandoned) | A dead district on the city's edge, hinting at an unfriendly or closed-off city |"
+    },
+    {
+     "line": 27,
+     "text": "- **The quays:** the player lands here with Arthur to retrieve the replacement beacon burner. The exact storage location is TBD."
+    },
+    {
+     "line": 28,
+     "text": "- **The road to Saint Calder:** visible running inland to the city, about a 20-minute walk."
+    },
+    {
+     "line": 29,
+     "text": "- **Flags:** tattered amber-and-gold standards of Saint Calder."
+    },
+    {
+     "line": 32,
+     "text": "Formerly the city's harbour. Why it was abandoned is TBD (L5)."
+    },
+    {
+     "line": 39,
+     "text": "- Why would a city abandon its own harbour?"
+    },
+    {
+     "line": 43,
+     "text": "- **key_materials:** [salt-crusted stone quays, rotting timber piers, rusted iron cranes, boarded mid-1800s warehouses, broken windows]"
+    },
+    {
+     "line": 44,
+     "text": "- **lighting_mood:** almost no light. Dark windows, with the distant electric glow of Saint Calder over the rooftops."
+    },
+    {
+     "line": 48,
+     "text": "Creaking timber, loose shutters banging, rigging slapping, distant city hum, silence where people should be."
+    },
+    {
+     "line": 51,
+     "text": "- **environment_concept:** \"Abandoned 1800s harbour district at night, empty stone quays, rotting timber piers, rusted cranes, boarded-up warehouses, tattered amber and gold flags, a road leading inland to a distant city with a Gothic cathedral glowing with electric light, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, muted desaturated palette, eerie and desolate\""
+    }
+   ]
+  },
+  "Docs/Lore Build/systems/sys_eclipse.md": {
+   "sha": "9e2b46a049fd7449",
+   "headings": [
+    "The Eclipse",
+    "How It Works (input \u2192 effect)",
+    "Limits",
+    "Costs",
+    "Counters",
+    "Who Controls Access & Resulting Hierarchy",
+    "Effects on Society",
+    "Gameplay Translation",
+    "VFX & SFX Direction",
+    "Open Questions (next session)"
+   ],
+   "domain_hits": 1,
+   "hits": [
+    {
+     "line": 18,
+     "text": "- The moon is hidden, and the port's light is almost completely gone."
+    }
+   ]
+  },
+  "Docs/Lore Build/systems/sys_steam_power.md": {
+   "sha": "3666479d91b4cfbe",
+   "headings": [
+    "Steam Power & Electric Light",
+    "How It Works (input \u2192 effect)",
+    "Limits",
+    "Costs",
+    "Counters",
+    "Effects on Society",
+    "Gameplay Translation",
+    "VFX & SFX Direction",
+    "Asset Prompts"
+   ],
+   "domain_hits": 6,
+   "hits": [
+    {
+     "line": 15,
+     "text": "- All lights in Corvaine are steam-driven, including Saint Calder's windows."
+    },
+    {
+     "line": 20,
+     "text": "- Requires a steady coal supply and a working burner in the arc lamp."
+    },
+    {
+     "line": 21,
+     "text": "- Burners can fail, as the lighthouse's has before the game begins. Nobody notices until the boiler is fed and the dynamo runs but the beacon stays dark; Ted finds the broken burner when he inspects the lamp, after the sailors arrive."
+    },
+    {
+     "line": 27,
+     "text": "No coal or a broken burner means no light."
+    },
+    {
+     "line": 38,
+     "text": "| Fit the burner | Replacement burner for the arc lamp (under 1 ft tall) | Restores the beacon | Requires the Saltgate trip | One-time |"
+    },
+    {
+     "line": 50,
+     "text": "- **burner_prop:** \"Small 1800s electric arc lamp burner under a foot tall, brass and iron housing, carbon rod electrodes, thick glass, cloth-wrapped wiring, gritty dark cel-shaded style, heavy ink outlines, prop design sheet\""
+    }
+   ]
+  },
+  "Docs/Lore Build/world/changelog.md": {
+   "sha": "96282be01fa7761b",
+   "headings": [
+    "Changelog",
+    "2026-10-20: Waves and tides approved by the creator",
+    "2026-10-16: Story beats fixed by the creator",
+    "Story beats (canon, in order)",
+    "Contradictions resolved",
+    "Flagged items resolved",
+    "Edits",
+    "2026-10-12: Session 1",
+    "Contradictions resolved",
+    "Edits",
+    "Names confirmed",
+    "Flagged (unresolved)"
+   ],
+   "domain_hits": 16,
+   "hits": [
+    {
+     "line": 10,
+     "text": "- Waves are no longer a stretch goal. The sea has a state from 0 (glass) to 5 (storm). The first crossing (outbound) is easy, state 1 to 2; the return is hectic, state 3 to 5, building as the storm does; the water is calmer at both docks."
+    },
+    {
+     "line": 13,
+     "text": "- Source: GERFramework/workshops/wave_design_workshop.md (D1-D10). The GDD Decisions log has NOT been edited; see GERFramework/reports/wave_gdd_decision_proposals.md."
+    },
+    {
+     "line": 20,
+     "text": "3. **Shelter and gate:** Arthur and Daniel moor their rowboat at the dock; the player opens the island gate (on the path from the dock to the lighthouse) to let them in. Daniel stays in the basement."
+    },
+    {
+     "line": 21,
+     "text": "4. **Beacon diagnosis:** the dynamo runs but the beacon stays dark. Ted takes the player up to the lantern room, finds the burner broken and says a new one is needed. Ted identifies it, and only after the sailors are in."
+    },
+    {
+     "line": 22,
+     "text": "5. **Outbound:** the player takes the steam launch across the Gullwater with Arthur and retrieves the replacement burner from the Saltgate quays."
+    },
+    {
+     "line": 24,
+     "text": "7. **Final repair:** the player gets back to the lighthouse and fits the burner to the beacon before the passenger ship runs aground. Win: the ship sails safely past and into port."
+    },
+    {
+     "line": 27,
+     "text": "- **\"Arc lamp head\" vs. \"burner\":** the replacement part is **the burner**, which sits in the beacon's arc lamp. This supersedes the 2026-10-12 resolution that the part is \"the arc lamp head\". The steam-driven dynamo and electric arc lamp are unchanged."
+    },
+    {
+     "line": 28,
+     "text": "- **When the broken part is found:** not in the first step. The burner has failed before the game begins, but Ted finds it only after the sailors are in, when the dynamo runs and the beacon stays dark."
+    },
+    {
+     "line": 29,
+     "text": "- **\"Abandoned outpost\":** retired. The destination is always the Saltgate (its quays), Saint Calder's abandoned harbour."
+    },
+    {
+     "line": 32,
+     "text": "### Flagged items resolved"
+    },
+    {
+     "line": 38,
+     "text": "- chr_player, chr_ted, chr_arthur, chr_daniel, reg_bracken_isle, reg_saltgate, reg_gullwater and sys_steam_power updated to match (\"lamp head\" becomes \"burner\")."
+    },
+    {
+     "line": 43,
+     "text": "- **\"Abandoned outpost\" vs. \"a port at the edge of the city\":** resolved as option B. The Saltgate is the city's own harbour, abandoned as a dead district on the city's edge."
+    },
+    {
+     "line": 44,
+     "text": "- **Beacon \"gas burner\" vs. \"all lights are steam-driven\":** resolved as option B. A steam-driven dynamo powers an electric arc lamp, and the replacement part is the arc lamp head."
+    },
+    {
+     "line": 54,
+     "text": "| City | Saint Calder |"
+    },
+    {
+     "line": 56,
+     "text": "| Harbour | The Saltgate |"
+    },
+    {
+     "line": 62,
+     "text": "### Flagged (unresolved)"
+    }
+   ]
+  },
+  "Docs/Lore Build/world/geography.md": {
+   "sha": "76dc825b08649ac2",
+   "headings": [
+    "Geography",
+    "Physical Rules",
+    "Landmasses & Oceans",
+    "Mountain Ranges (with cause)",
+    "River Systems (source \u2192 mouth)",
+    "Climate Zones (with cause)",
+    "Winds & Currents",
+    "Coastal Hazards",
+    "Resources",
+    "Natural Barriers & Corridors",
+    "Map Generation Notes"
+   ],
+   "domain_hits": 12,
+   "hits": [
+    {
+     "line": 8,
+     "text": "regions: [reg_bracken_isle, reg_gullwater, reg_saltgate, reg_calder_coast, reg_saint_calder]"
+    },
+    {
+     "line": 19,
+     "text": "- **Bracken Isle:** a small rocky island about 1\u20132 km offshore (a 10-minute steam-launch crossing), sitting on the approach to the Saltgate."
+    },
+    {
+     "line": 20,
+     "text": "- **Gullwater:** the sea between Bracken Isle and the mainland, and the approach for ships bound for the Saltgate."
+    },
+    {
+     "line": 23,
+     "text": "- **Greymantle:** a giant mountain several miles north of Saint Calder. It is the source of the Marrow. Geological cause TBD."
+    },
+    {
+     "line": 38,
+     "text": "- **The Saltgate:** jagged, with a clear channel in normal light. In storms, waves can throw a ship off course and onto the rocks."
+    },
+    {
+     "line": 44,
+     "text": "- The reef field restricts approach to the Saltgate to a single channel."
+    },
+    {
+     "line": 46,
+     "text": "- A road runs from the Saltgate to Saint Calder, about a 20-minute walk (roughly 1.5 km)."
+    },
+    {
+     "line": 49,
+     "text": "- **Orientation:** north is up. Greymantle sits at the top, several miles north of Saint Calder."
+    },
+    {
+     "line": 50,
+     "text": "- **Saint Calder:** inland behind the Saltgate, with a Gothic cathedral at its centre, connected to the harbour by a single road."
+    },
+    {
+     "line": 52,
+     "text": "- The Saltgate sits on the coast directly across the Gullwater from Bracken Isle."
+    },
+    {
+     "line": 57,
+     "text": "- A dock on the side facing the Saltgate."
+    },
+    {
+     "line": 58,
+     "text": "- A single path from the dock to the lighthouse, with a lockable gate along it."
+    }
+   ]
+  },
+  "Docs/Lore Build/world/history.md": {
+   "sha": "240337a15775beeb",
+   "headings": [
+    "History",
+    "Eras",
+    "Events",
+    "evt_saltgate_abandonment: The Abandonment of the Saltgate",
+    "evt_first_eclipse: The First Eclipse",
+    "evt_lighthouse_founding: Building of the Bracken Isle Lighthouse"
+   ],
+   "domain_hits": 6,
+   "hits": [
+    {
+     "line": 19,
+     "text": "### evt_saltgate_abandonment: The Abandonment of the Saltgate"
+    },
+    {
+     "line": 21,
+     "text": "- **what_happened:** Saint Calder abandoned its harbour, which became a dead district."
+    },
+    {
+     "line": 25,
+     "text": "- The port is dead."
+    },
+    {
+     "line": 28,
+     "text": "- **related:** [reg_saltgate, reg_saint_calder, cul_calder_city]"
+    },
+    {
+     "line": 46,
+     "text": "- **what_happened:** It was built as the guardian of the port, the only true light during eclipses."
+    },
+    {
+     "line": 49,
+     "text": "- It still guards a harbour that is now dead."
+    }
+   ]
+  },
+  "Docs/Lore Build/world/manifest.md": {
+   "sha": "cce9a438d6bf4412",
+   "headings": [
+    "Manifest",
+    "Coverage",
+    "Other Open Items",
+    "Files"
+   ],
+   "domain_hits": 6,
+   "hits": [
+    {
+     "line": 16,
+     "text": "| L3 Surface Identity | 85 | Garrison uniform colours; Saint Calder culture look and naming; player character colour |"
+    },
+    {
+     "line": 18,
+     "text": "| L5 Deep Culture & History | 10 | Why the Saltgate was abandoned; eras; traditions; taboos; contested accounts |"
+    },
+    {
+     "line": 24,
+     "text": "- Where in the Saltgate quays the replacement burner is stored"
+    },
+    {
+     "line": 39,
+     "text": "| reg_saltgate | region | The Saltgate | regions/reg_saltgate.md | draft | 2026-10-16 |"
+    },
+    {
+     "line": 41,
+     "text": "| reg_saint_calder | region | Saint Calder | regions/reg_saint_calder.md | draft | 2026-10-12 |"
+    },
+    {
+     "line": 43,
+     "text": "| cul_calder_city | culture | Saint Calder City Folk | cultures/cul_calder_city.md | draft | 2026-10-12 |"
+    }
+   ]
+  },
+  "Docs/Lore Build/world/pillars.md": {
+   "sha": "87e2e08adc0af27d",
+   "headings": [
+    "Pillars (Rule of Cool)",
+    "Pillars",
+    "Idea Backlog",
+    "Open Implications"
+   ],
+   "domain_hits": 6,
+   "hits": [
+    {
+     "line": 15,
+     "text": "| 4 | An intriguing city | Saint Calder: grand, Gothic, closed off | [[reg_saint_calder]] (expansion) |"
+    },
+    {
+     "line": 19,
+     "text": "- Fortresses a mile west (Kestrel) and east (Heron) of the lighthouse, lit and flagged but with no one visible on the walls"
+    },
+    {
+     "line": 23,
+     "text": "- A passenger ship heading for a dead harbour"
+    },
+    {
+     "line": 28,
+     "text": "3. Why is a passenger ship heading for the abandoned Saltgate, and who is aboard?"
+    },
+    {
+     "line": 31,
+     "text": "6. Why did Saint Calder abandon its harbour?"
+    },
+    {
+     "line": 32,
+     "text": "7. What are the fortresses guarding a dead harbour against? Are they keeping something out or keeping someone in?"
+    }
+   ]
+  },
+  "Docs/Lore Build/world/style_guide.md": {
+   "sha": "b2ab2879f76f0061",
+   "headings": [
+    "Style Guide",
+    "Global Art Direction",
+    "Colour Meanings",
+    "Culture Quick Reference",
+    "UI Direction",
+    "Typography & Iconography",
+    "Audio Direction",
+    "Global Negative Prompts"
+   ],
+   "domain_hits": 3,
+   "hits": [
+    {
+     "line": 30,
+     "text": "| Amber | #C07A1E | Saint Calder's royal standard (paired with gold) |"
+    },
+    {
+     "line": 31,
+     "text": "| Gold | #B8962E | Saint Calder's royal standard (paired with amber) |"
+    },
+    {
+     "line": 45,
+     "text": "| Saint Calder elite | TBD (amber and gold accents likely) | TBD | TBD | TBD |"
+    }
+   ]
+  },
+  "Docs/Lore Build/world/WORLD.md": {
+   "sha": "ba751b0c71461415",
+   "headings": [
+    "Corvaine",
+    "Elevator Pitch",
+    "Physical Premise",
+    "Pillars",
+    "Central Mystery",
+    "Prototype Scenario",
+    "Expansion Plans"
+   ],
+   "domain_hits": 8,
+   "hits": [
+    {
+     "line": 9,
+     "text": "playable_scale: region (prototype: Bracken Isle, the Gullwater crossing, the Saltgate)"
+    },
+    {
+     "line": 22,
+     "text": "On Bracken Isle, a battered stone lighthouse guards the approach to the Saltgate, the abandoned harbour of the grand city of Saint Calder. When the moon is eclipsed by a dark object nobody understands, the tides turn savage, storms rise, and people come apart. Tonight the beacon has failed, and a passenger ship is heading for a harbour nobody uses."
+    },
+    {
+     "line": 42,
+     "text": "3. Arthur and Daniel, locals whose boat was caught in the storm, moor their rowboat at the dock seeking shelter. The player opens the island gate, on the path from the dock to the lighthouse, to let them in. Daniel stays in the basement."
+    },
+    {
+     "line": 43,
+     "text": "4. The dynamo runs but the beacon stays dark. Ted takes the player up to the lantern room, finds the burner broken, and says a new one is needed."
+    },
+    {
+     "line": 44,
+     "text": "5. A passenger ship appears on the horizon as the player boards. Ted and Arthur are stunned: \"A passenger ship? NOW? But the lighthouse beacon is broken!\" The player and Arthur take the steam launch across the Gullwater to the Saltgate quays (about 10 minutes; the rain sets in) to retrieve a replacement burner."
+    },
+    {
+     "line": 46,
+     "text": "7. The player must get back to the lighthouse and fit the burner to the beacon before the passenger ship runs aground."
+    },
+    {
+     "line": 47,
+     "text": "- **Win:** the ship sails safely past and into port."
+    },
+    {
+     "line": 51,
+     "text": "- Saint Calder becomes playable."
+    }
+   ]
+  },
+  "Docs/Lore Build/WORLDBUILDER_AGENT.md": {
+   "sha": "d614048006416daa",
+   "headings": [
+    "WORLDBUILDER_AGENT",
+    "1. Role",
+    "2. The 7 Levels (reference)",
+    "3. Session Flow",
+    "Phase 0: Project Setup (always first)",
+    "Phase 1: Level Interviews",
+    "Phase 2: Characters",
+    "Phase 3: Audit and Export",
+    "4. Interview Rules",
+    "5. Level Modules",
+    "Level 1: A Map",
+    "Level 2: Rule of Cool",
+    "Level 3: Surface Identity",
+    "Level 4: Functional Power",
+    "Level 5: Deep Culture & History",
+    "Level 6: Infrastructure & Institutions",
+    "Level 7: The Generative World",
+    "6. Character Module",
+    "7. Output File Structure",
+    "ID Conventions",
+    "Status Values",
+    "8. File Templates",
+    "8.1 `world/WORLD.md`",
+    "<World Name>",
+    "Elevator Pitch",
+    "Physical Premise",
+    "Pillars",
+    "Central Mystery",
+    "8.2 `world/geography.md`",
+    "Geography",
+    "Physical Rules",
+    "Landmasses & Oceans",
+    "Mountain Ranges (with cause)",
+    "River Systems (source \u2192 mouth)",
+    "Climate Zones (with cause)",
+    "Winds & Currents",
+    "Resources",
+    "Natural Barriers & Corridors",
+    "Map Generation Notes",
+    "8.3 `regions/<region_id>.md`"
+   ],
+   "domain_hits": 12,
+   "hits": [
+    {
+     "line": 16,
+     "text": "4. **Keep the canon consistent** across all files, flagging contradictions as soon as they appear."
+    },
+    {
+     "line": 71,
+     "text": "### Phase 3: Audit and Export"
+    },
+    {
+     "line": 73,
+     "text": "Run the Validation Checklist (Section 10), update `world/manifest.md`, and report coverage per level."
+    },
+    {
+     "line": 115,
+     "text": "- Rivers flow downhill from high ground to sea or lake, merge as they go, and do not split into multiple seas or cross mountain ranges. Flag any exception and ask for its cause."
+    },
+    {
+     "line": 210,
+     "text": "1. What are the 5\u201310 most important events in the world's history, in rough order? (wars, founding, collapses, cataclysms, discoveries)"
+    },
+    {
+     "line": 223,
+     "text": "- How did important places get their names?"
+    },
+    {
+     "line": 249,
+     "text": "- What single piece of infrastructure would cause a crisis if it failed? (a bridge, a mine, a canal, a portal, a reactor)"
+    },
+    {
+     "line": 804,
+     "text": "- portrait: \"<prompt>\""
+    },
+    {
+     "line": 826,
+     "text": "## 10. Validation Checklist (run on `/audit` and before `/export`)"
+    },
+    {
+     "line": 859,
+     "text": "- [ ] All cross-referenced IDs exist (create stubs or flag)."
+    },
+    {
+     "line": 863,
+     "text": "Report results as a coverage table per level and a list of blocking issues."
+    },
+    {
+     "line": 903,
+     "text": "| `/export` | Run an audit, update the manifest, and output all files |"
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md": {
+   "sha": "600d837004860171",
+   "headings": [
+    "Lighting the Storm \u2014 AI Agent Strategy",
+    "Change log (post-review amendments, 1 October 2026)",
+    "Working rules for every agent",
+    "Orchestration and oversight",
+    "Orchestrator rules:",
+    "Ownership and handoffs",
+    "Handoff format",
+    "Recommended sequence",
+    "Example agent task brief",
+    "Example orchestrator brief",
+    "Review checklist for every handoff"
+   ],
+   "domain_hits": 18,
+   "hits": [
+    {
+     "line": 14,
+     "text": "\u2022 16 October 2026, story beats: role scopes, the outpost rule and the checklist updated for the creator\u2019s fixed beats (arrival outside with Ted opening the door, coal into the boiler, sailors and the island gate, Ted finding the burner broken in the lantern room, the Saltgate quays as the destination, \u201cruns aground\u201d as the fail wording). \u201cTwo Gate 1 repairs\u201d now reads feeding the boiler and fittin"
+    },
+    {
+     "line": 21,
+     "text": "4. Return actual editable outputs, source files and licences/provenance for external assets, import settings, test instructions, and known limitations. Mockups or prose alone do not count as implementation."
+    },
+    {
+     "line": 22,
+     "text": "5. Run the relevant project import/build and focused checks. State what you observed, what you could not verify, and which human decision remains."
+    },
+    {
+     "line": 24,
+     "text": "7. Do not build anything marked Proposed, deferred, or on the cut list (waves, route branching, further repairs beyond feeding the boiler and fitting the burner) without the creator\u2019s go-ahead. Do not add significant detail to the Saltgate until the creator considers the prototype complete."
+    },
+    {
+     "line": 32,
+     "text": "|Production Orchestrator   |Turns a creator goal or gate into a task list; writes task briefs; assigns work to worker roles; orders dependencies; tracks status against the six-week schedule; keeps event IDs and contracts in sync across agents; assembles the integrated build.|A schedule exit test is missed; a contract must change; two tasks conflict; week 5 load slips (burner diagnosis and fit, wav"
+    },
+    {
+     "line": 38,
+     "text": "3. Gate checks. Before a gate, the orchestrators confirm every acceptance item in the Technical Strategy with evidence (builds, logs, playtest notes) and report any gap. The creator decides whether a gate is passed."
+    },
+    {
+     "line": 39,
+     "text": "4. Report in a fixed format: what was delegated, what came back, what passed review, what failed and why, what remains, and which creator decisions are blocking."
+    },
+    {
+     "line": 41,
+     "text": "6. Limit parallelism. Run at most the tasks the integration contract supports; Boat/Physics and Gameplay/Systems agree on event names before parallel implementation."
+    },
+    {
+     "line": 47,
+     "text": "|Boat/Physics    |Steering spike, hazard collisions, boat reaction, docking, recovery, tunable parameters. Wave fields only as a later stretch task.|Hazard forecast API, one steering axis, recovery event, dock zones.|Creator plays Gate 0; readable, enjoyable steering.|"
+    },
+    {
+     "line": 49,
+     "text": "|Level Layout    |Greybox lighthouse route, window view of the moored rowboat and island gate, short sea corridor, the Saltgate quays pickup, lantern-room route for Ted\u2019s burner diagnosis, lamp-room sightline to the ship and island rocks.|Location sizes, beacon visibility, interaction anchors.       |Traversal and camera checks in engine.             |"
+    },
+    {
+     "line": 54,
+     "text": "|Asset           |Props and modular set dressing with source meshes and import notes.                |Scale, pivot, collision, palette and approved reference sheet.|Assets import cleanly and fit the intended tone.   |"
+    },
+    {
+     "line": 56,
+     "text": "|QA              |Reproducible scenario list and bug reports, including the win and fail outcomes and restart.|Playable build, event log, acceptance checklist.              |Developer reproduces and prioritises findings.     |"
+    },
+    {
+     "line": 68,
+     "text": "|Source art and audio        |Blender .blend and exported glTF for meshes; WAV for audio sources; import settings as .import files|Provenance and licence recorded per asset. Scale, pivot, collision and naming follow Technical Strategy.|"
+    },
+    {
+     "line": 70,
+     "text": "|Orchestrator report         |REPORT.md, one per task or per gate                                                          |Fixed headings, below. Written by the orchestrator from the HANDOFF.md notes.                   |"
+    },
+    {
+     "line": 83,
+     "text": "REPORT.md headings, in this order: what was delegated; what came back; what passed review; what failed and why; what remains; creator decisions that are blocking."
+    },
+    {
+     "line": 109,
+     "text": "> **Goal (from creator):** Deliver the Gate 1 fail-state presentation. **Orchestrator:** Production Orchestrator. **Delegates to:** Story/Fail-State (presentation), Level Layout (lamp-room sightline), Sound (horn, impact, silence), Gameplay/Systems (FAIL resolve, restart), QA (test from each expiry location). **Inputs:** Executive Summary fail-state contract; Technical Strategy fail-state presenta"
+    },
+    {
+     "line": 118,
+     "text": "- Does it respect the Decisions log (story beats in order, return-crossing clock start, storm split, Gate 1 work of feeding the boiler and fitting the burner, no crash, the Saltgate as the destination, fail-state contract)?"
+    },
+    {
+     "line": 120,
+     "text": "- Has the orchestrator reported the result, including failures and blocked decisions?"
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md": {
+   "sha": "0101a697b0eefacf",
+   "headings": [
+    "Lighting the Storm \u2014 Executive Summary",
+    "Pitch and player promise",
+    "Story and gameplay sequence",
+    "Fail-state contract",
+    "Cast and atmosphere",
+    "Scope and release target",
+    "Gate 2+ estimate and ranked cut list (placeholder)",
+    "Outcome checks",
+    "Decisions log (review, 1 October 2026)"
+   ],
+   "domain_hits": 30,
+   "hits": [
+    {
+     "line": 7,
+     "text": "- The rowboat crash is removed. Arthur and Daniel, overwhelmed by the storm, moor at the island\u2019s dock seeking shelter; Ted sees them from the window and the player opens the island gate."
+    },
+    {
+     "line": 9,
+     "text": "- Deadline timer now starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate let the player get a feel for the boat. The ship is introduced at the boarding threshold."
+    },
+    {
+     "line": 11,
+     "text": "- Core folk-horror discoveries move to the lighthouse and island, before boarding. The Saltgate keeps a lighter set."
+    },
+    {
+     "line": 19,
+     "text": "- The Saltgate kept minimal until the prototype is considered complete; further folk-horror, canon clues and documentation are parked in Dreams for the game. Deadline length is to be reviewed once the return crossing from the Saltgate is tested."
+    },
+    {
+     "line": 20,
+     "text": "- 16 October 2026, story beats fixed by the creator: the player (Isaac, \u201cthe new guy\u201d) starts outside the lighthouse and Ted opens the door; Ted then sends him to the basement to shovel coal into the boiler; the sailors moor at the dock and the player opens the island gate; only then does Ted take the player to the lantern room and find the beacon\u2019s burner broken. The crossing\u2019s destination is the"
+    },
+    {
+     "line": 24,
+     "text": "A new apprentice, Isaac, arrives at the failing lighthouse on Bracken Isle. Keeper Ted opens the door to \u201cthe new guy\u201d and, after a beat, sends him down to the basement to shovel coal into the boiler. Overwhelmed by the storm, two sailors, Arthur and Daniel, moor their rowboat at the island\u2019s dock and look for shelter; Ted sees them from the window and tells the apprentice to open the island gate."
+    },
+    {
+     "line": 34,
+     "text": "Scope rule: small world, read closely. One lighthouse, one stretch of sea, one abandoned harbour (the Saltgate), and no new major locations."
+    },
+    {
+     "line": 43,
+     "text": "|2. Shelter and gate   |Ted, at the window, sees Arthur and Daniel\u2019s rowboat moored at the dock, the sailors overwhelmed by the storm. He tells the player to open the island gate, on the path from the dock to the lighthouse.|Arthur and Daniel make their own way into the lighthouse. Daniel goes down to the basement and stays there.|"
+    },
+    {
+     "line": 44,
+     "text": "|3. Beacon diagnosis   |The dynamo runs but the beacon stays dark. Follow Ted up to the lantern room, where he opens the arc lamp.                               |Ted finds the burner broken and says a new one is needed: a spare must be fetched from the Saltgate quays, with Arthur.|"
+    },
+    {
+     "line": 45,
+     "text": "|4. Boarding           |Meet Arthur at the engine boat. At the boarding threshold Ted names the passenger ship\u2019s lights as the reason for the errand, and the ship appears on the horizon.|No deadline yet. The outbound crossing is free steering practice; the hidden passenger-ship deadline starts later, when the burner is aboard and the return crossing begins.|"
+    },
+    {
+     "line": 46,
+     "text": "|5. Outbound           |Steer the boat across the Gullwater, past rocks and debris, as the rain sets in, while Arthur shouts directions.                          |Reach the Saltgate quays (Saint Calder\u2019s abandoned harbour).                                   |"
+    },
+    {
+     "line": 47,
+     "text": "|6. Pickup             |Find and pick up the replacement burner.                                                                                              |The burner is aboard.                                                                          |"
+    },
+    {
+     "line": 48,
+     "text": "|7. Return             |With the burner aboard, steer back as the storm escalates (darker skies, heavier rain, lightning between the clouds), with denser hazards and lower visibility, guided by Arthur\u2019s directions. The hidden deadline starts as the boat sets off.|Reach the lighthouse. On arrival Arthur says something like \u201cgo go go, don\u2019t wait for me.\u201d      |"
+    },
+    {
+     "line": 49,
+     "text": "|8. Final repair       |Climb to the lamp, where Ted waits, and fit the burner to the beacon.                                                                 |The beacon is restored, or the deadline runs out first.                                        |"
+    },
+    {
+     "line": 50,
+     "text": "|9. Outcome            |Watch the ship from the lamp room.                                                                                                    |Win: the ship sails safely past the rocks and into port; Ted reacts. Fail: the ship runs aground on the island; Ted reacts (see Fail-state contract).|"
+    },
+    {
+     "line": 52,
+     "text": "Until the player has picked up the burner and the boat sets off on the return crossing, there is no ship deadline: lighthouse exploration, the outbound crossing and the Saltgate are all untimed. From then on, the same ship deadline keeps running through the return crossing and the final repair; there is no separate timer. The approaching ship and changing weather communicate urgency without a nume"
+    },
+    {
+     "line": 62,
+     "text": "|On the return crossing (burner aboard) |Audio only: ship horn, crash sounds, silence, then the \u201cFailed\u201d title screen. No cutaway camera.|"
+    },
+    {
+     "line": 73,
+     "text": "- Ted: gruff, experienced keeper; gives spoken directions throughout, with a guarded sense of care. He opens the lighthouse door to the new apprentice and sends him to feed the boiler, sees the sailors from the window, finds the beacon\u2019s burner broken in the lantern room, names the ship at the boarding threshold, and waits at the lamp for the final repair and the outcome. Presence is to be locked "
+    },
+    {
+     "line": 79,
+     "text": "The lighthouse uses warm lamplight against blue-grey storm light. The beam remains a navigational and dramatic anchor. The abandoned Saltgate quays, log fragments, shrines, symbols, and subtly strange architecture suggest a history without settling its cause. Audio favours wind, rain, machinery, buoy bells, and a distant foghorn over musical stingers."
+    },
+    {
+     "line": 81,
+     "text": "Folk-horror discoveries: the core discoveries are placed in the lighthouse and on the island, before boarding, where there is no ship deadline, and are tied to why the beacon failed. The Saltgate keeps a lighter set. This keeps the signature content outside the timed act. Until the prototype is considered complete, no significant detail is added to the Saltgate; further folk-horror, canon clues an"
+    },
+    {
+     "line": 85,
+     "text": "Full game, about 30 minutes: three compact locations, the arrival and lighthouse work (feeding the boiler, then further repairs), the sailors\u2019 arrival and the island gate, Ted\u2019s discovery of the broken burner, two crossings with Arthur, a final repair under the running ship deadline, win and fail outcomes, optional discoveries, and controller support. PC via Steam is the initial release target. Th"
+    },
+    {
+     "line": 89,
+     "text": "First playable prototype (Gate 1), about 10 minutes: arriving outside the lighthouse as Ted opens the door, shovelling coal into the boiler, Ted seeing the rowboat moored at the dock from the window, opening the island gate, Ted finding the burner broken in the lantern room, meeting Arthur at the engine boat, an outbound crossing to the Saltgate quays, burner pickup, a return crossing to the light"
+    },
+    {
+     "line": 91,
+     "text": "Out of first-prototype scope: further lighthouse repairs beyond feeding the boiler and fitting the burner, full Saltgate exploration, optional discoveries, final art, route branching on the return crossing, and a finished Steam release flow. These remain in the full-game brief or on the cut list."
+    },
+    {
+     "line": 98,
+     "text": "3. Additional repairs beyond feeding the boiler and fitting the burner."
+    },
+    {
+     "line": 99,
+     "text": "4. Saltgate optional discoveries beyond the light set."
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md": {
+   "sha": "72f7360d8d23d124",
+   "headings": [],
+   "domain_hits": 16,
+   "hits": [
+    {
+     "line": 10,
+     "text": "4. Folk-horror discoveries. The core discoveries move into the lighthouse and island, before boarding, tied to why the beacon failed. The Saltgate keeps a lighter set."
+    },
+    {
+     "line": 12,
+     "text": "6. Clock start. The deadline starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate give the player a feel for the boat. The ship is introduced by Ted at the boarding threshold."
+    },
+    {
+     "line": 13,
+     "text": "7. Sailors\u2019 arrival. There is no crash. Arthur and Daniel, overwhelmed by the storm, moor at the island\u2019s dock seeking shelter. Ted sees them from the window and the player opens the island gate (the same gate)."
+    },
+    {
+     "line": 17,
+     "text": "11. Repairs at Gate 1. Two hands-on jobs: feeding the boiler with coal, then fitting the burner (16 October 2026; see A15). Further repairs belong to Gate 2 and the full game. (Replaces: item 11, \u201cPrototype repair\u201d, in part; see B7.)"
+    },
+    {
+     "line": 21,
+     "text": "15. Which two repairs (16 October 2026). Resolved by the story beats: the player feeds the boiler with coal (step 1), and fits the replacement burner to the beacon at the end (the final repair). (Was: open item B15.)"
+    },
+    {
+     "line": 22,
+     "text": "16. Story beats (16 October 2026). In order: the player (Isaac, \u201cthe new guy\u201d) starts outside and Ted opens the door; Ted sends him to the basement to shovel coal into the boiler; Arthur and Daniel moor at the dock and the player opens the island gate (on the path from the dock to the lighthouse), with Daniel staying in the basement; the dynamo runs but the beacon stays dark, and Ted, only after t"
+    },
+    {
+     "line": 23,
+     "text": "17. Event IDs and phase boundaries (19 October 2026). The four IDs first proposed in the game\u2019s GameState script are accepted: RETURN_ARRIVED, BURNER_FITTED, SHIP_WIN and SHIP_FAIL, with the phase boundaries listed in the Technical Strategy core state contract. (Was: T26 in the agent backlog.)"
+    },
+    {
+     "line": 24,
+     "text": "18. The burner (19 October 2026). The broken and replacement burners follow the concept sheets in ConceptArt/burner. The replacement sits on the ground at the Saltgate dock, close to where the player disembarks. The player picks it up with his hands and carries it in his hands on the boat back to the island. He cannot put it down anywhere except the boat and the lamp. The prop is generated as a FA"
+    },
+    {
+     "line": 39,
+     "text": "2. Discoveries content. To be resolved by the creator on Friday 23 October 2026. Decide which discoveries live in the lighthouse and island and which stay at the Saltgate, and how each ties to why the beacon failed. The Saltgate is untimed and gets no significant added detail until the prototype is considered complete; ideas for more folk-horror, canon clues and documentation are parked in Dreams "
+    },
+    {
+     "line": 44,
+     "text": "4. Deadline length. Set from measured playtests so a first-time player who follows cues has room for some mistakes. To be reviewed once the boat crossing back from the Saltgate has been tested; no value is set until then."
+    },
+    {
+     "line": 53,
+     "text": "10. Docking and recovery. Proposed: docking at the Saltgate quays and the lighthouse jetty is automatic; leaving the playable corridor triggers a recovery to the last safe point at a time cost. Confirm, and define dock zones and safe points."
+    },
+    {
+     "line": 54,
+     "text": "11. Crossing failure policy details. Proposed: a collision adds water, slows the boat or causes a brief capsize and recovery, costing deadline time; the burner can never be permanently lost. Rules are loose for Gate 1; write down exact costs and limits for the full game."
+    },
+    {
+     "line": 60,
+     "text": "14. Controller support in the prototype. Resolved 19 October 2026: no controller in this iteration (see A21)."
+    },
+    {
+     "line": 61,
+     "text": "15. Which two repairs. Resolved 16 October 2026 for Gate 1: feeding the boiler, then the burner fit (see A15). Still open: the full repair list for the full game."
+    },
+    {
+     "line": 62,
+     "text": "16. Week 5 load. Week 5 holds the beacon diagnosis and burner fit, deadline, fail presentation and Ted\u2019s lamp lines. If it slips, decide between simplifying the diagnosis and burner fit for Gate 1, cutting waves (already first), or extending the schedule."
+    },
+    {
+     "line": 63,
+     "text": "17. Full-game estimate and cut list. Complete after Gate 1 using measured data. Provisional cut order: wave hazards; return-crossing route branching; repairs beyond feeding the boiler and fitting the burner; Saltgate optional discoveries beyond the light set."
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Dreams for the game.md": {
+   "sha": "634974eeb8e8891b",
+   "headings": [],
+   "domain_hits": 3,
+   "hits": [
+    {
+     "line": 3,
+     "text": "Status: ideas outside the prototype and full-game scope, 25 September 2026, updated 1 October 2026 (added \u201cMore Saltgate detail\u201d; Daniel\u2019s reason for being shaken updated after the crash was removed). Nothing here is canon or scheduled. Build an item only after the creator approves it, and only if it still fits the four design pillars and the scope rule in the Executive Summary."
+    },
+    {
+     "line": 28,
+     "text": "More Saltgate detail"
+    },
+    {
+     "line": 30,
+     "text": "Until the prototype is considered complete, the Saltgate stays minimal and no significant detail is added to it. After that, it could carry more folk-horror atmosphere, canon clues and in-world documentation: additional log fragments, shrines, symbols, notes and subtly strange architecture that suggest the history of the island and the earlier keepers without settling its cause."
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Engine Comparison.md": {
+   "sha": "3a3ab97b1a3857c4",
+   "headings": [],
+   "domain_hits": 8,
+   "hits": [
+    {
+     "line": 10,
+     "text": "\u2022 PC release on Steam, with controller support in the full game."
+    },
+    {
+     "line": 17,
+     "text": "\u2022 Small, fast editor; quick to open, iterate, and export. Runs well on modest hardware."
+    },
+    {
+     "line": 29,
+     "text": "\u2022 Console ports need third-party porting services (not relevant for a PC-first release)."
+    },
+    {
+     "line": 42,
+     "text": "\u2022 Heavier editor, longer import and compile times, larger builds."
+    },
+    {
+     "line": 66,
+     "text": "\u2022 Fastest possible iteration: edit code, refresh the browser. No editor, no import pipeline."
+    },
+    {
+     "line": 75,
+     "text": "\u2022 Steam release needs a desktop wrapper (Electron, NW.js, or Tauri), plus extra work for Steamworks and controller support."
+    },
+    {
+     "line": 84,
+     "text": "|First-person 3D                |Good                      |Very good                      |Excellent                        |Not supported (2D)              |"
+    },
+    {
+     "line": 99,
+     "text": "3. Avoid Unreal for this project: the visuals are the best, but Blueprints shut out AI help and the iteration cost is too high for a solo 6-week prototype."
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Token Costs and Feasibility.md": {
+   "sha": "e1b73d8641bf141e",
+   "headings": [],
+   "domain_hits": 5,
+   "hits": [
+    {
+     "line": 73,
+     "text": "|Saltgate exploration and optional discoveries       |40   |"
+    },
+    {
+     "line": 75,
+     "text": "|Final art integration (import, materials, collision, LODs)|80|"
+    },
+    {
+     "line": 78,
+     "text": "|Controller support                                 |15   |"
+    },
+    {
+     "line": 123,
+     "text": "\u2022 Controller support is deferred if it threatens the schedule (Decisions to be made, item 10)."
+    },
+    {
+     "line": 136,
+     "text": "|Remaining repairs, Saltgate exploration, discoveries         |3      |"
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md": {
+   "sha": "a5123e30bdbad0c1",
+   "headings": [
+    "Lighting the Storm \u2014 Technical Strategy",
+    "Change log (post-review amendments)",
+    "Engine and project shape",
+    "Milestones and gates",
+    "Six-week prototype schedule",
+    "Core state contract",
+    "Boat and weather simulation",
+    "Repairs, shelter and gate, and final pressure",
+    "Presentation and accessibility",
+    "Validation and integration"
+   ],
+   "domain_hits": 24,
+   "hits": [
+    {
+     "line": 10,
+     "text": "- Deadline: starts when the burner is aboard and the boat sets off on the return crossing; no fail state before then; fail-state presentation specified per location; the ship is introduced at the boarding threshold."
+    },
+    {
+     "line": 11,
+     "text": "\u2022 Boat: docking, disembarking, and recovery defined for a fixed-speed boat with no throttle."
+    },
+    {
+     "line": 16,
+     "text": "- The Saltgate kept minimal until the prototype is complete; deadline length to be reviewed once the return crossing is tested."
+    },
+    {
+     "line": 18,
+     "text": "- 16 October 2026, story beats: phases now start with ARRIVAL_AND_COAL (player outside, Ted opens the door, then coal into the boiler) and add BEACON_DIAGNOSIS after the gate (Ted finds the burner broken in the lantern room); OUTPOST renamed SALTGATE; \u201ctwo repairs\u201d replaced by feeding the boiler plus the final burner fit; lighting phases ISLAND, OUTBOUND, RETURN and BEACON_RELIT added; fail wordin"
+    },
+    {
+     "line": 22,
+     "text": "Engine: Godot 4 (confirmed by the creator after reviewing the Engine Comparison pros and cons), using GDScript for the first playable. Its scene-based structure suits the compact locations and scripted interactions, and a single developer can iterate quickly without adding a toolchain. Commit the exact engine version and renderer choice with the initial project; evaluate storm lighting on the targ"
+    },
+    {
+     "line": 24,
+     "text": "Keep scenes and scripts separately owned where possible: lighthouse, sea, the Saltgate, shared player and interaction scenes, and a central game-state resource/controller. Store content such as repairs, dialogue, assistance presets, and journal text as data, with stable IDs. Avoid hard-wiring story progress into individual prop scripts."
+    },
+    {
+     "line": 31,
+     "text": "|1. Ten-minute vertical slice|Arrival outside the lighthouse with Ted opening the door, coal into the boiler, Ted seeing the rowboat moored at the dock from the window, island gate opening, Ted finding the burner broken in the lantern room, boarding with Arthur, outbound crossing to the Saltgate quays, burner pickup, harder return crossing as the storm escalates, burner fitting with Ted at the lam"
+    },
+    {
+     "line": 32,
+     "text": "|2. Narrative alpha          |Complete repairs, lighthouse and island discoveries, Saltgate discoveries, full dialogue, both outcomes, and the final retry and save model.|All story states can be finished; no dead-end save or cargo loss; the retry model has been tested so a reload can never produce an unwinnable state (time and weather restored together). Route branching is reviewed as a cut-list c"
+    },
+    {
+     "line": 43,
+     "text": "|3   |The Saltgate quays (minimal detail until the prototype is complete) and burner pickup; return crossing with denser hazards; storm visibility and lighting tuned for readability; docking and disembarking.|Both crossings playable end to end. Ted\u2019s presence is locked by the end of this week.|"
+    },
+    {
+     "line": 45,
+     "text": "|5   |Beacon diagnosis in the lantern room (Ted finds the burner broken) and the burner fit, hidden ship deadline, fail-state presentation (horn, crash, silence, \u201cFailed\u201d screen, reason line), lamp-room sightline, Ted\u2019s lamp voice lines, win and fail outcomes, placeholder audio.|Both outcomes reachable and the fail reason is shown.|"
+    },
+    {
+     "line": 48,
+     "text": "Risk: week 5 is heavily loaded. If it slips, the creator decides between simplifying the lantern-room diagnosis and burner fit for Gate 1, cutting wave hazards (already first to go), or extending the schedule. Do not decide silently."
+    },
+    {
+     "line": 54,
+     "text": "Use explicit phase states, for example ARRIVAL_AND_COAL \u2192 SHELTER_AND_GATE \u2192 BEACON_DIAGNOSIS \u2192 BOARDING \u2192 OUTBOUND \u2192 SALTGATE \u2192 RETURN \u2192 FINAL_REPAIR \u2192 RESOLUTION (WIN or FAIL). The opening events follow the story beats: GAME_STARTED (player outside, Ted opens the door), LIGHTHOUSE_ENTERED, BOILER_FED, SAILORS_MOORED \u2026 DANIEL_IN_BASEMENT, BEACON_STILL_DARK, LAMP_ROOM_ENTERED, BURNER_DIAGNOSED, BU"
+    },
+    {
+     "line": 58,
+     "text": "Invariants: the deadline is inactive until the return-departure event (burner aboard and the boat under way on the return crossing); Arthur is the only crossing companion; a burner pickup precedes return completion; the ship outcome resolves exactly once per attempt, as WIN (burner fitted before expiry) or FAIL (deadline expired). The journal reflects state, but never determines it. Rules marked P"
+    },
+    {
+     "line": 64,
+     "text": "Because the boat cannot stop, docking is automatic: arriving within a dock trigger zone at the Saltgate quays or the lighthouse jetty ends steering control and moors the boat, followed by a disembark interaction. If the boat leaves the playable corridor or the player misses the dock approach, the recovery event returns the boat to the last safe point on the route with a time cost. Define each dock"
+    },
+    {
+     "line": 70,
+     "text": "Prototype failure policy: a collision with a rock or debris (or a broadside wave hit, if waves are built) adds water, slows the boat or causes a brief capsize-and-recovery at a nearby safe point; these events consume deadline time once the clock is running (on the outbound crossing they cost no deadline time). On return, cargo mishandling delays progress and creates a clear recovery interaction. P"
+    },
+    {
+     "line": 75,
+     "text": "Lighting phases follow the story beats: ISLAND (arrival through the beacon diagnosis), OUTBOUND (the first crossing; the rain sets in), RETURN (the storm escalates: darker skies, heavier rain, lightning between the clouds) and BEACON_RELIT (the burner is fitted)."
+    },
+    {
+     "line": 80,
+     "text": "Implement repair jobs from data: diagnosis, required fixed-toolkit item or interaction, puzzle steps, completion event, journal update, and optional route unlock (an optional field for later; not saved in Gate 1). The Gate 1 slice uses one lighthouse job, feeding the boiler with coal, and one final burner installation (the burner fit replaces the earlier \u201csecond repair\u201d). Later repairs (optic, rot"
+    },
+    {
+     "line": 82,
+     "text": "The shelter and gate sequence is scripted and is part of the Gate 1 slice. After the boiler is fed, Ted prompts the player to look out of the window; Arthur and Daniel\u2019s rowboat is moored at the dock, the sailors overwhelmed by the storm and looking for shelter. There is no crash. Proposed: trigger the moment when the window is in view, with a fallback after a short delay so it cannot be missed. T"
+    },
+    {
+     "line": 86,
+     "text": "For the deadline, store a numeric internal time but display only the passenger ship\u2019s position/lights and weather cues. It is the only timer in the game; the final repair runs on the same deadline. The ship first appears at the boarding threshold. It holds at its starting lights until the clock starts. Rules: start on the return-departure event, when the burner is aboard and the boat starts moving"
+    },
+    {
+     "line": 89,
+     "text": "\u2022 On the return crossing (burner aboard): audio only: ship horn, crash sounds, silence, then the \u201cFailed\u201d title screen (no cutaway camera)."
+    },
+    {
+     "line": 92,
+     "text": "Ted reacts from the lamp room by voice. If the burner is fitted first, the win state shows the ship sailing safely past the rocks and into port, again from the lamp room. Gate 1 fail returns to the start of the slice; the final retry and save model is a Gate 2 decision. Set the duration from measured playtests so a first-time player who follows cues has room for some mistakes. The deadline length "
+    },
+    {
+     "line": 96,
+     "text": "All viewpoints are first-person; there are no cutaway or exterior cameras. The moored rowboat is seen through the lighthouse window, and the ship outcome from the lamp room (or heard elsewhere), so both need clear sightlines. Use the beacon as a consistent landmark from the sea. Budget dynamic lights around the beacon, nearby player lights, and key hazards; prototype rain and fog on target hardwar"
+    },
+    {
+     "line": 100,
+     "text": "\u2022 Automate state transitions where practical: the return-departure event starts the clock once, repair updates the journal, the gate opening and Daniel reaching the basement advance the phase, the burner diagnosis happens only after the sailors are in, cargo recovery preserves completion, the ship outcome resolves once per attempt as win or fail, and a restart or reload resumes a consistent phase "
+    },
+    {
+     "line": 103,
+     "text": "\u2022 Keep an exportable playable build at each gate. An agent task is complete only when its changed scene/scripts, importable assets, setup notes, and verification evidence work in the integrated project."
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/What's Changed (Concise).md": {
+   "sha": "8f666830a871cdbf",
+   "headings": [
+    "Lighting the Storm \u2014 What\u2019s Changed (Concise)",
+    "Exec Summary",
+    "Player Experience changes",
+    "Timings and Fail-State Changes",
+    "Technical Strategy",
+    "State changes",
+    "AI Agent Strategy",
+    "Also changed",
+    "2026-10-16 story beats"
+   ],
+   "domain_hits": 10,
+   "hits": [
+    {
+     "line": 16,
+     "text": "- Deadline starts on the return crossing, when the player has the burner aboard and sets off for the lighthouse. There is no fail state before then, so the outbound crossing is steering practice. Ted introduces the ship at the boarding threshold."
+    },
+    {
+     "line": 25,
+     "text": "- Gates and schedule. Gate 1 now has two repairs, the return-crossing clock start and a restart on a fail. Hazard forecast added to week 2; Ted locked in week 3; week 4 rebalanced with an early deadline tuning pass; week 5 flagged as heavily loaded."
+    },
+    {
+     "line": 26,
+     "text": "- Boat and weather. Two weather channels (perception by elapsed time, hazards by phase and position). Docking is automatic; leaving the corridor triggers a recovery. Outbound collisions cost no deadline time; penalty rules are loose for Gate 1."
+    },
+    {
+     "line": 41,
+     "text": "- Handoff format (new). Godot text files (.tscn, .gd, .tres), JSON or .tres data with stable IDs, a HANDOFF.md per task, and a REPORT.md from orchestrators, each with fixed headings."
+    },
+    {
+     "line": 58,
+     "text": "- Burner identified by Ted after the gate. The sailors moor at the dock and the player opens the island gate; only then, with the dynamo running and the beacon still dark, does Ted find the burner broken in the lantern room."
+    },
+    {
+     "line": 59,
+     "text": "- Outpost becomes the Saltgate. The crossing goes to the Saltgate quays, Saint Calder\u2019s abandoned harbour. The outbound crossing brings rain; the storm escalates on the return."
+    },
+    {
+     "line": 60,
+     "text": "- \u201cRuns aground\u201d is canon again for the fail state; the win is the ship sailing safely past and into port."
+    },
+    {
+     "line": 61,
+     "text": "- The part is \u201cthe burner\u201d (it sits in the arc lamp), superseding the Lore Build\u2019s \u201carc lamp head\u201d."
+    },
+    {
+     "line": 62,
+     "text": "- Gate 1 \u201ctwo repairs\u201d become feeding the boiler and fitting the burner."
+    },
+    {
+     "line": 63,
+     "text": "- Phases: ARRIVAL_AND_COAL \u2192 SHELTER_AND_GATE \u2192 BEACON_DIAGNOSIS \u2192 BOARDING \u2192 OUTBOUND \u2192 SALTGATE \u2192 RETURN \u2192 FINAL_REPAIR \u2192 RESOLUTION. OUTPOST_REACHED and IDLE_OUTPOST are renamed SALTGATE_REACHED and IDLE_SALTGATE. Lighting phases: ISLAND, OUTBOUND, RETURN, BEACON_RELIT."
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/What's Changed.md": {
+   "sha": "25d81bd34abe0c4f",
+   "headings": [],
+   "domain_hits": 21,
+   "hits": [
+    {
+     "line": 39,
+     "text": "\u2022 Clock start. The deadline starts when the player, with the burner aboard, sets off on the return crossing, instead of on boarding. There is no fail state before then, so the outbound crossing and outpost are free practice. Pre-deadline text updated to match."
+    },
+    {
+     "line": 76,
+     "text": "\u2022 Week 3. Adds docking and disembarking; Ted\u2019s presence must be locked by the end of this week."
+    },
+    {
+     "line": 89,
+     "text": "\u2022 Docking and recovery. Because the boat cannot stop, docking at the outpost and lighthouse jetties is automatic. Leaving the corridor or missing a dock approach triggers a recovery to the last safe point at a time cost."
+    },
+    {
+     "line": 95,
+     "text": "\u2022 Ted\u2019s second half. Voice lines delivered from the lamp room only; each added line is flagged as voice-over cost."
+    },
+    {
+     "line": 96,
+     "text": "\u2022 Deadline rules. Starts at the return-departure trigger (burner aboard, boat under way); no fail before it; the ship holds at its starting lights until the clock starts; pause exploits to be checked before Gate 2."
+    },
+    {
+     "line": 120,
+     "text": "\u2022 Orchestrator rules. Brief before delegating; orchestrators own contracts; gate checks require evidence; a fixed report format; orchestrators never merge; parallelism is limited to what the integration contract supports. The creator keeps merge authority and the final say on design."
+    },
+    {
+     "line": 126,
+     "text": "\u2013 Boat/Physics: docking, recovery and dock zones."
+    },
+    {
+     "line": 137,
+     "text": "\u2022 Review checklist. Adds: does the work respect the decisions log (return-crossing clock start, storm split, two Gate 1 repairs, no crash, fail-state contract), and has the orchestrator reported the result, including failures and blocked decisions."
+    },
+    {
+     "line": 140,
+     "text": "\u2022 New section: Handoff format. A table sets the file types: Godot text files (.tscn, .gd, .tres) for scenes, scripts and resources; JSON or .tres with stable IDs for game data; Blender and glTF for meshes, WAV for audio sources; a HANDOFF.md per task; a REPORT.md per task or gate from the orchestrator; contract changes proposed in the HANDOFF.md."
+    },
+    {
+     "line": 141,
+     "text": "\u2022 HANDOFF.md has eight fixed headings (task and goal, files changed, how to run and test, observed behaviour, not verified, licences and provenance, interface or contract changes, open creator decisions). REPORT.md uses the six orchestrator report fields."
+    },
+    {
+     "line": 163,
+     "text": "3. Shelter and gate. Arthur and Daniel moor their rowboat at the dock; the player opens the island gate, on the path from the dock to the lighthouse, to let them in. Daniel stays in the basement."
+    },
+    {
+     "line": 164,
+     "text": "4. Beacon diagnosis. The dynamo runs but the beacon stays dark. Ted takes the player up to the lantern room, finds the burner broken and says a new one is needed. Ted identifies it, and only after the sailors are in."
+    },
+    {
+     "line": 165,
+     "text": "5. Outbound. The player takes the steam launch across the Gullwater with Arthur and retrieves the replacement burner from the Saltgate quays."
+    },
+    {
+     "line": 167,
+     "text": "7. Final repair. The player gets back to the lighthouse and fits the burner to the beacon before the passenger ship runs aground. Win: the ship sails safely past and into port."
+    },
+    {
+     "line": 171,
+     "text": "\u2022 Burner identified by Ted after the gate. The broken burner is no longer found in the first step. A new step, \u201cBeacon diagnosis\u201d, sits between the gate and boarding; the sequence table now has nine steps."
+    },
+    {
+     "line": 172,
+     "text": "\u2022 Two repairs replaced. The generic \u201ctwo repairs\u201d for Gate 1 are now feeding the boiler with coal and fitting the burner. Week 4 holds the arrival and coal; week 5 holds the diagnosis and the burner fit. Cut-list item 3 now reads \u201crepairs beyond feeding the boiler and fitting the burner\u201d."
+    },
+    {
+     "line": 173,
+     "text": "\u2022 Outpost becomes the Saltgate. The crossing\u2019s destination is the Saltgate quays, Saint Calder\u2019s abandoned harbour. \u201cThe abandoned outpost\u201d is no longer used."
+    },
+    {
+     "line": 174,
+     "text": "\u2022 \u201cRuns aground\u201d is canon again. The fail wording returns to \u201cthe ship runs aground on the island\u201d (the 1 October amendment had changed it to \u201ccrashes into the island\u201d). The win is the ship sailing safely past the rocks and into port."
+    },
+    {
+     "line": 175,
+     "text": "\u2022 The part is \u201cthe burner\u201d. It sits in the beacon\u2019s arc lamp. This supersedes the Lore Build\u2019s earlier resolution that the part is \u201cthe arc lamp head\u201d."
+    },
+    {
+     "line": 177,
+     "text": "\u2022 State contract. Phases are now ARRIVAL_AND_COAL \u2192 SHELTER_AND_GATE \u2192 BEACON_DIAGNOSIS \u2192 BOARDING \u2192 OUTBOUND \u2192 SALTGATE \u2192 RETURN \u2192 FINAL_REPAIR \u2192 RESOLUTION. Event IDs added or renamed: GAME_STARTED (outside, Ted opens the door), LIGHTHOUSE_ENTERED, BEACON_STILL_DARK, LAMP_ROOM_ENTERED, BURNER_DIAGNOSED (now after DANIEL_IN_BASEMENT), SALTGATE_REACHED (was OUTPOST_REACHED) and IDLE_SALTGATE (was "
+    },
+    {
+     "line": 178,
+     "text": "\u2022 Opening dialogue. Three steps: 1, Arrive and feed the boiler (beats 1\u20132); 2, Let the sailors in (beat 3); 3, Fix the beacon: fetch the burner (beats 4\u20135)."
+    }
+   ]
+  }
+ },
+ "hard_rules": [
+  {
+   "src": "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/characters/DIALOGUE_ARTHUR.md:26",
+   "text": "| `ARTHUR_S0_12` | `POSTER_EXAMINED` | reaction \u00b7 alt `ARTHUR_S0_POSTER` | \"Old paper, Isaac. Don't dwell on it. The burner's what matters.\" | Wary, brusque. |"
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_FINAL.md:301",
+   "text": "- **ARTHUR** `ARTHUR_S0_12` (reaction): \"Old paper, Isaac. Don't dwell on it. The burner's what matters.\""
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_FINAL.md:320",
+   "text": "3. Ted and Arthur's relationship is TBD in the lore; the 'drowned by now' exchange (ARTHUR_S2_05, TED_S2_04) is flagged as a proposal only."
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_LIVE.md:264",
+   "text": "- **ARTHUR** `ARTHUR_S3_12` (reaction): \"Old paper, Isaac. Don't read it, carry it. Burner first.\""
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/DIALOGUE_OPENING_CREATOR_PICKS.md:7",
+   "text": "**Story-beat revision, 2026-10-16.** The creator then fixed the story order (`AIAgentCrew/canon.py` `STORY_BEATS`): the player starts outside and Ted opens the door; after a beat, coal; then the sailors; only then does Ted find the burner broken; then the Saltgate crossing. `AIAgentCrew/story_beats.py` applies that to these picks without changing any line ID:"
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/DIALOGUE_OPENING_FINAL.md:300",
+   "text": "7. Step 1's coal is the only repair before the crossing; the burner fit at the end (beat 7) belongs to the Story / Fail-State agent."
+  },
+  {
+   "src": "Docs/Lore Build/regions/reg_bracken_isle.md:23",
+   "text": "| The lighthouse | Single building | Guards the approach to the Saltgate. During eclipses it is the only true light by which ships can see the rocks. | TBD | Stone and mortar, battered but robust. Haunted halls. |"
+  },
+  {
+   "src": "Docs/Lore Build/regions/reg_bracken_isle.md:24",
+   "text": "| The dock | Small jetty | The only safe landing, facing the Saltgate | n/a | Home berth of the steam launch. Arthur and Daniel moor their rowboat here. |"
+  },
+  {
+   "src": "Docs/Lore Build/regions/reg_saltgate.md:19",
+   "text": "- **During eclipses:** the port's light is almost completely gone, so the lighthouse is the only reliable guide."
+  },
+  {
+   "src": "Docs/Lore Build/world/changelog.md:10",
+   "text": "- Waves are no longer a stretch goal. The sea has a state from 0 (glass) to 5 (storm). The first crossing (outbound) is easy, state 1 to 2; the return is hectic, state 3 to 5, building as the storm does; the water is calmer at both docks."
+  },
+  {
+   "src": "Docs/Lore Build/world/changelog.md:21",
+   "text": "4. **Beacon diagnosis:** the dynamo runs but the beacon stays dark. Ted takes the player up to the lantern room, finds the burner broken and says a new one is needed. Ted identifies it, and only after the sailors are in."
+  },
+  {
+   "src": "Docs/Lore Build/world/changelog.md:28",
+   "text": "- **When the broken part is found:** not in the first step. The burner has failed before the game begins, but Ted finds it only after the sailors are in, when the dynamo runs and the beacon stays dark."
+  },
+  {
+   "src": "Docs/Lore Build/world/changelog.md:29",
+   "text": "- **\"Abandoned outpost\":** retired. The destination is always the Saltgate (its quays), Saint Calder's abandoned harbour."
+  },
+  {
+   "src": "Docs/Lore Build/world/history.md:46",
+   "text": "- **what_happened:** It was built as the guardian of the port, the only true light during eclipses."
+  },
+  {
+   "src": "Docs/Lore Build/world/WORLD.md:46",
+   "text": "7. The player must get back to the lighthouse and fit the burner to the beacon before the passenger ship runs aground."
+  },
+  {
+   "src": "Docs/Lore Build/WORLDBUILDER_AGENT.md:115",
+   "text": "- Rivers flow downhill from high ground to sea or lake, merge as they go, and do not split into multiple seas or cross mountain ranges. Flag any exception and ask for its cause."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:14",
+   "text": "\u2022 16 October 2026, story beats: role scopes, the outpost rule and the checklist updated for the creator\u2019s fixed beats (arrival outside with Ted opening the door, coal into the boiler, sailors and the island gate, Ted finding the burner broken in the lantern room, the Saltgate quays as the destination, \u201cruns aground\u201d as the fail wording). \u201cTwo Gate 1 repairs\u201d now reads feeding the boiler and fittin"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:21",
+   "text": "4. Return actual editable outputs, source files and licences/provenance for external assets, import settings, test instructions, and known limitations. Mockups or prose alone do not count as implementation."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:24",
+   "text": "7. Do not build anything marked Proposed, deferred, or on the cut list (waves, route branching, further repairs beyond feeding the boiler and fitting the burner) without the creator\u2019s go-ahead. Do not add significant detail to the Saltgate until the creator considers the prototype complete."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:32",
+   "text": "|Production Orchestrator   |Turns a creator goal or gate into a task list; writes task briefs; assigns work to worker roles; orders dependencies; tracks status against the six-week schedule; keeps event IDs and contracts in sync across agents; assembles the integrated build.|A schedule exit test is missed; a contract must change; two tasks conflict; week 5 load slips (burner diagnosis and fit, wav"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:39",
+   "text": "4. Report in a fixed format: what was delegated, what came back, what passed review, what failed and why, what remains, and which creator decisions are blocking."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:47",
+   "text": "|Boat/Physics    |Steering spike, hazard collisions, boat reaction, docking, recovery, tunable parameters. Wave fields only as a later stretch task.|Hazard forecast API, one steering axis, recovery event, dock zones.|Creator plays Gate 0; readable, enjoyable steering.|"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:70",
+   "text": "|Orchestrator report         |REPORT.md, one per task or per gate                                                          |Fixed headings, below. Written by the orchestrator from the HANDOFF.md notes.                   |"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:109",
+   "text": "> **Goal (from creator):** Deliver the Gate 1 fail-state presentation. **Orchestrator:** Production Orchestrator. **Delegates to:** Story/Fail-State (presentation), Level Layout (lamp-room sightline), Sound (horn, impact, silence), Gameplay/Systems (FAIL resolve, restart), QA (test from each expiry location). **Inputs:** Executive Summary fail-state contract; Technical Strategy fail-state presenta"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:9",
+   "text": "- Deadline timer now starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate let the player get a feel for the boat. The ship is introduced at the boarding threshold."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:20",
+   "text": "- 16 October 2026, story beats fixed by the creator: the player (Isaac, \u201cthe new guy\u201d) starts outside the lighthouse and Ted opens the door; Ted then sends him to the basement to shovel coal into the boiler; the sailors moor at the dock and the player opens the island gate; only then does Ted take the player to the lantern room and find the beacon\u2019s burner broken. The crossing\u2019s destination is the"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:24",
+   "text": "A new apprentice, Isaac, arrives at the failing lighthouse on Bracken Isle. Keeper Ted opens the door to \u201cthe new guy\u201d and, after a beat, sends him down to the basement to shovel coal into the boiler. Overwhelmed by the storm, two sailors, Arthur and Daniel, moor their rowboat at the island\u2019s dock and look for shelter; Ted sees them from the window and tells the apprentice to open the island gate."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:44",
+   "text": "|3. Beacon diagnosis   |The dynamo runs but the beacon stays dark. Follow Ted up to the lantern room, where he opens the arc lamp.                               |Ted finds the burner broken and says a new one is needed: a spare must be fetched from the Saltgate quays, with Arthur.|"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:62",
+   "text": "|On the return crossing (burner aboard) |Audio only: ship horn, crash sounds, silence, then the \u201cFailed\u201d title screen. No cutaway camera.|"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:89",
+   "text": "First playable prototype (Gate 1), about 10 minutes: arriving outside the lighthouse as Ted opens the door, shovelling coal into the boiler, Ted seeing the rowboat moored at the dock from the window, opening the island gate, Ted finding the burner broken in the lantern room, meeting Arthur at the engine boat, an outbound crossing to the Saltgate quays, burner pickup, a return crossing to the light"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:132",
+   "text": "|Clock start                      |Starts when the burner is aboard and the boat sets off on the return crossing. No fail state before then, so the outbound crossing is steering practice.|"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:12",
+   "text": "6. Clock start. The deadline starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate give the player a feel for the boat. The ship is introduced by Ted at the boarding threshold."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:22",
+   "text": "16. Story beats (16 October 2026). In order: the player (Isaac, \u201cthe new guy\u201d) starts outside and Ted opens the door; Ted sends him to the basement to shovel coal into the boiler; Arthur and Daniel moor at the dock and the player opens the island gate (on the path from the dock to the lighthouse), with Daniel staying in the basement; the dynamo runs but the beacon stays dark, and Ted, only after t"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:24",
+   "text": "18. The burner (19 October 2026). The broken and replacement burners follow the concept sheets in ConceptArt/burner. The replacement sits on the ground at the Saltgate dock, close to where the player disembarks. The player picks it up with his hands and carries it in his hands on the boat back to the island. He cannot put it down anywhere except the boat and the lamp. The prop is generated as a FA"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:54",
+   "text": "11. Crossing failure policy details. Proposed: a collision adds water, slows the boat or causes a brief capsize and recovery, costing deadline time; the burner can never be permanently lost. Rules are loose for Gate 1; write down exact costs and limits for the full game."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Dreams for the game.md:3",
+   "text": "Status: ideas outside the prototype and full-game scope, 25 September 2026, updated 1 October 2026 (added \u201cMore Saltgate detail\u201d; Daniel\u2019s reason for being shaken updated after the crash was removed). Nothing here is canon or scheduled. Build an item only after the creator approves it, and only if it still fits the four design pillars and the scope rule in the Executive Summary."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:10",
+   "text": "- Deadline: starts when the burner is aboard and the boat sets off on the return crossing; no fail state before then; fail-state presentation specified per location; the ship is introduced at the boarding threshold."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:11",
+   "text": "\u2022 Boat: docking, disembarking, and recovery defined for a fixed-speed boat with no throttle."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:22",
+   "text": "Engine: Godot 4 (confirmed by the creator after reviewing the Engine Comparison pros and cons), using GDScript for the first playable. Its scene-based structure suits the compact locations and scripted interactions, and a single developer can iterate quickly without adding a toolchain. Commit the exact engine version and renderer choice with the initial project; evaluate storm lighting on the targ"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:32",
+   "text": "|2. Narrative alpha          |Complete repairs, lighthouse and island discoveries, Saltgate discoveries, full dialogue, both outcomes, and the final retry and save model.|All story states can be finished; no dead-end save or cargo loss; the retry model has been tested so a reload can never produce an unwinnable state (time and weather restored together). Route branching is reviewed as a cut-list c"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:48",
+   "text": "Risk: week 5 is heavily loaded. If it slips, the creator decides between simplifying the lantern-room diagnosis and burner fit for Gate 1, cutting wave hazards (already first to go), or extending the schedule. Do not decide silently."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:58",
+   "text": "Invariants: the deadline is inactive until the return-departure event (burner aboard and the boat under way on the return crossing); Arthur is the only crossing companion; a burner pickup precedes return completion; the ship outcome resolves exactly once per attempt, as WIN (burner fitted before expiry) or FAIL (deadline expired). The journal reflects state, but never determines it. Rules marked P"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:64",
+   "text": "Because the boat cannot stop, docking is automatic: arriving within a dock trigger zone at the Saltgate quays or the lighthouse jetty ends steering control and moors the boat, followed by a disembark interaction. If the boat leaves the playable corridor or the player misses the dock approach, the recovery event returns the boat to the last safe point on the route with a time cost. Define each dock"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:70",
+   "text": "Prototype failure policy: a collision with a rock or debris (or a broadside wave hit, if waves are built) adds water, slows the boat or causes a brief capsize-and-recovery at a nearby safe point; these events consume deadline time once the clock is running (on the outbound crossing they cost no deadline time). On return, cargo mishandling delays progress and creates a clear recovery interaction. P"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:80",
+   "text": "Implement repair jobs from data: diagnosis, required fixed-toolkit item or interaction, puzzle steps, completion event, journal update, and optional route unlock (an optional field for later; not saved in Gate 1). The Gate 1 slice uses one lighthouse job, feeding the boiler with coal, and one final burner installation (the burner fit replaces the earlier \u201csecond repair\u201d). Later repairs (optic, rot"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:82",
+   "text": "The shelter and gate sequence is scripted and is part of the Gate 1 slice. After the boiler is fed, Ted prompts the player to look out of the window; Arthur and Daniel\u2019s rowboat is moored at the dock, the sailors overwhelmed by the storm and looking for shelter. There is no crash. Proposed: trigger the moment when the window is in view, with a fallback after a short delay so it cannot be missed. T"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:86",
+   "text": "For the deadline, store a numeric internal time but display only the passenger ship\u2019s position/lights and weather cues. It is the only timer in the game; the final repair runs on the same deadline. The ship first appears at the boarding threshold. It holds at its starting lights until the clock starts. Rules: start on the return-departure event, when the burner is aboard and the boat starts moving"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:89",
+   "text": "\u2022 On the return crossing (burner aboard): audio only: ship horn, crash sounds, silence, then the \u201cFailed\u201d title screen (no cutaway camera)."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:96",
+   "text": "All viewpoints are first-person; there are no cutaway or exterior cameras. The moored rowboat is seen through the lighthouse window, and the ship outcome from the lamp room (or heard elsewhere), so both need clear sightlines. Use the beacon as a consistent landmark from the sea. Budget dynamic lights around the beacon, nearby player lights, and key hazards; prototype rain and fog on target hardwar"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:100",
+   "text": "\u2022 Automate state transitions where practical: the return-departure event starts the clock once, repair updates the journal, the gate opening and Daniel reaching the basement advance the phase, the burner diagnosis happens only after the sailors are in, cargo recovery preserves completion, the ship outcome resolves once per attempt as win or fail, and a restart or reload resumes a consistent phase "
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:103",
+   "text": "\u2022 Keep an exportable playable build at each gate. An agent task is complete only when its changed scene/scripts, importable assets, setup notes, and verification evidence work in the integrated project."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/What's Changed (Concise).md:16",
+   "text": "- Deadline starts on the return crossing, when the player has the burner aboard and sets off for the lighthouse. There is no fail state before then, so the outbound crossing is steering practice. Ted introduces the ship at the boarding threshold."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/What's Changed (Concise).md:41",
+   "text": "- Handoff format (new). Godot text files (.tscn, .gd, .tres), JSON or .tres data with stable IDs, a HANDOFF.md per task, and a REPORT.md from orchestrators, each with fixed headings."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/What's Changed (Concise).md:58",
+   "text": "- Burner identified by Ted after the gate. The sailors moor at the dock and the player opens the island gate; only then, with the dynamo running and the beacon still dark, does Ted find the burner broken in the lantern room."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/What's Changed.md:39",
+   "text": "\u2022 Clock start. The deadline starts when the player, with the burner aboard, sets off on the return crossing, instead of on boarding. There is no fail state before then, so the outbound crossing and outpost are free practice. Pre-deadline text updated to match."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/What's Changed.md:76",
+   "text": "\u2022 Week 3. Adds docking and disembarking; Ted\u2019s presence must be locked by the end of this week."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/What's Changed.md:89",
+   "text": "\u2022 Docking and recovery. Because the boat cannot stop, docking at the outpost and lighthouse jetties is automatic. Leaving the corridor or missing a dock approach triggers a recovery to the last safe point at a time cost."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/What's Changed.md:95",
+   "text": "\u2022 Ted\u2019s second half. Voice lines delivered from the lamp room only; each added line is flagged as voice-over cost."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/What's Changed.md:96",
+   "text": "\u2022 Deadline rules. Starts at the return-departure trigger (burner aboard, boat under way); no fail before it; the ship holds at its starting lights until the clock starts; pause exploits to be checked before Gate 2."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/What's Changed.md:120",
+   "text": "\u2022 Orchestrator rules. Brief before delegating; orchestrators own contracts; gate checks require evidence; a fixed report format; orchestrators never merge; parallelism is limited to what the integration contract supports. The creator keeps merge authority and the final say on design."
+  }
+ ],
+ "open_questions": [
+  {
+   "src": "Docs/Lore Build/cultures/cul_calder_city.md:39",
+   "text": "| [[cul_coastfolk]] | TBD (they abandoned the coast) | TBD |"
+  },
+  {
+   "src": "Docs/Lore Build/cultures/cul_coastfolk.md:76",
+   "text": "| [[cul_calder_city]] | Distrust and resentment (Ted: \"new money toffs\") | TBD. Linked to the city abandoning the Saltgate? |"
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_FINAL.md:320",
+   "text": "3. Ted and Arthur's relationship is TBD in the lore; the 'drowned by now' exchange (ARTHUR_S2_05, TED_S2_04) is flagged as a proposal only."
+  },
+  {
+   "src": "Docs/Lore Build/regions/reg_bracken_isle.md:23",
+   "text": "| The lighthouse | Single building | Guards the approach to the Saltgate. During eclipses it is the only true light by which ships can see the rocks. | TBD | Stone and mortar, battered but robust. Haunted halls. |"
+  },
+  {
+   "src": "Docs/Lore Build/regions/reg_calder_coast.md:23",
+   "text": "| Fort Kestrel | Fortress | Guards the western coast, about one mile west of the lighthouse | TBD | Manned and active. Lit and flying flags, but no one visible on the walls. |"
+  },
+  {
+   "src": "Docs/Lore Build/regions/reg_calder_coast.md:24",
+   "text": "| Fort Heron | Fortress | Guards the mouth of the Marrow, about one mile east of the lighthouse | TBD | Manned and active. Lit and flying flags, but no one visible. The Marrow is too small for the passenger ship. |"
+  },
+  {
+   "src": "Docs/Lore Build/regions/reg_saltgate.md:27",
+   "text": "- **The quays:** the player lands here with Arthur to retrieve the replacement beacon burner. The exact storage location is TBD."
+  },
+  {
+   "src": "Docs/Lore Build/regions/reg_saltgate.md:32",
+   "text": "Formerly the city's harbour. Why it was abandoned is TBD (L5)."
+  },
+  {
+   "src": "Docs/Lore Build/world/changelog.md:62",
+   "text": "### Flagged (unresolved)"
+  },
+  {
+   "src": "Docs/Lore Build/world/geography.md:23",
+   "text": "- **Greymantle:** a giant mountain several miles north of Saint Calder. It is the source of the Marrow. Geological cause TBD."
+  },
+  {
+   "src": "Docs/Lore Build/world/style_guide.md:45",
+   "text": "| Saint Calder elite | TBD (amber and gold accents likely) | TBD | TBD | TBD |"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:22",
+   "text": "5. Run the relevant project import/build and focused checks. State what you observed, what you could not verify, and which human decision remains."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:92",
+   "text": "Ted reacts from the lamp room by voice. If the burner is fitted first, the win state shows the ship sailing safely past the rocks and into port, again from the lamp room. Gate 1 fail returns to the start of the slice; the final retry and save model is a Gate 2 decision. Set the duration from measured playtests so a first-time player who follows cues has room for some mistakes. The deadline length "
+  }
+ ],
+ "most_relevant": [
+  [
+   "Docs/Lore Build/dialogue/DIALOGUE_OPENING_FINAL.md",
+   49
+  ],
+  [
+   "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_LIVE.md",
+   46
+  ],
+  [
+   "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_FINAL.md",
+   45
+  ],
+  [
+   "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING.md",
+   35
+  ],
+  [
+   "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md",
+   30
+  ],
+  [
+   "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md",
+   24
+  ],
+  [
+   "Docs/GDD/Final_GDD_Post_Review/What's Changed.md",
+   21
+  ],
+  [
+   "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md",
+   18
+  ],
+  [
+   "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/characters/DIALOGUE_TED.md",
+   17
+  ],
+  [
+   "Docs/Lore Build/dialogue/characters/DIALOGUE_TED.md",
+   17
+  ],
+  [
+   "Docs/Lore Build/regions/reg_saltgate.md",
+   17
+  ],
+  [
+   "Docs/Lore Build/world/changelog.md",
+   16
+  ]
+ ]
+}

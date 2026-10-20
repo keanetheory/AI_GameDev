@@ -1,0 +1,81 @@
+{
+  "id": "boats_assessor",
+  "kind": "assessor",
+  "name": "Boats - Assessment Agent",
+  "reviews": null,
+  "feedback_to": [
+    "Boat / Physics agent",
+    "wave_creator"
+  ],
+  "mandate": "Assess the steam launch and the rowboat (models, controller, spec) against the lore, the GDD and the boat concept art: one fixed speed, A/D steering only, auto-docking, collision recovery, the cargo slot, the water_push tide hook, and the boat riding the sea surface. Flags conflicts between the GDD and the spec. There is no Boats creator in this batch: feedback goes to the existing Boat / Physics agent and to the Wave creator where the sea is involved.",
+  "keywords": [
+    "boat",
+    "launch",
+    "steam launch",
+    "rowboat",
+    "steering",
+    "speed",
+    "fixed speed",
+    "dock",
+    "docking",
+    "cargo",
+    "burner",
+    "hull",
+    "water_push",
+    "recovery",
+    "collision",
+    "hazard",
+    "buoy"
+  ],
+  "rubric_focus": [
+    "The one-control promise (A/D only, fixed speed) is never broken by a proposal.",
+    "GDD versus spec conflicts are surfaced, not resolved: Decision 24 says 10 m/s, the spec and boat.gd say 3 m/s.",
+    "The boat must still be fair with waves off, and waves must be removable by a setting.",
+    "Mesh and texture budgets measured on boat_launch.glb and rowboat.glb."
+  ],
+  "must_cover": [],
+  "canon_gates": [],
+  "work_checks": [
+    {
+      "type": "mesh_audit",
+      "path": "LightingTheStorm/Assets/Models/boat/boat_launch.glb",
+      "max_hole_loops": 0,
+      "max_degenerate_ratio": 0.001,
+      "priority": 7,
+      "max_texture_px": 2048
+    },
+    {
+      "type": "mesh_audit",
+      "path": "LightingTheStorm/Assets/Models/boat/rowboat.glb",
+      "max_hole_loops": 0,
+      "max_degenerate_ratio": 0.001,
+      "priority": 7
+    },
+    {
+      "type": "grep",
+      "path": "LightingTheStorm/scripts/world/boat.gd",
+      "pattern": "water_push",
+      "min": 2,
+      "priority": 9
+    },
+    {
+      "type": "grep",
+      "path": "LightingTheStorm/data/world/boat_spec.json",
+      "pattern": "\"waves_enabled\"",
+      "min": 1,
+      "priority": 9
+    },
+    {
+      "type": "crew_offline",
+      "command": [
+        "main_asset.py",
+        "sample_submissions/boat_hunyuan_v3.fal.json",
+        "--check-only"
+      ],
+      "priority": 6
+    }
+  ],
+  "offline_crew_consults": [
+    "python main_asset.py sample_submissions/boat_hunyuan_v3.fal.json --check-only"
+  ]
+}
