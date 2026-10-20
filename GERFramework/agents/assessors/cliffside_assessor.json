@@ -1,0 +1,235 @@
+{
+  "id": "cliffside_assessor",
+  "kind": "assessor",
+  "name": "Cliffside Assessment Agent",
+  "reviews": "cliffside_creator",
+  "feedback_to": [
+    "cliffside_creator",
+    "saltgate_creator"
+  ],
+  "mandate": "Hold the Cliffside Creator Agent to the lore, the GDD and the cliff concept art: no empty or hollow meshes, no gaps between cliff modules, a quick load, a walkway from the Saltgate to the cliff top that is made of the same rock as the cliff (not a separate ramp), and trees and path integrated into the rock. Offline AI Crew and deterministic checks only.",
+  "keywords": [
+    "cliff",
+    "cliffside",
+    "headland",
+    "rock",
+    "road",
+    "walkway",
+    "ramp",
+    "path",
+    "boardwalk",
+    "stairs",
+    "plateau",
+    "trees",
+    "forest",
+    "mainland",
+    "saltgate",
+    "moss",
+    "slate",
+    "collision"
+  ],
+  "rubric_focus": [
+    "Every objective is scored 1-10 with a reason it is not one point higher or lower.",
+    "Module seams, gaps and collider continuity are measured or tested, not asserted.",
+    "The walkway reads as carved into the cliff: same material, same texture set, no floating planks or ramps.",
+    "The port-to-cliff joint is a shared contract with the Saltgate Creator Agent; neither side may change it alone."
+  ],
+  "must_cover": [
+    {
+      "id": "CLF-M1",
+      "topic": "No empty, hollow or unreferenced meshes and no holes in the cliff meshes",
+      "min_priority": 10,
+      "terms_any": [
+        "hollow",
+        "empty mesh",
+        "hole",
+        "empty spot"
+      ],
+      "template": {
+        "id": "CLF-T1",
+        "title": "Audit cliff meshes for empty, hollow and unreferenced geometry",
+        "detail": "Run the mesh audit over every cliff mesh in use and repair any finding.",
+        "why_score": "Named by the creator as a must.",
+        "acceptance": [
+          "zero empty meshes, zero hole loops"
+        ],
+        "checks": [
+          {
+            "type": "mesh_audit",
+            "path": "LightingTheStorm/Assets/Models/cliff_terrain/cliff_wall.glb",
+            "max_hole_loops": 0
+          }
+        ],
+        "refs": [
+          "LightingTheStorm/Assets/Models/cliff_terrain/cliff_wall.glb"
+        ],
+        "depends_on": []
+      }
+    },
+    {
+      "id": "CLF-M2",
+      "topic": "Cliffside loads correctly and quickly",
+      "min_priority": 9,
+      "terms_any": [
+        "load time",
+        "loads quickly",
+        "load budget",
+        "loading"
+      ],
+      "template": {
+        "id": "CLF-T2",
+        "title": "Set and meet a cliffside load-time budget",
+        "detail": "Measure headless in Godot and cut cost until met.",
+        "why_score": "Named by the creator as a must.",
+        "acceptance": [
+          "measured load time within budget"
+        ],
+        "checks": [
+          {
+            "type": "manual",
+            "note": "Run the headless load timing script."
+          }
+        ],
+        "refs": [],
+        "depends_on": []
+      }
+    },
+    {
+      "id": "CLF-M3",
+      "topic": "The Saltgate walkway is an extension of the cliff stone mesh",
+      "min_priority": 10,
+      "terms_any": [
+        "walkway",
+        "extension of the stone",
+        "extend the stone",
+        "road cut"
+      ],
+      "template": {
+        "id": "CLF-T3",
+        "title": "Make the walkway a continuation of the cliff stone",
+        "detail": "Same mesh and texture set from quay to cliff top.",
+        "why_score": "Named by the creator as a must.",
+        "acceptance": [
+          "walkway shares the cliff material and reads as carved rock"
+        ],
+        "checks": [
+          {
+            "type": "manual",
+            "note": "Walk it in Godot."
+          }
+        ],
+        "refs": [],
+        "depends_on": []
+      }
+    },
+    {
+      "id": "CLF-M4",
+      "topic": "Trees and path are natural integrations into the rock",
+      "min_priority": 9,
+      "terms_any": [
+        "tree",
+        "natural integration",
+        "integrat"
+      ],
+      "template": {
+        "id": "CLF-T4",
+        "title": "Integrate trees and path into the rock",
+        "detail": "Rooted trees, rubble and moss edges.",
+        "why_score": "Named by the creator as a must.",
+        "acceptance": [
+          "no floating trees, no hard path edges"
+        ],
+        "checks": [
+          {
+            "type": "manual",
+            "note": "Walk the path in Godot."
+          }
+        ],
+        "refs": [],
+        "depends_on": []
+      }
+    },
+    {
+      "id": "CLF-M5",
+      "topic": "Collision is continuous along the whole walkway",
+      "min_priority": 9,
+      "terms_any": [
+        "collider",
+        "collision",
+        "fall-through",
+        "fall through"
+      ],
+      "template": {
+        "id": "CLF-T5",
+        "title": "Prove collision is continuous along the walkway",
+        "detail": "Raycast sweep and walk test.",
+        "why_score": "A gap is a soft-lock.",
+        "acceptance": [
+          "no gap"
+        ],
+        "checks": [
+          {
+            "type": "manual",
+            "note": "Run the sweep."
+          }
+        ],
+        "refs": [],
+        "depends_on": []
+      }
+    },
+    {
+      "id": "CLF-M6",
+      "topic": "Shared port-to-cliff joint agreed with the Saltgate Creator Agent",
+      "min_priority": 9,
+      "terms_any": [
+        "saltgate agent",
+        "port joint",
+        "quay",
+        "shared contract"
+      ],
+      "template": {
+        "id": "CLF-T6",
+        "title": "Agree the port-to-cliff joint with the Saltgate agent",
+        "detail": "One written contract for where quay stone meets cliff stone.",
+        "why_score": "Two agents, one seam.",
+        "acceptance": [
+          "contract written and both agents pass"
+        ],
+        "checks": [
+          {
+            "type": "manual",
+            "note": "Both assessors sign off."
+          }
+        ],
+        "refs": [],
+        "depends_on": []
+      }
+    }
+  ],
+  "canon_gates": [],
+  "work_checks": [
+    {
+      "type": "mesh_audit",
+      "path": "LightingTheStorm/Assets/Models/cliff_terrain/cliff_wall.glb",
+      "max_hole_loops": 0,
+      "max_degenerate_ratio": 0.001,
+      "max_texture_px": 2048
+    },
+    {
+      "type": "mesh_audit",
+      "path": "LightingTheStorm/Assets/Models/cliff_terrain/cliff_headland.glb",
+      "max_hole_loops": 0,
+      "max_degenerate_ratio": 0.001,
+      "max_texture_px": 2048
+    },
+    {
+      "type": "scene_node",
+      "scene": "LightingTheStorm/scenes/Level.tscn",
+      "pattern": "CliffWall\\d|Headland\\d|CapEast",
+      "min": 10
+    }
+  ],
+  "offline_crew_consults": [
+    "python main_asset.py sample_submissions/cliff_wall_hunyuan_v3.fal.json --check-only"
+  ]
+}

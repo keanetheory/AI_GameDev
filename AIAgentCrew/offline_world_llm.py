@@ -121,7 +121,7 @@ class OfflineWorldLLM(BaseLLM):
                                   for i, (m, l, n) in enumerate(lat)]}
         return {
             "spec_id": "BOAT_STEAM_LAUNCH_V1", "vessel": "Gothic teal steam launch with brass trim",
-            "speed_mps": 3.0,
+            "speed_mps": 8.0,
             "steer_left_action": "move_left", "steer_right_action": "move_right",
             "throttle_actions": ["move_forward"] if faulty else [],
             "other_move_keys_do": "Nothing: W and S have no effect on the boat.",
@@ -143,8 +143,8 @@ class OfflineWorldLLM(BaseLLM):
                  "note": "Boat stops at the Saltgate quays; the player lands to fetch the burner."},
             ],
             "collision_recovery": "On a hazard hit the boat bounces off and is moved to the nearest SAFE point on the route with a small cost; the burner is never lost.",
-            "waves_enabled": False,
-            "tide_hook": "A Vector2 'water_push' added to the boat's velocity each physics frame, zero until the Tide / Wave agent supplies it.",
+            "waves_enabled": True,
+            "tide_hook": "A Vector2 'water_push' added to the boat's velocity each physics frame, driven by the Wave Creator Agent's WaveSystem from data/world/wave_spec.json.",
             "handling_checks": [
                 "Hold A for 5 s: the boat turns at the maximum rate with no spin-out.",
                 "Release A and D: the rudder centres and the boat holds a straight line.",
@@ -154,7 +154,7 @@ class OfflineWorldLLM(BaseLLM):
                 "Alternate A and D quickly: no jitter in the camera or hull.",
             ],
             "open_creator_decisions": [
-                "Whether the earlier return-crossing data (6 m/s) should be regenerated at the confirmed 3 m/s.",
+                "Whether the earlier return-crossing data (6 m/s) should be regenerated at the confirmed 8 m/s.",
                 "Whether Arthur, as a passenger, moves around the boat while it is steered.",
             ],
         }
@@ -277,7 +277,7 @@ class OfflineWorldLLM(BaseLLM):
             ],
             "decisions_log_checks": [
                 p("One fixed speed, A/D steering", f"speed_mps {b.speed_mps}; throttle_actions empty; W and S do nothing."),
-                p("No waves or tides", f"waves_enabled {b.waves_enabled}; tide_hook reserved for the Tide / Wave agent."),
+                p("Waves approved, switchable", f"waves_enabled {b.waves_enabled}; tide_hook names the water_push hook the Wave Creator Agent drives."),
                 p("No visible timer or markers", "All is_navigation_marker flags false; no timer wording."),
                 p("Moon: supermoon until the eclipse is added", f"moon.state '{li.moon.state}', light_energy {li.moon.light_energy}, lights_crossings {li.moon.lights_crossings}."),
                 p("Storm builds by phase", "Clouds gather on the island, darken and fill with rain outbound; lightning between the clouds from the RETURN."),
@@ -287,5 +287,5 @@ class OfflineWorldLLM(BaseLLM):
             "open_creator_decisions": b.open_creator_decisions + li.open_creator_decisions + pl.open_creator_decisions,
             "handoff_summary": ("Boat, Player Movement and Lighting specs for the first traversable Godot level. All deterministic "
                                 "checks pass. Steering feel, walking feel, flash safety and hazard readability need creator playtesting. "
-                                "Tide and wave behaviour is deliberately not specified yet."),
+                                "Tide and wave behaviour is specified by the Wave Creator Agent in data/world/wave_spec.json."),
         }

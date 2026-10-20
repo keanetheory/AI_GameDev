@@ -1,0 +1,122 @@
+{
+  "spec_id": "wave_spec_v1",
+  "owner": "Wave Creator Agent",
+  "decisions": "GERFramework/workshops/wave_design_workshop.md, D1-D10 (2026-10-20). Every number below is a starting value to tune by playtest.",
+  "waves_enabled": true,
+  "crossing_speed_mps": 8.0,
+  "reduced_preset_multiplier": 0.6,
+  "state_smoothing_per_s": 0.4,
+  "set_direction_xz": [
+    1.0,
+    0.2
+  ],
+  "states": [
+    {
+      "id": 0,
+      "name": "Glass",
+      "amplitude_mult": 0.3,
+      "wavelength_scale": 1.0,
+      "time_scale": 0.7,
+      "push_fraction": 0,
+      "gust_fraction": 0,
+      "gust_period_s": 0
+    },
+    {
+      "id": 1,
+      "name": "Ripple",
+      "amplitude_mult": 1.0,
+      "wavelength_scale": 1.0,
+      "time_scale": 1.0,
+      "push_fraction": 0,
+      "gust_fraction": 0,
+      "gust_period_s": 0
+    },
+    {
+      "id": 2,
+      "name": "Swell",
+      "amplitude_mult": 2.2,
+      "wavelength_scale": 1.0,
+      "time_scale": 1.2,
+      "push_fraction": 0.08,
+      "gust_fraction": 0.02,
+      "gust_period_s": 16
+    },
+    {
+      "id": 3,
+      "name": "Chop",
+      "amplitude_mult": 3.2,
+      "wavelength_scale": 0.95,
+      "time_scale": 1.4,
+      "push_fraction": 0.18,
+      "gust_fraction": 0.06,
+      "gust_period_s": 14
+    },
+    {
+      "id": 4,
+      "name": "Heavy",
+      "amplitude_mult": 4.2,
+      "wavelength_scale": 0.9,
+      "time_scale": 1.55,
+      "push_fraction": 0.32,
+      "gust_fraction": 0.12,
+      "gust_period_s": 9
+    },
+    {
+      "id": 5,
+      "name": "Storm",
+      "amplitude_mult": 5.2,
+      "wavelength_scale": 0.85,
+      "time_scale": 1.7,
+      "push_fraction": 0.48,
+      "gust_fraction": 0.2,
+      "gust_period_s": 6
+    }
+  ],
+  "push_note": "push_fraction and gust_fraction are fractions of the boat's speed. The largest total (0.68 at state 5) needs about 43 degrees of heading to cancel, still inside the steering authority. Strengthened 2026-10-20 at the creator's request (D11).",
+  "max_total_push_fraction": 0.75,
+  "curve": {
+    "ISLAND": 1.0,
+    "SALTGATE": 1.0,
+    "OUTBOUND": {
+      "from": 1.0,
+      "to": 2.5,
+      "by": "route_progress",
+      "ramp_starts_at": 0.4
+    },
+    "RETURN": {
+      "from": 3.0,
+      "to": 5.0,
+      "by": "deadline_clock_else_route_progress",
+      "reaches_full_at": 0.8
+    },
+    "FINAL_REPAIR": 5.0,
+    "RESOLUTION": 3.0
+  },
+  "deadline_clock_note": "The hidden deadline clock (GOA task T07) is not built yet. Until GameState exposes deadline_progress(), the return follows route progress so the shape holds at any crossing speed.",
+  "shelter": [
+    {
+      "zone_id": "DOCK_PORT",
+      "cap_state": 1.0,
+      "inner_m": 60.0,
+      "outer_m": 220.0
+    },
+    {
+      "zone_id": "DOCK_LIGHTHOUSE",
+      "cap_state": 2.0,
+      "inner_m": 50.0,
+      "outer_m": 200.0
+    }
+  ],
+  "shelter_note": "Shelter is a distance fade around each dock. A true wind-shadow of the island is not modelled; the lighthouse zone stands in for the lee.",
+  "wave_hit": {
+    "outbound": "never",
+    "return_min_state": 4.0,
+    "gust_pulse_threshold": 0.6,
+    "cooldown_s": 6.0,
+    "slow_s": 2.0,
+    "slow_factor": 0.5,
+    "water_added": 0.15,
+    "water_drain_per_s": 0.02,
+    "capsize": false
+  }
+}

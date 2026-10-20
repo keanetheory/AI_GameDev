@@ -1,0 +1,380 @@
+{
+ "creator": "island_creator",
+ "phase": "awaiting_approval",
+ "plan_loops": 1,
+ "work_loops": 0,
+ "objectives": [
+  {
+   "id": "ISL-01",
+   "title": "Audit every island mesh in use for empty, hollow, unreferenced and holed geometry, then repair",
+   "priority": 10,
+   "why_score": "The creator named it a must; a hole in the rock is visible from the boat and the window. Not 9 because the active mesh already audits clean, so the work is proving it and keeping it that way; not lower because it gates every other island objective.",
+   "detail": "Level.tscn instances island_craggy.glb four times (Island, RockPatchSE, RockPatchSE2, RockPatchNE). Run the offline mesh audit (ger.py audit) on it and on any island mesh the scene or scripts load. Baseline already measured: island_craggy.glb is 200k triangles, 0 hole loops, 0 empty meshes. Check the RockPatch placements too: the patches must overlap the main island without exposing back faces or gaps where they meet. Repair anything found; do not regenerate via FAL without the creator's approval.",
+   "acceptance": [
+    "mesh audit shows zero empty or unreferenced meshes and zero hole loops on every island mesh in use",
+    "the four instances show no visible seams or gaps in an in-engine sweep"
+   ],
+   "owner": "Island Creator Agent",
+   "checks": [
+    {
+     "type": "mesh_audit",
+     "path": "LightingTheStorm/Assets/Models/island/island_craggy.glb",
+     "max_hole_loops": 0,
+     "max_degenerate_ratio": 0.001
+    },
+    {
+     "type": "scene_node",
+     "scene": "LightingTheStorm/scenes/Level.tscn",
+     "pattern": "Island|RockPatch.*",
+     "min": 4
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/Assets/Models/island/island_craggy.glb",
+    "LightingTheStorm/scenes/Level.tscn"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "Offline AI Crew"
+   ]
+  },
+  {
+   "id": "ISL-02",
+   "title": "Prove the island collider matches the visible rock: no fall-through, no invisible walls",
+   "priority": 10,
+   "why_score": "A collider hole is a soft-lock or a fall into the sea on the player's first walk. Not 9: it breaks the playable slice, not just its look.",
+   "detail": "Write a headless Godot test (tools/test_island_coverage.gd) that casts a grid of vertical rays over the walkable island and the path from dock to lighthouse door, and fails if any ray passes through where the visual mesh exists or hits an invisible wall above the visual. The island visual is high-poly; the collider is built by collider_builder.gd, so test the built collider, not the source mesh. Include the gate and the dock landing.",
+   "acceptance": [
+    "tools/test_island_coverage.gd exists and passes headless",
+    "zero gaps and zero invisible walls on the dock-to-door path"
+   ],
+   "owner": "Island Creator Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/test_island_coverage.gd"
+    },
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/collider_builder.gd",
+     "pattern": "Concave|trimesh|create_trimesh",
+     "min": 1
+    },
+    {
+     "type": "manual",
+     "note": "Run the coverage test with the Godot console exe (see GOA readme for the command)."
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/scripts/world/collider_builder.gd"
+   ],
+   "depends_on": [
+    "ISL-01"
+   ],
+   "collaborates": [
+    "Experience (Player Movement + QA agents)"
+   ]
+  },
+  {
+   "id": "ISL-03",
+   "title": "Set an island load-time and memory budget, measure it headless, and cut cost until it is met",
+   "priority": 9,
+   "why_score": "The creator named quick loading a must. Not 10 because the slice still runs if it is slow; not 8 because four 200k-triangle instances and 4096 textures elsewhere make this a real risk.",
+   "detail": "Proposed budget (creator to confirm): island contribution to level load under 2 s on the creator's machine, island mesh under 15 MB, island textures 2048 px (see memory note on 4096 to 2048 downscale), and shared mesh data across the four instances (instance one PackedScene, do not re-import). Write tools/measure_load_time.gd that times loading the island scene headless and prints the numbers. If over budget: decimate, bake, or share resources, in that order. The offline audit gives a proxy (MB, triangles, texture memory) before Godot is run.",
+   "acceptance": [
+    "tools/measure_load_time.gd exists and reports island load time",
+    "island mesh <= 15 MB, <= 250k triangles, textures <= 2048 px",
+    "measured load time inside the budget the creator confirmed"
+   ],
+   "owner": "Island Creator Agent",
+   "checks": [
+    {
+     "type": "mesh_audit",
+     "path": "LightingTheStorm/Assets/Models/island/island_craggy.glb",
+     "max_mb": 15,
+     "max_tris": 250000,
+     "max_texture_px": 2048,
+     "max_vram_mb": 30
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/measure_load_time.gd"
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/Assets/Models/island/island_craggy.glb",
+    "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md"
+   ],
+   "depends_on": [
+    "ISL-01"
+   ],
+   "collaborates": [
+    "Asset agent"
+   ]
+  },
+  {
+   "id": "ISL-04",
+   "title": "With the Lighting agent, verify the island is lit properly in ISLAND, OUTBOUND, RETURN and BEACON_RELIT",
+   "priority": 9,
+   "why_score": "The creator named correct lighting a must and the GDD requires the beacon and hazards to stay legible at every phase. Not 10 because the rig already exists and this is verification plus fixes.",
+   "detail": "For each phase in lighting_spec.json, capture the island from the dock, the path, the window and the sea approach. Check: matte stone with no metallic or emissive leaks, shadows land on the rock, the beacon sweep catches the island rocks, fog density keeps hazards legible, and the dynamic light budget (max_dynamic_lights, max_shadow_casters) is respected. Any change to the rig goes through the Lighting agent; this agent reports and fixes island materials only.",
+   "acceptance": [
+    "one screenshot per phase per viewpoint is saved and reviewed",
+    "no lighting_rig change is made without the Lighting agent",
+    "dynamic lights stay inside the lighting_spec budget"
+   ],
+   "owner": "Island Creator Agent",
+   "checks": [
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/lighting_rig.gd",
+     "pattern": "ISLAND|OUTBOUND|RETURN|BEACON_RELIT",
+     "min": 4
+    },
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/data/world/lighting_spec.json",
+     "pattern": "max_dynamic_lights",
+     "min": 1
+    },
+    {
+     "type": "manual",
+     "note": "Open Level.tscn and compare each phase (debug keys F5-F8 jump phases)."
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/scripts/world/lighting_rig.gd",
+    "LightingTheStorm/data/world/lighting_spec.json"
+   ],
+   "depends_on": [
+    "ISL-01"
+   ],
+   "collaborates": [
+    "Lighting agent"
+   ]
+  },
+  {
+   "id": "ISL-05",
+   "title": "Make the island react to storm phase and sea state: wet rock, shoreline spray, darker faces",
+   "priority": 8,
+   "why_score": "The creator asked that the island react and act accordingly. Not 9 because the slice plays without it and it needs the Wave agent's sea state to be final.",
+   "detail": "Add scripts/world/island_reactions.gd that listens to the phase change and, once it exists, the Wave agent's sea-state value, and adjusts rock wetness (roughness and albedo darkening), shoreline spray particles at the waterline, and surf audio anchors. Cheap by design: material parameters and one or two particle systems, no extra dynamic lights.",
+   "acceptance": [
+    "island visibly changes between ISLAND and RETURN",
+    "no extra dynamic lights are added",
+    "the effect scales down under the reduced hazard-intensity preset"
+   ],
+   "owner": "Island Creator Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/scripts/world/island_reactions.gd"
+    },
+    {
+     "type": "manual",
+     "note": "Compare ISLAND and RETURN in Godot."
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/scripts/world/lighting_rig.gd"
+   ],
+   "depends_on": [
+    "ISL-04"
+   ],
+   "collaborates": [
+    "Wave Creator Agent",
+    "Lighting agent",
+    "Sound agent"
+   ]
+  },
+  {
+   "id": "ISL-06",
+   "title": "Compare the island to the concept art and list every deliberate difference",
+   "priority": 8,
+   "why_score": "Art direction is locked by the concept art, and the interior and lighthouse work link back to this footprint. Not 9 because differences are cheap to accept or fix once listed.",
+   "detail": "Side by side: front, left, right and rear concept views against in-engine captures from the same angles. Check the dock, the stair at the rear, the path hugging jagged rock, the gate position (Level.tscn), the 330 m by 140 m footprint from the lore. List differences as accepted or to-fix.",
+   "acceptance": [
+    "a comparison note exists listing each difference as accepted or fixed"
+   ],
+   "owner": "Island Creator Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "GERFramework/reports/island_concept_comparison.md"
+    }
+   ],
+   "refs": [
+    "ConceptArt/island/front view of island.png",
+    "ConceptArt/island/Rear rocky island with stair and dock-1.png",
+    "Docs/Lore Build/regions/reg_bracken_isle.md"
+   ],
+   "depends_on": [],
+   "collaborates": []
+  },
+  {
+   "id": "ISL-07",
+   "title": "Check the dock, path and gate sit correctly on the rock and read as the only safe route",
+   "priority": 7,
+   "why_score": "Lore says jagged rocks on either side force everyone onto the path; the gate is a story beat. Not 8 because layout was already blocked out and is playable.",
+   "detail": "Verify the dock zone, the path width and the gate sit on the rock surface with no floating or buried pieces, jagged rock flanks the path so the player stays on it, and Level Layout agent anchors for the gate, the window view and the rowboat mooring are unchanged.",
+   "acceptance": [
+    "no floating or buried dock, path or gate piece",
+    "player cannot leave the path onto unsafe rock"
+   ],
+   "owner": "Island Creator Agent",
+   "checks": [
+    {
+     "type": "scene_node",
+     "scene": "LightingTheStorm/scenes/Level.tscn",
+     "pattern": "Harbour.*|DockZoneLighthouse.*",
+     "min": 2
+    },
+    {
+     "type": "manual",
+     "note": "Walk dock to door in Godot."
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/scenes/Level.tscn",
+    "Docs/Lore Build/regions/reg_bracken_isle.md"
+   ],
+   "depends_on": [
+    "ISL-02"
+   ],
+   "collaborates": [
+    "Level Layout agent",
+    "Player Movement agent"
+   ]
+  },
+  {
+   "id": "ISL-08",
+   "title": "Run the offline AI Crew over the island FAL submissions and record the result",
+   "priority": 7,
+   "why_score": "Keeps any future regeneration inside the locked style guide at zero token cost. Not higher because it checks prompts, not the shipped mesh.",
+   "detail": "Run main_asset.py --check-only on the island submissions (island_craggy_hunyuan_v3.fal.json, island_hunyuan_v3.fal.json). Record results. A regeneration, if ever needed, is a creator decision (FAL credits).",
+   "acceptance": [
+    "offline asset check passes on the island submissions"
+   ],
+   "owner": "Island Creator Agent",
+   "checks": [
+    {
+     "type": "crew_offline",
+     "command": [
+      "main_asset.py",
+      "sample_submissions/island_craggy_hunyuan_v3.fal.json",
+      "--check-only"
+     ]
+    }
+   ],
+   "refs": [
+    "AIAgentCrew/sample_submissions/island_craggy_hunyuan_v3.fal.json"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "Offline AI Crew",
+    "Asset agent"
+   ]
+  },
+  {
+   "id": "ISL-09",
+   "title": "Keep the island cheap when seen from the sea and from the Saltgate: visibility ranges and distant LOD",
+   "priority": 6,
+   "why_score": "The island is the destination landmark on the return, but full-detail rendering at 1.5 km wastes frame time. Not 7 because the load budget (ISL-03) comes first.",
+   "detail": "Set visibility ranges and an LOD or lower-detail stand-in for the island beyond the distances where the detail is invisible; keep the silhouette and the beacon landmark intact.",
+   "acceptance": [
+    "silhouette is unchanged at distance",
+    "frame time on the return approach does not rise as the island comes into view"
+   ],
+   "owner": "Island Creator Agent",
+   "checks": [
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scenes/Level.tscn",
+     "pattern": "visibility_range|lod",
+     "min": 1
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/scenes/Level.tscn"
+   ],
+   "depends_on": [
+    "ISL-03"
+   ],
+   "collaborates": [
+    "Lighting agent"
+   ]
+  },
+  {
+   "id": "ISL-10",
+   "title": "Import hygiene: textures at 2048, provenance records, import notes",
+   "priority": 5,
+   "why_score": "Project convention: v3 GLBs ship 4096 textures and are downscaled to 2048; every asset has a provenance record. Not higher because island_craggy already meets it.",
+   "detail": "Confirm island textures are 2048 px, the .fal_result.json provenance exists, and the import settings (scale, pivot, collision) are written in the asset notes.",
+   "acceptance": [
+    "textures <= 2048 px",
+    "provenance record present"
+   ],
+   "owner": "Island Creator Agent",
+   "checks": [
+    {
+     "type": "mesh_audit",
+     "path": "LightingTheStorm/Assets/Models/island/island_craggy.glb",
+     "max_texture_px": 2048
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/Assets/Models/island/island_craggy.fal_result.json"
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/Assets/Models/island/island_craggy.fal_result.json"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "Asset agent"
+   ]
+  },
+  {
+   "id": "ISL-11",
+   "title": "Decide what to do with the legacy island meshes (8-island.glb, 8-island-collider.glb, island_plateau.glb)",
+   "priority": 4,
+   "why_score": "Dead weight in the repo, and the audit shows 8-island.glb has 562 hole loops (13.9% open edges) and a 692-loop collider; they are not used by Level.tscn today. Not higher because nothing in play touches them.",
+   "detail": "Level.tscn does not reference them. They total about 80 MB. Options: archive them under LightingTheStorm/archive, delete them, or keep them. Deleting is the creator's call.",
+   "acceptance": [
+    "the creator has chosen archive, delete or keep"
+   ],
+   "owner": "Island Creator Agent",
+   "needs_creator": true,
+   "decision": "Archive, delete or keep 8-island.glb (23.5 MB, holed), 8-island-collider.glb and island_plateau.glb (29.6 MB)? Recommendation: archive, because they are unused and one has real holes.",
+   "checks": [
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scenes/Level.tscn",
+     "pattern": "8-island|island_plateau",
+     "max": 0
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/Assets/Island/environment/8-island.glb"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "Creator"
+   ]
+  }
+ ],
+ "records": {},
+ "history": [
+  {
+   "kind": "plan_review",
+   "loop": 1,
+   "at": "2026-10-20T15:05:30+00:00",
+   "findings": [],
+   "changes": []
+  }
+ ],
+ "approval": null,
+ "knowledge_note": "knowledge up to date",
+ "last_findings": [],
+ "last_blocks": 0
+}

@@ -9,7 +9,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 Lane = Literal["left", "centre", "right"]
-HazardType = Literal["rock", "reef", "buoy", "debris"]  # no waves: stretch goal, not approved
+HazardType = Literal["rock", "reef", "buoy", "debris", "wave"]  # waves approved by the creator on 2026-10-20
 CheckResult = Literal["pass", "fail"]
 
 

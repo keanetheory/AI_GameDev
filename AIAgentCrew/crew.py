@@ -120,7 +120,7 @@ def build_crew(llm, goal: str, preset: str, segments: int, verbose: bool = True,
         goal="Check the whole crossing package against the four pillars and the Decisions log, and write the handoff verdict.",
         backstory=(
             "You guard canon for Lighting the Storm. You block work that breaks a pillar, uses an "
-            "unapproved feature (waves, route branching, visible timers) or silently decides an open "
+            "unapproved feature (route branching, visible timers, or a wave rule that contradicts data/world/wave_spec.json) or silently decides an open "
             "creator question. You report facts, not intentions."
         ),
         **common,
@@ -178,7 +178,7 @@ def build_crew(llm, goal: str, preset: str, segments: int, verbose: bool = True,
         description=(
             f"{canon}\n\nReview the CrossingBrief, HazardForecast and ArthurCallSheet together. Write exactly "
             f"four pillar_checks (one per pillar, in order) and decisions_log_checks covering at least: "
-            f"storm split, no waves, single safe route (no branching), Arthur never disagrees with the "
+            f"storm split, no wave objects in the hazard forecast, single safe route (no branching), Arthur never disagrees with the "
             f"forecast, no visible timer, recoverable collisions. Each check has result pass/fail and "
             f"concrete evidence (cite IDs). verdict is PASS only if every check passes, otherwise REVISE "
             f"with issues listed. Carry forward open_creator_decisions. handoff_summary is 2-4 factual "

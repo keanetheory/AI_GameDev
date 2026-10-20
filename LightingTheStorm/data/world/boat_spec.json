@@ -2,7 +2,7 @@
   "generated_utc": "2026-10-16T16:39:26+00:00",
   "spec_id": "BOAT_STEAM_LAUNCH_V1",
   "vessel": "Gothic teal steam launch with brass trim",
-  "speed_mps": 3.0,
+  "speed_mps": 8.0,
   "steer_left_action": "move_left",
   "steer_right_action": "move_right",
   "throttle_actions": [],
@@ -94,8 +94,8 @@
     }
   ],
   "collision_recovery": "On a hazard hit the boat bounces off and is moved to the nearest SAFE point on the route with a small cost; the burner is never lost.",
-  "waves_enabled": false,
-  "tide_hook": "A Vector2 'water_push' added to the boat's velocity each physics frame, zero until the Tide / Wave agent supplies it.",
+  "waves_enabled": true,
+  "tide_hook": "A Vector2 'water_push' added to the boat's velocity each physics frame. Driven by WaveSystem (scripts/world/wave_system.gd) from data/world/wave_spec.json. waves_enabled is the persistent on/off switch.",
   "handling_checks": [
     "Hold A for 5 s: the boat turns at the maximum rate with no spin-out.",
     "Release A and D: the rudder centres and the boat holds a straight line.",
@@ -107,5 +107,7 @@
   "open_creator_decisions": [
     "Whether the earlier return-crossing data (6 m/s) should be regenerated at the confirmed 3 m/s.",
     "Whether Arthur, as a passenger, moves around the boat while it is steered."
-  ]
+  ],
+  "speed_note": "8 m/s chosen by the creator on 2026-10-20 (Wave workshop D4), held as data, confirm after playtest. boat.gd reads speed_mps at start.",
+  "legs_note": "length_m values are the original crew estimate (1500 m). The built level's lighthouse-to-quay distance is about 510 m, so a leg at 8 m/s takes about 65 s."
 }

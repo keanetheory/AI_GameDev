@@ -81,7 +81,7 @@ class BoatSpec(BaseModel):
     legs: list[RouteLeg] = Field(min_length=2, max_length=2)
     docks: list[DockZone] = Field(min_length=2, max_length=2)
     collision_recovery: str
-    waves_enabled: bool = Field(description="False until the Tide / Wave agent and the Decisions log approve it")
+    waves_enabled: bool = Field(description="The waves on/off switch. Waves are approved (2026-10-20); False gives a crossing with a visual sea and no push")
     tide_hook: str = Field(description="Where a future tide force would plug into the boat controller")
     handling_checks: list[str] = Field(min_length=5)
     open_creator_decisions: list[str]

@@ -1,0 +1,41 @@
+{
+  "id": "island_assessor",
+  "kind": "assessor",
+  "name": "Island Assessment Agent",
+  "reviews": "island_creator",
+  "feedback_to": ["island_creator"],
+  "mandate": "Hold the Island Creator Agent to the lore and the GDD for Bracken Isle: no holes, no empty or unreferenced meshes, a collider that matches what the player sees, a quick load, correct lighting in every phase, and a faithful read of the island concept art. Review the plan first, then the finished work, using only the offline AI Crew and deterministic checks.",
+  "keywords": ["island", "bracken", "rock", "reef", "jagged", "dock", "jetty", "gate", "path", "lighthouse door", "rowboat", "collider", "collision", "load time", "performance budget", "dynamic light", "supermoon", "spray"],
+  "rubric_focus": [
+    "Every objective is scored 1-10 with a reason it is not one point higher or lower.",
+    "Geometry checks are measured (empty meshes, hole loops, open-edge ratio, degenerate triangles), not asserted.",
+    "The island is lit by the Lighting agent's rig, never by baked or per-asset lights that fight it.",
+    "Anything that costs FAL credits or decides canon is a creator decision, not an assumption."
+  ],
+  "must_cover": [
+    {"id": "ISL-M1", "topic": "No empty, hollow or unreferenced meshes and no holes in the island meshes", "min_priority": 10,
+     "terms_any": ["hollow", "empty mesh", "hole", "empty spot"],
+     "template": {"id": "ISL-T1", "title": "Audit island meshes for empty, hollow and unreferenced geometry", "detail": "Run the mesh audit over every island mesh in use and repair any finding.", "why_score": "Named by the creator as a must.", "acceptance": ["mesh audit reports zero empty meshes, zero hole loops"], "checks": [{"type": "mesh_audit", "path": "LightingTheStorm/Assets/Models/island/island_craggy.glb", "max_hole_loops": 0}], "refs": ["LightingTheStorm/Assets/Models/island/island_craggy.glb"], "depends_on": []}},
+    {"id": "ISL-M2", "topic": "Island loads quickly (budget and measurement)", "min_priority": 9,
+     "terms_any": ["load time", "loads quickly", "load budget", "loading"],
+     "template": {"id": "ISL-T2", "title": "Set and meet an island load-time budget", "detail": "Define the budget, measure it headless in Godot, cut cost until met.", "why_score": "Named by the creator as a must.", "acceptance": ["measured load time within the budget"], "checks": [{"type": "manual", "note": "Run the headless load timing script in Godot."}], "refs": [], "depends_on": []}},
+    {"id": "ISL-M3", "topic": "Island lit properly by the Lighting agent in every phase", "min_priority": 9,
+     "terms_any": ["lighting agent", "lighting rig", "lit properly"],
+     "template": {"id": "ISL-T3", "title": "Verify island lighting in every phase with the Lighting agent", "detail": "Check ISLAND, OUTBOUND, RETURN and BEACON_RELIT.", "why_score": "Named by the creator as a must.", "acceptance": ["island legible in all four phases"], "checks": [{"type": "manual", "note": "Capture a screenshot per phase in Godot."}], "refs": [], "depends_on": []}},
+    {"id": "ISL-M4", "topic": "Collider matches the visible island (no fall-through, no invisible walls)", "min_priority": 9,
+     "terms_any": ["collider", "collision", "fall-through", "fall through"],
+     "template": {"id": "ISL-T4", "title": "Prove the island collider matches the visual", "detail": "Raycast sweep over the walkable island.", "why_score": "A hole in the collider is a soft-lock.", "acceptance": ["no ray passes through walkable ground"], "checks": [{"type": "manual", "note": "Run the coverage test in Godot."}], "refs": [], "depends_on": []}},
+    {"id": "ISL-M5", "topic": "Island reacts to storm phase and tide (acts accordingly)", "min_priority": 7,
+     "terms_any": ["react", "storm phase", "tide", "spray", "wet rock"],
+     "template": {"id": "ISL-T5", "title": "Island reacts to storm phase and sea state", "detail": "Wet rock, spray and shoreline respond to phase and the Wave agent's sea state.", "why_score": "Named by the creator.", "acceptance": ["visible change between phases"], "checks": [{"type": "manual", "note": "Compare ISLAND and RETURN in Godot."}], "refs": [], "depends_on": []}},
+    {"id": "ISL-M6", "topic": "Island matches the island concept art", "min_priority": 6,
+     "terms_any": ["concept art", "concept"],
+     "template": {"id": "ISL-T6", "title": "Compare island to the concept art", "detail": "Side-by-side against ConceptArt/island.", "why_score": "Art direction is locked by the concept art.", "acceptance": ["differences listed and accepted"], "checks": [{"type": "file_exists", "path": "ConceptArt/island/front view of island.png"}], "refs": ["ConceptArt/island/front view of island.png"], "depends_on": []}}
+  ],
+  "canon_gates": [],
+  "work_checks": [
+    {"type": "mesh_audit", "path": "LightingTheStorm/Assets/Models/island/island_craggy.glb", "max_hole_loops": 0, "max_degenerate_ratio": 0.001},
+    {"type": "scene_node", "scene": "LightingTheStorm/scenes/Level.tscn", "pattern": "Island|RockPatch.*", "min": 4}
+  ],
+  "offline_crew_consults": ["python main_asset.py sample_submissions/island_craggy_hunyuan_v3.fal.json --check-only"]
+}

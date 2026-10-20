@@ -72,7 +72,7 @@ class OfflineLLM(BaseLLM):
             "task_id": "GATE1_RETURN_CROSSING", "crossing_id": "RETURN", "difficulty_preset": self.preset,
             "boat_speed_mps": 6.0, "arthur_call_lead_m": 40 if assist else 30,
             "allowed_hazards": ["rock", "reef", "buoy", "debris"], "segments": segs,
-            "constraints": ["One fixed speed, one steering axis", "No waves (stretch goal)",
+            "constraints": ["One fixed speed, one steering axis", "No wave objects in the hazard forecast (waves are a sea state owned by the Wave Creator Agent)",
                             "One safe lane per segment; no branching",
                             "Density rises with route position, never elapsed time",
                             "Collisions recover to SAFE_<seg> with a time cost; burner never lost"],
@@ -129,7 +129,7 @@ class OfflineLLM(BaseLLM):
             ],
             "decisions_log_checks": [
                 p("Storm split", "hazard_density rises with segment index only."),
-                p("No waves", "allowed_hazards = rock, reef, buoy, debris."),
+                p("Hazard forecast has no wave objects", "allowed_hazards = rock, reef, buoy, debris; waves are a sea state owned by the Wave Creator Agent."),
                 p("Single safe route", f"{len(fc.segments)} segments, one safe_lane each."),
                 p("Arthur never disagrees", "Every call direction equals its segment's safe_lane."),
                 p("No visible timer", "Deadline is never referenced numerically."),

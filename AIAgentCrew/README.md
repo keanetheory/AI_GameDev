@@ -263,7 +263,7 @@ Two more pipelines, built for the Godot environment and the FAL asset work. Same
 
 The agent writes a verdict, a repaired prompt and negative prompt, the Godot folder for the category (`res://Assets/Models/<category>/`) and import notes (scale, pivot, collision, materials). The guardrail refuses an APPROVE when the checks found problems and refuses a revised prompt that still breaks the guide. `python main_asset.py <files> --check-only` runs just the deterministic checks without any model.
 
-**Boat / Physics agent.** One fixed speed, steered only by **A and D** (`move_left`, `move_right`); W and S do nothing. The spec covers the OUTBOUND leg `DOCK_LIGHTHOUSE -> DOCK_PORT` (the Saltgate quays) and the RETURN leg back, waypoints, steering response and a rudder that returns to centre, automatic docking zones, collision recovery and handling checks. `waves_enabled` is false and a `tide_hook` marks where a tide force plugs in later.
+**Boat / Physics agent.** One fixed speed, steered only by **A and D** (`move_left`, `move_right`); W and S do nothing. The spec covers the OUTBOUND leg `DOCK_LIGHTHOUSE -> DOCK_PORT` (the Saltgate quays) and the RETURN leg back, waypoints, steering response and a rudder that returns to centre, automatic docking zones, collision recovery and handling checks. `waves_enabled` is the waves on/off switch (waves approved 2026-10-20) and `tide_hook` names the `water_push` hook the Wave Creator Agent drives.
 
 **Player Movement agent.** Walking and turning tuning (unsmoothed mouse look, delta-time movement, simultaneous move and turn, slope and step limits from the real island collider) plus seven glitch checks (slopes, lips, turning while moving, corners, falling through, frame rate, camera), each with a repeatable test. `tools/debug_walk.gd` in the Godot project is one such test.
 
@@ -277,7 +277,11 @@ The phases follow the story beats: ISLAND covers beats 1-4, OUTBOUND beat 5, RET
 
 Offline mode makes the first Boat attempt press a throttle key and the first Lighting attempt use a neon colour, so you can see the guardrails block and the agents retry. Pass `--no-demo-errors` to skip that. On Windows, set `PYTHONIOENCODING=utf-8` to silence harmless console encoding noise from CrewAI's live display.
 
-### Reminder: build the Tide / Wave agent next
+### Tide / Wave agent: built (2026-10-20)
+
+The Wave Creator Agent now exists in `GERFramework/` (specs in `LightingTheStorm/data/world/wave_spec.json`). The reminder below is kept for history.
+
+### Reminder (history): build the Tide / Wave agent next
 
 The **Tide / Wave agent is deliberately not built yet.** Build it once there is a traversable Godot level (the lighthouse island with the player walking and the boat crossing). The waves in the crossing are a game mechanic, but the rules still say otherwise, so do these first:
 

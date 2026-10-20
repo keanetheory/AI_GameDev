@@ -1,0 +1,549 @@
+{
+  "id": "wave_creator",
+  "kind": "creator",
+  "name": "Wave Creator Agent",
+  "assessor": "waves_assessor",
+  "mission": "Own the tides and waves as an independent system. Work with the creator to define and design how sea state changes across the crossings, then build it behind the existing water_push hook: the first crossing is easy and simple, the last is hectic and stormy, waves can be switched off, and nothing new is added to the one-control boat.",
+  "collaborates_with": [
+    {
+      "agent": "Boat / Physics agent",
+      "how": "owns boat.gd; this agent drives water_push and the wave height the hull rides, and protects docking"
+    },
+    {
+      "agent": "Lighting agent",
+      "how": "rain, wind, fog and lightning follow the sea state"
+    },
+    {
+      "agent": "Sound agent",
+      "how": "wave and wind layers follow the sea state"
+    },
+    {
+      "agent": "Gameplay / Systems agent",
+      "how": "supplies phase and deadline progress that drive the curve"
+    },
+    {
+      "agent": "Island Creator Agent",
+      "how": "island shoreline reactions"
+    },
+    {
+      "agent": "QA agent",
+      "how": "checks with waves on and off"
+    },
+    {
+      "agent": "Offline AI Crew",
+      "how": "canon checks with --check-only; no tokens"
+    }
+  ],
+  "inputs": {
+    "scripts": [
+      "LightingTheStorm/scripts/world/sea.gd",
+      "LightingTheStorm/scripts/world/boat.gd",
+      "LightingTheStorm/scripts/world/lighting_rig.gd",
+      "LightingTheStorm/scripts/core/game_state.gd"
+    ],
+    "data": [
+      "LightingTheStorm/data/world/boat_spec.json",
+      "LightingTheStorm/data/world/lighting_spec.json"
+    ],
+    "canon_files_that_say_waves_are_unapproved": [
+      "AIAgentCrew/canon.py",
+      "AIAgentCrew/validators.py",
+      "AIAgentCrew/schemas.py",
+      "AIAgentCrew/world_canon.py"
+    ],
+    "lore": [
+      "Docs/Lore Build/systems/sys_eclipse.md",
+      "Docs/Lore Build/world/geography.md",
+      "Docs/Lore Build/regions/reg_saltgate.md"
+    ],
+    "gdd": [
+      "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md",
+      "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md"
+    ],
+    "workshop": [
+      "GERFramework/workshops/wave_design_workshop.md"
+    ]
+  },
+  "gates_cleared": {
+    "WAVES_DECISION20": true
+  },
+  "gate_notes": {
+    "WAVES_DECISION20": "Creator instruction in chat on 2026-10-20: asked for a wave agent that starts to fluctuate the tides and works with them to design the crossing impact. Treated as opening GDD Decision 20. The creator can revoke by setting this to false."
+  },
+  "objectives": [
+    {
+      "id": "WAV-01",
+      "title": "Record the wave design workshop decisions (D1-D10 answered 2026-10-20)",
+      "priority": 10,
+      "why_score": "The creator asked to define and design the tides together; everything else is built from these decisions. Not 9 because no wave code should be written before them.",
+      "detail": "GERFramework/workshops/wave_design_workshop.md proposes six sea states (0 calm to 5 storm), the per-crossing and per-phase curve (first crossing easiest, last crossing most stormy), what each parameter does, and the open questions that are the creator's to answer. Run it as a conversation, edit the proposal with the creator, and record each answer in the workshop file under 'Decisions' as lines '- D1: ...' to '- D10: ...' (the check counts them). DONE 2026-10-20: D1-D10 answered in the workshop file.",
+      "acceptance": [
+        "every question in the workshop has a recorded answer or is explicitly deferred by the creator",
+        "the curve numbers are agreed"
+      ],
+      "owner": "Wave Creator Agent",
+      "needs_creator": false,
+      "checks": [
+        {
+          "type": "file_exists",
+          "path": "GERFramework/workshops/wave_design_workshop.md"
+        },
+        {
+          "type": "grep",
+          "path": "GERFramework/workshops/wave_design_workshop.md",
+          "pattern": "^- D\\d+:",
+          "min": 10
+        }
+      ],
+      "refs": [
+        "GERFramework/workshops/wave_design_workshop.md"
+      ],
+      "depends_on": [],
+      "collaborates": [
+        "Creator"
+      ]
+    },
+    {
+      "id": "WAV-02",
+      "title": "Write the sea-state curve as data (wave_spec.json) from decisions D1, D5, D8, D9, D10",
+      "priority": 10,
+      "why_score": "It is the creator's stated intent made tunable. Not 9 because the whole system reads from it.",
+      "detail": "JSON laid out like boat_spec.json: sea states 0-5 (height, wavelength, speed, direction, gustiness, push peak, per the workshop table), a per-phase table (ISLAND 1, OUTBOUND 1 to 2 by route progress, quay 1, RETURN 3 to 5 by deadline clock, dock zones fade to 2, BEACON_RELIT 4 to 3), shelter zones, the reduced-preset multiplier 0.6, and the crossing speed 8 m/s as a data field. Every number is data. Outbound ramps by route position; return by the deadline clock.",
+      "acceptance": [
+        "wave_spec.json exists and validates",
+        "outbound maximum is state 2, below the start of the return (3)",
+        "return reaches state 5 by the narrows under the island",
+        "reduced multiplier is 0.6 and speed is 8 m/s, both as data"
+      ],
+      "owner": "Wave Creator Agent",
+      "checks": [
+        {
+          "type": "file_exists",
+          "path": "LightingTheStorm/data/world/wave_spec.json"
+        }
+      ],
+      "refs": [
+        "LightingTheStorm/data/world/boat_spec.json",
+        "LightingTheStorm/data/world/lighting_spec.json"
+      ],
+      "depends_on": [
+        "WAV-01"
+      ],
+      "collaborates": [
+        "World crew (Boat, Player Movement, Lighting)"
+      ]
+    },
+    {
+      "id": "WAV-03",
+      "title": "Clear the canon gate: update canon.py, validators.py, schemas.py and world_canon.py so they no longer reject waves",
+      "priority": 10,
+      "why_score": "Four files still say waves are an unapproved stretch goal and would block or contradict the new spec. Not 9 because the crews would reject every wave-related output until fixed.",
+      "detail": "canon.py says wave hazards are NOT approved; validators.py rejects 'wave' hazards; schemas.py has no wave hazard type; world_canon.py says waves are not part of the boat and waves_enabled must be false. Change them to the approved design from WAV-01 and keep waves_enabled as the switch. Also record the creator's decision in the GDD's Decisions log (Decision 20) and in Docs/Lore Build/world/changelog.md. Do not touch the GDD text without the creator's say-so.",
+      "acceptance": [
+        "no AI Crew file contradicts the approved wave design",
+        "the offline crews still pass with waves enabled and disabled",
+        "Decision 20 is recorded"
+      ],
+      "owner": "Wave Creator Agent",
+      "checks": [
+        {
+          "type": "grep",
+          "path": "AIAgentCrew/canon.py",
+          "pattern": "NOT approved",
+          "max": 0
+        },
+        {
+          "type": "grep",
+          "path": "AIAgentCrew/world_canon.py",
+          "pattern": "Waves are NOT approved",
+          "max": 0
+        }
+      ],
+      "refs": [
+        "AIAgentCrew/canon.py",
+        "AIAgentCrew/validators.py",
+        "AIAgentCrew/schemas.py",
+        "AIAgentCrew/world_canon.py"
+      ],
+      "depends_on": [
+        "WAV-01"
+      ],
+      "collaborates": [
+        "Canon and Review Orchestrator",
+        "Offline AI Crew"
+      ]
+    },
+    {
+      "id": "WAV-04",
+      "title": "Parameterise the sea by sea state, keeping wave_height() as the single source the shader and the boat share",
+      "priority": 9,
+      "why_score": "The boat already rides Sea.wave_height; making that one function depend on sea state makes the visible sea, the boat and the tide agree. Not 10 because the curve and decisions come first.",
+      "detail": "sea.gd keeps wave_height() and the matching two shader lines as the one place the wave shape lives. Add a sea-state input (amplitude, wavelength, speed, direction, choppiness) smoothed over a few seconds so state changes never pop. Keep the shader and wave_height() in step, as the file's own comment demands.",
+      "acceptance": [
+        "Sea exposes a smoothed sea state",
+        "shader and wave_height() use the same parameters",
+        "no visible pop when the state changes"
+      ],
+      "owner": "Wave Creator Agent",
+      "checks": [
+        {
+          "type": "grep",
+          "path": "LightingTheStorm/scripts/world/sea.gd",
+          "pattern": "sea_state|amplitude",
+          "min": 1
+        },
+        {
+          "type": "grep",
+          "path": "LightingTheStorm/scripts/world/sea.gd",
+          "pattern": "wave_height",
+          "min": 2
+        }
+      ],
+      "refs": [
+        "LightingTheStorm/scripts/world/sea.gd"
+      ],
+      "depends_on": [
+        "WAV-02"
+      ],
+      "collaborates": [
+        "Boat / Physics agent"
+      ]
+    },
+    {
+      "id": "WAV-05",
+      "title": "Drive water_push from the sea state: set, drift and gust, never a new control",
+      "priority": 9,
+      "why_score": "The one-control promise holds and the hook exists for exactly this. Not 10 because it depends on the curve and the sea parameters.",
+      "detail": "Compute water_push from the sea state (D2): a steady set growing with state, gusts at states 4 and 5, and a small broadside nudge. Outbound push is small (a lean, D9) and never causes a hit. On the return the set pushes toward the rocks and the player holds a correction (D10), but the push is always below steering authority so the safe route stays reachable.",
+      "acceptance": [
+        "water_push is zero at sea state 0 and scales with state",
+        "with an average player's steering the safe route is always reachable at every state",
+        "no new input action is added"
+      ],
+      "owner": "Wave Creator Agent",
+      "checks": [
+        {
+          "type": "grep",
+          "path": "LightingTheStorm/scripts/world/boat.gd",
+          "pattern": "water_push",
+          "min": 2
+        },
+        {
+          "type": "grep",
+          "path": "LightingTheStorm/scripts/world/wave_system.gd",
+          "pattern": "_boat\\.water_push\\s*=",
+          "min": 1
+        },
+        {
+          "type": "file_exists",
+          "path": "LightingTheStorm/tools/test_wave_crossings.gd"
+        }
+      ],
+      "refs": [
+        "LightingTheStorm/scripts/world/boat.gd",
+        "LightingTheStorm/data/world/boat_spec.json"
+      ],
+      "depends_on": [
+        "WAV-04"
+      ],
+      "collaborates": [
+        "Boat / Physics agent"
+      ]
+    },
+    {
+      "id": "WAV-06",
+      "title": "Prove the difficulty shape with a headless crossing test: easy outbound, hectic return",
+      "priority": 9,
+      "why_score": "The creator's goal is a feel, so it must be measured: an unmeasured curve will drift. Not 10 because feel still needs a human playtest.",
+      "detail": "Extend tools/test_boat.gd into tools/test_wave_crossings.gd: a scripted steering bot with limited skill sails both legs at each sea state and records lateral drift, hazard hits and time off the safe line. Assert outbound hits stay at or near zero and return disturbance is meaningfully higher, with numbers printed. The creator then plays both legs and signs off the feel.",
+      "acceptance": [
+        "tools/test_wave_crossings.gd exists and passes",
+        "outbound disturbance is below an agreed ceiling and return disturbance is above an agreed floor",
+        "creator signs off the feel"
+      ],
+      "owner": "Wave Creator Agent",
+      "checks": [
+        {
+          "type": "file_exists",
+          "path": "LightingTheStorm/tools/test_wave_crossings.gd"
+        },
+        {
+          "type": "manual",
+          "note": "Creator plays outbound then return."
+        }
+      ],
+      "refs": [
+        "LightingTheStorm/tools/test_boat.gd"
+      ],
+      "depends_on": [
+        "WAV-05"
+      ],
+      "collaborates": [
+        "QA agent",
+        "Creator"
+      ]
+    },
+    {
+      "id": "WAV-07",
+      "title": "Add the waves on/off setting and the reduced hazard-intensity preset (multiplier 0.6)",
+      "priority": 9,
+      "why_score": "GDD accessibility rules require the reduced hazard-intensity preset to lower wave intensity, and the crossing must work without waves. Not 10 because the base system comes first.",
+      "detail": "One setting turns waves off (sea still moves for atmosphere, water_push zero). The reduced hazard-intensity preset multiplies push and wave height by 0.6 (D8). waves_enabled in boat_spec.json is the persistent switch.",
+      "acceptance": [
+        "waves off gives a fair crossing in the crossing test",
+        "reduced preset applies exactly 0.6 to push and height"
+      ],
+      "owner": "Wave Creator Agent",
+      "checks": [
+        {
+          "type": "grep",
+          "path": "LightingTheStorm/scripts/world/wave_system.gd",
+          "pattern": "func set_waves_enabled|func set_reduced_preset",
+          "min": 2
+        },
+        {
+          "type": "grep",
+          "path": "LightingTheStorm/data/world/wave_spec.json",
+          "pattern": "\"reduced_preset_multiplier\": 0\\.6",
+          "min": 1
+        }
+      ],
+      "refs": [
+        "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md",
+        "LightingTheStorm/data/world/boat_spec.json"
+      ],
+      "depends_on": [
+        "WAV-05"
+      ],
+      "collaborates": [
+        "Boat / Physics agent",
+        "QA agent"
+      ]
+    },
+    {
+      "id": "WAV-08",
+      "title": "Drive the sea from route position outbound and the deadline clock on the return, through GameState",
+      "priority": 8,
+      "why_score": "The sea must follow the story: ISLAND calm, OUTBOUND gentle, RETURN building with the deadline. Not 9 because it depends on the curve and GameState already exists.",
+      "detail": "D5: OUTBOUND sea state follows route progress along the leg; RETURN follows the hidden deadline clock started by RETURN_DEPARTED, the same clock that sets lighting. Restart or reload restores sea state with elapsed time (GDD retry rule). Phase changes ISLAND, OUTBOUND, RETURN, BEACON_RELIT apply the D1 values with no pop.",
+      "acceptance": [
+        "sea state changes at phase boundaries with no pop",
+        "reload restores sea state with elapsed time"
+      ],
+      "owner": "Wave Creator Agent",
+      "checks": [
+        {
+          "type": "file_exists",
+          "path": "LightingTheStorm/scripts/core/game_state.gd"
+        },
+        {
+          "type": "grep",
+          "path": "LightingTheStorm/scripts/world/wave_system.gd",
+          "pattern": "phase_name|deadline_progress",
+          "min": 2
+        }
+      ],
+      "refs": [
+        "LightingTheStorm/scripts/core/game_state.gd"
+      ],
+      "depends_on": [
+        "WAV-02"
+      ],
+      "collaborates": [
+        "Gameplay / Systems agent",
+        "Lighting agent"
+      ]
+    },
+    {
+      "id": "WAV-09",
+      "title": "Add sheltered zones: calm the water at both docks and in the lee of the island and quay (D7, D10)",
+      "priority": 8,
+      "why_score": "Auto-docking is a promised mechanic and a storm return must never make the final approach impossible. Not 9 because it only matters once the push is strong.",
+      "detail": "Fade water_push and wave height to about state 1-2 inside DockZoneLighthouse and DockZonePort and in the lee of the island and the quay. This gives the relief near the island on the return (D10) and keeps docking reliable at state 5. The fade must not read as a hard boundary.",
+      "acceptance": [
+        "docking succeeds at every sea state in the crossing test",
+        "the fade is not visible as a hard boundary"
+      ],
+      "owner": "Wave Creator Agent",
+      "checks": [
+        {
+          "type": "grep",
+          "path": "LightingTheStorm/scripts/world/wave_system.gd",
+          "pattern": "dock_zone",
+          "min": 1
+        },
+        {
+          "type": "grep",
+          "path": "LightingTheStorm/data/world/wave_spec.json",
+          "pattern": "DOCK_PORT|DOCK_LIGHTHOUSE",
+          "min": 2
+        }
+      ],
+      "refs": [
+        "LightingTheStorm/scripts/world/dock_zone.gd"
+      ],
+      "depends_on": [
+        "WAV-05"
+      ],
+      "collaborates": [
+        "Boat / Physics agent"
+      ]
+    },
+    {
+      "id": "WAV-10",
+      "title": "Apply the crossing speed decision: 8 m/s held as data (D4)",
+      "priority": 8,
+      "why_score": "It sets the crossing length (1,500 m takes 500 s at 3 m/s, 150 s at 10 m/s) and so the wave periods, the ramp and the deadline pressure. Not 9 because a default lets the workshop proceed.",
+      "detail": "Creator chose 8 m/s, as data, to be confirmed after playtest. Change boat_spec.json speed_mps and boat.gd speed to read it, update world_canon.py (which says 3 m/s is a confirmed decision), and propose a Decision 24 update for the GDD (it says 10 m/s) for the creator to approve; do not edit the GDD without their say-so. Re-check dock approach speed, collision recovery and the steering handling checks at 8 m/s, because turn rate and drift were tuned at 3 m/s.",
+      "acceptance": [
+        "boat.gd, boat_spec.json and world_canon.py all say 8 m/s and read it from data",
+        "steering handling checks pass at 8 m/s",
+        "a Decision 24 update is proposed to the creator"
+      ],
+      "owner": "Wave Creator Agent",
+      "needs_creator": false,
+      "checks": [
+        {
+          "type": "grep",
+          "path": "LightingTheStorm/data/world/boat_spec.json",
+          "pattern": "\"speed_mps\": 8",
+          "min": 1
+        }
+      ],
+      "refs": [
+        "LightingTheStorm/scripts/world/boat.gd",
+        "LightingTheStorm/data/world/boat_spec.json",
+        "AIAgentCrew/world_canon.py",
+        "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md"
+      ],
+      "depends_on": [
+        "WAV-02"
+      ],
+      "collaborates": [
+        "Creator",
+        "Boat / Physics agent",
+        "Canon and Review Orchestrator"
+      ]
+    },
+    {
+      "id": "WAV-13",
+      "title": "Implement the wave-hit consequence: nothing outbound, slow-down and water in the boat on the return (D3)",
+      "priority": 8,
+      "why_score": "It is the cost of a hit, so it defines how the return feels. Not 9 because the sea and push come first.",
+      "detail": "On the return, a broadside wave hit causes a brief speed loss and adds water to the boat; no capsize. Outbound wave hits cost nothing, and no wave hit costs deadline time on the outbound (GDD). Recovery uses the existing collision recovery path in boat.gd. Water in the boat is visual and audio feedback unless the creator later adds bailing.",
+      "acceptance": [
+        "outbound wave hit has no penalty",
+        "return wave hit slows the boat briefly and shows water in the boat",
+        "no new input is added"
+      ],
+      "owner": "Wave Creator Agent",
+      "checks": [
+        {
+          "type": "grep",
+          "path": "LightingTheStorm/scripts/world/boat.gd",
+          "pattern": "wave_hit|wave_penalty",
+          "min": 1
+        }
+      ],
+      "refs": [
+        "LightingTheStorm/scripts/world/boat.gd"
+      ],
+      "depends_on": [
+        "WAV-05"
+      ],
+      "collaborates": [
+        "Boat / Physics agent",
+        "Sound agent"
+      ]
+    },
+    {
+      "id": "WAV-11",
+      "title": "Hand sea-state hooks to the Lighting and Sound agents and the island shoreline",
+      "priority": 7,
+      "why_score": "Waves only read if rain, wind, fog, lightning, surf and spray rise with them. Not 8 because the system is playable without it.",
+      "detail": "Expose one signal (sea_state_changed) and one value (Sea.state) that the Lighting agent, the Sound agent and the Island agent's island_reactions.gd read. This agent does not edit their files. Include the eclipse-link value for WAV-14.",
+      "acceptance": [
+        "signal and value exist and are documented in the workshop file",
+        "each receiving agent has acknowledged the contract"
+      ],
+      "owner": "Wave Creator Agent",
+      "checks": [
+        {
+          "type": "grep",
+          "path": "LightingTheStorm/scripts/world/sea.gd",
+          "pattern": "signal sea_state_changed",
+          "min": 1
+        }
+      ],
+      "refs": [
+        "LightingTheStorm/scripts/world/lighting_rig.gd"
+      ],
+      "depends_on": [
+        "WAV-04"
+      ],
+      "collaborates": [
+        "Lighting agent",
+        "Sound agent",
+        "Island Creator Agent"
+      ]
+    },
+    {
+      "id": "WAV-14",
+      "title": "Show the eclipse link in the sky as the return sea rises (D6)",
+      "priority": 7,
+      "why_score": "The creator chose to show the cause visibly. Not 8 because it touches a canon decision and needs the Lighting agent. Not lower because it is a stated choice.",
+      "detail": "As the return's sea state rises the supermoon is visibly covered or dimmed, driven by the same deadline clock. This touches the 2026-10-16 decision that the moon is a bright supermoon for now and the Flighted ship that eclipses it is added later, so the Canon and Review Orchestrator must confirm it first, and the Lighting agent builds it. The Wave agent supplies only the sea-state signal.",
+      "acceptance": [
+        "Canon and Review Orchestrator has confirmed the visual does not settle open eclipse lore",
+        "the Lighting agent has built it from the sea-state signal"
+      ],
+      "owner": "Wave Creator Agent",
+      "needs_creator": true,
+      "decision": "Confirm D6 is compatible with the 2026-10-16 supermoon decision: the moon dims or is covered on the return without showing the Flighted ship or explaining the eclipse. Recommendation: a dimming cloud-and-shadow cover only, no sphere visible yet.",
+      "checks": [
+        {
+          "type": "manual",
+          "note": "Canon sign-off, then Lighting agent capture of the return."
+        }
+      ],
+      "refs": [
+        "Docs/Lore Build/systems/sys_eclipse.md",
+        "AIAgentCrew/world_canon.py"
+      ],
+      "depends_on": [
+        "WAV-11"
+      ],
+      "collaborates": [
+        "Lighting agent",
+        "Canon and Review Orchestrator",
+        "Creator"
+      ]
+    },
+    {
+      "id": "WAV-12",
+      "title": "Add QA scenarios with waves on and off",
+      "priority": 6,
+      "why_score": "The roster gives the QA agent 'checks with waves on and off'. Not 7 because it documents what WAV-06 and WAV-07 already test.",
+      "detail": "List repeatable scenarios: each leg at each sea state, waves off, reduced preset, reload mid-return, dock at state 5. Write them in the QA scenario list. Add: outbound has no wave hits at any position; return hits slow the boat; speed 8 m/s; reduced preset 0.6.",
+      "acceptance": [
+        "scenario list exists and each scenario names its pass condition"
+      ],
+      "owner": "Wave Creator Agent",
+      "checks": [
+        {
+          "type": "file_exists",
+          "path": "GERFramework/reports/wave_qa_scenarios.md"
+        }
+      ],
+      "refs": [
+        "AIAgentCrew/roles.py"
+      ],
+      "depends_on": [
+        "WAV-07"
+      ],
+      "collaborates": [
+        "QA agent"
+      ]
+    }
+  ]
+}

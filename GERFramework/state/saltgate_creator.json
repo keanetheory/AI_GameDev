@@ -1,0 +1,382 @@
+{
+ "creator": "saltgate_creator",
+ "phase": "awaiting_approval",
+ "plan_loops": 1,
+ "work_loops": 0,
+ "objectives": [
+  {
+   "id": "SLT-01",
+   "title": "Make stepping off the boat and walking onto the quay smooth",
+   "priority": 10,
+   "why_score": "Named a must by the creator, and it is the player's first moment in the second half of the slice. Not 9 because a snag or gap here breaks the experience on every playthrough.",
+   "detail": "Play the exact sequence: boat auto-docks in the DOCK_PORT zone, Q steps ashore, the player walks to the quay and on to the burner. Measure: gap and height between the boat deck, the quay edge and the first walkable surface, the player step-up and floor-snap limits from the player movement spec, camera behaviour during the step, and whether the boat ever moves under the player. Add tools/test_disembark.gd to automate it headless with the Player capsule, and repeat it several times because arrival flakiness has bitten this project before. Work with the Experience agents (Player Movement and QA) and the World crew's dock-zone spec.",
+   "acceptance": [
+    "tools/test_disembark.gd exists and passes 8 of 8 consecutive runs",
+    "no snag, no floating step, no camera jump when stepping ashore",
+    "the creator walks it and signs it off"
+   ],
+   "owner": "Saltgate Creator Agent",
+   "checks": [
+    {
+     "type": "scene_node",
+     "scene": "LightingTheStorm/scenes/Level.tscn",
+     "pattern": "DockZonePort",
+     "min": 1
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/test_disembark.gd"
+    },
+    {
+     "type": "manual",
+     "note": "Creator plays the crossing and steps ashore."
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/scripts/world/dock_zone.gd",
+    "LightingTheStorm/scripts/world/boat.gd",
+    "LightingTheStorm/data/world/player_movement_spec.json"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "Experience (Player Movement + QA agents)",
+    "World crew (Boat, Player Movement, Lighting)",
+    "Canon and Review Orchestrator"
+   ]
+  },
+  {
+   "id": "SLT-02",
+   "title": "Integrate the port seamlessly into the cliffside",
+   "priority": 10,
+   "why_score": "Named a must by the creator. Not 9 because a visible seam between port and cliff is seen on both crossings and on the walk up.",
+   "detail": "The quay is three instances of saltgate_quay.glb (Saltgate, SaltgateWest, SaltgateEast) set against the cliff modules. Agree the joint with the Cliffside agent in GERFramework/contracts/port_cliff_joint.md, then build the port side: quay stone runs into and under the cliff base, a retaining wall or rock outcrop hides the junction, the stair and ramp start at the same material as the cliff, and the waterline edge is one continuous rock-and-stone line. No floating edge, no gap you can see light through, no visible instance boundary between the three quay copies.",
+   "acceptance": [
+    "contract file exists and is met by both agents",
+    "no gap, floating edge or material break between port and cliff from the boat, the quay and the walkway",
+    "no visible boundary between the three quay instances"
+   ],
+   "owner": "Saltgate Creator Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "GERFramework/contracts/port_cliff_joint.md"
+    },
+    {
+     "type": "scene_node",
+     "scene": "LightingTheStorm/scenes/Level.tscn",
+     "pattern": "Saltgate.*|CliffWall\\d",
+     "min": 6
+    },
+    {
+     "type": "manual",
+     "note": "Inspect the joint from the boat, the quay and the first ramp step."
+    }
+   ],
+   "refs": [
+    "ConceptArt/channel_scenes/position of both saltgate and the cliff terrain.png",
+    "ConceptArt/saltgate/Abandoned Stone Quay Port-1.png"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "Cliffside Creator Agent"
+   ]
+  },
+  {
+   "id": "SLT-03",
+   "title": "Audit the quay and dock meshes for empty, hollow and holed geometry, then repair",
+   "priority": 9,
+   "why_score": "Same quality bar as the island and cliffs; the huts are where hollow interiors show. Not 10 because the baseline meshes audit clean.",
+   "detail": "Baseline: saltgate_quay.glb (30.9 MB, 249k triangles, one mesh) and dock_harbour.glb audit clean with 0 hole loops. dock_landing.glb is 25.6 MB. Re-run after every change. Because the quay is one baked mesh, hollowness shows as open doorways and windows with nothing behind them, which the audit cannot detect; that is covered visually in SLT-04.",
+   "acceptance": [
+    "zero empty meshes and zero hole loops on every Saltgate and dock mesh in use"
+   ],
+   "owner": "Saltgate Creator Agent",
+   "checks": [
+    {
+     "type": "mesh_audit",
+     "path": "LightingTheStorm/Assets/Models/saltgate/saltgate_quay.glb",
+     "max_hole_loops": 0,
+     "max_degenerate_ratio": 0.001
+    },
+    {
+     "type": "mesh_audit",
+     "path": "LightingTheStorm/Assets/Models/dock/dock_harbour.glb",
+     "max_hole_loops": 0,
+     "max_degenerate_ratio": 0.001
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/Assets/Models/saltgate/saltgate_quay.glb"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "Offline AI Crew"
+   ]
+  },
+  {
+   "id": "SLT-04",
+   "title": "Inventory and polish the huts, warehouses and port structures",
+   "priority": 9,
+   "why_score": "Named by the creator. Not 10 because it depends on the scope decision SLT-05; the GDD keeps the Saltgate minimal until the prototype is complete.",
+   "detail": "saltgate_quay.glb is a single 249k-triangle mesh, so individual huts cannot be edited as they are. Inventory what is in it (huts, warehouses, piers, cranes) into Assets/Models/saltgate/saltgate_inventory.json with bounds, then polish in the cheapest order: material and texture passes (salt crust, rot, moss), closing open doorways and windows with dark inset cards so nothing reads as a hollow shell, adding broken shutters, boarded windows and rusted fittings as small props, and tattered amber-and-gold flags per the lore. Splitting the mesh into per-structure pieces or regenerating individual huts through FAL is a cost and scope decision for the creator (SLT-05), not an assumption.",
+   "acceptance": [
+    "saltgate_inventory.json lists every structure",
+    "no open doorway or window shows an empty void in a close-up sweep",
+    "each hut reads as abandoned 1800s harbour against the concept art"
+   ],
+   "owner": "Saltgate Creator Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/Assets/Models/saltgate/saltgate_inventory.json"
+    },
+    {
+     "type": "manual",
+     "note": "Close-up sweep of every structure in Godot."
+    }
+   ],
+   "refs": [
+    "ConceptArt/saltgate/Stone quay workshop, rear view-3.png",
+    "ConceptArt/saltgate/Right-end view of the timber quay-2.png",
+    "Docs/Lore Build/regions/reg_saltgate.md"
+   ],
+   "depends_on": [
+    "SLT-05"
+   ],
+   "collaborates": [
+    "Asset agent",
+    "Canon and Review Orchestrator"
+   ]
+  },
+  {
+   "id": "SLT-05",
+   "title": "Decide the polish scope: the GDD keeps the Saltgate minimal until the prototype is complete",
+   "priority": 9,
+   "why_score": "The GDD and Technical Strategy say the Saltgate is minimal until the prototype is complete; this work is the creator overriding or timing that. It gates the cost of SLT-04. Not 10 because there is a safe default.",
+   "detail": "Options: (a) polish now, with materials, closed openings and props only, no new FAL generations; (b) polish now including regenerating or splitting huts, which spends credits; (c) wait until the prototype is complete. Huts stay closed shells in every option; enterable interiors are not in the GDD.",
+   "acceptance": [
+    "the creator has chosen a scope"
+   ],
+   "owner": "Saltgate Creator Agent",
+   "needs_creator": true,
+   "decision": "Polish now (a) without FAL spend, (b) with FAL regeneration or mesh splitting, or (c) wait? Recommendation: (a) now, with (b) offered per hut after you see the result. Also confirm huts stay closed shells.",
+   "checks": [
+    {
+     "type": "grep",
+     "path": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md",
+     "pattern": "Saltgate kept minimal",
+     "min": 1
+    }
+   ],
+   "refs": [
+    "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "Creator",
+    "Canon and Review Orchestrator"
+   ]
+  },
+  {
+   "id": "SLT-06",
+   "title": "Light the Saltgate with the Lighting agent: dark windows, amber flags, the glow of Saint Calder",
+   "priority": 8,
+   "why_score": "Lore says almost no light, with the distant electric glow of Saint Calder over the rooftops; the burner and the dock must still be findable. Not 9 because the rig exists and this is verification.",
+   "detail": "Check OUTBOUND and RETURN: windows stay dark, flags catch the amber, the city glow silhouettes the roofline, and the dock zone and burner pickup are readable without a quest marker. Stay inside the dynamic light budget.",
+   "acceptance": [
+    "captures per phase reviewed",
+    "burner and dock readable without markers",
+    "light budget respected"
+   ],
+   "owner": "Saltgate Creator Agent",
+   "checks": [
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/data/world/lighting_spec.json",
+     "pattern": "saint_calder",
+     "min": 1
+    },
+    {
+     "type": "manual",
+     "note": "Capture OUTBOUND and RETURN at the quay."
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/data/world/lighting_spec.json",
+    "Docs/Lore Build/regions/reg_saltgate.md"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "Lighting agent"
+   ]
+  },
+  {
+   "id": "SLT-07",
+   "title": "Keep the burner pickup findable and honest to canon",
+   "priority": 8,
+   "why_score": "It is the objective of the whole outbound crossing. Not 9 because the pickup already exists and works.",
+   "detail": "The lore says the exact storage location is TBD, so this agent must not invent a story reason; it makes the existing placeholder readable by sightline, light and a small amount of set dressing, and records the location as a placeholder for the creator to lock.",
+   "acceptance": [
+    "the pickup is reachable by a smooth walk from the dock",
+    "no story is invented about why the burner is there"
+   ],
+   "owner": "Saltgate Creator Agent",
+   "checks": [
+    {
+     "type": "scene_node",
+     "scene": "LightingTheStorm/scenes/Level.tscn",
+     "pattern": "BurnerPickup",
+     "min": 1
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/scripts/world/burner_pickup.gd"
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/scripts/world/burner_pickup.gd",
+    "Docs/Lore Build/regions/reg_saltgate.md"
+   ],
+   "depends_on": [
+    "SLT-01"
+   ],
+   "collaborates": [
+    "Gameplay / Systems agent",
+    "Canon and Review Orchestrator"
+   ]
+  },
+  {
+   "id": "SLT-08",
+   "title": "Set a Saltgate load-time and memory budget and meet it",
+   "priority": 7,
+   "why_score": "The quay mesh is instanced three times at 31 MB with a 4096 texture, and dock_landing is 25.6 MB. Not 8 because it does not stop the slice.",
+   "detail": "Baseline: saltgate_quay.glb 30.9 MB, 249k triangles, 4096 texture. Proposed budget (creator to confirm): each mesh under 15 MB with 2048 textures, the three instances share one resource, and the timing is measured with tools/measure_load_time.gd.",
+   "acceptance": [
+    "each Saltgate mesh <= 15 MB and <= 2048 px",
+    "measured load time inside the confirmed budget"
+   ],
+   "owner": "Saltgate Creator Agent",
+   "checks": [
+    {
+     "type": "mesh_audit",
+     "path": "LightingTheStorm/Assets/Models/saltgate/saltgate_quay.glb",
+     "max_mb": 15,
+     "max_texture_px": 2048,
+     "max_vram_mb": 30
+    },
+    {
+     "type": "mesh_audit",
+     "path": "LightingTheStorm/Assets/Models/dock/dock_landing.glb",
+     "max_mb": 15,
+     "max_texture_px": 2048
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/measure_load_time.gd"
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/Assets/Models/saltgate/saltgate_quay.glb"
+   ],
+   "depends_on": [
+    "SLT-03"
+   ],
+   "collaborates": [
+    "Asset agent"
+   ]
+  },
+  {
+   "id": "SLT-09",
+   "title": "Run the offline AI Crew canon and asset checks on the Saltgate",
+   "priority": 7,
+   "why_score": "Keeps the work inside the locked style guide and canon at zero token cost. Not higher because it checks prompts and records, not shipped meshes.",
+   "detail": "Run main_asset.py --check-only on saltgate_hunyuan_v3.fal.json. Confirm: no people, flags are tattered amber and gold, nothing explains why the port was abandoned.",
+   "acceptance": [
+    "offline asset check passes",
+    "canon review notes recorded"
+   ],
+   "owner": "Saltgate Creator Agent",
+   "checks": [
+    {
+     "type": "crew_offline",
+     "command": [
+      "main_asset.py",
+      "sample_submissions/saltgate_hunyuan_v3.fal.json",
+      "--check-only"
+     ]
+    }
+   ],
+   "refs": [
+    "AIAgentCrew/sample_submissions/saltgate_hunyuan_v3.fal.json"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "Offline AI Crew",
+    "Canon and Review Orchestrator"
+   ]
+  },
+  {
+   "id": "SLT-10",
+   "title": "Place audio anchors for the Saltgate: creaking timber, loose shutters, rigging, distant city hum",
+   "priority": 6,
+   "why_score": "The lore's audio direction depends on specific physical sources. Not 7 because audio is placeholder at Gate 1.",
+   "detail": "Add Marker3D anchors named by sound type on the quay for the Sound agent to attach to. No audio is authored here.",
+   "acceptance": [
+    "anchors exist and are listed for the Sound agent"
+   ],
+   "owner": "Saltgate Creator Agent",
+   "checks": [
+    {
+     "type": "scene_node",
+     "scene": "LightingTheStorm/scenes/Level.tscn",
+     "pattern": "SaltgateAudio.*",
+     "min": 3
+    }
+   ],
+   "refs": [
+    "Docs/Lore Build/regions/reg_saltgate.md"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "Sound agent"
+   ]
+  },
+  {
+   "id": "SLT-11",
+   "title": "Compare the Saltgate to the quay and dock concept art and list every deliberate difference",
+   "priority": 5,
+   "why_score": "Art direction is locked by the concept art. Not higher because differences are cheap once listed.",
+   "detail": "Compare silhouettes and materials of the quay, the timber quay end, the workshop rear and the dock front against captures from the same angles.",
+   "acceptance": [
+    "a comparison note lists each difference as accepted or fixed"
+   ],
+   "owner": "Saltgate Creator Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "GERFramework/reports/saltgate_concept_comparison.md"
+    }
+   ],
+   "refs": [
+    "ConceptArt/saltgate/Abandoned Stone Quay Port-1.png",
+    "ConceptArt/dock/new dock front on.png"
+   ],
+   "depends_on": [],
+   "collaborates": []
+  }
+ ],
+ "records": {},
+ "history": [
+  {
+   "kind": "plan_review",
+   "loop": 1,
+   "at": "2026-10-20T14:25:34+00:00",
+   "findings": [],
+   "changes": []
+  }
+ ],
+ "approval": null,
+ "knowledge_note": "knowledge up to date",
+ "last_findings": [],
+ "last_blocks": 0
+}

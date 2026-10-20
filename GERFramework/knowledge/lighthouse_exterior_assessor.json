@@ -1,0 +1,2447 @@
+{
+ "assessor": "lighthouse_exterior_assessor",
+ "ingested_utc": "2026-10-20T14:20:40+00:00",
+ "keywords": [
+  "lighthouse",
+  "exterior",
+  "tower",
+  "beacon",
+  "lantern",
+  "gallery",
+  "silhouette",
+  "landmark",
+  "door",
+  "stone",
+  "mortar",
+  "chimney",
+  "hut",
+  "annex",
+  "gothic",
+  "arc lamp"
+ ],
+ "files_read": 51,
+ "sources": {
+  "Docs/Lore Build/characters/chr_arthur.md": {
+   "sha": "f49a202f55c6926b",
+   "headings": [
+    "Arthur",
+    "Summary",
+    "Appearance",
+    "Costume & Equipment",
+    "Voice",
+    "Abilities",
+    "Weaknesses",
+    "History",
+    "Beliefs",
+    "Motivation",
+    "Relationships",
+    "Story Hooks",
+    "Asset Prompts"
+   ],
+   "domain_hits": 4,
+   "hits": [
+    {
+     "line": 20,
+     "text": "A local whose boat was caught in the storm along with Daniel's. They moor their rowboat at the dock, and the player opens the island gate to let them shelter at the lighthouse. After Ted finds the beacon's burner broken, Arthur joins the player on the steam launch and guides the crossing to the Saltgate quays and back."
+    },
+    {
+     "line": 27,
+     "text": "- **silhouette_keywords:** [oilskin, heavy wool jumper, heavy black boots]"
+    },
+    {
+     "line": 39,
+     "text": "- \"A passenger ship? NOW? But the lighthouse beacon is broken!\""
+    },
+    {
+     "line": 60,
+     "text": "- **wants:** to fix the lighthouse, to save the ship, to help the player"
+    }
+   ]
+  },
+  "Docs/Lore Build/characters/chr_daniel.md": {
+   "sha": "6a2d4c351fd111c2",
+   "headings": [
+    "Daniel",
+    "Summary",
+    "Appearance",
+    "Costume & Equipment",
+    "Voice",
+    "Abilities",
+    "Weaknesses",
+    "History",
+    "Beliefs",
+    "Motivation",
+    "Relationships",
+    "Story Hooks",
+    "Asset Prompts"
+   ],
+   "domain_hits": 3,
+   "hits": [
+    {
+     "line": 20,
+     "text": "A local whose boat was caught in the storm with Arthur. They moor at the dock and seek shelter at the lighthouse, and the player lets them through the island gate. Daniel goes down to the basement and stays there, by the boiler, while the player and Arthur make the crossing (resolved 2026-10-16)."
+    },
+    {
+     "line": 27,
+     "text": "- **silhouette_keywords:** [oilskin, heavy wool jumper, heavy black boots]"
+    },
+    {
+     "line": 36,
+     "text": "- **sample_lines:** \"this was my first trip out - I might just stay on this flipping lighthouse!\""
+    }
+   ]
+  },
+  "Docs/Lore Build/characters/chr_player.md": {
+   "sha": "d14e229c83d1cfea",
+   "headings": [
+    "The Player Character",
+    "Summary",
+    "Appearance",
+    "Abilities",
+    "Everything Else",
+    "Asset Prompts"
+   ],
+   "domain_hits": 4,
+   "hits": [
+    {
+     "line": 20,
+     "text": "- Isaac, \"the new guy\": arrives at the Bracken Isle lighthouse to work under Ted. The game starts outside the lighthouse; Ted opens the door and lets him in. He never speaks."
+    },
+    {
+     "line": 23,
+     "text": "- **Then:** follows Ted up to the lantern room, where Ted finds the beacon's burner broken."
+    },
+    {
+     "line": 34,
+     "text": "| Stoke engine | sys_steam_power | Raises steam for the beacon | Coal, time | n/a |"
+    },
+    {
+     "line": 36,
+     "text": "| Fit the burner | sys_steam_power | Restores the beacon | Requires the replacement burner | Race against the ship |"
+    }
+   ]
+  },
+  "Docs/Lore Build/characters/chr_ted.md": {
+   "sha": "52869f7701378edb",
+   "headings": [
+    "Ted",
+    "Summary",
+    "Appearance",
+    "Costume & Equipment",
+    "Voice",
+    "Abilities",
+    "Weaknesses",
+    "History",
+    "Beliefs",
+    "Motivation",
+    "Relationships",
+    "Story Hooks",
+    "Asset Prompts"
+   ],
+   "domain_hits": 11,
+   "hits": [
+    {
+     "line": 20,
+     "text": "The lighthouse master on Bracken Isle and the player's boss. A grizzled local in his late 60s with a snarky tongue and contempt for the city's \"new money toffs.\" He is a **potential link to the Flighted**, and may be the only person who can communicate with them."
+    },
+    {
+     "line": 22,
+     "text": "**Opening role (story beats, 2026-10-16):** he opens the lighthouse door to the player (\"You're the new guy, then\"), lets him in and, after a beat, sends him to the basement to feed the boiler. He sees the sailors' rowboat from the window and sends the player to the island gate. Once the sailors are in and the beacon stays dark, he takes the player up to the lantern room, finds the burner broken a"
+    },
+    {
+     "line": 29,
+     "text": "- **silhouette_keywords:** [oilskin, heavy wool jumper, heavy black boots, weathered, older]"
+    },
+    {
+     "line": 41,
+     "text": "- \"You're the new guy, then.\" (opening the door)"
+    },
+    {
+     "line": 42,
+     "text": "- \"A passenger ship? NOW? But the lighthouse beacon is broken!\" (shared with Arthur)"
+    },
+    {
+     "line": 71,
+     "text": "| [[chr_player]] | Boss | Greets him at the door as \"the new guy\" |"
+    },
+    {
+     "line": 76,
+     "text": "- Flighted posters inside his own lighthouse"
+    },
+    {
+     "line": 80,
+     "text": "- **portrait:** \"Grizzled lighthouse keeper in his late 60s, weathered face, navy oilskin coat over a navy heavy wool jumper, sardonic expression, 1800s coastal setting, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, muted palette\""
+    },
+    {
+     "line": 81,
+     "text": "- **full_body:** \"Full body, older 1800s lighthouse keeper, navy oilskin coat, navy cable-knit jumper, heavy black oily boots, slightly stooped, gritty dark cel-shaded style, heavy ink outlines, character turnaround sheet\""
+    },
+    {
+     "line": 82,
+     "text": "- **sprite_or_model_notes:** first-person game NPC; needs readable silhouette and face for dialogue"
+    },
+    {
+     "line": 83,
+     "text": "- **animation_notes:** opening the lighthouse door, idle grumbling, pointing out to sea, opening the arc lamp to inspect the burner, shocked reaction at the sight of the ship"
+    }
+   ]
+  },
+  "Docs/Lore Build/cultures/cul_calder_city.md": {
+   "sha": "ebd7d597cb43f599",
+   "headings": [
+    "Saint Calder City Folk",
+    "Surface Identity (L3)",
+    "Internal Variation",
+    "Beliefs & Values (L5)",
+    "Relations With Other Peoples"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/cultures/cul_coastfolk.md": {
+   "sha": "edaad3963fdcf819",
+   "headings": [
+    "Coastfolk",
+    "Surface Identity (L3)",
+    "Architecture",
+    "Everyday Clothing",
+    "Armor & Weapons",
+    "Ceremonial Dress",
+    "Symbols & Heraldry",
+    "Silhouette Description",
+    "Music & Sound",
+    "Internal Variation",
+    "Beliefs & Values (L5)",
+    "Common Beliefs",
+    "Internal Arguments",
+    "Traditions (and their practical origins)",
+    "Taboos",
+    "Contradictions",
+    "Relations With Other Peoples",
+    "Asset Prompts"
+   ],
+   "domain_hits": 3,
+   "hits": [
+    {
+     "line": 14,
+     "text": "materials: [oilskin, heavy wool, oily leather, timber, stone]"
+    },
+    {
+     "line": 23,
+     "text": "Stone and mortar built to withstand the weather, like the lighthouse: battered but robust."
+    },
+    {
+     "line": 40,
+     "text": "### Silhouette Description"
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/characters/DIALOGUE_ARTHUR.md": {
+   "sha": "2bf625f7b5e03bf6",
+   "headings": [
+    "Arthur: Dialogue",
+    "Voice (from the lore file)",
+    "At a glance",
+    "Optional discoveries",
+    "Step 2: Let the sailors in",
+    "Step 3: Fetch the replacement burner",
+    "Staging, hints and notes"
+   ],
+   "domain_hits": 2,
+   "hits": [
+    {
+     "line": 13,
+     "text": ">   - \"A passenger ship? NOW? But the lighthouse beacon is broken!\""
+    },
+    {
+     "line": 52,
+     "text": "| `ARTHUR_S3_11` | `SHIP_SIGHTED` | discovery \u00b7 alt `ARTHUR_S3_SHIP` | \"There! Ship's lights, out in the swell. She can't see the rocks. No beacon.\" | Hushed, tight, urgent. |"
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/characters/DIALOGUE_DANIEL.md": {
+   "sha": "364cf1bff3e28574",
+   "headings": [
+    "Daniel: Dialogue",
+    "Voice (from the lore file)",
+    "At a glance",
+    "Optional discoveries",
+    "Step 2: Let the sailors in",
+    "Staging, hints and notes"
+   ],
+   "domain_hits": 2,
+   "hits": [
+    {
+     "line": 10,
+     "text": "> - **sample_lines:** \"this was my first trip out - I might just stay on this flipping lighthouse!\""
+    },
+    {
+     "line": 26,
+     "text": "| `DANIEL_OPT_07` | `WALL_WHISPER_HEARD` | reaction \u00b7 alt `DANIEL_WHISPER` | \"The wall's muttering again. It's the draught. Just the draught, in the stones.\" | Quiet, forced cheer, voice thin. |"
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/characters/DIALOGUE_TED.md": {
+   "sha": "9d4d127ea72f59ce",
+   "headings": [
+    "Ted: Dialogue",
+    "Voice (from the lore file)",
+    "At a glance",
+    "Step 1: Feed the boiler",
+    "Step 2: Let the sailors in",
+    "Step 3: Fetch the replacement burner",
+    "Staging, hints and notes"
+   ],
+   "domain_hits": 10,
+   "hits": [
+    {
+     "line": 13,
+     "text": ">   - \"A passenger ship? NOW? But the lighthouse beacon is broken!\" (shared with Arthur)"
+    },
+    {
+     "line": 28,
+     "text": "| `TED_S1_02` | `GAME_STARTED` | objective \u00b7 alt `TED_S1_OBJ` | \"Beacon's starved. Basement, engine room. Shovel coal into the boiler, Isaac.\" | Blunt, barking an order. |"
+    },
+    {
+     "line": 29,
+     "text": "| `TED_S1_03` | `GAME_STARTED` | objective \u00b7 alt `TED_S1_OBJ` | \"Boiler's cold and the beacon's starving. Down to the engine room. Shovel coal, Isaac.\" | Blunt, barking an order. |"
+    },
+    {
+     "line": 35,
+     "text": "| `TED_S1_09` | `BOILER_FED` | objective | \"Hear that dynamo whine? Good. Now up to the lantern room and look over the arc lamp.\" | Gruff, a rare note of satisfaction. |"
+    },
+    {
+     "line": 36,
+     "text": "| `TED_S1_10` | `LAMP_ROOM_ENTERED` | reaction | \"Arc lamp's in the middle. Open her up and look at the burner.\" | Shouted up the stairs, wheezing. |"
+    },
+    {
+     "line": 59,
+     "text": "| `TED_S3_02` | `BURNER_BRIEFING` | objective \u00b7 alt `TED_S3_OBJ` | \"No burner, no beacon. Outpost, across the Gullwater. Go with Arthur, Isaac.\" | Grim, urgent, coughing. |"
+    },
+    {
+     "line": 63,
+     "text": "- `TED_S1_01` *staging:* Ted at the lighthouse entrance, wind audible outside."
+    },
+    {
+     "line": 69,
+     "text": "- `TED_S1_09` *assist hint:* Climb to the lantern room and inspect the arc lamp."
+    },
+    {
+     "line": 77,
+     "text": "- `TED_S3_01` *staging:* Ted in the lighthouse hall, lamplight swaying as the wind shakes the walls."
+    },
+    {
+     "line": 79,
+     "text": "- `TED_S3_02` *staging:* Ted in the lighthouse hall, lamplight swaying as the wind shakes the walls."
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING.md": {
+   "sha": "c23f2eb63d5e210f",
+   "headings": [
+    "Opening Dialogue: Steps 1-3 (Gate 1 slice)",
+    "Step 1: Feed the boiler",
+    "On `GAME_STARTED`",
+    "On `IDLE_STEP_1`",
+    "On `ENGINE_ROOM_ENTERED`",
+    "On `COAL_LOADED_FIRST`",
+    "On `COAL_LOADED_HALF`",
+    "On `BOILER_FED`",
+    "On `LAMP_ROOM_ENTERED`",
+    "On `BURNER_DIAGNOSED`",
+    "Step 2: Let the sailors in",
+    "On `SAILORS_MOORED`",
+    "On `WINDOW_LOOKED`",
+    "On `IDLE_STEP_2`",
+    "On `GATE_APPROACHED`",
+    "On `GATE_OPENED`",
+    "On `SAILORS_INSIDE`",
+    "On `DANIEL_IN_BASEMENT`",
+    "Step 3: Fetch the burner",
+    "On `BURNER_BRIEFING`",
+    "On `IDLE_STEP_3`",
+    "On `BOARDING_THRESHOLD`",
+    "On `SHIP_SIGHTED`",
+    "On `BOAT_CAST_OFF`",
+    "On `OUTBOUND_NEAR_MISS`",
+    "On `OUTBOUND_COLLISION`",
+    "On `OUTPOST_REACHED`",
+    "On `IDLE_OUTPOST`",
+    "On `BURNER_PICKED_UP`",
+    "Optional discoveries",
+    "On `POSTER_EXAMINED`",
+    "On `WALL_WHISPER_HEARD`",
+    "On `BASEMENT_BANG`",
+    "On `BASEMENT_TALK`",
+    "Objective journal (handwritten, Isaac's own words)",
+    "Open creator decisions",
+    "Assumptions to confirm"
+   ],
+   "domain_hits": 24,
+   "hits": [
+    {
+     "line": 11,
+     "text": "*Location:* Engine room (basement), then lantern room"
+    },
+    {
+     "line": 12,
+     "text": "*Player does:* Shovel coal into the boiler, then find the beacon's burner is broken."
+    },
+    {
+     "line": 15,
+     "text": "*New game begins at the lighthouse entrance.*"
+    },
+    {
+     "line": 25,
+     "text": "- **TED** `TED_S1_05` (objective): \"Beacon runs on steam, steam runs on coal. Get down to the basement engine room and feed that boiler.\""
+    },
+    {
+     "line": 63,
+     "text": "*Gauge reaches working pressure; dynamo whines, beacon flickers.*"
+    },
+    {
+     "line": 66,
+     "text": "- **TED** `TED_S1_09a` (objective): \"There she goes! Hear the dynamo whine? Steam's up. Now get up to the lantern room.\""
+    },
+    {
+     "line": 68,
+     "text": "*assist hint:* Climb the stairs to the lantern room at the top of the lighthouse."
+    },
+    {
+     "line": 69,
+     "text": "- **TED** `TED_S1_09b` (objective): \"Not bad for a new money toff. Steam's up. Lantern room, now, and mind the stairs.\""
+    },
+    {
+     "line": 71,
+     "text": "*assist hint:* Climb the stairs to the lantern room at the top of the lighthouse."
+    },
+    {
+     "line": 74,
+     "text": "*Player enters the lantern room.*"
+    },
+    {
+     "line": 78,
+     "text": "*assist hint:* Walk up to the arc lamp and inspect the burner at its centre."
+    },
+    {
+     "line": 82,
+     "text": "*Player inspects the arc lamp and finds the burner broken.*"
+    },
+    {
+     "line": 91,
+     "text": "*Location:* Lantern-room window, path, island gate"
+    },
+    {
+     "line": 99,
+     "text": "*assist hint:* Walk to the lantern room window and look at the dock."
+    },
+    {
+     "line": 107,
+     "text": "*assist hint:* Leave the lighthouse, follow the path down to the iron gate and open it."
+    },
+    {
+     "line": 116,
+     "text": "- **TED** `TED_S2_N3` (nudge tier 3): \"Out the door, down the path, iron gate. Open it. Go.\""
+    },
+    {
+     "line": 135,
+     "text": "- **DANIEL** `DANIEL_S2_02` (reaction): \"Thank you, thank you! This was my first trip out. I might just stay on this flipping lighthouse!\""
+    },
+    {
+     "line": 142,
+     "text": "*Arthur and Daniel reach the lighthouse hall.*"
+    },
+    {
+     "line": 198,
+     "text": "*staging:* Shouted from the lighthouse; the ship's lights appear as he speaks."
+    },
+    {
+     "line": 205,
+     "text": "- **ARTHUR** `ARTHUR_S3_03` (reaction): \"A passenger ship? NOW? But the lighthouse beacon is broken!\""
+    },
+    {
+     "line": 263,
+     "text": "*Location:* Lighthouse and basement"
+    },
+    {
+     "line": 264,
+     "text": "*Player does:* Unprompted reactions to the haunted-lighthouse details (Pillar 1)."
+    },
+    {
+     "line": 274,
+     "text": "*Optional: whisper in the lighthouse walls.*"
+    },
+    {
+     "line": 299,
+     "text": "| `JRN_02` | 1 | `BOILER_FED` | Steam is up and the beacon flickers. Ted wants me in the lantern room. |"
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_FINAL.md": {
+   "sha": "3bc3483c054c150d",
+   "headings": [
+    "Opening Dialogue: Steps 1-3 (Gate 1 slice)",
+    "Step 1: Feed the boiler",
+    "On `GAME_STARTED`",
+    "On `ENGINE_ROOM_ENTERED`",
+    "On `COAL_LOADED_FIRST`",
+    "On `COAL_LOADED_HALF`",
+    "On `BOILER_FED`",
+    "On `LAMP_ROOM_ENTERED`",
+    "On `BURNER_DIAGNOSED`",
+    "On `IDLE_STEP_1`",
+    "Step 2: Let the sailors in",
+    "On `SAILORS_MOORED`",
+    "On `WINDOW_LOOKED`",
+    "On `GATE_APPROACHED`",
+    "On `GATE_OPENED`",
+    "On `SAILORS_INSIDE`",
+    "On `DANIEL_IN_BASEMENT`",
+    "On `IDLE_STEP_2`",
+    "Step 3: Fetch the replacement burner",
+    "On `BURNER_BRIEFING`",
+    "On `BOARDING_THRESHOLD`",
+    "On `BOAT_CAST_OFF`",
+    "On `OUTBOUND_NEAR_MISS`",
+    "On `OUTBOUND_COLLISION`",
+    "On `SHIP_SIGHTED`",
+    "On `OUTPOST_REACHED`",
+    "On `BURNER_PICKED_UP`",
+    "On `IDLE_STEP_3`",
+    "On `IDLE_OUTPOST`",
+    "Optional discoveries",
+    "On `BASEMENT_TALK`",
+    "On `BASEMENT_BANG`",
+    "On `WALL_WHISPER_HEARD`",
+    "On `POSTER_EXAMINED`",
+    "Objective journal (handwritten, Isaac's own words)",
+    "Open creator decisions",
+    "Assumptions to confirm"
+   ],
+   "domain_hits": 23,
+   "hits": [
+    {
+     "line": 11,
+     "text": "*Location:* Basement engine room, then the lantern room"
+    },
+    {
+     "line": 12,
+     "text": "*Player does:* Shovel coal into the boiler firebox until the gauge reaches working pressure and the dynamo whines and the beacon flickers. Then climb to the lantern room and inspect the arc lamp to find the burner broken."
+    },
+    {
+     "line": 15,
+     "text": "*New game begins at the lighthouse entrance.*"
+    },
+    {
+     "line": 19,
+     "text": "*staging:* Ted at the lighthouse entrance, wind audible outside."
+    },
+    {
+     "line": 22,
+     "text": "- **TED** `TED_S1_02` (objective): \"Beacon's starved. Basement, engine room. Shovel coal into the boiler, Isaac.\""
+    },
+    {
+     "line": 26,
+     "text": "- **TED** `TED_S1_03` (objective): \"Boiler's cold and the beacon's starving. Down to the engine room. Shovel coal, Isaac.\""
+    },
+    {
+     "line": 56,
+     "text": "*Gauge reaches working pressure; dynamo whines, beacon flickers.*"
+    },
+    {
+     "line": 58,
+     "text": "- **TED** `TED_S1_09` (objective): \"Hear that dynamo whine? Good. Now up to the lantern room and look over the arc lamp.\""
+    },
+    {
+     "line": 60,
+     "text": "*assist hint:* Climb to the lantern room and inspect the arc lamp."
+    },
+    {
+     "line": 63,
+     "text": "*Player enters the lantern room.*"
+    },
+    {
+     "line": 65,
+     "text": "- **TED** `TED_S1_10` (reaction): \"Arc lamp's in the middle. Open her up and look at the burner.\""
+    },
+    {
+     "line": 69,
+     "text": "*Player inspects the arc lamp and finds the burner broken.*"
+    },
+    {
+     "line": 87,
+     "text": "*Location:* Lighthouse window, dock and island gate, then the hall and basement"
+    },
+    {
+     "line": 128,
+     "text": "*Arthur and Daniel reach the lighthouse hall.*"
+    },
+    {
+     "line": 172,
+     "text": "*staging:* Ted in the lighthouse hall, lamplight swaying as the wind shakes the walls."
+    },
+    {
+     "line": 173,
+     "text": "- **TED** `TED_S3_02` (objective): \"No burner, no beacon. Outpost, across the Gullwater. Go with Arthur, Isaac.\""
+    },
+    {
+     "line": 176,
+     "text": "*staging:* Ted in the lighthouse hall, lamplight swaying as the wind shakes the walls."
+    },
+    {
+     "line": 220,
+     "text": "- **ARTHUR** `ARTHUR_S3_11` (discovery): \"There! Ship's lights, out in the swell. She can't see the rocks. No beacon.\""
+    },
+    {
+     "line": 259,
+     "text": "*Location:* Lighthouse and basement"
+    },
+    {
+     "line": 260,
+     "text": "*Player does:* Unprompted reactions to the haunted-lighthouse details (Pillar 1)."
+    },
+    {
+     "line": 285,
+     "text": "*Optional: whisper in the lighthouse walls.*"
+    },
+    {
+     "line": 288,
+     "text": "- **DANIEL** `DANIEL_OPT_07` (reaction): \"The wall's muttering again. It's the draught. Just the draught, in the stones.\""
+    },
+    {
+     "line": 312,
+     "text": "| `JRN_01` | 1 | `GAME_STARTED` | Ted says the beacon is starved. Shovel coal into the boiler in the basement engine room until the gauge climbs. |"
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_LIVE.md": {
+   "sha": "9b88d78e16fe9329",
+   "headings": [
+    "Opening Dialogue: Steps 1-3 (Gate 1 slice)",
+    "Step 1: Feed the boiler",
+    "On `GAME_STARTED`",
+    "On `ENGINE_ROOM_ENTERED`",
+    "On `COAL_LOADED_FIRST`",
+    "On `COAL_LOADED_HALF`",
+    "On `BOILER_FED`",
+    "On `LAMP_ROOM_ENTERED`",
+    "On `BURNER_DIAGNOSED`",
+    "On `IDLE_STEP_1`",
+    "Step 2: Let the sailors in",
+    "On `SAILORS_MOORED`",
+    "On `WINDOW_LOOKED`",
+    "On `GATE_APPROACHED`",
+    "On `GATE_OPENED`",
+    "On `SAILORS_INSIDE`",
+    "On `DANIEL_IN_BASEMENT`",
+    "On `BASEMENT_TALK`",
+    "On `BASEMENT_BANG`",
+    "On `WALL_WHISPER_HEARD`",
+    "On `IDLE_STEP_2`",
+    "Step 3: Fetch the replacement burner",
+    "On `BURNER_BRIEFING`",
+    "On `BOARDING_THRESHOLD`",
+    "On `BOAT_CAST_OFF`",
+    "On `OUTBOUND_NEAR_MISS`",
+    "On `OUTBOUND_COLLISION`",
+    "On `SHIP_SIGHTED`",
+    "On `OUTPOST_REACHED`",
+    "On `POSTER_EXAMINED`",
+    "On `BURNER_PICKED_UP`",
+    "On `IDLE_STEP_3`",
+    "On `IDLE_OUTPOST`",
+    "Optional discoveries",
+    "Objective journal (handwritten, Isaac's own words)",
+    "Open creator decisions",
+    "Assumptions to confirm"
+   ],
+   "domain_hits": 23,
+   "hits": [
+    {
+     "line": 11,
+     "text": "*Location:* Basement engine room, then the lantern room"
+    },
+    {
+     "line": 12,
+     "text": "*Player does:* Shovel coal into the boiler firebox until the gauge reaches working pressure and the dynamo whines and the beacon flickers. Then climb to the lantern room and inspect the arc lamp to find the burner broken."
+    },
+    {
+     "line": 15,
+     "text": "*New game begins at the lighthouse entrance.*"
+    },
+    {
+     "line": 19,
+     "text": "*staging:* Ted at the lighthouse entrance, wind audible outside."
+    },
+    {
+     "line": 22,
+     "text": "- **TED** `TED_S1_02` (objective): \"Beacon's starved. Basement, engine room. Shovel coal into the boiler, Isaac.\""
+    },
+    {
+     "line": 26,
+     "text": "- **TED** `TED_S1_03` (objective): \"Boiler's cold and the beacon's starving. Down to the engine room. Shovel coal, Isaac.\""
+    },
+    {
+     "line": 56,
+     "text": "*Gauge reaches working pressure; dynamo whines, beacon flickers.*"
+    },
+    {
+     "line": 58,
+     "text": "- **TED** `TED_S1_09` (objective): \"Hear that dynamo whine? Good. Now up to the lantern room and look over the arc lamp.\""
+    },
+    {
+     "line": 60,
+     "text": "*assist hint:* Climb to the lantern room and inspect the arc lamp."
+    },
+    {
+     "line": 63,
+     "text": "*Player enters the lantern room.*"
+    },
+    {
+     "line": 65,
+     "text": "- **TED** `TED_S1_10` (reaction): \"Arc lamp's in the middle. Open her up and look at the burner.\""
+    },
+    {
+     "line": 69,
+     "text": "*Player inspects the arc lamp and finds the burner broken.*"
+    },
+    {
+     "line": 87,
+     "text": "*Location:* Lighthouse window, dock and island gate, then the hall and basement"
+    },
+    {
+     "line": 128,
+     "text": "*Arthur and Daniel reach the lighthouse hall.*"
+    },
+    {
+     "line": 170,
+     "text": "*Optional: whisper in the lighthouse walls.*"
+    },
+    {
+     "line": 173,
+     "text": "- **DANIEL** `DANIEL_OPT_07` (reaction): \"The wall's muttering again. It's the draught. Just the draught, in the stones.\""
+    },
+    {
+     "line": 203,
+     "text": "*staging:* Ted at the dock, lantern swinging."
+    },
+    {
+     "line": 204,
+     "text": "- **TED** `TED_S3_02` (objective): \"No burner, no beacon. Outpost, across the Gullwater. Go with Arthur, Isaac.\""
+    },
+    {
+     "line": 207,
+     "text": "*staging:* Ted at the dock, lantern swinging."
+    },
+    {
+     "line": 251,
+     "text": "- **ARTHUR** `ARTHUR_S3_11` (discovery): \"There! Ship's lights, out in the swell. She can't see the rocks. No beacon.\""
+    },
+    {
+     "line": 299,
+     "text": "*Location:* Lighthouse and basement"
+    },
+    {
+     "line": 300,
+     "text": "*Player does:* Unprompted reactions to the haunted-lighthouse details (Pillar 1)."
+    },
+    {
+     "line": 306,
+     "text": "| `JRN_01` | 1 | `GAME_STARTED` | Ted says the beacon is starved. Shovel coal into the boiler in the basement engine room until the gauge climbs. |"
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/README.md": {
+   "sha": "27725672b62bf425",
+   "headings": [
+    "Character Dialogue Sequences",
+    "Characters",
+    "Opening dialogue (all characters, by step and event)",
+    "Diagrams"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/dialogue/characters/DIALOGUE_ARTHUR.md": {
+   "sha": "8ce78bf7d60cdb23",
+   "headings": [
+    "Arthur: Dialogue",
+    "Voice (from the lore file)",
+    "At a glance",
+    "Optional discoveries",
+    "Step 2: Let the sailors in",
+    "Step 3: Fetch a new burner",
+    "Staging, hints and notes"
+   ],
+   "domain_hits": 2,
+   "hits": [
+    {
+     "line": 13,
+     "text": ">   - \"A passenger ship? NOW? But the lighthouse beacon is broken!\""
+    },
+    {
+     "line": 41,
+     "text": "| `ARTHUR_S3_11` | `SHIP_SIGHTED` | discovery | \"There! Ship's lights, out in the swell. She can't see the rocks. No beacon.\" | Hushed, tight, urgent. |"
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/characters/DIALOGUE_DANIEL.md": {
+   "sha": "9adf5eadd78ecd4c",
+   "headings": [
+    "Daniel: Dialogue",
+    "Voice (from the lore file)",
+    "At a glance",
+    "Optional discoveries",
+    "Step 2: Let the sailors in",
+    "Staging, hints and notes"
+   ],
+   "domain_hits": 1,
+   "hits": [
+    {
+     "line": 10,
+     "text": "> - **sample_lines:** \"this was my first trip out - I might just stay on this flipping lighthouse!\""
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/characters/DIALOGUE_TED.md": {
+   "sha": "1bf6a9c9b2f58480",
+   "headings": [
+    "Ted: Dialogue",
+    "Voice (from the lore file)",
+    "At a glance",
+    "Step 1: Arrive and feed the boiler",
+    "Step 2: Let the sailors in",
+    "Step 3: Fetch a new burner",
+    "Staging, hints and notes"
+   ],
+   "domain_hits": 10,
+   "hits": [
+    {
+     "line": 13,
+     "text": ">   - \"You're the new guy, then.\" (opening the door)"
+    },
+    {
+     "line": 14,
+     "text": ">   - \"A passenger ship? NOW? But the lighthouse beacon is broken!\" (shared with Arthur)"
+    },
+    {
+     "line": 29,
+     "text": "| `TED_S1_03` | `LIGHTHOUSE_ENTERED` | objective | \"Boiler's cold and the beacon's starving. Down to the engine room. Shovel coal, Isaac.\" | Blunt, barking an order. |"
+    },
+    {
+     "line": 53,
+     "text": "| `TED_S3_00` | `BEACON_STILL_DARK` | objective | \"Dynamo's running and still no light. Something's wrong up top. Lantern room, Isaac. With me.\" | Gruff and uneasy, looking up the stairs; the hum of the dynamo under him. |"
+    },
+    {
+     "line": 54,
+     "text": "| `TED_S1_10` | `LAMP_ROOM_ENTERED` | reaction | \"Arc lamp's in the middle. Let's open her up and see what's ailing her.\" | Shouted up the stairs, wheezing. |"
+    },
+    {
+     "line": 56,
+     "text": "| `TED_S3_02` | `BURNER_BRIEFING` | objective | \"No burner, no beacon. There's a spare at the Saltgate, across the Gullwater. Go with Arthur, Isaac.\" | Grim, urgent, coughing. |"
+    },
+    {
+     "line": 60,
+     "text": "- `TED_S1_01` *staging:* Isaac stands outside the lighthouse door in the wind; Ted opens it and looks him over."
+    },
+    {
+     "line": 72,
+     "text": "- `TED_S3_00` *staging:* Ted at the foot of the tower stairs, looking up at the dark lantern."
+    },
+    {
+     "line": 74,
+     "text": "- `TED_S3_00` *assist hint:* Follow Ted up the tower stairs to the lantern room."
+    },
+    {
+     "line": 77,
+     "text": "- `TED_S3_02` *staging:* Ted in the lighthouse hall, lamplight swaying as the wind shakes the walls."
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/DIALOGUE_OPENING_CREATOR_PICKS.md": {
+   "sha": "54bb5321d8f0479d",
+   "headings": [
+    "Opening Dialogue: Creator Picks",
+    "Picks",
+    "Reword",
+    "Effects to be aware of"
+   ],
+   "domain_hits": 5,
+   "hits": [
+    {
+     "line": 7,
+     "text": "**Story-beat revision, 2026-10-16.** The creator then fixed the story order (`AIAgentCrew/canon.py` `STORY_BEATS`): the player starts outside and Ted opens the door; after a beat, coal; then the sailors; only then does Ted find the burner broken; then the Saltgate crossing. `AIAgentCrew/story_beats.py` applies that to these picks without changing any line ID:"
+    },
+    {
+     "line": 11,
+     "text": "| `TED_S1_01` | Now the greeting at the door: \"Hrmph. You're the new guy, then. Storm season, and they send me a new money toff. In.\" |"
+    },
+    {
+     "line": 12,
+     "text": "| `TED_S1_03` | Moved to `LIGHTHOUSE_ENTERED` (inside, after a beat) |"
+    },
+    {
+     "line": 14,
+     "text": "| `TED_S3_00` | **New**, on `BEACON_STILL_DARK`: Ted takes Isaac up to the lantern room |"
+    },
+    {
+     "line": 37,
+     "text": "| 3 | `SHIP_SIGHTED` | `ARTHUR_S3_11` | `ARTHUR_S3_10` | Kept line ties the ship to the dead beacon (Pillar 1). |"
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/DIALOGUE_OPENING_FINAL.md": {
+   "sha": "87db7f25041c6167",
+   "headings": [
+    "Opening Dialogue: Steps 1-3 (Gate 1 slice)",
+    "Step 1: Arrive and feed the boiler",
+    "On `GAME_STARTED`",
+    "On `LIGHTHOUSE_ENTERED`",
+    "On `ENGINE_ROOM_ENTERED`",
+    "On `COAL_LOADED_FIRST`",
+    "On `COAL_LOADED_HALF`",
+    "On `BOILER_FED`",
+    "On `IDLE_STEP_1`",
+    "Step 2: Let the sailors in",
+    "On `SAILORS_MOORED`",
+    "On `WINDOW_LOOKED`",
+    "On `GATE_APPROACHED`",
+    "On `GATE_OPENED`",
+    "On `SAILORS_INSIDE`",
+    "On `DANIEL_IN_BASEMENT`",
+    "On `IDLE_STEP_2`",
+    "Step 3: Fetch a new burner",
+    "On `BEACON_STILL_DARK`",
+    "On `LAMP_ROOM_ENTERED`",
+    "On `BURNER_DIAGNOSED`",
+    "On `BURNER_BRIEFING`",
+    "On `BOARDING_THRESHOLD`",
+    "On `SHIP_SIGHTED`",
+    "On `BOAT_CAST_OFF`",
+    "On `OUTBOUND_NEAR_MISS`",
+    "On `OUTBOUND_COLLISION`",
+    "On `SALTGATE_REACHED`",
+    "On `BURNER_PICKED_UP`",
+    "On `IDLE_STEP_3`",
+    "On `IDLE_SALTGATE`",
+    "Optional discoveries",
+    "On `POSTER_EXAMINED`",
+    "On `WALL_WHISPER_HEARD`",
+    "On `BASEMENT_BANG`",
+    "On `BASEMENT_TALK`",
+    "Objective journal (handwritten, Isaac's own words)",
+    "Open creator decisions",
+    "Assumptions to confirm"
+   ],
+   "domain_hits": 28,
+   "hits": [
+    {
+     "line": 11,
+     "text": "*Location:* Outside the lighthouse door, the hall, the basement engine room"
+    },
+    {
+     "line": 12,
+     "text": "*Player does:* Wait outside until Ted opens the door, step into the lighthouse, then go down to the basement and shovel coal into the boiler until the gauge reaches working pressure."
+    },
+    {
+     "line": 15,
+     "text": "*New game begins OUTSIDE the lighthouse; Ted opens the door.*"
+    },
+    {
+     "line": 19,
+     "text": "*staging:* Isaac stands outside the lighthouse door in the wind; Ted opens it and looks him over."
+    },
+    {
+     "line": 22,
+     "text": "### On `LIGHTHOUSE_ENTERED`"
+    },
+    {
+     "line": 25,
+     "text": "- **TED** `TED_S1_03` (objective): \"Boiler's cold and the beacon's starving. Down to the engine room. Shovel coal, Isaac.\""
+    },
+    {
+     "line": 52,
+     "text": "*Gauge reaches working pressure; the dynamo whines (the beacon stays dark).*"
+    },
+    {
+     "line": 71,
+     "text": "*Location:* Lighthouse window, the path from the dock, the island gate"
+    },
+    {
+     "line": 104,
+     "text": "*Arthur and Daniel reach the lighthouse hall.*"
+    },
+    {
+     "line": 134,
+     "text": "*Location:* Lantern room, hall, dock, steam launch, the Saltgate quays"
+    },
+    {
+     "line": 135,
+     "text": "*Player does:* Follow Ted up to the lantern room, where he finds the burner broken; then board the steam launch with Arthur, cross the Gullwater and pick up the replacement burner at the Saltgate quays."
+    },
+    {
+     "line": 137,
+     "text": "### On `BEACON_STILL_DARK`"
+    },
+    {
+     "line": 138,
+     "text": "*Dynamo running but the beacon stays dark; Ted heads up to the lantern room.*"
+    },
+    {
+     "line": 140,
+     "text": "- **TED** `TED_S3_00` (objective): \"Dynamo's running and still no light. Something's wrong up top. Lantern room, Isaac. With me.\""
+    },
+    {
+     "line": 142,
+     "text": "*assist hint:* Follow Ted up the tower stairs to the lantern room."
+    },
+    {
+     "line": 143,
+     "text": "*staging:* Ted at the foot of the tower stairs, looking up at the dark lantern."
+    },
+    {
+     "line": 147,
+     "text": "*Player follows Ted into the lantern room.*"
+    },
+    {
+     "line": 149,
+     "text": "- **TED** `TED_S1_10` (reaction): \"Arc lamp's in the middle. Let's open her up and see what's ailing her.\""
+    },
+    {
+     "line": 154,
+     "text": "*Ted opens the arc lamp, finds the burner broken and says a new one is needed.*"
+    },
+    {
+     "line": 163,
+     "text": "- **TED** `TED_S3_02` (objective): \"No burner, no beacon. There's a spare at the Saltgate, across the Gullwater. Go with Arthur, Isaac.\""
+    },
+    {
+     "line": 166,
+     "text": "*staging:* Ted in the lighthouse hall, lamplight swaying as the wind shakes the walls."
+    },
+    {
+     "line": 179,
+     "text": "- **ARTHUR** `ARTHUR_S3_11` (discovery): \"There! Ship's lights, out in the swell. She can't see the rocks. No beacon.\""
+    },
+    {
+     "line": 241,
+     "text": "*Location:* Lighthouse and basement"
+    },
+    {
+     "line": 242,
+     "text": "*Player does:* Unprompted reactions to the haunted-lighthouse details (Pillar 1)."
+    },
+    {
+     "line": 252,
+     "text": "*Optional: whisper in the lighthouse walls.*"
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/README.md": {
+   "sha": "01ebe1f11089ace4",
+   "headings": [
+    "Character Dialogue Sequences",
+    "Characters",
+    "Opening dialogue (all characters, by step and event)",
+    "Diagrams"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/factions/fac_city_elite.md": {
+   "sha": "0bbd55145b0b3333",
+   "headings": [
+    "The City Elite",
+    "Goal",
+    "Origin (link events)",
+    "Beliefs & Internal Divisions",
+    "Resources & Reach",
+    "Allies & Enemies",
+    "Emblem & Visual Identity"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/factions/fac_farmers.md": {
+   "sha": "1cb02a9c68f6d23c",
+   "headings": [
+    "The Farmers",
+    "Goal",
+    "Origin (link events)",
+    "Beliefs & Internal Divisions",
+    "Resources & Reach",
+    "Allies & Enemies",
+    "Emblem & Visual Identity"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/factions/fac_flighted.md": {
+   "sha": "ee221ac086abf3ed",
+   "headings": [
+    "The Flighted",
+    "Goal",
+    "Origin (link events)",
+    "Beliefs & Internal Divisions",
+    "Propaganda (in-world documents & posters)",
+    "Emblem & Visual Identity"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/factions/fac_political_class.md": {
+   "sha": "ad11444e2a3aac3a",
+   "headings": [
+    "The Political Class",
+    "Goal",
+    "Origin (link events)",
+    "Beliefs & Internal Divisions",
+    "Resources & Reach",
+    "Allies & Enemies",
+    "Emblem & Visual Identity"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/factions/fac_resistance.md": {
+   "sha": "f0cd900078954e09",
+   "headings": [
+    "The Resistance",
+    "Goal",
+    "Origin (link events)",
+    "Beliefs & Internal Divisions",
+    "Resources & Reach",
+    "Allies & Enemies",
+    "Emblem & Visual Identity"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/factions/fac_smugglers.md": {
+   "sha": "b7e4862c8e4f70f8",
+   "headings": [
+    "The Smugglers",
+    "Goal",
+    "Origin (link events)",
+    "Beliefs & Internal Divisions",
+    "Resources & Reach",
+    "Allies & Enemies",
+    "Emblem & Visual Identity"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/institutions/ins_garrisons.md": {
+   "sha": "ab4ca3e69fa27533",
+   "headings": [
+    "The Coastal Garrisons",
+    "Function",
+    "Resources",
+    "Goals & Long-Term Incentives",
+    "Constraints",
+    "How It Shapes Politics",
+    "Failure Mode (what happens if it collapses)",
+    "Internal Tensions",
+    "Visual Identity & Asset Prompts"
+   ],
+   "domain_hits": 1,
+   "hits": [
+    {
+     "line": 38,
+     "text": "- **soldier_prompt:** \"1800s-era coastal garrison soldier in a uniform with heavy chain mail, a strong steel helmet with a single metal nose guard and open face, stern posture, standing on a stone rampart at night, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows\""
+    }
+   ]
+  },
+  "Docs/Lore Build/manifest.md": {
+   "sha": "cce9a438d6bf4412",
+   "headings": [
+    "Manifest",
+    "Coverage",
+    "Other Open Items",
+    "Files"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/regions/reg_bracken_isle.md": {
+   "sha": "d80eac57cca47fb9",
+   "headings": [
+    "Bracken Isle",
+    "Geography & Climate (and why)",
+    "Settlements",
+    "Key Locations",
+    "Resources & Trade",
+    "Ruins & Historical Sites",
+    "Current Tensions",
+    "Environment Art Direction",
+    "Ambient Audio Direction",
+    "Asset Prompts"
+   ],
+   "domain_hits": 13,
+   "hits": [
+    {
+     "line": 18,
+     "text": "- **The rocks:** jagged rocks cover the island and continue around it, many hidden just below the waves. This reef field is the reason the lighthouse exists."
+    },
+    {
+     "line": 23,
+     "text": "| The lighthouse | Single building | Guards the approach to the Saltgate. During eclipses it is the only true light by which ships can see the rocks. | TBD | Stone and mortar, battered but robust. Haunted halls. |"
+    },
+    {
+     "line": 27,
+     "text": "- **The lighthouse door:** the game starts here, outside, until Ted opens the door to \"the new guy\"."
+    },
+    {
+     "line": 28,
+     "text": "- **The path:** runs from the dock to the lighthouse. Jagged rocks on either side force everyone to stay on it."
+    },
+    {
+     "line": 30,
+     "text": "- **The engine room:** a coal-fired boiler drives a steam engine and dynamo, which power the beacon's electric arc lamp. The player's first task, once Ted has let him in, is to shovel coal here. Daniel stays down here once the sailors are in."
+    },
+    {
+     "line": 31,
+     "text": "- **The lantern room:** home of the beacon. The burner in its arc lamp is broken from the start, but nobody knows until the dynamo is running and the beacon stays dark; Ted then brings the player up here and finds it."
+    },
+    {
+     "line": 42,
+     "text": "- The beacon stays dark even with the dynamo running (its burner is broken), and a passenger ship is approaching."
+    },
+    {
+     "line": 44,
+     "text": "- Flighted propaganda sits inside the lighthouse itself."
+    },
+    {
+     "line": 49,
+     "text": "- **key_materials:** [rough stone, lime mortar, wet black rock, salt-rotted timber, iron railings, brass fittings]"
+    },
+    {
+     "line": 51,
+     "text": "- The only strong source is the arc beacon when lit. Otherwise there are weak interior lamps and a black, moonless sky."
+    },
+    {
+     "line": 62,
+     "text": "- **environment_concept:** \"A small windswept rocky island at night under a moonless sky, a battered stone and mortar lighthouse on its high point, a single narrow path from a small timber dock winding between jagged black rocks, an iron gate across the path, a few wind-bent trees, tattered amber and gold flags, sea spray, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, "
+    },
+    {
+     "line": 63,
+     "text": "- **interior_concept:** \"Narrow stone hallway inside an 1800s lighthouse, peeling crude printed posters showing a dark sphere eclipsing a silver moon over waves, scattered papers, a dim electric lamp, cracks in the walls, gritty dark cel-shaded style, heavy ink outlines, claustrophobic horror mood\""
+    },
+    {
+     "line": 64,
+     "text": "- **engine_room_concept:** \"Cramped 1800s lighthouse engine room, coal-fired boiler, small steam engine driving a dynamo, coal heap and shovel, pipes, gauges, steam leaks, soot-blackened stone, warm firebox glow, gritty dark cel-shaded style, heavy ink outlines\""
+    }
+   ]
+  },
+  "Docs/Lore Build/regions/reg_calder_coast.md": {
+   "sha": "af43d51466cbbe37",
+   "headings": [
+    "The Calder Coast",
+    "Geography & Climate (and why)",
+    "Settlements",
+    "Current Tensions",
+    "Environment Art Direction",
+    "Asset Prompts"
+   ],
+   "domain_hits": 5,
+   "hits": [
+    {
+     "line": 18,
+     "text": "- The Marrow runs south from Greymantle and reaches the sea about a mile east of the lighthouse."
+    },
+    {
+     "line": 23,
+     "text": "| Fort Kestrel | Fortress | Guards the western coast, about one mile west of the lighthouse | TBD | Manned and active. Lit and flying flags, but no one visible on the walls. |"
+    },
+    {
+     "line": 24,
+     "text": "| Fort Heron | Fortress | Guards the mouth of the Marrow, about one mile east of the lighthouse | TBD | Manned and active. Lit and flying flags, but no one visible. The Marrow is too small for the passenger ship. |"
+    },
+    {
+     "line": 32,
+     "text": "- **key_materials:** [heavy grey stone, iron, lit windows, flag poles]"
+    },
+    {
+     "line": 36,
+     "text": "- **fortress_concept:** \"Massive 1800s coastal stone fortress at night on a rocky shore, every window lit by electric light, flags flying, ramparts completely empty of people, black moonless sky, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, ominous\""
+    }
+   ]
+  },
+  "Docs/Lore Build/regions/reg_gullwater.md": {
+   "sha": "85d78bafe6cdf05a",
+   "headings": [
+    "The Gullwater",
+    "Geography & Climate (and why)",
+    "The Crossing (gameplay)",
+    "Current Tensions",
+    "Environment Art Direction",
+    "Ambient Audio Direction",
+    "Asset Prompts"
+   ],
+   "domain_hits": 4,
+   "hits": [
+    {
+     "line": 25,
+     "text": "- **Visible landmarks:**"
+    },
+    {
+     "line": 28,
+     "text": "- The lighthouse behind"
+    },
+    {
+     "line": 39,
+     "text": "- **weather:** a rolling swell and setting-in rain outbound, rising to driving rain, lightning and towering waves on the return."
+    },
+    {
+     "line": 46,
+     "text": "- **environment_concept:** \"Small 1800s steam launch crossing a dark sea at night, a distant battered lighthouse behind, two lit coastal fortresses flying flags on either side, a passenger steamship on the horizon, rising storm waves and driving rain, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, muted desaturated palette, tense\""
+    }
+   ]
+  },
+  "Docs/Lore Build/regions/reg_saint_calder.md": {
+   "sha": "57d351068876f5a3",
+   "headings": [
+    "Saint Calder",
+    "Geography & Climate (and why)",
+    "Key Locations",
+    "Current Tensions",
+    "Environment Art Direction",
+    "Asset Prompts"
+   ],
+   "domain_hits": 4,
+   "hits": [
+    {
+     "line": 23,
+     "text": "- **The cathedral:** a grand, beautiful 1800s Gothic cathedral at the city's centre."
+    },
+    {
+     "line": 32,
+     "text": "- **key_materials:** [dressed stone, slate roofs, iron, stained glass]"
+    },
+    {
+     "line": 33,
+     "text": "- **lighting_mood:** a warm electric glow across the city, in contrast with the dark coast. The cathedral is the brightest silhouette."
+    },
+    {
+     "line": 36,
+     "text": "- **skyline_concept:** \"Distant 1800s city skyline at night seen from the sea, a towering Gothic cathedral at its centre, windows glowing with electric light, a giant dark mountain on the horizon to the north, a road leading down to an abandoned harbour, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, muted palette with warm amber light\""
+    }
+   ]
+  },
+  "Docs/Lore Build/regions/reg_saltgate.md": {
+   "sha": "3e5f132d5af02d6a",
+   "headings": [
+    "The Saltgate",
+    "Geography & Climate (and why)",
+    "Settlements",
+    "Key Locations",
+    "Resources & Trade",
+    "Ruins & Historical Sites",
+    "Current Tensions",
+    "Environment Art Direction",
+    "Ambient Audio Direction",
+    "Asset Prompts"
+   ],
+   "domain_hits": 5,
+   "hits": [
+    {
+     "line": 19,
+     "text": "- **During eclipses:** the port's light is almost completely gone, so the lighthouse is the only reliable guide."
+    },
+    {
+     "line": 27,
+     "text": "- **The quays:** the player lands here with Arthur to retrieve the replacement beacon burner. The exact storage location is TBD."
+    },
+    {
+     "line": 43,
+     "text": "- **key_materials:** [salt-crusted stone quays, rotting timber piers, rusted iron cranes, boarded mid-1800s warehouses, broken windows]"
+    },
+    {
+     "line": 48,
+     "text": "Creaking timber, loose shutters banging, rigging slapping, distant city hum, silence where people should be."
+    },
+    {
+     "line": 51,
+     "text": "- **environment_concept:** \"Abandoned 1800s harbour district at night, empty stone quays, rotting timber piers, rusted cranes, boarded-up warehouses, tattered amber and gold flags, a road leading inland to a distant city with a Gothic cathedral glowing with electric light, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, muted desaturated palette, eerie and desolate\""
+    }
+   ]
+  },
+  "Docs/Lore Build/systems/sys_eclipse.md": {
+   "sha": "9e2b46a049fd7449",
+   "headings": [
+    "The Eclipse",
+    "How It Works (input \u2192 effect)",
+    "Limits",
+    "Costs",
+    "Counters",
+    "Who Controls Access & Resulting Hierarchy",
+    "Effects on Society",
+    "Gameplay Translation",
+    "VFX & SFX Direction",
+    "Open Questions (next session)"
+   ],
+   "domain_hits": 2,
+   "hits": [
+    {
+     "line": 30,
+     "text": "- The lighthouse beacon is the only reliable light for ships."
+    },
+    {
+     "line": 43,
+     "text": "- **travel:** dangerous seas in eclipse season, so the lighthouse is critical"
+    }
+   ]
+  },
+  "Docs/Lore Build/systems/sys_steam_power.md": {
+   "sha": "3666479d91b4cfbe",
+   "headings": [
+    "Steam Power & Electric Light",
+    "How It Works (input \u2192 effect)",
+    "Limits",
+    "Costs",
+    "Counters",
+    "Effects on Society",
+    "Gameplay Translation",
+    "VFX & SFX Direction",
+    "Asset Prompts"
+   ],
+   "domain_hits": 7,
+   "hits": [
+    {
+     "line": 14,
+     "text": "- **Lighting:** coal fires a boiler, which drives a steam engine and dynamo, which power electric arc lamps."
+    },
+    {
+     "line": 20,
+     "text": "- Requires a steady coal supply and a working burner in the arc lamp."
+    },
+    {
+     "line": 21,
+     "text": "- Burners can fail, as the lighthouse's has before the game begins. Nobody notices until the boiler is fed and the dynamo runs but the beacon stays dark; Ted finds the broken burner when he inspects the lamp, after the sailors arrive."
+    },
+    {
+     "line": 31,
+     "text": "- **The coast:** depends on it for the lighthouse."
+    },
+    {
+     "line": 37,
+     "text": "| Stoke the engine | Coal, shovel | Raises steam to power the beacon | Time, effort | Must be maintained |"
+    },
+    {
+     "line": 38,
+     "text": "| Fit the burner | Replacement burner for the arc lamp (under 1 ft tall) | Restores the beacon | Requires the Saltgate trip | One-time |"
+    },
+    {
+     "line": 50,
+     "text": "- **burner_prop:** \"Small 1800s electric arc lamp burner under a foot tall, brass and iron housing, carbon rod electrodes, thick glass, cloth-wrapped wiring, gritty dark cel-shaded style, heavy ink outlines, prop design sheet\""
+    }
+   ]
+  },
+  "Docs/Lore Build/world/changelog.md": {
+   "sha": "664e8caff8d74804",
+   "headings": [
+    "Changelog",
+    "2026-10-16: Story beats fixed by the creator",
+    "Story beats (canon, in order)",
+    "Contradictions resolved",
+    "Flagged items resolved",
+    "Edits",
+    "2026-10-12: Session 1",
+    "Contradictions resolved",
+    "Edits",
+    "Names confirmed",
+    "Flagged (unresolved)"
+   ],
+   "domain_hits": 7,
+   "hits": [
+    {
+     "line": 11,
+     "text": "1. **Arrival:** the player (Isaac, \"the new guy\") starts outside the lighthouse. Ted opens the door (\"You're the new guy, then\") and the player comes in."
+    },
+    {
+     "line": 13,
+     "text": "3. **Shelter and gate:** Arthur and Daniel moor their rowboat at the dock; the player opens the island gate (on the path from the dock to the lighthouse) to let them in. Daniel stays in the basement."
+    },
+    {
+     "line": 14,
+     "text": "4. **Beacon diagnosis:** the dynamo runs but the beacon stays dark. Ted takes the player up to the lantern room, finds the burner broken and says a new one is needed. Ted identifies it, and only after the sailors are in."
+    },
+    {
+     "line": 17,
+     "text": "7. **Final repair:** the player gets back to the lighthouse and fits the burner to the beacon before the passenger ship runs aground. Win: the ship sails safely past and into port."
+    },
+    {
+     "line": 20,
+     "text": "- **\"Arc lamp head\" vs. \"burner\":** the replacement part is **the burner**, which sits in the beacon's arc lamp. This supersedes the 2026-10-12 resolution that the part is \"the arc lamp head\". The steam-driven dynamo and electric arc lamp are unchanged."
+    },
+    {
+     "line": 21,
+     "text": "- **When the broken part is found:** not in the first step. The burner has failed before the game begins, but Ted finds it only after the sailors are in, when the dynamo runs and the beacon stays dark."
+    },
+    {
+     "line": 37,
+     "text": "- **Beacon \"gas burner\" vs. \"all lights are steam-driven\":** resolved as option B. A steam-driven dynamo powers an electric arc lamp, and the replacement part is the arc lamp head."
+    }
+   ]
+  },
+  "Docs/Lore Build/world/geography.md": {
+   "sha": "76dc825b08649ac2",
+   "headings": [
+    "Geography",
+    "Physical Rules",
+    "Landmasses & Oceans",
+    "Mountain Ranges (with cause)",
+    "River Systems (source \u2192 mouth)",
+    "Climate Zones (with cause)",
+    "Winds & Currents",
+    "Coastal Hazards",
+    "Resources",
+    "Natural Barriers & Corridors",
+    "Map Generation Notes"
+   ],
+   "domain_hits": 6,
+   "hits": [
+    {
+     "line": 26,
+     "text": "- **The Marrow:** runs from Greymantle south to the sea, reaching the coast about a mile east of the lighthouse, by Fort Heron. It is too small for the passenger ship, and Fort Heron guards its mouth."
+    },
+    {
+     "line": 37,
+     "text": "- Jagged rocks cover Bracken Isle and continue around it, many hidden just below the surface. This reef field is why the lighthouse exists."
+    },
+    {
+     "line": 41,
+     "text": "TBD (coal supply for the lighthouse engine, fresh water on Bracken Isle)."
+    },
+    {
+     "line": 50,
+     "text": "- **Saint Calder:** inland behind the Saltgate, with a Gothic cathedral at its centre, connected to the harbour by a single road."
+    },
+    {
+     "line": 53,
+     "text": "- Fort Kestrel stands about one mile west of the lighthouse's line."
+    },
+    {
+     "line": 58,
+     "text": "- A single path from the dock to the lighthouse, with a lockable gate along it."
+    }
+   ]
+  },
+  "Docs/Lore Build/world/history.md": {
+   "sha": "240337a15775beeb",
+   "headings": [
+    "History",
+    "Eras",
+    "Events",
+    "evt_saltgate_abandonment: The Abandonment of the Saltgate",
+    "evt_first_eclipse: The First Eclipse",
+    "evt_lighthouse_founding: Building of the Bracken Isle Lighthouse"
+   ],
+   "domain_hits": 3,
+   "hits": [
+    {
+     "line": 41,
+     "text": "- The lighthouse's critical role"
+    },
+    {
+     "line": 44,
+     "text": "### evt_lighthouse_founding: Building of the Bracken Isle Lighthouse"
+    },
+    {
+     "line": 48,
+     "text": "- The lighthouse still stands."
+    }
+   ]
+  },
+  "Docs/Lore Build/world/manifest.md": {
+   "sha": "cce9a438d6bf4412",
+   "headings": [
+    "Manifest",
+    "Coverage",
+    "Other Open Items",
+    "Files"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/world/pillars.md": {
+   "sha": "87e2e08adc0af27d",
+   "headings": [
+    "Pillars (Rule of Cool)",
+    "Pillars",
+    "Idea Backlog",
+    "Open Implications"
+   ],
+   "domain_hits": 6,
+   "hits": [
+    {
+     "line": 12,
+     "text": "| 1 | A creepy, haunted lighthouse | Whispers and bangs in the halls, caused by people hiding in the walls | [[reg_bracken_isle]], [[sys_eclipse]] (partial) |"
+    },
+    {
+     "line": 15,
+     "text": "| 4 | An intriguing city | Saint Calder: grand, Gothic, closed off | [[reg_saint_calder]] (expansion) |"
+    },
+    {
+     "line": 18,
+     "text": "- A grand city with a beautiful Gothic cathedral at its centre"
+    },
+    {
+     "line": 19,
+     "text": "- Fortresses a mile west (Kestrel) and east (Heron) of the lighthouse, lit and flagged but with no one visible on the walls"
+    },
+    {
+     "line": 22,
+     "text": "- Documents and posters in the lighthouse praising the moon cycle and the Flighted"
+    },
+    {
+     "line": 29,
+     "text": "4. Who are the Flighted, and why are their posters inside the lighthouse?"
+    }
+   ]
+  },
+  "Docs/Lore Build/world/style_guide.md": {
+   "sha": "b2ab2879f76f0061",
+   "headings": [
+    "Style Guide",
+    "Global Art Direction",
+    "Colour Meanings",
+    "Culture Quick Reference",
+    "UI Direction",
+    "Typography & Iconography",
+    "Audio Direction",
+    "Global Negative Prompts"
+   ],
+   "domain_hits": 5,
+   "hits": [
+    {
+     "line": 19,
+     "text": "- **Era:** mid-to-late 1800s gaslight and steam, with mid-1800s stone and brick buildings."
+    },
+    {
+     "line": 25,
+     "text": "- **Reference touchstones** (A Scanner Darkly, Borderlands) are for human reference only. Never name them in prompts."
+    },
+    {
+     "line": 37,
+     "text": "| Stone grey | #6B6B66 | Bracken Isle, the lighthouse |"
+    },
+    {
+     "line": 41,
+     "text": "| Culture | Palette | Shapes | Materials | Silhouette keywords |"
+    },
+    {
+     "line": 56,
+     "text": "- **Lighthouse:** whispering, random bangs inside the walls, the hiss and thump of the steam engine, the dynamo's whine, the arc lamp's crackle."
+    }
+   ]
+  },
+  "Docs/Lore Build/world/WORLD.md": {
+   "sha": "ba751b0c71461415",
+   "headings": [
+    "Corvaine",
+    "Elevator Pitch",
+    "Physical Premise",
+    "Pillars",
+    "Central Mystery",
+    "Prototype Scenario",
+    "Expansion Plans"
+   ],
+   "domain_hits": 8,
+   "hits": [
+    {
+     "line": 12,
+     "text": "reference_touchstones: [A Scanner Darkly, Borderlands]  # for human reference only; never use in asset prompts"
+    },
+    {
+     "line": 22,
+     "text": "On Bracken Isle, a battered stone lighthouse guards the approach to the Saltgate, the abandoned harbour of the grand city of Saint Calder. When the moon is eclipsed by a dark object nobody understands, the tides turn savage, storms rise, and people come apart. Tonight the beacon has failed, and a passenger ship is heading for a harbour nobody uses."
+    },
+    {
+     "line": 28,
+     "text": "1. A creepy, haunted lighthouse"
+    },
+    {
+     "line": 40,
+     "text": "1. The player (Isaac, \"the new guy\") starts outside the lighthouse. Ted opens the door (\"You're the new guy, then\") and the player comes in."
+    },
+    {
+     "line": 42,
+     "text": "3. Arthur and Daniel, locals whose boat was caught in the storm, moor their rowboat at the dock seeking shelter. The player opens the island gate, on the path from the dock to the lighthouse, to let them in. Daniel stays in the basement."
+    },
+    {
+     "line": 43,
+     "text": "4. The dynamo runs but the beacon stays dark. Ted takes the player up to the lantern room, finds the burner broken, and says a new one is needed."
+    },
+    {
+     "line": 44,
+     "text": "5. A passenger ship appears on the horizon as the player boards. Ted and Arthur are stunned: \"A passenger ship? NOW? But the lighthouse beacon is broken!\" The player and Arthur take the steam launch across the Gullwater to the Saltgate quays (about 10 minutes; the rain sets in) to retrieve a replacement burner."
+    },
+    {
+     "line": 46,
+     "text": "7. The player must get back to the lighthouse and fit the burner to the beacon before the passenger ship runs aground."
+    }
+   ]
+  },
+  "Docs/Lore Build/WORLDBUILDER_AGENT.md": {
+   "sha": "d614048006416daa",
+   "headings": [
+    "WORLDBUILDER_AGENT",
+    "1. Role",
+    "2. The 7 Levels (reference)",
+    "3. Session Flow",
+    "Phase 0: Project Setup (always first)",
+    "Phase 1: Level Interviews",
+    "Phase 2: Characters",
+    "Phase 3: Audit and Export",
+    "4. Interview Rules",
+    "5. Level Modules",
+    "Level 1: A Map",
+    "Level 2: Rule of Cool",
+    "Level 3: Surface Identity",
+    "Level 4: Functional Power",
+    "Level 5: Deep Culture & History",
+    "Level 6: Infrastructure & Institutions",
+    "Level 7: The Generative World",
+    "6. Character Module",
+    "7. Output File Structure",
+    "ID Conventions",
+    "Status Values",
+    "8. File Templates",
+    "8.1 `world/WORLD.md`",
+    "<World Name>",
+    "Elevator Pitch",
+    "Physical Premise",
+    "Pillars",
+    "Central Mystery",
+    "8.2 `world/geography.md`",
+    "Geography",
+    "Physical Rules",
+    "Landmasses & Oceans",
+    "Mountain Ranges (with cause)",
+    "River Systems (source \u2192 mouth)",
+    "Climate Zones (with cause)",
+    "Winds & Currents",
+    "Resources",
+    "Natural Barriers & Corridors",
+    "Map Generation Notes",
+    "8.3 `regions/<region_id>.md`"
+   ],
+   "domain_hits": 12,
+   "hits": [
+    {
+     "line": 17,
+     "text": "5. **Produce asset-ready fields** (visual descriptors, palettes, silhouettes, materials, sound, prompts) so pipeline agents can generate concept art, sprites, UI, audio, and dialogue without re-interpreting lore."
+    },
+    {
+     "line": 53,
+     "text": "6. What visual style will assets use? (pixel art, painterly, low-poly, cel-shaded, photoreal, etc.) and any reference touchstones."
+    },
+    {
+     "line": 79,
+     "text": "- **Max 3 questions per turn.** Number them so the user can answer briefly (\"1: yes, 2: stone, 3: skip\")."
+    },
+    {
+     "line": 151,
+     "text": "**Goal:** The world is visually and audibly distinct. A silhouette, name, or color tells you where you are."
+    },
+    {
+     "line": 161,
+     "text": "- What does a soldier's silhouette look like from a distance?"
+    },
+    {
+     "line": 377,
+     "text": "reference_touchstones: [<work>, <work>]"
+    },
+    {
+     "line": 454,
+     "text": "- key_materials: [<stone>, <timber>, ...]"
+    },
+    {
+     "line": 518,
+     "text": "### Silhouette Description"
+    },
+    {
+     "line": 558,
+     "text": "| Culture | Palette | Shapes | Materials | Silhouette keywords |"
+    },
+    {
+     "line": 757,
+     "text": "- silhouette_keywords: [<word>, ...]"
+    },
+    {
+     "line": 817,
+     "text": "- Build prompts **only** from locked or confirmed fields: art style from `WORLD.md`, palette and materials from culture/region files, silhouette keywords, and costume."
+    },
+    {
+     "line": 838,
+     "text": "- [ ] Every culture has naming rules with samples, a palette, materials, and a silhouette."
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md": {
+   "sha": "600d837004860171",
+   "headings": [
+    "Lighting the Storm \u2014 AI Agent Strategy",
+    "Change log (post-review amendments, 1 October 2026)",
+    "Working rules for every agent",
+    "Orchestration and oversight",
+    "Orchestrator rules:",
+    "Ownership and handoffs",
+    "Handoff format",
+    "Recommended sequence",
+    "Example agent task brief",
+    "Example orchestrator brief",
+    "Review checklist for every handoff"
+   ],
+   "domain_hits": 5,
+   "hits": [
+    {
+     "line": 14,
+     "text": "\u2022 16 October 2026, story beats: role scopes, the outpost rule and the checklist updated for the creator\u2019s fixed beats (arrival outside with Ted opening the door, coal into the boiler, sailors and the island gate, Ted finding the burner broken in the lantern room, the Saltgate quays as the destination, \u201cruns aground\u201d as the fail wording). \u201cTwo Gate 1 repairs\u201d now reads feeding the boiler and fittin"
+    },
+    {
+     "line": 49,
+     "text": "|Level Layout    |Greybox lighthouse route, window view of the moored rowboat and island gate, short sea corridor, the Saltgate quays pickup, lantern-room route for Ted\u2019s burner diagnosis, lamp-room sightline to the ship and island rocks.|Location sizes, beacon visibility, interaction anchors.       |Traversal and camera checks in engine.             |"
+    },
+    {
+     "line": 50,
+     "text": "|Gameplay/Systems|Phase controller following the story beats, arrival and coal-feeding interaction, shelter and gate trigger, beacon diagnosis trigger (only after the sailors are in), boarding trigger, return-departure clock trigger, cargo, win and fail states, restart.|Stable event and save IDs from Technical Strategy.            |Gate 1 complete end-to-end; no dead ends.          |"
+    },
+    {
+     "line": 52,
+     "text": "|Lighting        |Beacon sweep, warm/cold contrast, storm visibility presets.                        |Scene anchors, performance budget, hazard visibility rules.   |Beacon and hazards remain legible at every phase. |"
+    },
+    {
+     "line": 96,
+     "text": "5. Lighting and Sound: add just enough feedback to evaluate readable hazards, storm escalation (perceptual channel by time, hazard channel by phase and position), beacon, and ship pressure."
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md": {
+   "sha": "0101a697b0eefacf",
+   "headings": [
+    "Lighting the Storm \u2014 Executive Summary",
+    "Pitch and player promise",
+    "Story and gameplay sequence",
+    "Fail-state contract",
+    "Cast and atmosphere",
+    "Scope and release target",
+    "Gate 2+ estimate and ranked cut list (placeholder)",
+    "Outcome checks",
+    "Decisions log (review, 1 October 2026)"
+   ],
+   "domain_hits": 23,
+   "hits": [
+    {
+     "line": 9,
+     "text": "- Deadline timer now starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate let the player get a feel for the boat. The ship is introduced at the boarding threshold."
+    },
+    {
+     "line": 11,
+     "text": "- Core folk-horror discoveries move to the lighthouse and island, before boarding. The Saltgate keeps a lighter set."
+    },
+    {
+     "line": 20,
+     "text": "- 16 October 2026, story beats fixed by the creator: the player (Isaac, \u201cthe new guy\u201d) starts outside the lighthouse and Ted opens the door; Ted then sends him to the basement to shovel coal into the boiler; the sailors moor at the dock and the player opens the island gate; only then does Ted take the player to the lantern room and find the beacon\u2019s burner broken. The crossing\u2019s destination is the"
+    },
+    {
+     "line": 24,
+     "text": "A new apprentice, Isaac, arrives at the failing lighthouse on Bracken Isle. Keeper Ted opens the door to \u201cthe new guy\u201d and, after a beat, sends him down to the basement to shovel coal into the boiler. Overwhelmed by the storm, two sailors, Arthur and Daniel, moor their rowboat at the island\u2019s dock and look for shelter; Ted sees them from the window and tells the apprentice to open the island gate."
+    },
+    {
+     "line": 29,
+     "text": "1. The light must return: everything leads back to the beacon. It is what you repair, it guides you home, and it decides whether the ship lives. Test: does this connect to getting the light back, or to what happens if it fails?"
+    },
+    {
+     "line": 34,
+     "text": "Scope rule: small world, read closely. One lighthouse, one stretch of sea, one abandoned harbour (the Saltgate), and no new major locations."
+    },
+    {
+     "line": 42,
+     "text": "|1. Arrival and coal   |Start outside the lighthouse. Ted opens the door (\u201cYou\u2019re the new guy, then\u201d) and the player comes in. After a beat, Ted sends the player down to the basement to shovel coal into the boiler.|Steam is up and the dynamo runs. Feeding the boiler teaches interaction. Untimed lighthouse exploration and its discoveries sit here.|"
+    },
+    {
+     "line": 43,
+     "text": "|2. Shelter and gate   |Ted, at the window, sees Arthur and Daniel\u2019s rowboat moored at the dock, the sailors overwhelmed by the storm. He tells the player to open the island gate, on the path from the dock to the lighthouse.|Arthur and Daniel make their own way into the lighthouse. Daniel goes down to the basement and stays there.|"
+    },
+    {
+     "line": 44,
+     "text": "|3. Beacon diagnosis   |The dynamo runs but the beacon stays dark. Follow Ted up to the lantern room, where he opens the arc lamp.                               |Ted finds the burner broken and says a new one is needed: a spare must be fetched from the Saltgate quays, with Arthur.|"
+    },
+    {
+     "line": 48,
+     "text": "|7. Return             |With the burner aboard, steer back as the storm escalates (darker skies, heavier rain, lightning between the clouds), with denser hazards and lower visibility, guided by Arthur\u2019s directions. The hidden deadline starts as the boat sets off.|Reach the lighthouse. On arrival Arthur says something like \u201cgo go go, don\u2019t wait for me.\u201d      |"
+    },
+    {
+     "line": 49,
+     "text": "|8. Final repair       |Climb to the lamp, where Ted waits, and fit the burner to the beacon.                                                                 |The beacon is restored, or the deadline runs out first.                                        |"
+    },
+    {
+     "line": 52,
+     "text": "Until the player has picked up the burner and the boat sets off on the return crossing, there is no ship deadline: lighthouse exploration, the outbound crossing and the Saltgate are all untimed. From then on, the same ship deadline keeps running through the return crossing and the final repair; there is no separate timer. The approaching ship and changing weather communicate urgency without a nume"
+    },
+    {
+     "line": 54,
+     "text": "All viewpoints are first-person. There are no cutaway or exterior cameras; the sailors\u2019 arrival, the ship, and the outcome are all seen (or, during the crossings, heard) from where the player stands."
+    },
+    {
+     "line": 64,
+     "text": "|Elsewhere in the lighthouse (stairs) |Audio only, as on the crossing, unless a window sightline exists.                                                    |"
+    },
+    {
+     "line": 66,
+     "text": "Every fail shows a short line saying why the player failed (for example, that the beacon was not relit in time), delivered by Ted or Arthur or recorded in the journal, so Pillar 4 holds. Ted reacts to both outcomes from the lamp room using voice lines only; his reaction is staged by position, not a separate cutscene."
+    },
+    {
+     "line": 73,
+     "text": "- Ted: gruff, experienced keeper; gives spoken directions throughout, with a guarded sense of care. He opens the lighthouse door to the new apprentice and sends him to feed the boiler, sees the sailors from the window, finds the beacon\u2019s burner broken in the lantern room, names the ship at the boarding threshold, and waits at the lamp for the final repair and the outcome. Presence is to be locked "
+    },
+    {
+     "line": 79,
+     "text": "The lighthouse uses warm lamplight against blue-grey storm light. The beam remains a navigational and dramatic anchor. The abandoned Saltgate quays, log fragments, shrines, symbols, and subtly strange architecture suggest a history without settling its cause. Audio favours wind, rain, machinery, buoy bells, and a distant foghorn over musical stingers."
+    },
+    {
+     "line": 81,
+     "text": "Folk-horror discoveries: the core discoveries are placed in the lighthouse and on the island, before boarding, where there is no ship deadline, and are tied to why the beacon failed. The Saltgate keeps a lighter set. This keeps the signature content outside the timed act. Until the prototype is considered complete, no significant detail is added to the Saltgate; further folk-horror, canon clues an"
+    },
+    {
+     "line": 85,
+     "text": "Full game, about 30 minutes: three compact locations, the arrival and lighthouse work (feeding the boiler, then further repairs), the sailors\u2019 arrival and the island gate, Ted\u2019s discovery of the broken burner, two crossings with Arthur, a final repair under the running ship deadline, win and fail outcomes, optional discoveries, and controller support. PC via Steam is the initial release target. Th"
+    },
+    {
+     "line": 89,
+     "text": "First playable prototype (Gate 1), about 10 minutes: arriving outside the lighthouse as Ted opens the door, shovelling coal into the boiler, Ted seeing the rowboat moored at the dock from the window, opening the island gate, Ted finding the burner broken in the lantern room, meeting Arthur at the engine boat, an outbound crossing to the Saltgate quays, burner pickup, a return crossing to the light"
+    },
+    {
+     "line": 91,
+     "text": "Out of first-prototype scope: further lighthouse repairs beyond feeding the boiler and fitting the burner, full Saltgate exploration, optional discoveries, final art, route branching on the return crossing, and a finished Steam release flow. These remain in the full-game brief or on the cut list."
+    },
+    {
+     "line": 123,
+     "text": "|Folk-horror discoveries          |Core discoveries in the lighthouse and island, before boarding, tied to why the beacon failed; lighter set at the Saltgate. No significant Saltgate detail until the prototype is complete.|"
+    },
+    {
+     "line": 134,
+     "text": "|Story beats (16 October 2026)    |Arrival outside (Ted opens the door) \u2192 coal into the boiler \u2192 sailors moor at the dock, player opens the island gate, Daniel stays in the basement \u2192 beacon still dark, Ted finds the burner broken in the lantern room \u2192 outbound to the Saltgate quays with Arthur \u2192 storm escalates on the return \u2192 fit the burner before the ship runs aground. The part is \u201cthe burner\u201d;"
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md": {
+   "sha": "72f7360d8d23d124",
+   "headings": [],
+   "domain_hits": 8,
+   "hits": [
+    {
+     "line": 10,
+     "text": "4. Folk-horror discoveries. The core discoveries move into the lighthouse and island, before boarding, tied to why the beacon failed. The Saltgate keeps a lighter set."
+    },
+    {
+     "line": 12,
+     "text": "6. Clock start. The deadline starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate give the player a feel for the boat. The ship is introduced by Ted at the boarding threshold."
+    },
+    {
+     "line": 21,
+     "text": "15. Which two repairs (16 October 2026). Resolved by the story beats: the player feeds the boiler with coal (step 1), and fits the replacement burner to the beacon at the end (the final repair). (Was: open item B15.)"
+    },
+    {
+     "line": 22,
+     "text": "16. Story beats (16 October 2026). In order: the player (Isaac, \u201cthe new guy\u201d) starts outside and Ted opens the door; Ted sends him to the basement to shovel coal into the boiler; Arthur and Daniel moor at the dock and the player opens the island gate (on the path from the dock to the lighthouse), with Daniel staying in the basement; the dynamo runs but the beacon stays dark, and Ted, only after t"
+    },
+    {
+     "line": 25,
+     "text": "19. Ted\u2019s presence (19 October 2026). Ted is present inside the lighthouse throughout the game. (Resolves the presence half of B1.)"
+    },
+    {
+     "line": 39,
+     "text": "2. Discoveries content. To be resolved by the creator on Friday 23 October 2026. Decide which discoveries live in the lighthouse and island and which stay at the Saltgate, and how each ties to why the beacon failed. The Saltgate is untimed and gets no significant added detail until the prototype is considered complete; ideas for more folk-horror, canon clues and documentation are parked in Dreams "
+    },
+    {
+     "line": 53,
+     "text": "10. Docking and recovery. Proposed: docking at the Saltgate quays and the lighthouse jetty is automatic; leaving the playable corridor triggers a recovery to the last safe point at a time cost. Confirm, and define dock zones and safe points."
+    },
+    {
+     "line": 62,
+     "text": "16. Week 5 load. Week 5 holds the beacon diagnosis and burner fit, deadline, fail presentation and Ted\u2019s lamp lines. If it slips, decide between simplifying the diagnosis and burner fit for Gate 1, cutting waves (already first), or extending the schedule."
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Dreams for the game.md": {
+   "sha": "634974eeb8e8891b",
+   "headings": [],
+   "domain_hits": 3,
+   "hits": [
+    {
+     "line": 9,
+     "text": "\u2022 Needs: a choice scene at the lighthouse, a companion ID in saved state, and dialogue and cues for both companions."
+    },
+    {
+     "line": 16,
+     "text": "\u2022 Characterisation: a younger steersman, defensive about the wreck. He blames the crash on the lighthouse\u2019s weak, flickering beacon \u2014 a real problem, but not the whole story, since he was also sailing recklessly in rough water. Admitting that would make him responsible, so he leans on the beacon\u2019s failure: a useful but unreliable witness. In the choice version, he is the one who names the passenge"
+    },
+    {
+     "line": 24,
+     "text": "An ending unlocked by piecing together journal fragments, shrines, and symbols across the lighthouse and outpost, revealing what happened to whoever kept the lighthouse before Ted."
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Engine Comparison.md": {
+   "sha": "3a3ab97b1a3857c4",
+   "headings": [],
+   "domain_hits": 4,
+   "hits": [
+    {
+     "line": 8,
+     "text": "\u2022 Night storm atmosphere: dynamic lights, rain, fog, and a sweeping beacon, all tuned for readability."
+    },
+    {
+     "line": 50,
+     "text": "\u2022 Strongest fit for the storm atmosphere and the beacon lighting that pillars 1 (the light must return) and 2 (the storm sets the clock) depend on."
+    },
+    {
+     "line": 73,
+     "text": "\u2022 No 3D lighting, volumetric fog, or real-time beacon sweep. The beacon and storm atmosphere (pillars 1 and 2) would have to be rebuilt in 2D art and shaders, and pillar 3 (your hands, your eyes) could not be met at all."
+    },
+    {
+     "line": 99,
+     "text": "3. Avoid Unreal for this project: the visuals are the best, but Blueprints shut out AI help and the iteration cost is too high for a solo 6-week prototype."
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Token Costs and Feasibility.md": {
+   "sha": "e1b73d8641bf141e",
+   "headings": [],
+   "domain_hits": 1,
+   "hits": [
+    {
+     "line": 72,
+     "text": "|Remaining lighthouse repairs                       |40   |"
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md": {
+   "sha": "a5123e30bdbad0c1",
+   "headings": [
+    "Lighting the Storm \u2014 Technical Strategy",
+    "Change log (post-review amendments)",
+    "Engine and project shape",
+    "Milestones and gates",
+    "Six-week prototype schedule",
+    "Core state contract",
+    "Boat and weather simulation",
+    "Repairs, shelter and gate, and final pressure",
+    "Presentation and accessibility",
+    "Validation and integration"
+   ],
+   "domain_hits": 17,
+   "hits": [
+    {
+     "line": 18,
+     "text": "- 16 October 2026, story beats: phases now start with ARRIVAL_AND_COAL (player outside, Ted opens the door, then coal into the boiler) and add BEACON_DIAGNOSIS after the gate (Ted finds the burner broken in the lantern room); OUTPOST renamed SALTGATE; \u201ctwo repairs\u201d replaced by feeding the boiler plus the final burner fit; lighting phases ISLAND, OUTBOUND, RETURN and BEACON_RELIT added; fail wordin"
+    },
+    {
+     "line": 24,
+     "text": "Keep scenes and scripts separately owned where possible: lighthouse, sea, the Saltgate, shared player and interaction scenes, and a central game-state resource/controller. Store content such as repairs, dialogue, assistance presets, and journal text as data, with stable IDs. Avoid hard-wiring story progress into individual prop scripts."
+    },
+    {
+     "line": 26,
+     "text": "## Milestones and gates"
+    },
+    {
+     "line": 31,
+     "text": "|1. Ten-minute vertical slice|Arrival outside the lighthouse with Ted opening the door, coal into the boiler, Ted seeing the rowboat moored at the dock from the window, island gate opening, Ted finding the burner broken in the lantern room, boarding with Arthur, outbound crossing to the Saltgate quays, burner pickup, harder return crossing as the storm escalates, burner fitting with Ted at the lam"
+    },
+    {
+     "line": 32,
+     "text": "|2. Narrative alpha          |Complete repairs, lighthouse and island discoveries, Saltgate discoveries, full dialogue, both outcomes, and the final retry and save model.|All story states can be finished; no dead-end save or cargo loss; the retry model has been tested so a reload can never produce an unwinnable state (time and weather restored together). Route branching is reviewed as a cut-list c"
+    },
+    {
+     "line": 44,
+     "text": "|4   |Arrival (Ted opens the door) and coal into the boiler, Ted at the window and the moored rowboat, island gate opening, Arthur at the engine boat, Arthur\u2019s direction calls, return-crossing clock trigger; first rough deadline tuning pass on the full path.|The full 10-minute path is playable and has been run end to end by at least one outside tester.|"
+    },
+    {
+     "line": 45,
+     "text": "|5   |Beacon diagnosis in the lantern room (Ted finds the burner broken) and the burner fit, hidden ship deadline, fail-state presentation (horn, crash, silence, \u201cFailed\u201d screen, reason line), lamp-room sightline, Ted\u2019s lamp voice lines, win and fail outcomes, placeholder audio.|Both outcomes reachable and the fail reason is shown.|"
+    },
+    {
+     "line": 48,
+     "text": "Risk: week 5 is heavily loaded. If it slips, the creator decides between simplifying the lantern-room diagnosis and burner fit for Gate 1, cutting wave hazards (already first to go), or extending the schedule. Do not decide silently."
+    },
+    {
+     "line": 54,
+     "text": "Use explicit phase states, for example ARRIVAL_AND_COAL \u2192 SHELTER_AND_GATE \u2192 BEACON_DIAGNOSIS \u2192 BOARDING \u2192 OUTBOUND \u2192 SALTGATE \u2192 RETURN \u2192 FINAL_REPAIR \u2192 RESOLUTION (WIN or FAIL). The opening events follow the story beats: GAME_STARTED (player outside, Ted opens the door), LIGHTHOUSE_ENTERED, BOILER_FED, SAILORS_MOORED \u2026 DANIEL_IN_BASEMENT, BEACON_STILL_DARK, LAMP_ROOM_ENTERED, BURNER_DIAGNOSED, BU"
+    },
+    {
+     "line": 64,
+     "text": "Because the boat cannot stop, docking is automatic: arriving within a dock trigger zone at the Saltgate quays or the lighthouse jetty ends steering control and moors the boat, followed by a disembark interaction. If the boat leaves the playable corridor or the player misses the dock approach, the recovery event returns the boat to the last safe point on the route with a time cost. Define each dock"
+    },
+    {
+     "line": 75,
+     "text": "Lighting phases follow the story beats: ISLAND (arrival through the beacon diagnosis), OUTBOUND (the first crossing; the rain sets in), RETURN (the storm escalates: darker skies, heavier rain, lightning between the clouds) and BEACON_RELIT (the burner is fitted)."
+    },
+    {
+     "line": 76,
+     "text": "Elapsed time must never raise what the player collides with. Preserve a minimum visibility of nearby hazards (and wave cues, if built) and the immediate route on every preset. Use landmarks, compass, buoy silhouettes, and the beacon when facing home. Because the hazard channel does not depend on elapsed time, deadline tuning can be done offline and repeated from the same position."
+    },
+    {
+     "line": 80,
+     "text": "Implement repair jobs from data: diagnosis, required fixed-toolkit item or interaction, puzzle steps, completion event, journal update, and optional route unlock (an optional field for later; not saved in Gate 1). The Gate 1 slice uses one lighthouse job, feeding the boiler with coal, and one final burner installation (the burner fit replaces the earlier \u201csecond repair\u201d). Later repairs (optic, rot"
+    },
+    {
+     "line": 82,
+     "text": "The shelter and gate sequence is scripted and is part of the Gate 1 slice. After the boiler is fed, Ted prompts the player to look out of the window; Arthur and Daniel\u2019s rowboat is moored at the dock, the sailors overwhelmed by the storm and looking for shelter. There is no crash. Proposed: trigger the moment when the window is in view, with a fallback after a short delay so it cannot be missed. T"
+    },
+    {
+     "line": 84,
+     "text": "Ted is present inside the lighthouse throughout the game (creator, 19 October 2026). In the second half he is staged at the lamp by position, with voice lines delivered from the lamp room only. At the boarding threshold he names the passenger ship\u2019s lights as the reason for the errand. After the second crossing, Arthur\u2019s \u201cgo go go, don\u2019t wait for me\u201d line plays on arrival. Neither Arthur\u2019s nor Dan"
+    },
+    {
+     "line": 86,
+     "text": "For the deadline, store a numeric internal time but display only the passenger ship\u2019s position/lights and weather cues. It is the only timer in the game; the final repair runs on the same deadline. The ship first appears at the boarding threshold. It holds at its starting lights until the clock starts. Rules: start on the return-departure event, when the burner is aboard and the boat starts moving"
+    },
+    {
+     "line": 96,
+     "text": "All viewpoints are first-person; there are no cutaway or exterior cameras. The moored rowboat is seen through the lighthouse window, and the ship outcome from the lamp room (or heard elsewhere), so both need clear sightlines. Use the beacon as a consistent landmark from the sea. Budget dynamic lights around the beacon, nearby player lights, and key hazards; prototype rain and fog on target hardwar"
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/What's Changed (Concise).md": {
+   "sha": "8f666830a871cdbf",
+   "headings": [
+    "Lighting the Storm \u2014 What\u2019s Changed (Concise)",
+    "Exec Summary",
+    "Player Experience changes",
+    "Timings and Fail-State Changes",
+    "Technical Strategy",
+    "State changes",
+    "AI Agent Strategy",
+    "Also changed",
+    "2026-10-16 story beats"
+   ],
+   "domain_hits": 6,
+   "hits": [
+    {
+     "line": 12,
+     "text": "- Discoveries. Core folk-horror discoveries move to the lighthouse and island. The outpost stays minimal until the prototype is complete."
+    },
+    {
+     "line": 16,
+     "text": "- Deadline starts on the return crossing, when the player has the burner aboard and sets off for the lighthouse. There is no fail state before then, so the outbound crossing is steering practice. Ted introduces the ship at the boarding threshold."
+    },
+    {
+     "line": 57,
+     "text": "- Arrival outside. The player (Isaac, \u201cthe new guy\u201d) starts outside the lighthouse; Ted opens the door, then sends him to the basement to shovel coal into the boiler."
+    },
+    {
+     "line": 58,
+     "text": "- Burner identified by Ted after the gate. The sailors moor at the dock and the player opens the island gate; only then, with the dynamo running and the beacon still dark, does Ted find the burner broken in the lantern room."
+    },
+    {
+     "line": 61,
+     "text": "- The part is \u201cthe burner\u201d (it sits in the arc lamp), superseding the Lore Build\u2019s \u201carc lamp head\u201d."
+    },
+    {
+     "line": 63,
+     "text": "- Phases: ARRIVAL_AND_COAL \u2192 SHELTER_AND_GATE \u2192 BEACON_DIAGNOSIS \u2192 BOARDING \u2192 OUTBOUND \u2192 SALTGATE \u2192 RETURN \u2192 FINAL_REPAIR \u2192 RESOLUTION. OUTPOST_REACHED and IDLE_OUTPOST are renamed SALTGATE_REACHED and IDLE_SALTGATE. Lighting phases: ISLAND, OUTBOUND, RETURN, BEACON_RELIT."
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/What's Changed.md": {
+   "sha": "25d81bd34abe0c4f",
+   "headings": [],
+   "domain_hits": 13,
+   "hits": [
+    {
+     "line": 49,
+     "text": "\u2022 Discoveries. The core folk-horror discoveries move to the lighthouse and island, before boarding and outside the deadline, tied to why the beacon failed. The outpost keeps a lighter set."
+    },
+    {
+     "line": 68,
+     "text": "Milestones and gates"
+    },
+    {
+     "line": 71,
+     "text": "\u2022 Gate 2. Adds lighthouse and island discoveries and the final retry and save model; a reload must restore time and weather together; route branching reviewed as a cut-list candidate."
+    },
+    {
+     "line": 89,
+     "text": "\u2022 Docking and recovery. Because the boat cannot stop, docking at the outpost and lighthouse jetties is automatic. Leaving the corridor or missing a dock approach triggers a recovery to the last safe point at a time cost."
+    },
+    {
+     "line": 161,
+     "text": "1. Arrival. The player (Isaac, \u201cthe new guy\u201d) starts outside the lighthouse. Ted opens the door (\u201cYou\u2019re the new guy, then\u201d) and the player comes in."
+    },
+    {
+     "line": 163,
+     "text": "3. Shelter and gate. Arthur and Daniel moor their rowboat at the dock; the player opens the island gate, on the path from the dock to the lighthouse, to let them in. Daniel stays in the basement."
+    },
+    {
+     "line": 164,
+     "text": "4. Beacon diagnosis. The dynamo runs but the beacon stays dark. Ted takes the player up to the lantern room, finds the burner broken and says a new one is needed. Ted identifies it, and only after the sailors are in."
+    },
+    {
+     "line": 167,
+     "text": "7. Final repair. The player gets back to the lighthouse and fits the burner to the beacon before the passenger ship runs aground. Win: the ship sails safely past and into port."
+    },
+    {
+     "line": 170,
+     "text": "\u2022 Arrival outside. The game now starts outside the lighthouse with Ted opening the door, instead of with repairs already under way. Step 1 of the sequence is now \u201cArrival and coal\u201d."
+    },
+    {
+     "line": 171,
+     "text": "\u2022 Burner identified by Ted after the gate. The broken burner is no longer found in the first step. A new step, \u201cBeacon diagnosis\u201d, sits between the gate and boarding; the sequence table now has nine steps."
+    },
+    {
+     "line": 175,
+     "text": "\u2022 The part is \u201cthe burner\u201d. It sits in the beacon\u2019s arc lamp. This supersedes the Lore Build\u2019s earlier resolution that the part is \u201cthe arc lamp head\u201d."
+    },
+    {
+     "line": 177,
+     "text": "\u2022 State contract. Phases are now ARRIVAL_AND_COAL \u2192 SHELTER_AND_GATE \u2192 BEACON_DIAGNOSIS \u2192 BOARDING \u2192 OUTBOUND \u2192 SALTGATE \u2192 RETURN \u2192 FINAL_REPAIR \u2192 RESOLUTION. Event IDs added or renamed: GAME_STARTED (outside, Ted opens the door), LIGHTHOUSE_ENTERED, BEACON_STILL_DARK, LAMP_ROOM_ENTERED, BURNER_DIAGNOSED (now after DANIEL_IN_BASEMENT), SALTGATE_REACHED (was OUTPOST_REACHED) and IDLE_SALTGATE (was "
+    },
+    {
+     "line": 178,
+     "text": "\u2022 Opening dialogue. Three steps: 1, Arrive and feed the boiler (beats 1\u20132); 2, Let the sailors in (beat 3); 3, Fix the beacon: fetch the burner (beats 4\u20135)."
+    }
+   ]
+  }
+ },
+ "hard_rules": [
+  {
+   "src": "Docs/Lore Build/characters/chr_player.md:20",
+   "text": "- Isaac, \"the new guy\": arrives at the Bracken Isle lighthouse to work under Ted. The game starts outside the lighthouse; Ted opens the door and lets him in. He never speaks."
+  },
+  {
+   "src": "Docs/Lore Build/characters/chr_ted.md:20",
+   "text": "The lighthouse master on Bracken Isle and the player's boss. A grizzled local in his late 60s with a snarky tongue and contempt for the city's \"new money toffs.\" He is a **potential link to the Flighted**, and may be the only person who can communicate with them."
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/DIALOGUE_OPENING_CREATOR_PICKS.md:7",
+   "text": "**Story-beat revision, 2026-10-16.** The creator then fixed the story order (`AIAgentCrew/canon.py` `STORY_BEATS`): the player starts outside and Ted opens the door; after a beat, coal; then the sailors; only then does Ted find the burner broken; then the Saltgate crossing. `AIAgentCrew/story_beats.py` applies that to these picks without changing any line ID:"
+  },
+  {
+   "src": "Docs/Lore Build/regions/reg_bracken_isle.md:23",
+   "text": "| The lighthouse | Single building | Guards the approach to the Saltgate. During eclipses it is the only true light by which ships can see the rocks. | TBD | Stone and mortar, battered but robust. Haunted halls. |"
+  },
+  {
+   "src": "Docs/Lore Build/regions/reg_bracken_isle.md:51",
+   "text": "- The only strong source is the arc beacon when lit. Otherwise there are weak interior lamps and a black, moonless sky."
+  },
+  {
+   "src": "Docs/Lore Build/regions/reg_saltgate.md:19",
+   "text": "- **During eclipses:** the port's light is almost completely gone, so the lighthouse is the only reliable guide."
+  },
+  {
+   "src": "Docs/Lore Build/systems/sys_eclipse.md:30",
+   "text": "- The lighthouse beacon is the only reliable light for ships."
+  },
+  {
+   "src": "Docs/Lore Build/systems/sys_steam_power.md:37",
+   "text": "| Stoke the engine | Coal, shovel | Raises steam to power the beacon | Time, effort | Must be maintained |"
+  },
+  {
+   "src": "Docs/Lore Build/world/changelog.md:14",
+   "text": "4. **Beacon diagnosis:** the dynamo runs but the beacon stays dark. Ted takes the player up to the lantern room, finds the burner broken and says a new one is needed. Ted identifies it, and only after the sailors are in."
+  },
+  {
+   "src": "Docs/Lore Build/world/changelog.md:21",
+   "text": "- **When the broken part is found:** not in the first step. The burner has failed before the game begins, but Ted finds it only after the sailors are in, when the dynamo runs and the beacon stays dark."
+  },
+  {
+   "src": "Docs/Lore Build/world/style_guide.md:25",
+   "text": "- **Reference touchstones** (A Scanner Darkly, Borderlands) are for human reference only. Never name them in prompts."
+  },
+  {
+   "src": "Docs/Lore Build/world/WORLD.md:12",
+   "text": "reference_touchstones: [A Scanner Darkly, Borderlands]  # for human reference only; never use in asset prompts"
+  },
+  {
+   "src": "Docs/Lore Build/world/WORLD.md:46",
+   "text": "7. The player must get back to the lighthouse and fit the burner to the beacon before the passenger ship runs aground."
+  },
+  {
+   "src": "Docs/Lore Build/WORLDBUILDER_AGENT.md:817",
+   "text": "- Build prompts **only** from locked or confirmed fields: art style from `WORLD.md`, palette and materials from culture/region files, silhouette keywords, and costume."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:14",
+   "text": "\u2022 16 October 2026, story beats: role scopes, the outpost rule and the checklist updated for the creator\u2019s fixed beats (arrival outside with Ted opening the door, coal into the boiler, sailors and the island gate, Ted finding the burner broken in the lantern room, the Saltgate quays as the destination, \u201cruns aground\u201d as the fail wording). \u201cTwo Gate 1 repairs\u201d now reads feeding the boiler and fittin"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:50",
+   "text": "|Gameplay/Systems|Phase controller following the story beats, arrival and coal-feeding interaction, shelter and gate trigger, beacon diagnosis trigger (only after the sailors are in), boarding trigger, return-departure clock trigger, cargo, win and fail states, restart.|Stable event and save IDs from Technical Strategy.            |Gate 1 complete end-to-end; no dead ends.          |"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:9",
+   "text": "- Deadline timer now starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate let the player get a feel for the boat. The ship is introduced at the boarding threshold."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:20",
+   "text": "- 16 October 2026, story beats fixed by the creator: the player (Isaac, \u201cthe new guy\u201d) starts outside the lighthouse and Ted opens the door; Ted then sends him to the basement to shovel coal into the boiler; the sailors moor at the dock and the player opens the island gate; only then does Ted take the player to the lantern room and find the beacon\u2019s burner broken. The crossing\u2019s destination is the"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:24",
+   "text": "A new apprentice, Isaac, arrives at the failing lighthouse on Bracken Isle. Keeper Ted opens the door to \u201cthe new guy\u201d and, after a beat, sends him down to the basement to shovel coal into the boiler. Overwhelmed by the storm, two sailors, Arthur and Daniel, moor their rowboat at the island\u2019s dock and look for shelter; Ted sees them from the window and tells the apprentice to open the island gate."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:29",
+   "text": "1. The light must return: everything leads back to the beacon. It is what you repair, it guides you home, and it decides whether the ship lives. Test: does this connect to getting the light back, or to what happens if it fails?"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:44",
+   "text": "|3. Beacon diagnosis   |The dynamo runs but the beacon stays dark. Follow Ted up to the lantern room, where he opens the arc lamp.                               |Ted finds the burner broken and says a new one is needed: a spare must be fetched from the Saltgate quays, with Arthur.|"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:64",
+   "text": "|Elsewhere in the lighthouse (stairs) |Audio only, as on the crossing, unless a window sightline exists.                                                    |"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:66",
+   "text": "Every fail shows a short line saying why the player failed (for example, that the beacon was not relit in time), delivered by Ted or Arthur or recorded in the journal, so Pillar 4 holds. Ted reacts to both outcomes from the lamp room using voice lines only; his reaction is staged by position, not a separate cutscene."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:89",
+   "text": "First playable prototype (Gate 1), about 10 minutes: arriving outside the lighthouse as Ted opens the door, shovelling coal into the boiler, Ted seeing the rowboat moored at the dock from the window, opening the island gate, Ted finding the burner broken in the lantern room, meeting Arthur at the engine boat, an outbound crossing to the Saltgate quays, burner pickup, a return crossing to the light"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:12",
+   "text": "6. Clock start. The deadline starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate give the player a feel for the boat. The ship is introduced by Ted at the boarding threshold."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:22",
+   "text": "16. Story beats (16 October 2026). In order: the player (Isaac, \u201cthe new guy\u201d) starts outside and Ted opens the door; Ted sends him to the basement to shovel coal into the boiler; Arthur and Daniel moor at the dock and the player opens the island gate (on the path from the dock to the lighthouse), with Daniel staying in the basement; the dynamo runs but the beacon stays dark, and Ted, only after t"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Engine Comparison.md:50",
+   "text": "\u2022 Strongest fit for the storm atmosphere and the beacon lighting that pillars 1 (the light must return) and 2 (the storm sets the clock) depend on."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:32",
+   "text": "|2. Narrative alpha          |Complete repairs, lighthouse and island discoveries, Saltgate discoveries, full dialogue, both outcomes, and the final retry and save model.|All story states can be finished; no dead-end save or cargo loss; the retry model has been tested so a reload can never produce an unwinnable state (time and weather restored together). Route branching is reviewed as a cut-list c"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:48",
+   "text": "Risk: week 5 is heavily loaded. If it slips, the creator decides between simplifying the lantern-room diagnosis and burner fit for Gate 1, cutting wave hazards (already first to go), or extending the schedule. Do not decide silently."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:64",
+   "text": "Because the boat cannot stop, docking is automatic: arriving within a dock trigger zone at the Saltgate quays or the lighthouse jetty ends steering control and moors the boat, followed by a disembark interaction. If the boat leaves the playable corridor or the player misses the dock approach, the recovery event returns the boat to the last safe point on the route with a time cost. Define each dock"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:76",
+   "text": "Elapsed time must never raise what the player collides with. Preserve a minimum visibility of nearby hazards (and wave cues, if built) and the immediate route on every preset. Use landmarks, compass, buoy silhouettes, and the beacon when facing home. Because the hazard channel does not depend on elapsed time, deadline tuning can be done offline and repeated from the same position."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:80",
+   "text": "Implement repair jobs from data: diagnosis, required fixed-toolkit item or interaction, puzzle steps, completion event, journal update, and optional route unlock (an optional field for later; not saved in Gate 1). The Gate 1 slice uses one lighthouse job, feeding the boiler with coal, and one final burner installation (the burner fit replaces the earlier \u201csecond repair\u201d). Later repairs (optic, rot"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:82",
+   "text": "The shelter and gate sequence is scripted and is part of the Gate 1 slice. After the boiler is fed, Ted prompts the player to look out of the window; Arthur and Daniel\u2019s rowboat is moored at the dock, the sailors overwhelmed by the storm and looking for shelter. There is no crash. Proposed: trigger the moment when the window is in view, with a fallback after a short delay so it cannot be missed. T"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:84",
+   "text": "Ted is present inside the lighthouse throughout the game (creator, 19 October 2026). In the second half he is staged at the lamp by position, with voice lines delivered from the lamp room only. At the boarding threshold he names the passenger ship\u2019s lights as the reason for the errand. After the second crossing, Arthur\u2019s \u201cgo go go, don\u2019t wait for me\u201d line plays on arrival. Neither Arthur\u2019s nor Dan"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:86",
+   "text": "For the deadline, store a numeric internal time but display only the passenger ship\u2019s position/lights and weather cues. It is the only timer in the game; the final repair runs on the same deadline. The ship first appears at the boarding threshold. It holds at its starting lights until the clock starts. Rules: start on the return-departure event, when the burner is aboard and the boat starts moving"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:96",
+   "text": "All viewpoints are first-person; there are no cutaway or exterior cameras. The moored rowboat is seen through the lighthouse window, and the ship outcome from the lamp room (or heard elsewhere), so both need clear sightlines. Use the beacon as a consistent landmark from the sea. Budget dynamic lights around the beacon, nearby player lights, and key hazards; prototype rain and fog on target hardwar"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/What's Changed (Concise).md:16",
+   "text": "- Deadline starts on the return crossing, when the player has the burner aboard and sets off for the lighthouse. There is no fail state before then, so the outbound crossing is steering practice. Ted introduces the ship at the boarding threshold."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/What's Changed (Concise).md:58",
+   "text": "- Burner identified by Ted after the gate. The sailors moor at the dock and the player opens the island gate; only then, with the dynamo running and the beacon still dark, does Ted find the burner broken in the lantern room."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/What's Changed.md:71",
+   "text": "\u2022 Gate 2. Adds lighthouse and island discoveries and the final retry and save model; a reload must restore time and weather together; route branching reviewed as a cut-list candidate."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/What's Changed.md:89",
+   "text": "\u2022 Docking and recovery. Because the boat cannot stop, docking at the outpost and lighthouse jetties is automatic. Leaving the corridor or missing a dock approach triggers a recovery to the last safe point at a time cost."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/What's Changed.md:164",
+   "text": "4. Beacon diagnosis. The dynamo runs but the beacon stays dark. Ted takes the player up to the lantern room, finds the burner broken and says a new one is needed. Ted identifies it, and only after the sailors are in."
+  }
+ ],
+ "open_questions": [
+  {
+   "src": "Docs/Lore Build/regions/reg_bracken_isle.md:23",
+   "text": "| The lighthouse | Single building | Guards the approach to the Saltgate. During eclipses it is the only true light by which ships can see the rocks. | TBD | Stone and mortar, battered but robust. Haunted halls. |"
+  },
+  {
+   "src": "Docs/Lore Build/regions/reg_calder_coast.md:23",
+   "text": "| Fort Kestrel | Fortress | Guards the western coast, about one mile west of the lighthouse | TBD | Manned and active. Lit and flying flags, but no one visible on the walls. |"
+  },
+  {
+   "src": "Docs/Lore Build/regions/reg_calder_coast.md:24",
+   "text": "| Fort Heron | Fortress | Guards the mouth of the Marrow, about one mile east of the lighthouse | TBD | Manned and active. Lit and flying flags, but no one visible. The Marrow is too small for the passenger ship. |"
+  },
+  {
+   "src": "Docs/Lore Build/regions/reg_saltgate.md:27",
+   "text": "- **The quays:** the player lands here with Arthur to retrieve the replacement beacon burner. The exact storage location is TBD."
+  },
+  {
+   "src": "Docs/Lore Build/world/geography.md:41",
+   "text": "TBD (coal supply for the lighthouse engine, fresh water on Bracken Isle)."
+  }
+ ],
+ "most_relevant": [
+  [
+   "Docs/Lore Build/dialogue/DIALOGUE_OPENING_FINAL.md",
+   28
+  ],
+  [
+   "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING.md",
+   24
+  ],
+  [
+   "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_FINAL.md",
+   23
+  ],
+  [
+   "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_LIVE.md",
+   23
+  ],
+  [
+   "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md",
+   23
+  ],
+  [
+   "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md",
+   17
+  ],
+  [
+   "Docs/Lore Build/regions/reg_bracken_isle.md",
+   13
+  ],
+  [
+   "Docs/GDD/Final_GDD_Post_Review/What's Changed.md",
+   13
+  ],
+  [
+   "Docs/Lore Build/WORLDBUILDER_AGENT.md",
+   12
+  ],
+  [
+   "Docs/Lore Build/characters/chr_ted.md",
+   11
+  ],
+  [
+   "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/characters/DIALOGUE_TED.md",
+   10
+  ],
+  [
+   "Docs/Lore Build/dialogue/characters/DIALOGUE_TED.md",
+   10
+  ]
+ ]
+}

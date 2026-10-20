@@ -1,0 +1,2904 @@
+{
+ "assessor": "waves_assessor",
+ "ingested_utc": "2026-10-20T14:20:41+00:00",
+ "keywords": [
+  "wave",
+  "waves",
+  "tide",
+  "tides",
+  "swell",
+  "storm",
+  "surge",
+  "sea state",
+  "eclipse",
+  "aggressive",
+  "crossing",
+  "outbound",
+  "return",
+  "water_push",
+  "reduced hazard",
+  "hazard intensity",
+  "capsize",
+  "spray",
+  "rain",
+  "wind"
+ ],
+ "files_read": 51,
+ "sources": {
+  "Docs/Lore Build/characters/chr_arthur.md": {
+   "sha": "f49a202f55c6926b",
+   "headings": [
+    "Arthur",
+    "Summary",
+    "Appearance",
+    "Costume & Equipment",
+    "Voice",
+    "Abilities",
+    "Weaknesses",
+    "History",
+    "Beliefs",
+    "Motivation",
+    "Relationships",
+    "Story Hooks",
+    "Asset Prompts"
+   ],
+   "domain_hits": 7,
+   "hits": [
+    {
+     "line": 20,
+     "text": "A local whose boat was caught in the storm along with Daniel's. They moor their rowboat at the dock, and the player opens the island gate to let them shelter at the lighthouse. After Ted finds the beacon's burner broken, Arthur joins the player on the steam launch and guides the crossing to the Saltgate quays and back."
+    },
+    {
+     "line": 46,
+     "text": "| Crossing guidance | sys_steam_power | Talks the player through currents and storm on the launch | n/a | n/a |"
+    },
+    {
+     "line": 53,
+     "text": "- **backstory:** caught in the storm and sought shelter on Bracken Isle. Why he and Daniel were out on the water is TBD (smugglers?)."
+    },
+    {
+     "line": 72,
+     "text": "- Why were Arthur and Daniel out on the water in eclipse season?"
+    },
+    {
+     "line": 75,
+     "text": "- **portrait:** \"1800s coastal sailor, weathered face, green oilskin coat over a green heavy wool jumper, wry expression, soaked by rain, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, muted palette\""
+    },
+    {
+     "line": 78,
+     "text": "- **animation_notes:** seated in the launch, pointing out currents, bracing against waves, shocked reaction at the sight of the ship"
+    },
+    {
+     "line": 79,
+     "text": "- **negative_prompt:** \"navy or red clothing, chain mail, modern raincoat, photoreal\""
+    }
+   ]
+  },
+  "Docs/Lore Build/characters/chr_daniel.md": {
+   "sha": "6a2d4c351fd111c2",
+   "headings": [
+    "Daniel",
+    "Summary",
+    "Appearance",
+    "Costume & Equipment",
+    "Voice",
+    "Abilities",
+    "Weaknesses",
+    "History",
+    "Beliefs",
+    "Motivation",
+    "Relationships",
+    "Story Hooks",
+    "Asset Prompts"
+   ],
+   "domain_hits": 4,
+   "hits": [
+    {
+     "line": 20,
+     "text": "A local whose boat was caught in the storm with Arthur. They moor at the dock and seek shelter at the lighthouse, and the player lets them through the island gate. Daniel goes down to the basement and stays there, by the boiler, while the player and Arthur make the crossing (resolved 2026-10-16)."
+    },
+    {
+     "line": 46,
+     "text": "- **backstory:** caught in the storm with Arthur and sought shelter on Bracken Isle."
+    },
+    {
+     "line": 67,
+     "text": "- **portrait:** \"1800s coastal sailor, weathered face, red oilskin coat over a red heavy wool jumper, soaked by rain, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, muted palette\""
+    },
+    {
+     "line": 69,
+     "text": "- **negative_prompt:** \"navy or green clothing, chain mail, modern raincoat, photoreal\""
+    }
+   ]
+  },
+  "Docs/Lore Build/characters/chr_player.md": {
+   "sha": "d14e229c83d1cfea",
+   "headings": [
+    "The Player Character",
+    "Summary",
+    "Appearance",
+    "Abilities",
+    "Everything Else",
+    "Asset Prompts"
+   ],
+   "domain_hits": 2,
+   "hits": [
+    {
+     "line": 24,
+     "text": "- **Main objective:** crosses the Gullwater with Arthur to the Saltgate quays for a replacement burner, races the escalating storm back, and fits the burner before the passenger ship runs aground."
+    },
+    {
+     "line": 35,
+     "text": "| Pilot launch | sys_steam_power | Crosses the Gullwater | Coal | Harder in storm |"
+    }
+   ]
+  },
+  "Docs/Lore Build/characters/chr_ted.md": {
+   "sha": "52869f7701378edb",
+   "headings": [
+    "Ted",
+    "Summary",
+    "Appearance",
+    "Costume & Equipment",
+    "Voice",
+    "Abilities",
+    "Weaknesses",
+    "History",
+    "Beliefs",
+    "Motivation",
+    "Relationships",
+    "Story Hooks",
+    "Asset Prompts"
+   ],
+   "domain_hits": 3,
+   "hits": [
+    {
+     "line": 22,
+     "text": "**Opening role (story beats, 2026-10-16):** he opens the lighthouse door to the player (\"You're the new guy, then\"), lets him in and, after a beat, sends him to the basement to feed the boiler. He sees the sailors' rowboat from the window and sends the player to the island gate. Once the sailors are in and the beacon stays dark, he takes the player up to the lantern room, finds the burner broken a"
+    },
+    {
+     "line": 50,
+     "text": "| Possible communication with the Flighted | fac_flighted / sys_eclipse | TBD | TBD | TBD |"
+    },
+    {
+     "line": 84,
+     "text": "- **negative_prompt:** \"green or red clothing, chain mail, modern raincoat, photoreal\""
+    }
+   ]
+  },
+  "Docs/Lore Build/cultures/cul_calder_city.md": {
+   "sha": "ebd7d597cb43f599",
+   "headings": [
+    "Saint Calder City Folk",
+    "Surface Identity (L3)",
+    "Internal Variation",
+    "Beliefs & Values (L5)",
+    "Relations With Other Peoples"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/cultures/cul_coastfolk.md": {
+   "sha": "edaad3963fdcf819",
+   "headings": [
+    "Coastfolk",
+    "Surface Identity (L3)",
+    "Architecture",
+    "Everyday Clothing",
+    "Armor & Weapons",
+    "Ceremonial Dress",
+    "Symbols & Heraldry",
+    "Silhouette Description",
+    "Music & Sound",
+    "Internal Variation",
+    "Beliefs & Values (L5)",
+    "Common Beliefs",
+    "Internal Arguments",
+    "Traditions (and their practical origins)",
+    "Taboos",
+    "Contradictions",
+    "Relations With Other Peoples",
+    "Asset Prompts"
+   ],
+   "domain_hits": 4,
+   "hits": [
+    {
+     "line": 59,
+     "text": "The eclipse is a religious matter, the work of a god or of the Flighted. Nobody knows why it happens."
+    },
+    {
+     "line": 71,
+     "text": "- People who revere the Flighted also fear them (\"They bring the storms\")."
+    },
+    {
+     "line": 79,
+     "text": "- **commoner_outfit:** \"1800s coastal sailor, long oilskin coat, heavy cable-knit wool jumper, heavy black oily leather boots, weathered face, wet from sea spray, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, muted palette\""
+    },
+    {
+     "line": 80,
+     "text": "- **negative_prompt:** \"chain mail, armour, amber and gold finery, Flighted iconography, modern raincoat, plastic, bright colours\""
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/characters/DIALOGUE_ARTHUR.md": {
+   "sha": "2bf625f7b5e03bf6",
+   "headings": [
+    "Arthur: Dialogue",
+    "Voice (from the lore file)",
+    "At a glance",
+    "Optional discoveries",
+    "Step 2: Let the sailors in",
+    "Step 3: Fetch the replacement burner",
+    "Staging, hints and notes"
+   ],
+   "domain_hits": 9,
+   "hits": [
+    {
+     "line": 3,
+     "text": "Part of *Artifact #2: Character Dialogue Sequences*. [Opening dialogue (all characters)](../DIALOGUE_OPENING_FINAL.md) \u00b7 [Lore file](../../characters/chr_arthur.md) \u00b7 [Data (crew output)](../../../../Agent%20Crew/storm_crew/storm_crew/sample_output_live_revised/dialogue_opening.json)"
+    },
+    {
+     "line": 33,
+     "text": "| `ARTHUR_S2_01` | `GATE_APPROACHED` | reaction \u00b7 alt `ARTHUR_S2_GATE` | \"Hoy, up there! Open the gate, would you? We're soaked to the bone.\" | Shouting over wind, friendly but wary. |"
+    },
+    {
+     "line": 35,
+     "text": "| `ARTHUR_S2_03` | `GATE_OPENED` | reaction \u00b7 alt `ARTHUR_S2_OPEN` | \"Bless you, Isaac. Daniel, in you come, before the wind changes its mind.\" | Relieved, wry. |"
+    },
+    {
+     "line": 47,
+     "text": "| `ARTHUR_S3_06` | `OUTBOUND_NEAR_MISS` | reaction \u00b7 alt `ARTHUR_S3_NEAR` | \"Rocks! Ease her over. Easy, easy. Good.\" | Sharp, frantic, then relieved. |"
+    },
+    {
+     "line": 48,
+     "text": "| `ARTHUR_S3_07` | `OUTBOUND_NEAR_MISS` | reaction \u00b7 alt `ARTHUR_S3_NEAR` | \"Too close! Give the rocks some room, Isaac.\" | Sharp, breathless. |"
+    },
+    {
+     "line": 49,
+     "text": "| `ARTHUR_S3_08` | `OUTBOUND_COLLISION` | reaction \u00b7 alt `ARTHUR_S3_HIT` | \"Hold on! Back her off the rock and steer clear. Gently now.\" | Shouted, rattled but steady. |"
+    },
+    {
+     "line": 50,
+     "text": "| `ARTHUR_S3_09` | `OUTBOUND_COLLISION` | reaction \u00b7 alt `ARTHUR_S3_HIT` | \"That hull's taken worse. Reverse, turn wide, try again.\" | Gritted, wry, calming. |"
+    },
+    {
+     "line": 52,
+     "text": "| `ARTHUR_S3_11` | `SHIP_SIGHTED` | discovery \u00b7 alt `ARTHUR_S3_SHIP` | \"There! Ship's lights, out in the swell. She can't see the rocks. No beacon.\" | Hushed, tight, urgent. |"
+    },
+    {
+     "line": 71,
+     "text": "*Generated by `LightingTheStorm/tools/build_character_pages.py` from `dialogue_opening.json`. Do not edit by hand.*"
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/characters/DIALOGUE_DANIEL.md": {
+   "sha": "364cf1bff3e28574",
+   "headings": [
+    "Daniel: Dialogue",
+    "Voice (from the lore file)",
+    "At a glance",
+    "Optional discoveries",
+    "Step 2: Let the sailors in",
+    "Staging, hints and notes"
+   ],
+   "domain_hits": 3,
+   "hits": [
+    {
+     "line": 3,
+     "text": "Part of *Artifact #2: Character Dialogue Sequences*. [Opening dialogue (all characters)](../DIALOGUE_OPENING_FINAL.md) \u00b7 [Lore file](../../characters/chr_daniel.md) \u00b7 [Data (crew output)](../../../../Agent%20Crew/storm_crew/storm_crew/sample_output_live_revised/dialogue_opening.json)"
+    },
+    {
+     "line": 27,
+     "text": "| `DANIEL_OPT_08` | `WALL_WHISPER_HEARD` | reaction \u00b7 alt `DANIEL_WHISPER` | \"Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming.\" | Whispered, nervous, half-laughing. |"
+    },
+    {
+     "line": 51,
+     "text": "*Generated by `LightingTheStorm/tools/build_character_pages.py` from `dialogue_opening.json`. Do not edit by hand.*"
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/characters/DIALOGUE_TED.md": {
+   "sha": "9d4d127ea72f59ce",
+   "headings": [
+    "Ted: Dialogue",
+    "Voice (from the lore file)",
+    "At a glance",
+    "Step 1: Feed the boiler",
+    "Step 2: Let the sailors in",
+    "Step 3: Fetch the replacement burner",
+    "Staging, hints and notes"
+   ],
+   "domain_hits": 10,
+   "hits": [
+    {
+     "line": 3,
+     "text": "Part of *Artifact #2: Character Dialogue Sequences*. [Opening dialogue (all characters)](../DIALOGUE_OPENING_FINAL.md) \u00b7 [Lore file](../../characters/chr_ted.md) \u00b7 [Data (crew output)](../../../../Agent%20Crew/storm_crew/storm_crew/sample_output_live_revised/dialogue_opening.json)"
+    },
+    {
+     "line": 27,
+     "text": "| `TED_S1_01` | `GAME_STARTED` | setting | \"Eclipse, storm season, and the Saltgate howling. Of course they send a new money toff.\" | Gruff, weary, dry. Ends on a cough. |"
+    },
+    {
+     "line": 48,
+     "text": "| `TED_S2_03` | `WINDOW_LOOKED` | reaction | \"See them? Soaked and stranded. The gate's down the path from the dock. Go on.\" | Grunting, gesturing. |"
+    },
+    {
+     "line": 63,
+     "text": "- `TED_S1_01` *staging:* Ted at the lighthouse entrance, wind audible outside."
+    },
+    {
+     "line": 64,
+     "text": "- `TED_S1_01` *note:* Introduces eclipse, storm season and the Saltgate."
+    },
+    {
+     "line": 71,
+     "text": "- `TED_S2_01` *staging:* Ted at the window, wind rattling the glass."
+    },
+    {
+     "line": 73,
+     "text": "- `TED_S2_02` *staging:* Ted at the window, wind rattling the glass."
+    },
+    {
+     "line": 77,
+     "text": "- `TED_S3_01` *staging:* Ted in the lighthouse hall, lamplight swaying as the wind shakes the walls."
+    },
+    {
+     "line": 79,
+     "text": "- `TED_S3_02` *staging:* Ted in the lighthouse hall, lamplight swaying as the wind shakes the walls."
+    },
+    {
+     "line": 83,
+     "text": "*Generated by `LightingTheStorm/tools/build_character_pages.py` from `dialogue_opening.json`. Do not edit by hand.*"
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING.md": {
+   "sha": "c23f2eb63d5e210f",
+   "headings": [
+    "Opening Dialogue: Steps 1-3 (Gate 1 slice)",
+    "Step 1: Feed the boiler",
+    "On `GAME_STARTED`",
+    "On `IDLE_STEP_1`",
+    "On `ENGINE_ROOM_ENTERED`",
+    "On `COAL_LOADED_FIRST`",
+    "On `COAL_LOADED_HALF`",
+    "On `BOILER_FED`",
+    "On `LAMP_ROOM_ENTERED`",
+    "On `BURNER_DIAGNOSED`",
+    "Step 2: Let the sailors in",
+    "On `SAILORS_MOORED`",
+    "On `WINDOW_LOOKED`",
+    "On `IDLE_STEP_2`",
+    "On `GATE_APPROACHED`",
+    "On `GATE_OPENED`",
+    "On `SAILORS_INSIDE`",
+    "On `DANIEL_IN_BASEMENT`",
+    "Step 3: Fetch the burner",
+    "On `BURNER_BRIEFING`",
+    "On `IDLE_STEP_3`",
+    "On `BOARDING_THRESHOLD`",
+    "On `SHIP_SIGHTED`",
+    "On `BOAT_CAST_OFF`",
+    "On `OUTBOUND_NEAR_MISS`",
+    "On `OUTBOUND_COLLISION`",
+    "On `OUTPOST_REACHED`",
+    "On `IDLE_OUTPOST`",
+    "On `BURNER_PICKED_UP`",
+    "Optional discoveries",
+    "On `POSTER_EXAMINED`",
+    "On `WALL_WHISPER_HEARD`",
+    "On `BASEMENT_BANG`",
+    "On `BASEMENT_TALK`",
+    "Objective journal (handwritten, Isaac's own words)",
+    "Open creator decisions",
+    "Assumptions to confirm"
+   ],
+   "domain_hits": 20,
+   "hits": [
+    {
+     "line": 19,
+     "text": "- **TED** `TED_S1_02` (setting): \"No moon tonight. Something's sat on it again, and the sea hates it. Tides go savage, storms follow.\""
+    },
+    {
+     "line": 91,
+     "text": "*Location:* Lantern-room window, path, island gate"
+    },
+    {
+     "line": 92,
+     "text": "*Player does:* Look out of the window, go down the path and open the gate for Arthur and Daniel."
+    },
+    {
+     "line": 97,
+     "text": "- **TED** `TED_S2_01` (objective): \"Oi! Window! There's a rowboat tied up at the dock. Two men, soaked to the bone.\""
+    },
+    {
+     "line": 99,
+     "text": "*assist hint:* Walk to the lantern room window and look at the dock."
+    },
+    {
+     "line": 100,
+     "text": "*staging:* Ted is already at the window and sees the rowboat first."
+    },
+    {
+     "line": 102,
+     "text": "### On `WINDOW_LOOKED`"
+    },
+    {
+     "line": 103,
+     "text": "*Player looks out of the window at the dock.*"
+    },
+    {
+     "line": 124,
+     "text": "*delivery: shouted over the wind, wry*"
+    },
+    {
+     "line": 125,
+     "text": "- **ARTHUR** `ARTHUR_S2_01b` (reaction): \"Oi! Gate! Open up before the sea finishes what the storm started!\""
+    },
+    {
+     "line": 139,
+     "text": "*note:* Open hook: why Arthur and Daniel were on the water in eclipse season. Not answered."
+    },
+    {
+     "line": 197,
+     "text": "*delivery: shouted, carried on the wind*"
+    },
+    {
+     "line": 213,
+     "text": "*Outbound crossing begins (untimed steering practice).*"
+    },
+    {
+     "line": 221,
+     "text": "### On `OUTBOUND_NEAR_MISS`"
+    },
+    {
+     "line": 230,
+     "text": "### On `OUTBOUND_COLLISION`"
+    },
+    {
+     "line": 259,
+     "text": "*note:* Hands over to the Agent Crew's ARTHUR_RET_* calls at RETURN_DEPARTED."
+    },
+    {
+     "line": 276,
+     "text": "- **TED** `TED_OPT_02` (discovery): \"Wind in the walls. Always is. Ignore it.\""
+    },
+    {
+     "line": 301,
+     "text": "| `JRN_04` | 2 | `WINDOW_LOOKED` | Two sailors have moored at the dock. Ted says open the island gate. |"
+    },
+    {
+     "line": 316,
+     "text": "1. Lore vs GDD: WORLD.md puts the ship reveal before the crossing; the GDD (1 Oct 2026) puts it at the boarding threshold. The brief follows the GDD."
+    },
+    {
+     "line": 320,
+     "text": "5. Existing offline Arthur return-crossing lines (offline_llm.py) still say 'lad'; the dialogue checks would reject that for the player."
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_FINAL.md": {
+   "sha": "3bc3483c054c150d",
+   "headings": [
+    "Opening Dialogue: Steps 1-3 (Gate 1 slice)",
+    "Step 1: Feed the boiler",
+    "On `GAME_STARTED`",
+    "On `ENGINE_ROOM_ENTERED`",
+    "On `COAL_LOADED_FIRST`",
+    "On `COAL_LOADED_HALF`",
+    "On `BOILER_FED`",
+    "On `LAMP_ROOM_ENTERED`",
+    "On `BURNER_DIAGNOSED`",
+    "On `IDLE_STEP_1`",
+    "Step 2: Let the sailors in",
+    "On `SAILORS_MOORED`",
+    "On `WINDOW_LOOKED`",
+    "On `GATE_APPROACHED`",
+    "On `GATE_OPENED`",
+    "On `SAILORS_INSIDE`",
+    "On `DANIEL_IN_BASEMENT`",
+    "On `IDLE_STEP_2`",
+    "Step 3: Fetch the replacement burner",
+    "On `BURNER_BRIEFING`",
+    "On `BOARDING_THRESHOLD`",
+    "On `BOAT_CAST_OFF`",
+    "On `OUTBOUND_NEAR_MISS`",
+    "On `OUTBOUND_COLLISION`",
+    "On `SHIP_SIGHTED`",
+    "On `OUTPOST_REACHED`",
+    "On `BURNER_PICKED_UP`",
+    "On `IDLE_STEP_3`",
+    "On `IDLE_OUTPOST`",
+    "Optional discoveries",
+    "On `BASEMENT_TALK`",
+    "On `BASEMENT_BANG`",
+    "On `WALL_WHISPER_HEARD`",
+    "On `POSTER_EXAMINED`",
+    "Objective journal (handwritten, Isaac's own words)",
+    "Open creator decisions",
+    "Assumptions to confirm"
+   ],
+   "domain_hits": 20,
+   "hits": [
+    {
+     "line": 17,
+     "text": "- **TED** `TED_S1_01` (setting): \"Eclipse, storm season, and the Saltgate howling. Of course they send a new money toff.\""
+    },
+    {
+     "line": 19,
+     "text": "*staging:* Ted at the lighthouse entrance, wind audible outside."
+    },
+    {
+     "line": 20,
+     "text": "*note:* Introduces eclipse, storm season and the Saltgate."
+    },
+    {
+     "line": 87,
+     "text": "*Location:* Lighthouse window, dock and island gate, then the hall and basement"
+    },
+    {
+     "line": 97,
+     "text": "*staging:* Ted at the window, wind rattling the glass."
+    },
+    {
+     "line": 101,
+     "text": "*staging:* Ted at the window, wind rattling the glass."
+    },
+    {
+     "line": 103,
+     "text": "### On `WINDOW_LOOKED`"
+    },
+    {
+     "line": 104,
+     "text": "*Player looks out of the window at the dock.*"
+    },
+    {
+     "line": 114,
+     "text": "*delivery: Shouting over wind, friendly but wary.*"
+    },
+    {
+     "line": 122,
+     "text": "- **ARTHUR** `ARTHUR_S2_03` (reaction): \"Bless you, Isaac. Daniel, in you come, before the wind changes its mind.\""
+    },
+    {
+     "line": 162,
+     "text": "*Location:* Hall, dock and launch, the Gullwater crossing, and the abandoned outpost"
+    },
+    {
+     "line": 172,
+     "text": "*staging:* Ted in the lighthouse hall, lamplight swaying as the wind shakes the walls."
+    },
+    {
+     "line": 176,
+     "text": "*staging:* Ted in the lighthouse hall, lamplight swaying as the wind shakes the walls."
+    },
+    {
+     "line": 188,
+     "text": "*Outbound crossing begins (untimed steering practice).*"
+    },
+    {
+     "line": 196,
+     "text": "### On `OUTBOUND_NEAR_MISS`"
+    },
+    {
+     "line": 205,
+     "text": "### On `OUTBOUND_COLLISION`"
+    },
+    {
+     "line": 220,
+     "text": "- **ARTHUR** `ARTHUR_S3_11` (discovery): \"There! Ship's lights, out in the swell. She can't see the rocks. No beacon.\""
+    },
+    {
+     "line": 292,
+     "text": "- **DANIEL** `DANIEL_OPT_08` (reaction): \"Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming.\""
+    },
+    {
+     "line": 326,
+     "text": "1. Lore vs GDD: WORLD.md puts the ship reveal before the crossing; the GDD (1 Oct 2026) puts it at the boarding threshold. The brief follows the GDD."
+    },
+    {
+     "line": 330,
+     "text": "5. Existing offline Arthur return-crossing lines (offline_llm.py) still say 'lad'; the dialogue checks would reject that for the player."
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_LIVE.md": {
+   "sha": "9b88d78e16fe9329",
+   "headings": [
+    "Opening Dialogue: Steps 1-3 (Gate 1 slice)",
+    "Step 1: Feed the boiler",
+    "On `GAME_STARTED`",
+    "On `ENGINE_ROOM_ENTERED`",
+    "On `COAL_LOADED_FIRST`",
+    "On `COAL_LOADED_HALF`",
+    "On `BOILER_FED`",
+    "On `LAMP_ROOM_ENTERED`",
+    "On `BURNER_DIAGNOSED`",
+    "On `IDLE_STEP_1`",
+    "Step 2: Let the sailors in",
+    "On `SAILORS_MOORED`",
+    "On `WINDOW_LOOKED`",
+    "On `GATE_APPROACHED`",
+    "On `GATE_OPENED`",
+    "On `SAILORS_INSIDE`",
+    "On `DANIEL_IN_BASEMENT`",
+    "On `BASEMENT_TALK`",
+    "On `BASEMENT_BANG`",
+    "On `WALL_WHISPER_HEARD`",
+    "On `IDLE_STEP_2`",
+    "Step 3: Fetch the replacement burner",
+    "On `BURNER_BRIEFING`",
+    "On `BOARDING_THRESHOLD`",
+    "On `BOAT_CAST_OFF`",
+    "On `OUTBOUND_NEAR_MISS`",
+    "On `OUTBOUND_COLLISION`",
+    "On `SHIP_SIGHTED`",
+    "On `OUTPOST_REACHED`",
+    "On `POSTER_EXAMINED`",
+    "On `BURNER_PICKED_UP`",
+    "On `IDLE_STEP_3`",
+    "On `IDLE_OUTPOST`",
+    "Optional discoveries",
+    "Objective journal (handwritten, Isaac's own words)",
+    "Open creator decisions",
+    "Assumptions to confirm"
+   ],
+   "domain_hits": 19,
+   "hits": [
+    {
+     "line": 17,
+     "text": "- **TED** `TED_S1_01` (setting): \"Eclipse, storm season, and the Saltgate howling. Of course they send a new money toff.\""
+    },
+    {
+     "line": 19,
+     "text": "*staging:* Ted at the lighthouse entrance, wind audible outside."
+    },
+    {
+     "line": 20,
+     "text": "*note:* Introduces eclipse, storm season and the Saltgate."
+    },
+    {
+     "line": 87,
+     "text": "*Location:* Lighthouse window, dock and island gate, then the hall and basement"
+    },
+    {
+     "line": 97,
+     "text": "*staging:* Ted at the window, wind rattling the glass."
+    },
+    {
+     "line": 101,
+     "text": "*staging:* Ted at the window, wind rattling the glass."
+    },
+    {
+     "line": 103,
+     "text": "### On `WINDOW_LOOKED`"
+    },
+    {
+     "line": 104,
+     "text": "*Player looks out of the window at the dock.*"
+    },
+    {
+     "line": 114,
+     "text": "*delivery: Shouting over wind, friendly but wary.*"
+    },
+    {
+     "line": 122,
+     "text": "- **ARTHUR** `ARTHUR_S2_03` (reaction): \"Bless you, Isaac. Daniel, in you come, before the wind changes its mind.\""
+    },
+    {
+     "line": 176,
+     "text": "- **DANIEL** `DANIEL_OPT_08` (reaction): \"Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming.\""
+    },
+    {
+     "line": 193,
+     "text": "*Location:* Hall, dock and launch, the Gullwater crossing, and the abandoned outpost"
+    },
+    {
+     "line": 219,
+     "text": "*Outbound crossing begins (untimed steering practice).*"
+    },
+    {
+     "line": 227,
+     "text": "### On `OUTBOUND_NEAR_MISS`"
+    },
+    {
+     "line": 236,
+     "text": "### On `OUTBOUND_COLLISION`"
+    },
+    {
+     "line": 251,
+     "text": "- **ARTHUR** `ARTHUR_S3_11` (discovery): \"There! Ship's lights, out in the swell. She can't see the rocks. No beacon.\""
+    },
+    {
+     "line": 295,
+     "text": "*assist hint:* Go inside the outpost, find the replacement burner, pick it up and return to the boat."
+    },
+    {
+     "line": 319,
+     "text": "1. Lore vs GDD: WORLD.md puts the ship reveal before the crossing; the GDD (1 Oct 2026) puts it at the boarding threshold. The brief follows the GDD."
+    },
+    {
+     "line": 323,
+     "text": "5. Existing offline Arthur return-crossing lines (offline_llm.py) still say 'lad'; the dialogue checks would reject that for the player."
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/README.md": {
+   "sha": "27725672b62bf425",
+   "headings": [
+    "Character Dialogue Sequences",
+    "Characters",
+    "Opening dialogue (all characters, by step and event)",
+    "Diagrams"
+   ],
+   "domain_hits": 1,
+   "hits": [
+    {
+     "line": 3,
+     "text": "Dialogue for the opening of *Lighting the Storm* (Gate 1, steps 1-3), written by the Opening Dialogue Crew in `Agent Crew/storm_crew`."
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/characters/DIALOGUE_ARTHUR.md": {
+   "sha": "8ce78bf7d60cdb23",
+   "headings": [
+    "Arthur: Dialogue",
+    "Voice (from the lore file)",
+    "At a glance",
+    "Optional discoveries",
+    "Step 2: Let the sailors in",
+    "Step 3: Fetch a new burner",
+    "Staging, hints and notes"
+   ],
+   "domain_hits": 4,
+   "hits": [
+    {
+     "line": 41,
+     "text": "| `ARTHUR_S3_11` | `SHIP_SIGHTED` | discovery | \"There! Ship's lights, out in the swell. She can't see the rocks. No beacon.\" | Hushed, tight, urgent. |"
+    },
+    {
+     "line": 43,
+     "text": "| `ARTHUR_S3_07` | `OUTBOUND_NEAR_MISS` | reaction | \"Too close! Give the rocks some room, Isaac.\" | Sharp, breathless. |"
+    },
+    {
+     "line": 44,
+     "text": "| `ARTHUR_S3_08` | `OUTBOUND_COLLISION` | reaction | \"Hold on! Swing wide of the rock and steer clear. Gently now.\" | Shouted, rattled but steady. |"
+    },
+    {
+     "line": 70,
+     "text": "*Generated by `LightingTheStorm/tools/build_character_pages.py` from `dialogue_opening.json`. Do not edit by hand.*"
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/characters/DIALOGUE_DANIEL.md": {
+   "sha": "9adf5eadd78ecd4c",
+   "headings": [
+    "Daniel: Dialogue",
+    "Voice (from the lore file)",
+    "At a glance",
+    "Optional discoveries",
+    "Step 2: Let the sailors in",
+    "Staging, hints and notes"
+   ],
+   "domain_hits": 2,
+   "hits": [
+    {
+     "line": 22,
+     "text": "| `DANIEL_OPT_08` | `WALL_WHISPER_HEARD` | reaction | \"Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming.\" | Whispered, nervous, half-laughing. |"
+    },
+    {
+     "line": 42,
+     "text": "*Generated by `LightingTheStorm/tools/build_character_pages.py` from `dialogue_opening.json`. Do not edit by hand.*"
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/characters/DIALOGUE_TED.md": {
+   "sha": "1bf6a9c9b2f58480",
+   "headings": [
+    "Ted: Dialogue",
+    "Voice (from the lore file)",
+    "At a glance",
+    "Step 1: Arrive and feed the boiler",
+    "Step 2: Let the sailors in",
+    "Step 3: Fetch a new burner",
+    "Staging, hints and notes"
+   ],
+   "domain_hits": 7,
+   "hits": [
+    {
+     "line": 28,
+     "text": "| `TED_S1_01` | `GAME_STARTED` | setting | \"Hrmph. You're the new guy, then. Storm season, and they send me a new money toff. In.\" | Gruff, weary, dry. Ends on a cough. |"
+    },
+    {
+     "line": 43,
+     "text": "| `TED_S2_03` | `WINDOW_LOOKED` | reaction | \"See them? Soaked and stranded. The gate's down the path from the dock. Go on.\" | Grunting, gesturing. |"
+    },
+    {
+     "line": 60,
+     "text": "- `TED_S1_01` *staging:* Isaac stands outside the lighthouse door in the wind; Ted opens it and looks him over."
+    },
+    {
+     "line": 61,
+     "text": "- `TED_S1_01` *note:* Introduces eclipse, storm season and the Saltgate. | Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
+    },
+    {
+     "line": 68,
+     "text": "- `TED_S2_01` *staging:* Ted at the window, wind rattling the glass."
+    },
+    {
+     "line": 77,
+     "text": "- `TED_S3_02` *staging:* Ted in the lighthouse hall, lamplight swaying as the wind shakes the walls."
+    },
+    {
+     "line": 84,
+     "text": "*Generated by `LightingTheStorm/tools/build_character_pages.py` from `dialogue_opening.json`. Do not edit by hand.*"
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/DIALOGUE_OPENING_CREATOR_PICKS.md": {
+   "sha": "54bb5321d8f0479d",
+   "headings": [
+    "Opening Dialogue: Creator Picks",
+    "Picks",
+    "Reword",
+    "Effects to be aware of"
+   ],
+   "domain_hits": 7,
+   "hits": [
+    {
+     "line": 7,
+     "text": "**Story-beat revision, 2026-10-16.** The creator then fixed the story order (`AIAgentCrew/canon.py` `STORY_BEATS`): the player starts outside and Ted opens the door; after a beat, coal; then the sailors; only then does Ted find the burner broken; then the Saltgate crossing. `AIAgentCrew/story_beats.py` applies that to these picks without changing any line ID:"
+    },
+    {
+     "line": 11,
+     "text": "| `TED_S1_01` | Now the greeting at the door: \"Hrmph. You're the new guy, then. Storm season, and they send me a new money toff. In.\" |"
+    },
+    {
+     "line": 35,
+     "text": "| 3 | `OUTBOUND_NEAR_MISS` | `ARTHUR_S3_07` | `ARTHUR_S3_06` | Both clean. |"
+    },
+    {
+     "line": 36,
+     "text": "| 3 | `OUTBOUND_COLLISION` | `ARTHUR_S3_08` (reworded) | `ARTHUR_S3_09` | Both lines implied a reverse control. See the reword below. |"
+    },
+    {
+     "line": 45,
+     "text": "`ARTHUR_S3_08`, on `OUTBOUND_COLLISION`. The boat has one speed and is steered only with A and D, so \"back her off\" implied a reverse control."
+    },
+    {
+     "line": 55,
+     "text": "- **\"Isaac\" use.** `TED_S3_02`, `ARTHUR_S3_03` and `ARTHUR_S3_07` all use the player's name in the crossing. Re-count against the one-in-five limit when the set is final."
+    },
+    {
+     "line": 56,
+     "text": "- **Game data not updated.** `LightingTheStorm/data/dialogue/dialogue_opening.json` is still the older 61-line draft. The picked data is in `AIAgentCrew/sample_output_picked/dialogue_opening.json`."
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/DIALOGUE_OPENING_FINAL.md": {
+   "sha": "87db7f25041c6167",
+   "headings": [
+    "Opening Dialogue: Steps 1-3 (Gate 1 slice)",
+    "Step 1: Arrive and feed the boiler",
+    "On `GAME_STARTED`",
+    "On `LIGHTHOUSE_ENTERED`",
+    "On `ENGINE_ROOM_ENTERED`",
+    "On `COAL_LOADED_FIRST`",
+    "On `COAL_LOADED_HALF`",
+    "On `BOILER_FED`",
+    "On `IDLE_STEP_1`",
+    "Step 2: Let the sailors in",
+    "On `SAILORS_MOORED`",
+    "On `WINDOW_LOOKED`",
+    "On `GATE_APPROACHED`",
+    "On `GATE_OPENED`",
+    "On `SAILORS_INSIDE`",
+    "On `DANIEL_IN_BASEMENT`",
+    "On `IDLE_STEP_2`",
+    "Step 3: Fetch a new burner",
+    "On `BEACON_STILL_DARK`",
+    "On `LAMP_ROOM_ENTERED`",
+    "On `BURNER_DIAGNOSED`",
+    "On `BURNER_BRIEFING`",
+    "On `BOARDING_THRESHOLD`",
+    "On `SHIP_SIGHTED`",
+    "On `BOAT_CAST_OFF`",
+    "On `OUTBOUND_NEAR_MISS`",
+    "On `OUTBOUND_COLLISION`",
+    "On `SALTGATE_REACHED`",
+    "On `BURNER_PICKED_UP`",
+    "On `IDLE_STEP_3`",
+    "On `IDLE_SALTGATE`",
+    "Optional discoveries",
+    "On `POSTER_EXAMINED`",
+    "On `WALL_WHISPER_HEARD`",
+    "On `BASEMENT_BANG`",
+    "On `BASEMENT_TALK`",
+    "Objective journal (handwritten, Isaac's own words)",
+    "Open creator decisions",
+    "Assumptions to confirm"
+   ],
+   "domain_hits": 17,
+   "hits": [
+    {
+     "line": 17,
+     "text": "- **TED** `TED_S1_01` (setting): \"Hrmph. You're the new guy, then. Storm season, and they send me a new money toff. In.\""
+    },
+    {
+     "line": 19,
+     "text": "*staging:* Isaac stands outside the lighthouse door in the wind; Ted opens it and looks him over."
+    },
+    {
+     "line": 20,
+     "text": "*note:* Introduces eclipse, storm season and the Saltgate. | Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
+    },
+    {
+     "line": 71,
+     "text": "*Location:* Lighthouse window, the path from the dock, the island gate"
+    },
+    {
+     "line": 80,
+     "text": "*staging:* Ted at the window, wind rattling the glass."
+    },
+    {
+     "line": 83,
+     "text": "### On `WINDOW_LOOKED`"
+    },
+    {
+     "line": 84,
+     "text": "*Player looks out of the window at the dock.*"
+    },
+    {
+     "line": 166,
+     "text": "*staging:* Ted in the lighthouse hall, lamplight swaying as the wind shakes the walls."
+    },
+    {
+     "line": 179,
+     "text": "- **ARTHUR** `ARTHUR_S3_11` (discovery): \"There! Ship's lights, out in the swell. She can't see the rocks. No beacon.\""
+    },
+    {
+     "line": 184,
+     "text": "*Outbound crossing begins (untimed steering practice).*"
+    },
+    {
+     "line": 190,
+     "text": "### On `OUTBOUND_NEAR_MISS`"
+    },
+    {
+     "line": 197,
+     "text": "### On `OUTBOUND_COLLISION`"
+    },
+    {
+     "line": 254,
+     "text": "- **DANIEL** `DANIEL_OPT_08` (reaction): \"Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming.\""
+    },
+    {
+     "line": 294,
+     "text": "1. Lore vs GDD: WORLD.md puts the ship reveal before the crossing; the GDD (1 Oct 2026) puts it at the boarding threshold. The brief follows the GDD."
+    },
+    {
+     "line": 296,
+     "text": "3. Story order follows canon.STORY_BEATS (2026-10-16): arrival outside, coal, sailors, then Ted finds the burner broken, then the Saltgate crossing."
+    },
+    {
+     "line": 299,
+     "text": "6. Existing offline Arthur return-crossing lines (offline_llm.py) still say 'lad'; the dialogue checks would reject that for the player."
+    },
+    {
+     "line": 300,
+     "text": "7. Step 1's coal is the only repair before the crossing; the burner fit at the end (beat 7) belongs to the Story / Fail-State agent."
+    }
+   ]
+  },
+  "Docs/Lore Build/dialogue/README.md": {
+   "sha": "01ebe1f11089ace4",
+   "headings": [
+    "Character Dialogue Sequences",
+    "Characters",
+    "Opening dialogue (all characters, by step and event)",
+    "Diagrams"
+   ],
+   "domain_hits": 1,
+   "hits": [
+    {
+     "line": 3,
+     "text": "Dialogue for the opening of *Lighting the Storm* (Gate 1, steps 1-3), written by the Opening Dialogue Crew in `AIAgentCrew`, then picked line by line by the creator (see [the picks](DIALOGUE_OPENING_CREATOR_PICKS.md))."
+    }
+   ]
+  },
+  "Docs/Lore Build/factions/fac_city_elite.md": {
+   "sha": "0bbd55145b0b3333",
+   "headings": [
+    "The City Elite",
+    "Goal",
+    "Origin (link events)",
+    "Beliefs & Internal Divisions",
+    "Resources & Reach",
+    "Allies & Enemies",
+    "Emblem & Visual Identity"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/factions/fac_farmers.md": {
+   "sha": "1cb02a9c68f6d23c",
+   "headings": [
+    "The Farmers",
+    "Goal",
+    "Origin (link events)",
+    "Beliefs & Internal Divisions",
+    "Resources & Reach",
+    "Allies & Enemies",
+    "Emblem & Visual Identity"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/factions/fac_flighted.md": {
+   "sha": "ee221ac086abf3ed",
+   "headings": [
+    "The Flighted",
+    "Goal",
+    "Origin (link events)",
+    "Beliefs & Internal Divisions",
+    "Propaganda (in-world documents & posters)",
+    "Emblem & Visual Identity"
+   ],
+   "domain_hits": 5,
+   "hits": [
+    {
+     "line": 13,
+     "text": "> **Prototype scope:** heard about only briefly. They are \"something,\" but nobody knows what. They are bound up with the eclipse: two sides of the same central mystery. Direct contact comes in a later expansion."
+    },
+    {
+     "line": 19,
+     "text": "Unknown. Possibly tied to the dark sphere over the moon ([[sys_eclipse]])."
+    },
+    {
+     "line": 28,
+     "text": "- **Imagery:** the moon and waves. A dark spherical object, hinting at a ship, eclipsing the moon."
+    },
+    {
+     "line": 30,
+     "text": "- \"They bring the storms.\""
+    },
+    {
+     "line": 38,
+     "text": "- **poster_prompt:** \"Crude 1800s letterpress propaganda poster, a dark sphere eclipsing a silver moon above stylised waves, reverent yet ominous, heavy serif lettering reading THEY BRING THE STORMS, black, silver and navy ink only, misregistered print, weathered and peeling paper, gritty dark cel-shaded style, heavy ink outlines\""
+    }
+   ]
+  },
+  "Docs/Lore Build/factions/fac_political_class.md": {
+   "sha": "ad11444e2a3aac3a",
+   "headings": [
+    "The Political Class",
+    "Goal",
+    "Origin (link events)",
+    "Beliefs & Internal Divisions",
+    "Resources & Reach",
+    "Allies & Enemies",
+    "Emblem & Visual Identity"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/factions/fac_resistance.md": {
+   "sha": "f0cd900078954e09",
+   "headings": [
+    "The Resistance",
+    "Goal",
+    "Origin (link events)",
+    "Beliefs & Internal Divisions",
+    "Resources & Reach",
+    "Allies & Enemies",
+    "Emblem & Visual Identity"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/factions/fac_smugglers.md": {
+   "sha": "b7e4862c8e4f70f8",
+   "headings": [
+    "The Smugglers",
+    "Goal",
+    "Origin (link events)",
+    "Beliefs & Internal Divisions",
+    "Resources & Reach",
+    "Allies & Enemies",
+    "Emblem & Visual Identity"
+   ],
+   "domain_hits": 0,
+   "hits": []
+  },
+  "Docs/Lore Build/institutions/ins_garrisons.md": {
+   "sha": "ab4ca3e69fa27533",
+   "headings": [
+    "The Coastal Garrisons",
+    "Function",
+    "Resources",
+    "Goals & Long-Term Incentives",
+    "Constraints",
+    "How It Shapes Politics",
+    "Failure Mode (what happens if it collapses)",
+    "Internal Tensions",
+    "Visual Identity & Asset Prompts"
+   ],
+   "domain_hits": 1,
+   "hits": [
+    {
+     "line": 23,
+     "text": "## Constraints"
+    }
+   ]
+  },
+  "Docs/Lore Build/manifest.md": {
+   "sha": "cce9a438d6bf4412",
+   "headings": [
+    "Manifest",
+    "Coverage",
+    "Other Open Items",
+    "Files"
+   ],
+   "domain_hits": 4,
+   "hits": [
+    {
+     "line": 14,
+     "text": "| L1 Map | 80 | Fresh water source on Bracken Isle; prevailing wind; climate latitude; coal supply |"
+    },
+    {
+     "line": 17,
+     "text": "| L4 Functional Power | 25 | Eclipse effects on people; protections; tide mechanism; firearms vs. chain mail |"
+    },
+    {
+     "line": 23,
+     "text": "- ~~Storm timing: calm outbound crossing after Arthur and Daniel's storm~~ (resolved 2026-10-16: the rain sets in outbound; the storm escalates on the return)"
+    },
+    {
+     "line": 44,
+     "text": "| sys_eclipse | power_system | The Eclipse | systems/sys_eclipse.md | draft | 2026-10-12 |"
+    }
+   ]
+  },
+  "Docs/Lore Build/regions/reg_bracken_isle.md": {
+   "sha": "d80eac57cca47fb9",
+   "headings": [
+    "Bracken Isle",
+    "Geography & Climate (and why)",
+    "Settlements",
+    "Key Locations",
+    "Resources & Trade",
+    "Ruins & Historical Sites",
+    "Current Tensions",
+    "Environment Art Direction",
+    "Ambient Audio Direction",
+    "Asset Prompts"
+   ],
+   "domain_hits": 10,
+   "hits": [
+    {
+     "line": 5,
+     "text": "climate: cold windswept maritime"
+    },
+    {
+     "line": 6,
+     "text": "terrain: [jagged rock, thin scrub, wind-battered trees]"
+    },
+    {
+     "line": 17,
+     "text": "- **Size and terrain:** roughly 330 m long and 140 m wide (about three football pitches by two). Rocky and windswept, with a few wind-battered trees that flower in spring (species TBD)."
+    },
+    {
+     "line": 18,
+     "text": "- **The rocks:** jagged rocks cover the island and continue around it, many hidden just below the waves. This reef field is the reason the lighthouse exists."
+    },
+    {
+     "line": 23,
+     "text": "| The lighthouse | Single building | Guards the approach to the Saltgate. During eclipses it is the only true light by which ships can see the rocks. | TBD | Stone and mortar, battered but robust. Haunted halls. |"
+    },
+    {
+     "line": 53,
+     "text": "- **weather:** constant wind, sea spray, rain squalls rising into full storm."
+    },
+    {
+     "line": 54,
+     "text": "- **flora:** [wind-bent flowering trees, sparse scrub, bracken (proposed)]"
+    },
+    {
+     "line": 58,
+     "text": "- **Outside:** howling wind, surf crashing on the rocks, flags snapping."
+    },
+    {
+     "line": 62,
+     "text": "- **environment_concept:** \"A small windswept rocky island at night under a moonless sky, a battered stone and mortar lighthouse on its high point, a single narrow path from a small timber dock winding between jagged black rocks, an iron gate across the path, a few wind-bent trees, tattered amber and gold flags, sea spray, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, "
+    },
+    {
+     "line": 63,
+     "text": "- **interior_concept:** \"Narrow stone hallway inside an 1800s lighthouse, peeling crude printed posters showing a dark sphere eclipsing a silver moon over waves, scattered papers, a dim electric lamp, cracks in the walls, gritty dark cel-shaded style, heavy ink outlines, claustrophobic horror mood\""
+    }
+   ]
+  },
+  "Docs/Lore Build/regions/reg_calder_coast.md": {
+   "sha": "af43d51466cbbe37",
+   "headings": [
+    "The Calder Coast",
+    "Geography & Climate (and why)",
+    "Settlements",
+    "Current Tensions",
+    "Environment Art Direction",
+    "Asset Prompts"
+   ],
+   "domain_hits": 4,
+   "hits": [
+    {
+     "line": 5,
+     "text": "climate: cold windswept maritime"
+    },
+    {
+     "line": 6,
+     "text": "terrain: [rocky coastline, river mouth]"
+    },
+    {
+     "line": 32,
+     "text": "- **key_materials:** [heavy grey stone, iron, lit windows, flag poles]"
+    },
+    {
+     "line": 36,
+     "text": "- **fortress_concept:** \"Massive 1800s coastal stone fortress at night on a rocky shore, every window lit by electric light, flags flying, ramparts completely empty of people, black moonless sky, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, ominous\""
+    }
+   ]
+  },
+  "Docs/Lore Build/regions/reg_gullwater.md": {
+   "sha": "85d78bafe6cdf05a",
+   "headings": [
+    "The Gullwater",
+    "Geography & Climate (and why)",
+    "The Crossing (gameplay)",
+    "Current Tensions",
+    "Environment Art Direction",
+    "Ambient Audio Direction",
+    "Asset Prompts"
+   ],
+   "domain_hits": 12,
+   "hits": [
+    {
+     "line": 5,
+     "text": "climate: cold maritime; violent in eclipse season"
+    },
+    {
+     "line": 6,
+     "text": "terrain: [open sea, submerged reef]"
+    },
+    {
+     "line": 17,
+     "text": "- The sea between Bracken Isle and the Saltgate. The crossing takes about 10 minutes by steam launch (roughly 1\u20132 km)."
+    },
+    {
+     "line": 19,
+     "text": "- Tides are aggressive in eclipse season."
+    },
+    {
+     "line": 21,
+     "text": "## The Crossing (gameplay)"
+    },
+    {
+     "line": 22,
+     "text": "- **Outbound:** the first crossing, to the Saltgate quays for the burner. Currents sway the boat and the rain sets in; uneasy rather than calm."
+    },
+    {
+     "line": 23,
+     "text": "- **Return:** the storm escalates: darker skies, heavier rain, lightning between the clouds, stronger current and wind. Arthur guides the player through it."
+    },
+    {
+     "line": 37,
+     "text": "- **key_materials:** [black water, white spray, wet timber hull, brass engine fittings]"
+    },
+    {
+     "line": 39,
+     "text": "- **weather:** a rolling swell and setting-in rain outbound, rising to driving rain, lightning and towering waves on the return."
+    },
+    {
+     "line": 42,
+     "text": "- **Outbound:** soft chugging, lapping water, rain beginning to patter on the hull, distant gulls."
+    },
+    {
+     "line": 43,
+     "text": "- **Return:** roaring wind, rain hammering the hull, thunder, groaning timber."
+    },
+    {
+     "line": 46,
+     "text": "- **environment_concept:** \"Small 1800s steam launch crossing a dark sea at night, a distant battered lighthouse behind, two lit coastal fortresses flying flags on either side, a passenger steamship on the horizon, rising storm waves and driving rain, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, muted desaturated palette, tense\""
+    }
+   ]
+  },
+  "Docs/Lore Build/regions/reg_saint_calder.md": {
+   "sha": "57d351068876f5a3",
+   "headings": [
+    "Saint Calder",
+    "Geography & Climate (and why)",
+    "Key Locations",
+    "Current Tensions",
+    "Environment Art Direction",
+    "Asset Prompts"
+   ],
+   "domain_hits": 3,
+   "hits": [
+    {
+     "line": 6,
+     "text": "terrain: [city, inland plain, mountain to the north]"
+    },
+    {
+     "line": 24,
+     "text": "- **The city:** mid-1800s architecture, with windows lit by steam-driven electric light."
+    },
+    {
+     "line": 36,
+     "text": "- **skyline_concept:** \"Distant 1800s city skyline at night seen from the sea, a towering Gothic cathedral at its centre, windows glowing with electric light, a giant dark mountain on the horizon to the north, a road leading down to an abandoned harbour, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, muted palette with warm amber light\""
+    }
+   ]
+  },
+  "Docs/Lore Build/regions/reg_saltgate.md": {
+   "sha": "3e5f132d5af02d6a",
+   "headings": [
+    "The Saltgate",
+    "Geography & Climate (and why)",
+    "Settlements",
+    "Key Locations",
+    "Resources & Trade",
+    "Ruins & Historical Sites",
+    "Current Tensions",
+    "Environment Art Direction",
+    "Ambient Audio Direction",
+    "Asset Prompts"
+   ],
+   "domain_hits": 7,
+   "hits": [
+    {
+     "line": 5,
+     "text": "climate: cold windswept maritime"
+    },
+    {
+     "line": 6,
+     "text": "terrain: [harbour, quays, jagged channel]"
+    },
+    {
+     "line": 18,
+     "text": "- Jagged, with a clear channel in normal light. In storms, waves can throw a ship off course and onto the rocks."
+    },
+    {
+     "line": 19,
+     "text": "- **During eclipses:** the port's light is almost completely gone, so the lighthouse is the only reliable guide."
+    },
+    {
+     "line": 43,
+     "text": "- **key_materials:** [salt-crusted stone quays, rotting timber piers, rusted iron cranes, boarded mid-1800s warehouses, broken windows]"
+    },
+    {
+     "line": 44,
+     "text": "- **lighting_mood:** almost no light. Dark windows, with the distant electric glow of Saint Calder over the rooftops."
+    },
+    {
+     "line": 45,
+     "text": "- **weather:** wind, salt spray, approaching storm."
+    }
+   ]
+  },
+  "Docs/Lore Build/systems/sys_eclipse.md": {
+   "sha": "9e2b46a049fd7449",
+   "headings": [
+    "The Eclipse",
+    "How It Works (input \u2192 effect)",
+    "Limits",
+    "Costs",
+    "Counters",
+    "Who Controls Access & Resulting Hierarchy",
+    "Effects on Society",
+    "Gameplay Translation",
+    "VFX & SFX Direction",
+    "Open Questions (next session)"
+   ],
+   "domain_hits": 10,
+   "hits": [
+    {
+     "line": 2,
+     "text": "id: sys_eclipse"
+    },
+    {
+     "line": 4,
+     "text": "name: The Eclipse"
+    },
+    {
+     "line": 11,
+     "text": "# The Eclipse"
+    },
+    {
+     "line": 19,
+     "text": "- Tides become more aggressive."
+    },
+    {
+     "line": 20,
+     "text": "- Storm season begins."
+    },
+    {
+     "line": 43,
+     "text": "- **travel:** dangerous seas in eclipse season, so the lighthouse is critical"
+    },
+    {
+     "line": 44,
+     "text": "- **religion:** reverence mixed with fear. The Flighted's propaganda says \"They bring the storms\" and \"They change the seasons.\""
+    },
+    {
+     "line": 54,
+     "text": "- **sfx:** TBD (proposed: a low, sub-audible hum under the storm)"
+    },
+    {
+     "line": 57,
+     "text": "1. What does the eclipse do to people: signs, speed, and whether it is permanent?"
+    },
+    {
+     "line": 59,
+     "text": "3. How does covering the moon change the tides physically?"
+    }
+   ]
+  },
+  "Docs/Lore Build/systems/sys_steam_power.md": {
+   "sha": "3666479d91b4cfbe",
+   "headings": [
+    "Steam Power & Electric Light",
+    "How It Works (input \u2192 effect)",
+    "Limits",
+    "Costs",
+    "Counters",
+    "Effects on Society",
+    "Gameplay Translation",
+    "VFX & SFX Direction",
+    "Asset Prompts"
+   ],
+   "domain_hits": 2,
+   "hits": [
+    {
+     "line": 15,
+     "text": "- All lights in Corvaine are steam-driven, including Saint Calder's windows."
+    },
+    {
+     "line": 39,
+     "text": "| Pilot steam launch | Coal, engine | Crosses the Gullwater | Fuel; storm makes handling hard | n/a |"
+    }
+   ]
+  },
+  "Docs/Lore Build/world/changelog.md": {
+   "sha": "664e8caff8d74804",
+   "headings": [
+    "Changelog",
+    "2026-10-16: Story beats fixed by the creator",
+    "Story beats (canon, in order)",
+    "Contradictions resolved",
+    "Flagged items resolved",
+    "Edits",
+    "2026-10-12: Session 1",
+    "Contradictions resolved",
+    "Edits",
+    "Names confirmed",
+    "Flagged (unresolved)"
+   ],
+   "domain_hits": 4,
+   "hits": [
+    {
+     "line": 15,
+     "text": "5. **Outbound:** the player takes the steam launch across the Gullwater with Arthur and retrieves the replacement burner from the Saltgate quays."
+    },
+    {
+     "line": 16,
+     "text": "6. **Return:** the storm escalates: darker skies, heavier rain, lightning between the clouds."
+    },
+    {
+     "line": 26,
+     "text": "- **Storm timing:** the outbound crossing is no longer calm. The rain sets in on the outbound crossing, and the storm escalates on the return."
+    },
+    {
+     "line": 56,
+     "text": "- **Storm timing:** Arthur and Daniel were caught in a storm before the game begins, yet the outbound crossing is calm. Is this a lull between squalls? (Resolved 2026-10-16: the outbound crossing is no longer calm.)"
+    }
+   ]
+  },
+  "Docs/Lore Build/world/geography.md": {
+   "sha": "76dc825b08649ac2",
+   "headings": [
+    "Geography",
+    "Physical Rules",
+    "Landmasses & Oceans",
+    "Mountain Ranges (with cause)",
+    "River Systems (source \u2192 mouth)",
+    "Climate Zones (with cause)",
+    "Winds & Currents",
+    "Coastal Hazards",
+    "Resources",
+    "Natural Barriers & Corridors",
+    "Map Generation Notes"
+   ],
+   "domain_hits": 10,
+   "hits": [
+    {
+     "line": 6,
+     "text": "- \"A seasonal eclipse: an unknown dark spherical object hovers over the moon and blocks it out.\""
+    },
+    {
+     "line": 7,
+     "text": "- \"While the moon is covered, tides become more aggressive and storm season begins. The object therefore affects the moon's physical pull, not only its visibility (cause TBD, L4/L5).\""
+    },
+    {
+     "line": 15,
+     "text": "Earth-like physics, geology, and weather. The only defined exception is the eclipse and its effect on tides and storms (see frontmatter)."
+    },
+    {
+     "line": 19,
+     "text": "- **Bracken Isle:** a small rocky island about 1\u20132 km offshore (a 10-minute steam-launch crossing), sitting on the approach to the Saltgate."
+    },
+    {
+     "line": 29,
+     "text": "- Cold, wet, windswept maritime coast (proposed; latitude TBD)."
+    },
+    {
+     "line": 30,
+     "text": "- **Storm season:** driven by the eclipse season. With the moon covered, tides grow aggressive and storms follow."
+    },
+    {
+     "line": 32,
+     "text": "## Winds & Currents"
+    },
+    {
+     "line": 33,
+     "text": "- Prevailing wind direction: TBD. It should match the lean of Bracken Isle's trees."
+    },
+    {
+     "line": 34,
+     "text": "- Currents are mild outside eclipse season and violent within it, throwing ships against the rocks."
+    },
+    {
+     "line": 38,
+     "text": "- **The Saltgate:** jagged, with a clear channel in normal light. In storms, waves can throw a ship off course and onto the rocks."
+    }
+   ]
+  },
+  "Docs/Lore Build/world/history.md": {
+   "sha": "240337a15775beeb",
+   "headings": [
+    "History",
+    "Eras",
+    "Events",
+    "evt_saltgate_abandonment: The Abandonment of the Saltgate",
+    "evt_first_eclipse: The First Eclipse",
+    "evt_lighthouse_founding: Building of the Bracken Isle Lighthouse"
+   ],
+   "domain_hits": 5,
+   "hits": [
+    {
+     "line": 30,
+     "text": "### evt_first_eclipse: The First Eclipse"
+    },
+    {
+     "line": 38,
+     "text": "- Storm season"
+    },
+    {
+     "line": 39,
+     "text": "- Aggressive tides"
+    },
+    {
+     "line": 42,
+     "text": "- **related:** [sys_eclipse, fac_flighted]"
+    },
+    {
+     "line": 46,
+     "text": "- **what_happened:** It was built as the guardian of the port, the only true light during eclipses."
+    }
+   ]
+  },
+  "Docs/Lore Build/world/manifest.md": {
+   "sha": "cce9a438d6bf4412",
+   "headings": [
+    "Manifest",
+    "Coverage",
+    "Other Open Items",
+    "Files"
+   ],
+   "domain_hits": 4,
+   "hits": [
+    {
+     "line": 14,
+     "text": "| L1 Map | 80 | Fresh water source on Bracken Isle; prevailing wind; climate latitude; coal supply |"
+    },
+    {
+     "line": 17,
+     "text": "| L4 Functional Power | 25 | Eclipse effects on people; protections; tide mechanism; firearms vs. chain mail |"
+    },
+    {
+     "line": 23,
+     "text": "- ~~Storm timing: calm outbound crossing after Arthur and Daniel's storm~~ (resolved 2026-10-16: the rain sets in outbound; the storm escalates on the return)"
+    },
+    {
+     "line": 44,
+     "text": "| sys_eclipse | power_system | The Eclipse | systems/sys_eclipse.md | draft | 2026-10-12 |"
+    }
+   ]
+  },
+  "Docs/Lore Build/world/pillars.md": {
+   "sha": "87e2e08adc0af27d",
+   "headings": [
+    "Pillars (Rule of Cool)",
+    "Pillars",
+    "Idea Backlog",
+    "Open Implications"
+   ],
+   "domain_hits": 4,
+   "hits": [
+    {
+     "line": 12,
+     "text": "| 1 | A creepy, haunted lighthouse | Whispers and bangs in the halls, caused by people hiding in the walls | [[reg_bracken_isle]], [[sys_eclipse]] (partial) |"
+    },
+    {
+     "line": 13,
+     "text": "| 2 | The mystery of the moon | A dark spherical object eclipses the moon each season | [[sys_eclipse]], [[fac_flighted]] (open) |"
+    },
+    {
+     "line": 26,
+     "text": "1. How does the object covering the moon change the tides physically?"
+    },
+    {
+     "line": 34,
+     "text": "9. What exactly does the eclipse do to people? (L4)"
+    }
+   ]
+  },
+  "Docs/Lore Build/world/style_guide.md": {
+   "sha": "b2ab2879f76f0061",
+   "headings": [
+    "Style Guide",
+    "Global Art Direction",
+    "Colour Meanings",
+    "Culture Quick Reference",
+    "UI Direction",
+    "Typography & Iconography",
+    "Audio Direction",
+    "Global Negative Prompts"
+   ],
+   "domain_hits": 7,
+   "hits": [
+    {
+     "line": 22,
+     "text": "- Electric arc light and steam-driven light are the only strong sources during eclipse."
+    },
+    {
+     "line": 23,
+     "text": "- Moonlight is absent or eclipsed."
+    },
+    {
+     "line": 24,
+     "text": "- Storm lighting is cold, wet, and high-contrast."
+    },
+    {
+     "line": 46,
+     "text": "| The Flighted (iconography only) | Black, silver, navy | Circles, spheres, wave lines | Printed paper, crude ink | A dark sphere over the moon |"
+    },
+    {
+     "line": 49,
+     "text": "TBD. Suggested: crude printed paper, stencilled lettering, and storm-stained edges, echoing the propaganda posters."
+    },
+    {
+     "line": 53,
+     "text": "- **Recurring icon:** a dark sphere eclipsing a silver moon above waves."
+    },
+    {
+     "line": 57,
+     "text": "- **Crossing:** quiet chugging of the steam launch outbound, then wind, rain, and a roaring storm on the return."
+    }
+   ]
+  },
+  "Docs/Lore Build/world/WORLD.md": {
+   "sha": "ba751b0c71461415",
+   "headings": [
+    "Corvaine",
+    "Elevator Pitch",
+    "Physical Premise",
+    "Pillars",
+    "Central Mystery",
+    "Prototype Scenario",
+    "Expansion Plans"
+   ],
+   "domain_hits": 8,
+   "hits": [
+    {
+     "line": 5,
+     "text": "game_title: Lighting the Storm"
+    },
+    {
+     "line": 9,
+     "text": "playable_scale: region (prototype: Bracken Isle, the Gullwater crossing, the Saltgate)"
+    },
+    {
+     "line": 22,
+     "text": "On Bracken Isle, a battered stone lighthouse guards the approach to the Saltgate, the abandoned harbour of the grand city of Saint Calder. When the moon is eclipsed by a dark object nobody understands, the tides turn savage, storms rise, and people come apart. Tonight the beacon has failed, and a passenger ship is heading for a harbour nobody uses."
+    },
+    {
+     "line": 25,
+     "text": "Earth-like physics and weather, with one exception: a seasonal eclipse in which an unknown dark spherical object hovers over the moon and blocks it out. While the moon is covered, tides become more aggressive and storm season begins. See [[geography]] and [[sys_eclipse]]."
+    },
+    {
+     "line": 42,
+     "text": "3. Arthur and Daniel, locals whose boat was caught in the storm, moor their rowboat at the dock seeking shelter. The player opens the island gate, on the path from the dock to the lighthouse, to let them in. Daniel stays in the basement."
+    },
+    {
+     "line": 44,
+     "text": "5. A passenger ship appears on the horizon as the player boards. Ted and Arthur are stunned: \"A passenger ship? NOW? But the lighthouse beacon is broken!\" The player and Arthur take the steam launch across the Gullwater to the Saltgate quays (about 10 minutes; the rain sets in) to retrieve a replacement burner."
+    },
+    {
+     "line": 45,
+     "text": "6. On the return the storm escalates: darker skies, heavier rain, lightning between the clouds."
+    },
+    {
+     "line": 52,
+     "text": "- Direct contact with the Flighted and the eclipse mystery."
+    }
+   ]
+  },
+  "Docs/Lore Build/WORLDBUILDER_AGENT.md": {
+   "sha": "d614048006416daa",
+   "headings": [
+    "WORLDBUILDER_AGENT",
+    "1. Role",
+    "2. The 7 Levels (reference)",
+    "3. Session Flow",
+    "Phase 0: Project Setup (always first)",
+    "Phase 1: Level Interviews",
+    "Phase 2: Characters",
+    "Phase 3: Audit and Export",
+    "4. Interview Rules",
+    "5. Level Modules",
+    "Level 1: A Map",
+    "Level 2: Rule of Cool",
+    "Level 3: Surface Identity",
+    "Level 4: Functional Power",
+    "Level 5: Deep Culture & History",
+    "Level 6: Infrastructure & Institutions",
+    "Level 7: The Generative World",
+    "6. Character Module",
+    "7. Output File Structure",
+    "ID Conventions",
+    "Status Values",
+    "8. File Templates",
+    "8.1 `world/WORLD.md`",
+    "<World Name>",
+    "Elevator Pitch",
+    "Physical Premise",
+    "Pillars",
+    "Central Mystery",
+    "8.2 `world/geography.md`",
+    "Geography",
+    "Physical Rules",
+    "Landmasses & Oceans",
+    "Mountain Ranges (with cause)",
+    "River Systems (source \u2192 mouth)",
+    "Climate Zones (with cause)",
+    "Winds & Currents",
+    "Resources",
+    "Natural Barriers & Corridors",
+    "Map Generation Notes",
+    "8.3 `regions/<region_id>.md`"
+   ],
+   "domain_hits": 9,
+   "hits": [
+    {
+     "line": 87,
+     "text": "- **Rule-breaking is fine if it is defined.** Floating islands, flat worlds, magic storms are all valid. Ask what the rule is and whether it is applied consistently."
+    },
+    {
+     "line": 104,
+     "text": "5. What climate zones exist, and what causes each? (latitude, rain shadows, ocean currents, magic)"
+    },
+    {
+     "line": 108,
+     "text": "- Which way do prevailing winds blow, and which side of the mountains is dry?"
+    },
+    {
+     "line": 185,
+     "text": "4. What counters or constrains it?"
+    },
+    {
+     "line": 257,
+     "text": "- Each institution has goals, resources, and a constraint, and appears in at least one other file."
+    },
+    {
+     "line": 272,
+     "text": "**Agent Task:** After the user answers, generate **story hooks** by crossing existing canon: region \u00d7 faction, institution \u00d7 historical event, power system \u00d7 infrastructure failure, culture \u00d7 taboo. For each hook, cite the files it comes from. Present hooks for the user to approve, edit, or reject. Only approved hooks become canon."
+    },
+    {
+     "line": 417,
+     "text": "## Winds & Currents"
+    },
+    {
+     "line": 432,
+     "text": "terrain: [<terrain>, ...]"
+    },
+    {
+     "line": 675,
+     "text": "## Constraints"
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md": {
+   "sha": "600d837004860171",
+   "headings": [
+    "Lighting the Storm \u2014 AI Agent Strategy",
+    "Change log (post-review amendments, 1 October 2026)",
+    "Working rules for every agent",
+    "Orchestration and oversight",
+    "Orchestrator rules:",
+    "Ownership and handoffs",
+    "Handoff format",
+    "Recommended sequence",
+    "Example agent task brief",
+    "Example orchestrator brief",
+    "Review checklist for every handoff"
+   ],
+   "domain_hits": 21,
+   "hits": [
+    {
+     "line": 1,
+     "text": "# Lighting the Storm \u2014 AI Agent Strategy"
+    },
+    {
+     "line": 9,
+     "text": "\u2022 Updated working rules, handoffs, sequence, example briefs and checklist for the review decisions (return-crossing clock start, fail-state contract, storm split, two Gate 1 repairs, Ted lock-in, no crash)."
+    },
+    {
+     "line": 11,
+     "text": "\u2022 Fail-state brief and example orchestrator brief updated: three fail states, all after the return crossing begins (return crossing, lamp room, stairs)."
+    },
+    {
+     "line": 20,
+     "text": "3. Match the four design pillars in the Executive Summary (the light must return; the storm sets the clock; your hands, your eyes; dread you can read) and the small-world scope rule. No combat, monster reveal, jump scare, visible timer, quest markers, non-first-person cameras, or new major location."
+    },
+    {
+     "line": 21,
+     "text": "4. Return actual editable outputs, source files and licences/provenance for external assets, import settings, test instructions, and known limitations. Mockups or prose alone do not count as implementation."
+    },
+    {
+     "line": 24,
+     "text": "7. Do not build anything marked Proposed, deferred, or on the cut list (waves, route branching, further repairs beyond feeding the boiler and fitting the burner) without the creator\u2019s go-ahead. Do not add significant detail to the Saltgate until the creator considers the prototype complete."
+    },
+    {
+     "line": 32,
+     "text": "|Production Orchestrator   |Turns a creator goal or gate into a task list; writes task briefs; assigns work to worker roles; orders dependencies; tracks status against the six-week schedule; keeps event IDs and contracts in sync across agents; assembles the integrated build.|A schedule exit test is missed; a contract must change; two tasks conflict; week 5 load slips (burner diagnosis and fit, wav"
+    },
+    {
+     "line": 47,
+     "text": "|Boat/Physics    |Steering spike, hazard collisions, boat reaction, docking, recovery, tunable parameters. Wave fields only as a later stretch task.|Hazard forecast API, one steering axis, recovery event, dock zones.|Creator plays Gate 0; readable, enjoyable steering.|"
+    },
+    {
+     "line": 49,
+     "text": "|Level Layout    |Greybox lighthouse route, window view of the moored rowboat and island gate, short sea corridor, the Saltgate quays pickup, lantern-room route for Ted\u2019s burner diagnosis, lamp-room sightline to the ship and island rocks.|Location sizes, beacon visibility, interaction anchors.       |Traversal and camera checks in engine.             |"
+    },
+    {
+     "line": 50,
+     "text": "|Gameplay/Systems|Phase controller following the story beats, arrival and coal-feeding interaction, shelter and gate trigger, beacon diagnosis trigger (only after the sailors are in), boarding trigger, return-departure clock trigger, cargo, win and fail states, restart.|Stable event and save IDs from Technical Strategy.            |Gate 1 complete end-to-end; no dead ends.          |"
+    },
+    {
+     "line": 52,
+     "text": "|Lighting        |Beacon sweep, warm/cold contrast, storm visibility presets.                        |Scene anchors, performance budget, hazard visibility rules.   |Beacon and hazards remain legible at every phase. |"
+    },
+    {
+     "line": 53,
+     "text": "|Sound           |Layered storm, machinery and foghorn, ship impact, cue mix; source list and licences. Perceptual storm cues follow elapsed time.|Escalation events and speaker priority.                       |Arthur\u2019s warnings remain audible; no shock stingers. |"
+    },
+    {
+     "line": 55,
+     "text": "|Dialogue        |Ted/Arthur/Daniel lines, subtitle variants, journal text in structured data. Voice lines only for Ted at the lamp.|Character voices, phase events, ambiguity constraint.         |Creator approves voice and lore before recording.  |"
+    },
+    {
+     "line": 94,
+     "text": "3. Boat/Physics + Hazard Forecast + creator: build and play the steering spike. Pause broader content production until the crossing works."
+    },
+    {
+     "line": 95,
+     "text": "4. Level Layout and Gameplay/Systems: establish greybox route, interaction anchors, event IDs, the return-departure clock trigger, and a running Gate 1 slice."
+    },
+    {
+     "line": 96,
+     "text": "5. Lighting and Sound: add just enough feedback to evaluate readable hazards, storm escalation (perceptual channel by time, hazard channel by phase and position), beacon, and ship pressure."
+    },
+    {
+     "line": 100,
+     "text": "9. Stretch, waves: only after Gate 0 passes and the six-week schedule in Technical Strategy has room, Boat/Physics adds wave hazards as an optional layer behind one on/off setting. QA confirms the build still plays correctly with waves off. Do not start this task without the creator\u2019s go-ahead."
+    },
+    {
+     "line": 105,
+     "text": "> **Task:** Implement the Gate 0 boat steering spike in the selected engine. **Inputs:** Technical Strategy boat section, greybox sea scene, approved event IDs. **Owned output:** boat scene/controller and tuning resource, plus a short README. **Constraints:** one fixed speed with no throttle, one steering axis, placed rock, buoy and debris hazards, no wave forces (waves are a later stretch task), "
+    },
+    {
+     "line": 109,
+     "text": "> **Goal (from creator):** Deliver the Gate 1 fail-state presentation. **Orchestrator:** Production Orchestrator. **Delegates to:** Story/Fail-State (presentation), Level Layout (lamp-room sightline), Sound (horn, impact, silence), Gameplay/Systems (FAIL resolve, restart), QA (test from each expiry location). **Inputs:** Executive Summary fail-state contract; Technical Strategy fail-state presenta"
+    },
+    {
+     "line": 118,
+     "text": "- Does it respect the Decisions log (story beats in order, return-crossing clock start, storm split, Gate 1 work of feeding the boiler and fitting the burner, no crash, the Saltgate as the destination, fail-state contract)?"
+    },
+    {
+     "line": 123,
+     "text": "When a review fails, return a focused revision task with a reproducible observation. Record accepted decisions and changed contracts in the project documentation so later agents receive the same source of truth."
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md": {
+   "sha": "0101a697b0eefacf",
+   "headings": [
+    "Lighting the Storm \u2014 Executive Summary",
+    "Pitch and player promise",
+    "Story and gameplay sequence",
+    "Fail-state contract",
+    "Cast and atmosphere",
+    "Scope and release target",
+    "Gate 2+ estimate and ranked cut list (placeholder)",
+    "Outcome checks",
+    "Decisions log (review, 1 October 2026)"
+   ],
+   "domain_hits": 39,
+   "hits": [
+    {
+     "line": 1,
+     "text": "# Lighting the Storm \u2014 Executive Summary"
+    },
+    {
+     "line": 7,
+     "text": "- The rowboat crash is removed. Arthur and Daniel, overwhelmed by the storm, moor at the island\u2019s dock seeking shelter; Ted sees them from the window and the player opens the island gate."
+    },
+    {
+     "line": 9,
+     "text": "- Deadline timer now starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate let the player get a feel for the boat. The ship is introduced at the boarding threshold."
+    },
+    {
+     "line": 10,
+     "text": "- Storm escalation is split: what the player perceives follows elapsed time; what the player collides with follows phase and route position."
+    },
+    {
+     "line": 18,
+     "text": "- Fail-state contract restated: three fail states, all after the return crossing begins (return crossing, lamp room, stairs). There is no fail state before then."
+    },
+    {
+     "line": 19,
+     "text": "- The Saltgate kept minimal until the prototype is considered complete; further folk-horror, canon clues and documentation are parked in Dreams for the game. Deadline length is to be reviewed once the return crossing from the Saltgate is tested."
+    },
+    {
+     "line": 20,
+     "text": "- 16 October 2026, story beats fixed by the creator: the player (Isaac, \u201cthe new guy\u201d) starts outside the lighthouse and Ted opens the door; Ted then sends him to the basement to shovel coal into the boiler; the sailors moor at the dock and the player opens the island gate; only then does Ted take the player to the lantern room and find the beacon\u2019s burner broken. The crossing\u2019s destination is the"
+    },
+    {
+     "line": 24,
+     "text": "A new apprentice, Isaac, arrives at the failing lighthouse on Bracken Isle. Keeper Ted opens the door to \u201cthe new guy\u201d and, after a beat, sends him down to the basement to shovel coal into the boiler. Overwhelmed by the storm, two sailors, Arthur and Daniel, moor their rowboat at the island\u2019s dock and look for shelter; Ted sees them from the window and tells the apprentice to open the island gate."
+    },
+    {
+     "line": 29,
+     "text": "1. The light must return: everything leads back to the beacon. It is what you repair, it guides you home, and it decides whether the ship lives. Test: does this connect to getting the light back, or to what happens if it fails?"
+    },
+    {
+     "line": 30,
+     "text": "2. The storm sets the clock: pressure comes from the world (the approaching ship\u2019s lights, worsening weather, falling visibility, and rocks in the dark), never from a timer, meter, or enemy. Elapsed time drives what the player perceives (sound, lightning, wind, the ship\u2019s lights); phase and route position drive what the player collides with (hazard density). Test: can the player feel time running "
+    },
+    {
+     "line": 31,
+     "text": "3. Your hands, your eyes: everything is first-person and physical. You fix things by hand, see the sailors arrive from the window, and see or hear the ship\u2019s fate from where you stand; guidance comes from Ted and Arthur, not markers. Test: is this happening to the player in the world, or being shown to them?"
+    },
+    {
+     "line": 43,
+     "text": "|2. Shelter and gate   |Ted, at the window, sees Arthur and Daniel\u2019s rowboat moored at the dock, the sailors overwhelmed by the storm. He tells the player to open the island gate, on the path from the dock to the lighthouse.|Arthur and Daniel make their own way into the lighthouse. Daniel goes down to the basement and stays there.|"
+    },
+    {
+     "line": 45,
+     "text": "|4. Boarding           |Meet Arthur at the engine boat. At the boarding threshold Ted names the passenger ship\u2019s lights as the reason for the errand, and the ship appears on the horizon.|No deadline yet. The outbound crossing is free steering practice; the hidden passenger-ship deadline starts later, when the burner is aboard and the return crossing begins.|"
+    },
+    {
+     "line": 46,
+     "text": "|5. Outbound           |Steer the boat across the Gullwater, past rocks and debris, as the rain sets in, while Arthur shouts directions.                          |Reach the Saltgate quays (Saint Calder\u2019s abandoned harbour).                                   |"
+    },
+    {
+     "line": 48,
+     "text": "|7. Return             |With the burner aboard, steer back as the storm escalates (darker skies, heavier rain, lightning between the clouds), with denser hazards and lower visibility, guided by Arthur\u2019s directions. The hidden deadline starts as the boat sets off.|Reach the lighthouse. On arrival Arthur says something like \u201cgo go go, don\u2019t wait for me.\u201d      |"
+    },
+    {
+     "line": 52,
+     "text": "Until the player has picked up the burner and the boat sets off on the return crossing, there is no ship deadline: lighthouse exploration, the outbound crossing and the Saltgate are all untimed. From then on, the same ship deadline keeps running through the return crossing and the final repair; there is no separate timer. The approaching ship and changing weather communicate urgency without a nume"
+    },
+    {
+     "line": 54,
+     "text": "All viewpoints are first-person. There are no cutaway or exterior cameras; the sailors\u2019 arrival, the ship, and the outcome are all seen (or, during the crossings, heard) from where the player stands."
+    },
+    {
+     "line": 58,
+     "text": "The deadline only runs from the start of the return crossing, so there is no fail state before then and the outbound crossing is practice. There are three fail states, depending on where the player is when the deadline expires. In every case the sequence is: the foghorn sounds, the ship runs aground on the island, silence, and then a \u201cFailed\u201d title screen."
+    },
+    {
+     "line": 62,
+     "text": "|On the return crossing (burner aboard) |Audio only: ship horn, crash sounds, silence, then the \u201cFailed\u201d title screen. No cutaway camera.|"
+    },
+    {
+     "line": 64,
+     "text": "|Elsewhere in the lighthouse (stairs) |Audio only, as on the crossing, unless a window sightline exists.                                                    |"
+    },
+    {
+     "line": 68,
+     "text": "Retry model: for Gate 1, a fail returns the player to the start of the slice (fail, then restart). The full retry and save model is settled before Gate 2 (see Technical Strategy). Any future save must not store remaining time in a way that can produce an unwinnable save."
+    },
+    {
+     "line": 73,
+     "text": "- Ted: gruff, experienced keeper; gives spoken directions throughout, with a guarded sense of care. He opens the lighthouse door to the new apprentice and sends him to feed the boiler, sees the sailors from the window, finds the beacon\u2019s burner broken in the lantern room, names the ship at the boarding threshold, and waits at the lamp for the final repair and the outcome. Presence is to be locked "
+    },
+    {
+     "line": 74,
+     "text": "- Arthur: older, coarse seaman and the player\u2019s companion on both crossings. He has realised the storm is getting nasty and wants to stop the ship being wrecked, which is why he helps despite his reluctance. After the second crossing he tells the player to go on without him. His reaction to the outcome is not recorded."
+    },
+    {
+     "line": 75,
+     "text": "- Daniel: younger sailor from the rowboat; shaken by the storm and just glad to be alive. He goes to the basement and stays there. His reaction to the outcome is not recorded."
+    },
+    {
+     "line": 79,
+     "text": "The lighthouse uses warm lamplight against blue-grey storm light. The beam remains a navigational and dramatic anchor. The abandoned Saltgate quays, log fragments, shrines, symbols, and subtly strange architecture suggest a history without settling its cause. Audio favours wind, rain, machinery, buoy bells, and a distant foghorn over musical stingers."
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md": {
+   "sha": "72f7360d8d23d124",
+   "headings": [],
+   "domain_hits": 21,
+   "hits": [
+    {
+     "line": 1,
+     "text": "Lighting the Storm \u2014 Decisions to be Made"
+    },
+    {
+     "line": 7,
+     "text": "1. Retry model at Gate 1. A fail returns the player to the start of the slice (fail, then restart). The full retry and save model is settled before Gate 2. (Was: item 5, \u201cAfter the fail state\u201d.)"
+    },
+    {
+     "line": 8,
+     "text": "2. Storm escalation. Split into two channels: sound, lightning, wind and the ship\u2019s lights follow elapsed time; hazard density, route width and hazard visibility follow phase and route position only."
+    },
+    {
+     "line": 9,
+     "text": "3. Return-crossing shortcut. Not in Gate 1. \u201cUnlocked routes\u201d is removed from the save contract. Route branching is a Gate 2 candidate on the cut list."
+    },
+    {
+     "line": 12,
+     "text": "6. Clock start. The deadline starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate give the player a feel for the boat. The ship is introduced by Ted at the boarding threshold."
+    },
+    {
+     "line": 13,
+     "text": "7. Sailors\u2019 arrival. There is no crash. Arthur and Daniel, overwhelmed by the storm, moor at the island\u2019s dock seeking shelter. Ted sees them from the window and the player opens the island gate (the same gate)."
+    },
+    {
+     "line": 14,
+     "text": "8. Arthur. His motivation is to stop the ship from running aground, as he has realised the storm is getting nasty. After the second crossing he tells the player to go on without him; his reaction to the outcome is not recorded."
+    },
+    {
+     "line": 16,
+     "text": "10. Fail presentation. The foghorn, the ship runs aground on the island, silence, then a \u201cFailed\u201d title screen with a short reason line. There are three fail states, all after the return crossing begins: on the return crossing it is audio only; in the lamp room the ship is seen and the audio still sounds; on the stairs it is audio only unless a window sightline exists."
+    },
+    {
+     "line": 19,
+     "text": "13. Crossing penalty rules. Loose for Gate 1; to be reviewed for the full-game build. (Updates: item 6.)"
+    },
+    {
+     "line": 22,
+     "text": "16. Story beats (16 October 2026). In order: the player (Isaac, \u201cthe new guy\u201d) starts outside and Ted opens the door; Ted sends him to the basement to shovel coal into the boiler; Arthur and Daniel moor at the dock and the player opens the island gate (on the path from the dock to the lighthouse), with Daniel staying in the basement; the dynamo runs but the beacon stays dark, and Ted, only after t"
+    },
+    {
+     "line": 23,
+     "text": "17. Event IDs and phase boundaries (19 October 2026). The four IDs first proposed in the game\u2019s GameState script are accepted: RETURN_ARRIVED, BURNER_FITTED, SHIP_WIN and SHIP_FAIL, with the phase boundaries listed in the Technical Strategy core state contract. (Was: T26 in the agent backlog.)"
+    },
+    {
+     "line": 26,
+     "text": "20. Fail reason line (19 October 2026). Voiced by Ted and shown as a subtitle: \u201cAll is lost for those on board...the storm takes more lives. What were you doing, you money toff!\u201d The visual is the passenger ship crashing and breaking up on one of the rocks right next to the island. (Was: B3; resolves B8 for the lamp room and the crossing.)"
+    },
+    {
+     "line": 30,
+     "text": "24. Boat speed (19 October 2026). The boat stays at 10 m/s until the waves are complete."
+    },
+    {
+     "line": 44,
+     "text": "4. Deadline length. Set from measured playtests so a first-time player who follows cues has room for some mistakes. To be reviewed once the boat crossing back from the Saltgate has been tested; no value is set until then."
+    },
+    {
+     "line": 49,
+     "text": "9. Outbound crossing penalties. With no deadline before the return crossing, collisions on the outbound crossing cost no deadline time. Decide what they cost instead (for example a slowdown or recovery only) so the outbound crossing still teaches the player. Deferred by the creator: to be decided later, as part of the penalty review."
+    },
+    {
+     "line": 51,
+     "text": "Boat and crossings"
+    },
+    {
+     "line": 54,
+     "text": "11. Crossing failure policy details. Proposed: a collision adds water, slows the boat or causes a brief capsize and recovery, costing deadline time; the burner can never be permanently lost. Rules are loose for Gate 1; write down exact costs and limits for the full game."
+    },
+    {
+     "line": 55,
+     "text": "12. Bailing interaction. Add a simple bailing action only if playtests show it improves the crossing without overloading the one-control steering promise."
+    },
+    {
+     "line": 62,
+     "text": "16. Week 5 load. Week 5 holds the beacon diagnosis and burner fit, deadline, fail presentation and Ted\u2019s lamp lines. If it slips, decide between simplifying the diagnosis and burner fit for Gate 1, cutting waves (already first), or extending the schedule."
+    },
+    {
+     "line": 63,
+     "text": "17. Full-game estimate and cut list. Complete after Gate 1 using measured data. Provisional cut order: wave hazards; return-crossing route branching; repairs beyond feeding the boiler and fitting the burner; Saltgate optional discoveries beyond the light set."
+    },
+    {
+     "line": 72,
+     "text": "20. Wave hazards. Waves that push or roll the boat are a stretch goal (Executive Summary, Technical Strategy). Decide at the end of week 4 whether the schedule has room to start them in week 5, and after playtests whether they stay in the full game."
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Dreams for the game.md": {
+   "sha": "634974eeb8e8891b",
+   "headings": [],
+   "domain_hits": 8,
+   "hits": [
+    {
+     "line": 1,
+     "text": "Lighting the Storm \u2014 Dreams for the Game"
+    },
+    {
+     "line": 7,
+     "text": "Before boarding, the player chooses Arthur or Daniel to cross with. Either companion can complete both crossings, and the choice changes how guidance is delivered rather than whether the route can be finished."
+    },
+    {
+     "line": 14,
+     "text": "In the current design Daniel is shaken by the storm and shelters in the basement. If the companion choice is built, he becomes the alternative crossing companion with a different guidance style:"
+    },
+    {
+     "line": 18,
+     "text": "\u2022 Rules: his light reads from the same safe-route signal as the waves and boat, with a difficulty-dependent error rate. His mistakes must be learnable and recoverable, and must always be catchable from the visible waves; never make both the world and the signal unreadable at once."
+    },
+    {
+     "line": 33,
+     "text": "\u2022 Constraint: it must keep to the scope rule (no new major location) and stay unexplained, so the supernatural is never confirmed. The outpost is untimed, so any discovery here should not push pacing against the 30-minute target."
+    },
+    {
+     "line": 38,
+     "text": "An optional New Game+ modifier that remixes the parts-finding and boat-crossing steps into a tougher, repeatable run for players who want navigation to be a real skill test."
+    },
+    {
+     "line": 40,
+     "text": "\u2022 Needs: harder wave presets, remixed routes or part locations, and a deadline tuned for experienced players."
+    },
+    {
+     "line": 41,
+     "text": "\u2022 Constraint: it must stay legible; harder should mean more demanding waves, not less readable ones."
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Engine Comparison.md": {
+   "sha": "3a3ab97b1a3857c4",
+   "headings": [],
+   "domain_hits": 16,
+   "hits": [
+    {
+     "line": 1,
+     "text": "Lighting the Storm \u2014 Engine Comparison"
+    },
+    {
+     "line": 7,
+     "text": "\u2022 First-person 3D with a stylised stormy sea that moves for atmosphere, and a boat steered past rocks, buoys, and debris. Waves that push the boat are a stretch goal, so a built-in ocean is useful but not essential."
+    },
+    {
+     "line": 8,
+     "text": "\u2022 Night storm atmosphere: dynamic lights, rain, fog, and a sweeping beacon, all tuned for readability."
+    },
+    {
+     "line": 9,
+     "text": "\u2022 Scripted sequences (crash through the window, gate, NPCs walking in) and a phase-based state machine."
+    },
+    {
+     "line": 21,
+     "text": "\u2022 Volumetric fog, SDFGI, and decent lighting are enough for a stylised storm."
+    },
+    {
+     "line": 25,
+     "text": "\u2022 No built-in ocean or buoyancy. The core crossing only needs a visually moving sea shader plus a steered boat and colliders, which Godot handles well. If the wave stretch goal is built, you write the wave-height maths for the boat yourself, and Godot gives the least help with that."
+    },
+    {
+     "line": 35,
+     "text": "\u2022 Large Asset Store: weather systems, first-person controllers, and established ocean and buoyancy packages (the last mainly useful if the wave stretch goal is built)."
+    },
+    {
+     "line": 36,
+     "text": "\u2022 C# has very large AI training coverage; AI assistants write Unity code fluently."
+    },
+    {
+     "line": 50,
+     "text": "\u2022 Strongest fit for the storm atmosphere and the beacon lighting that pillars 1 (the light must return) and 2 (the storm sets the clock) depend on."
+    },
+    {
+     "line": 57,
+     "text": "\u2022 The built-in water is its main gameplay advantage here, but waves are now a stretch goal, and its realism-focused water may fight the readable, authored waves that pillar 4 (dread you can read) would need."
+    },
+    {
+     "line": 67,
+     "text": "\u2022 JavaScript/TypeScript has the largest AI training coverage of any option; everything is code, so AI can build and change the whole game."
+    },
+    {
+     "line": 73,
+     "text": "\u2022 No 3D lighting, volumetric fog, or real-time beacon sweep. The beacon and storm atmosphere (pillars 1 and 2) would have to be rebuilt in 2D art and shaders, and pillar 3 (your hands, your eyes) could not be met at all."
+    },
+    {
+     "line": 86,
+     "text": "|Wave hazards (stretch goal)    |Build it yourself         |Asset Store packages           |Built-in, realism-focused        |2D only                         |"
+    },
+    {
+     "line": 87,
+     "text": "|Storm atmosphere and lighting  |Adequate with effort      |Very good                      |Excellent                        |Poor                            |"
+    },
+    {
+     "line": 97,
+     "text": "1. Godot 4 is the best overall fit (as Technical Strategy proposes): fast iteration, no fees, and text scenes that AI agents can work on directly. With waves now a stretch goal, its main weakness (no built-in ocean) is off the critical path; build waves yourself only if the schedule allows."
+    },
+    {
+     "line": 98,
+     "text": "2. Choose Unity instead if you already know C#. Its ocean packages are no longer a strong reason on their own, because the core crossing does not need them."
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Token Costs and Feasibility.md": {
+   "sha": "e1b73d8641bf141e",
+   "headings": [],
+   "domain_hits": 4,
+   "hits": [
+    {
+     "line": 1,
+     "text": "Lighting the Storm \u2014 Token Costs and Feasibility"
+    },
+    {
+     "line": 46,
+     "text": "|Stretch: wave hazards, only if time allows  |15   |"
+    },
+    {
+     "line": 125,
+     "text": "\u2022 Wave hazards stay a stretch goal. The crossings are built around rocks, buoys, and debris, which removes the hardest technical work (wave shader and matching buoyancy) from the critical path. If waves are not built, the 15 stretch tasks above are saved (about $30)."
+    },
+    {
+     "line": 127,
+     "text": "Schedule: follow the six-week prototype schedule in Technical Strategy, which is the single source of truth. In short: week 1 setup, boat and hazards; week 2 steering go/no-go; week 3 both crossings; week 4 repair, crash, gate and Arthur; week 5 deadline and outcomes; week 6 playtests. Waves fit only into spare time from week 5 onwards."
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md": {
+   "sha": "a5123e30bdbad0c1",
+   "headings": [
+    "Lighting the Storm \u2014 Technical Strategy",
+    "Change log (post-review amendments)",
+    "Engine and project shape",
+    "Milestones and gates",
+    "Six-week prototype schedule",
+    "Core state contract",
+    "Boat and weather simulation",
+    "Repairs, shelter and gate, and final pressure",
+    "Presentation and accessibility",
+    "Validation and integration"
+   ],
+   "domain_hits": 35,
+   "hits": [
+    {
+     "line": 1,
+     "text": "# Lighting the Storm \u2014 Technical Strategy"
+    },
+    {
+     "line": 7,
+     "text": "- Gate table: Gate 1 now has two repairs, a return-crossing clock start, and \u201cfail, then restart the slice\u201d. Gate 2 must settle the final retry and save model."
+    },
+    {
+     "line": 10,
+     "text": "- Deadline: starts when the burner is aboard and the boat sets off on the return crossing; no fail state before then; fail-state presentation specified per location; the ship is introduced at the boarding threshold."
+    },
+    {
+     "line": 13,
+     "text": "- Crossing penalty rules marked as loose for Gate 1."
+    },
+    {
+     "line": 15,
+     "text": "- Fail-state presentation restated as three fail states, all after the return crossing begins (return crossing, lamp room, stairs); there is no fail state before the return crossing begins."
+    },
+    {
+     "line": 16,
+     "text": "- The Saltgate kept minimal until the prototype is complete; deadline length to be reviewed once the return crossing is tested."
+    },
+    {
+     "line": 18,
+     "text": "- 16 October 2026, story beats: phases now start with ARRIVAL_AND_COAL (player outside, Ted opens the door, then coal into the boiler) and add BEACON_DIAGNOSIS after the gate (Ted finds the burner broken in the lantern room); OUTPOST renamed SALTGATE; \u201ctwo repairs\u201d replaced by feeding the boiler plus the final burner fit; lighting phases ISLAND, OUTBOUND, RETURN and BEACON_RELIT added; fail wordin"
+    },
+    {
+     "line": 22,
+     "text": "Engine: Godot 4 (confirmed by the creator after reviewing the Engine Comparison pros and cons), using GDScript for the first playable. Its scene-based structure suits the compact locations and scripted interactions, and a single developer can iterate quickly without adding a toolchain. Commit the exact engine version and renderer choice with the initial project; evaluate storm lighting on the targ"
+    },
+    {
+     "line": 30,
+     "text": "|0. Steering spike           |Greybox powered boat on a sea that moves for atmosphere only, rocks, buoys and debris, readable heading and collision feedback, and the shared hazard forecast with a single safe-route signal.|A player can steer through a short route using steering alone; the designer can tune it without rewriting physics. Stop or redesign if the core crossing is not enjoyable.|"
+    },
+    {
+     "line": 31,
+     "text": "|1. Ten-minute vertical slice|Arrival outside the lighthouse with Ted opening the door, coal into the boiler, Ted seeing the rowboat moored at the dock from the window, island gate opening, Ted finding the burner broken in the lantern room, boarding with Arthur, outbound crossing to the Saltgate quays, burner pickup, harder return crossing as the storm escalates, burner fitting with Ted at the lam"
+    },
+    {
+     "line": 43,
+     "text": "|3   |The Saltgate quays (minimal detail until the prototype is complete) and burner pickup; return crossing with denser hazards; storm visibility and lighting tuned for readability; docking and disembarking.|Both crossings playable end to end. Ted\u2019s presence is locked by the end of this week.|"
+    },
+    {
+     "line": 44,
+     "text": "|4   |Arrival (Ted opens the door) and coal into the boiler, Ted at the window and the moored rowboat, island gate opening, Arthur at the engine boat, Arthur\u2019s direction calls, return-crossing clock trigger; first rough deadline tuning pass on the full path.|The full 10-minute path is playable and has been run end to end by at least one outside tester.|"
+    },
+    {
+     "line": 48,
+     "text": "Risk: week 5 is heavily loaded. If it slips, the creator decides between simplifying the lantern-room diagnosis and burner fit for Gate 1, cutting wave hazards (already first to go), or extending the schedule. Do not decide silently."
+    },
+    {
+     "line": 50,
+     "text": "Wave hazards are a stretch goal, not part of this schedule. Start them only after Gate 0 has passed, and only when the current week\u2019s exit test is already met. Keep them behind a single on/off setting so the build always works without them, and cut them first if any week slips. If steering fails the week 2 go/no-go, redesign the crossing before starting week 3 work."
+    },
+    {
+     "line": 54,
+     "text": "Use explicit phase states, for example ARRIVAL_AND_COAL \u2192 SHELTER_AND_GATE \u2192 BEACON_DIAGNOSIS \u2192 BOARDING \u2192 OUTBOUND \u2192 SALTGATE \u2192 RETURN \u2192 FINAL_REPAIR \u2192 RESOLUTION (WIN or FAIL). The opening events follow the story beats: GAME_STARTED (player outside, Ted opens the door), LIGHTHOUSE_ENTERED, BOILER_FED, SAILORS_MOORED \u2026 DANIEL_IN_BASEMENT, BEACON_STILL_DARK, LAMP_ROOM_ENTERED, BURNER_DIAGNOSED, BU"
+    },
+    {
+     "line": 58,
+     "text": "Invariants: the deadline is inactive until the return-departure event (burner aboard and the boat under way on the return crossing); Arthur is the only crossing companion; a burner pickup precedes return completion; the ship outcome resolves exactly once per attempt, as WIN (burner fitted before expiry) or FAIL (deadline expired). The journal reflects state, but never determines it. Rules marked P"
+    },
+    {
+     "line": 62,
+     "text": "Start with a constrained, tunable approximation: a forward-moving boat with one fixed speed and one player steering axis. The player steers but has no throttle. The core crossing challenge is steering past placed hazards (rocks, reefs, buoys, and floating debris) along a route that narrows and darkens as the storm worsens. The sea surface animates for atmosphere only and does not push the boat. Ex"
+    },
+    {
+     "line": 64,
+     "text": "Because the boat cannot stop, docking is automatic: arriving within a dock trigger zone at the Saltgate quays or the lighthouse jetty ends steering control and moors the boat, followed by a disembark interaction. If the boat leaves the playable corridor or the player misses the dock approach, the recovery event returns the boat to the last safe point on the route with a time cost. Define each dock"
+    },
+    {
+     "line": 66,
+     "text": "Stretch goal, waves: if time allows (see the six-week schedule), add authored travelling wave fields that apply heading, roll, and temporary speed penalties according to impact angle and intensity, with wave spacing, wave force, and capsize threshold exposed as data. Build it as an optional layer behind one on/off setting, so the crossing stays complete and tuned without it. Prefer readable, autho"
+    },
+    {
+     "line": 68,
+     "text": "Use a shared hazard forecast for hazards (and wave crests, if built), boat reaction, and Arthur\u2019s calls, so his warnings never disagree with the actual threat. Arthur\u2019s calls read from the same safe-route signal, with explicit difficulty-dependent lead time and frequency. The forecast uses one safe-route signal; do not design it for multiple routes until branching is approved. Never make both the "
+    },
+    {
+     "line": 70,
+     "text": "Prototype failure policy: a collision with a rock or debris (or a broadside wave hit, if waves are built) adds water, slows the boat or causes a brief capsize-and-recovery at a nearby safe point; these events consume deadline time once the clock is running (on the outbound crossing they cost no deadline time). On return, cargo mishandling delays progress and creates a clear recovery interaction. P"
+    },
+    {
+     "line": 73,
+     "text": "\u2022 Perceptual channel, driven by elapsed deadline time once the clock is running (before it starts, set by phase): wind audio, rain, lightning, thunder, the ship\u2019s lights and position, and the overall mood of the sky."
+    },
+    {
+     "line": 75,
+     "text": "Lighting phases follow the story beats: ISLAND (arrival through the beacon diagnosis), OUTBOUND (the first crossing; the rain sets in), RETURN (the storm escalates: darker skies, heavier rain, lightning between the clouds) and BEACON_RELIT (the burner is fitted)."
+    },
+    {
+     "line": 76,
+     "text": "Elapsed time must never raise what the player collides with. Preserve a minimum visibility of nearby hazards (and wave cues, if built) and the immediate route on every preset. Use landmarks, compass, buoy silhouettes, and the beacon when facing home. Because the hazard channel does not depend on elapsed time, deadline tuning can be done offline and repeated from the same position."
+    },
+    {
+     "line": 80,
+     "text": "Implement repair jobs from data: diagnosis, required fixed-toolkit item or interaction, puzzle steps, completion event, journal update, and optional route unlock (an optional field for later; not saved in Gate 1). The Gate 1 slice uses one lighthouse job, feeding the boiler with coal, and one final burner installation (the burner fit replaces the earlier \u201csecond repair\u201d). Later repairs (optic, rot"
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/What's Changed (Concise).md": {
+   "sha": "8f666830a871cdbf",
+   "headings": [
+    "Lighting the Storm \u2014 What\u2019s Changed (Concise)",
+    "Exec Summary",
+    "Player Experience changes",
+    "Timings and Fail-State Changes",
+    "Technical Strategy",
+    "State changes",
+    "AI Agent Strategy",
+    "Also changed",
+    "2026-10-16 story beats"
+   ],
+   "domain_hits": 11,
+   "hits": [
+    {
+     "line": 1,
+     "text": "# Lighting the Storm \u2014 What\u2019s Changed (Concise)"
+    },
+    {
+     "line": 10,
+     "text": "- No crash. Arthur and Daniel, overwhelmed by the storm, moor on the island seeking shelter. Ted sees them from the window and the player opens the island gate. Daniel goes to the basement; Arthur wants to stop the ship being wrecked and tells the player to go on after the second crossing."
+    },
+    {
+     "line": 11,
+     "text": "- Storm split. What the player perceives follows elapsed time; what they collide with follows phase and route position."
+    },
+    {
+     "line": 16,
+     "text": "- Deadline starts on the return crossing, when the player has the burner aboard and sets off for the lighthouse. There is no fail state before then, so the outbound crossing is steering practice. Ted introduces the ship at the boarding threshold."
+    },
+    {
+     "line": 17,
+     "text": "- Fail-state contract (new). Three fail states, all after the return crossing begins: on the crossing (audio only: horn, crash sounds, silence, \u201cFailed\u201d screen), in the lamp room (the ship is seen and heard), and on the stairs (audio only unless a window sightline exists). A short reason line is always shown."
+    },
+    {
+     "line": 25,
+     "text": "- Gates and schedule. Gate 1 now has two repairs, the return-crossing clock start and a restart on a fail. Hazard forecast added to week 2; Ted locked in week 3; week 4 rebalanced with an early deadline tuning pass; week 5 flagged as heavily loaded."
+    },
+    {
+     "line": 26,
+     "text": "- Boat and weather. Two weather channels (perception by elapsed time, hazards by phase and position). Docking is automatic; leaving the corridor triggers a recovery. Outbound collisions cost no deadline time; penalty rules are loose for Gate 1."
+    },
+    {
+     "line": 30,
+     "text": "\u2022 State contract. CRASH_AND_GATE becomes SHELTER_AND_GATE; \u201cunlocked routes\u201d removed; the clock starts on a return-departure event; the outcome resolves once per attempt. Gate 2 snapshots must restore time and weather together."
+    },
+    {
+     "line": 32,
+     "text": "\u2022 Fail State deadline length is reviewed once the return crossing from the outpost is tested."
+    },
+    {
+     "line": 59,
+     "text": "- Outpost becomes the Saltgate. The crossing goes to the Saltgate quays, Saint Calder\u2019s abandoned harbour. The outbound crossing brings rain; the storm escalates on the return."
+    },
+    {
+     "line": 63,
+     "text": "- Phases: ARRIVAL_AND_COAL \u2192 SHELTER_AND_GATE \u2192 BEACON_DIAGNOSIS \u2192 BOARDING \u2192 OUTBOUND \u2192 SALTGATE \u2192 RETURN \u2192 FINAL_REPAIR \u2192 RESOLUTION. OUTPOST_REACHED and IDLE_OUTPOST are renamed SALTGATE_REACHED and IDLE_SALTGATE. Lighting phases: ISLAND, OUTBOUND, RETURN, BEACON_RELIT."
+    }
+   ]
+  },
+  "Docs/GDD/Final_GDD_Post_Review/What's Changed.md": {
+   "sha": "25d81bd34abe0c4f",
+   "headings": [],
+   "domain_hits": 34,
+   "hits": [
+    {
+     "line": 1,
+     "text": "Lighting the Storm \u2014 What\u2019s Changed"
+    },
+    {
+     "line": 10,
+     "text": "|Clock starts on return crossing |     \u2714      |        \u2714         |        \u2714        |"
+    },
+    {
+     "line": 13,
+     "text": "|Storm split (Decision B)       |     \u2714      |        \u2714         |        \u2714        |"
+    },
+    {
+     "line": 22,
+     "text": "Not changed in any document: the four pillars\u2019 intent, the scope rule, waves as a stretch goal, the one-control fixed-speed boat, and Arthur as the only crossing companion."
+    },
+    {
+     "line": 31,
+     "text": "\u2022 Crash removed. The rowboat no longer crashes. Arthur and Daniel, overwhelmed by the storm, moor on the island looking for shelter. Ted sees them from the window and tells the player to open the island gate (the same gate as before). Step 2 is renamed \u201cShelter and gate\u201d."
+    },
+    {
+     "line": 32,
+     "text": "\u2022 Arthur. Motivation added: he has realised the storm is getting nasty and wants to stop the ship being wrecked. After the second crossing he tells the player to go on without him (\u201cgo go go, don\u2019t wait for me\u201d). His reaction to the outcome is not recorded."
+    },
+    {
+     "line": 39,
+     "text": "\u2022 Clock start. The deadline starts when the player, with the burner aboard, sets off on the return crossing, instead of on boarding. There is no fail state before then, so the outbound crossing and outpost are free practice. Pre-deadline text updated to match."
+    },
+    {
+     "line": 41,
+     "text": "\u2022 Pillar 2 and pillar 3. Pillar 2 adds the split: elapsed time drives what the player perceives, phase and position drive what they collide with. Pillar 3 now reads \u201csee the sailors from the window\u201d and \u201csee or hear the ship\u2019s fate\u201d. Pillar 4 adds \u201ca stated reason on failure\u201d."
+    },
+    {
+     "line": 44,
+     "text": "\u2022 New section: Fail-state contract. Every fail runs: foghorn, ship crashes into the island, silence, \u201cFailed\u201d title screen. The deadline runs only from the return crossing, so there are three fail states. On the return crossing it is audio only. In the lamp room the player sees the ship hit the island and the audio still sounds. On the stairs it is audio only unless a window sightline exists. A sh"
+    },
+    {
+     "line": 52,
+     "text": "\u2022 Crossing penalties. Noted as deliberately loose for Gate 1, to be reviewed for the full game."
+    },
+    {
+     "line": 56,
+     "text": "\u2022 Gate 2+ estimate and ranked cut list (placeholder). Provisional order: waves, route branching, repairs beyond two, outpost discoveries beyond the light set. Estimates and owners are to be added after Gate 1."
+    },
+    {
+     "line": 70,
+     "text": "\u2022 Gate 1. Two repairs; Ted seeing the moored rowboat from the window; island gate; clock starts on the return crossing; a fail restarts the slice; a \u201cFailed\u201d title screen; a failed player is told why."
+    },
+    {
+     "line": 77,
+     "text": "\u2022 Week 4. Rebalanced: one repair, window and gate, Arthur\u2019s calls, return-crossing clock trigger, plus a first deadline tuning pass with an outside tester. The second repair is moved out."
+    },
+    {
+     "line": 84,
+     "text": "\u2022 Invariants. The deadline is inactive until the return-departure event; the outcome resolves exactly once per attempt (was \u201cexactly once\u201d). A rule added that \u201cProposed\u201d items must not be enforced as invariants or gate criteria until approved."
+    },
+    {
+     "line": 88,
+     "text": "\u2022 Two weather channels (Decision B). Perceptual channel (wind, rain, lightning, thunder, ship\u2019s lights, sky mood) follows elapsed time. Hazard channel (density, route width, hazard visibility) follows phase and route position only. Elapsed time never increases what the player collides with, which also makes offline tuning possible."
+    },
+    {
+     "line": 94,
+     "text": "\u2022 Shelter-and-gate sequence replaces the crash sequence. No crash; moored rowboat seen from the window; Daniel goes to the basement."
+    },
+    {
+     "line": 96,
+     "text": "\u2022 Deadline rules. Starts at the return-departure trigger (burner aboard, boat under way); no fail before it; the ship holds at its starting lights until the clock starts; pause exploits to be checked before Gate 2."
+    },
+    {
+     "line": 107,
+     "text": "Not changed: scene ownership and data-driven content rules, the wave stretch goal behaviour, remappable controls, and the hazard-readability rules."
+    },
+    {
+     "line": 127,
+     "text": "\u2013 Level Layout: moored-rowboat window view, island gate and the lamp-room sightline to the ship and island rocks."
+    },
+    {
+     "line": 128,
+     "text": "\u2013 Gameplay/Systems: two repairs, return-departure clock trigger, restart on a fail, shelter-and-gate trigger."
+    },
+    {
+     "line": 129,
+     "text": "\u2013 Sound: ship impact; perceptual storm cues follow elapsed time."
+    },
+    {
+     "line": 135,
+     "text": "\u2022 Working rules. Added: treat items in the Executive Summary\u2019s decisions log as canon; do not build anything marked Proposed, deferred or on the cut list (waves, route branching, repairs beyond the first two) without the creator\u2019s go-ahead."
+    },
+    {
+     "line": 137,
+     "text": "\u2022 Review checklist. Adds: does the work respect the decisions log (return-crossing clock start, storm split, two Gate 1 repairs, no crash, fail-state contract), and has the orchestrator reported the result, including failures and blocked decisions."
+    },
+    {
+     "line": 151,
+     "text": "\u2022 Deadline length. To be reviewed once the boat crossing back from the outpost has been tested."
+    },
+    {
+     "line": 152,
+     "text": "\u2022 Outbound crossing penalties. Deferred by the creator."
+    }
+   ]
+  }
+ },
+ "hard_rules": [
+  {
+   "src": "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/characters/DIALOGUE_ARTHUR.md:71",
+   "text": "*Generated by `LightingTheStorm/tools/build_character_pages.py` from `dialogue_opening.json`. Do not edit by hand.*"
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/characters/DIALOGUE_DANIEL.md:27",
+   "text": "| `DANIEL_OPT_08` | `WALL_WHISPER_HEARD` | reaction \u00b7 alt `DANIEL_WHISPER` | \"Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming.\" | Whispered, nervous, half-laughing. |"
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/characters/DIALOGUE_DANIEL.md:51",
+   "text": "*Generated by `LightingTheStorm/tools/build_character_pages.py` from `dialogue_opening.json`. Do not edit by hand.*"
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/characters/DIALOGUE_TED.md:83",
+   "text": "*Generated by `LightingTheStorm/tools/build_character_pages.py` from `dialogue_opening.json`. Do not edit by hand.*"
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING.md:276",
+   "text": "- **TED** `TED_OPT_02` (discovery): \"Wind in the walls. Always is. Ignore it.\""
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_FINAL.md:292",
+   "text": "- **DANIEL** `DANIEL_OPT_08` (reaction): \"Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming.\""
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_LIVE.md:176",
+   "text": "- **DANIEL** `DANIEL_OPT_08` (reaction): \"Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming.\""
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/characters/DIALOGUE_ARTHUR.md:70",
+   "text": "*Generated by `LightingTheStorm/tools/build_character_pages.py` from `dialogue_opening.json`. Do not edit by hand.*"
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/characters/DIALOGUE_DANIEL.md:22",
+   "text": "| `DANIEL_OPT_08` | `WALL_WHISPER_HEARD` | reaction | \"Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming.\" | Whispered, nervous, half-laughing. |"
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/characters/DIALOGUE_DANIEL.md:42",
+   "text": "*Generated by `LightingTheStorm/tools/build_character_pages.py` from `dialogue_opening.json`. Do not edit by hand.*"
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/characters/DIALOGUE_TED.md:84",
+   "text": "*Generated by `LightingTheStorm/tools/build_character_pages.py` from `dialogue_opening.json`. Do not edit by hand.*"
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/DIALOGUE_OPENING_CREATOR_PICKS.md:7",
+   "text": "**Story-beat revision, 2026-10-16.** The creator then fixed the story order (`AIAgentCrew/canon.py` `STORY_BEATS`): the player starts outside and Ted opens the door; after a beat, coal; then the sailors; only then does Ted find the burner broken; then the Saltgate crossing. `AIAgentCrew/story_beats.py` applies that to these picks without changing any line ID:"
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/DIALOGUE_OPENING_CREATOR_PICKS.md:45",
+   "text": "`ARTHUR_S3_08`, on `OUTBOUND_COLLISION`. The boat has one speed and is steered only with A and D, so \"back her off\" implied a reverse control."
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/DIALOGUE_OPENING_FINAL.md:254",
+   "text": "- **DANIEL** `DANIEL_OPT_08` (reaction): \"Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming.\""
+  },
+  {
+   "src": "Docs/Lore Build/dialogue/DIALOGUE_OPENING_FINAL.md:300",
+   "text": "7. Step 1's coal is the only repair before the crossing; the burner fit at the end (beat 7) belongs to the Story / Fail-State agent."
+  },
+  {
+   "src": "Docs/Lore Build/factions/fac_flighted.md:13",
+   "text": "> **Prototype scope:** heard about only briefly. They are \"something,\" but nobody knows what. They are bound up with the eclipse: two sides of the same central mystery. Direct contact comes in a later expansion."
+  },
+  {
+   "src": "Docs/Lore Build/factions/fac_flighted.md:38",
+   "text": "- **poster_prompt:** \"Crude 1800s letterpress propaganda poster, a dark sphere eclipsing a silver moon above stylised waves, reverent yet ominous, heavy serif lettering reading THEY BRING THE STORMS, black, silver and navy ink only, misregistered print, weathered and peeling paper, gritty dark cel-shaded style, heavy ink outlines\""
+  },
+  {
+   "src": "Docs/Lore Build/regions/reg_bracken_isle.md:23",
+   "text": "| The lighthouse | Single building | Guards the approach to the Saltgate. During eclipses it is the only true light by which ships can see the rocks. | TBD | Stone and mortar, battered but robust. Haunted halls. |"
+  },
+  {
+   "src": "Docs/Lore Build/regions/reg_saltgate.md:19",
+   "text": "- **During eclipses:** the port's light is almost completely gone, so the lighthouse is the only reliable guide."
+  },
+  {
+   "src": "Docs/Lore Build/world/geography.md:7",
+   "text": "- \"While the moon is covered, tides become more aggressive and storm season begins. The object therefore affects the moon's physical pull, not only its visibility (cause TBD, L4/L5).\""
+  },
+  {
+   "src": "Docs/Lore Build/world/geography.md:15",
+   "text": "Earth-like physics, geology, and weather. The only defined exception is the eclipse and its effect on tides and storms (see frontmatter)."
+  },
+  {
+   "src": "Docs/Lore Build/world/history.md:46",
+   "text": "- **what_happened:** It was built as the guardian of the port, the only true light during eclipses."
+  },
+  {
+   "src": "Docs/Lore Build/world/style_guide.md:22",
+   "text": "- Electric arc light and steam-driven light are the only strong sources during eclipse."
+  },
+  {
+   "src": "Docs/Lore Build/world/style_guide.md:46",
+   "text": "| The Flighted (iconography only) | Black, silver, navy | Circles, spheres, wave lines | Printed paper, crude ink | A dark sphere over the moon |"
+  },
+  {
+   "src": "Docs/Lore Build/WORLDBUILDER_AGENT.md:272",
+   "text": "**Agent Task:** After the user answers, generate **story hooks** by crossing existing canon: region \u00d7 faction, institution \u00d7 historical event, power system \u00d7 infrastructure failure, culture \u00d7 taboo. For each hook, cite the files it comes from. Present hooks for the user to approve, edit, or reject. Only approved hooks become canon."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:20",
+   "text": "3. Match the four design pillars in the Executive Summary (the light must return; the storm sets the clock; your hands, your eyes; dread you can read) and the small-world scope rule. No combat, monster reveal, jump scare, visible timer, quest markers, non-first-person cameras, or new major location."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:21",
+   "text": "4. Return actual editable outputs, source files and licences/provenance for external assets, import settings, test instructions, and known limitations. Mockups or prose alone do not count as implementation."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:24",
+   "text": "7. Do not build anything marked Proposed, deferred, or on the cut list (waves, route branching, further repairs beyond feeding the boiler and fitting the burner) without the creator\u2019s go-ahead. Do not add significant detail to the Saltgate until the creator considers the prototype complete."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:32",
+   "text": "|Production Orchestrator   |Turns a creator goal or gate into a task list; writes task briefs; assigns work to worker roles; orders dependencies; tracks status against the six-week schedule; keeps event IDs and contracts in sync across agents; assembles the integrated build.|A schedule exit test is missed; a contract must change; two tasks conflict; week 5 load slips (burner diagnosis and fit, wav"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:47",
+   "text": "|Boat/Physics    |Steering spike, hazard collisions, boat reaction, docking, recovery, tunable parameters. Wave fields only as a later stretch task.|Hazard forecast API, one steering axis, recovery event, dock zones.|Creator plays Gate 0; readable, enjoyable steering.|"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:50",
+   "text": "|Gameplay/Systems|Phase controller following the story beats, arrival and coal-feeding interaction, shelter and gate trigger, beacon diagnosis trigger (only after the sailors are in), boarding trigger, return-departure clock trigger, cargo, win and fail states, restart.|Stable event and save IDs from Technical Strategy.            |Gate 1 complete end-to-end; no dead ends.          |"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:55",
+   "text": "|Dialogue        |Ted/Arthur/Daniel lines, subtitle variants, journal text in structured data. Voice lines only for Ted at the lamp.|Character voices, phase events, ambiguity constraint.         |Creator approves voice and lore before recording.  |"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:100",
+   "text": "9. Stretch, waves: only after Gate 0 passes and the six-week schedule in Technical Strategy has room, Boat/Physics adds wave hazards as an optional layer behind one on/off setting. QA confirms the build still plays correctly with waves off. Do not start this task without the creator\u2019s go-ahead."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:105",
+   "text": "> **Task:** Implement the Gate 0 boat steering spike in the selected engine. **Inputs:** Technical Strategy boat section, greybox sea scene, approved event IDs. **Owned output:** boat scene/controller and tuning resource, plus a short README. **Constraints:** one fixed speed with no throttle, one steering axis, placed rock, buoy and debris hazards, no wave forces (waves are a later stretch task), "
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:109",
+   "text": "> **Goal (from creator):** Deliver the Gate 1 fail-state presentation. **Orchestrator:** Production Orchestrator. **Delegates to:** Story/Fail-State (presentation), Level Layout (lamp-room sightline), Sound (horn, impact, silence), Gameplay/Systems (FAIL resolve, restart), QA (test from each expiry location). **Inputs:** Executive Summary fail-state contract; Technical Strategy fail-state presenta"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:9",
+   "text": "- Deadline timer now starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate let the player get a feel for the boat. The ship is introduced at the boarding threshold."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:18",
+   "text": "- Fail-state contract restated: three fail states, all after the return crossing begins (return crossing, lamp room, stairs). There is no fail state before then."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:20",
+   "text": "- 16 October 2026, story beats fixed by the creator: the player (Isaac, \u201cthe new guy\u201d) starts outside the lighthouse and Ted opens the door; Ted then sends him to the basement to shovel coal into the boiler; the sailors moor at the dock and the player opens the island gate; only then does Ted take the player to the lantern room and find the beacon\u2019s burner broken. The crossing\u2019s destination is the"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:24",
+   "text": "A new apprentice, Isaac, arrives at the failing lighthouse on Bracken Isle. Keeper Ted opens the door to \u201cthe new guy\u201d and, after a beat, sends him down to the basement to shovel coal into the boiler. Overwhelmed by the storm, two sailors, Arthur and Daniel, moor their rowboat at the island\u2019s dock and look for shelter; Ted sees them from the window and tells the apprentice to open the island gate."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:29",
+   "text": "1. The light must return: everything leads back to the beacon. It is what you repair, it guides you home, and it decides whether the ship lives. Test: does this connect to getting the light back, or to what happens if it fails?"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:30",
+   "text": "2. The storm sets the clock: pressure comes from the world (the approaching ship\u2019s lights, worsening weather, falling visibility, and rocks in the dark), never from a timer, meter, or enemy. Elapsed time drives what the player perceives (sound, lightning, wind, the ship\u2019s lights); phase and route position drive what the player collides with (hazard density). Test: can the player feel time running "
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:58",
+   "text": "The deadline only runs from the start of the return crossing, so there is no fail state before then and the outbound crossing is practice. There are three fail states, depending on where the player is when the deadline expires. In every case the sequence is: the foghorn sounds, the ship runs aground on the island, silence, and then a \u201cFailed\u201d title screen."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:62",
+   "text": "|On the return crossing (burner aboard) |Audio only: ship horn, crash sounds, silence, then the \u201cFailed\u201d title screen. No cutaway camera.|"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:64",
+   "text": "|Elsewhere in the lighthouse (stairs) |Audio only, as on the crossing, unless a window sightline exists.                                                    |"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:68",
+   "text": "Retry model: for Gate 1, a fail returns the player to the start of the slice (fail, then restart). The full retry and save model is settled before Gate 2 (see Technical Strategy). Any future save must not store remaining time in a way that can produce an unwinnable save."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:87",
+   "text": "Wave hazards are a stretch goal for both the prototype and the full game. The crossings must work without them: the challenge comes from steering past rocks, reefs, buoys, and debris in a worsening storm, and the sea surface can move for atmosphere without affecting the boat. Waves that push or roll the boat are added only after steering has passed its go/no-go test and only if the schedule has ro"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:89",
+   "text": "First playable prototype (Gate 1), about 10 minutes: arriving outside the lighthouse as Ted opens the door, shovelling coal into the boiler, Ted seeing the rowboat moored at the dock from the window, opening the island gate, Ted finding the burner broken in the lantern room, meeting Arthur at the engine boat, an outbound crossing to the Saltgate quays, burner pickup, a return crossing to the light"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:96",
+   "text": "1. Wave hazards (stretch goal)."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:131",
+   "text": "|Fail presentation                |Horn, ship runs aground on the island, silence, \u201cFailed\u201d title screen. Three fail states, all after the return crossing begins; the grounding is seen only from the lamp room.|"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:132",
+   "text": "|Clock start                      |Starts when the burner is aboard and the boat sets off on the return crossing. No fail state before then, so the outbound crossing is steering practice.|"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:8",
+   "text": "2. Storm escalation. Split into two channels: sound, lightning, wind and the ship\u2019s lights follow elapsed time; hazard density, route width and hazard visibility follow phase and route position only."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:12",
+   "text": "6. Clock start. The deadline starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate give the player a feel for the boat. The ship is introduced by Ted at the boarding threshold."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:16",
+   "text": "10. Fail presentation. The foghorn, the ship runs aground on the island, silence, then a \u201cFailed\u201d title screen with a short reason line. There are three fail states, all after the return crossing begins: on the return crossing it is audio only; in the lamp room the ship is seen and the audio still sounds; on the stairs it is audio only unless a window sightline exists."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:22",
+   "text": "16. Story beats (16 October 2026). In order: the player (Isaac, \u201cthe new guy\u201d) starts outside and Ted opens the door; Ted sends him to the basement to shovel coal into the boiler; Arthur and Daniel moor at the dock and the player opens the island gate (on the path from the dock to the lighthouse), with Daniel staying in the basement; the dynamo runs but the beacon stays dark, and Ted, only after t"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:49",
+   "text": "9. Outbound crossing penalties. With no deadline before the return crossing, collisions on the outbound crossing cost no deadline time. Decide what they cost instead (for example a slowdown or recovery only) so the outbound crossing still teaches the player. Deferred by the creator: to be decided later, as part of the penalty review."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:54",
+   "text": "11. Crossing failure policy details. Proposed: a collision adds water, slows the boat or causes a brief capsize and recovery, costing deadline time; the burner can never be permanently lost. Rules are loose for Gate 1; write down exact costs and limits for the full game."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:55",
+   "text": "12. Bailing interaction. Add a simple bailing action only if playtests show it improves the crossing without overloading the one-control steering promise."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:72",
+   "text": "20. Wave hazards. Waves that push or roll the boat are a stretch goal (Executive Summary, Technical Strategy). Decide at the end of week 4 whether the schedule has room to start them in week 5, and after playtests whether they stay in the full game."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Dreams for the game.md:18",
+   "text": "\u2022 Rules: his light reads from the same safe-route signal as the waves and boat, with a difficulty-dependent error rate. His mistakes must be learnable and recoverable, and must always be catchable from the visible waves; never make both the world and the signal unreadable at once."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Dreams for the game.md:33",
+   "text": "\u2022 Constraint: it must keep to the scope rule (no new major location) and stay unexplained, so the supernatural is never confirmed. The outpost is untimed, so any discovery here should not push pacing against the 30-minute target."
+  }
+ ],
+ "open_questions": [
+  {
+   "src": "Docs/Lore Build/characters/chr_arthur.md:53",
+   "text": "- **backstory:** caught in the storm and sought shelter on Bracken Isle. Why he and Daniel were out on the water is TBD (smugglers?)."
+  },
+  {
+   "src": "Docs/Lore Build/characters/chr_ted.md:50",
+   "text": "| Possible communication with the Flighted | fac_flighted / sys_eclipse | TBD | TBD | TBD |"
+  },
+  {
+   "src": "Docs/Lore Build/regions/reg_bracken_isle.md:17",
+   "text": "- **Size and terrain:** roughly 330 m long and 140 m wide (about three football pitches by two). Rocky and windswept, with a few wind-battered trees that flower in spring (species TBD)."
+  },
+  {
+   "src": "Docs/Lore Build/regions/reg_bracken_isle.md:23",
+   "text": "| The lighthouse | Single building | Guards the approach to the Saltgate. During eclipses it is the only true light by which ships can see the rocks. | TBD | Stone and mortar, battered but robust. Haunted halls. |"
+  },
+  {
+   "src": "Docs/Lore Build/systems/sys_eclipse.md:54",
+   "text": "- **sfx:** TBD (proposed: a low, sub-audible hum under the storm)"
+  },
+  {
+   "src": "Docs/Lore Build/world/geography.md:7",
+   "text": "- \"While the moon is covered, tides become more aggressive and storm season begins. The object therefore affects the moon's physical pull, not only its visibility (cause TBD, L4/L5).\""
+  },
+  {
+   "src": "Docs/Lore Build/world/geography.md:29",
+   "text": "- Cold, wet, windswept maritime coast (proposed; latitude TBD)."
+  },
+  {
+   "src": "Docs/Lore Build/world/geography.md:33",
+   "text": "- Prevailing wind direction: TBD. It should match the lean of Bracken Isle's trees."
+  },
+  {
+   "src": "Docs/Lore Build/world/style_guide.md:49",
+   "text": "TBD. Suggested: crude printed paper, stencilled lettering, and storm-stained edges, echoing the propaganda posters."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:49",
+   "text": "9. Outbound crossing penalties. With no deadline before the return crossing, collisions on the outbound crossing cost no deadline time. Decide what they cost instead (for example a slowdown or recovery only) so the outbound crossing still teaches the player. Deferred by the creator: to be decided later, as part of the penalty review."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:92",
+   "text": "Ted reacts from the lamp room by voice. If the burner is fitted first, the win state shows the ship sailing safely past the rocks and into port, again from the lamp room. Gate 1 fail returns to the start of the slice; the final retry and save model is a Gate 2 decision. Set the duration from measured playtests so a first-time player who follows cues has room for some mistakes. The deadline length "
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/What's Changed.md:13",
+   "text": "|Storm split (Decision B)       |     \u2714      |        \u2714         |        \u2714        |"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/What's Changed.md:88",
+   "text": "\u2022 Two weather channels (Decision B). Perceptual channel (wind, rain, lightning, thunder, ship\u2019s lights, sky mood) follows elapsed time. Hazard channel (density, route width, hazard visibility) follows phase and route position only. Elapsed time never increases what the player collides with, which also makes offline tuning possible."
+  }
+ ],
+ "most_relevant": [
+  [
+   "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md",
+   39
+  ],
+  [
+   "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md",
+   35
+  ],
+  [
+   "Docs/GDD/Final_GDD_Post_Review/What's Changed.md",
+   34
+  ],
+  [
+   "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md",
+   21
+  ],
+  [
+   "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md",
+   21
+  ],
+  [
+   "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING.md",
+   20
+  ],
+  [
+   "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_FINAL.md",
+   20
+  ],
+  [
+   "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_LIVE.md",
+   19
+  ],
+  [
+   "Docs/Lore Build/dialogue/DIALOGUE_OPENING_FINAL.md",
+   17
+  ],
+  [
+   "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Engine Comparison.md",
+   16
+  ],
+  [
+   "Docs/Lore Build/regions/reg_gullwater.md",
+   12
+  ],
+  [
+   "Docs/GDD/Final_GDD_Post_Review/What's Changed (Concise).md",
+   11
+  ]
+ ]
+}
