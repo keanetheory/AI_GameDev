@@ -16,6 +16,9 @@ extends Node3D
 ## FAL meshes often have flipped or one-sided faces: make collision and rendering
 ## work from both sides so there are no holes and thin parts (dock decks) show.
 @export var double_sided := true
+## Make the trimesh collision solid from both sides WITHOUT changing how the mesh renders: for a one-sided shell
+## (a cliff) whose collider must also stop rays and bodies that start inside or behind it.
+@export var backface_collision := false
 ## Multiplies the colour of every material, e.g. to bring a generated model's palette in line with
 ## the models around it.
 @export var tint := Color.WHITE
@@ -86,7 +89,7 @@ func _ready() -> void:
 			for child in mi.get_children():
 				if child is StaticBody3D:
 					child.collision_layer = body_layers
-			if double_sided and collision_kind == 0:
+			if (double_sided or backface_collision) and collision_kind == 0:
 				for shape in mi.find_children("*", "CollisionShape3D", true, false):
 					var concave := (shape as CollisionShape3D).shape as ConcavePolygonShape3D
 					if concave:

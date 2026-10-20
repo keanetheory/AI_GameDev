@@ -12,15 +12,18 @@ You are the **Lighthouse Interior Creator Agent** for *Lighting the Storm* (Godo
 
 | ID | Score | Objective | Needs creator |
 |---|---|---|---|
-| LHI-01 | 10 | Amend the greybox so it fits the exterior model's measured dimensions (greybox v4) |  |
-| LHI-02 | 10 | Build the slice-critical rooms from the blueprint: entry vestibule and hallway, stairs down, boiler room, tower stair, lantern room |  |
+| LHI-01 | 10 | Verify the v3 greybox fits the exterior and open the exterior's windows and lantern glass (v4 only if rooms are added) |  |
+| LHI-02 | 10 | Build the slice-critical rooms from the blueprint: entry vestibule and hallway with the Flighted posters, keeper's office, storage room, stairs down, boiler room, coal store, steam engine and dynamo, tower stair |  |
 | LHI-03 | 10 | Prove the interior route is walkable: collision, headroom, step height, no blocked doors |  |
+| LHI-12 | 10 | Redesign the lamp room: the exterior's wall replaced by glass that looks out over the whole landscape |  |
+| LHI-13 | 10 | The lamp-room burner interaction: hold the burner, face the lamp, E, and the lamp lights (T32, the end of the crossing loop) |  |
 | LHI-04 | 9 | Prove the two GDD sightlines: the window to the dock and rowboat, and the lamp room to the ship route and island rock |  |
 | LHI-05 | 9 | Apply real lighthouse design to the interior: tapering walls, spiral stair with landing windows, lantern gallery, service levels below |  |
+| LHI-14 | 9 | The boiler coal job and the interior's canon event triggers (T33): shovel coal until the gauge climbs and the dynamo runs |  |
 | LHI-06 | 8 | Fit the interior lights inside the dynamic-light budget, with the Lighting agent |  |
 | LHI-07 | 8 | Add interaction anchors and set dressing markers: boiler, coal, door, window, arc lamp, burner socket, posters |  |
-| LHI-08 | 8 | Decide how far the upper floors go for the prototype: walk-through shells or sealed floors with stair landings | yes |
-| LHI-09 | 7 | Build the remaining blueprint rooms as greybox: keeper's quarters, control level, workshop, stores, foundation chamber, left hut, right annex |  |
+| LHI-08 | 8 | Decide how far the upper floors go for the prototype: walk-through shells or sealed floors with stair landings |  |
+| LHI-09 | 7 | Build the remaining blueprint rooms as greybox: keeper's quarters (L1), control landing (L2), workshop, stores; the foundation chamber and the huts stay deferred |  |
 | LHI-10 | 6 | Place the crawlspace and wall voids for the whispers and bangs, as sound sources only |  |
 | LHI-11 | 5 | Compare the interior to the blueprint and the lighthouse concept art, and run the offline canon and asset checks |  |
 

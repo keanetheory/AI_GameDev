@@ -11,14 +11,20 @@ Make the Saint Calder cliffside complete, clean and fast to load, with the walkw
 |---|---|---|---|
 | CLF-01 | 10 | Audit every cliff mesh and every module seam for empty, hollow and holed geometry, then repair |  |
 | CLF-02 | 10 | Make the walkway from the Saltgate to the cliff top an extension of the cliff stone mesh |  |
+| CLF-12 | 10 | Fix the black backing wall above the plateau and the torn grass ribbons over the walkway end |  |
 | CLF-03 | 9 | Root trees, path edges and props into the rock so they read as natural, not placed |  |
 | CLF-04 | 9 | Set a cliffside load-time and memory budget, measure it headless, and cut cost until it is met |  |
 | CLF-05 | 9 | Prove there are no empty spots or collision gaps along the walkway, cliff top and plateau |  |
 | CLF-06 | 9 | Write the port-to-cliff joint contract with the Saltgate agent and build the cliff side of it |  |
+| CLF-13 | 9 | Replace the load-time cutting with a baked, closed walkway ledge attached to the uncut cliff face |  |
+| CLF-14 | 9 | Coves layout: headlands and three coves, the quay in the main one, driven by one data table |  |
 | CLF-07 | 8 | Verify cliff faces, wet rock and fog read in every phase with the Lighting agent |  |
 | CLF-08 | 8 | Decide where timber ends and rock begins on the walkway, and its width | yes |
+| CLF-15 | 8 | Cove base dressing: rubble and scree, sea stacks at the headland feet, spray hooks |  |
 | CLF-09 | 7 | Compare the cliffside to the cliff and channel concept art and list every deliberate difference |  |
+| CLF-16 | 7 | Slimmer pines and a softer path edge |  |
 | CLF-10 | 6 | Run the offline AI Crew over the cliff FAL submissions and record the result |  |
+| CLF-17 | 6 | Visual regression check: fixed camera views along the walk, failing on black areas or missing ground |  |
 | CLF-11 | 5 | Visibility ranges and distant LOD for the cliff line seen from the channel |  |
 
 ## Island Creator Agent
@@ -47,15 +53,18 @@ Know lighthouse design and interior layout, and turn the current greybox into an
 
 | ID | Score | Objective | Needs creator |
 |---|---|---|---|
-| LHI-01 | 10 | Amend the greybox so it fits the exterior model's measured dimensions (greybox v4) |  |
-| LHI-02 | 10 | Build the slice-critical rooms from the blueprint: entry vestibule and hallway, stairs down, boiler room, tower stair, lantern room |  |
+| LHI-01 | 10 | Verify the v3 greybox fits the exterior and open the exterior's windows and lantern glass (v4 only if rooms are added) |  |
+| LHI-02 | 10 | Build the slice-critical rooms from the blueprint: entry vestibule and hallway with the Flighted posters, keeper's office, storage room, stairs down, boiler room, coal store, steam engine and dynamo, tower stair |  |
 | LHI-03 | 10 | Prove the interior route is walkable: collision, headroom, step height, no blocked doors |  |
+| LHI-12 | 10 | Redesign the lamp room: the exterior's wall replaced by glass that looks out over the whole landscape |  |
+| LHI-13 | 10 | The lamp-room burner interaction: hold the burner, face the lamp, E, and the lamp lights (T32, the end of the crossing loop) |  |
 | LHI-04 | 9 | Prove the two GDD sightlines: the window to the dock and rowboat, and the lamp room to the ship route and island rock |  |
 | LHI-05 | 9 | Apply real lighthouse design to the interior: tapering walls, spiral stair with landing windows, lantern gallery, service levels below |  |
+| LHI-14 | 9 | The boiler coal job and the interior's canon event triggers (T33): shovel coal until the gauge climbs and the dynamo runs |  |
 | LHI-06 | 8 | Fit the interior lights inside the dynamic-light budget, with the Lighting agent |  |
 | LHI-07 | 8 | Add interaction anchors and set dressing markers: boiler, coal, door, window, arc lamp, burner socket, posters |  |
-| LHI-08 | 8 | Decide how far the upper floors go for the prototype: walk-through shells or sealed floors with stair landings | yes |
-| LHI-09 | 7 | Build the remaining blueprint rooms as greybox: keeper's quarters, control level, workshop, stores, foundation chamber, left hut, right annex |  |
+| LHI-08 | 8 | Decide how far the upper floors go for the prototype: walk-through shells or sealed floors with stair landings |  |
+| LHI-09 | 7 | Build the remaining blueprint rooms as greybox: keeper's quarters (L1), control landing (L2), workshop, stores; the foundation chamber and the huts stay deferred |  |
 | LHI-10 | 6 | Place the crawlspace and wall voids for the whispers and bangs, as sound sources only |  |
 | LHI-11 | 5 | Compare the interior to the blueprint and the lighthouse concept art, and run the offline canon and asset checks |  |
 

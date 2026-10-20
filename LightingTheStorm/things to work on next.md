@@ -1,5 +1,11 @@
 # things to work on next
 
+> **Updated 2026-10-20.** Items 1 and 3 below described the old way the cliff walkway was made (cutting triangles out of the cliff
+> at load time). That is gone: the walkway is now a ledge built against the uncut cliff from a baked profile, so there are no
+> jagged teeth and the carving cost is gone (the cliffside takes about 2.5 s). See `GERFramework/reports/cliffside_recommendations.md`.
+> Item 2 (dark walkway) still applies, and belongs to the Lighting agent now. Items 4 and 5 are unchanged.
+
+
 Known rough edges in the level, with where they come from and what would fix them.
 
 ## 1. Jagged teeth along the base of the cliff walkway's rock wall
@@ -79,3 +85,13 @@ Known rough edges in the level, with where they come from and what would fix the
 - Start the player outside the lighthouse door, with Ted there (beat 1).
 - Add trigger areas for the lighthouse door, the basement, the island gate on the path from the dock and the lantern room, plus the boiler and burner interactions, each calling `GameState.emit_event("EVENT_ID")` (never `Dialogue.trigger()` or the phase directly).
 - Add the beacon-relit trigger for the lighting rig's BEACON_RELIT phase (beat 7), which has none yet.
+
+## 6. Lighthouse interior rough edges (added 2026-10-20)
+
+The interior is now furnished (see `GERFramework/reports/handoff_lighthouse_interior.md`). Still rough:
+
+- **Everything is procedural greybox**: textures are generated noise, props are boxes and cylinders, posters are paper and text. The Asset agent can replace them one prop at a time; the kit is `scripts/world/interior/kit.gd`.
+- **The first floor and the lamp room are lit by placeholder lamps.** The Lighting agent owns the mood and the beacon's final look; `lamp_beacon.gd` exports every number.
+- **The foundation chamber under the tower is not built** (needs a carve in the island collider; no story use).
+- **The shovel's pose in the hands** and the **burner's pose in the lamp socket** were set by eye; check both in the editor (`coal_job.gd` `held_*`, `lantern.gd` `mount_rotation_deg`).
+- **L2 is a landing ring, not a house floor**: the house roof leaves no headroom above y 6.9.

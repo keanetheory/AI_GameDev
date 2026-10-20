@@ -196,11 +196,12 @@
       "min": 3
     },
     {
-      "type": "grep",
-      "path": "LightingTheStorm/scenes/Level.tscn",
-      "pattern": "type=\"OmniLight3D\"",
-      "min": 1,
-      "max": 8
+      "type": "file_exists",
+      "path": "LightingTheStorm/scripts/world/interior_lights.gd"
+    },
+    {
+      "type": "file_exists",
+      "path": "LightingTheStorm/tools/test_sightlines.gd"
     }
   ],
   "offline_crew_consults": [

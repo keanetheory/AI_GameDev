@@ -1,35 +1,29 @@
 {
  "creator": "lighthouse_interior_creator",
- "phase": "awaiting_approval",
+ "phase": "work_escalated",
  "plan_loops": 2,
- "work_loops": 0,
+ "work_loops": 3,
  "objectives": [
   {
    "id": "LHI-01",
-   "title": "Amend the greybox so it fits the exterior model's measured dimensions (greybox v4)",
+   "title": "Verify the v3 greybox fits the exterior and open the exterior's windows and lantern glass (v4 only if rooms are added)",
    "priority": 10,
    "why_score": "Named a must by the creator; every other interior objective stands on a footprint that actually fits inside the exterior walls. Not 9 because a misfit is invisible until the player walks into a wall or out through one.",
-   "detail": "Read the v3 alignment JSON (scale 34.30 from the original GLB, tower centre (3.5, 3.6), main house centre (-3.73, 4.89) and long axis, ground floor y 0.97, basement floor y -2.0, lantern floor y 17.9, measured entry door at (-3.494, 0.97, 8.874) with its normal) and the exterior mesh. Build lighthouse_greybox_v4.glb plus a v4 alignment JSON: wall thickness tapering up the tower, the house footprint inside the exterior shell, the door opening matching the measured door, and floors at the measured heights. Fix what the v3 alignment file itself warns about: the exterior mesh has a solid house-to-tower wall that needs carving or collision regeneration, so the route from house to tower is not walkable yet. Keep v3 as the safe fallback.",
+   "detail": "Read the v3 alignment JSON (scale 34.30 from the original GLB, tower centre (3.5, 3.6), main house centre (-3.73, 4.89) and long axis, ground floor y 0.97, basement floor y -2.0, lantern floor y 17.9, measured entry door at (-3.494, 0.97, 8.874) with its normal) and the exterior mesh. Build lighthouse_greybox_v4.glb plus a v4 alignment JSON: wall thickness tapering up the tower, the house footprint inside the exterior shell, the door opening matching the measured door, and floors at the measured heights. Fix what the v3 alignment file itself warns about: the exterior mesh has a solid house-to-tower wall that needs carving or collision regeneration, so the route from house to tower is not walkable yet. Keep v3 as the safe fallback. AMENDED 2026-10-20: v3 turned out to fit well enough to walk. The real gap was that the exterior has no openings (windows painted on, lantern glass solid), so the work became cutting a ground-floor window, a tower landing window and the lantern glass band, with frames and lantern posts. A v4 greybox is only worth building when the creator decides to add rooms (LHI-08/09).",
    "acceptance": [
-    "lighthouse_greybox_v4.glb and its alignment JSON exist",
-    "every interior wall lies inside the exterior shell with a stated margin",
-    "the entry door opening matches the measured door within tolerance",
-    "v3 is kept unchanged"
+    "the exterior has real openings at the windows and the lantern glass",
+    "tools/test_sightlines.gd passes",
+    "the interior walk test still passes"
    ],
    "owner": "Lighthouse Interior Creator Agent",
    "checks": [
     {
      "type": "file_exists",
-     "path": "LightingTheStorm/Assets/Models/lighthouse/interior/lighthouse_greybox_v4.glb"
+     "path": "LightingTheStorm/tools/test_sightlines.gd"
     },
     {
      "type": "file_exists",
-     "path": "LightingTheStorm/Assets/Models/lighthouse/interior/lighthouse_greybox_v4_alignment.json"
-    },
-    {
-     "type": "mesh_audit",
-     "path": "LightingTheStorm/Assets/Models/lighthouse/interior/lighthouse_greybox_v3.glb",
-     "max_hole_loops": 0
+     "path": "LightingTheStorm/scripts/world/interior_props.gd"
     }
    ],
    "refs": [
@@ -45,24 +39,31 @@
   },
   {
    "id": "LHI-02",
-   "title": "Build the slice-critical rooms from the blueprint: entry vestibule and hallway, stairs down, boiler room, tower stair, lantern room",
+   "title": "Build the slice-critical rooms from the blueprint: entry vestibule and hallway with the Flighted posters, keeper's office, storage room, stairs down, boiler room, coal store, steam engine and dynamo, tower stair",
    "priority": 10,
    "why_score": "These are the rooms the GDD beats use: Ted opens the door, the coal job in the boiler room, the tower climb, the lantern diagnosis and the burner fit. Not 9 because without them the slice cannot be played.",
-   "detail": "From the Interior Plan V4 blueprint: G entry vestibule, hallway (posters and documents) and stairs down to the basement; B1 boiler room (shovel coal here), coal store, steam engine and dynamo; the tower stair (spiral) up to L3; L3 lantern gallery, arc lamp (broken at start) and maintenance space. Build to the blueprint's relative sizes and adjacencies, scaled to the v4 footprint, in greybox with clear volumes and doorways. Anything the blueprint does not show is marked as an addition for the creator to approve.",
+   "detail": "BUILT 2026-10-20 (pass 1, boiler room and hallway first): scripts/world/interior/rooms_house.gd furnishes the v3 greybox: vestibule with coats, rug, sconces and three posters (E reads a Flighted poster: POSTER_EXAMINED), notice board, keeper's office (desk, ledgers, chart table, shelves, lamp), storage room, stairwell railing; basement with coal store and heap, boiler room (boiler, firebox, gauge, water glass, steam main, cistern), steam engine with flywheel and dynamo, switchboard, workshop and stores. Greybox geometry with procedural textures (kit.gd); no imported art.",
    "acceptance": [
-    "each listed room exists in the v4 greybox and matches the blueprint adjacency",
-    "the coal-to-lantern route is continuous",
-    "additions beyond the blueprint are listed"
+    "each room exists with a doorway and collision",
+    "posters are placed and readable",
+    "the boiler room has a boiler, firebox, gauge, coal store, engine and dynamo",
+    "tools/test_interior_walk.gd passes"
    ],
    "owner": "Lighthouse Interior Creator Agent",
    "checks": [
     {
      "type": "file_exists",
-     "path": "LightingTheStorm/Assets/Models/lighthouse/interior/lighthouse_greybox_v4.glb"
+     "path": "LightingTheStorm/scripts/world/interior/rooms_house.gd"
     },
     {
-     "type": "manual",
-     "note": "Compare each room against the blueprint legend."
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/interior/rooms_house.gd",
+     "pattern": "Poster_Storms|B_BoilerShell|B_Flywheel|Office_DeskTop|Store_Crate",
+     "min": 5
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/test_interior_walk.gd"
     }
    ],
    "refs": [
@@ -91,11 +92,11 @@
    "checks": [
     {
      "type": "file_exists",
-     "path": "LightingTheStorm/tools/test_interior_route.gd"
+     "path": "LightingTheStorm/tools/test_interior_walk.gd"
     },
     {
      "type": "manual",
-     "note": "Run the route test and walk it."
+     "note": "Creator walks door to lantern room."
     }
    ],
    "refs": [
@@ -122,8 +123,12 @@
    "owner": "Lighthouse Interior Creator Agent",
    "checks": [
     {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/test_sightlines.gd"
+    },
+    {
      "type": "manual",
-     "note": "Run the sightline check and look from both windows in Godot."
+     "note": "Creator confirms which window Ted uses for the rowboat moment (tower landing window recommended)."
     }
    ],
    "refs": [
@@ -171,17 +176,18 @@
    "why_score": "The scene already has 16 interior OmniLight3D nodes; the GDD budgets dynamic lights around the beacon and key hazards. Not 9 because lighting is already working.",
    "detail": "Baseline: Level.tscn has 15 interior OmniLight3D nodes (entry hall, basement, eight spiral-stair lights, the lantern) against a lighting_spec budget of max_dynamic_lights 8 and 2 shadow casters. Unless a script culls them by proximity the budget is exceeded. Compare light count and positions with the budget and decide per room which become baked or fake lighting. Per-room mood from the lore: dim, claustrophobic halls; warm firebox glow in the boiler room; the arc lamp the only strong source when lit. Use baked or cheap fake lighting for rooms the player is not in.",
    "acceptance": [
-    "no more than 8 interior dynamic lights are live at once (or the creator raises the budget)",
-    "per-room mood checked by capture"
+    "no more than 6 interior lights lit at once and no more than 2 casting shadows, wherever the player stands",
+    "there is light where the player is"
    ],
    "owner": "Lighthouse Interior Creator Agent",
    "checks": [
     {
-     "type": "grep",
-     "path": "LightingTheStorm/scenes/Level.tscn",
-     "pattern": "type=\"OmniLight3D\"",
-     "min": 1,
-     "max": 8
+     "type": "file_exists",
+     "path": "LightingTheStorm/scripts/world/interior_lights.gd"
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/test_interior_lights.gd"
     }
    ],
    "refs": [
@@ -207,10 +213,14 @@
    "owner": "Lighthouse Interior Creator Agent",
    "checks": [
     {
-     "type": "scene_node",
-     "scene": "LightingTheStorm/scenes/Level.tscn",
-     "pattern": "LHI_Anchor_.*",
-     "min": 6
+     "type": "file_exists",
+     "path": "LightingTheStorm/scripts/world/interior_anchors.gd"
+    },
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/interior/rooms_tower.gd",
+     "pattern": "anchors\\[|anchors_lh\\[",
+     "min": 8
     }
    ],
    "refs": [
@@ -228,17 +238,17 @@
    "title": "Decide how far the upper floors go for the prototype: walk-through shells or sealed floors with stair landings",
    "priority": 8,
    "why_score": "The blueprint has L1 (keeper's quarters) and L2 (control and diagnostics) between the entry floor and the lantern room; the slice route only needs the stair through them. Not higher because there is a safe default.",
-   "detail": "Option A: build L1 and L2 as enterable greybox shells with their rooms. Option B: seal them, with a door and a landing on the stair, and build only the lantern room and the route. Option C: A for L2 (control, diagnostics) and B for L1. Cost rises with each room built and tested.",
+   "detail": "DECIDED 2026-10-20: walk-through L1 and L2. Built as: L1 = the house's upper floor (keeper's quarters) at y 5.20, entered from the tower stair where the spiral passes the house side; L2 = a landing ring round the spiral inside the tower at y 9.43 (the house roof leaves no headroom for a house floor above y 6.9: measured 1.8-4.5 m of headroom above y 5.3, none above 6.9). Option A with that one adaptation.",
    "acceptance": [
     "the creator has chosen A, B or C"
    ],
    "owner": "Lighthouse Interior Creator Agent",
-   "needs_creator": true,
-   "decision": "Walk-through L1 and L2 (A), sealed with landings (B), or L2 only (C)? Recommendation: C, because L2 holds the diagnostics story and L1 can follow after the slice.",
+   "needs_creator": false,
+   "decision": "DECIDED by the creator, 2026-10-20: A, walk-through L1 and L2.",
    "checks": [
     {
      "type": "manual",
-     "note": "Creator picks A, B or C."
+     "note": "Creator chose A (walk-through L1 and L2) on 2026-10-20."
     }
    ],
    "refs": [
@@ -284,27 +294,32 @@
   },
   {
    "id": "LHI-09",
-   "title": "Build the remaining blueprint rooms as greybox: keeper's quarters, control level, workshop, stores, foundation chamber, left hut, right annex",
+   "title": "Build the remaining blueprint rooms as greybox: keeper's quarters (L1), control landing (L2), workshop, stores; the foundation chamber and the huts stay deferred",
    "priority": 7,
    "why_score": "The creator asked for the blueprint's rooms; the GDD allows a greybox for Gate 1 and the slice does not need them. Not 8 because they do not block play.",
-   "detail": "Per the depth chosen in LHI-08. B1 maintenance workshop, stores and foundation chamber; L1 kitchen and mess, sleeping quarters, wash room, radio and chart room, linen store; L2 electrical control room, instrument station, maintenance landing, tools; the left hut and right annex as closed storage volumes.",
+   "detail": "BUILT 2026-10-20 (pass 2): scripts/world/interior/rooms_tower.gd. L1: hall from the tower door, sleeping quarters (two beds, chest, wardrobe), radio and chart room, wash room, kitchen and mess with stove, linen shelving, a gabled plaster ceiling under the roof. L2: a landing ring with the electrical control cabinet, instrument station, tool locker and water can. B1 workshop and stores are in rooms_house.gd. NOT BUILT: the foundation chamber under the tower (needs a carve in the island collider; no story use) and the left hut and right annex (closed storage, exterior only, as the blueprint says).",
    "acceptance": [
     "each room in the chosen scope exists with a doorway and collision",
-    "the route test still passes"
+    "the route test still passes",
+    "the deferred rooms are listed with the reason"
    ],
    "owner": "Lighthouse Interior Creator Agent",
    "checks": [
     {
-     "type": "manual",
-     "note": "Compare against the blueprint legend after LHI-08 is decided."
+     "type": "file_exists",
+     "path": "LightingTheStorm/scripts/world/interior/rooms_tower.gd"
+    },
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/interior/rooms_tower.gd",
+     "pattern": "L1_MessTable|L1_BedFrame|L1_RadioDesk|L1_Tub|L2_Cabinet|L2_Table|L2_Locker",
+     "min": 6
     }
    ],
    "refs": [
     "ConceptArt/narrative_blueprints/Brussskania Lighthouse Blueprint Poster.png"
    ],
-   "depends_on": [
-    "LHI-08"
-   ],
+   "depends_on": [],
    "collaborates": [
     "Level Layout agent"
    ]
@@ -314,7 +329,7 @@
    "title": "Place the crawlspace and wall voids for the whispers and bangs, as sound sources only",
    "priority": 6,
    "why_score": "Pillar 1 is a creepy haunted lighthouse where people hiding in the walls cause whispers and bangs; the blueprint shows crawlspace and wall voids at B1. Not 7 because audio is placeholder at Gate 1.",
-   "detail": "Hidden volumes behind walls with emitter markers for the Sound agent. The player cannot enter or see inside. Who is in the walls stays undecided.",
+   "detail": "BUILT 2026-10-20: five wall voids (two in the hall panelling, three in the basement), each a dark recess behind an iron grille with a Marker3D named LHI_WallVoid_* in group lhi_wall_void, and a trigger zone that reports WALL_WHISPER_HEARD (hall), BASEMENT_BANG (after BOILER_FED) or BASEMENT_TALK (after DANIEL_IN_BASEMENT). The player cannot enter or see inside; nobody is shown or named in the walls. The Sound agent hooks audio at the markers.",
    "acceptance": [
     "void volumes and emitter markers exist and are listed for the Sound agent",
     "no one is shown or named in the walls"
@@ -322,10 +337,18 @@
    "owner": "Lighthouse Interior Creator Agent",
    "checks": [
     {
-     "type": "scene_node",
-     "scene": "LightingTheStorm/scenes/Level.tscn",
-     "pattern": "LHI_WallVoid_.*",
-     "min": 3
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/interior/rooms_house.gd",
+     "pattern": "_void\\(P, \"",
+     "min": 5
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/scripts/world/interior/zone_trigger.gd"
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/test_coal_job.gd"
     }
    ],
    "refs": [
@@ -339,9 +362,201 @@
     "Sound agent",
     "Canon and Review Orchestrator"
    ]
+  },
+  {
+   "id": "LHI-12",
+   "title": "Redesign the lamp room: the exterior's wall replaced by glass that looks out over the whole landscape",
+   "priority": 10,
+   "why_score": "Named a must by the creator on 2026-10-20: the lamp room is where the game ends, and it must look out over the sea, the island, the cliffs and the Saltgate. Not lower because the player spends the final minute in it.",
+   "detail": "BUILT 2026-10-20: scripts/world/interior/lantern.gd. The exterior model's lantern wall is cut away (Level.tscn Lighthouse carve_cylinders, y 17.97 to 21.89, the whole band). In the gap: a timber floor to the glass, an iron kerb flush with the gallery deck (y 18.3), twelve iron mullions and one continuous pane of glass up to a plaster ceiling and ring beam that hide the torn roof underside, a rail round the stair opening, the arc lamp (brass pedestal, burner bay, eight-band Fresnel lens, chimney). Measured on the exterior: no wall left in the band, roof underside 22.06 at radius 2.0, deck top 18.3 from radius 2.9.",
+   "acceptance": [
+    "from inside, glass runs from the kerb to the ceiling all round",
+    "tools/test_sightlines.gd still sees 32 or more of 36 directions",
+    "the stair opening has a rail",
+    "the exterior still reads as a glazed lantern"
+   ],
+   "owner": "Lighthouse Interior Creator Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/scripts/world/interior/lantern.gd"
+    },
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/interior/lantern.gd",
+     "pattern": "Lamp_Glass|Lamp_Mullion|Lamp_Ceiling|Lamp_Kerb",
+     "min": 4
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/test_sightlines.gd"
+    }
+   ],
+   "refs": [
+    "ConceptArt/narrative_blueprints/Brussskania Lighthouse Blueprint Poster.png",
+    "ConceptArt/lighthouse"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "Lighting agent",
+    "Lighthouse - Exterior Assessment Agent"
+   ]
+  },
+  {
+   "id": "LHI-13",
+   "title": "The lamp-room burner interaction: hold the burner, face the lamp, E, and the lamp lights (T32, the end of the crossing loop)",
+   "priority": 10,
+   "why_score": "Named a must by the creator on 2026-10-20: it forms the ending of the boat crossing, retrieval and repair loop. Without it the slice cannot be won.",
+   "detail": "BUILT 2026-10-20: lamp_socket.gd (a CarrySocket that accepts only the burner, keeps it, and reports BURNER_FITTED) and lamp_beacon.gd (dark until fitted, then the lens glows, the lamp's light rises and a beam sweeps over the water). The broken burner Ted took out lies on the floor. Offered only while the burner is in hand: '[E] Fit the burner into the lamp'. Placeholder look: the Lighting agent owns the final beacon (T13).",
+   "acceptance": [
+    "nothing is offered with empty hands",
+    "with the burner in hand the prompt is offered at the lamp",
+    "E fits it, fires BURNER_FITTED once and moves the phase to FINAL_REPAIR",
+    "the lamp lights and cannot be unfitted",
+    "tools/test_lamp_fit.gd passes"
+   ],
+   "owner": "Lighthouse Interior Creator Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/scripts/world/interior/lamp_socket.gd"
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/scripts/world/interior/lamp_beacon.gd"
+    },
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/interior/lamp_socket.gd",
+     "pattern": "BURNER_FITTED",
+     "min": 1
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/test_lamp_fit.gd"
+    }
+   ],
+   "refs": [
+    "GoalOrientedAgent/state/backlog.json (T32, T29)"
+   ],
+   "depends_on": [
+    "LHI-12"
+   ],
+   "collaborates": [
+    "Gameplay / Systems agent",
+    "Lighting agent"
+   ]
+  },
+  {
+   "id": "LHI-14",
+   "title": "The boiler coal job and the interior's canon event triggers (T33): shovel coal until the gauge climbs and the dynamo runs",
+   "priority": 9,
+   "why_score": "The first hands-on job and the first beat of the slice (Exec Summary step 1); built with the boiler room because they are one place. Not 10 because the creator's named must was the lamp.",
+   "detail": "BUILT 2026-10-20: coal_job.gd, coal_pile.gd, firebox_hatch.gd, boiler_gauge.gd, zone_trigger.gd. E at the heap takes a shovelful, E at the firebox feeds it, six loads (data on the node); COAL_LOADED_FIRST, COAL_LOADED_HALF, BOILER_FED; the gauge, fire and glow climb, the flywheel turns and the switchboard lamp goes green. Zones report LIGHTHOUSE_ENTERED and ENGINE_ROOM_ENTERED; the wall voids report WALL_WHISPER_HEARD, BASEMENT_BANG and BASEMENT_TALK.",
+   "acceptance": [
+    "tools/test_coal_job.gd passes"
+   ],
+   "owner": "Lighthouse Interior Creator Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/scripts/world/interior/coal_job.gd"
+    },
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/interior/coal_job.gd",
+     "pattern": "COAL_LOADED_FIRST|COAL_LOADED_HALF|BOILER_FED",
+     "min": 3
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/test_coal_job.gd"
+    }
+   ],
+   "refs": [
+    "GoalOrientedAgent/state/backlog.json (T33, T03)"
+   ],
+   "depends_on": [
+    "LHI-02"
+   ],
+   "collaborates": [
+    "Gameplay / Systems agent",
+    "Sound agent"
+   ]
   }
  ],
- "records": {},
+ "records": {
+  "LHI-03": {
+   "status": "done",
+   "note": "tools/test_interior_walk.gd: door, window marker, basement (Daniel), lantern socket all reached with the real player; still passes after the new window cuts, frames, lantern posts",
+   "at": "2026-10-20T18:46:49+00:00"
+  },
+  "LHI-04": {
+   "status": "done",
+   "note": "tools/test_sightlines.gd. FOUND: the exterior had no openings (windows painted on, lantern glass solid), and the dock berth cannot be seen from any low window (island plateau at y 9.7) nor from the tower (harbour stairs). Fixed: cut a ground-floor window and a tower landing window (bearing -57, eye 24.9) and opened the lantern glass band; lamp room now sees 36/36 directions incl. Saltgate; the tower window sees the water outside the harbour mouth. Creator to confirm Ted's window = tower landing (recommended)",
+   "at": "2026-10-20T18:46:49+00:00"
+  },
+  "LHI-06": {
+   "status": "done",
+   "note": "interior_lights.gd: 15 lights kept, at most 6 lit and 2 with shadows near the player (was 15 live, 15 casting shadows); tools/test_interior_lights.gd passes at 7 positions",
+   "at": "2026-10-20T18:46:49+00:00"
+  },
+  "LHI-07": {
+   "status": "done",
+   "note": "built and tested 2026-10-20; see reports/lighthouse_interior_design_notes.md and handoff_lighthouse_interior.md",
+   "at": "2026-10-20T20:34:02+00:00"
+  },
+  "LHI-01": {
+   "status": "done",
+   "note": "Amended: v3 verified; the real gap (no openings in the exterior) fixed. A v4 only if rooms are added",
+   "at": "2026-10-20T18:48:16+00:00"
+  },
+  "LHI-02": {
+   "status": "done",
+   "note": "built and tested 2026-10-20; see reports/lighthouse_interior_design_notes.md and handoff_lighthouse_interior.md",
+   "at": "2026-10-20T20:34:02+00:00"
+  },
+  "LHI-05": {
+   "status": "done",
+   "note": "reports/lighthouse_interior_design_notes.md",
+   "at": "2026-10-20T18:48:16+00:00"
+  },
+  "LHI-11": {
+   "status": "done",
+   "note": "built and tested 2026-10-20; see reports/lighthouse_interior_design_notes.md and handoff_lighthouse_interior.md",
+   "at": "2026-10-20T20:34:04+00:00"
+  },
+  "LHI-08": {
+   "status": "done",
+   "note": "built and tested 2026-10-20; see reports/lighthouse_interior_design_notes.md and handoff_lighthouse_interior.md",
+   "at": "2026-10-20T20:34:02+00:00"
+  },
+  "LHI-09": {
+   "status": "done",
+   "note": "built and tested 2026-10-20; see reports/lighthouse_interior_design_notes.md and handoff_lighthouse_interior.md",
+   "at": "2026-10-20T20:34:02+00:00"
+  },
+  "LHI-10": {
+   "status": "done",
+   "note": "built and tested 2026-10-20; see reports/lighthouse_interior_design_notes.md and handoff_lighthouse_interior.md",
+   "at": "2026-10-20T20:34:03+00:00"
+  },
+  "LHI-12": {
+   "status": "done",
+   "note": "built and tested 2026-10-20; see reports/lighthouse_interior_design_notes.md and handoff_lighthouse_interior.md",
+   "at": "2026-10-20T20:34:03+00:00"
+  },
+  "LHI-13": {
+   "status": "done",
+   "note": "built and tested 2026-10-20; see reports/lighthouse_interior_design_notes.md and handoff_lighthouse_interior.md",
+   "at": "2026-10-20T20:34:03+00:00"
+  },
+  "LHI-14": {
+   "status": "done",
+   "note": "built and tested 2026-10-20; see reports/lighthouse_interior_design_notes.md and handoff_lighthouse_interior.md",
+   "at": "2026-10-20T20:34:03+00:00"
+  }
+ },
  "history": [
   {
    "kind": "plan_review",
@@ -370,10 +585,149 @@
    "at": "2026-10-20T14:25:31+00:00",
    "findings": [],
    "changes": []
+  },
+  {
+   "kind": "work_review",
+   "loop": 1,
+   "at": "2026-10-20T18:46:54+00:00",
+   "findings": [
+    {
+     "severity": "block",
+     "objective": "LHI-01",
+     "message": "LightingTheStorm/Assets/Models/lighthouse/interior/lighthouse_greybox_v4.glb is missing",
+     "fix": "fix and re-run",
+     "auto": null
+    },
+    {
+     "severity": "block",
+     "objective": "LHI-01",
+     "message": "LightingTheStorm/Assets/Models/lighthouse/interior/lighthouse_greybox_v4_alignment.json is missing",
+     "fix": "fix and re-run",
+     "auto": null
+    },
+    {
+     "severity": "block",
+     "objective": "LHI-02",
+     "message": "LightingTheStorm/Assets/Models/lighthouse/interior/lighthouse_greybox_v4.glb is missing",
+     "fix": "fix and re-run",
+     "auto": null
+    },
+    {
+     "severity": "block",
+     "objective": "LHI-05",
+     "message": "GERFramework/reports/lighthouse_interior_design_notes.md is missing",
+     "fix": "fix and re-run",
+     "auto": null
+    },
+    {
+     "severity": "block",
+     "objective": "LHI-11",
+     "message": "GERFramework/reports/lighthouse_interior_concept_comparison.md is missing",
+     "fix": "fix and re-run",
+     "auto": null
+    },
+    {
+     "severity": "warn",
+     "objective": "LHI-10",
+     "message": "LightingTheStorm/scenes/Level.tscn: 0 nodes match /LHI_WallVoid_.*/ (need >= 3)",
+     "fix": "fix and re-run",
+     "auto": null
+    }
+   ],
+   "statuses": {
+    "LHI-01": "failing",
+    "LHI-02": "failing",
+    "LHI-03": "needs_human",
+    "LHI-04": "needs_human",
+    "LHI-05": "failing",
+    "LHI-06": "passing",
+    "LHI-07": "passing",
+    "LHI-08": "needs_human",
+    "LHI-11": "failing",
+    "LHI-09": "needs_human",
+    "LHI-10": "failing",
+    "lighthouse_interior_assessor#0": "passing",
+    "lighthouse_interior_assessor#1": "passing",
+    "lighthouse_interior_assessor#2": "passing",
+    "lighthouse_interior_assessor#3": "passing"
+   }
+  },
+  {
+   "kind": "work_review",
+   "loop": 2,
+   "at": "2026-10-20T18:48:20+00:00",
+   "findings": [
+    {
+     "severity": "warn",
+     "objective": "LHI-10",
+     "message": "LightingTheStorm/scenes/Level.tscn: 0 nodes match /LHI_WallVoid_.*/ (need >= 3)",
+     "fix": "fix and re-run",
+     "auto": null
+    }
+   ],
+   "statuses": {
+    "LHI-01": "passing",
+    "LHI-02": "needs_human",
+    "LHI-03": "needs_human",
+    "LHI-04": "needs_human",
+    "LHI-05": "passing",
+    "LHI-06": "passing",
+    "LHI-07": "passing",
+    "LHI-08": "needs_human",
+    "LHI-11": "passing",
+    "LHI-09": "needs_human",
+    "LHI-10": "failing",
+    "lighthouse_interior_assessor#0": "passing",
+    "lighthouse_interior_assessor#1": "passing",
+    "lighthouse_interior_assessor#2": "passing",
+    "lighthouse_interior_assessor#3": "passing"
+   }
+  },
+  {
+   "kind": "work_review",
+   "loop": 3,
+   "at": "2026-10-20T20:33:56+00:00",
+   "findings": [],
+   "statuses": {
+    "LHI-01": "passing",
+    "LHI-02": "passing",
+    "LHI-03": "needs_human",
+    "LHI-04": "needs_human",
+    "LHI-05": "passing",
+    "LHI-06": "passing",
+    "LHI-07": "passing",
+    "LHI-08": "needs_human",
+    "LHI-11": "passing",
+    "LHI-09": "passing",
+    "LHI-10": "passing",
+    "LHI-12": "passing",
+    "LHI-13": "passing",
+    "LHI-14": "passing",
+    "lighthouse_interior_assessor#0": "passing",
+    "lighthouse_interior_assessor#1": "passing",
+    "lighthouse_interior_assessor#2": "passing",
+    "lighthouse_interior_assessor#3": "passing"
+   }
   }
  ],
- "approval": null,
+ "approval": {
+  "at": "2026-10-20T18:23:28+00:00",
+  "quote": "queue the Saltgate agent work for tomorrow morning. Let's make a start on the lighthouse interior so I can close up the gameplay element"
+ },
  "knowledge_note": "knowledge up to date",
  "last_findings": [],
- "last_blocks": 0
+ "last_blocks": 0,
+ "last_work": {
+  "blocks": 0,
+  "open": [
+   "LHI-02",
+   "LHI-08",
+   "LHI-11",
+   "LHI-09",
+   "LHI-10",
+   "LHI-12",
+   "LHI-13",
+   "LHI-14"
+  ]
+ }
 }

@@ -23,6 +23,7 @@ const RAMP := [
 ]
 
 const ROAD_W := 6.0
+const TREE_MIN_Z := 584.0     # trees stay back from the cliff lip: bare moss and rock on the edge
 const TERRAIN_X := Vector2(-350.0, 390.0)
 const TERRAIN_Z := Vector2(580.0, 700.0)
 const CITY_CENTRE := Vector2(15.0, 865.0)
@@ -168,114 +169,273 @@ func _ground_colour(v: Vector3, n: Vector3) -> Color:
 
 func _build_roads() -> void:
 	_build_gallery()
-	var stone := SurfaceTool.new()
-	stone.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var end_i := int(round((GAL_X0 + 196.0) / GAL_STEP))
-	var forest := _forest_points(Vector3(-196.0, _gal_y[end_i], 573.5))
-	_sweep(stone, forest, ROAD_W + 2.4, 1.0, 0.0, 0.0, -0.06, Color(0.27, 0.27, 0.14), Color(0.20, 0.20, 0.12))   # worn grassy shoulder
-	_sweep(stone, forest, ROAD_W, 1.0, 0.0, 0.0, 0.0, Color(0.42, 0.33, 0.22), Color(0.26, 0.26, 0.26))           # packed dirt
+	var forest := _forest_points(_walk_end if _walk_end != Vector3.ZERO else Vector3(-196.0, 38.0, 573.5))
 	_road_xz.clear()
 	for i in range(0, forest.size(), 2):
 		_road_xz.append(Vector2(forest[i].x, forest[i].z))
+	# Two surfaces: a worn, grassy shoulder that fades the path into the ground, and the packed earth itself.
+	var shoulder := SurfaceTool.new()
+	shoulder.begin(Mesh.PRIMITIVE_TRIANGLES)
+	_sweep(shoulder, forest, ROAD_W + 3.2, PATH_THICK, 0.0, 0.0, -0.08, Color(0.20, 0.21, 0.11), Color(0.16, 0.16, 0.09), 0.18, 14.0)
+	var earth := SurfaceTool.new()
+	earth.begin(Mesh.PRIMITIVE_TRIANGLES)
+	_sweep(earth, forest, ROAD_W, PATH_THICK, 0.0, 0.0, 0.0, Color(1.0, 1.0, 1.0), Color(0.45, 0.40, 0.33), 0.12, 10.0)
+	var mesh := shoulder.commit()
+	earth.commit(mesh)
+	mesh.surface_set_material(0, _vertex_colour_material(1.0))
+	mesh.surface_set_material(1, _earth_material())
 	var mi := MeshInstance3D.new()
 	mi.name = "Roads"
-	mi.mesh = stone.commit()
-	mi.material_override = _vertex_colour_material(0.95)
+	mi.mesh = mesh
 	add_child(mi)
+	if not Engine.is_editor_hint():
+		mi.create_trimesh_collision()      # the path is solid ground: it was visual only, so the player fell through it
+		_solidify(mi, 1)
 
 
-# ---------- the gallery road cut into the cliff ----------
+## Packed earth for the path: a seamless mottled brown with grit and the odd stone, mapped in world space so the
+## path carries no texture seams. Built here (no asset to import) and cached.
+var _earth_mat: StandardMaterial3D = null
 
-const GAL_X0 := 46.0          # start, east of the quay; the road runs towards -x
-const GAL_FLARE := Vector2(30.0, 46.0)   # between these x the cut tapers from full depth back to the plain cliff face
-const GAL_X1 := -204.0        # end, on the cliff top
+
+func _earth_material() -> Material:
+	if _earth_mat != null:
+		return _earth_mat
+	const N := 256
+	var n1 := FastNoiseLite.new()
+	n1.seed = 21
+	n1.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH
+	n1.frequency = 0.035
+	n1.fractal_octaves = 4
+	var img1: Image = n1.get_seamless_image(N, N)
+	var n2 := FastNoiseLite.new()
+	n2.seed = 5
+	n2.noise_type = FastNoiseLite.TYPE_CELLULAR
+	n2.frequency = 0.09
+	var img2: Image = n2.get_seamless_image(N, N)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 99
+	var img := Image.create(N, N, false, Image.FORMAT_RGB8)
+	var dark := Color(0.26, 0.18, 0.11)
+	var mid := Color(0.46, 0.33, 0.21)
+	var dry := Color(0.60, 0.47, 0.31)
+	var stone := Color(0.55, 0.52, 0.47)
+	for y in N:
+		for x in N:
+			var v: float = img1.get_pixel(x, y).r
+			var c := dark.lerp(mid, clampf(v * 1.6, 0.0, 1.0)).lerp(dry, clampf((v - 0.55) * 2.5, 0.0, 1.0))
+			var cell: float = img2.get_pixel(x, y).r
+			if cell > 0.86:                      # pebbles
+				c = c.lerp(stone, 0.7)
+			c = c * (0.93 + 0.14 * rng.randf())   # grit
+			img.set_pixel(x, y, c)
+	img.generate_mipmaps()
+	var m := StandardMaterial3D.new()
+	m.albedo_texture = ImageTexture.create_from_image(img)
+	m.vertex_color_use_as_albedo = true
+	m.uv1_triplanar = true
+	m.uv1_world_triplanar = true
+	m.uv1_scale = Vector3(0.22, 0.22, 0.22)
+	m.roughness = 1.0
+	m.cull_mode = BaseMaterial3D.CULL_DISABLED
+	_earth_mat = m
+	return m
+
+
+# ---------- the walkway: a rock ledge built against the UNCUT cliff face ----------
+# Nothing is cut from the cliff. tools/bake_walkway.gd measures the real rock along the walkway and writes
+# data/world/walkway_profile.json; this builds the ledge from it: a floor in front of the face with its back edge
+# buried in the rock, a shelf of rock under it sloping back into the face, and a toe where floor meets wall, all in the
+# cliff's own material. The cliff above and behind stays whole, so there is nothing to see through.
+
+const GAL_X0 := 46.0          # start, at the quay's east end; the walkway runs towards -x
 const GAL_STEP := 1.0
-const GAL_DEPTH := 6.5        # how far the cut reaches into the rock (also the width of the road)
+const WALK_W := 6.5           # width of the walkway in front of the face
+const CLEAR := 3.5            # the floor starts at least this far in front of the most protruding rock at floor height
+const BURY := 1.2             # how far the floor's back edge is buried in the rock
+const ROCK_TILE := 0.07       # world-space texture scale for the ledge: one tile of the cliff texture every ~14 m
+const EDGE_WANDER := 0.6      # how far the sea-side edge of the walkway wanders, metres
+const FLOOR_BUMP := 0.07      # unevenness of the walkway floor, metres
+const PATH_THICK := 2.5       # the path slab is sunk this deep, so it never hovers over the ground with daylight under it
+const TOE_HEIGHT := 1.4       # height of the rock toe where the floor meets the cliff wall
+const TOE_DEPTH := 1.8        # how far out from the wall the toe reaches
+const SHELF_DROP := 5.0       # how far the rock under the sea-side edge slopes down towards the face
+const QUAY_FRONT_Z := 560.2   # at the quay end the floor reaches out to meet the boardwalks and the link ramp: its front edge is here at x = -8 ...
+const QUAY_APRON := 4.0       # ... and this much further out by x = 10, as before the rebuild
+const PROFILE_PATH := "res://data/world/walkway_profile.json"
 
-var _gal_y: Array[float] = []     # road height per step
-var _gal_z: Array[float] = []     # cliff face z per step (smoothed)
-var _gal_top: Array[float] = []   # top of the cut per step
-var _gal_depth: Array[float] = []  # how far the cut reaches into the rock at each step
+var _gal_y: Array[float] = []      # floor height per step
+var _gal_z: Array[float] = []      # z of the floor's front (sea-side) edge per step
+var _gal_depth: Array[float] = []  # front edge to buried back edge per step
+var _gal_low: Array[float] = []    # z of the cliff face three metres below the floor
+var _gal_taper: Array[float] = []  # 1 along the ledge, easing to 0 over its last metres, where it runs out flush
+var _walk_end := Vector3.ZERO      # centre of the ledge's far end: where the earth path begins
+var _cliff_mat: Material = null
 
 
-func _gallery_profile() -> void:
+## Floor height of the ramp at x (before it is held to the ground behind).
+func ramp_y(x: float) -> float:
+	if x >= RAMP[0][0]:
+		return 3.0
+	var last: int = RAMP.size() - 1
+	if x < RAMP[last][0]:
+		var a2: Array = RAMP[last - 1]
+		var b2: Array = RAMP[last]
+		return b2[1] + (b2[1] - a2[1]) / (a2[0] - b2[0]) * (b2[0] - x)
+	for k in last:
+		var a: Array = RAMP[k]
+		var b: Array = RAMP[k + 1]
+		if x <= a[0] and x >= b[0]:
+			return lerpf(a[1], b[1], (a[0] - x) / (a[0] - b[0]))
+	return 3.0
+
+
+func _load_profile() -> bool:
 	_gal_y.clear()
 	_gal_z.clear()
-	_gal_top.clear()
 	_gal_depth.clear()
-	var n := int(round((GAL_X0 - GAL_X1) / GAL_STEP)) + 1
-	var last: int = RAMP.size() - 1
+	_gal_low.clear()
+	_gal_taper.clear()
+	var f := FileAccess.open(PROFILE_PATH, FileAccess.READ)
+	if f == null:
+		push_warning("mainland: %s missing; run tools/bake_walkway.gd. No walkway built." % PROFILE_PATH)
+		return false
+	var d = JSON.parse_string(f.get_as_text())
+	if not (d is Dictionary):
+		return false
+	var ys: Array = d["y"]
+	var zd: Array = d["z_deep"]
+	var zl: Array = d["z_low"]
+	var zpr: Array = d.get("z_prot", zd)
+	var n := ys.size()
+	var taper_n: int = int(d.get("end_taper", 8))
 	for i in n:
-		var x := GAL_X0 - i * GAL_STEP
-		var y := 3.0
-		var z := 560.5 + 0.8 * clampf((x - 14.0) / 32.0, 0.0, 1.0)     # the face drifts out slightly towards the east
-		if x < RAMP[0][0]:
-			if x >= RAMP[last][0]:
-				for k in last:
-					var a: Array = RAMP[k]
-					var b: Array = RAMP[k + 1]
-					if x <= a[0] and x >= b[0]:
-						var t: float = (a[0] - x) / (a[0] - b[0])
-						y = lerpf(a[1], b[1], t)
-						z = lerpf(a[2], b[2], t)
-						break
-			else:   # past the last control point: keep the grade up to the cliff top
-				var a2: Array = RAMP[last - 1]
-				var b2: Array = RAMP[last]
-				y = b2[1] + (b2[1] - a2[1]) / (a2[0] - b2[0]) * (b2[0] - x)
-				z = b2[2]
-		_gal_y.append(y)
-		_gal_z.append(z)
-	for pass_i in 3:   # smooth the face wobble
-		for i in range(1, n - 1):
-			_gal_z[i] = (_gal_z[i - 1] + 2.0 * _gal_z[i] + _gal_z[i + 1]) * 0.25
-	for i in n:
-		var x := GAL_X0 - i * GAL_STEP
-		_gal_top.append(_gal_y[i] + 90.0)      # open to the sky: everything above the road is cut away
-		_gal_depth.append(GAL_DEPTH * (1.0 - smoothstep(GAL_FLARE.x, GAL_FLARE.y, x)))
+		_gal_y.append(float(ys[i]))
+		var x_i := GAL_X0 - i * GAL_STEP
+		var front := minf(float(zd[i]) - WALK_W, float(zpr[i]) - CLEAR)      # clear of the rock that sticks out into the walkway
+		if x_i > -8.0:
+			# at the quay end the floor reaches out to meet the boardwalks and the timber link ramp, whose ends sit at fixed heights and positions
+			front = minf(front, QUAY_FRONT_Z - QUAY_APRON * smoothstep(-8.0, 10.0, x_i))
+		_gal_z.append(front)
+		_gal_depth.append(float(zd[i]) + BURY - front)
+		_gal_low.append(float(zl[i]))
+		var left := n - 1 - i
+		_gal_taper.append(clampf(float(left) / float(taper_n), 0.0, 1.0))
+	var e := n - 1
+	_walk_end = Vector3(GAL_X0 - e * GAL_STEP, _gal_y[e], _gal_z[e] + 0.5 * _gal_depth[e])
+	return n > 2
 
 
-## Metres the quay-end floor sticks out past the cliff face, so it meets the quay deck.
-func _apron(x: float) -> float:
-	return 4.0 * smoothstep(-8.0, 10.0, x)
+## The cliff's own material, switched to world-space triplanar mapping so it can cover the ledge: the same texture,
+## roughness and normal map as the rock beside it, not a flat colour.
+func _rock_material() -> Material:
+	if _cliff_mat == null:
+		var cliffs := get_parent().get_node_or_null("Cliffs") if get_parent() else null
+		if cliffs:
+			for mi in cliffs.find_children("*", "MeshInstance3D", true, false):
+				var m := mi as MeshInstance3D
+				if m.mesh and m.mesh.get_surface_count() > 0 and m.mesh.surface_get_material(0):
+					_cliff_mat = m.mesh.surface_get_material(0)
+					break
+	var base := _cliff_mat as BaseMaterial3D
+	if base == null:
+		return _vertex_colour_material(1.0)
+	var m2 := base.duplicate() as BaseMaterial3D
+	m2.uv1_triplanar = true
+	m2.uv1_world_triplanar = true
+	m2.uv1_scale = Vector3(ROCK_TILE, ROCK_TILE, ROCK_TILE)
+	m2.uv1_triplanar_sharpness = 4.0
+	m2.vertex_color_use_as_albedo = true     # the per-block shade multiplies the texture (kept near 1.0)
+	m2.albedo_color = Color(0.74, 0.77, 0.80)   # worn and a little darker than the sunlit face, so the moss does not glow underfoot
+	m2.cull_mode = BaseMaterial3D.CULL_DISABLED
+	return m2
 
 
-var _cliff_mat: Material = null
-var _wall_copies := 0
+## A point across the walkway at step i: t = 0 at the sea-side edge, 1 at the buried back edge. The surface is
+## slightly uneven and the sea-side edge wanders, so it reads as worn rock, not a ruler line.
+func _gal_point(i: int, t: float) -> Vector3:
+	var x := GAL_X0 - i * GAL_STEP
+	var front := _gal_z[i]
+	var back := front + _gal_depth[i]
+	var wander := (_noise.get_noise_2d(x * 3.1, 17.0) * 0.5 + 0.5) * EDGE_WANDER * (1.0 - smoothstep(0.0, 0.25, t))
+	var z := lerpf(front + wander, back, t)
+	var bump := _noise.get_noise_2d(x * 1.7, z * 1.7) * FLOOR_BUMP * sin(clampf(t, 0.0, 1.0) * PI * 0.5 + 0.35)
+	return Vector3(x, _gal_y[i] + bump, z)
 
 
 func _build_gallery() -> void:
-	_gallery_profile()
-	_carve_gallery()
+	if not _load_profile():
+		return
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var floor_col := Color(0.27, 0.23, 0.18)
-	var lip := Color(0.30, 0.30, 0.29)
 	var n := _gal_y.size()
+	const ACROSS := 6
 	for i in n - 1:
-		var x0 := GAL_X0 - i * GAL_STEP
-		var x1 := x0 - GAL_STEP
-		var y0 := _gal_y[i]
-		var y1 := _gal_y[i + 1]
-		var f0 := _gal_z[i] - 0.5 - _apron(x0)
-		var f1 := _gal_z[i + 1] - 0.5 - _apron(x1)
-		var b0 := _gal_z[i] + _gal_depth[i]
-		var b1 := _gal_z[i + 1] + _gal_depth[i + 1]
-		var shade := 0.86 + 0.26 * fposmod(i * 0.618, 1.0)      # block-to-block variation
-		_quad(st, Vector3(x0, y0, f0), Vector3(x1, y1, f1), Vector3(x1, y1, b1), Vector3(x0, y0, b0), floor_col * shade, Vector3.UP)
-		# stone lip on the front edge of the floor, and a corbel under any part that sticks out
-		_quad(st, Vector3(x0, y0, f0), Vector3(x1, y1, f1), Vector3(x1, y1 - 1.2, f1 + 0.3), Vector3(x0, y0 - 1.2, f0 + 0.3), lip * shade, Vector3(0, 0, -1))
-		if _apron(x0) > 0.15:
-			_quad(st, Vector3(x0, y0 - 1.2, f0 + 0.3), Vector3(x1, y1 - 1.2, f1 + 0.3), Vector3(x1, y1 - 4.0, _gal_z[i + 1]), Vector3(x0, y1 - 4.0 + (y0 - y1), _gal_z[i]), lip * 0.8, Vector3(0, -1, -0.6).normalized())
+		var shade := 0.9 + 0.1 * fposmod(i * 0.618, 1.0)      # a whisper of block-to-block variation; the texture does the rest
+		var col := Color(shade, shade, shade)
+		for j in ACROSS:
+			var t0 := float(j) / ACROSS
+			var t1 := float(j + 1) / ACROSS
+			_quad(st, _gal_point(i, t0), _gal_point(i + 1, t0), _gal_point(i + 1, t1), _gal_point(i, t1), col, Vector3.UP)
+		var k := _gal_taper[i]
+		var k2 := _gal_taper[i + 1]
+		# the rock the ledge stands on: from the sea-side edge a short rounded shoulder, then a slope back and down to
+		# where the face is three metres lower, so the ledge is a shelf of the cliff and never an overhanging slab
+		var e0 := _gal_point(i, 0.0)
+		var e1 := _gal_point(i + 1, 0.0)
+		var drop0 := SHELF_DROP * k * (0.75 + 0.5 * (_noise.get_noise_2d(e0.x * 0.9, 5.0) * 0.5 + 0.5))
+		var drop1 := SHELF_DROP * k2 * (0.75 + 0.5 * (_noise.get_noise_2d(e1.x * 0.9, 5.0) * 0.5 + 0.5))
+		var f0 := Vector3(e0.x, e0.y - drop0, minf(_gal_low[i] + 0.4, e0.z + 0.2 + _gal_depth[i]))
+		var f1 := Vector3(e1.x, e1.y - drop1, minf(_gal_low[i + 1] + 0.4, e1.z + 0.2 + _gal_depth[i + 1]))
+		var o0 := Vector3(e0.x, e0.y - 0.5 * k, e0.z + 0.15)
+		var o1 := Vector3(e1.x, e1.y - 0.5 * k2, e1.z + 0.15)
+		_quad(st, e0, e1, o1, o0, col * 0.85, Vector3(0, 0.3, -1).normalized())
+		_quad(st, o0, o1, f1, f0, col * 0.75, Vector3(0, -0.4, -1).normalized())
+		# the rock beneath the floor's buried back edge, closing the underside against the face
+		var b0 := _gal_point(i, 1.0)
+		var b1 := _gal_point(i + 1, 1.0)
+		_quad(st, b0, b1, Vector3(b1.x, f1.y, f1.z), Vector3(b0.x, f0.y, f0.z), col * 0.6, Vector3(0, -0.2, 1).normalized())
+		# a rock toe up the wall where floor meets face, so the join reads as rock grown into rock
+		var ts := 1.0 - TOE_DEPTH / maxf(_gal_depth[i], 1.0)
+		var ts2 := 1.0 - TOE_DEPTH / maxf(_gal_depth[i + 1], 1.0)
+		var w0 := _gal_point(i, 1.0 - BURY / _gal_depth[i])
+		var w1 := _gal_point(i + 1, 1.0 - BURY / _gal_depth[i + 1])
+		var h := TOE_HEIGHT * k * (0.7 + 0.6 * (_noise.get_noise_2d(w0.x * 1.3, 33.0) * 0.5 + 0.5))
+		var h2 := TOE_HEIGHT * k2 * (0.7 + 0.6 * (_noise.get_noise_2d(w1.x * 1.3, 33.0) * 0.5 + 0.5))
+		_quad(st, _gal_point(i, ts), _gal_point(i + 1, ts2), Vector3(w1.x, w1.y + h2, w1.z + 0.35), Vector3(w0.x, w0.y + h, w0.z + 0.35), col * 0.9, Vector3(0, 0.6, -1).normalized())
+	# close both ends of the ledge, so it is a solid piece of rock from the side too
+	for end_i in [0, n - 1]:
+		var fr := _gal_point(end_i, 0.0)
+		var bk := _gal_point(end_i, 1.0)
+		var kk := _gal_taper[end_i]
+		var lowp := Vector3(fr.x, fr.y - SHELF_DROP * kk, minf(_gal_low[end_i] + 0.4, bk.z))
+		var out := Vector3(1, 0, 0) if end_i == 0 else Vector3(-1, 0, 0)
+		_tri(st, fr, bk, lowp, Color(0.55, 0.55, 0.55), out)
 	var mi := MeshInstance3D.new()
 	mi.name = "Gallery"
 	mi.mesh = st.commit()
-	mi.material_override = _vertex_colour_material(1.0)
+	mi.material_override = _rock_material()
 	add_child(mi)
 	if not Engine.is_editor_hint():
 		mi.create_trimesh_collision()
 		_solidify(mi, 1)
-	print("mainland: cut walkway - %d cliff-face copies set back as its rock wall" % _wall_copies)
+	print("mainland: walkway ledge built against the uncut cliff: %d steps, ends at (%.0f, %.1f, %.1f)" % [n, _walk_end.x, _walk_end.y, _walk_end.z])
+
+
+## A single triangle, wound so its normal points along `want`.
+func _tri(st: SurfaceTool, a: Vector3, b: Vector3, c: Vector3, col: Color, want: Vector3) -> void:
+	var g := (b - a).cross(c - a)
+	if g.length() < 0.0001:
+		return
+	var tri := [a, b, c]
+	if g.dot(want) > 0.0:
+		tri = [a, c, b]
+		g = -g
+	var nrm := -g.normalized()
+	for v in tri:
+		st.set_normal(nrm)
+		st.set_color(col)
+		st.add_vertex(v)
 
 
 ## Makes the trimesh collision body just created under `mi` hit from both sides, on the given layers.
@@ -289,112 +449,20 @@ func _solidify(mi: MeshInstance3D, layers: int) -> void:
 					(cs.shape as ConcavePolygonShape3D).backface_collision = true
 
 
-## Removes the cliff face above the road and sets a COPY of it back by GAL_DEPTH as the rock wall of the
-## cutting, so the road reads as a ledge cut into the cliffs themselves (same mesh, same texture).
-func _carve_gallery() -> void:
-	_wall_copies = 0
-	var cliffs := get_parent().get_node_or_null("Cliffs") if get_parent() else null
-	if cliffs == null:
-		return
-	for node in cliffs.get_children():
-		for mi in node.find_children("*", "MeshInstance3D", true, false):
-			_carve_mesh(mi as MeshInstance3D)
-
-
-func _carve_mesh(mi: MeshInstance3D) -> void:
-	var src := mi.mesh as ArrayMesh
-	if src == null:
-		return
-	var xf := mi.global_transform
-	var nrm_basis := xf.basis.inverse().transposed()
-	var wb: AABB = xf * src.get_aabb()
-	if wb.end.x < GAL_X1 - 2.0 or wb.position.x > GAL_X0 + 2.0:
-		return
-	var steps := _gal_y.size()
-	var carved := ArrayMesh.new()
-	var copy := ArrayMesh.new()
-	var removed := 0
-	for surf in src.get_surface_count():
-		var arrays := src.surface_get_arrays(surf)
-		var verts: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
-		var normals: PackedVector3Array = arrays[Mesh.ARRAY_NORMAL]
-		var idx: PackedInt32Array = arrays[Mesh.ARRAY_INDEX]
-		if idx.is_empty():
-			idx = PackedInt32Array(range(verts.size()))
-		var kept := PackedInt32Array()
-		var gone := PackedInt32Array()
-		for t in range(0, idx.size(), 3):
-			var c := xf * ((verts[idx[t]] + verts[idx[t + 1]] + verts[idx[t + 2]]) / 3.0)
-			if c.x <= GAL_X0 and c.x >= GAL_X1:
-				var k := int((GAL_X0 - c.x) / GAL_STEP)
-				if _gal_depth[k] > 0.15 and c.y >= _gal_y[k] - 0.15 and c.y <= _gal_top[k] \
-						and c.z >= _gal_z[k] - 0.6 and c.z <= _gal_z[k] + _gal_depth[k]:
-					removed += 1
-					# keep only the sea-facing rock for the wall copy (not the grassy top); the mesh's own
-					# vertex normals say which way a face points (its winding does not)
-					var nrm := (xf.basis * (normals[idx[t]] + normals[idx[t + 1]] + normals[idx[t + 2]])).normalized()
-					if nrm.z < -0.3:
-						gone.append(idx[t])
-						gone.append(idx[t + 1])
-						gone.append(idx[t + 2])
-					continue
-			kept.append(idx[t])
-			kept.append(idx[t + 1])
-			kept.append(idx[t + 2])
-		var mat := src.surface_get_material(surf)
-		if _cliff_mat == null:
-			_cliff_mat = mat
-		arrays[Mesh.ARRAY_INDEX] = kept
-		carved.add_surface_from_arrays(src.surface_get_primitive_type(surf), arrays)
-		carved.surface_set_material(carved.get_surface_count() - 1, mat)
-		if not gone.is_empty():
-			# the copy is baked in world space; each vertex is set back by the cut's depth at its own x,
-			# so where the cut tapers out the copy blends smoothly back into the plain cliff face
-			var arrays2 := src.surface_get_arrays(surf)
-			var cv := PackedVector3Array()
-			var cn := PackedVector3Array()
-			cv.resize(verts.size())
-			cn.resize(verts.size())
-			for vi in verts.size():
-				var w := xf * verts[vi]
-				var kk := clampi(int((GAL_X0 - w.x) / GAL_STEP), 0, steps - 1)
-				cv[vi] = w + Vector3(0.0, 0.0, _gal_depth[kk])
-				cn[vi] = (nrm_basis * normals[vi]).normalized()
-			arrays2[Mesh.ARRAY_VERTEX] = cv
-			arrays2[Mesh.ARRAY_NORMAL] = cn
-			arrays2[Mesh.ARRAY_INDEX] = gone
-			copy.add_surface_from_arrays(src.surface_get_primitive_type(surf), arrays2)
-			copy.surface_set_material(copy.get_surface_count() - 1, mat)
-			_wall_copies += gone.size() / 3
-	mi.mesh = carved
-	if copy.get_surface_count() > 0:
-		var wall := MeshInstance3D.new()
-		wall.name = "CutWall_" + str(mi.get_instance_id())
-		wall.mesh = copy
-		add_child(wall)
-		if not Engine.is_editor_hint():
-			wall.create_trimesh_collision()
-			_solidify(wall, 3)
-	if not Engine.is_editor_hint():
-		# The cliff's solid hull would fill the cut. Swap it for collision that follows the carved mesh.
-		for child in mi.get_children():
-			if child is StaticBody3D:
-				child.queue_free()
-		mi.create_trimesh_collision()
-		_solidify(mi, 3)
-
-
 func _forest_points(from: Vector3) -> Array[Vector3]:
-	var ctrl: Array[Vector3] = []
-	for p in FOREST_ROAD:
-		ctrl.append(Vector3(p.x, 0.0, p.y))
+	# the path starts exactly where the ledge ends, then bends into the old forest road
+	var ctrl: Array[Vector3] = [Vector3(from.x, 0.0, from.z)]
+	if from.x > -194.0:
+		ctrl.append(Vector3((from.x - 203.0) * 0.5, 0.0, (from.z + 579.0) * 0.5))
+	for k in range(1, FOREST_ROAD.size()):
+		ctrl.append(Vector3(FOREST_ROAD[k].x, 0.0, FOREST_ROAD[k].y))
 	var pts := _spline(ctrl, 18)
 	var s := 0.0
 	for i in pts.size():
 		if i > 0:
 			s += Vector2(pts[i].x - pts[i - 1].x, pts[i].z - pts[i - 1].z).length()
 		var z := pts[i].z
-		var offset := lerpf(2.1, 0.14, smoothstep(598.0, 630.0, z))   # raised on the lip, on the ground in the trees
+		var offset := 0.1          # flush with the ground: a slab sunk 2.5 m with its top just proud, so no side shows
 		var ground := terrain_h(pts[i].x, z) + offset
 		pts[i].y = lerpf(from.y, ground, smoothstep(0.0, 26.0, s))      # eases off the end of the ramp
 	return pts
@@ -417,14 +485,20 @@ func _spline(ctrl: Array[Vector3], per: int) -> Array[Vector3]:
 
 ## Extrudes a slab along a path. `width` is centred on the path (plus `inner_ext` on the inland side),
 ## `lateral` shifts it sideways (+ = left of travel), `lift` raises the top surface.
-func _sweep(st: SurfaceTool, pts: Array[Vector3], width: float, thick: float, inner_ext: float,
-		lateral: float, lift: float, top_col: Color, side_col: Color) -> void:
+func _sweep(st: SurfaceTool, pts: Array[Vector3], width_in: float, thick: float, inner_ext: float,
+		lateral: float, lift: float, top_col: Color, side_col: Color, jitter := 0.0, start_taper := 0.0) -> void:
 	var rows: Array = []
+	var arc := 0.0
 	for i in pts.size():
+		if i > 0:
+			arc += Vector2(pts[i].x - pts[i - 1].x, pts[i].z - pts[i - 1].z).length()
 		var a := pts[maxi(i - 1, 0)]
 		var b := pts[mini(i + 1, pts.size() - 1)]
 		var t := Vector3(b.x - a.x, 0.0, b.z - a.z).normalized()
 		var n := Vector3(-t.z, 0.0, t.x)            # left of travel
+		var width := width_in * (1.0 + jitter * _noise.get_noise_2d(pts[i].x * 0.6, pts[i].z * 0.6))     # the edge wanders, it is not a ruler line
+		if start_taper > 0.0:
+			width *= lerpf(0.3, 1.0, smoothstep(0.0, start_taper, arc))     # the path fades in from the end of the ledge, not as a tile with a square end
 		var c := pts[i] + n * lateral + Vector3(0.0, lift, 0.0)
 		var l := c + n * (width * 0.5)
 		var r := c - n * (width * 0.5 + inner_ext)
@@ -479,39 +553,48 @@ func _box(st: SurfaceTool, centre: Vector3, size: Vector3, col: Color) -> void:
 func _build_trees() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = tree_seed
-	var mm := MultiMesh.new()
-	mm.transform_format = MultiMesh.TRANSFORM_3D
-	mm.use_colors = true
-	mm.mesh = _conifer_mesh()
-	var xforms: Array[Transform3D] = []
-	var cols: Array[Color] = []
+	const VARIANTS := 3
+	var xforms: Array = []
+	var cols: Array = []
+	for v in VARIANTS:
+		xforms.append([])
+		cols.append([])
+	var placed := 0
 	var tries := 0
-	while xforms.size() < tree_count and tries < tree_count * 6:
+	while placed < tree_count and tries < tree_count * 6:
 		tries += 1
 		var x := rng.randf_range(TERRAIN_X.x + 20.0, TERRAIN_X.y - 20.0)
 		var z := rng.randf_range(TERRAIN_Z.x + 4.0, TERRAIN_Z.y - 20.0)
-		if z < 574.0 or Vector2(x - CITY_CENTRE.x, z - CITY_CENTRE.y).length() < CITY_RADIUS:
+		if z < TREE_MIN_Z or Vector2(x - CITY_CENTRE.x, z - CITY_CENTRE.y).length() < CITY_RADIUS:
 			continue
 		if _near_road(x, z):
 			continue
 		var y := terrain_h(x, z)
 		if y < 5.0:
 			continue
-		var s := rng.randf_range(0.7, 1.6)
-		var basis := Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3(s * rng.randf_range(0.85, 1.15), s, s * rng.randf_range(0.85, 1.15)))
-		xforms.append(Transform3D(basis, Vector3(x, y - 0.4, z)))
-		var v := rng.randf_range(0.7, 1.15)
-		cols.append(Color(v, v * rng.randf_range(0.95, 1.1), v, 1.0))
-	mm.instance_count = xforms.size()
-	for i in xforms.size():
-		mm.set_instance_transform(i, xforms[i])
-		mm.set_instance_color(i, cols[i])
-	var mmi := MultiMeshInstance3D.new()
-	mmi.name = "Forest"
-	mmi.multimesh = mm
-	mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	mmi.material_override = _vertex_colour_material(1.0)
-	add_child(mmi)
+		var s := rng.randf_range(0.6, 1.25)
+		var lean := Basis(Vector3(rng.randf_range(-1.0, 1.0), 0.0, rng.randf_range(-1.0, 1.0)).normalized(), rng.randf_range(0.0, 0.10))   # wind-leaned, never ruler-straight
+		var basis := lean * Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3(s * rng.randf_range(0.85, 1.15), s * rng.randf_range(0.9, 1.15), s * rng.randf_range(0.85, 1.15)))
+		var v := rng.randi() % VARIANTS
+		xforms[v].append(Transform3D(basis, Vector3(x, y - 0.4, z)))
+		var c := rng.randf_range(0.7, 1.15)
+		cols[v].append(Color(c, c * rng.randf_range(0.95, 1.1), c, 1.0))
+		placed += 1
+	for v in VARIANTS:
+		var mm := MultiMesh.new()
+		mm.transform_format = MultiMesh.TRANSFORM_3D
+		mm.use_colors = true
+		mm.mesh = _pine_mesh(v)
+		mm.instance_count = xforms[v].size()
+		for i in xforms[v].size():
+			mm.set_instance_transform(i, xforms[v][i])
+			mm.set_instance_color(i, cols[v][i])
+		var mmi := MultiMeshInstance3D.new()
+		mmi.name = "Forest%d" % v
+		mmi.multimesh = mm
+		mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		mmi.material_override = _vertex_colour_material(1.0)
+		add_child(mmi)
 
 
 func _near_road(x: float, z: float) -> bool:
@@ -521,14 +604,45 @@ func _near_road(x: float, z: float) -> bool:
 	return false
 
 
-func _conifer_mesh() -> ArrayMesh:
+## Slimmer, taller, ragged pines in three variants (the concept art's trees are tall and narrow with uneven tiers, not
+## squat cones). Each tier is a short, slightly lopsided cone: radius and height jitter, the tip leans, so no two tiers
+## match and the silhouette is broken.
+func _pine_mesh(variant: int) -> ArrayMesh:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 100 + variant * 31
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	_cone(st, Vector3(0, 0, 0), 0.45, 3.0, 6, Color(0.17, 0.12, 0.08))       # trunk
-	_cone(st, Vector3(0, 2.0, 0), 3.4, 5.5, 8, Color(0.07, 0.15, 0.11))
-	_cone(st, Vector3(0, 5.2, 0), 2.6, 5.0, 8, Color(0.08, 0.17, 0.12))
-	_cone(st, Vector3(0, 8.2, 0), 1.7, 4.6, 8, Color(0.09, 0.19, 0.13))
+	var height := 15.0 + 2.5 * variant
+	_cone(st, Vector3(0, 0, 0), 0.4, 4.0, 6, Color(0.14, 0.10, 0.07))       # trunk, bare to a height
+	var tiers := 6 + variant
+	var y := 2.6
+	for k in tiers:
+		var f := float(k) / float(tiers)
+		var r := lerpf(2.5, 0.7, pow(f, 0.85)) * rng.randf_range(0.75, 1.15)
+		var h := rng.randf_range(3.4, 4.6)
+		var lean := Vector3(rng.randf_range(-0.5, 0.5), 0.0, rng.randf_range(-0.5, 0.5)) * (1.0 - f)
+		var shade := lerpf(0.045, 0.075, f) * rng.randf_range(0.85, 1.15)
+		var col := Color(shade, shade * 1.9, shade * 1.55)
+		_cone_lean(st, Vector3(0, y, 0), r, h, 7, col, lean)
+		y += (height - 3.0 - y) / float(tiers - k) * 0.9 + 0.2
 	return st.commit()
+
+
+## A cone whose tip is moved sideways by `lean` and whose rim is a little ragged.
+func _cone_lean(st: SurfaceTool, base: Vector3, radius: float, height: float, sides: int, col: Color, lean: Vector3) -> void:
+	var tip := base + Vector3(0, height, 0) + lean
+	var rim: Array[Vector3] = []
+	for i in sides:
+		var a := TAU * i / sides
+		var rr := radius * (0.82 + 0.3 * absf(sin(a * 2.7 + radius)))
+		rim.append(base + Vector3(cos(a), 0, sin(a)) * rr)
+	for i in sides:
+		var p0 := rim[i]
+		var p1 := rim[(i + 1) % sides]
+		var mid := (p0 + p1) * 0.5 - base
+		var side_out := Vector3(mid.x, 0.55 * radius, mid.z).normalized()
+		_quad(st, p0, p1, tip, tip, col, side_out)
+		_quad(st, base, p1, p0, p0, col, Vector3.DOWN)
 
 
 func _cone(st: SurfaceTool, base: Vector3, radius: float, height: float, sides: int, col: Color) -> void:

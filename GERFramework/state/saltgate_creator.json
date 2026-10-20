@@ -365,7 +365,13 @@
    "collaborates": []
   }
  ],
- "records": {},
+ "records": {
+  "SLT-02": {
+   "status": "in_progress",
+   "note": "Joint contract only, at the creator's instruction (2026-10-20). Saltgate plan is NOT approved: nothing built",
+   "at": "2026-10-20T16:53:52+00:00"
+  }
+ },
  "history": [
   {
    "kind": "plan_review",

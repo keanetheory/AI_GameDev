@@ -1,0 +1,186 @@
+{
+  "layout_id": "coast_v1_three_coves",
+  "note": "Position (x, y, z) is the module's base centre; yaw in degrees about Y; scale (x, y, z). Native size: wall 120 x 27 x 44.5 m, headland 114.5 x 22.3 x 120 m, both pivoted at the base centre. Sea is at low z, rock inland at high z. Coves: WEST (x -372..-255), MAIN (x -255..165, the quay and the walkway, back wall unchanged), EAST (x 165..400). Headlands protrude seaward; the two outer coves are also recessed inland by up to 18 m (the plateau slab starts at z 580, so the face must stay at z 580 or less). collision_kind 0 = exact trimesh (the modules the walkway runs along), 1 = cheap convex hull (everything else).",
+  "modules": [
+    {
+      "id": "CliffWall1",
+      "model": "cliff_wall",
+      "pos": [
+        -305,
+        -3,
+        598
+      ],
+      "yaw": -3,
+      "scale": [
+        1.0,
+        1.3,
+        1.0
+      ],
+      "cove": "west"
+    },
+    {
+      "id": "CliffWall2",
+      "model": "cliff_wall",
+      "pos": [
+        -185,
+        -3,
+        584
+      ],
+      "yaw": 0,
+      "scale": [
+        1.08,
+        1.6,
+        1.0
+      ],
+      "cove": "main",
+      "collision_kind": 0
+    },
+    {
+      "id": "CliffWall3",
+      "model": "cliff_wall",
+      "pos": [
+        -85,
+        -3,
+        578
+      ],
+      "yaw": 0,
+      "scale": [
+        1.0,
+        1.4,
+        1.0
+      ],
+      "cove": "main",
+      "collision_kind": 0
+    },
+    {
+      "id": "CliffWall4",
+      "model": "cliff_wall",
+      "pos": [
+        15,
+        -3,
+        583
+      ],
+      "yaw": 0,
+      "scale": [
+        0.94,
+        1.7,
+        1.0
+      ],
+      "cove": "main",
+      "collision_kind": 0
+    },
+    {
+      "id": "CliffWall5",
+      "model": "cliff_wall",
+      "pos": [
+        115,
+        -3,
+        579
+      ],
+      "yaw": 0,
+      "scale": [
+        1.0,
+        1.35,
+        1.0
+      ],
+      "cove": "main",
+      "collision_kind": 0
+    },
+    {
+      "id": "CliffWall6",
+      "model": "cliff_wall",
+      "pos": [
+        235,
+        -3,
+        598
+      ],
+      "yaw": 3,
+      "scale": [
+        1.06,
+        1.5,
+        1.0
+      ],
+      "cove": "east"
+    },
+    {
+      "id": "CliffWall7",
+      "model": "cliff_wall",
+      "pos": [
+        335,
+        -3,
+        596
+      ],
+      "yaw": -3,
+      "scale": [
+        1.0,
+        1.45,
+        1.0
+      ],
+      "cove": "east"
+    },
+    {
+      "id": "HeadlandWestMid",
+      "model": "cliff_headland",
+      "pos": [
+        -252,
+        -3,
+        552
+      ],
+      "yaw": 8,
+      "scale": [
+        0.85,
+        1.5,
+        0.85
+      ],
+      "cove": "flank"
+    },
+    {
+      "id": "HeadlandEastMid",
+      "model": "cliff_headland",
+      "pos": [
+        168,
+        -3,
+        552
+      ],
+      "yaw": 20,
+      "scale": [
+        0.85,
+        1.5,
+        0.85
+      ],
+      "cove": "flank"
+    },
+    {
+      "id": "HeadlandWestEnd",
+      "model": "cliff_headland",
+      "pos": [
+        -374,
+        -3,
+        560
+      ],
+      "yaw": -150,
+      "scale": [
+        0.7,
+        1.4,
+        0.7
+      ],
+      "cove": "end"
+    },
+    {
+      "id": "HeadlandEastEnd",
+      "model": "cliff_headland",
+      "pos": [
+        398,
+        -3,
+        560
+      ],
+      "yaw": -150,
+      "scale": [
+        0.8,
+        1.5,
+        0.8
+      ],
+      "cove": "end"
+    }
+  ]
+}

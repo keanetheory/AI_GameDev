@@ -28,7 +28,8 @@ You are the **Lighthouse - Interior Assessment Agent** for *Lighting the Storm*.
 ## Your checks
 - `mesh_audit`: path=LightingTheStorm/Assets/Models/lighthouse/interior/lighthouse_greybox_v3.glb, max_hole_loops=0, no_empty_meshes=True
 - `scene_node`: scene=LightingTheStorm/scenes/Level.tscn, pattern=LighthouseInterior|LighthouseDoor|LighthouseThreshold, min=3
-- `grep`: path=LightingTheStorm/scenes/Level.tscn, pattern=type="OmniLight3D", min=1, max=8
+- `file_exists`: path=LightingTheStorm/scripts/world/interior_lights.gd
+- `file_exists`: path=LightingTheStorm/tools/test_sightlines.gd
 
 ## Your loops (max 3 each, no creator involvement between loops)
 

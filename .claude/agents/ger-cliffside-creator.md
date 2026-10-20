@@ -14,14 +14,20 @@ You are the **Cliffside Creator Agent** for *Lighting the Storm* (Godot 4.3, pro
 |---|---|---|---|
 | CLF-01 | 10 | Audit every cliff mesh and every module seam for empty, hollow and holed geometry, then repair |  |
 | CLF-02 | 10 | Make the walkway from the Saltgate to the cliff top an extension of the cliff stone mesh |  |
+| CLF-12 | 10 | Fix the black backing wall above the plateau and the torn grass ribbons over the walkway end |  |
 | CLF-03 | 9 | Root trees, path edges and props into the rock so they read as natural, not placed |  |
 | CLF-04 | 9 | Set a cliffside load-time and memory budget, measure it headless, and cut cost until it is met |  |
 | CLF-05 | 9 | Prove there are no empty spots or collision gaps along the walkway, cliff top and plateau |  |
 | CLF-06 | 9 | Write the port-to-cliff joint contract with the Saltgate agent and build the cliff side of it |  |
+| CLF-13 | 9 | Replace the load-time cutting with a baked, closed walkway ledge attached to the uncut cliff face |  |
+| CLF-14 | 9 | Coves layout: headlands and three coves, the quay in the main one, driven by one data table |  |
 | CLF-07 | 8 | Verify cliff faces, wet rock and fog read in every phase with the Lighting agent |  |
 | CLF-08 | 8 | Decide where timber ends and rock begins on the walkway, and its width | yes |
+| CLF-15 | 8 | Cove base dressing: rubble and scree, sea stacks at the headland feet, spray hooks |  |
 | CLF-09 | 7 | Compare the cliffside to the cliff and channel concept art and list every deliberate difference |  |
+| CLF-16 | 7 | Slimmer pines and a softer path edge |  |
 | CLF-10 | 6 | Run the offline AI Crew over the cliff FAL submissions and record the result |  |
+| CLF-17 | 6 | Visual regression check: fixed camera views along the walk, failing on black areas or missing ground |  |
 | CLF-11 | 5 | Visibility ranges and distant LOD for the cliff line seen from the channel |  |
 
 Full detail, reasons for each score, acceptance tests and checks: `GERFramework/agents/creators/cliffside_creator.json`; the live plan and its status: `python GERFramework/ger.py show cliffside_creator`.

@@ -28,7 +28,8 @@ You are the **Cliffside Assessment Agent** for *Lighting the Storm*. You assess;
 ## Your checks
 - `mesh_audit`: path=LightingTheStorm/Assets/Models/cliff_terrain/cliff_wall.glb, max_hole_loops=0, max_degenerate_ratio=0.001, max_texture_px=2048
 - `mesh_audit`: path=LightingTheStorm/Assets/Models/cliff_terrain/cliff_headland.glb, max_hole_loops=0, max_degenerate_ratio=0.001, max_texture_px=2048
-- `scene_node`: scene=LightingTheStorm/scenes/Level.tscn, pattern=CliffWall\d|Headland\d|CapEast, min=10
+- `grep`: path=LightingTheStorm/data/world/cliff_layout.json, pattern="model", min=10
+- `grep`: path=LightingTheStorm/scripts/world/mainland.gd, pattern=_carve_mesh|CutWall, max=0
 
 ## Your loops (max 3 each, no creator involvement between loops)
 

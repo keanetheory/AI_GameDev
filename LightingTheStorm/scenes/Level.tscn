@@ -14,6 +14,12 @@
 [ext_resource type="PackedScene" uid="uid://cj4xrc8onnqek" path="res://Assets/Models/prop/burner_replacement.glb" id="12"]
 [ext_resource type="Script" path="res://scripts/world/door.gd" id="13"]
 [ext_resource type="Script" path="res://scripts/world/wave_system.gd" id="14"]
+[ext_resource type="Script" path="res://scripts/world/cliff_layout.gd" id="15"]
+[ext_resource type="Script" path="res://scripts/world/cliff_dressing.gd" id="16"]
+[ext_resource type="Script" path="res://scripts/world/interior_lights.gd" id="17"]
+[ext_resource type="Script" path="res://scripts/world/interior_anchors.gd" id="18"]
+[ext_resource type="Script" path="res://scripts/world/interior_props.gd" id="19"]
+[ext_resource type="Script" path="res://scripts/world/interior_rooms.gd" id="20"]
 
 [sub_resource type="ProceduralSkyMaterial" id="sky"]
 sky_top_color = Color(0.12, 0.15, 0.2, 1)
@@ -106,8 +112,8 @@ press_path = PackedVector3Array()
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 9.61, -8.5)
 script = ExtResource("1")
 model_path = "res://Assets/Models/lighthouse/lighthouse_exterior_v3.glb"
-carve_cylinders = Array[AABB]([AABB(1.2, 17.6, 1.3, 4.6, 0.65, 4.6), AABB(2.45, 18.1, 2.55, 2.1, 3.6, 2.1)])
-carve_oriented = Array[Transform3D]([Transform3D(1.6243, 0.0000, 0.8618, 0.0000, 3.0000, 0.0000, -0.7756, 0.0000, 1.8048, -3.7956, 2.5700, 8.2423), Transform3D(6.9485, 0.0000, 2.6931, 0.0000, 3.0500, 0.0000, -3.3179, 0.0000, 5.6400, -3.5004, -0.7750, 4.9154)])
+carve_cylinders = Array[AABB]([AABB(1.2, 17.6, 1.3, 4.6, 0.65, 4.6), AABB(2.45, 18.1, 2.55, 2.1, 3.6, 2.1), AABB(0.55, 17.97, 0.65, 5.9, 3.92, 5.9)])
+carve_oriented = Array[Transform3D]([Transform3D(1.6243, 0.0000, 0.8618, 0.0000, 3.0000, 0.0000, -0.7756, 0.0000, 1.8048, -3.7956, 2.5700, 8.2423), Transform3D(6.9485, 0.0000, 2.6931, 0.0000, 3.0500, 0.0000, -3.3179, 0.0000, 5.6400, -3.5004, -0.7750, 4.9154), Transform3D(0.5171, 0.0000, -1.1731, 0.0000, 1.4500, 0.0000, 1.0829, 0.0000, 0.5602, -8.3020, 2.5900, 7.8430), Transform3D(0.5446, 0.0000, -0.8387, 0.0000, 1.8000, 0.0000, 0.8387, 0.0000, 0.5446, 1.1098, 15.0900, 5.1522)])
 carve_lines = PackedVector3Array()
 carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
@@ -132,6 +138,7 @@ colour_by_name = {
 
 [node name="LighthouseInteriorLights" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 9.61, -8.5)
+script = ExtResource("17")
 
 [node name="HallFront" type="OmniLight3D" parent="LighthouseInteriorLights"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 3.2, 7.0)
@@ -237,6 +244,16 @@ light_color = Color(1, 0.8, 0.55, 1)
 light_energy = 1.6
 shadow_enabled = true
 omni_range = 5.0
+
+[node name="InteriorRooms" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 9.61, -8.5)
+script = ExtResource("20")
+
+[node name="InteriorAnchors" type="Node3D" parent="."]
+script = ExtResource("18")
+
+[node name="InteriorProps" type="Node3D" parent="."]
+script = ExtResource("19")
 
 [node name="LighthouseThreshold" type="StaticBody3D" parent="."]
 transform = Transform3D(0.9024, 0, 0.4309, 0, 1, 0, -0.4309, 0, 0.9024, 1.4306, 10.48, 0.2161)
@@ -355,116 +372,7 @@ width = 2.4
 seed = 3
 
 [node name="Cliffs" type="Node3D" parent="."]
-
-[node name="CliffWall1" type="Node3D" parent="Cliffs"]
-transform = Transform3D(1, 0, 0, 0, 1.3, 0, 0, 0, 1, -285, -3, 580)
-script = ExtResource("1")
-model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
-collision_kind = 1
-body_layers = 3
-double_sided = false
-carve_lines = PackedVector3Array()
-carve_line_half_widths = PackedFloat32Array()
-press_path = PackedVector3Array()
-
-[node name="CliffWall2" type="Node3D" parent="Cliffs"]
-transform = Transform3D(1.08, 0, 0, 0, 1.6, 0, 0, 0, 1, -185, -3, 584)
-script = ExtResource("1")
-model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
-collision_kind = 1
-body_layers = 3
-double_sided = false
-carve_lines = PackedVector3Array()
-carve_line_half_widths = PackedFloat32Array()
-press_path = PackedVector3Array()
-
-[node name="CliffWall3" type="Node3D" parent="Cliffs"]
-transform = Transform3D(1, 0, 0, 0, 1.4, 0, 0, 0, 1, -85, -3, 578)
-script = ExtResource("1")
-model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
-collision_kind = 1
-body_layers = 3
-double_sided = false
-carve_lines = PackedVector3Array()
-carve_line_half_widths = PackedFloat32Array()
-press_path = PackedVector3Array()
-
-[node name="CliffWall4" type="Node3D" parent="Cliffs"]
-transform = Transform3D(0.94, 0, 0, 0, 1.7, 0, 0, 0, 1, 15, -3, 583)
-script = ExtResource("1")
-model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
-collision_kind = 1
-body_layers = 3
-double_sided = false
-carve_lines = PackedVector3Array()
-carve_line_half_widths = PackedFloat32Array()
-press_path = PackedVector3Array()
-
-[node name="CliffWall5" type="Node3D" parent="Cliffs"]
-transform = Transform3D(1, 0, 0, 0, 1.35, 0, 0, 0, 1, 115, -3, 579)
-script = ExtResource("1")
-model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
-collision_kind = 1
-body_layers = 3
-double_sided = false
-carve_lines = PackedVector3Array()
-carve_line_half_widths = PackedFloat32Array()
-press_path = PackedVector3Array()
-
-[node name="CliffWall6" type="Node3D" parent="Cliffs"]
-transform = Transform3D(1.06, 0, 0, 0, 1.5, 0, 0, 0, 1, 215, -3, 585)
-script = ExtResource("1")
-model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
-collision_kind = 1
-body_layers = 3
-double_sided = false
-carve_lines = PackedVector3Array()
-carve_line_half_widths = PackedFloat32Array()
-press_path = PackedVector3Array()
-
-[node name="CliffWall7" type="Node3D" parent="Cliffs"]
-transform = Transform3D(1, 0, 0, 0, 1.45, 0, 0, 0, 1, 315, -3, 581)
-script = ExtResource("1")
-model_path = "res://Assets/Models/cliff_terrain/cliff_wall.glb"
-collision_kind = 1
-body_layers = 3
-double_sided = false
-carve_lines = PackedVector3Array()
-carve_line_half_widths = PackedFloat32Array()
-press_path = PackedVector3Array()
-
-[node name="Headland1" type="Node3D" parent="Cliffs"]
-transform = Transform3D(0.5638, 0, 0.2052, 0, 1.5, 0, -0.2052, 0, 0.5638, 150, -3, 545)
-script = ExtResource("1")
-model_path = "res://Assets/Models/cliff_terrain/cliff_headland.glb"
-collision_kind = 1
-body_layers = 3
-double_sided = false
-carve_lines = PackedVector3Array()
-carve_line_half_widths = PackedFloat32Array()
-press_path = PackedVector3Array()
-
-[node name="Headland2" type="Node3D" parent="Cliffs"]
-transform = Transform3D(-0.396211, 0, -0.30503, 0, 1.4, 0, 0.30503, 0, -0.396211, -371.908, -3, 565.857)
-script = ExtResource("1")
-model_path = "res://Assets/Models/cliff_terrain/cliff_headland.glb"
-collision_kind = 1
-body_layers = 3
-double_sided = false
-carve_lines = PackedVector3Array()
-carve_line_half_widths = PackedFloat32Array()
-press_path = PackedVector3Array()
-
-[node name="CapEast" type="Node3D" parent="Cliffs"]
-transform = Transform3D(-0.6062, 0, -0.35, 0, 1.5, 0, 0.35, 0, -0.6062, 392, -3, 562)
-script = ExtResource("1")
-model_path = "res://Assets/Models/cliff_terrain/cliff_headland.glb"
-collision_kind = 1
-body_layers = 3
-double_sided = false
-carve_lines = PackedVector3Array()
-carve_line_half_widths = PackedFloat32Array()
-press_path = PackedVector3Array()
+script = ExtResource("15")
 
 [node name="SeaRocks" type="Node3D" parent="."]
 
@@ -589,6 +497,9 @@ press_path = PackedVector3Array()
 
 [node name="Mainland" type="Node3D" parent="."]
 script = ExtResource("6")
+
+[node name="CliffDressing" type="Node3D" parent="."]
+script = ExtResource("16")
 
 [node name="LightingRig" type="Node3D" parent="."]
 script = ExtResource("10")

@@ -223,10 +223,16 @@
       "max_texture_px": 2048
     },
     {
-      "type": "scene_node",
-      "scene": "LightingTheStorm/scenes/Level.tscn",
-      "pattern": "CliffWall\\d|Headland\\d|CapEast",
+      "type": "grep",
+      "path": "LightingTheStorm/data/world/cliff_layout.json",
+      "pattern": "\"model\"",
       "min": 10
+    },
+    {
+      "type": "grep",
+      "path": "LightingTheStorm/scripts/world/mainland.gd",
+      "pattern": "_carve_mesh|CutWall",
+      "max": 0
     }
   ],
   "offline_crew_consults": [
