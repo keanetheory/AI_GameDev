@@ -61,9 +61,14 @@ void fragment() {
 ## boat's departed signal itself, for running the scene on its own. Leave false in the game or both would drive it.
 @export var follow_boat_signals := false
 ## Rain look (creator, 2026-10-22: darker and thinner). rain_thin scales how many streaks fall; rain_dark scales their brightness.
-@export_range(0.1, 1.0) var rain_thin := 0.42
+@export_range(0.1, 1.0) var rain_thin := 0.62
 @export_range(0.1, 1.0) var rain_dark := 0.5
 @export_range(0.05, 0.6) var rain_alpha := 0.2
+## How much of each phase's wind slant the rain takes (creator, 2026-10-22: straight down). 0 = vertical, 1 = the spec's slant.
+@export_range(0.0, 1.0) var rain_slant_scale := 0.0
+## Fall speed in metres a second (min, max), and the length of each streak in metres.
+@export var rain_speed := Vector2(30.0, 38.0)
+@export var rain_streak_len := 0.35
 
 var phase := ""
 var _spec: Dictionary = {}
@@ -227,7 +232,7 @@ func _apply(v: Dictionary) -> void:
 		var amount: float = v["rain"]
 		_rain.emitting = amount > 0.01
 		_rain.amount_ratio = clampf(amount, 0.0, 1.0) * rain_thin
-		var slant := deg_to_rad(float(v["slant"]))
+		var slant := deg_to_rad(float(v["slant"])) * rain_slant_scale
 		_rain_mat.direction = Vector3(sin(slant) * 0.8, -cos(slant), sin(slant) * 0.6).normalized()
 
 
@@ -417,7 +422,7 @@ func _build_rain() -> void:
 	_rain = GPUParticles3D.new()
 	_rain.name = "Rain"
 	_rain.amount = 8000
-	_rain.lifetime = 1.1
+	_rain.lifetime = 0.9
 	_rain.local_coords = false
 	_rain.top_level = true
 	_rain.visibility_aabb = AABB(Vector3(-40, -40, -40), Vector3(80, 80, 80))
@@ -426,8 +431,8 @@ func _build_rain() -> void:
 	_rain_mat.emission_box_extents = Vector3(26, 1, 26)
 	_rain_mat.direction = Vector3(0, -1, 0)
 	_rain_mat.spread = 3.0
-	_rain_mat.initial_velocity_min = 16.0
-	_rain_mat.initial_velocity_max = 21.0
+	_rain_mat.initial_velocity_min = rain_speed.x
+	_rain_mat.initial_velocity_max = rain_speed.y
 	_rain_mat.gravity = Vector3(0, -9.8, 0)
 	# rain stops where it lands (boat, dock, island, lighthouse, sea) and throws up a few small drops there
 	_rain_mat.collision_mode = ParticleProcessMaterial.COLLISION_HIDE_ON_CONTACT
@@ -436,7 +441,7 @@ func _build_rain() -> void:
 	_rain_mat.sub_emitter_keep_velocity = false
 	_rain.process_material = _rain_mat
 	var streak := QuadMesh.new()
-	streak.size = Vector2(0.018, 0.7)
+	streak.size = Vector2(0.018, rain_streak_len)
 	var mat := StandardMaterial3D.new()
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA

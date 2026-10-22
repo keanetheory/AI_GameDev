@@ -232,6 +232,9 @@ func _on_root_child_entered(node: Node) -> void:
 
 
 func _scene_ready() -> void:
+	# Only the game level counts: the title and settings screens come first and must not start the game (and Ted's first line).
+	if get_tree().get_first_node_in_group("boat") == null:
+		return
 	_bind_boat(get_tree().get_first_node_in_group("boat"))
 	_bind_rig(get_tree().get_first_node_in_group("lighting_rig"))
 	emit_event("GAME_STARTED")   # ignored if this attempt already started

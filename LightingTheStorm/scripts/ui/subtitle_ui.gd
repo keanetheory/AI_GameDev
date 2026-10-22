@@ -38,6 +38,9 @@ func _ready() -> void:
 	var gs := get_node_or_null("/root/GameState")
 	if gs:
 		gs.restarted.connect(_on_restarted)
+	var settings := get_node_or_null("/root/GameSettings")
+	if settings:
+		settings.changed.connect(func(): if not _subtitles_on(): subtitle_label.visible = false)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -53,7 +56,13 @@ func toggle_journal() -> void:
 func _on_line_started(_line_id: String, speaker: String, subtitle: String, _delivery: String) -> void:
 	subtitle_label.text = subtitle
 	subtitle_label.add_theme_color_override("font_color", SPEAKER_COLOURS.get(speaker.to_upper(), Color.WHITE))
-	subtitle_label.visible = true
+	subtitle_label.visible = _subtitles_on()
+
+
+## The player's subtitles choice (settings screen). The journal and the hint line are not subtitles and ignore it.
+func _subtitles_on() -> bool:
+	var gs := get_node_or_null("/root/GameSettings")
+	return gs == null or gs.subtitles_enabled
 
 
 func _on_line_finished(_line_id: String) -> void:
