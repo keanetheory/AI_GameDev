@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://b601q1u1ked8s"]
+[gd_scene load_steps=26 format=3 uid="uid://b601q1u1ked8s"]
 
 [ext_resource type="Script" path="res://scripts/world/collider_builder.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/world/sea.gd" id="2"]
@@ -70,9 +70,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.2, 0)
 script = ExtResource("1")
 model_path = "res://Assets/Models/island/island_craggy.glb"
 body_layers = 3
+carve_boxes = Array[AABB]([AABB(-40.5, 0.85, 12, 7.3, 5, 9.8), AABB(-41, 0.85, 12.4, 22.2, 12.35, 17.6), AABB(-18.8, 0.85, 22.5, 4, 12.35, 12.5), AABB(-22, 0.85, 30, 3.2, 12.35, 5), AABB(-15.5, 0.85, 23.2, 3.9, 12.35, 4.4), AABB(-19.9, 3.2, 12.2, 2.65, 12, 9)])
 carve_oriented = Array[Transform3D]([Transform3D(6.9485, 0, 2.6931, 0, 3.8, 0, -3.3179, 0, 5.64, 1.4996, 10.3, -3.5846)])
 carve_oriented_any = Array[Transform3D]([Transform3D(6.74, 0, 2.612, 0, 3.6, 0, -3.218, 0, 5.471, 1.4996, 10.2, -3.5846)])
-carve_boxes = Array[AABB]([AABB(-40.5, 0.85, 12, 7.3, 5, 9.8), AABB(-41, 0.85, 12.4, 22.2, 12.35, 17.6), AABB(-18.8, 0.85, 22.5, 4, 12.35, 12.5), AABB(-22, 0.85, 30, 3.2, 12.35, 5), AABB(-15.5, 0.85, 23.2, 3.9, 12.35, 4.4), AABB(-19.9, 3.2, 12.2, 2.65, 12, 9)])
 carve_lines = PackedVector3Array(-15.2, 0.85, 24.9, -11.8, 0.85, 21.9, -11.8, 0.85, 21.9, -10.2, 0.85, 26.4, -10.2, 0.85, 26.4, -15.4, 0.85, 30.5, -12.4, 0.85, 22.6, -11.8, 0.85, 26.6, -10.8, 0.85, 25.6, -16, 0.85, 29.7)
 carve_line_half_width = 0.8
 carve_line_half_widths = PackedFloat32Array()
@@ -113,10 +113,10 @@ press_path = PackedVector3Array()
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 9.61, -8.5)
 script = ExtResource("1")
 model_path = "res://Assets/Models/lighthouse/lighthouse_exterior_v3.glb"
-carve_cylinders = Array[AABB]([AABB(0.7, 5.0, 0.8, 5.6, 12.9, 5.6), AABB(1.2, 17.6, 1.3, 4.6, 0.65, 4.6), AABB(2.45, 18.1, 2.55, 2.1, 3.6, 2.1), AABB(0.55, 17.97, 0.65, 5.9, 3.92, 5.9)])
-carve_oriented = Array[Transform3D]([Transform3D(1.6243, 0.0000, 0.8618, 0.0000, 3.0000, 0.0000, -0.7756, 0.0000, 1.8048, -3.7956, 2.5700, 8.2423), Transform3D(6.9485, 0.0000, 2.6931, 0.0000, 3.7000, 0.0000, -3.3179, 0.0000, 5.6400, -3.5004, -0.4500, 4.9154), Transform3D(0.5171, 0.0000, -1.1731, 0.0000, 1.4500, 0.0000, 1.0829, 0.0000, 0.5602, -8.3020, 2.5900, 7.8430), Transform3D(0.5446, 0.0000, -0.8387, 0.0000, 1.8000, 0.0000, 0.8387, 0.0000, 0.5446, 1.1098, 15.0900, 5.1522)])
-carve_cylinders_any = Array[AABB]([AABB(0.75, 4.9, 0.85, 5.5, 13.0, 5.5)])
-carve_oriented_any = Array[Transform3D]([Transform3D(6.60, 0, 2.558, 0, 3.1, 0, -3.152, 0, 5.358, -3.5004, -0.75, 4.9154), Transform3D(1.1258, 0.0000, 1.3000, 0.0000, 2.0000, 0.0000, 0.6500, 0.0000, -2.2517, 5.4500, 8.1000, 0.2225), Transform3D(1.1258, 0.0000, 1.3000, 0.0000, 2.0000, 0.0000, 0.6500, 0.0000, -2.2517, 5.4500, 12.4000, 0.2225), Transform3D(0.8030, 0.0000, -2.1298, 0.0000, 2.0000, 0.0000, -1.1468, 0.0000, -1.4913, 0.3053, 10.9000, 1.3631), Transform3D(-1.2216, 0.0000, -0.8893, 0.0000, 2.0000, 0.0000, -0.4446, 0.0000, 2.4432, 2.1661, 6.9000, 7.2648), Transform3D(-1.2216, 0.0000, -0.8893, 0.0000, 2.0000, 0.0000, -0.4446, 0.0000, 2.4432, 2.1661, 11.4000, 7.2648), Transform3D(-0.6033, 0.0000, 1.4438, 0.0000, 1.7000, 0.0000, -1.2634, 0.0000, -0.6894, -9.3106, 6.7500, 5.2795), Transform3D(1.3536, 0.0000, -0.7756, 0.0000, 1.3000, 0.0000, -0.6463, 0.0000, -1.6243, -4.8373, 6.4500, -0.9013), Transform3D(1.0829, 0.0000, -0.7756, 0.0000, 1.3000, 0.0000, -0.5171, 0.0000, -1.6243, -6.9579, 6.4500, 0.1114), Transform3D(-1.3000, 0.0000, -0.7361, 0.0000, 5.6000, 0.0000, -2.2517, 0.0000, 0.4250, 1.4865, 13.8000, 4.7625)])
+carve_oriented = Array[Transform3D]([Transform3D(1.6243, 0, 0.8618, 0, 3, 0, -0.7756, 0, 1.8048, -3.7956, 2.57, 8.2423), Transform3D(6.9485, 0, 2.6931, 0, 3.7, 0, -3.3179, 0, 5.64, -3.5004, -0.45, 4.9154), Transform3D(0.5171, 0, -1.1731, 0, 1.45, 0, 1.0829, 0, 0.5602, -8.302, 2.59, 7.843), Transform3D(0.5446, 0, -0.8387, 0, 1.8, 0, 0.8387, 0, 0.5446, 1.1098, 15.09, 5.1522)])
+carve_oriented_any = Array[Transform3D]([Transform3D(6.6, 0, 2.558, 0, 3.1, 0, -3.152, 0, 5.358, -3.5004, -0.75, 4.9154), Transform3D(1.1258, 0, 1.3, 0, 2, 0, 0.65, 0, -2.2517, 5.45, 8.1, 0.2225), Transform3D(1.1258, 0, 1.3, 0, 2, 0, 0.65, 0, -2.2517, 5.45, 12.4, 0.2225), Transform3D(0.803, 0, -2.1298, 0, 2, 0, -1.1468, 0, -1.4913, 0.3053, 10.9, 1.3631), Transform3D(-1.2216, 0, -0.8893, 0, 2, 0, -0.4446, 0, 2.4432, 2.1661, 6.9, 7.2648), Transform3D(-1.2216, 0, -0.8893, 0, 2, 0, -0.4446, 0, 2.4432, 2.1661, 11.4, 7.2648), Transform3D(-0.6033, 0, 1.4438, 0, 1.7, 0, -1.2634, 0, -0.6894, -9.3106, 6.75, 5.2795), Transform3D(1.3536, 0, -0.7756, 0, 1.3, 0, -0.6463, 0, -1.6243, -4.8373, 6.45, -0.9013), Transform3D(1.0829, 0, -0.7756, 0, 1.3, 0, -0.5171, 0, -1.6243, -6.9579, 6.45, 0.1114), Transform3D(-1.3, 0, -0.7361, 0, 5.6, 0, -2.2517, 0, 0.425, 1.4865, 13.8, 4.7625)])
+carve_cylinders_any = Array[AABB]([AABB(0.75, 4.9, 0.85, 5.5, 13, 5.5)])
+carve_cylinders = Array[AABB]([AABB(0.7, 5, 0.8, 5.6, 12.9, 5.6), AABB(1.2, 17.6, 1.3, 4.6, 0.65, 4.6), AABB(2.45, 18.1, 2.55, 2.1, 3.6, 2.1), AABB(0.55, 17.97, 0.65, 5.9, 3.92, 5.9)])
 carve_lines = PackedVector3Array()
 carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
@@ -125,18 +125,21 @@ press_path = PackedVector3Array()
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 9.61, -8.5)
 script = ExtResource("1")
 model_path = "res://Assets/Models/lighthouse/interior/lighthouse_greybox_v3.glb"
+carve_lines = PackedVector3Array()
+carve_line_half_widths = PackedFloat32Array()
+press_path = PackedVector3Array()
 colour_by_name = {
-"step": Color(0.78, 0.55, 0.25, 1),
-"stair": Color(0.78, 0.55, 0.25, 1),
-"landing": Color(0.78, 0.55, 0.25, 1),
+"*": Color(0.74, 0.72, 0.68, 1),
+"core": Color(0.3, 0.42, 0.45, 1),
+"counter": Color(0.3, 0.42, 0.45, 1),
 "floor": Color(0.5, 0.38, 0.27, 1),
 "gallery": Color(0.5, 0.38, 0.27, 1),
+"landing": Color(0.78, 0.55, 0.25, 1),
 "link": Color(0.5, 0.38, 0.27, 1),
-"core": Color(0.3, 0.42, 0.45, 1),
 "mount": Color(0.3, 0.42, 0.45, 1),
 "placeholder": Color(0.3, 0.42, 0.45, 1),
-"counter": Color(0.3, 0.42, 0.45, 1),
-"*": Color(0.74, 0.72, 0.68, 1)
+"stair": Color(0.78, 0.55, 0.25, 1),
+"step": Color(0.78, 0.55, 0.25, 1)
 }
 
 [node name="LighthouseInteriorLights" type="Node3D" parent="."]
@@ -144,7 +147,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 9.61, -8.5)
 script = ExtResource("17")
 
 [node name="HallFront" type="OmniLight3D" parent="LighthouseInteriorLights"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 3.2, 7.0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 3.2, 7)
 light_color = Color(1, 0.8, 0.55, 1)
 light_energy = 1.6
 shadow_enabled = true
@@ -165,18 +168,17 @@ shadow_enabled = true
 omni_range = 6.0
 
 [node name="BasementBoiler" type="OmniLight3D" parent="LighthouseInteriorLights"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.0, 0.2, 4.9)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.2, 4.9)
 light_color = Color(1, 0.8, 0.55, 1)
 light_energy = 1.6
 shadow_enabled = true
 omni_range = 6.0
 
 [node name="BasementStairs" type="OmniLight3D" parent="LighthouseInteriorLights"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 0.0, 4.3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 0, 4.3)
 light_color = Color(1, 0.8, 0.55, 1)
 light_energy = 1.6
 shadow_enabled = true
-omni_range = 5.0
 
 [node name="BasementDaniel" type="OmniLight3D" parent="LighthouseInteriorLights"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0.2, 5.4)
@@ -186,7 +188,7 @@ shadow_enabled = true
 omni_range = 6.0
 
 [node name="Spiral1" type="OmniLight3D" parent="LighthouseInteriorLights"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.81, 3.20, 2.16)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.81, 3.2, 2.16)
 light_color = Color(1, 0.8, 0.55, 1)
 light_energy = 1.6
 shadow_enabled = true
@@ -228,7 +230,7 @@ shadow_enabled = true
 omni_range = 4.0
 
 [node name="Spiral7" type="OmniLight3D" parent="LighthouseInteriorLights"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.81, 15.90, 2.16)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.81, 15.9, 2.16)
 light_color = Color(1, 0.8, 0.55, 1)
 light_energy = 1.6
 shadow_enabled = true
@@ -246,7 +248,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 19.6, 5.2)
 light_color = Color(1, 0.8, 0.55, 1)
 light_energy = 1.6
 shadow_enabled = true
-omni_range = 5.0
 
 [node name="InteriorRooms" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 9.61, -8.5)
@@ -363,24 +364,24 @@ script = ExtResource("7")
 editor_description = "Saltgate audio anchors (SLT-10) for the Sound agent. One Marker3D per sound source in Docs/Lore Build/regions/reg_saltgate.md (Ambient Audio Direction). No audio is authored here; attach players to these."
 
 [node name="SaltgateAudioCreakingTimberDock" type="Marker3D" parent="SaltgateAudio"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 3.6, 536.0)
 editor_description = "creaking timber: the quay's timber front and piles beside the berth"
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 3.6, 536)
 
 [node name="SaltgateAudioCreakingTimberBoardwalk" type="Marker3D" parent="SaltgateAudio"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.0, 3.4, 555.0)
 editor_description = "creaking timber: the east boardwalk on its piles"
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 3.4, 555)
 
 [node name="SaltgateAudioLooseShutters" type="Marker3D" parent="SaltgateAudio"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0, 5.0, 543.5)
 editor_description = "loose shutters banging: the hut north of the burner plinth"
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 5, 543.5)
 
 [node name="SaltgateAudioRigging" type="Marker3D" parent="SaltgateAudio"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0, 6.5, 546.0)
 editor_description = "rigging slapping: the flag pole (SaltgateFlag)"
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 6.5, 546)
 
 [node name="SaltgateAudioCityHum" type="Marker3D" parent="SaltgateAudio"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.0, 45.0, 640.0)
 editor_description = "distant city hum: over the cliff top towards Saint Calder"
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 45, 640)
 
 [node name="BoardwalkWest" type="Node3D" parent="."]
 script = ExtResource("8")

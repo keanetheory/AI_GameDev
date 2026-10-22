@@ -499,7 +499,8 @@ func _build_rain_floor() -> void:
 	_rain_floor.resolution = GPUParticlesCollisionHeightField3D.RESOLUTION_512
 	_rain_floor.update_mode = GPUParticlesCollisionHeightField3D.UPDATE_MODE_ALWAYS
 	_rain_floor.follow_camera_enabled = true
-	_rain_floor.heightfield_mask = 1        # the world's visible surfaces (layer 1)
+	if "heightfield_mask" in _rain_floor:   # not on every engine build; without it the default (all layers) is fine
+		_rain_floor.set("heightfield_mask", 1)   # the world's visible surfaces (layer 1)
 	add_child(_rain_floor)
 
 

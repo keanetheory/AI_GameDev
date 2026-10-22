@@ -205,8 +205,8 @@ func _cylinder_collider(stack: Node3D) -> void:
 	cyl.height = maxf(box.size.y, 4.0)
 	cs.shape = cyl
 	body.add_child(cs)
-	body.global_position = box.get_center()
 	add_child(body)
+	body.global_position = box.get_center()
 
 
 func _spray_at(pos: Vector3) -> void:

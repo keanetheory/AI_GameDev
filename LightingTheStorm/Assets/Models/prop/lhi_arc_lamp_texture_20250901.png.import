@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://t5lp2cro5nyi"
-path="res://.godot/imported/lhi_arc_lamp_texture_20250901.png-46627d8d5ed04ec7df7928b50698614f.ctex"
+path.s3tc="res://.godot/imported/lhi_arc_lamp_texture_20250901.png-46627d8d5ed04ec7df7928b50698614f.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "6e1363f0b13b3f1cf0ef235cd4c72850"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://Assets/Models/prop/lhi_arc_lamp_texture_20250901.png"
-dest_files=["res://.godot/imported/lhi_arc_lamp_texture_20250901.png-46627d8d5ed04ec7df7928b50698614f.ctex"]
+dest_files=["res://.godot/imported/lhi_arc_lamp_texture_20250901.png-46627d8d5ed04ec7df7928b50698614f.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
@@ -34,4 +35,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0
