@@ -126,6 +126,74 @@ func sphere(parent: Node3D, nm: String, c: Vector3, r: float, m, squash := 1.0) 
 	return mi
 
 
+## An imported model (res://Assets/Models/prop/lhi_*.glb: scaled to 0.9 m on its longest side, pivot at the base centre) placed
+## in the house frame: `scale` multiplies that 0.9 m, `yaw_deg` turns it about the vertical (positive turns its +z toward the
+## house +u). `footprint` (a box size in the model's own metres after scaling, x width, y height, z depth) adds one solid
+## collision box centred over the base, or Vector3.ZERO for none.
+func model(parent: Node3D, nm: String, path: String, at: Vector3, yaw_deg: float, scale: float, footprint := Vector3.ZERO, carve := AABB()) -> Node3D:
+	var ps := load(path) as PackedScene
+	var w := Node3D.new()
+	w.name = nm
+	w.position = p(at.x, at.y, at.z)
+	w.rotation.y = deg_to_rad(yaw_deg)
+	w.scale = Vector3.ONE * scale
+	parent.add_child(w)
+	count += 1
+	if ps == null:
+		push_warning("kit.model: cannot load %s" % path)
+		return w
+	var inst := ps.instantiate() as Node3D
+	inst.name = "Model"
+	w.add_child(inst)
+	if carve.size != Vector3.ZERO:
+		for mi in inst.find_children("*", "MeshInstance3D", true, false):
+			_carve_mesh(mi as MeshInstance3D, carve)
+	for g in inst.find_children("*", "GeometryInstance3D", true, false):
+		(g as GeometryInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+	if footprint != Vector3.ZERO:
+		var sb := StaticBody3D.new()
+		sb.name = "Body"
+		sb.collision_layer = FLOOR_LAYER
+		var cs := CollisionShape3D.new()
+		var bx := BoxShape3D.new()
+		bx.size = footprint / scale
+		cs.shape = bx
+		cs.position = Vector3(0, bx.size.y * 0.5, 0)
+		sb.add_child(cs)
+		w.add_child(sb)
+	return w
+
+
+## Remove from a mesh every triangle whose centre is inside `box`, given in the mesh's own raw coordinates (the generated models
+## store z as height). Used to take a door off the generated boiler.
+func _carve_mesh(mi: MeshInstance3D, box: AABB) -> void:
+	var src := mi.mesh as ArrayMesh
+	if src == null:
+		return
+	var out := ArrayMesh.new()
+	var removed := 0
+	for s in src.get_surface_count():
+		var arr := src.surface_get_arrays(s)
+		var v: PackedVector3Array = arr[Mesh.ARRAY_VERTEX]
+		var idx: PackedInt32Array = arr[Mesh.ARRAY_INDEX]
+		if idx.is_empty():
+			idx = PackedInt32Array(range(v.size()))
+		var kept := PackedInt32Array()
+		for t in range(0, idx.size(), 3):
+			var c := (v[idx[t]] + v[idx[t + 1]] + v[idx[t + 2]]) / 3.0
+			if box.has_point(c):
+				removed += 1
+			else:
+				kept.append(idx[t])
+				kept.append(idx[t + 1])
+				kept.append(idx[t + 2])
+		arr[Mesh.ARRAY_INDEX] = kept
+		out.add_surface_from_arrays(src.surface_get_primitive_type(s), arr)
+		out.surface_set_material(out.get_surface_count() - 1, src.surface_get_material(s))
+	mi.mesh = out
+	print("kit: carved %d triangles from %s" % [removed, mi.name])
+
+
 func node(parent: Node3D, nm: String, at := Vector3.ZERO) -> Node3D:
 	var n := Node3D.new()
 	n.name = nm
@@ -159,6 +227,8 @@ func sheet(parent: Node3D, nm: String, c: Vector3, normal: Vector3, w: float, h:
 	mi.material_override = _m(m)
 	var n := p(normal.x, normal.y, normal.z).normalized()
 	var up := Vector3.UP
+	if absf(n.dot(up)) > 0.99:      # a page lying flat (a chart on a table): "up" on the page is the house's far wall (-v, +z here)
+		up = Vector3(0, 0, -1) * signf(n.dot(Vector3.UP)) * -1.0
 	var x := up.cross(n).normalized()
 	mi.transform = Transform3D(Basis(x, n.cross(x).normalized(), n), p(c.x, c.y, c.z) + n * 0.012)
 	parent.add_child(mi)

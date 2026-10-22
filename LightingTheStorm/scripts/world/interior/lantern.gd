@@ -20,7 +20,9 @@ const FLOOR := 17.9
 const DECK := 18.3
 const CEIL_Y := 21.95
 const GLASS_R := 2.82
-const LAMP_Y := 19.45           # the burner seat
+const LAMP_Y := 19.45           # the burner seat (the anchors use this height)
+const LAMP_SCALE := 2.9         # the 0.9 m generated lamp, scaled to 2.6 m
+const LAMP_FACE_DEG := 215.0    # the bearing the burner bay faces: toward where the player stands (anchor lamp_stand)
 
 var socket: Node3D
 var beacon: Node3D
@@ -77,49 +79,37 @@ func _arc_lamp(P: Node3D) -> void:
 	var c := Vector3(cx, 0.0, cz)
 	var brass := _m("brass")
 	var iron := _m("iron_dark")
-	_cyl(P, "Lamp_PedestalBase", c + Vector3(0, FLOOR, 0), c + Vector3(0, FLOOR + 0.22, 0), 0.62, brass, false)
-	_cyl(P, "Lamp_PedestalColumn", c + Vector3(0, FLOOR + 0.22, 0), c + Vector3(0, FLOOR + 1.05, 0), 0.34, iron, false)
-	_cyl(P, "Lamp_PedestalFlare", c + Vector3(0, FLOOR + 1.05, 0), c + Vector3(0, LAMP_Y - 0.1, 0), 0.58, brass, false)
-	# the burner bay: a cage of brass bars round the seat, open on the player's side
-	for i in 8:
-		var a := 45.0 * i + 22.5
-		_cyl(P, "Lamp_BayBar_%d" % i, _pt(a, 0.62, LAMP_Y - 0.1), _pt(a, 0.62, LAMP_Y + 0.5), 0.022, brass, false)
-	_arc(P, "Lamp_BayRingLow", 0.58, 0.66, 0.0, 360.0, LAMP_Y - 0.12, LAMP_Y - 0.06, _ds("brass"), false)
-	_arc(P, "Lamp_BayRingHigh", 0.58, 0.66, 0.0, 360.0, LAMP_Y + 0.46, LAMP_Y + 0.52, _ds("brass"), false)
-	# a solid cylinder to bump into: the whole lamp is one 0.65 m column to the physics
+	# a solid cylinder to bump into: the whole lamp is one column to the physics
 	var sb := StaticBody3D.new()
 	sb.name = "LampBody"
 	sb.collision_layer = 1
 	var cs := CollisionShape3D.new()
 	var sh := CylinderShape3D.new()
-	sh.radius = 0.62
-	sh.height = LAMP_Y - FLOOR + 0.5
+	sh.radius = 0.85
+	sh.height = 2.5
 	cs.shape = sh
 	sb.add_child(cs)
 	sb.position = Vector3(cx, FLOOR + sh.height * 0.5, cz)
 	P.add_child(sb)
-	# the Fresnel lens drum above the bay: eight glass bands in brass rings (a "Lens" mesh lights up with the lamp)
+	# the generated arc lamp (lhi_arc_lamp.glb): a pedestal with an arched burner bay at its foot, a Fresnel lens drum, a brass
+	# gallery and a chimney cap. 2.6 m tall, turned so the bay faces the stair side of the room (bearing LAMP_FACE_DEG). Its
+	# materials are darkened until the burner is fitted and lamp_beacon.gd brings them up with an emission.
 	beacon = Node3D.new()
 	beacon.name = "LampBeacon"
 	beacon.position = Vector3(cx, 0.0, cz)
 	beacon.set_script(BeaconScript)
 	P.add_child(beacon)
-	var lens_base := LAMP_Y + 0.55
-	for i in 8:
-		var y0 := lens_base + 0.2 * i
-		var lm := StandardMaterial3D.new()
-		lm.albedo_color = Color(0.55, 0.62, 0.66, 0.35)
-		lm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		lm.roughness = 0.1
-		lm.metallic = 0.3
-		lm.cull_mode = BaseMaterial3D.CULL_DISABLED
-		var rr := 0.78 + 0.12 * sin(float(i) / 7.0 * PI)
-		var band := _cyl(beacon, "Lens_%d" % i, Vector3(0, y0, 0), Vector3(0, y0 + 0.17, 0), rr, lm, false)
-		band.position = Vector3(0, y0 + 0.085, 0)
-		_cyl(beacon, "LensRing_%d" % i, Vector3(0, y0 + 0.17, 0), Vector3(0, y0 + 0.2, 0), rr + 0.015, brass, false).position = Vector3(0, y0 + 0.185, 0)
-	var top := lens_base + 1.6
-	_cyl(beacon, "Lamp_Cap", Vector3(0, top, 0), Vector3(0, top + 0.18, 0), 0.62, brass, false).position = Vector3(0, top + 0.09, 0)
-	_cyl(beacon, "Lamp_Chimney", Vector3(0, top + 0.18, 0), Vector3(0, CEIL_Y + 0.4, 0), 0.2, iron, false).position = Vector3(0, (top + 0.18 + CEIL_Y + 0.4) * 0.5, 0)
+	var face := deg_to_rad(LAMP_FACE_DEG)
+	var ps := load("res://Assets/Models/prop/lhi_arc_lamp.glb") as PackedScene
+	if ps:
+		var lm := Node3D.new()
+		lm.name = "LampModel"
+		lm.position = Vector3(0, FLOOR, 0)
+		lm.rotation.y = atan2(cos(face), sin(face))
+		lm.scale = Vector3.ONE * LAMP_SCALE
+		lm.add_child(ps.instantiate())
+		beacon.add_child(lm)
+	var lens_base := FLOOR + 0.95
 	# the arc itself: a bright core among the lens bands, dark until lit
 	var core_mat := StandardMaterial3D.new()
 	core_mat.albedo_color = Color(0.85, 0.88, 0.92)
@@ -190,9 +180,9 @@ void fragment() {
 	socket = Node3D.new()
 	socket.name = "LampSocket"
 	socket.set_script(SocketScript)
-	socket.position = Vector3(cx, LAMP_Y, cz)
+	socket.position = Vector3(cx + cos(face) * 0.78, FLOOR + 0.42, cz + sin(face) * 0.78)      # in the mouth of the lamp's burner bay
 	socket.set("mount_offset", Vector3(0, 0.0, 0))
-	socket.set("mount_rotation_deg", Vector3(0.0, 0.0, 0.0))
+	socket.set("mount_rotation_deg", Vector3(0.0, rad_to_deg(atan2(cos(face), sin(face))), 0.0))
 	P.add_child(socket)
 	beacon.setup()
 	socket.set("beacon_path", socket.get_path_to(beacon))

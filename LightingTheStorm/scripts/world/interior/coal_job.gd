@@ -12,9 +12,9 @@ const Interactable := "res://scripts/interaction/interactable.gd"
 
 @export var loads_needed := 6
 ## How the shovelful is held: low and to the right, the blade forward, tilted down.
-@export var held_offset := Vector3(0.28, -0.42, -0.8)
-@export var held_rotation_deg := Vector3(-62.0, 18.0, 0.0)
-@export var held_scale := 0.75
+@export var held_offset := Vector3(0.26, -0.3, -0.78)
+@export var held_rotation_deg := Vector3(100.0, 18.0, 0.0)
+@export var held_scale := 0.6
 
 ## Set by rooms_house.gd.
 var gauge: Node3D
@@ -143,33 +143,24 @@ func _process(delta: float) -> void:
 		flywheel.rotate_object_local(Vector3.UP, delta * 5.5)
 
 
-## A shovel with coal on the blade: built on demand so the heap is never short of one.
+## A shovel with coal on the blade: built on demand so the heap is never short of one. The generated shovel (lhi_coal_shovel.glb,
+## 0.9 m, upright with its handle up and its pivot at the blade) turned so the blade points forward, plus lumps of coal on the blade.
+const SHOVEL_YAW_DEG := -90.0
+const SHOVEL_PITCH_DEG := 0.0
+const SHOVEL_SCALE := 1.0
+const BLADE_AT := Vector3(0.0, 0.1, -0.22)      # where the lumps sit, in the shovel's own space
+
+
 func _make_shovel() -> Node3D:
 	var root := Node3D.new()
 	root.name = "ShovelOfCoal"
-	var handle := MeshInstance3D.new()
-	var hm := CylinderMesh.new()
-	hm.top_radius = 0.018
-	hm.bottom_radius = 0.018
-	hm.height = 0.9
-	handle.mesh = hm
-	var wood := StandardMaterial3D.new()
-	wood.albedo_color = Color(0.35, 0.22, 0.12)
-	wood.roughness = 0.8
-	handle.material_override = wood
-	handle.position = Vector3(0.0, 0.45, 0.0)
-	root.add_child(handle)
-	var blade := MeshInstance3D.new()
-	var bm := BoxMesh.new()
-	bm.size = Vector3(0.24, 0.035, 0.3)
-	blade.mesh = bm
-	var iron := StandardMaterial3D.new()
-	iron.albedo_color = Color(0.3, 0.3, 0.33)
-	iron.metallic = 0.7
-	iron.roughness = 0.5
-	blade.material_override = iron
-	blade.position = Vector3(0.0, 0.0, -0.12)
-	root.add_child(blade)
+	var ps := load("res://Assets/Models/prop/lhi_coal_shovel.glb") as PackedScene
+	if ps:
+		var m := ps.instantiate() as Node3D
+		m.name = "ShovelModel"
+		m.rotation_degrees = Vector3(SHOVEL_PITCH_DEG, SHOVEL_YAW_DEG, 0.0)
+		m.scale = Vector3.ONE * SHOVEL_SCALE
+		root.add_child(m)
 	var coal := StandardMaterial3D.new()
 	coal.albedo_color = Color(0.07, 0.07, 0.08)
 	coal.roughness = 0.45
@@ -179,12 +170,12 @@ func _make_shovel() -> Node3D:
 	for i in 9:
 		var lump := MeshInstance3D.new()
 		var lm := BoxMesh.new()
-		var s := rng.randf_range(0.05, 0.1)
+		var s := rng.randf_range(0.04, 0.08)
 		lm.size = Vector3(s, s * 0.8, s)
 		lump.mesh = lm
 		lump.material_override = coal
 		lump.name = "Coal_%d" % i
-		lump.position = Vector3(rng.randf_range(-0.08, 0.08), 0.04 + rng.randf_range(0.0, 0.04), -0.12 + rng.randf_range(-0.1, 0.1))
+		lump.position = BLADE_AT + Vector3(rng.randf_range(-0.07, 0.07), rng.randf_range(0.0, 0.04), rng.randf_range(-0.09, 0.09))
 		lump.rotation = Vector3(rng.randf() * TAU, rng.randf() * TAU, rng.randf() * TAU)
 		root.add_child(lump)
 	return root

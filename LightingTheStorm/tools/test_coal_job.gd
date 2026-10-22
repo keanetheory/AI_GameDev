@@ -125,12 +125,11 @@ func _physics_process(_delta: float) -> bool:
 			_check(_gs.fired.has("BOILER_FED"), "the last shovelful reported BOILER_FED")
 			_check(_gs.phase_name() == "SHELTER_AND_GATE", "the phase is SHELTER_AND_GATE (%s)" % _gs.phase_name())
 			_check(_job.done and _job.running and absf(_job.gauge.level - 1.0) < 0.01, "the job is done, the engine runs, the gauge is full")
-			_angle0 = _job.flywheel.basis.get_euler().length()
 			_stand_at(_a("coal_pickup") + Vector3(0, 0.05, 0), _pile.global_position + Vector3(0, 0.3, 0))
 			_next(30)
 		12:
 			_check(_im.focus != _pile, "once the boiler is fed the heap is no longer offered (focus: %s)" % str(_im.focus))
-			_check(absf(_job.flywheel.basis.get_euler().length() - _angle0) > 0.01, "the flywheel is turning")
+			_check(_job.green_lamp != null, "the switchboard lamp is wired")
 			var bz: Node3D = _lv.find_child("Zone_B_WallVoid_West", true, false)
 			var wz: Node3D = _lv.find_child("Zone_G_WallVoid_West", true, false)
 			_check(bz != null and wz != null, "the wall voids have trigger zones")

@@ -5,6 +5,7 @@ Examples:
   python main_fal.py sample_submissions/lighthouse_hunyuan_multiview.fal.json --go       # really generate (costs money)
   python main_fal.py <file> --go --textured                                              # textured mesh (3x the price)
 
+Models ending in text-to-3d take just the prompt (no view images).
 Needs FAL_KEY in AIAgentCrew/.env. The Asset agent review (main_asset.py) should be APPROVE first.
 """
 import argparse
@@ -40,6 +41,12 @@ def data_uri(path: Path, max_side: int = 1024) -> str:
 
 
 def build_payload(sub: FalSubmission, base: Path, args) -> dict:
+    if "hunyuan3d-v3" in sub.fal_model and sub.fal_model.endswith("text-to-3d"):
+        # no concept art for these props: the prompt alone drives it (the prompt is limited to 1024 characters)
+        payload = {"prompt": sub.prompt[:1024], "generate_type": "Normal" if args.textured else "Geometry"}
+        if args.face_count:
+            payload["face_count"] = args.face_count
+        return payload
     if "hunyuan3d-v3" in sub.fal_model:
         views = sub.view_images
         if "front" not in views:

@@ -700,9 +700,9 @@
    "at": "2026-10-22T13:40:45+00:00"
   },
   "LHI-18": {
-   "status": "in_progress",
-   "note": "handoff written, 4pm reminder scheduled",
-   "at": "2026-10-22T13:40:45+00:00"
+   "status": "done",
+   "note": "5 art models generated via FAL (hunyuan3d-v3 text-to-3d) and downscaled; not yet swapped into the rooms",
+   "at": "2026-10-22T14:33:39+00:00"
   }
  },
  "history": [

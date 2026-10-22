@@ -15,6 +15,7 @@ const Zone := preload("res://scripts/world/interior/zone_trigger.gd")
 
 const GF := 0.97
 const B1 := -2.0
+const POSTER_TILT := 0.0      # the generated poster stands upright (pivot at its bottom edge)
 const CEIL := 3.75         # top of the ground-floor walls
 const BCEIL := 0.77        # underside of the ground floor slab: the basement ceiling
 const WALL := Color(0.0, 0.0, 0.0)
@@ -229,13 +230,16 @@ func _sconce(P: Node3D, nm: String, at: Vector3, normal: Vector3, energy: float,
 func _poster(P: Node3D, nm: String, c: Vector3, normal: Vector3, text: String, flighted: bool) -> void:
 	var s = K.sheet(P, nm, c, normal, 0.72, 1.0, "paper", text, 46, Color(0.04, 0.05, 0.1), -0.3)
 	if flighted:
-		var ax := normal
-		var mid := c + Vector3(0, 0.18, 0) + normal * 0.02
-		K.disc(P, nm + "_MoonRing", mid, ax, 0.21, 0.01, "paper_navy")
-		K.disc(P, nm + "_Moon", mid + normal * 0.006, ax, 0.18, 0.01, K.colour(Color(0.72, 0.75, 0.8), 0.7))
-		var side := Vector3(normal.z, 0, normal.x).normalized()
-		K.disc(P, nm + "_Sphere", mid + normal * 0.012 + side * 0.07 + Vector3(0, 0.04, 0), ax, 0.15, 0.01, "black")
-		K.box(P, nm + "_Wave0", c.x - 0.3 * absf(normal.z) - 0.005, c.x + 0.3 * absf(normal.z) + 0.005, c.z - 0.3 * absf(normal.x) - 0.005, c.z + 0.3 * absf(normal.x) + 0.005, c.y - 0.12, c.y - 0.1, "paper_navy", false)
+		# the generated poster (lhi_flighted_poster.glb: a dark sphere over a silver moon above waves, black, silver and navy).
+		# Its lettering came out garbled (a text-to-3D limit), so the lower third is covered by a paper strip carrying the
+		# canon slogan in legible type. The sheet underneath stays as the click target.
+		s.visible = false
+		var nf := Vector3(normal.x, 0.0, -normal.z)
+		var w = K.model(P, nm + "_Art", "res://Assets/Models/prop/lhi_flighted_poster.glb", c + normal * 0.012, rad_to_deg(atan2(nf.x, nf.z)), 1.1)
+		var inst = w.get_node("Model")
+		inst.rotation.x = deg_to_rad(POSTER_TILT)
+		inst.position = Vector3(0, -0.5, 0)
+		K.sheet(P, nm + "_Strip", c + Vector3(0, -0.34, 0) + normal * 0.03, normal, 0.6, 0.27, "paper", text, 38, Color(0.04, 0.05, 0.1), 0.0)
 	var it := Node3D.new()
 	it.set_script(Poster)
 	it.name = "Read"
@@ -288,40 +292,39 @@ func _basement(P: Node3D) -> void:
 		K.box(P, "B_CoalBinPost_%d" % i, 4.24, 4.5, 0.5 + 0.55 * i, 0.58 + 0.55 * i, B1, B1 + 1.2, "wood", false)
 	_coal_pile(P, "B_CoalHeap", 4.95, 1.35, B1, 0.72, 1.05, 190, 5)
 	K.box(P, "B_CoalHeap_Core", 4.5, 5.5, 0.55, 2.25, B1, B1 + 0.35, "coal", false)
-	# the shovel, standing in the heap with its handle leaning toward the player
-	K.rod(P, "B_ShovelHandle", Vector3(4.8, B1 + 0.75, 1.05), Vector3(4.15, B1 + 1.6, 1.05), 0.022, K.colour(Color(0.55, 0.4, 0.26), 0.8))
-	K.rod(P, "B_ShovelGrip", Vector3(4.22, B1 + 1.5, 1.05), Vector3(4.13, B1 + 1.62, 1.05), 0.03, "wood_dark")
-	var blade = K.box(P, "B_ShovelBlade", 4.65, 5.0, 0.9, 1.2, B1 + 0.68, B1 + 0.73, K.colour(Color(0.5, 0.5, 0.52), 0.35, 0.8), false)
-	blade.rotation.x = deg_to_rad(-25.0)
+	# the shovel, stuck in the heap with its handle leaning toward the player (the generated model, blade down in the coal)
+	var sv = K.model(P, "B_Shovel", "res://Assets/Models/prop/lhi_coal_shovel.glb", Vector3(4.75, B1 + 0.62, 1.05), 90.0, 1.0)
+	sv.get_node("Model").rotation_degrees = Vector3(0.0, 0.0, 22.0)
 	K.light(P, "B_CoalLamp", Vector3(3.9, 0.2, 1.4), Color(1.0, 0.68, 0.38), 0.9, 3.5, 0.1)
-	# --- boiler (u -2.1..-0.75, v 4.85..6.25)
-	K.box(P, "B_BoilerPlinth", -2.1, -0.75, 4.85, 6.25, B1, B1 + 0.45, "brick", true)
-	K.pole(P, "B_BoilerShell", -1.45, 5.55, B1 + 0.45, 0.2, 0.64, "boiler", true)
-	K.sphere(P, "B_BoilerDome", Vector3(-1.45, 0.2, 5.55), 0.64, "boiler", 0.62)
-	for i in 3:
-		K.pole(P, "B_BoilerBand_%d" % i, -1.45, 5.55, B1 + 0.8 + 0.7 * i, B1 + 0.9 + 0.7 * i, 0.655, "copper", false)
-	K.pole(P, "B_Flue", -1.45, 5.55, 0.5, BCEIL, 0.14, "iron_dark", false)
-	K.box(P, "B_FireDoorFrame", -0.8, -0.68, 5.2, 5.9, B1 + 0.62, B1 + 1.32, "iron_dark", false)
-	# the firebox door: dark iron with a glowing slot behind three bars (a flat glowing panel read as a lit yellow card)
-	var fire_glow = K.box(P, "B_FireDoorGlow", -0.7, -0.665, 5.4, 5.7, B1 + 0.78, B1 + 1.12, K.colour(Color(0.72, 0.36, 0.08), 0.6, 0.0, 2.0), false)
-	for bi in 3:
-		K.box(P, "B_FireBar_%d" % bi, -0.69, -0.655, 5.44 + 0.1 * bi, 5.48 + 0.1 * bi, B1 + 0.76, B1 + 1.14, "iron_dark", false)
-	K.box(P, "B_AshDoor", -0.8, -0.7, 5.3, 5.8, B1 + 0.46, B1 + 0.6, "iron_dark", false)
-	K.disc(P, "B_FireDoorHandle", Vector3(-0.66, B1 + 0.96, 5.62), Vector3(1, 0, 0), 0.05, 0.03, "brass")
-	refs["fire_light"] = K.light(P, "B_FireLight", Vector3(-0.35, B1 + 0.95, 5.55), Color(1.0, 0.5, 0.2), 2.0, 5.5, 0.1)
-	# gauge on the shell: pressure dial and water glass
-	var gauge = K.node(P, "B_BoilerGauge", Vector3(-0.83, B1 + 1.55, 5.0))
+	# --- boiler: the generated model (lhi_boiler.glb: brick plinth, riveted shell, copper band, barred firebox with its fire baked in,
+	# brass gauge and water glass). Door faces +u (the player's side). Scaled to 1.5 m wide, 2.25 m tall.
+	K.model(P, "B_Boiler", "res://Assets/Models/prop/lhi_boiler.glb", Vector3(-1.45, B1, 5.55), 90.0, 2.5, Vector3(1.5, 2.2, 1.5), AABB(Vector3(-0.2, -0.12, -0.5), Vector3(0.4, 0.45, 0.45)))
+	K.pole(P, "B_Flue", -1.45, 5.55, B1 + 2.2, BCEIL, 0.14, "iron_dark", false)
+	# The generated door and its scanned fire are cut away (kit.model's carve); an iron surround covers the ragged rim, a dark
+	# recess shows the inside of the firebox, and a bed of glowing coal lies in it. The player shovels coal into this opening.
+	var rim = K.colour(Color(0.16, 0.16, 0.18), 0.6, 0.6)
+	K.box(P, "B_FireFrame_L", -1.02, -0.9, 5.08, 5.23, B1 + 0.05, B1 + 1.5, rim, false)
+	K.box(P, "B_FireFrame_R", -1.02, -0.9, 5.87, 6.02, B1 + 0.05, B1 + 1.5, rim, false)
+	K.box(P, "B_FireFrame_Head", -1.02, -0.9, 5.08, 6.02, B1 + 1.12, B1 + 1.5, rim, false)
+	K.box(P, "B_FireFrame_Sill", -1.02, -0.88, 5.1, 6.0, B1 + 0.05, B1 + 0.17, rim, false)
+	var inner = K.colour(Color(0.04, 0.025, 0.02), 0.95)
+	inner.cull_mode = BaseMaterial3D.CULL_FRONT          # we look at the inside faces of this box: a recess
+	K.box(P, "B_FireRecess", -1.5, -0.96, 5.24, 5.86, B1 + 0.18, B1 + 1.11, inner, false)
+	var coal_glow = K.colour(Color(0.7, 0.24, 0.05), 0.8, 0.0, 1.1)
+	var fire_glow = K.box(P, "B_FireDoorGlow", -1.45, -1.0, 5.28, 5.82, B1 + 0.18, B1 + 0.3, coal_glow, false)
+	refs["fire_light"] = K.light(P, "B_FireLight", Vector3(-0.45, B1 + 0.9, 5.55), Color(1.0, 0.5, 0.2), 2.0, 5.5, 0.1)
+	# the pressure gauge the coal job drives: a big dial on the wall above the coal-side corner of the boiler (the model's own
+	# gauge is a still picture)
+	var gauge = K.node(P, "B_BoilerGauge", Vector3(-2.2, B1 + 1.75, 4.2))
 	gauge.set_script(Gauge)
-	K.disc(gauge, "B_GaugeRim", Vector3(0.0, 0.0, 0.0), Vector3(1, 0, 0), 0.15, 0.06, "brass")
-	K.disc(gauge, "B_GaugeFace", Vector3(0.0, 0.0, 0.0) + Vector3(0.03, 0, 0), Vector3(1, 0, 0), 0.13, 0.03, "gauge_face")
+	K.disc(gauge, "B_GaugeRim", Vector3(0.0, 0.0, 0.0), Vector3(1, 0, 0), 0.2, 0.06, "brass")
+	K.disc(gauge, "B_GaugeFace", Vector3(0.0, 0.0, 0.0) + Vector3(0.03, 0, 0), Vector3(1, 0, 0), 0.17, 0.03, "gauge_face")
 	var needle := Node3D.new()
 	needle.name = "Needle"
 	needle.position = KP(0.04, 0.0, 0.0)
 	gauge.add_child(needle)
-	K.box(needle, "NeedleBar", -0.006, 0.006, -0.006, 0.006, 0.0, 0.1, "lamp_red", false)
-	var water = K.node(P, "B_WaterGlass", Vector3(-0.83, B1 + 1.4, 6.1))
-	K.rod(water, "B_WaterGlassTube", Vector3(0, -0.3, 0), Vector3(0, 0.3, 0), 0.03, "glass")
-	K.box(water, "Water", -0.02, 0.02, -0.02, 0.02, -0.28, 0.28, K.colour(Color(0.3, 0.55, 0.8), 0.3), false)
+	K.box(needle, "NeedleBar", -0.008, 0.008, -0.008, 0.008, 0.0, 0.14, "lamp_red", false)
+	K.sheet(P, "B_GaugePlate", Vector3(-2.19, B1 + 1.48, 4.2), Vector3(1, 0, 0), 0.34, 0.1, "paper_old", "STEAM", 30, Color(0.12, 0.09, 0.07))
 	refs["gauge"] = gauge
 	gauge.set_level(0.0)
 	# steam main: boiler -> along the back wall -> down the east wall -> the engine
@@ -353,29 +356,18 @@ func _basement(P: Node3D) -> void:
 		K.box(P, "B_Oilskin_%d" % i, 0.55 + 0.35 * i, 0.82 + 0.35 * i, 0.46, 0.58, B1 + 0.7, B1 + 1.65, "leather" if i % 2 == 0 else "canvas", false)
 	K.pole(P, "B_LobbyBarrel", 0.2, 3.4, B1, B1 + 0.85, 0.28, "wood", true)
 	K.box(P, "B_ToolRack", -2.1, -2.0, 2.6, 3.4, B1 + 0.9, B1 + 1.9, "wood_dark", false)
-	# --- engine room (u 3.6..5.55, v 2.5..6.7): partition with a doorway, the engine, the dynamo
-	K.box(P, "B_EngineBedplate", 4.25, 5.35, 3.0, 5.7, B1, B1 + 0.18, "iron_dark", true)
-	K.rod(P, "B_EngineCylinder", Vector3(4.8, B1 + 0.8, 3.0), Vector3(4.8, B1 + 0.8, 3.9), 0.2, "iron", true)
-	K.box(P, "B_EngineSteamChest", 4.62, 4.98, 3.1, 3.65, B1 + 0.98, B1 + 1.28, "iron_dark", true)
-	K.rod(P, "B_EnginePistonRod", Vector3(4.8, B1 + 0.8, 3.9), Vector3(4.8, B1 + 0.8, 4.4), 0.04, "brass")
-	K.box(P, "B_EngineGuide", 4.65, 4.95, 4.1, 4.75, B1 + 0.65, B1 + 0.95, "iron", true)
-	var flywheel = K.disc(P, "B_Flywheel", Vector3(4.55, B1 + 0.95, 5.1), Vector3(1, 0, 0), 0.8, 0.14, "iron_dark", true)
-	K.disc(P, "B_FlywheelHub", Vector3(4.55, B1 + 0.95, 5.1), Vector3(1, 0, 0), 0.14, 0.3, "brass")
-	K.rod(P, "B_ConnectingRod", Vector3(4.8, B1 + 0.8, 4.4), Vector3(4.55, B1 + 1.33, 5.1), 0.035, "brass")
-	K.rod(P, "B_Crankshaft", Vector3(4.2, B1 + 0.95, 5.1), Vector3(5.3, B1 + 0.95, 5.1), 0.06, "iron")
-	K.box(P, "B_FlywheelBearing", 4.1, 4.3, 4.95, 5.25, B1 + 0.18, B1 + 0.85, "iron", false)
-	K.box(P, "B_Dynamo", 4.25, 5.2, 5.95, 6.6, B1, B1 + 0.75, "iron_dark", true)
-	K.rod(P, "B_DynamoCoil", Vector3(4.72, B1 + 0.75, 5.95), Vector3(4.72, B1 + 0.75, 6.6), 0.33, "copper", false)
-	K.disc(P, "B_DynamoPulley", Vector3(4.18, B1 + 0.45, 6.25), Vector3(1, 0, 0), 0.22, 0.1, "iron")
-	K.rod(P, "B_Belt_0", Vector3(4.55, B1 + 1.75, 5.1), Vector3(4.18, B1 + 0.68, 6.25), 0.018, "leather")
-	K.rod(P, "B_Belt_1", Vector3(4.55, B1 + 0.15, 5.1), Vector3(4.18, B1 + 0.23, 6.25), 0.018, "leather")
-	K.box(P, "B_Switchboard", 5.4, 5.55, 3.8, 4.7, B1 + 1.0, B1 + 2.1, "wood_dark", false)
+	# --- engine room (u 3.6..5.55, v 2.5..6.7): the generated steam engine with its dynamo and flywheel (lhi_steam_engine.glb),
+	# long axis along v. The flywheel is part of the model, so it no longer turns.
+	K.model(P, "B_SteamEngine", "res://Assets/Models/prop/lhi_steam_engine.glb", Vector3(4.55, B1, 4.9), 0.0, 2.2, Vector3(1.35, 1.3, 2.0))
+	var flywheel = null
+	# the switchboard on the east wall before the engine
+	K.box(P, "B_Switchboard", 5.4, 5.55, 2.6, 3.4, B1 + 1.0, B1 + 2.1, "wood_dark", false)
 	for i in 3:
-		K.disc(P, "B_Switchboard_Dial_%d" % i, Vector3(5.38, B1 + 1.8, 3.95 + 0.28 * i), Vector3(1, 0, 0), 0.09, 0.03, "gauge_face")
-	var green_lamp = K.disc(P, "B_Switchboard_Lamp_Green", Vector3(5.38, B1 + 1.3, 4.0), Vector3(1, 0, 0), 0.04, 0.03, K.colour(Color(0.2, 1.0, 0.35), 0.4, 0.0, 2.0))
-	K.disc(P, "B_Switchboard_Lamp_Red", Vector3(5.38, B1 + 1.3, 4.35), Vector3(1, 0, 0), 0.04, 0.03, "lamp_red")
-	K.box(P, "B_Switchboard_Knife", 5.37, 5.4, 4.5, 4.6, B1 + 1.1, B1 + 1.5, "brass", false)
-	_sconce(P, "B_Sconce_Engine", Vector3(5.5, B1 + 2.15, 5.6), Vector3(-1, 0, 0), 1.2, 4.5)
+		K.disc(P, "B_Switchboard_Dial_%d" % i, Vector3(5.38, B1 + 1.8, 2.72 + 0.24 * i), Vector3(-1, 0, 0), 0.08, 0.03, "gauge_face")
+	var green_lamp = K.disc(P, "B_Switchboard_Lamp_Green", Vector3(5.38, B1 + 1.3, 2.75), Vector3(-1, 0, 0), 0.04, 0.03, K.colour(Color(0.2, 1.0, 0.35), 0.4, 0.0, 2.0))
+	K.disc(P, "B_Switchboard_Lamp_Red", Vector3(5.38, B1 + 1.3, 3.05), Vector3(-1, 0, 0), 0.04, 0.03, "lamp_red")
+	K.box(P, "B_Switchboard_Knife", 5.37, 5.4, 3.15, 3.25, B1 + 1.1, B1 + 1.5, "brass", false)
+	_sconce(P, "B_Sconce_Engine", Vector3(5.5, B1 + 2.15, 6.2), Vector3(-1, 0, 0), 1.2, 4.5)
 	# --- workshop and stores along the back (u 0.9..3.6, v 5.75..6.7), behind the stair landing
 	K.box(P, "B_WorkBench", 1.0, 2.4, 6.3, 6.67, B1, B1 + 0.85, "wood", true)
 	K.box(P, "B_BenchTop", 0.98, 2.42, 6.25, 6.69, B1 + 0.85, B1 + 0.9, "wood_dark", false)

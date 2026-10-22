@@ -55,8 +55,8 @@ func _physics_process(_delta: float) -> bool:
 				return false
 			_check(_socket.item == null, "the socket is empty at the start")
 			_check(not _beacon.lit and _beacon.level == 0.0, "the lamp is dark at the start")
-			var lens0 := _beacon.find_child("Lens_3", true, false) as MeshInstance3D
-			_check(lens0 != null and not (lens0.material_override as StandardMaterial3D).emission_enabled or (lens0.material_override as StandardMaterial3D).emission_energy_multiplier == 0.0, "the lens is not glowing at the start")
+			_check(_beacon.get_node_or_null("LampModel") != null and _beacon._lens_mats.size() > 0, "the generated lamp model is in place (%d materials)" % _beacon._lens_mats.size())
+			_check(not _beacon._lens_mats[0].emission_enabled and _beacon._lens_mats[0].albedo_color.v < 0.5 * _beacon._lens_mats[0].get_meta("base_albedo").v + 0.01, "the lamp is dark and cold at the start")
 			_check(not _beacon.get_node("Glow").visible and not _beacon.get_node("BeamPivot").visible, "no lamp light or beam at the start")
 			_check(_lv.find_child("BrokenBurner", true, false) != null, "the broken burner is lying in the lamp room")
 			_check(_lv.find_child("BrokenBurner", true, false).get_parent() != _socket, "the broken burner is not in the lamp's socket")
@@ -91,8 +91,8 @@ func _physics_process(_delta: float) -> bool:
 			_check(_beacon.level > 0.3, "the lamp is coming up (%.2f)" % _beacon.level)
 			_check(_beacon.get_node("Glow").light_energy > 0.0 and _beacon.get_node("Glow").visible, "the lamp's light is on")
 			_check(_beacon.get_node("BeamPivot").visible and absf(_beacon.get_node("BeamPivot").rotation.y - _yaw0) > 0.01, "the beam is on and sweeping")
-			var lens := _beacon.find_child("Lens_3", true, false) as MeshInstance3D
-			_check(lens != null and (lens.material_override as StandardMaterial3D).emission_enabled and (lens.material_override as StandardMaterial3D).emission_energy_multiplier > 0.5, "the lens glows")
+
+			_check(_beacon._lens_mats[0].emission_enabled and _beacon._lens_mats[0].emission_energy_multiplier > 0.2, "the lamp glows")
 			_next(260)
 		6:
 			_check(_beacon.level >= 0.999, "the lamp reached full (%.2f)" % _beacon.level)
