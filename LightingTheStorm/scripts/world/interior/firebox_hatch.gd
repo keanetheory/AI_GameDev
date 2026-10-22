@@ -20,10 +20,12 @@ func prompt_text() -> String:
 	return "Shovel the coal into the firebox"
 
 
-## The coal burns: the shovelful is used up, the socket stays empty.
+## The coal burns: the shovelful is used up (the shovel is thrust at the firebox, tipped and put away), the socket stays empty.
 func receive(node: Node3D) -> void:
-	node.queue_free()
 	var job := get_node_or_null(job_path)
 	if job:
 		job.fed()
+		job.animate_feed(node)
+	else:
+		node.queue_free()
 	placed.emit(node)

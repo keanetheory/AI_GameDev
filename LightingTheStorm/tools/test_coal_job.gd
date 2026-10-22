@@ -92,9 +92,13 @@ func _physics_process(_delta: float) -> bool:
 			_to_heap()
 		7:   # at the heap, empty-handed: take a shovelful
 			Input.action_press("interact")
-			_next(4)
+			_next(12)
 		8:
 			_check(_carry.is_holding() and _carry.held_kind == "coal", "E at the heap put a shovelful in the hands")
+			if _loads_done == 0 and _carry.is_holding():
+				var pose: Array = _carry.held.get_meta("carry_pose")
+				var moved: float = _carry.held.position.distance_to(pose[0])
+				_check(moved > 0.03 or _carry.held.get_node("Coal_0").visible, "the shovel dips into the heap and comes up loaded (moved %.2f m, coal %s)" % [moved, str(_carry.held.get_node("Coal_0").visible)])
 			_check(_im.focus != _pile, "with a shovelful in hand the heap is not offered again (one at a time)")
 			_stand_at(_a("boiler_interaction") + Vector3(0, 0.05, 0), _hatch.global_position)
 			_next(8)

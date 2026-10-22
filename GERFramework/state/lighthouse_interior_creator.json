@@ -483,18 +483,146 @@
     "Gameplay / Systems agent",
     "Sound agent"
    ]
+  },
+  {
+   "id": "LHI-15",
+   "title": "Cut and frame windows in the first floor, the control landing and the stairwell",
+   "priority": 8,
+   "why_score": "Creator request 2026-10-22: the closed rooms felt shut in. Not 9 because windows do not block play.",
+   "detail": "BUILT 2026-10-22: eight windows (five in the tower, three in the house) defined in data/world/lighthouse_windows.json, baked into Level.tscn by tools/bake_windows.py, framed with deep stone reveals, glass and a barrier by tower_shell.gd and rooms_tower.gd.",
+   "acceptance": [
+    "each window is a real opening with a reveal, glass and a barrier",
+    "the walk, sightline and stair tests pass"
+   ],
+   "owner": "Lighthouse Interior Creator Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/data/world/lighthouse_windows.json"
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/bake_windows.py"
+    },
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/interior/tower_shell.gd",
+     "pattern": "_tower_window_frames",
+     "min": 1
+    }
+   ],
+   "refs": [],
+   "depends_on": [],
+   "collaborates": [
+    "Lighthouse - Exterior Assessment Agent"
+   ]
+  },
+  {
+   "id": "LHI-16",
+   "title": "Model the tower wall's thickness and taper, with one continuous mesh per stair step",
+   "priority": 8,
+   "why_score": "Creator request 2026-10-22. Not 9: visual, not blocking.",
+   "detail": "BUILT 2026-10-22: tower_shell.gd lines the tower with a plinth 3.0 m to y 4.9 and then a cone tapering 3.4 to 2.9 m, pulled in to a measured table (data/world/tower_radii.json, tools/bake_tower_radii.gd) so no exterior surface shows through; window reveals 0.8 m deep show the thickness. The v3 half-width steps are replaced by solid 0.4 m steps from newel to wall, one mesh each.",
+   "acceptance": [
+    "the lining tapers",
+    "each step is one mesh from newel to wall",
+    "the walk and stair tests pass"
+   ],
+   "owner": "Lighthouse Interior Creator Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/data/world/tower_radii.json"
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/bake_tower_radii.gd"
+    },
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/interior/tower_shell.gd",
+     "pattern": "func _stairs|func wall_radius",
+     "min": 2
+    }
+   ],
+   "refs": [],
+   "depends_on": [],
+   "collaborates": []
+  },
+  {
+   "id": "LHI-17",
+   "title": "Wire SHIP_WIN to the lamp fit, and make the shovel move when shovelling",
+   "priority": 9,
+   "why_score": "Creator request 2026-10-22: the win must follow the fit, and the first hands-on job must read as shovelling. Not 10: the creator's named must was the lamp interaction itself.",
+   "detail": "BUILT 2026-10-22: lamp_socket.gd reports SHIP_WIN win_delay_s (4.5) seconds after the fit if no outcome has resolved. coal_job.gd animates the shovel: it dips into the heap and comes up loaded, then thrusts at the firebox, tips and is put away. Fixed a bug that kept the shovelful out of view: an item with no parent was never reparented into the camera.",
+   "acceptance": [
+    "tools/test_lamp_fit.gd sees SHIP_WIN and a WIN outcome",
+    "tools/test_coal_job.gd sees the shovel move"
+   ],
+   "owner": "Lighthouse Interior Creator Agent",
+   "checks": [
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/interior/lamp_socket.gd",
+     "pattern": "SHIP_WIN",
+     "min": 1
+    },
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/scripts/world/interior/coal_job.gd",
+     "pattern": "_scoop|animate_feed",
+     "min": 2
+    },
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/test_lamp_fit.gd"
+    }
+   ],
+   "refs": [],
+   "depends_on": [],
+   "collaborates": [
+    "Gameplay / Systems agent"
+   ]
+  },
+  {
+   "id": "LHI-18",
+   "title": "Art handoff: the Asset agent takes the interior's art objectives",
+   "priority": 6,
+   "why_score": "Creator request 2026-10-22. Art is not needed for the slice (greybox is acceptable at Gate 1).",
+   "detail": "HANDED OFF 2026-10-22: GERFramework/reports/handoff_asset_agent_lighthouse_interior.md lists art objectives A1-A10. A 4pm reminder to run the Asset agent was scheduled. The interior agent stays responsible only for keeping the greybox working until the art replaces it.",
+   "acceptance": [
+    "the handoff exists",
+    "the creator has run the Asset agent on it"
+   ],
+   "owner": "Asset agent",
+   "needs_creator": true,
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "GERFramework/reports/handoff_asset_agent_lighthouse_interior.md"
+    },
+    {
+     "type": "manual",
+     "note": "Creator runs the Asset agent on the handoff (reminder set for 4pm on 2026-10-22)."
+    }
+   ],
+   "refs": [],
+   "depends_on": [],
+   "collaborates": [
+    "Asset agent"
+   ]
   }
  ],
  "records": {
   "LHI-03": {
    "status": "done",
-   "note": "tools/test_interior_walk.gd: door, window marker, basement (Daniel), lantern socket all reached with the real player; still passes after the new window cuts, frames, lantern posts",
-   "at": "2026-10-20T18:46:49+00:00"
+   "note": "creator walked door to lantern 2026-10-22",
+   "at": "2026-10-22T14:21:38+00:00"
   },
   "LHI-04": {
    "status": "done",
-   "note": "tools/test_sightlines.gd. FOUND: the exterior had no openings (windows painted on, lantern glass solid), and the dock berth cannot be seen from any low window (island plateau at y 9.7) nor from the tower (harbour stairs). Fixed: cut a ground-floor window and a tower landing window (bearing -57, eye 24.9) and opened the lantern glass band; lamp room now sees 36/36 directions incl. Saltgate; the tower window sees the water outside the harbour mouth. Creator to confirm Ted's window = tower landing (recommended)",
-   "at": "2026-10-20T18:46:49+00:00"
+   "note": "rowboat window confirmed by creator: the window out over the dock (2026-10-22)",
+   "at": "2026-10-22T14:21:38+00:00"
   },
   "LHI-06": {
    "status": "done",
@@ -555,6 +683,26 @@
    "status": "done",
    "note": "built and tested 2026-10-20; see reports/lighthouse_interior_design_notes.md and handoff_lighthouse_interior.md",
    "at": "2026-10-20T20:34:03+00:00"
+  },
+  "LHI-15": {
+   "status": "done",
+   "note": "built and tested 2026-10-22",
+   "at": "2026-10-22T13:40:44+00:00"
+  },
+  "LHI-16": {
+   "status": "done",
+   "note": "built and tested 2026-10-22",
+   "at": "2026-10-22T13:40:44+00:00"
+  },
+  "LHI-17": {
+   "status": "done",
+   "note": "built and tested 2026-10-22",
+   "at": "2026-10-22T13:40:45+00:00"
+  },
+  "LHI-18": {
+   "status": "in_progress",
+   "note": "handoff written, 4pm reminder scheduled",
+   "at": "2026-10-22T13:40:45+00:00"
   }
  },
  "history": [

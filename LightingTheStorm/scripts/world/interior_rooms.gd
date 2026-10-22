@@ -91,7 +91,7 @@ func _prepare_greybox() -> void:
 	for node in gb.find_children("*", "MeshInstance3D", true, false):
 		var mi := node as MeshInstance3D
 		var nm := String(mi.name)
-		if REPLACED.has(nm) or nm.begins_with("B1_stair_") or nm.begins_with("B1_switchback"):
+		if REPLACED.has(nm) or nm.begins_with("B1_stair_") or nm.begins_with("B1_switchback") or nm.begins_with("Tower_spiral_step_"):
 			mi.get_parent().remove_child(mi)
 			mi.queue_free()
 			continue

@@ -68,6 +68,15 @@ E at the heap takes a shovelful (held in view, one item at a time, like the burn
 - Every spiral tread now runs out to that wall (`StairExt_*`), except the landing treads and those in front of the window. The stair handrails are gone, as asked. The ground, first and second floor rings meet the lining too; the old rail round the L2 ring is removed and its fittings moved clear of the stair.
 - The tower window's bearing is 147 degrees (the house side), not the 303 I first assumed from its sin/cos form; `test_sightlines` caught the lining blocking it.
 
+## Fifth pass (2026-10-22): windows, tower wall, stairs, shovel, win
+
+- **Windows** (`data/world/lighthouse_windows.json`, baked into `Level.tscn` by `tools/bake_windows.py`): five in the tower (two on the stair at bearing 300, two at 110, one at the control landing, 215) and three in the house (bedroom west, mess and wash room at the back). Each has deep stone reveals, glass, an iron mullion and an invisible barrier. Exterior triangles hanging into the stairwell are cleared by the same bake.
+- **Tower wall thickness and taper:** a 3.0 m plinth to the first floor, then a cone from 3.4 m to 2.9 m, pulled in to a measured table (`data/world/tower_radii.json`, `tools/bake_tower_radii.gd`) so no exterior surface shows through; sector edges share vertices so there are no cracks.
+- **Stairs:** the v3 half-width steps are replaced by solid 0.4 m steps from newel to wall, one mesh each (the landing steps stay narrow).
+- **Shovel:** it now moves: dips into the heap and comes up loaded, then thrusts at the firebox, tips and is put away. This also fixed a bug: the shovelful was never reparented into the camera (a parentless node), so it was never visible in the hands.
+- **SHIP_WIN** is reported 4.5 s after the burner is fitted, if no outcome has resolved.
+- **Art** handed to the Asset agent (`handoff_asset_agent_lighthouse_interior.md`).
+
 ## Open or deferred
 
 - The foundation chamber under the tower (blueprint B1 item 6) needs a carve in the island collider and has no story use.

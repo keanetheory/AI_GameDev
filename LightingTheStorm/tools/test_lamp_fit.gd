@@ -101,6 +101,8 @@ func _physics_process(_delta: float) -> bool:
 				if e["id"] == "BURNER_FITTED":
 					fired += 1
 			_check(fired == 1, "BURNER_FITTED was logged once (%d)" % fired)
+			_check(_gs.fired.has("SHIP_WIN"), "SHIP_WIN was reported once the lamp was burning")
+			_check(_gs.outcome == _gs.Outcome.WIN and _gs.phase_name() == "RESOLUTION", "the outcome is WIN and the phase RESOLUTION (%s)" % _gs.phase_name())
 			print("RESULT: %s (%d failed)" % ["OK" if _failed == 0 else "FAILED", _failed])
 			quit(0 if _failed == 0 else 1)
 	if _f > 3000:

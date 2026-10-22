@@ -66,8 +66,10 @@ func _l1_house(P: Node3D) -> void:
 	_ceiling(P, Y)
 	# plaster lining over the exterior model's dirty inside faces on the west and back walls
 	K.box(P, "L1_LiningFront", -3.0, 5.4, 0.88, 0.95, Y, Y + 1.5, "plaster", true)
-	K.box(P, "L1_LiningWest", -3.06, -3.0, 0.95, 8.7, Y, Y + 2.7, "plaster", true)
-	K.box(P, "L1_LiningBack", -3.06, 5.4, 8.7, 8.76, Y, Y + 1.85, "plaster", true)
+	var hw := _house_windows()
+	_lined_wall(P, "L1_LiningWest", "west", 0.95, 8.7, -3.06, -3.0, Y, Y + 2.7, hw)
+	_lined_wall(P, "L1_LiningBack", "back", -3.06, 5.4, 8.7, 8.76, Y, Y + 1.85, hw)
+	_house_window_frames(P, hw)
 	# collar beams across under the lined roof
 	for i in 4:
 		K.box(P, "L1_Collar_%d" % i, -3.0, 5.4, 3.0 + 1.4 * i, 3.15 + 1.4 * i, Y + 2.15, Y + 2.3, "wood_dark", false)
@@ -202,6 +204,89 @@ the 22nd", 26, Color(0.1, 0.1, 0.14))
 	anchors["l1_quarters"] = Vector3(-1.6, Y, 4.6)
 	anchors["l1_radio"] = Vector3(0.35, Y, 3.1)
 	anchors["l1_mess"] = Vector3(3.2, Y, 3.6)
+
+
+func _house_windows() -> Array:
+	var out := []
+	var f := FileAccess.open("res://data/world/lighthouse_windows.json", FileAccess.READ)
+	if f:
+		for w in (JSON.parse_string(f.get_as_text()) as Dictionary).get("windows", []):
+			if w["kind"] == "house":
+				out.append(w)
+	return out
+
+
+## A lined wall of the house with gaps for the windows on it. `wall` "west": runs along v (a0..a1) at u in [f0, f1];
+## "back": runs along u at v in [f0, f1]. Below the sill and above the head the wall stays.
+func _lined_wall(P: Node3D, nm: String, wall: String, a0: float, a1: float, f0: float, f1: float, y0: float, y1: float, wins: Array) -> void:
+	var cuts := []
+	for w in wins:
+		if w["wall"] == wall:
+			cuts.append(w)
+	cuts.sort_custom(func(p, q): return p["at"] < q["at"])
+	var cur := a0
+	var i := 0
+	for w in cuts:
+		var lo: float = w["at"] - w["w"] * 0.5
+		var hi: float = w["at"] + w["w"] * 0.5
+		_lw_box(P, "%s_%d" % [nm, i], wall, cur, lo, f0, f1, y0, y1)
+		var sill: float = w["y"] - w["h"] * 0.5
+		var head: float = w["y"] + w["h"] * 0.5
+		_lw_box(P, "%s_%d_Sill" % [nm, i], wall, lo, hi, f0, f1, y0, sill)
+		if head < y1:
+			_lw_box(P, "%s_%d_Head" % [nm, i], wall, lo, hi, f0, f1, head, y1)
+		cur = hi
+		i += 1
+	_lw_box(P, "%s_%d" % [nm, i], wall, cur, a1, f0, f1, y0, y1)
+
+
+func _lw_box(P: Node3D, nm: String, wall: String, a0: float, a1: float, f0: float, f1: float, y0: float, y1: float) -> void:
+	if a1 - a0 < 0.01 or y1 - y0 < 0.01:
+		return
+	if wall == "west":
+		K.box(P, nm, f0, f1, a0, a1, y0, y1, "plaster", true)
+	else:
+		K.box(P, nm, a0, a1, f0, f1, y0, y1, "plaster", true)
+
+
+## Deep reveals (the wall's thickness), a glass pane and an invisible barrier for each house window.
+func _house_window_frames(P: Node3D, wins: Array) -> void:
+	for w in wins:
+		var at: float = w["at"]
+		var ww: float = w["w"]
+		var hh: float = w["h"]
+		var y: float = w["y"]
+		var s := y - hh * 0.5
+		var h := y + hh * 0.5
+		var id: String = w["id"]
+		var west: bool = w["wall"] == "west"
+		var f0 := -3.06 if west else 8.7           # the lining plane
+		var d := 0.65                              # the wall's thickness here
+		var f1 := f0 - d if west else f0 + d
+		var lo := minf(f0, f1)
+		var hi := maxf(f0, f1)
+		var jl := at - ww * 0.5
+		var jh := at + ww * 0.5
+		if west:
+			K.box(P, id + "_Sill", lo, hi, jl - 0.1, jh + 0.1, s - 0.1, s, "stone", false)
+			K.box(P, id + "_Head", lo, hi, jl - 0.1, jh + 0.1, h, h + 0.1, "stone", false)
+			K.box(P, id + "_JambL", lo, hi, jl - 0.1, jl, s, h, "stone", false)
+			K.box(P, id + "_JambR", lo, hi, jh, jh + 0.1, s, h, "stone", false)
+			K.box(P, id + "_Glass", f1 + 0.04, f1 + 0.06, jl, jh, s, h, "glass", false)
+			K.box(P, id + "_Mullion", f1 + 0.03, f1 + 0.07, at - 0.02, at + 0.02, s, h, "iron_dark", false)
+			var b = K.box(P, id + "_Barrier", f0 + 0.04, f0 + 0.12, jl - 0.05, jh + 0.05, s - 0.1, h, "glass", true)
+			b.visible = false
+			(b.get_node("Body") as StaticBody3D).add_to_group("glass")
+		else:
+			K.box(P, id + "_Sill", jl - 0.1, jh + 0.1, lo, hi, s - 0.1, s, "stone", false)
+			K.box(P, id + "_Head", jl - 0.1, jh + 0.1, lo, hi, h, h + 0.1, "stone", false)
+			K.box(P, id + "_JambL", jl - 0.1, jl, lo, hi, s, h, "stone", false)
+			K.box(P, id + "_JambR", jh, jh + 0.1, lo, hi, s, h, "stone", false)
+			K.box(P, id + "_Glass", jl, jh, f1 - 0.06, f1 - 0.04, s, h, "glass", false)
+			K.box(P, id + "_Mullion", at - 0.02, at + 0.02, f1 - 0.07, f1 - 0.03, s, h, "iron_dark", false)
+			var b2 = K.box(P, id + "_Barrier", jl - 0.05, jh + 0.05, f0 - 0.12, f0 - 0.04, s - 0.1, h, "glass", true)
+			b2.visible = false
+			(b2.get_node("Body") as StaticBody3D).add_to_group("glass")
 
 
 ## A plaster ceiling following the roof (measured: roof headroom above the floor is 1.9 m at v 1, 4.5 m at the ridge v 5,

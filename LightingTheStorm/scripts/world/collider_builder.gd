@@ -31,6 +31,9 @@ extends Node3D
 ## Like carve_oriented, but a triangle goes when ANY of its corners is inside the box, not only its centre. For clearing a
 ## room of the large triangles of a rock or a model that cross into it from outside (their centres are outside the room).
 @export var carve_oriented_any: Array[Transform3D] = []
+## Upright cylinders where a triangle goes if ANY corner is inside (the stairwell of the lighthouse: pieces of the exterior model
+## poke inward across the room's lining, and their centres are outside the cylinder).
+@export var carve_cylinders_any: Array[AABB] = []
 ## Upright cylinders to cut out (the lighthouse's lantern deck over the stairs, its lamp). Each AABB is the
 ## cylinder's bounding box in this node's local space: the circle (or ellipse) inscribed in its x/z extent, between
 ## its bottom and top.
@@ -82,7 +85,7 @@ func _ready() -> void:
 			continue
 		if not flatten_boxes.is_empty() or press_path.size() >= 2:
 			_flatten(mi)
-		if not carve_boxes.is_empty() or not carve_oriented.is_empty() or not carve_oriented_any.is_empty() or not carve_cylinders.is_empty() or carve_lines.size() >= 2 or not keep_boxes.is_empty():
+		if not carve_boxes.is_empty() or not carve_oriented.is_empty() or not carve_oriented_any.is_empty() or not carve_cylinders.is_empty() or not carve_cylinders_any.is_empty() or carve_lines.size() >= 2 or not keep_boxes.is_empty():
 			_carve(mi)
 		if solid and not Engine.is_editor_hint():
 			if collision_kind == 1:
@@ -266,6 +269,19 @@ func _carve(mi: MeshInstance3D) -> void:
 				for k in 3:
 					var q2 := inv * (to_local * verts[idx[t + k]])
 					if absf(q2.x) <= 0.5 and absf(q2.y) <= 0.5 and absf(q2.z) <= 0.5:
+						inside = true
+						break
+			for cyl in carve_cylinders_any:
+				if inside:
+					break
+				var cm := cyl.get_center()
+				for k in 3:
+					var pv := to_local * verts[idx[t + k]]
+					if pv.y < cyl.position.y or pv.y > cyl.end.y:
+						continue
+					var ex := (pv.x - cm.x) / maxf(cyl.size.x * 0.5, 1e-6)
+					var ez := (pv.z - cm.z) / maxf(cyl.size.z * 0.5, 1e-6)
+					if ex * ex + ez * ez <= 1.0:
 						inside = true
 						break
 			for cyl in carve_cylinders:
