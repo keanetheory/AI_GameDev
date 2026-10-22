@@ -109,6 +109,7 @@ Own the tides and waves as an independent system. Work with the creator to defin
 | WAV-09 | 8 | Add sheltered zones: calm the water at both docks and in the lee of the island and quay (D7, D10) |  |
 | WAV-10 | 8 | Apply the crossing speed decision: 8 m/s held as data (D4) |  |
 | WAV-13 | 8 | Implement the wave-hit consequence: nothing outbound, slow-down and water in the boat on the return (D3) |  |
+| WAV-15 | 8 | Re-render the sea as a cel-shaded stylised storm sea: navy troughs, teal wave faces, streaked silver foam with ink outlines (reference: the creator's video) | yes |
 | WAV-11 | 7 | Hand sea-state hooks to the Lighting and Sound agents and the island shoreline |  |
 | WAV-14 | 7 | Show the eclipse link in the sky as the return sea rises (D6) | yes |
 | WAV-12 | 6 | Add QA scenarios with waves on and off |  |

@@ -3,7 +3,7 @@
 # (the boat) calls Sea.wave_height(x, z, Sea.wave_time) so it rides exactly the surface you see.
 # To change the wave SHAPE, change wave_height() and the matching lines in the shader together.
 # To change how rough the sea is, change data/world/wave_spec.json (state table, shelter) - no code.
-# Sea state 1 is the original look. The Wave Creator Agent's WaveSystem (wave_system.gd) sets target_state;
+# The surface paint is cel-shaded (sea_surface.gdshader; colours in wave_spec.json "look"). Sea state 1 is the original calm sea. The Wave Creator Agent's WaveSystem (wave_system.gd) sets target_state;
 # the sea eases to it (so nothing pops) and tells everyone else through sea_state_changed and Sea.state.
 extends MeshInstance3D
 
@@ -36,31 +36,12 @@ static var _amp := 1.0
 static var _kscale := 1.0
 static var _tscale := 1.0
 
-const SHADER_CODE := "
-shader_type spatial;
-uniform vec4 deep : source_color = vec4(0.03, 0.12, 0.16, 1.0);
-uniform float wave_t = 0.0;
-uniform float amp = 1.0;
-uniform float k_scale = 1.0;
-uniform vec4 shelter_pos[4];
-uniform float shelter_factor[4];
-void vertex() {
-	float f = 1.0;
-	for (int i = 0; i < 4; i++) {
-		float d = distance(VERTEX.xz, shelter_pos[i].xy);
-		f = min(f, mix(shelter_factor[i], 1.0, smoothstep(shelter_pos[i].z, shelter_pos[i].w, d)));
-	}
-	VERTEX.y += (sin(VERTEX.x * 0.15 * k_scale + wave_t * 1.2) * 0.35 + sin(VERTEX.z * 0.11 * k_scale + wave_t * 0.9) * 0.3) * amp * f;
-}
-void fragment() {
-	ALBEDO = deep.rgb;
-	ROUGHNESS = 0.15;
-	METALLIC = 0.4;
-}
-"
+## The surface shader: wave shape (mirrored by wave_height() below) and the cel-shaded look. Wave Creator Agent, WAV-15.
+const SURFACE_SHADER := preload("res://scripts/world/sea_surface.gdshader")
 
 var _mat: ShaderMaterial
 var _last_emitted := 1.0
+var _look: Dictionary = {}     # wave_spec.json "look": colours and thresholds of the surface paint
 
 
 ## Amplitude factor (0..1) at world (x, z) from the dock shelters: 1 in open water, less near a dock.
@@ -150,10 +131,14 @@ func _ready() -> void:
 	plane.subdivide_width = 200
 	plane.subdivide_depth = 200
 	mesh = plane
-	var shader := Shader.new()
-	shader.code = SHADER_CODE
 	_mat = ShaderMaterial.new()
-	_mat.shader = shader
+	_mat.shader = SURFACE_SHADER
+	_look = spec.get("look", {})
+	for key in _look:
+		if key.begins_with("_"):
+			continue
+		var v = _look[key]
+		_mat.set_shader_parameter(key, Color(v[0], v[1], v[2]) if v is Array and v.size() == 3 else (Vector2(v[0], v[1]) if v is Array and v.size() == 2 else v))
 	material_override = _mat
 	_apply(0.0)
 
@@ -175,6 +160,12 @@ func _apply(delta: float) -> void:
 	_mat.set_shader_parameter("wave_t", wave_time)
 	_mat.set_shader_parameter("amp", _amp)
 	_mat.set_shader_parameter("k_scale", _kscale)
+	# the paint follows the sea state: foam and lit faces grow as the sea rises (state 1 = a few flecks, 5 = streaked white)
+	var fr := float(_look.get("foam_at_state_1", 0.12))
+	var fs := float(_look.get("foam_at_state_5", 1.0))
+	var t := clampf((s - 1.0) / 4.0, 0.0, 1.0)
+	_mat.set_shader_parameter("foam_amount", lerpf(fr, fs, t) * (0.4 if s < 1.0 else 1.0))
+	_mat.set_shader_parameter("face_amount", lerpf(float(_look.get("face_at_state_1", 0.3)), float(_look.get("face_at_state_5", 1.0)), t))
 	var pos := PackedVector4Array()
 	var fac := PackedFloat32Array()
 	for i in MAX_SHELTERS:

@@ -30,6 +30,9 @@ func _initialize() -> void:
 	if args.size() > 7:
 		Sea.target_state = float(args[7])
 		Sea.state = float(args[7])
+		var ws := lv.get_node_or_null("WaveSystem")
+		if ws:
+			ws.force_state = float(args[7])      # the wave system would otherwise steer the sea back to its own state
 	var pl := lv.get_node_or_null("Player")
 	if pl:
 		# SHOT_INTERIOR=1: the player (disabled, unseen) stands at the camera so the interior lights come on
