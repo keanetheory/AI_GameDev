@@ -67,7 +67,7 @@ func _ground(P: Node3D) -> void:
 	var coat_u := [2.45, 2.95, 3.5, 4.05, 4.45]
 	for i in coat_u.size():
 		var cu: float = coat_u[i]
-		var tone := "leather" if i % 2 == 0 else "cloth_green"
+		var tone: String = ["leather", "navy", "leather", "cloth_green", "navy"][i % 5]
 		K.box(P, "G_Coat_%d" % i, cu, cu + 0.34, 0.43, 0.58, GF + 0.55, GF + 1.8, tone, false)
 		K.box(P, "G_CoatCollar_%d" % i, cu + 0.04, cu + 0.3, 0.42, 0.6, GF + 1.65, GF + 1.85, tone, false)
 	K.box(P, "G_BootBench", 2.3, 4.7, 0.45, 0.85, GF, GF + 0.42, "wood", true)
@@ -97,8 +97,7 @@ func _ground(P: Node3D) -> void:
 	_office(P)
 	# --- storage room (u 3.7..5.55, v 3.3..6.7): east of the stairs
 	_storage(P)
-	# --- the stairwell railing (the hole to the basement: 3.4 m drop with no rail in v3)
-	_stair_rails(P)
+	# --- the stairwell: spiral_down.gd fills the rest of the hole with floor and rails the opening round the spiral
 	# --- tower door frame (east wall aperture u 5.65, v 0.8..2.25, header 3.25)
 	K.box(P, "G_TowerDoor_Jamb0", 5.5, 5.8, 0.68, 0.8, GF, GF + 2.3, "wood_dark", false)
 	K.box(P, "G_TowerDoor_Jamb1", 5.5, 5.8, 2.25, 2.37, GF, GF + 2.3, "wood_dark", false)
@@ -188,12 +187,15 @@ func _storage(P: Node3D) -> void:
 
 
 func _stair_rails(P: Node3D) -> void:
-	# the hole: u 0.8..3.6, v 2.3..5.7. The stair top (u 0.9..1.9, v 2.3) stays open.
+	# the hole: u 0.8..3.6, v 2.3..5.7. The spiral stair (spiral_down.gd) starts at the middle of the front edge, so the
+	# front rail stops either side of a 1.4 m opening.
 	var h := GF + 1.0
-	_rail(P, "G_Rail_West", Vector3(0.78, GF, 2.55), Vector3(0.78, GF, 5.72), h)
+	_rail(P, "G_Rail_West", Vector3(0.78, GF, 2.3), Vector3(0.78, GF, 5.72), h)
 	_rail(P, "G_Rail_Back", Vector3(0.78, GF, 5.72), Vector3(3.62, GF, 5.72), h)
 	_rail(P, "G_Rail_East", Vector3(3.62, GF, 5.72), Vector3(3.62, GF, 2.3), h)
-	_rail(P, "G_Rail_Front", Vector3(3.62, GF, 2.28), Vector3(2.1, GF, 2.28), h)
+	_rail(P, "G_Rail_FrontE", Vector3(3.62, GF, 2.28), Vector3(2.9, GF, 2.28), h)
+	_rail(P, "G_Rail_FrontW", Vector3(1.5, GF, 2.28), Vector3(0.78, GF, 2.28), h)
+	K.box(P, "G_StairPad", 1.5, 2.9, 2.2, 2.6, GF - 0.2, GF, "flags", true)
 
 
 ## A railing along a straight run: posts every ~0.8 m, a top rail and a mid rail; solid (a thin wall) so it stops the player.
@@ -266,22 +268,32 @@ func _void(P: Node3D, nm: String, at: Vector3, normal: Vector3, w: float, h: flo
 # ======================================================================== BASEMENT
 
 func _basement(P: Node3D) -> void:
-	# --- ceiling joists (the underside of the ground floor is planks; these hide its flatness)
+	# --- ceiling joists (the underside of the ground floor is planks; these hide its flatness). They stop at the stairwell:
+	# the hole in the ground floor (u 0.8..3.6, v 2.3..5.7) is open, and joists across it would hang in the opening.
 	for i in 7:
 		var v := 0.8 + 0.9 * i
-		K.box(P, "B_Joist_%d" % i, -2.15, 5.55, v - 0.1, v + 0.1, 0.62, BCEIL, "wood_dark", false)
-	# --- coal store (NW): wall with a doorway, a wooden bin front, the heap behind
-	K.box(P, "B_CoalWall_A", -0.7, -0.5, 0.45, 0.9, B1, BCEIL, "brick", true)
-	K.box(P, "B_CoalWall_B", -0.7, -0.5, 1.9, 2.5, B1, BCEIL, "brick", true)
-	K.box(P, "B_CoalLintel", -0.7, -0.5, 0.9, 1.9, 0.15, BCEIL, "brick", true)
-	K.box(P, "B_CoalBinFront", -2.15, -0.7, 2.3, 2.5, B1, B1 + 1.0, "wood_dark", true)
+		if v + 0.1 > 2.3 and v - 0.1 < 5.7:
+			K.box(P, "B_JoistW_%d" % i, -2.15, 0.78, v - 0.1, v + 0.1, 0.62, BCEIL, "wood_dark", false)
+			K.box(P, "B_JoistE_%d" % i, 3.62, 5.55, v - 0.1, v + 0.1, 0.62, BCEIL, "wood_dark", false)
+		else:
+			K.box(P, "B_Joist_%d" % i, -2.15, 5.55, v - 0.1, v + 0.1, 0.62, BCEIL, "wood_dark", false)
+	# --- coal store (SE corner, the far corner from the firebox so the player crosses the whole basement): a walled cell
+	# u 3.0..5.55, v 0.45..2.3 with a doorway in its west wall, a low bin front and the heap against the east wall
+	K.box(P, "B_CoalWall_W1", 2.9, 3.1, 0.45, 0.85, B1, BCEIL, "brick", true)
+	K.box(P, "B_CoalWall_W2", 2.9, 3.1, 1.85, 2.5, B1, BCEIL, "brick", true)
+	K.box(P, "B_CoalLintel", 2.9, 3.1, 0.85, 1.85, 0.15, BCEIL, "brick", true)
+	K.box(P, "B_CoalWall_N", 3.0, 5.55, 2.3, 2.5, B1, BCEIL, "brick", true)
+	K.box(P, "B_CoalBinFront", 4.3, 4.45, 0.45, 2.3, B1, B1 + 0.95, "wood_dark", true)
 	for i in 4:
-		K.box(P, "B_CoalBinPost_%d" % i, -2.15 + 0.5 * i, -2.05 + 0.5 * i, 2.26, 2.54, B1, B1 + 1.2, "wood", false)
-	_coal_pile(P, "B_CoalHeap", -1.45, 1.35, B1, 1.0, 1.05, 190, 5)
-	K.box(P, "B_CoalHeap_Core", -2.1, -0.75, 0.5, 2.25, B1, B1 + 0.35, "coal", false)
-	K.rod(P, "B_ShovelHandle", Vector3(-0.95, B1 + 0.05, 2.15), Vector3(-0.75, B1 + 1.25, 2.38), 0.022, "wood")
-	K.box(P, "B_ShovelBlade", -1.0, -0.88, 2.1, 2.28, B1, B1 + 0.04, "iron", false)
-	K.light(P, "B_CoalLamp", Vector3(-1.4, 0.2, 1.4), Color(1.0, 0.68, 0.38), 0.9, 3.5, 0.1)
+		K.box(P, "B_CoalBinPost_%d" % i, 4.24, 4.5, 0.5 + 0.55 * i, 0.58 + 0.55 * i, B1, B1 + 1.2, "wood", false)
+	_coal_pile(P, "B_CoalHeap", 4.95, 1.35, B1, 0.72, 1.05, 190, 5)
+	K.box(P, "B_CoalHeap_Core", 4.5, 5.5, 0.55, 2.25, B1, B1 + 0.35, "coal", false)
+	# the shovel, standing in the heap with its handle leaning toward the player
+	K.rod(P, "B_ShovelHandle", Vector3(4.8, B1 + 0.75, 1.05), Vector3(4.15, B1 + 1.6, 1.05), 0.022, K.colour(Color(0.55, 0.4, 0.26), 0.8))
+	K.rod(P, "B_ShovelGrip", Vector3(4.22, B1 + 1.5, 1.05), Vector3(4.13, B1 + 1.62, 1.05), 0.03, "wood_dark")
+	var blade = K.box(P, "B_ShovelBlade", 4.65, 5.0, 0.9, 1.2, B1 + 0.68, B1 + 0.73, K.colour(Color(0.5, 0.5, 0.52), 0.35, 0.8), false)
+	blade.rotation.x = deg_to_rad(-25.0)
+	K.light(P, "B_CoalLamp", Vector3(3.9, 0.2, 1.4), Color(1.0, 0.68, 0.38), 0.9, 3.5, 0.1)
 	# --- boiler (u -2.1..-0.75, v 4.85..6.25)
 	K.box(P, "B_BoilerPlinth", -2.1, -0.75, 4.85, 6.25, B1, B1 + 0.45, "brick", true)
 	K.pole(P, "B_BoilerShell", -1.45, 5.55, B1 + 0.45, 0.2, 0.64, "boiler", true)
@@ -290,10 +302,13 @@ func _basement(P: Node3D) -> void:
 		K.pole(P, "B_BoilerBand_%d" % i, -1.45, 5.55, B1 + 0.8 + 0.7 * i, B1 + 0.9 + 0.7 * i, 0.655, "copper", false)
 	K.pole(P, "B_Flue", -1.45, 5.55, 0.5, BCEIL, 0.14, "iron_dark", false)
 	K.box(P, "B_FireDoorFrame", -0.8, -0.68, 5.2, 5.9, B1 + 0.62, B1 + 1.32, "iron_dark", false)
-	var fire_glow = K.box(P, "B_FireDoorGlow", -0.7, -0.68, 5.3, 5.8, B1 + 0.7, B1 + 1.22, K.colour(Color(1.0, 0.45, 0.12), 0.6, 0.0, 3.0), false)
+	# the firebox door: dark iron with a glowing slot behind three bars (a flat glowing panel read as a lit yellow card)
+	var fire_glow = K.box(P, "B_FireDoorGlow", -0.7, -0.665, 5.4, 5.7, B1 + 0.78, B1 + 1.12, K.colour(Color(0.72, 0.36, 0.08), 0.6, 0.0, 2.0), false)
+	for bi in 3:
+		K.box(P, "B_FireBar_%d" % bi, -0.69, -0.655, 5.44 + 0.1 * bi, 5.48 + 0.1 * bi, B1 + 0.76, B1 + 1.14, "iron_dark", false)
 	K.box(P, "B_AshDoor", -0.8, -0.7, 5.3, 5.8, B1 + 0.46, B1 + 0.6, "iron_dark", false)
 	K.disc(P, "B_FireDoorHandle", Vector3(-0.66, B1 + 0.96, 5.62), Vector3(1, 0, 0), 0.05, 0.03, "brass")
-	refs["fire_light"] = K.light(P, "B_FireLight", Vector3(-0.35, B1 + 0.95, 5.55), Color(1.0, 0.5, 0.2), 2.0, 5.5, 0.35)
+	refs["fire_light"] = K.light(P, "B_FireLight", Vector3(-0.35, B1 + 0.95, 5.55), Color(1.0, 0.5, 0.2), 2.0, 5.5, 0.1)
 	# gauge on the shell: pressure dial and water glass
 	var gauge = K.node(P, "B_BoilerGauge", Vector3(-0.83, B1 + 1.55, 5.0))
 	gauge.set_script(Gauge)
@@ -336,11 +351,9 @@ func _basement(P: Node3D) -> void:
 	for i in 4:
 		K.pole(P, "B_OilskinPeg_%d" % i, 0.7 + 0.35 * i, 0.5, B1 + 1.6, B1 + 1.65, 0.015, "iron_dark", false)
 		K.box(P, "B_Oilskin_%d" % i, 0.55 + 0.35 * i, 0.82 + 0.35 * i, 0.46, 0.58, B1 + 0.7, B1 + 1.65, "leather" if i % 2 == 0 else "canvas", false)
-	K.pole(P, "B_LobbyBarrel", 3.35, 0.85, B1, B1 + 0.85, 0.28, "wood", true)
-	K.box(P, "B_Hatch_Floor", 2.6, 3.6, 0.55, 1.3, B1, B1 + 0.01, "iron_dark", false)
+	K.pole(P, "B_LobbyBarrel", 0.2, 3.4, B1, B1 + 0.85, 0.28, "wood", true)
+	K.box(P, "B_ToolRack", -2.1, -2.0, 2.6, 3.4, B1 + 0.9, B1 + 1.9, "wood_dark", false)
 	# --- engine room (u 3.6..5.55, v 2.5..6.7): partition with a doorway, the engine, the dynamo
-	K.box(P, "B_EngineWall", 4.7, 5.55, 2.3, 2.5, B1, BCEIL, "brick", true)
-	K.box(P, "B_EngineLintel", 3.5, 4.7, 2.3, 2.5, 0.0, BCEIL, "brick", false)
 	K.box(P, "B_EngineBedplate", 4.25, 5.35, 3.0, 5.7, B1, B1 + 0.18, "iron_dark", true)
 	K.rod(P, "B_EngineCylinder", Vector3(4.8, B1 + 0.8, 3.0), Vector3(4.8, B1 + 0.8, 3.9), 0.2, "iron", true)
 	K.box(P, "B_EngineSteamChest", 4.62, 4.98, 3.1, 3.65, B1 + 0.98, B1 + 1.28, "iron_dark", true)
@@ -364,9 +377,9 @@ func _basement(P: Node3D) -> void:
 	K.box(P, "B_Switchboard_Knife", 5.37, 5.4, 4.5, 4.6, B1 + 1.1, B1 + 1.5, "brass", false)
 	_sconce(P, "B_Sconce_Engine", Vector3(5.5, B1 + 2.15, 5.6), Vector3(-1, 0, 0), 1.2, 4.5)
 	# --- workshop and stores along the back (u 0.9..3.6, v 5.75..6.7), behind the stair landing
-	K.box(P, "B_WorkBench", 1.0, 2.4, 6.1, 6.65, B1, B1 + 0.85, "wood", true)
-	K.box(P, "B_BenchTop", 0.98, 2.42, 6.05, 6.68, B1 + 0.85, B1 + 0.9, "wood_dark", false)
-	K.box(P, "B_Vice", 1.15, 1.4, 6.05, 6.25, B1 + 0.9, B1 + 1.08, "iron_dark", false)
+	K.box(P, "B_WorkBench", 1.0, 2.4, 6.3, 6.67, B1, B1 + 0.85, "wood", true)
+	K.box(P, "B_BenchTop", 0.98, 2.42, 6.25, 6.69, B1 + 0.85, B1 + 0.9, "wood_dark", false)
+	K.box(P, "B_Vice", 1.15, 1.4, 6.3, 6.5, B1 + 0.9, B1 + 1.08, "iron_dark", false)
 	K.box(P, "B_ToolBoard", 0.95, 2.45, 6.66, 6.69, B1 + 1.2, B1 + 2.1, "wood_dark", false)
 	for i in 7:
 		K.box(P, "B_Tool_%d" % i, 1.05 + 0.2 * i, 1.1 + 0.2 * i, 6.6, 6.66, B1 + 1.45, B1 + 1.45 + 0.28 + 0.08 * (i % 3), "iron", false)
@@ -397,7 +410,7 @@ func _basement(P: Node3D) -> void:
 	var pile := Node3D.new()
 	pile.name = "CoalHeapInteract"
 	pile.set_script(Pile)
-	pile.position = K.p(-1.5, B1 + 0.3, 2.0)
+	pile.position = K.p(4.9, B1 + 0.3, 1.4)
 	P.add_child(pile)
 	pile.job_path = pile.get_path_to(job)
 	var hatch := Node3D.new()
@@ -411,12 +424,12 @@ func _basement(P: Node3D) -> void:
 	refs["firebox_hatch"] = hatch
 	# --- zones that report the canon entry events
 	_zone(P, "Zone_LighthouseEntered", Vector3(0.0, GF + 1.2, 1.3), Vector3(2.2, 2.4, 1.4), "LIGHTHOUSE_ENTERED", "")
-	_zone(P, "Zone_EngineRoomEntered", Vector3(3.3, B1 + 1.0, 1.5), Vector3(2.4, 2.0, 1.8), "ENGINE_ROOM_ENTERED", "")
+	_zone(P, "Zone_EngineRoomEntered", Vector3(2.2, B1 + 1.0, 1.8), Vector3(2.4, 2.0, 1.2), "ENGINE_ROOM_ENTERED", "")
 	# --- anchors moved to suit the new layout (the v3 markers were beside the old placeholder boxes)
 	anchors["boiler_interaction"] = Vector3(-0.1, B1 + 0.15, 5.55)
-	anchors["coal_pickup"] = Vector3(-1.1, B1 + 0.15, 2.9)
-	anchors["daniel"] = Vector3(3.9, B1 + 0.15, 1.4)
-	anchors["shovel_rack"] = Vector3(-1.0, B1 + 0.15, 2.0)
+	anchors["coal_pickup"] = Vector3(3.75, B1 + 0.15, 1.4)
+	anchors["daniel"] = Vector3(4.0, B1 + 0.15, 3.4)
+	anchors["shovel_rack"] = Vector3(4.1, B1 + 0.15, 1.05)
 
 
 func _zone(P: Node3D, nm: String, at: Vector3, size: Vector3, event: String, after: String) -> Area3D:

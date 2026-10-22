@@ -40,9 +40,9 @@ func _begin() -> void:
 		_wps.append(Vector3(38.0, 0.0, 557.6))
 	else:
 		_wps.append(Vector3(-6.0, 0.0, 552.4))       # on the west boardwalk
-		_wps.append(Vector3(4.0, 0.0, 552.6))
-		_wps.append(Vector3(3.2, 0.0, 556.0))        # up the link ramp
-		_wps.append(Vector3(3.2, 0.0, 558.4))
+		_wps.append(Vector3(4.85, 0.0, 552.2))
+		_wps.append(Vector3(4.85, 0.0, 555.0))       # up the link ramp (moved to x 4.85 by the Saltgate agent, 2026-10-22; see contracts/port_cliff_joint.md)
+		_wps.append(Vector3(4.85, 0.0, 558.2))
 	var k0 := 0 if _leg == 0 else int(x0 - 3.0)
 	var start_k := int(x0 - 34.0) if _leg == 0 else int(x0 - 3.0)
 	for k in range(start_k, y.size(), 8):

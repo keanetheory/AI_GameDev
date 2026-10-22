@@ -85,7 +85,7 @@ func _apply() -> void:
 	if fire_glow:
 		var m := fire_glow.material_override as StandardMaterial3D
 		if m:
-			m.emission_energy_multiplier = 1.0 + 4.0 * f
+			m.emission_energy_multiplier = 0.8 + 1.6 * f
 	if green_lamp:
 		green_lamp.visible = true
 		var lm := green_lamp.material_override as StandardMaterial3D

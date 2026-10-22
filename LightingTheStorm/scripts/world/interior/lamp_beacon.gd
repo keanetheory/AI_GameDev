@@ -11,7 +11,7 @@ extends Node3D
 @export var sweep_deg_s := 28.0
 @export var beam_length := 70.0
 @export var beam_end_radius := 5.0
-@export var lens_energy := 4.0
+@export var lens_energy := 2.2
 @export var glow_light_energy := 2.2
 @export var glow_light_range := 12.0
 
@@ -66,7 +66,7 @@ func _apply(v: float) -> void:
 	var e := v * v * (3.0 - 2.0 * v)       # smoothstep: the arc strikes, then settles
 	for m in _lens_mats:
 		m.emission_enabled = true
-		m.emission = Color(1.0, 0.86, 0.55)
+		m.emission = Color(0.82, 0.86, 0.92)
 		m.emission_energy_multiplier = lens_energy * e
 	if _glow:
 		_glow.light_energy = glow_light_energy * e

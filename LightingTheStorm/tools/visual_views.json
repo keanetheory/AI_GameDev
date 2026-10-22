@@ -223,6 +223,86 @@
         -5
       ],
       "note": "the lantern from outside: glazed, open-sided, on posts"
+    },
+    {
+      "name": "slt_approach",
+      "from": [
+        6,
+        3,
+        500
+      ],
+      "to": [
+        8,
+        8,
+        555
+      ],
+      "phase": "OUTBOUND",
+      "sea_state": 1,
+      "note": "Saltgate: arriving by boat, the quay against the cliff, the flag"
+    },
+    {
+      "name": "slt_landing",
+      "from": [
+        1.5,
+        4.72,
+        538.5
+      ],
+      "to": [
+        3.4,
+        4.6,
+        541.4
+      ],
+      "phase": "OUTBOUND",
+      "sea_state": 1,
+      "note": "Saltgate: eye height at the dock landing, the burner on the plinth"
+    },
+    {
+      "name": "slt_link_ramp",
+      "from": [
+        9,
+        6.5,
+        548
+      ],
+      "to": [
+        3,
+        4.5,
+        557
+      ],
+      "phase": "OUTBOUND",
+      "sea_state": 1,
+      "note": "Saltgate: the timber link ramp from the quay deck onto the cliff walkway"
+    },
+    {
+      "name": "slt_joint_from_walkway",
+      "from": [
+        -12,
+        9.5,
+        563
+      ],
+      "to": [
+        12,
+        2,
+        550
+      ],
+      "phase": "OUTBOUND",
+      "sea_state": 1,
+      "note": "Saltgate: the quay's back and the walkway's quay end from above"
+    },
+    {
+      "name": "slt_approach_return",
+      "from": [
+        6,
+        3,
+        500
+      ],
+      "to": [
+        8,
+        8,
+        555
+      ],
+      "phase": "RETURN",
+      "sea_state": 3,
+      "note": "Saltgate: leaving in the storm"
     }
   ],
   "max_dark_ratio": 0.25,

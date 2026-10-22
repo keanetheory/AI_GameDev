@@ -70,7 +70,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.2, 0)
 script = ExtResource("1")
 model_path = "res://Assets/Models/island/island_craggy.glb"
 body_layers = 3
-carve_oriented = Array[Transform3D]([Transform3D(6.9485, 0, 2.6931, 0, 3.2, 0, -3.3179, 0, 5.64, 1.4996, 10, -3.5846)])
+carve_oriented = Array[Transform3D]([Transform3D(6.9485, 0, 2.6931, 0, 3.8, 0, -3.3179, 0, 5.64, 1.4996, 10.3, -3.5846)])
+carve_oriented_any = Array[Transform3D]([Transform3D(6.74, 0, 2.612, 0, 3.6, 0, -3.218, 0, 5.471, 1.4996, 10.2, -3.5846)])
 carve_boxes = Array[AABB]([AABB(-40.5, 0.85, 12, 7.3, 5, 9.8), AABB(-41, 0.85, 12.4, 22.2, 12.35, 17.6), AABB(-18.8, 0.85, 22.5, 4, 12.35, 12.5), AABB(-22, 0.85, 30, 3.2, 12.35, 5), AABB(-15.5, 0.85, 23.2, 3.9, 12.35, 4.4), AABB(-19.9, 3.2, 12.2, 2.65, 12, 9)])
 carve_lines = PackedVector3Array(-15.2, 0.85, 24.9, -11.8, 0.85, 21.9, -11.8, 0.85, 21.9, -10.2, 0.85, 26.4, -10.2, 0.85, 26.4, -15.4, 0.85, 30.5, -12.4, 0.85, 22.6, -11.8, 0.85, 26.6, -10.8, 0.85, 25.6, -16, 0.85, 29.7)
 carve_line_half_width = 0.8
@@ -113,7 +114,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 9.61, -8.5)
 script = ExtResource("1")
 model_path = "res://Assets/Models/lighthouse/lighthouse_exterior_v3.glb"
 carve_cylinders = Array[AABB]([AABB(1.2, 17.6, 1.3, 4.6, 0.65, 4.6), AABB(2.45, 18.1, 2.55, 2.1, 3.6, 2.1), AABB(0.55, 17.97, 0.65, 5.9, 3.92, 5.9)])
-carve_oriented = Array[Transform3D]([Transform3D(1.6243, 0.0000, 0.8618, 0.0000, 3.0000, 0.0000, -0.7756, 0.0000, 1.8048, -3.7956, 2.5700, 8.2423), Transform3D(6.9485, 0.0000, 2.6931, 0.0000, 3.0500, 0.0000, -3.3179, 0.0000, 5.6400, -3.5004, -0.7750, 4.9154), Transform3D(0.5171, 0.0000, -1.1731, 0.0000, 1.4500, 0.0000, 1.0829, 0.0000, 0.5602, -8.3020, 2.5900, 7.8430), Transform3D(0.5446, 0.0000, -0.8387, 0.0000, 1.8000, 0.0000, 0.8387, 0.0000, 0.5446, 1.1098, 15.0900, 5.1522)])
+carve_oriented = Array[Transform3D]([Transform3D(1.6243, 0.0000, 0.8618, 0.0000, 3.0000, 0.0000, -0.7756, 0.0000, 1.8048, -3.7956, 2.5700, 8.2423), Transform3D(6.9485, 0.0000, 2.6931, 0.0000, 3.7000, 0.0000, -3.3179, 0.0000, 5.6400, -3.5004, -0.4500, 4.9154), Transform3D(0.5171, 0.0000, -1.1731, 0.0000, 1.4500, 0.0000, 1.0829, 0.0000, 0.5602, -8.3020, 2.5900, 7.8430), Transform3D(0.5446, 0.0000, -0.8387, 0.0000, 1.8000, 0.0000, 0.8387, 0.0000, 0.5446, 1.1098, 15.0900, 5.1522)])
+carve_oriented_any = Array[Transform3D]([Transform3D(6.60, 0, 2.558, 0, 3.1, 0, -3.152, 0, 5.358, -3.5004, -0.75, 4.9154)])
 carve_lines = PackedVector3Array()
 carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
@@ -301,14 +303,14 @@ walls = PackedInt32Array(2, 3, 3, 3, 1)
 start_wall = true
 
 [node name="DockZonePort" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.15, 527)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.15, 531.5)
 script = ExtResource("5")
 zone_id = "DOCK_PORT"
 berth_yaw_deg = 90.0
-landing = Vector3(6, 4.4, 538.5)
+landing = Vector3(1.5, 3.12, 538.5)
 
 [node name="BurnerPickup" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 4.4, 540.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4, 4.43, 541.4)
 script = ExtResource("11")
 
 [node name="Model" parent="BurnerPickup" instance=ExtResource("12")]
@@ -356,6 +358,29 @@ press_path = PackedVector3Array()
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 3.2, 546)
 script = ExtResource("7")
 
+[node name="SaltgateAudio" type="Node3D" parent="."]
+editor_description = "Saltgate audio anchors (SLT-10) for the Sound agent. One Marker3D per sound source in Docs/Lore Build/regions/reg_saltgate.md (Ambient Audio Direction). No audio is authored here; attach players to these."
+
+[node name="SaltgateAudioCreakingTimberDock" type="Marker3D" parent="SaltgateAudio"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 3.6, 536.0)
+editor_description = "creaking timber: the quay's timber front and piles beside the berth"
+
+[node name="SaltgateAudioCreakingTimberBoardwalk" type="Marker3D" parent="SaltgateAudio"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.0, 3.4, 555.0)
+editor_description = "creaking timber: the east boardwalk on its piles"
+
+[node name="SaltgateAudioLooseShutters" type="Marker3D" parent="SaltgateAudio"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0, 5.0, 543.5)
+editor_description = "loose shutters banging: the hut north of the burner plinth"
+
+[node name="SaltgateAudioRigging" type="Marker3D" parent="SaltgateAudio"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0, 6.5, 546.0)
+editor_description = "rigging slapping: the flag pole (SaltgateFlag)"
+
+[node name="SaltgateAudioCityHum" type="Marker3D" parent="SaltgateAudio"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.0, 45.0, 640.0)
+editor_description = "distant city hum: over the cliff top towards Saint Calder"
+
 [node name="BoardwalkWest" type="Node3D" parent="."]
 script = ExtResource("8")
 points = PackedVector3Array(1, 3.05, 552.3, -22, 3.05, 552, -44, 3.03, 550.2, -65, 3, 548.3)
@@ -367,8 +392,8 @@ seed = 9
 
 [node name="BoardwalkLink" type="Node3D" parent="."]
 script = ExtResource("8")
-points = PackedVector3Array(3.2, 3.1, 552.9, 3.2, 4, 555.2, 3.2, 4.9, 557.5)
-width = 2.4
+points = PackedVector3Array(4.85, 3.13, 552.3, 4.85, 3.87, 555.1, 4.85, 4.62, 557.9)
+width = 1.6
 seed = 3
 
 [node name="Cliffs" type="Node3D" parent="."]

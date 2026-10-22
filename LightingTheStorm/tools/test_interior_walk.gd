@@ -71,6 +71,11 @@ func _start_leg() -> void:
 		_step = 4
 		return
 	var target: Vector3 = Check.markers(_lv)[TARGETS[_leg]]
+	# the route finder's shortest path cuts inside a spiral, which a person does not; tools/test_spiral_down.gd walks the
+	# basement spiral both ways like a person, so a leg that must come back up starts at the top of it
+	if _player.global_position.y < Reach.LIGHTHOUSE.y and target.y > Reach.LIGHTHOUSE.y + 2.0:
+		_player.global_position = _lv.get_node("InteriorRooms").anchors["spiral_top"] + Vector3(0, 0.1, 0)
+		_player.velocity = Vector3.ZERO
 	_path.clear()
 	if _reach.flood(_player.global_position):
 		var goal: Dictionary = _reach.nearest(target, true)
@@ -124,7 +129,11 @@ func _walk(delta: float) -> void:
 		_stall += delta
 	if _stall > 3.0:
 		Input.action_release("move_forward")
-		_check(false, "%s: stuck at local %s at route point %d of %d (local %s)" % [TARGETS[_leg], p - Reach.LIGHTHOUSE, _i, _path.size(), _path[_i] - Reach.LIGHTHOUSE])
+		var hits := []
+		for ci in _player.get_slide_collision_count():
+			var col := _player.get_slide_collision(ci)
+			hits.append("%s (normal %s)" % [(col.get_collider() as Node).get_parent().name + "/" + (col.get_collider() as Node).name, str(col.get_normal().snapped(Vector3(0.01, 0.01, 0.01)))])
+		_check(false, "%s: stuck at local %s at route point %d of %d (local %s); touching %s" % [TARGETS[_leg], p - Reach.LIGHTHOUSE, _i, _path.size(), _path[_i] - Reach.LIGHTHOUSE, str(hits)])
 		_leg = TARGETS.size()
 		_step = 4
 		return

@@ -108,7 +108,7 @@ func _arc_lamp(P: Node3D) -> void:
 	for i in 8:
 		var y0 := lens_base + 0.2 * i
 		var lm := StandardMaterial3D.new()
-		lm.albedo_color = Color(0.7, 0.82, 0.85, 0.35)
+		lm.albedo_color = Color(0.55, 0.62, 0.66, 0.35)
 		lm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		lm.roughness = 0.1
 		lm.metallic = 0.3
@@ -122,9 +122,9 @@ func _arc_lamp(P: Node3D) -> void:
 	_cyl(beacon, "Lamp_Chimney", Vector3(0, top + 0.18, 0), Vector3(0, CEIL_Y + 0.4, 0), 0.2, iron, false).position = Vector3(0, (top + 0.18 + CEIL_Y + 0.4) * 0.5, 0)
 	# the arc itself: a bright core among the lens bands, dark until lit
 	var core_mat := StandardMaterial3D.new()
-	core_mat.albedo_color = Color(1.0, 0.95, 0.8)
+	core_mat.albedo_color = Color(0.85, 0.88, 0.92)
 	core_mat.emission_enabled = true
-	core_mat.emission = Color(1.0, 0.9, 0.6)
+	core_mat.emission = Color(0.8, 0.84, 0.9)
 	core_mat.emission_energy_multiplier = 0.0
 	var core := MeshInstance3D.new()
 	core.name = "Core"
@@ -139,7 +139,7 @@ func _arc_lamp(P: Node3D) -> void:
 	var glow := OmniLight3D.new()
 	glow.name = "Glow"
 	glow.position = Vector3(0, lens_base + 0.7, 0)
-	glow.light_color = Color(1.0, 0.88, 0.62)
+	glow.light_color = Color(0.73, 0.77, 0.82)
 	glow.light_energy = 0.0
 	glow.omni_range = 16.0
 	glow.visible = false
@@ -169,7 +169,7 @@ render_mode unshaded, blend_add, cull_disabled, depth_draw_never, fog_disabled;
 uniform float strength = 0.0;
 void fragment() {
 	float along = 1.0 - UV.y;
-	ALBEDO = vec3(1.0, 0.9, 0.65) * strength * pow(along, 1.6);
+	ALBEDO = vec3(0.73, 0.77, 0.82) * strength * pow(along, 1.6);
 }
 """
 	bm.shader = beam_shader
@@ -182,7 +182,7 @@ void fragment() {
 	spot.rotation.y = deg_to_rad(-90.0)
 	spot.spot_range = 90.0
 	spot.spot_angle = 11.0
-	spot.light_color = Color(1.0, 0.9, 0.7)
+	spot.light_color = Color(0.73, 0.77, 0.82)
 	spot.light_energy = 0.0
 	spot.shadow_enabled = false
 	pivot.add_child(spot)

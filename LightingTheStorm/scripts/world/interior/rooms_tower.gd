@@ -33,9 +33,9 @@ func build(kit, house: Node3D, lh: Node3D) -> void:
 	var p2 := Node3D.new()
 	p2.name = "TowerLandings"
 	lh.add_child(p2)
+	_g_ring(p2)
 	_l1_ring(p2)
 	_l2_ring(p2)
-	_stair_rail(p2)
 
 
 # ======================================================================== L1: keeper's quarters (house frame)
@@ -64,6 +64,10 @@ func _l1_house(P: Node3D) -> void:
 	K.box(P, "L1_Lintel_Radio", -0.1, 1.0, 2.55, 2.65, Y + 2.0, Y + pw, "plaster", false)
 	K.box(P, "L1_Lintel_Mess", 3.3, 4.5, 2.55, 2.65, Y + 2.0, Y + pw, "plaster", false)
 	_ceiling(P, Y)
+	# plaster lining over the exterior model's dirty inside faces on the west and back walls
+	K.box(P, "L1_LiningFront", -3.0, 5.4, 0.88, 0.95, Y, Y + 1.5, "plaster", true)
+	K.box(P, "L1_LiningWest", -3.06, -3.0, 0.95, 8.7, Y, Y + 2.7, "plaster", true)
+	K.box(P, "L1_LiningBack", -3.06, 5.4, 8.7, 8.76, Y, Y + 1.85, "plaster", true)
 	# collar beams across under the lined roof
 	for i in 4:
 		K.box(P, "L1_Collar_%d" % i, -3.0, 5.4, 3.0 + 1.4 * i, 3.15 + 1.4 * i, Y + 2.15, Y + 2.3, "wood_dark", false)
@@ -81,9 +85,9 @@ func _l1_house(P: Node3D) -> void:
 	K.box(P, "L1_TowerDoorFrame_a", 5.38, 5.6, 0.95, 1.08, Y, Y + 2.0, "wood_dark", false)
 	K.box(P, "L1_TowerDoorFrame_b", 5.38, 5.6, 2.12, 2.25, Y, Y + 2.0, "wood_dark", false)
 	K.box(P, "L1_TowerDoorFrame_c", 5.38, 5.6, 0.95, 2.25, Y + 2.0, Y + 2.12, "wood_dark", false)
-	_lamp(P, "L1_HallLamp", Vector3(4.4, Y + 1.95, 1.4), 1.3)
-	_lamp(P, "L1_HallLamp2", Vector3(1.6, Y + 2.0, 2.0), 1.2)
-	_lamp(P, "L1_HallLamp3", Vector3(-1.6, Y + 2.0, 2.0), 1.2)
+	_lamp(P, "L1_HallLamp", Vector3(4.4, Y + 1.7, 1.5), 1.6)
+	_lamp(P, "L1_HallLamp2", Vector3(1.6, Y + 1.75, 1.9), 1.7)
+	_lamp(P, "L1_HallLamp3", Vector3(-1.6, Y + 1.75, 1.9), 1.7)
 
 	# --- sleeping quarters (u -3.0..-0.2, v 2.65..9.0)
 	for i in 2:
@@ -149,7 +153,7 @@ func _l1_house(P: Node3D) -> void:
 		K.pole(P, "L1_MugS_%d" % k, 2.8 + 0.3 * k, 5.65, Y + 0.8, Y + 0.88, 0.04, "iron", false)
 	K.box(P, "L1_Stove", 4.55, 5.35, 6.0, 6.9, Y, Y + 0.95, "iron_dark", true)
 	K.box(P, "L1_StoveTop", 4.5, 5.4, 5.95, 6.95, Y + 0.95, Y + 1.0, "iron", false)
-	K.box(P, "L1_StoveGlow", 4.53, 4.56, 6.2, 6.7, Y + 0.3, Y + 0.6, "fire", false)
+	K.box(P, "L1_StoveGlow", 4.53, 4.56, 6.3, 6.6, Y + 0.35, Y + 0.55, K.colour(Color(0.72, 0.36, 0.08), 0.6, 0.0, 1.6), false)
 	K.pole(P, "L1_StovePipe", 5.1, 6.45, Y + 1.0, Y + 3.7, 0.09, "iron_dark", false)
 	K.light(P, "L1_StoveLight", Vector3(4.3, Y + 0.5, 6.45), Color(1.0, 0.5, 0.2), 0.9, 3.6, 0.3)
 	K.box(P, "L1_Counter", 1.6, 2.3, 7.3, 8.9, Y, Y + 0.9, "wood_dark", true)
@@ -163,7 +167,36 @@ func _l1_house(P: Node3D) -> void:
 	_lamp(P, "L1_MessLamp", Vector3(3.2, Y + 2.0, 5.65), 1.4)
 	K.rod(P, "L1_MessLampCord", Vector3(3.2, Y + 2.0, 5.65), Vector3(3.2, Y + 2.4, 5.65), 0.008, "iron_dark")
 
-	# --- anchors for other agents
+	# --- the second pass: door frames, wall dressing, rugs, the east wall lining
+	_doorframe(P, "L1_DoorBed", -2.1, -1.0, 2.6, Y, 2.0)
+	_doorframe(P, "L1_DoorRadio", -0.1, 1.0, 2.6, Y, 2.0)
+	_doorframe(P, "L1_DoorMess", 3.3, 4.5, 2.6, Y, 2.0)
+	_doorframe(P, "L1_DoorWash", 6.3, 7.2, 1.5, Y, 2.0, true)
+	K.box(P, "L1_LiningEast", 5.39, 5.45, 2.7, 8.6, Y, Y + 2.3, "plaster", true)
+	K.box(P, "L1_LiningEast2", 5.39, 5.45, 2.2, 2.72, Y, Y + 2.3, "plaster", true)
+	K.box(P, "L1_RugMess", 2.2, 4.2, 4.4, 6.9, Y, Y + 0.015, "rug", false)
+	K.box(P, "L1_RugRadio", -0.1, 0.9, 3.0, 4.2, Y, Y + 0.015, "rug", false)
+	K.sheet(P, "L1_Rules", Vector3(2.0, Y + 1.5, 2.5), Vector3(0, 0, -1), 0.5, 0.65, "paper_old", "KEEPER'S RULES
+
+1. THE LAMP
+   NEVER GOES DARK.
+2. LOG THE HOUR.
+3. KEEP THE
+   BOILER FED.", 24, Color(0.12, 0.09, 0.07))
+	K.sheet(P, "L1_Calendar", Vector3(1.44, Y + 1.5, 6.0), Vector3(1, 0, 0), 0.32, 0.42, "paper", "OCT
+the moon
+full
+the 22nd", 26, Color(0.1, 0.1, 0.14))
+	K.sheet(P, "L1_Barometer_Note", Vector3(-0.55, Y + 1.55, 2.64), Vector3(0, 0, 1), 0.36, 0.28, "paper_old", "GLASS FALLING", 26, Color(0.12, 0.09, 0.07))
+	K.disc(P, "L1_MessClock", Vector3(5.38, Y + 1.7, 4.2), Vector3(-1, 0, 0), 0.17, 0.04, "brass")
+	K.disc(P, "L1_MessClockFace", Vector3(5.36, Y + 1.7, 4.2), Vector3(-1, 0, 0), 0.14, 0.03, "gauge_face")
+	for hk in 4:
+		K.pole(P, "L1_Hook_%d" % hk, -2.15 + 0.3 * hk, 0.92, Y + 1.15, Y + 1.2, 0.02, "iron_dark", false)
+	K.box(P, "L1_Coat_Ted", -1.1, -0.85, 0.9, 0.98, Y + 0.3, Y + 1.15, "navy", false)
+	K.box(P, "L1_Shelf_Bed", -2.99, -2.7, 7.0, 8.0, Y + 1.2, Y + 1.23, "wood", false)
+	for bk in 5:
+		K.box(P, "L1_Book_%d" % bk, -2.97, -2.76, 7.05 + 0.18 * bk, 7.17 + 0.18 * bk, Y + 1.23, Y + 1.5, ["leather", "cloth_green", "navy", "paper_navy", "leather"][bk], false)
+	# anchors for other agents
 	anchors["l1_landing"] = Vector3(5.0, Y, 1.6)
 	anchors["l1_hall"] = Vector3(2.0, Y, 2.0)
 	anchors["l1_quarters"] = Vector3(-1.6, Y, 4.6)
@@ -210,6 +243,20 @@ func _rafter(P: Node3D, nm: String, u: float, a: Vector2, b: Vector2) -> void:
 	K.rod(P, nm, Vector3(u, a.y - 0.14, a.x), Vector3(u, b.y - 0.14, b.x), 0.07, "wood_dark")
 
 
+## A timber door frame across a partition gap: two jambs and a head. `side` true: the gap runs along v at u = `at` (the wash
+## room's door in the W2 wall), otherwise along u at v = `at`.
+func _doorframe(P: Node3D, nm: String, a0: float, a1: float, at: float, y: float, h: float, side := false) -> void:
+	var t := 0.07
+	if side:
+		K.box(P, nm + "_J0", at - 0.1, at + 0.1, a0 - t, a0, y, y + h, "wood_dark", false)
+		K.box(P, nm + "_J1", at - 0.1, at + 0.1, a1, a1 + t, y, y + h, "wood_dark", false)
+		K.box(P, nm + "_H", at - 0.1, at + 0.1, a0 - t, a1 + t, y + h, y + h + 0.08, "wood_dark", false)
+	else:
+		K.box(P, nm + "_J0", a0 - t, a0, at - 0.1, at + 0.1, y, y + h, "wood_dark", false)
+		K.box(P, nm + "_J1", a1, a1 + t, at - 0.1, at + 0.1, y, y + h, "wood_dark", false)
+		K.box(P, nm + "_H", a0 - t, a1 + t, at - 0.1, at + 0.1, y + h, y + h + 0.08, "wood_dark", false)
+
+
 func _wall(P: Node3D, nm: String, u0: float, u1: float, v0: float, v1: float, y0: float, h: float) -> void:
 	K.box(P, nm, u0, u1, v0, v1, y0, y0 + h, "plaster", true)
 	K.box(P, nm + "_Panel", u0, u1, v0 - 0.01 if u1 - u0 > v1 - v0 else v0, v1 + 0.01 if u1 - u0 > v1 - v0 else v1, y0, y0 + 0.9, "wood_dark", false)
@@ -223,21 +270,31 @@ func _lamp(P: Node3D, nm: String, at: Vector3, energy: float) -> void:
 
 # ======================================================================== tower landings (lighthouse frame)
 
+## The tower's ground floor beyond the spiral: the v3 greybox only floors the ring under the stair (radius 1.14-2.07), so
+## the tower base was a pit round it with the island visible below. A full ring out to radius 3.0, a low stone parapet
+## on its rim, open across the house doorway side where the entry slab comes in.
+func _g_ring(P: Node3D) -> void:
+	var m := _ds("flags")
+	_arc(P, "G_TowerRing", 2.05, 3.03, 0.0, 360.0, 0.97 - 0.3, 0.97 - 0.008, m, true)
+	_wall_lamp(P, "G_TowerLamp", 100.0, 2.95, 0.97 + 2.0, 1.3)
+	anchors_lh["g_tower_ring"] = _pt(100.0, 2.55, 0.97)
+
+
 func _l1_ring(P: Node3D) -> void:
 	var m := _ds("flags")
-	_arc(P, "L1_TowerRing", 2.1, 3.55, 200.0, 500.0, L1 - 0.28, L1 - 0.006, m, true)
-	_rail(P, "L1_TowerRail", L1, 200.0, 500.0 - 0.0, [Vector2(118.0, 178.0)])
-	# lamp, hose and a bucket
-	_cyl(P, "L1_Hose", Vector3(TOWER.x + 3.1 * cos(deg_to_rad(250)), L1 + 0.1, TOWER.y + 3.1 * sin(deg_to_rad(250))), Vector3(TOWER.x + 3.1 * cos(deg_to_rad(250)), L1 + 0.22, TOWER.y + 3.1 * sin(deg_to_rad(250))), 0.32, _m("canvas"), false)
-	_wall_lamp(P, "L1_TowerLamp", 280.0, 3.45, L1 + 1.9, 1.3)
-	anchors_lh["l1_ring"] = Vector3(TOWER.x + 2.8 * cos(deg_to_rad(270)), L1, TOWER.y + 2.8 * sin(deg_to_rad(270)))
+	# a full ring out to the tower lining (tower_shell.gd); its top sits 1.2 cm under the house floor and the doorway slab
+	_arc(P, "L1_TowerRing", 2.1, 3.42, 0.0, 360.0, L1 - 0.28, L1 - 0.012, m, true)
+	# above the ring the spiral runs out to the wall, so the ring is walkable only where there is headroom (about bearing
+	# 320 round to the landing at 147)
+	_cyl(P, "L1_Hose", _pt(30.0, 3.0, L1 + 0.1), _pt(30.0, 3.0, L1 + 0.22), 0.3, _m("canvas"), false)
+	_wall_lamp(P, "L1_TowerLamp", 20.0, 3.3, L1 + 1.9, 1.3)
+	anchors_lh["l1_ring"] = _pt(40.0, 2.8, L1)
 
 
 func _l2_ring(P: Node3D) -> void:
 	var m := _ds("planks")
-	var R := 3.2
-	_arc(P, "L2_TowerRing", 2.1, R, 0.0, 360.0, L2 - 0.28, L2 - 0.006, m, true)
-	_rail(P, "L2_TowerRail", L2, 0.0, 360.0, [Vector2(117.0, 165.0)])
+	var R := 2.93
+	_arc(P, "L2_TowerRing", 2.1, R + 0.02, 0.0, 360.0, L2 - 0.28, L2 - 0.006, m, true)
 	# the electrical control cabinet (the dynamo's output comes up here): bearing 30
 	_rbox(P, "L2_Cabinet", 30.0, R - 0.1, 1.3, 0.2, L2, L2 + 1.9, _m("iron_dark"), true)
 	for i in 3:
@@ -246,23 +303,23 @@ func _l2_ring(P: Node3D) -> void:
 	_rdisc(P, "L2_CabinetLampR", 30.0 + 3.0, R - 0.21, L2 + 1.15, 0.035, _m("lamp_red"))
 	_rbox(P, "L2_CabinetSwitch", 30.0, R - 0.21, 0.09, 0.03, L2 + 0.7, L2 + 1.05, _m("brass"), false)
 	# the instrument station (barometer, barograph, thermometer): bearing 205, on a small table
-	_rbox(P, "L2_Table", 205.0, R - 0.1, 1.0, 0.2, L2, L2 + 0.8, _m("wood_dark"), true)
-	_rbox(P, "L2_Barograph", 205.0, R - 0.1, 0.45, 0.18, L2 + 0.8, L2 + 1.0, _m("brass"), false)
-	_rdisc(P, "L2_Barometer", 205.0, R - 0.06, L2 + 1.7, 0.2, _m("brass"))
-	_rdisc(P, "L2_BarometerFace", 205.0, R - 0.1, L2 + 1.7, 0.17, _m("gauge_face"))
-	_rbox(P, "L2_Chart", 200.0, R - 0.05, 0.6, 0.02, L2 + 1.1, L2 + 1.5, _m("paper_old"), false)
+	_rbox(P, "L2_Table", 75.0, R - 0.1, 1.0, 0.2, L2, L2 + 0.8, _m("wood_dark"), true)
+	_rbox(P, "L2_Barograph", 75.0, R - 0.1, 0.45, 0.18, L2 + 0.8, L2 + 1.0, _m("brass"), false)
+	_rdisc(P, "L2_Barometer", 75.0, R - 0.06, L2 + 1.7, 0.2, _m("brass"))
+	_rdisc(P, "L2_BarometerFace", 75.0, R - 0.1, L2 + 1.7, 0.17, _m("gauge_face"))
+	_rbox(P, "L2_Chart", 70.0, R - 0.05, 0.6, 0.02, L2 + 1.1, L2 + 1.5, _m("paper_old"), false)
 	# tool locker and a barrel
 	_rbox(P, "L2_Locker", 100.0, R - 0.1, 1.0, 0.2, L2, L2 + 1.8, _m("wood_dark"), true)
 	_rbox(P, "L2_LockerDoor", 100.0, R - 0.21, 0.9, 0.02, L2 + 0.1, L2 + 1.7, _m("iron_dark"), false)
-	_rbox(P, "L2_WaterCan", 285.0, R - 0.1, 0.55, 0.2, L2, L2 + 0.7, _m("wood"), true)
+	_rbox(P, "L2_WaterCan", 345.0, R - 0.1, 0.55, 0.2, L2, L2 + 0.7, _m("wood"), true)
 	# a pegged coil of rope by the landing
-	_cyl(P, "L2_Rope", _pt(165.0, R - 0.2, L2), _pt(165.0, R - 0.2, L2 + 0.14), 0.18, _m("canvas"), false)
+	_cyl(P, "L2_Rope", _pt(122.0, R - 0.2, L2), _pt(122.0, R - 0.2, L2 + 0.14), 0.18, _m("canvas"), false)
 	# brass pipe running up the wall: the lamp's feed
 	_cyl(P, "L2_FeedPipe", _pt(330.0, R + 0.0, L2), _pt(330.0, R + 0.0, L2 + 3.4), 0.05, _m("copper"), false)
-	_wall_lamp(P, "L2_LampA", 60.0, R - 0.02, L2 + 1.9, 1.3)
-	_wall_lamp(P, "L2_LampB", 250.0, R - 0.02, L2 + 1.9, 1.3)
+	_wall_lamp(P, "L2_LampA", 60.0, R - 0.02, L2 + 1.9, 0.9)
+	_wall_lamp(P, "L2_LampB", 335.0, R - 0.02, L2 + 1.9, 0.9)
 	anchors_lh["l2_control"] = _pt(30.0, 2.5, L2)
-	anchors_lh["l2_instruments"] = _pt(205.0, 2.5, L2)
+	anchors_lh["l2_instruments"] = _pt(75.0, 2.5, L2)
 	anchors_lh["l2_landing"] = _pt(147.0, 2.6, L2)
 	refs["L2_Cabinet"] = P.get_node_or_null("L2_Cabinet")
 
@@ -314,7 +371,7 @@ func _ds(name: String) -> Material:
 
 ## An arc of floor (or rail wall): an annulus sector from bearing a0 to a1 (degrees, increasing), r0..r1, y0..y1. One mesh
 ## and one convex collision shape per wedge of at most 15 degrees. `solid` false = no collision; `visible` false = invisible.
-func _arc(P: Node3D, nm: String, r0: float, r1: float, a0: float, a1: float, y0: float, y1: float, mat: Material, solid: bool, vis := true) -> MeshInstance3D:
+func _arc(P: Node3D, nm: String, r0: float, r1: float, a0: float, a1: float, y0: float, y1: float, mat: Material, solid: bool, vis := true, ctr := TOWER) -> MeshInstance3D:
 	var n := maxi(1, ceili(absf(a1 - a0) / 15.0))
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -327,10 +384,10 @@ func _arc(P: Node3D, nm: String, r0: float, r1: float, a0: float, a1: float, y0:
 		var t0 := deg_to_rad(a0 + (a1 - a0) * float(i) / float(n))
 		var t1 := deg_to_rad(a0 + (a1 - a0) * float(i + 1) / float(n))
 		var q := [
-			Vector3(TOWER.x + r0 * cos(t0), y0, TOWER.y + r0 * sin(t0)), Vector3(TOWER.x + r1 * cos(t0), y0, TOWER.y + r1 * sin(t0)),
-			Vector3(TOWER.x + r1 * cos(t1), y0, TOWER.y + r1 * sin(t1)), Vector3(TOWER.x + r0 * cos(t1), y0, TOWER.y + r0 * sin(t1)),
-			Vector3(TOWER.x + r0 * cos(t0), y1, TOWER.y + r0 * sin(t0)), Vector3(TOWER.x + r1 * cos(t0), y1, TOWER.y + r1 * sin(t0)),
-			Vector3(TOWER.x + r1 * cos(t1), y1, TOWER.y + r1 * sin(t1)), Vector3(TOWER.x + r0 * cos(t1), y1, TOWER.y + r0 * sin(t1)),
+			Vector3(ctr.x + r0 * cos(t0), y0, ctr.y + r0 * sin(t0)), Vector3(ctr.x + r1 * cos(t0), y0, ctr.y + r1 * sin(t0)),
+			Vector3(ctr.x + r1 * cos(t1), y0, ctr.y + r1 * sin(t1)), Vector3(ctr.x + r0 * cos(t1), y0, ctr.y + r0 * sin(t1)),
+			Vector3(ctr.x + r0 * cos(t0), y1, ctr.y + r0 * sin(t0)), Vector3(ctr.x + r1 * cos(t0), y1, ctr.y + r1 * sin(t0)),
+			Vector3(ctr.x + r1 * cos(t1), y1, ctr.y + r1 * sin(t1)), Vector3(ctr.x + r0 * cos(t1), y1, ctr.y + r0 * sin(t1)),
 		]
 		var c: Vector3 = (q[0] + q[2] + q[4] + q[6]) * 0.25
 		# faces as quads of 4 corner indices; each gets its outward normal from the centroid

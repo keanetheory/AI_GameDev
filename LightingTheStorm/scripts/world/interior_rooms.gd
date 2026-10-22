@@ -13,6 +13,8 @@ const Kit := preload("res://scripts/world/interior/kit.gd")
 const House := preload("res://scripts/world/interior/rooms_house.gd")
 const Tower := preload("res://scripts/world/interior/rooms_tower.gd")
 const Lantern := preload("res://scripts/world/interior/lantern.gd")
+const Spiral := preload("res://scripts/world/interior/spiral_down.gd")
+const Shell := preload("res://scripts/world/interior/tower_shell.gd")
 
 const DOOR_SILL := Vector3(-3.494, 0.0, 8.874)   # the entry door's sill, x/z in the lighthouse frame
 const YAW := 0.4457                              # atan2(0.4309, 0.9024): turns +x onto the house's front wall
@@ -59,6 +61,13 @@ func _ready() -> void:
 	for role in tower.anchors_lh:
 		anchors[role] = to_global(tower.anchors_lh[role])
 	refs.merge(tower.refs)
+	var shell = Shell.new()
+	shell.build_shell(kit, self)
+	var spiral = Spiral.new()
+	spiral.build_spiral(kit, frame, self)
+	for role in spiral.anchors:
+		var sp: Vector3 = spiral.anchors[role]
+		anchors[role] = kit.world(sp.x, sp.y, sp.z)
 	var lantern = Lantern.new()
 	lantern.build_lantern(kit, self)
 	for role in lantern.anchors_lh:
@@ -82,7 +91,7 @@ func _prepare_greybox() -> void:
 	for node in gb.find_children("*", "MeshInstance3D", true, false):
 		var mi := node as MeshInstance3D
 		var nm := String(mi.name)
-		if REPLACED.has(nm):
+		if REPLACED.has(nm) or nm.begins_with("B1_stair_") or nm.begins_with("B1_switchback"):
 			mi.get_parent().remove_child(mi)
 			mi.queue_free()
 			continue

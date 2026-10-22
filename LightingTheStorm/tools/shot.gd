@@ -43,6 +43,13 @@ func _initialize() -> void:
 
 func _process(_d: float) -> bool:
 	_f += 1
+	if _f == 2 and OS.get_environment("SHOT_BOAT") != "":     # e.g. SHOT_BOAT=DOCK_PORT: the launch tied up at that berth
+		var boat: Node3D = _lv.get_node("Boat")
+		for z in get_nodes_in_group("dock_zone"):
+			if z.zone_id == OS.get_environment("SHOT_BOAT"):
+				boat.global_position = Vector3(z.global_position.x, 0.0, z.global_position.z)
+				boat.rotation.y = deg_to_rad(z.berth_yaw_deg)
+				boat.current_zone = z
 	if _f == 3 and OS.get_environment("SHOT_HOLD") != "":     # an item held in view, as the player would see it (coal, burner)
 		var cam := _cam
 		var item: Node3D = null

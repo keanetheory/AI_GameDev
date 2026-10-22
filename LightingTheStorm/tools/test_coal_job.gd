@@ -60,7 +60,7 @@ func _physics_process(_delta: float) -> bool:
 			_next(10)
 		1:
 			_check(_gs.fired.has("LIGHTHOUSE_ENTERED"), "walking into the hall reported LIGHTHOUSE_ENTERED")
-			_stand_at(_a("daniel") + Vector3(-0.6, 0.05, 0), _a("daniel") + Vector3(2, 1.2, 0))
+			_stand_at(_a("spiral_foot") + Vector3(0, 0.05, 0), _a("spiral_foot") + Vector3(2, 1.2, 0))
 			_next(10)
 		2:
 			_check(_gs.fired.has("ENGINE_ROOM_ENTERED"), "going down to the basement reported ENGINE_ROOM_ENTERED")
