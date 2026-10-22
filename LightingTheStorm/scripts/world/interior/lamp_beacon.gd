@@ -11,8 +11,10 @@ extends Node3D
 @export var sweep_deg_s := 28.0
 @export var beam_length := 70.0
 @export var beam_end_radius := 5.0
-@export var lens_energy := 4.0
-@export var glow_light_energy := 2.2
+@export var lens_energy := 0.3
+## How dark the lamp is before the burner is fitted (1 = as modelled).
+const DARK := 0.32
+@export var glow_light_energy := 1.0
 @export var glow_light_range := 12.0
 
 var lit := false
@@ -32,9 +34,19 @@ func setup() -> void:
 	_beam_pivot = get_node_or_null("BeamPivot") as Node3D
 	_spot = get_node_or_null("BeamPivot/Spot") as SpotLight3D
 	_core = get_node_or_null("Core") as MeshInstance3D
-	for n in find_children("Lens_*", "MeshInstance3D", true, false):
-		var m := (n as MeshInstance3D).material_override as StandardMaterial3D
-		if m:
+	# the generated lamp's own materials, copied so the shared ones are untouched
+	for n in find_children("*", "MeshInstance3D", true, false):
+		var mi := n as MeshInstance3D
+		if mi.name.begins_with("Core") or mi.mesh == null:
+			continue
+		for i in mi.mesh.get_surface_count():
+			var src := mi.get_active_material(i) as StandardMaterial3D
+			if src == null:
+				continue
+			var m := src.duplicate() as StandardMaterial3D
+			m.emission_texture = m.albedo_texture
+			m.set_meta("base_albedo", m.albedo_color)
+			mi.set_surface_override_material(i, m)
 			_lens_mats.append(m)
 	var beam := get_node_or_null("BeamPivot/Beam") as MeshInstance3D
 	if beam:
@@ -65,8 +77,10 @@ func _process(delta: float) -> void:
 func _apply(v: float) -> void:
 	var e := v * v * (3.0 - 2.0 * v)       # smoothstep: the arc strikes, then settles
 	for m in _lens_mats:
-		m.emission_enabled = true
-		m.emission = Color(1.0, 0.86, 0.55)
+		var base: Color = m.get_meta("base_albedo", Color.WHITE)
+		m.albedo_color = base * lerpf(DARK, 1.0, e)       # cold and dark until the arc strikes
+		m.emission_enabled = e > 0.01
+		m.emission = Color(0.82, 0.86, 0.92)
 		m.emission_energy_multiplier = lens_energy * e
 	if _glow:
 		_glow.light_energy = glow_light_energy * e

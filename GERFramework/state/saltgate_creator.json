@@ -1,8 +1,8 @@
 {
  "creator": "saltgate_creator",
- "phase": "awaiting_approval",
+ "phase": "executing",
  "plan_loops": 1,
- "work_loops": 0,
+ "work_loops": 2,
  "objectives": [
   {
    "id": "SLT-01",
@@ -368,8 +368,53 @@
  "records": {
   "SLT-02": {
    "status": "in_progress",
-   "note": "Joint contract only, at the creator's instruction (2026-10-20). Saltgate plan is NOT approved: nothing built",
-   "at": "2026-10-20T16:53:52+00:00"
+   "note": "Joint agreed against contract v2 and written up as v3 (GERFramework/contracts/port_cliff_joint.md): the three open Saltgate questions answered from measurement (no stone steps exist or are needed: quay deck y 3.1 is level with the walkway's quay end; quay instances clear of the x 30-46 taper by ray probe; quay stays in the main cove). Built on the Saltgate side: BoardwalkLink moved off two quay piles that stood up through it (walk now 0 drops, largest step 0.08 m); landing and berth moved (see SLT-01). test_cliffwalk.gd (Cliffside file) waypoints moved to the new ramp line. NOT done: the quay still stands on piles in open water 2-3 m in front of the walkway ledge and cliff foot, so it does not yet 'grow out of the cliff'; proposed as joint work with the Cliffside agent's CLF-15 cove base dressing. Waiting on the Cliffside agent's review of the v3 changes. No visible instance boundary: the three quay copies do not touch (boardwalks link them), but identical huts repeat (SLT-04/05).",
+   "at": "2026-10-22T10:05:52+00:00"
+  },
+  "SLT-03": {
+   "status": "done",
+   "note": "Audited 2026-10-22 with ger.py audit: saltgate_quay.glb 248,958 tris, dock_harbour.glb 91,022 tris, dock_landing.glb 74,504 tris; all 0 empty meshes, 0 unreferenced, 0 hole loops, 0 degenerate. Nothing to repair. dock_landing.glb is not used by any scene. Open doorways/windows (hollowness the audit cannot see) belong to SLT-04, waiting on the creator.",
+   "at": "2026-10-22T10:00:37+00:00"
+  },
+  "SLT-09": {
+   "status": "done",
+   "note": "main_asset.py sample_submissions/saltgate_hunyuan_v3.fal.json --check-only: APPROVE, 0 findings, rc 0. Canon notes: no people in prompt or scene; flags are SaltgateFlag (flag.gd) in the lore's amber #C07A1E and gold #B8962E with a tattered fly edge; nothing in the scene or prompt explains why the port was abandoned (lore L5 TBD).",
+   "at": "2026-10-22T10:00:37+00:00"
+  },
+  "SLT-08": {
+   "status": "done",
+   "note": "Textures downscaled to 2048 with tools/downscale_glb_texture.py, 4K originals kept in Assets/Models/saltgate/source/saltgate_quay_4k_texture.glb and Assets/Models/dock/source/dock_landing_4k_texture.glb (.gdignore); the extracted PNGs Godot uses were replaced with the 2048 images and re-imported. Audit: saltgate_quay.glb 30.9 -> 14.71 MB, texture 4096 -> 2048 (~89.3 -> 22.3 MB VRAM); dock_landing.glb 25.6 -> 8.57 MB (unused in any scene). The three quay instances share one mesh and texture resource. measure_load_time.py (headless, CPU only, fastest of 2): saltgate part 1724 -> 1764 ms, all 8506 -> 8281 ms, i.e. no CPU change within noise; the saving is GPU memory and upload, which headless cannot time. The load-time budget itself is still for the creator to confirm (proposal: saltgate part under 2 s headless). Most of that 1.7 s is building three trimesh colliders from the 249k-triangle quay.",
+   "at": "2026-10-22T10:03:05+00:00"
+  },
+  "SLT-10": {
+   "status": "done",
+   "note": "Five Marker3D anchors under Level.tscn/SaltgateAudio, one per sound source in reg_saltgate.md Ambient Audio Direction, each with an editor_description for the Sound agent: SaltgateAudioCreakingTimberDock (-0.5,3.6,536), SaltgateAudioCreakingTimberBoardwalk (40,3.4,555), SaltgateAudioLooseShutters (4,5,543.5), SaltgateAudioRigging (10,6.5,546, the flag pole), SaltgateAudioCityHum (15,45,640, over the cliff top). No audio authored. Positions are first placements for the Sound agent to refine by ear.",
+   "at": "2026-10-22T10:03:05+00:00"
+  },
+  "SLT-06": {
+   "status": "blocked",
+   "note": "Checked with the Lighting agent's existing rig (lighting_rig.gd not edited), renders in GERFramework/shots/slt_*_{OUTBOUND,RETURN}.png. PASS: every window and door stays dark in both phases; the tattered amber-and-gold flag reads clearly from the approach in both phases; the burner reads against the cliff at eye height from the landing in both phases without a marker; the quay reads from the boat (darker in RETURN rain, as intended); the Saltgate adds no dynamic lights (budget 8 dynamic, 2 shadow casters untouched). FAIL, for the Lighting agent / creator: the distant glow of Saint Calder over the rooftops is not visible from the quay at all - the ~38 m cliff hides the city (lighting_spec saint_calder.seen_from_saltgate expects rows of lit windows climbing the hill behind the quays). Fix options are the Lighting agent's (e.g. a glow card or sky glow above the cliff line) or the creator's; not changed here.",
+   "at": "2026-10-22T10:04:34+00:00"
+  },
+  "SLT-07": {
+   "status": "done",
+   "note": "BurnerPickup moved 1.1 m along the same walled stone yard, from (4.5, 4.4, 540.5) to (3.4, 4.43, 541.4), so it can be reached from the timber deck where the player now lands (it was 2.7 m from the nearest deck spot, beyond the 2.5 m reach). Still 3.5 m from the landing (test_burner_pickup wants 1.5 to 4) and 10.3 m from the berth (outside the boat's 10 m board radius, per the readme rule). test_disembark walks landing -> burner and E picks it up (BURNER_PICKED_UP) in 8 of 8 runs. Readable at eye height against the cliff in OUTBOUND and RETURN (slt_landing_*.png). No set dressing added and no story invented: the location stays a placeholder (lore: storage location TBD) for the creator to lock.",
+   "at": "2026-10-22T10:04:35+00:00"
+  },
+  "SLT-11": {
+   "status": "done",
+   "note": "GERFramework/reports/saltgate_concept_comparison.md: 9 differences, each accepted, fixed or open, with matching renders in GERFramework/shots/slt_concept_*.png and slt_joint_*.png.",
+   "at": "2026-10-22T10:05:53+00:00"
+  },
+  "SLT-01": {
+   "status": "done",
+   "note": "tools/test_disembark.gd written: real auto-dock into DOCK_PORT from open water, Q through the input action, Player capsule walks with W. Passes 8 of 8 consecutive runs on the final code (largest camera move 0.27 m/frame, 0 deg turn, boat drift 0.000 m, feet on deck). Fixes: (1) stepping ashore was a teleport of ~12 m and ~4 m up; player.gd now eases the body over 0.8 s, height first, then distance (step_ashore_s, 0 = old behaviour), and holds still until collision is back on; (2) the landing put the player on top of a walled stone yard 1.3 m above the deck with a drop on every side; it is now on the timber deck at (1.5, 3.12, 538.5); (3) the launch lay 5.7 m off the quay; the berth moved z 527 -> 531.5 (about 1.5 m off the piles), so the player can board from the landing. Not verified: feel in the editor (the creator's sign-off), and the landing strip reaches the rest of the quay only through a ~0.75 m gap (creator decision, SLT-04/05). All 11 regression tests pass.",
+   "at": "2026-10-22T10:16:44+00:00"
+  },
+  "SLT-04": {
+   "status": "blocked",
+   "note": "Not started, deliberately. Excluded from this run by the creator's queue instruction (2026-10-20: SLT-04 and SLT-05 excluded until the creator answers). It depends on SLT-05 (polish scope: a / b / c), which only the creator can decide. The inventory file saltgate_inventory.json is therefore not written; the assessor's BLOCK on it stands until the creator decides.",
+   "at": "2026-10-22T10:17:04+00:00"
   }
  },
  "history": [
@@ -379,10 +424,81 @@
    "at": "2026-10-20T14:25:34+00:00",
    "findings": [],
    "changes": []
+  },
+  {
+   "kind": "work_review",
+   "loop": 1,
+   "at": "2026-10-22T10:16:49+00:00",
+   "findings": [
+    {
+     "severity": "block",
+     "objective": "SLT-04",
+     "message": "LightingTheStorm/Assets/Models/saltgate/saltgate_inventory.json is missing",
+     "fix": "fix and re-run",
+     "auto": null
+    }
+   ],
+   "statuses": {
+    "SLT-01": "needs_human",
+    "SLT-02": "needs_human",
+    "SLT-03": "passing",
+    "SLT-04": "failing",
+    "SLT-05": "passing",
+    "SLT-06": "needs_human",
+    "SLT-07": "passing",
+    "SLT-08": "passing",
+    "SLT-09": "passing",
+    "SLT-10": "passing",
+    "SLT-11": "passing",
+    "saltgate_assessor#0": "passing",
+    "saltgate_assessor#1": "passing",
+    "saltgate_assessor#2": "passing"
+   }
+  },
+  {
+   "kind": "work_review",
+   "loop": 2,
+   "at": "2026-10-22T10:17:08+00:00",
+   "findings": [
+    {
+     "severity": "block",
+     "objective": "SLT-04",
+     "message": "LightingTheStorm/Assets/Models/saltgate/saltgate_inventory.json is missing",
+     "fix": "fix and re-run",
+     "auto": null
+    }
+   ],
+   "statuses": {
+    "SLT-01": "needs_human",
+    "SLT-02": "needs_human",
+    "SLT-03": "passing",
+    "SLT-04": "failing",
+    "SLT-05": "passing",
+    "SLT-06": "needs_human",
+    "SLT-07": "passing",
+    "SLT-08": "passing",
+    "SLT-09": "passing",
+    "SLT-10": "passing",
+    "SLT-11": "passing",
+    "saltgate_assessor#0": "passing",
+    "saltgate_assessor#1": "passing",
+    "saltgate_assessor#2": "passing"
+   }
   }
  ],
- "approval": null,
+ "approval": {
+  "at": "2026-10-22T09:20:57+00:00",
+  "quote": "queue the Saltgate agent work for tomorrow morning (creator, 2026-10-20): joint contract and non-decision objectives only; SLT-04 and SLT-05 excluded until the creator answers"
+ },
  "knowledge_note": "knowledge up to date",
  "last_findings": [],
- "last_blocks": 0
+ "last_blocks": 0,
+ "last_work": {
+  "blocks": 1,
+  "open": [
+   "SLT-02",
+   "SLT-04",
+   "SLT-06"
+  ]
+ }
 }

@@ -67,10 +67,27 @@ func flood(start: Vector3) -> bool:
 	seen[first["key"]] = ""
 	var queue := [first]
 	var head := 0
+	# Phase 1: square-grid neighbours only. A route that cuts a corner on a stair wedges the capsule, so spots reachable this way
+	# keep these routes.
+	_expand(queue, head, false)
+	# Phase 2: diagonals too, only for spots phase 1 could not reach: a tight curved stair is a thin diagonal band on a
+	# square grid and cannot be followed from cell to cell otherwise.
+	var all := []
+	for key in seen:
+		var parts: PackedStringArray = key.split(",")
+		all.append(_spot(int(parts[0]), int(parts[1]), int(parts[2])))
+	_expand(all, 0, true)
+	return true
+
+
+func _expand(queue: Array, head: int, diagonals: bool) -> void:
+	var dirs := [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]
+	if diagonals:
+		dirs += [Vector2i(1, 1), Vector2i(1, -1), Vector2i(-1, 1), Vector2i(-1, -1)]
 	while head < queue.size():
 		var n: Dictionary = queue[head]
 		head += 1
-		for d in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+		for d in dirs:
 			var jx: int = n["ix"] + d.x
 			var jz: int = n["iz"] + d.y
 			var col: Array = floors.get("%d,%d" % [jx, jz], [])
@@ -83,7 +100,6 @@ func flood(start: Vector3) -> bool:
 					continue
 				seen[key] = n["key"]
 				queue.append(_spot(jx, jz, k))
-	return true
 
 
 ## Nearest standable spot to `p` (world), only among reached spots when `reached_only`. Empty if none.

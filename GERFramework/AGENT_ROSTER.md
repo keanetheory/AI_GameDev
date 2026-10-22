@@ -61,11 +61,15 @@ Know lighthouse design and interior layout, and turn the current greybox into an
 | LHI-04 | 9 | Prove the two GDD sightlines: the window to the dock and rowboat, and the lamp room to the ship route and island rock |  |
 | LHI-05 | 9 | Apply real lighthouse design to the interior: tapering walls, spiral stair with landing windows, lantern gallery, service levels below |  |
 | LHI-14 | 9 | The boiler coal job and the interior's canon event triggers (T33): shovel coal until the gauge climbs and the dynamo runs |  |
+| LHI-17 | 9 | Wire SHIP_WIN to the lamp fit, and make the shovel move when shovelling |  |
 | LHI-06 | 8 | Fit the interior lights inside the dynamic-light budget, with the Lighting agent |  |
 | LHI-07 | 8 | Add interaction anchors and set dressing markers: boiler, coal, door, window, arc lamp, burner socket, posters |  |
 | LHI-08 | 8 | Decide how far the upper floors go for the prototype: walk-through shells or sealed floors with stair landings |  |
+| LHI-15 | 8 | Cut and frame windows in the first floor, the control landing and the stairwell |  |
+| LHI-16 | 8 | Model the tower wall's thickness and taper, with one continuous mesh per stair step |  |
 | LHI-09 | 7 | Build the remaining blueprint rooms as greybox: keeper's quarters (L1), control landing (L2), workshop, stores; the foundation chamber and the huts stay deferred |  |
 | LHI-10 | 6 | Place the crawlspace and wall voids for the whispers and bangs, as sound sources only |  |
+| LHI-18 | 6 | Art handoff: the Asset agent takes the interior's art objectives | yes |
 | LHI-11 | 5 | Compare the interior to the blueprint and the lighthouse concept art, and run the offline canon and asset checks |  |
 
 ## Saltgate Creator Agent
@@ -105,6 +109,7 @@ Own the tides and waves as an independent system. Work with the creator to defin
 | WAV-09 | 8 | Add sheltered zones: calm the water at both docks and in the lee of the island and quay (D7, D10) |  |
 | WAV-10 | 8 | Apply the crossing speed decision: 8 m/s held as data (D4) |  |
 | WAV-13 | 8 | Implement the wave-hit consequence: nothing outbound, slow-down and water in the boat on the return (D3) |  |
+| WAV-15 | 8 | Re-render the sea as a cel-shaded stylised storm sea: navy troughs, teal wave faces, streaked silver foam with ink outlines (reference: the creator's video) | yes |
 | WAV-11 | 7 | Hand sea-state hooks to the Lighting and Sound agents and the island shoreline |  |
 | WAV-14 | 7 | Show the eclipse link in the sky as the return sea rises (D6) | yes |
 | WAV-12 | 6 | Add QA scenarios with waves on and off |  |

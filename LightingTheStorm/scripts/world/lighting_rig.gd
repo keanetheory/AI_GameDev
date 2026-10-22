@@ -60,6 +60,15 @@ void fragment() {
 ## false: the GameState autoload drives the phases (scripts/core/game_state.gd). true: the rig also follows the
 ## boat's departed signal itself, for running the scene on its own. Leave false in the game or both would drive it.
 @export var follow_boat_signals := false
+## Rain look (creator, 2026-10-22: darker and thinner). rain_thin scales how many streaks fall; rain_dark scales their brightness.
+@export_range(0.1, 1.0) var rain_thin := 0.62
+@export_range(0.1, 1.0) var rain_dark := 0.5
+@export_range(0.05, 0.6) var rain_alpha := 0.2
+## How much of each phase's wind slant the rain takes (creator, 2026-10-22: straight down). 0 = vertical, 1 = the spec's slant.
+@export_range(0.0, 1.0) var rain_slant_scale := 0.0
+## Fall speed in metres a second (min, max), and the length of each streak in metres.
+@export var rain_speed := Vector2(30.0, 38.0)
+@export var rain_streak_len := 0.35
 
 var phase := ""
 var _spec: Dictionary = {}
@@ -69,6 +78,8 @@ var _moon: DirectionalLight3D
 var _bolt: DirectionalLight3D
 var _rain: GPUParticles3D
 var _rain_mat: ParticleProcessMaterial
+var _splash: GPUParticles3D
+var _rain_floor: GPUParticlesCollisionHeightField3D
 var _windows: MultiMeshInstance3D
 var _window_mat: ShaderMaterial
 var _label: Label
@@ -220,8 +231,8 @@ func _apply(v: Dictionary) -> void:
 	if _rain:
 		var amount: float = v["rain"]
 		_rain.emitting = amount > 0.01
-		_rain.amount_ratio = clampf(amount, 0.0, 1.0)
-		var slant := deg_to_rad(float(v["slant"]))
+		_rain.amount_ratio = clampf(amount, 0.0, 1.0) * rain_thin
+		var slant := deg_to_rad(float(v["slant"])) * rain_slant_scale
 		_rain_mat.direction = Vector3(sin(slant) * 0.8, -cos(slant), sin(slant) * 0.6).normalized()
 
 
@@ -411,7 +422,7 @@ func _build_rain() -> void:
 	_rain = GPUParticles3D.new()
 	_rain.name = "Rain"
 	_rain.amount = 8000
-	_rain.lifetime = 1.1
+	_rain.lifetime = 0.9
 	_rain.local_coords = false
 	_rain.top_level = true
 	_rain.visibility_aabb = AABB(Vector3(-40, -40, -40), Vector3(80, 80, 80))
@@ -420,22 +431,76 @@ func _build_rain() -> void:
 	_rain_mat.emission_box_extents = Vector3(26, 1, 26)
 	_rain_mat.direction = Vector3(0, -1, 0)
 	_rain_mat.spread = 3.0
-	_rain_mat.initial_velocity_min = 16.0
-	_rain_mat.initial_velocity_max = 21.0
+	_rain_mat.initial_velocity_min = rain_speed.x
+	_rain_mat.initial_velocity_max = rain_speed.y
 	_rain_mat.gravity = Vector3(0, -9.8, 0)
+	# rain stops where it lands (boat, dock, island, lighthouse, sea) and throws up a few small drops there
+	_rain_mat.collision_mode = ParticleProcessMaterial.COLLISION_HIDE_ON_CONTACT
+	_rain_mat.sub_emitter_mode = ParticleProcessMaterial.SUB_EMITTER_AT_COLLISION
+	_rain_mat.sub_emitter_amount_at_collision = 1
+	_rain_mat.sub_emitter_keep_velocity = false
 	_rain.process_material = _rain_mat
 	var streak := QuadMesh.new()
-	streak.size = Vector2(0.022, 0.75)
+	streak.size = Vector2(0.018, rain_streak_len)
 	var mat := StandardMaterial3D.new()
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	mat.billboard_mode = BaseMaterial3D.BILLBOARD_FIXED_Y
 	var c := Color.html(_phase_spec("RETURN")["rain"]["colour"])
-	mat.albedo_color = Color(c.r, c.g, c.b, 0.32)
+	mat.albedo_color = Color(c.r * rain_dark, c.g * rain_dark, c.b * rain_dark, rain_alpha)
 	streak.material = mat
 	_rain.draw_pass_1 = streak
 	_rain.emitting = false
 	add_child(_rain)
+	_build_splash(Color(c.r * 0.7, c.g * 0.7, c.b * 0.7, 0.55))
+	_build_rain_floor()
+
+
+## The small drops thrown up where a raindrop hits: a short burst of tiny specks that fly up and fall back.
+func _build_splash(col: Color) -> void:
+	_splash = GPUParticles3D.new()
+	_splash.name = "RainSplash"
+	_splash.amount = 3000
+	_splash.lifetime = 0.35
+	_splash.local_coords = false
+	_splash.top_level = true
+	_splash.emitting = false       # a sub-emitter: the rain starts it, at the point of impact
+	_splash.visibility_aabb = AABB(Vector3(-40, -40, -40), Vector3(80, 80, 80))
+	var pm := ParticleProcessMaterial.new()
+	pm.direction = Vector3(0, 1, 0)
+	pm.spread = 70.0
+	pm.initial_velocity_min = 0.8
+	pm.initial_velocity_max = 2.4
+	pm.gravity = Vector3(0, -9.8, 0)
+	pm.scale_min = 0.5
+	pm.scale_max = 1.0
+	_splash.process_material = pm
+	var drop := QuadMesh.new()
+	drop.size = Vector2(0.05, 0.1)
+	var dm := StandardMaterial3D.new()
+	dm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	dm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	dm.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	dm.albedo_color = col
+	drop.material = dm
+	_splash.draw_pass_1 = drop
+	add_child(_splash)
+	_rain.sub_emitter = _rain.get_path_to(_splash)
+
+
+## What the rain lands on: a height field of everything under the camera, seen from above. It follows the camera, so it always
+## covers the rain's 52 m box, and it is redrawn every frame so the boat's motion counts. The lighthouse roof stops the rain
+## over its rooms (a drop that starts under a roof is already inside the field's surface and is hidden at once).
+func _build_rain_floor() -> void:
+	_rain_floor = GPUParticlesCollisionHeightField3D.new()
+	_rain_floor.name = "RainFloor"
+	_rain_floor.top_level = true
+	_rain_floor.size = Vector3(60, 80, 60)
+	_rain_floor.resolution = GPUParticlesCollisionHeightField3D.RESOLUTION_512
+	_rain_floor.update_mode = GPUParticlesCollisionHeightField3D.UPDATE_MODE_ALWAYS
+	_rain_floor.follow_camera_enabled = true
+	_rain_floor.heightfield_mask = 1        # the world's visible surfaces (layer 1)
+	add_child(_rain_floor)
 
 
 func _follow_camera() -> void:
@@ -444,6 +509,10 @@ func _follow_camera() -> void:
 		return
 	if _rain:
 		_rain.global_position = cam.global_position + Vector3(0, 12, 0)
+	if _splash:
+		_splash.global_position = cam.global_position
+	if _rain_floor:
+		_rain_floor.global_position = cam.global_position
 	if _window_mat:
 		var city := get_node_or_null(saint_calder) as Node3D
 		if city:

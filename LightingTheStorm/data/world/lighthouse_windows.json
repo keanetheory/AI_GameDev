@@ -1,0 +1,83 @@
+{
+  "note": "Windows cut into the lighthouse exterior and framed inside. kind 'tower': bearing in degrees from +x toward +z round the tower axis, y = centre height (lighthouse local), w/h metres. kind 'house': wall 'west' (at = v along the wall) or 'back' (at = u along the wall). Baked into Level.tscn (the Lighthouse node's carve_oriented_any) by tools/bake_windows.py; framed and glazed at run time by scripts/world/interior/windows.gd. Re-run the bake after editing.",
+  "windows": [
+    {
+      "id": "T_stair_300_a",
+      "kind": "tower",
+      "bearing": 300.0,
+      "y": 8.1,
+      "w": 0.8,
+      "h": 1.5
+    },
+    {
+      "id": "T_stair_300_b",
+      "kind": "tower",
+      "bearing": 300.0,
+      "y": 12.4,
+      "w": 0.8,
+      "h": 1.5
+    },
+    {
+      "id": "T_landing_215",
+      "kind": "tower",
+      "bearing": 215.0,
+      "y": 10.9,
+      "w": 0.9,
+      "h": 1.5
+    },
+    {
+      "id": "T_stair_110_a",
+      "kind": "tower",
+      "bearing": 110.0,
+      "y": 6.9,
+      "w": 0.8,
+      "h": 1.5
+    },
+    {
+      "id": "T_stair_110_b",
+      "kind": "tower",
+      "bearing": 110.0,
+      "y": 11.4,
+      "w": 0.8,
+      "h": 1.5
+    },
+    {
+      "id": "H_bed_west",
+      "kind": "house",
+      "wall": "west",
+      "at": 5.75,
+      "y": 6.75,
+      "w": 0.9,
+      "h": 1.2
+    },
+    {
+      "id": "H_mess_back",
+      "kind": "house",
+      "wall": "back",
+      "at": 3.0,
+      "y": 6.45,
+      "w": 1.0,
+      "h": 0.8
+    },
+    {
+      "id": "H_wash_back",
+      "kind": "house",
+      "wall": "back",
+      "at": 0.65,
+      "y": 6.45,
+      "w": 0.7,
+      "h": 0.8
+    }
+  ],
+  "clear": [
+    {
+      "id": "blob_150",
+      "bearing": 150.0,
+      "r0": 1.9,
+      "r1": 2.75,
+      "tangent": 2.6,
+      "y0": 11.0,
+      "y1": 16.6
+    }
+  ]
+}

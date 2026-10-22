@@ -7,12 +7,18 @@ extends CharacterBody3D
 @export var mouse_sensitivity := 0.0025
 ## Highest ledge the player steps onto without jumping (metres).
 @export var step_height := 0.4
+## Seconds the step from the boat onto the dock takes. The body is eased there instead of placed, so the view
+## never jumps (Saltgate SLT-01). 0 = place it at once.
+@export var step_ashore_s := 0.8
 
 var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var _head: Node3D = $Head
 var _spawn := Vector3.ZERO
 ## Set while the player is seated in the boat (see scripts/world/boat.gd).
 var boat: Node3D = null
+var _ashore_from := Vector3.ZERO
+var _ashore_to := Vector3.ZERO
+var _ashore_t := -1.0   # progress of the step ashore, 0 to 1; below 0 when not stepping ashore
 
 
 func _ready() -> void:
@@ -38,6 +44,12 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	if boat:   # the boat carries us; it sets our position each frame
+		velocity = Vector3.ZERO
+		return
+	if _ashore_t >= 0.0:
+		_step_ashore(delta)
+		return
+	if $CollisionShape3D.disabled:   # just stepped ashore, collision comes back at the end of the frame: wait for it
 		velocity = Vector3.ZERO
 		return
 	if not is_on_floor():
@@ -74,9 +86,38 @@ func start_driving(b: Node3D) -> void:
 	$CollisionShape3D.set_deferred("disabled", true)
 
 
-## Step out of the boat onto the dock at `at`.
+## Step out of the boat onto the dock at `at`: eased over step_ashore_s, collision back on when it lands.
 func stop_driving(at: Vector3) -> void:
 	boat = null
-	global_position = at
 	velocity = Vector3.ZERO
-	$CollisionShape3D.set_deferred("disabled", false)
+	if step_ashore_s <= 0.0:
+		global_position = at
+		$CollisionShape3D.set_deferred("disabled", false)
+		return
+	_ashore_from = global_position
+	_ashore_to = at
+	_ashore_t = 0.0
+
+
+func _step_ashore(delta: float) -> void:
+	if global_position.distance_to(_ashore_pos(_ashore_t)) > 0.01:
+		_ashore_t = -1.0   # something else moved the body (a respawn, a test): stop easing and stand there
+		$CollisionShape3D.set_deferred("disabled", false)
+		return
+	_ashore_t = minf(_ashore_t + delta / step_ashore_s, 1.0)
+	global_position = _ashore_pos(_ashore_t)
+	if _ashore_t >= 1.0:
+		_ashore_t = -1.0
+		$CollisionShape3D.set_deferred("disabled", false)
+
+
+## Where the body is at step progress s. Climbing, the height comes first and the distance after, so the view rises
+## over the quay edge instead of passing through it; stepping down, the other way round.
+func _ashore_pos(s: float) -> Vector3:
+	var across := smoothstep(0.0, 1.0, s)
+	var up := 1.0 - pow(1.0 - minf(s * 1.6, 1.0), 2.0)
+	if _ashore_to.y < _ashore_from.y:
+		up = pow(maxf(s * 1.6 - 0.6, 0.0), 2.0)
+	var p := _ashore_from.lerp(_ashore_to, across)
+	p.y = lerpf(_ashore_from.y, _ashore_to.y, up)
+	return p

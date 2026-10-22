@@ -12,8 +12,8 @@ The v3 greybox (a `.glb`) still supplies floors, walls, the basement stairs and 
 | G hallway, posters and documents | three posters (two Flighted, one moon-cycle) and a notice board with the tide table; E reads a Flighted poster and fires POSTER_EXAMINED | `rooms_house.gd` |
 | G keeper's office | desk, chair, lamp, ledgers on shelves, filing cabinet, chart table with a sea chart, clock | `rooms_house.gd` |
 | G storage room | walled room with a doorway: crates, barrels, shelving, rope, a bulb | `rooms_house.gd` |
-| G stairs down | the stairwell gets a railing (the v3 hole had none) | `rooms_house.gd` |
-| B1 coal store | walled cell, wooden bin front, a heap of 190 lumps | `rooms_house.gd` |
+| G stairs down | a spiral stair (15 stone treads round a newel, one full turn) replaces the v3 switchback flights; the hole gets a railing, open at the front where the spiral starts | `spiral_down.gd`, `rooms_house.gd` |
+| B1 coal store | a walled cell in the south-east corner, the far corner from the firebox (south-west), so the player crosses the whole basement; wooden bin front, a heap of 190 lumps, a shovel standing in it | `rooms_house.gd` |
 | B1 boiler room | brick plinth, boiler shell and dome, copper bands, firebox door with a glow and a flickering light, pressure gauge, water glass, lagged steam main, valve wheels, water cistern | `rooms_house.gd` |
 | B1 steam engine and dynamo | bedplate, cylinder, steam chest, piston rod, flywheel (turns when the boiler is fed), crankshaft, dynamo with copper coil and belt, switchboard with dials and lamps | `rooms_house.gd` |
 | B1 workshop and stores | bench, vice, tool board, parts shelving | `rooms_house.gd` |
@@ -21,6 +21,10 @@ The v3 greybox (a `.glb`) still supplies floors, walls, the basement stairs and 
 | L1 keeper's quarters | hall from the tower door, sleeping quarters (two beds, chest, wardrobe), radio and chart room, wash room, kitchen and mess with a stove, linen shelving, a gabled plaster ceiling under the roof | `rooms_tower.gd` |
 | L2 control and diagnostics | a landing ring round the spiral inside the tower: electrical control cabinet, instrument station, tool locker, water can | `rooms_tower.gd` |
 | L3 lamp room | full redesign, below | `lantern.gd` |
+
+## Look and feel (from the AI Crew's style guide and lighting spec)
+
+Source: `Docs/Lore Build/world/style_guide.md` (gritty dark cel-shaded; muted, desaturated; mid-to-late 1800s gaslight and steam; no clean glossy surfaces, neon or saturated colour) and `AIAgentCrew/world_output/lighting_spec.json` (steam glow amber #C07A1E, arc lamp and beacon silver #B9BEC4, the beacon "dark, failing flicker, relit steady sweep"). Applied in `interior/kit.gd`: stone-grey plaster, slate flags, dark desaturated timber and brick, dulled brass and copper, every warm lamp amber, the lens, beam and lamp-room light cold silver, posters black, silver and navy on aged paper, coats in Ted's navy and Arthur's green. Not done: cel shading and ink outlines (the rest of the level is lit normally), and the beacon's pre-fit "failing flicker".
 
 ## The lamp room (LHI-12, LHI-13)
 
@@ -43,6 +47,35 @@ E at the heap takes a shovelful (held in view, one item at a time, like the burn
 - **The tower is hollow enough.** Inner wall radius about 3.9 m at L1 and 3.2-3.4 m at L2; the spiral occupies radius 1.14-2.07, so the L2 ring is 1.1 m wide and its fittings are 0.2 m deep.
 - **The dock berth cannot be seen from any window**; the tower landing window sees the water outside the harbour mouth (the rowboat sighting is at (-48, 0.8, 24)).
 - Lantern: no wall left in the band; roof underside 22.06 at radius 2.0; deck top 18.3 from radius 2.9.
+
+## Fixes from the 2026-10-22 playthrough
+
+- **Rock and model shards in the basement ceiling.** The island mesh and the exterior model have large triangles that cross into the basement from outside; the level's carve removes triangles by their centre, so they stayed. `collider_builder.gd` has a new `carve_oriented_any` (a triangle goes if any corner is inside the box), set on the Island and Lighthouse nodes in `Level.tscn`. `tools/probe_shards.gd` lists what still pokes into a room (169 spots in the basement before, 16 after, all outside walls).
+- **Firebox flicker.** The glow panel shared a face with its door frame (z-fighting) and the fire light's flicker was fast and deep. It is now a glowing slot behind bars, protruding 1 cm, with a slow 10% flicker.
+- **Stair clipping.** The spiral filled the stairwell hole edge to edge; it is now 1.35 m radius, centred 4.0 m in, clear of the hole's rails, the storage wall and the coal cell.
+- **Stray sign** in the coal doorway removed.
+- **First-floor hall:** a plaster knee wall along the front closes the gap under the sloping ceiling; lamps lowered off the ceiling.
+
+## Fixes from the second playthrough (2026-10-22)
+
+- **The tower had no floor round the stair.** The v3 greybox floors only the ring under the spiral (radius 1.14-2.07); the rest of the base was a pit with the island visible below, and the first-floor ring left the house side open. Now: a ground-floor ring out to radius 3.0 with a low stone parapet (open at the entry), and a full first-floor ring with an outer rail (open across the house doorway). `rooms_tower.gd` `_g_ring`, `_l1_ring`. The tower wall is ragged and open at these heights (radius 3.0 to over 5 m; `tools/probe_tower_radii.gd`), so the rings stop short of it.
+- **The basement spiral was not joined to the hall floor.** The v3 stairwell hole is 2.8 x 3.4 m and the spiral only filled a circle in it, so the player could step off beside the first tread. The floor now fills the hole outside a circle just wider than the treads, with a rail round the circle except across the entrance (`spiral_down.gd` `_g_opening`). `tools/test_spiral_down.gd` now pushes at that rail from eight sides.
+- **First floor, second pass:** door frames at every doorway, a lining on the east wall, rugs, keeper's rules, calendar, clock, coat hooks, a book shelf, lamps lowered and brightened, the stove glow made amber.
+
+## Tower stairwell rebuild (2026-10-22, third playthrough)
+
+- `interior/tower_shell.gd` builds a stone lining round the whole tower stairwell, ground floor to lamp-room floor, at the radius the exterior wall leaves room for at each height (2.9-3.4 m; `tools/probe_tower_radii.gd`). It has openings only where there is a real way through: the hall doorway (ground floor), the keeper's quarters (first floor, house side) and the tower landing window. This closes the gaps through which the player could see the island and the empty shell of the house, and the gap at the L2 landing.
+- Every spiral tread now runs out to that wall (`StairExt_*`), except the landing treads and those in front of the window. The stair handrails are gone, as asked. The ground, first and second floor rings meet the lining too; the old rail round the L2 ring is removed and its fittings moved clear of the stair.
+- The tower window's bearing is 147 degrees (the house side), not the 303 I first assumed from its sin/cos form; `test_sightlines` caught the lining blocking it.
+
+## Fifth pass (2026-10-22): windows, tower wall, stairs, shovel, win
+
+- **Windows** (`data/world/lighthouse_windows.json`, baked into `Level.tscn` by `tools/bake_windows.py`): five in the tower (two on the stair at bearing 300, two at 110, one at the control landing, 215) and three in the house (bedroom west, mess and wash room at the back). Each has deep stone reveals, glass, an iron mullion and an invisible barrier. Exterior triangles hanging into the stairwell are cleared by the same bake.
+- **Tower wall thickness and taper:** a 3.0 m plinth to the first floor, then a cone from 3.4 m to 2.9 m, pulled in to a measured table (`data/world/tower_radii.json`, `tools/bake_tower_radii.gd`) so no exterior surface shows through; sector edges share vertices so there are no cracks.
+- **Stairs:** the v3 half-width steps are replaced by solid 0.4 m steps from newel to wall, one mesh each (the landing steps stay narrow).
+- **Shovel:** it now moves: dips into the heap and comes up loaded, then thrusts at the firebox, tips and is put away. This also fixed a bug: the shovelful was never reparented into the camera (a parentless node), so it was never visible in the hands.
+- **SHIP_WIN** is reported 4.5 s after the burner is fitted, if no outcome has resolved.
+- **Art** handed to the Asset agent (`handoff_asset_agent_lighthouse_interior.md`).
 
 ## Open or deferred
 

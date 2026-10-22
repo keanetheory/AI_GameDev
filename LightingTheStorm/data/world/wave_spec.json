@@ -118,5 +118,50 @@
     "water_added": 0.15,
     "water_drain_per_s": 0.02,
     "capsize": false
+  },
+  "look": {
+    "_note": "WAV-15: the cel-shaded surface (scripts/world/sea_surface.gdshader). Colours are linear RGB 0..1. Reference: GERFramework/reference/sea/ (a storm sea: navy troughs, translucent teal faces, long white foam streaks). Foam and lit faces grow with the sea state between the _at_state_1 and _at_state_5 values.",
+    "trough_col": [
+      0.012,
+      0.035,
+      0.075
+    ],
+    "body_col": [
+      0.02,
+      0.09,
+      0.17
+    ],
+    "face_col": [
+      0.04,
+      0.24,
+      0.3
+    ],
+    "crest_col": [
+      0.17,
+      0.46,
+      0.5
+    ],
+    "foam_col": [
+      0.72,
+      0.76,
+      0.79
+    ],
+    "ink_col": [
+      0.01,
+      0.02,
+      0.04
+    ],
+    "band_softness": 0.03,
+    "streak_scale": 0.35,
+    "wind_dir": [
+      1.0,
+      0.2
+    ],
+    "brightness": 1.0,
+    "foam_at_state_1": 0.12,
+    "foam_at_state_5": 1.0,
+    "face_at_state_1": 0.3,
+    "face_at_state_5": 1.0,
+    "water_softness": 0.11
   }
 }

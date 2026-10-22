@@ -1,0 +1,254 @@
+[
+  {
+    "image": "Poster_Storms.png",
+    "name": "Poster_Storms",
+    "pixels": [
+      785,
+      1090
+    ],
+    "room": "ground floor",
+    "size_m": [
+      0.720000028610229,
+      1
+    ],
+    "text": "THEY BRING\nTHE STORMS",
+    "title": "Flighted propaganda poster",
+    "prompt": "Crude 1800s letterpress poster: a dark sphere eclipsing a silver moon above stylised waves; heavy serif lettering reading THEY BRING THE STORMS; black, silver and navy ink only; misregistered print; weathered, peeling paper. Reverent yet ominous., flat front-on view of a single sheet of paper filling the frame, no background, no perspective, gritty dark cel-shaded, heavy ink outlines, grimy hand-painted texture, muted desaturated palette, mid-to-late 1800s, as a flat texture of 0.72 x 1.00 m (aspect 0.72)",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "reference_image": "Poster_Storms.png"
+  },
+  {
+    "image": "Poster_Seasons.png",
+    "name": "Poster_Seasons",
+    "pixels": [
+      785,
+      1090
+    ],
+    "room": "ground floor",
+    "size_m": [
+      0.720000028610229,
+      1
+    ],
+    "text": "THEY CHANGE\nTHE SEASONS",
+    "title": "Flighted propaganda poster",
+    "prompt": "Same style: dark sphere eclipsing a silver moon over waves; lettering THEY CHANGE THE SEASONS; black, silver and navy ink only; misregistered; weathered paper., flat front-on view of a single sheet of paper filling the frame, no background, no perspective, gritty dark cel-shaded, heavy ink outlines, grimy hand-painted texture, muted desaturated palette, mid-to-late 1800s, as a flat texture of 0.72 x 1.00 m (aspect 0.72)",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "reference_image": "Poster_Seasons.png"
+  },
+  {
+    "image": "Poster_Moon.png",
+    "name": "Poster_Moon",
+    "pixels": [
+      785,
+      1090
+    ],
+    "room": "ground floor",
+    "size_m": [
+      0.720000028610229,
+      1
+    ],
+    "text": "KEEP THE\nMOON'S HOUR",
+    "title": "Moon-cycle notice",
+    "prompt": "Printed notice reading KEEP THE MOON'S HOUR, a simple moon-phase row beneath it, crude letterpress, aged cream paper, black ink., flat front-on view of a single sheet of paper filling the frame, no background, no perspective, gritty dark cel-shaded, heavy ink outlines, grimy hand-painted texture, muted desaturated palette, mid-to-late 1800s, as a flat texture of 0.72 x 1.00 m (aspect 0.72)",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "reference_image": "Poster_Moon.png"
+  },
+  {
+    "image": "G_Tidetable.png",
+    "name": "G_Tidetable",
+    "pixels": [
+      741,
+      1090
+    ],
+    "room": "ground floor",
+    "size_m": [
+      0.340000003576279,
+      0.5
+    ],
+    "text": "TIDES AND\nTHE MOON\n\nentered by hand,\nsigned T.",
+    "title": "Tide table",
+    "prompt": "Hand-ruled tide table headed TIDES AND THE MOON, columns of times and heights in a keeper's handwriting, signed T., ink on aged paper., flat front-on view of a single sheet of paper filling the frame, no background, no perspective, gritty dark cel-shaded, heavy ink outlines, grimy hand-painted texture, muted desaturated palette, mid-to-late 1800s, as a flat texture of 0.34 x 0.50 m (aspect 0.68)",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "reference_image": "G_Tidetable.png"
+  },
+  {
+    "image": "Office_Chart.png",
+    "name": "Office_Chart",
+    "pixels": [
+      1090,
+      770
+    ],
+    "room": "ground floor",
+    "size_m": [
+      0.850000023841858,
+      0.600000023841858
+    ],
+    "text": "BRACKEN ISLE\nto SALTGATE\n  ~ ~ ~",
+    "title": "Sea chart",
+    "prompt": "Hand-drawn sea chart titled BRACKEN ISLE to SALTGATE: the island, the Gullwater channel with soundings and rocks, the Saltgate quays at the far side; ink and faded watercolour on stained paper., flat front-on view of a single sheet of paper filling the frame, no background, no perspective, gritty dark cel-shaded, heavy ink outlines, grimy hand-painted texture, muted desaturated palette, mid-to-late 1800s, as a flat texture of 0.85 x 0.60 m (aspect 1.42)",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "reference_image": "Office_Chart.png"
+  },
+  {
+    "image": "Office_ChartPin.png",
+    "name": "Office_ChartPin",
+    "pixels": [
+      1090,
+      666
+    ],
+    "room": "ground floor",
+    "size_m": [
+      0.899999976158142,
+      0.550000011920929
+    ],
+    "text": "STORM LOG",
+    "title": "Storm log",
+    "prompt": "Keeper's STORM LOG sheet: ruled columns for date, hour, wind and glass, filled in by hand, ink on aged paper., flat front-on view of a single sheet of paper filling the frame, no background, no perspective, gritty dark cel-shaded, heavy ink outlines, grimy hand-painted texture, muted desaturated palette, mid-to-late 1800s, as a flat texture of 0.90 x 0.55 m (aspect 1.64)",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "reference_image": "Office_ChartPin.png"
+  },
+  {
+    "image": "Store_Sign.png",
+    "name": "Store_Sign",
+    "pixels": [
+      1090,
+      392
+    ],
+    "room": "ground floor",
+    "size_m": [
+      0.5,
+      0.180000007152557
+    ],
+    "text": "STORE",
+    "title": "Store door sign",
+    "prompt": "Hand-painted sign reading STORE on aged board or paper, black lettering., flat front-on view of a single sheet of paper filling the frame, no background, no perspective, gritty dark cel-shaded, heavy ink outlines, grimy hand-painted texture, muted desaturated palette, mid-to-late 1800s, as a flat texture of 0.50 x 0.18 m (aspect 2.78)",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "reference_image": "Store_Sign.png"
+  },
+  {
+    "image": "B_GaugePlate.png",
+    "name": "B_GaugePlate",
+    "pixels": [
+      1090,
+      320
+    ],
+    "room": "ground floor",
+    "size_m": [
+      0.340000003576279,
+      0.100000001490116
+    ],
+    "text": "STEAM",
+    "title": "Boiler gauge plate",
+    "prompt": "Brass-edged enamel plate reading STEAM, worn and scratched, mid-1800s engine-room fitting., flat front-on view of a single sheet of paper filling the frame, no background, no perspective, gritty dark cel-shaded, heavy ink outlines, grimy hand-painted texture, muted desaturated palette, mid-to-late 1800s, as a flat texture of 0.34 x 0.10 m (aspect 3.40)",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "reference_image": "B_GaugePlate.png"
+  },
+  {
+    "image": "L1_Photo.png",
+    "name": "L1_Photo",
+    "pixels": [
+      799,
+      1090
+    ],
+    "room": "first floor",
+    "size_m": [
+      0.219999998807907,
+      0.300000011920929
+    ],
+    "text": "T.",
+    "title": "Photograph",
+    "prompt": "Small faded sepia photograph of a man in an oilskin coat in front of a lighthouse, signed T. on the back; cracked, creased, 1800s., flat front-on view of a single sheet of paper filling the frame, no background, no perspective, gritty dark cel-shaded, heavy ink outlines, grimy hand-painted texture, muted desaturated palette, mid-to-late 1800s, as a flat texture of 0.22 x 0.30 m (aspect 0.73)",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "reference_image": "L1_Photo.png"
+  },
+  {
+    "image": "L1_RadioLog.png",
+    "name": "L1_RadioLog",
+    "pixels": [
+      1090,
+      848
+    ],
+    "room": "first floor",
+    "size_m": [
+      0.449999988079071,
+      0.349999994039536
+    ],
+    "text": "NO SIGNAL\nSTORM LOG",
+    "title": "Radio log",
+    "prompt": "Radio room log reading NO SIGNAL, STORM LOG: ruled columns of hand-written times, the last entries blank, aged paper., flat front-on view of a single sheet of paper filling the frame, no background, no perspective, gritty dark cel-shaded, heavy ink outlines, grimy hand-painted texture, muted desaturated palette, mid-to-late 1800s, as a flat texture of 0.45 x 0.35 m (aspect 1.29)",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "reference_image": "L1_RadioLog.png"
+  },
+  {
+    "image": "L1_Chart.png",
+    "name": "L1_Chart",
+    "pixels": [
+      606,
+      1090
+    ],
+    "room": "first floor",
+    "size_m": [
+      0.5,
+      0.899999976158142
+    ],
+    "text": "GULLWATER",
+    "title": "Chart",
+    "prompt": "Small hand-drawn chart of the Gullwater, headed GULLWATER: coast lines, depth soundings, a compass rose, aged paper., flat front-on view of a single sheet of paper filling the frame, no background, no perspective, gritty dark cel-shaded, heavy ink outlines, grimy hand-painted texture, muted desaturated palette, mid-to-late 1800s, as a flat texture of 0.50 x 0.90 m (aspect 0.56)",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "reference_image": "L1_Chart.png"
+  },
+  {
+    "image": "L1_Rules.png",
+    "name": "L1_Rules",
+    "pixels": [
+      839,
+      1090
+    ],
+    "room": "first floor",
+    "size_m": [
+      0.5,
+      0.649999976158142
+    ],
+    "text": "KEEPER'S RULES\r\n\r\n1. THE LAMP\r\n   NEVER GOES DARK.\r\n2. LOG THE HOUR.\r\n3. KEEP THE\r\n   BOILER FED.",
+    "title": "Keeper's rules",
+    "prompt": "Framed notice KEEPER'S RULES: 1. THE LAMP NEVER GOES DARK. 2. LOG THE HOUR. 3. KEEP THE BOILER FED. Printed in heavy serif on aged paper., flat front-on view of a single sheet of paper filling the frame, no background, no perspective, gritty dark cel-shaded, heavy ink outlines, grimy hand-painted texture, muted desaturated palette, mid-to-late 1800s, as a flat texture of 0.50 x 0.65 m (aspect 0.77)",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "reference_image": "L1_Rules.png"
+  },
+  {
+    "image": "L1_Calendar.png",
+    "name": "L1_Calendar",
+    "pixels": [
+      831,
+      1090
+    ],
+    "room": "first floor",
+    "size_m": [
+      0.319999992847443,
+      0.419999986886978
+    ],
+    "text": "OCT\r\nthe moon\r\nfull\r\nthe 22nd",
+    "title": "Calendar page",
+    "prompt": "Torn calendar leaf: OCT, the moon full, the 22nd; a large moon disc, printed in black ink on cream paper., flat front-on view of a single sheet of paper filling the frame, no background, no perspective, gritty dark cel-shaded, heavy ink outlines, grimy hand-painted texture, muted desaturated palette, mid-to-late 1800s, as a flat texture of 0.32 x 0.42 m (aspect 0.76)",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "reference_image": "L1_Calendar.png"
+  },
+  {
+    "image": "L1_Barometer_Note.png",
+    "name": "L1_Barometer_Note",
+    "pixels": [
+      1090,
+      848
+    ],
+    "room": "first floor",
+    "size_m": [
+      0.360000014305115,
+      0.280000001192093
+    ],
+    "text": "GLASS FALLING",
+    "title": "Barometer note",
+    "prompt": "Scrap of paper with the hand-written words GLASS FALLING, ink on aged paper., flat front-on view of a single sheet of paper filling the frame, no background, no perspective, gritty dark cel-shaded, heavy ink outlines, grimy hand-painted texture, muted desaturated palette, mid-to-late 1800s, as a flat texture of 0.36 x 0.28 m (aspect 1.29)",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "reference_image": "L1_Barometer_Note.png"
+  }
+]

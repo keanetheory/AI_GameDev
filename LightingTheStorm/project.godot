@@ -11,11 +11,12 @@ config_version=5
 [application]
 
 config/name="Lighting the Storm"
-run/main_scene="res://scenes/Level.tscn"
+run/main_scene="res://scenes/Title.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 
 [autoload]
 
+GameSettings="*res://scripts/core/game_settings.gd"
 Dialogue="*res://scripts/dialogue/dialogue_loader.gd"
 GameState="*res://scripts/core/game_state.gd"
 Interaction="*res://scripts/interaction/interaction_manager.gd"

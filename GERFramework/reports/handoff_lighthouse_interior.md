@@ -7,7 +7,7 @@ From the Lighthouse Interior Creator Agent. What exists, what each hook does, an
 | Thing | Where | Behaviour |
 |---|---|---|
 | Rooms and props | `scripts/world/interior_rooms.gd` (node `InteriorRooms`), built from `scripts/world/interior/` | built at load in ~260 ms; kit in `kit.gd` |
-| Coal job (T33) | `coal_job.gd`, `coal_pile.gd`, `firebox_hatch.gd`, `boiler_gauge.gd` | `[E] Shovel coal` at the heap (empty hands), `[E] Shovel the coal into the firebox` at the firebox; six loads (`loads_needed` on the `CoalJob` node); events COAL_LOADED_FIRST, COAL_LOADED_HALF, BOILER_FED; the gauge, fire glow and light rise, the flywheel turns, the switchboard lamp goes green |
+| Coal job (T33) | `coal_job.gd`, `coal_pile.gd`, `firebox_hatch.gd`, `boiler_gauge.gd` | `[E] Shovel coal` at the heap in the south-east coal store (empty hands; the firebox is in the far south-west corner), `[E] Shovel the coal into the firebox` at the firebox; six loads (`loads_needed` on the `CoalJob` node); events COAL_LOADED_FIRST, COAL_LOADED_HALF, BOILER_FED; the gauge, fire glow and light rise, the flywheel turns, the switchboard lamp goes green |
 | Burner fit (T32) | `lamp_socket.gd`, `lamp_beacon.gd` | `[E] Fit the burner into the lamp` only while the burner is in hand; keeps the burner; fires BURNER_FITTED once; the lamp lights over 3.5 s and a beam sweeps |
 | Posters | `poster.gd` | `[E] Read the poster` on the Flighted posters fires POSTER_EXAMINED |
 | Entry events | `zone_trigger.gd` | LIGHTHOUSE_ENTERED (hall), ENGINE_ROOM_ENTERED (foot of the basement stairs) |
@@ -15,7 +15,9 @@ From the Lighthouse Interior Creator Agent. What exists, what each hook does, an
 | Lights | `interior_lights.gd` | `adopt()` takes the furnished rooms' lights under the budget (at most 6 lit, 2 shadowed); a light with meta `flicker` wobbles |
 | Anchors | `interior_anchors.gd` (markers `LHI_Anchor_<role>`, group `lhi_anchor`) | the v3 roles plus `l1_landing`, `l1_hall`, `l1_quarters`, `l1_radio`, `l1_mess`, `l1_ring`, `l2_landing`, `l2_control`, `l2_instruments`, `lamp_stand`, `lamp_socket`, `shovel_rack`; `boiler_interaction`, `coal_pickup`, `daniel`, `arc_lamp_socket` and `burner_fit` moved to suit the new layout |
 
-Tests (all headless, `Godot --headless --path . --script res://tools/<name>.gd`): `test_interior_walk` (the real player walks to every room), `test_sightlines`, `test_interior_lights`, `test_interior_anchors`, `test_interior_budget`, `test_lamp_fit`, `test_coal_job`.
+Look and feel follows the style guide and lighting spec (see the design notes); the spiral stair down is `spiral_down.gd`.
+
+Tests (all headless, `Godot --headless --path . --script res://tools/<name>.gd`): `test_interior_walk` (the real player walks to every room), `test_sightlines`, `test_interior_lights`, `test_interior_anchors`, `test_interior_budget`, `test_lamp_fit`, `test_coal_job`, `test_spiral_down` (walks the basement spiral both ways like a person; the route finder cuts inside a curve, so `test_interior_walk` starts the legs that come back up at the top of it).
 
 ## Still yours
 

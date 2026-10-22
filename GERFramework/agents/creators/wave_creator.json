@@ -544,6 +544,54 @@
       "collaborates": [
         "QA agent"
       ]
+    },
+    {
+      "id": "WAV-15",
+      "title": "Re-render the sea as a cel-shaded stylised storm sea: navy troughs, teal wave faces, streaked silver foam with ink outlines (reference: the creator's video)",
+      "priority": 8,
+      "why_score": "Creator request 2026-10-22: the sea should copy the colour and foam of a reference storm-sea video, in a cel-shaded style. The sea fills most of every crossing's view. Not 9: it changes how the sea looks, not how it plays.",
+      "detail": "BUILT 2026-10-22: the sea's shader moved to scripts/world/sea_surface.gdshader. The two vertex lines that set the wave shape are unchanged and still mirror Sea.wave_height(); everything new is fragment paint, so the boat, the wave push and every wave test are untouched. Colour bands (trough navy, body blue, translucent teal face, pale cyan crest), long foam streaks along the wind and foam on the crests, each outlined in an ink-dark band, per-pixel normals with toon lighting. Colours and thresholds live in data/world/wave_spec.json under 'look'; foam and lit faces grow with the sea state (a few flecks at state 1, streaked at 5). Reference frames: GERFramework/reference/sea/. Renders: GERFramework/shots/sea_s1/s3/s5.png.",
+      "acceptance": [
+        "the sea reads as flat cel-shaded bands with hard edges, not a smooth gradient",
+        "foam is silver streaks and crest patches with an ink outline, growing with the sea state",
+        "the wave shape and Sea.wave_height() are unchanged: test_wave_crossings and test_boat pass",
+        "hazards still read darker than the sea (Lighting agent to confirm per phase)"
+      ],
+      "owner": "Wave Creator Agent",
+      "needs_creator": true,
+      "checks": [
+        {
+          "type": "file_exists",
+          "path": "LightingTheStorm/scripts/world/sea_surface.gdshader"
+        },
+        {
+          "type": "grep",
+          "path": "LightingTheStorm/scripts/world/sea_surface.gdshader",
+          "pattern": "diffuse_toon",
+          "min": 1
+        },
+        {
+          "type": "grep",
+          "path": "LightingTheStorm/data/world/wave_spec.json",
+          "pattern": "\"look\"",
+          "min": 1
+        },
+        {
+          "type": "file_exists",
+          "path": "GERFramework/reference/sea/sheet.png"
+        },
+        {
+          "type": "manual",
+          "note": "Creator judges the look against the video in the editor, per sea state and phase."
+        }
+      ],
+      "refs": [
+        "GERFramework/reference/sea/sheet.png"
+      ],
+      "depends_on": [],
+      "collaborates": [
+        "Lighting agent"
+      ]
     }
   ]
 }

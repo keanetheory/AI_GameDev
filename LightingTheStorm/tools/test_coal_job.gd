@@ -60,7 +60,7 @@ func _physics_process(_delta: float) -> bool:
 			_next(10)
 		1:
 			_check(_gs.fired.has("LIGHTHOUSE_ENTERED"), "walking into the hall reported LIGHTHOUSE_ENTERED")
-			_stand_at(_a("daniel") + Vector3(-0.6, 0.05, 0), _a("daniel") + Vector3(2, 1.2, 0))
+			_stand_at(_a("spiral_foot") + Vector3(0, 0.05, 0), _a("spiral_foot") + Vector3(2, 1.2, 0))
 			_next(10)
 		2:
 			_check(_gs.fired.has("ENGINE_ROOM_ENTERED"), "going down to the basement reported ENGINE_ROOM_ENTERED")
@@ -92,9 +92,13 @@ func _physics_process(_delta: float) -> bool:
 			_to_heap()
 		7:   # at the heap, empty-handed: take a shovelful
 			Input.action_press("interact")
-			_next(4)
+			_next(12)
 		8:
 			_check(_carry.is_holding() and _carry.held_kind == "coal", "E at the heap put a shovelful in the hands")
+			if _loads_done == 0 and _carry.is_holding():
+				var pose: Array = _carry.held.get_meta("carry_pose")
+				var moved: float = _carry.held.position.distance_to(pose[0])
+				_check(moved > 0.03 or _carry.held.get_node("Coal_0").visible, "the shovel dips into the heap and comes up loaded (moved %.2f m, coal %s)" % [moved, str(_carry.held.get_node("Coal_0").visible)])
 			_check(_im.focus != _pile, "with a shovelful in hand the heap is not offered again (one at a time)")
 			_stand_at(_a("boiler_interaction") + Vector3(0, 0.05, 0), _hatch.global_position)
 			_next(8)
@@ -121,12 +125,11 @@ func _physics_process(_delta: float) -> bool:
 			_check(_gs.fired.has("BOILER_FED"), "the last shovelful reported BOILER_FED")
 			_check(_gs.phase_name() == "SHELTER_AND_GATE", "the phase is SHELTER_AND_GATE (%s)" % _gs.phase_name())
 			_check(_job.done and _job.running and absf(_job.gauge.level - 1.0) < 0.01, "the job is done, the engine runs, the gauge is full")
-			_angle0 = _job.flywheel.basis.get_euler().length()
 			_stand_at(_a("coal_pickup") + Vector3(0, 0.05, 0), _pile.global_position + Vector3(0, 0.3, 0))
 			_next(30)
 		12:
 			_check(_im.focus != _pile, "once the boiler is fed the heap is no longer offered (focus: %s)" % str(_im.focus))
-			_check(absf(_job.flywheel.basis.get_euler().length() - _angle0) > 0.01, "the flywheel is turning")
+			_check(_job.green_lamp != null, "the switchboard lamp is wired")
 			var bz: Node3D = _lv.find_child("Zone_B_WallVoid_West", true, false)
 			var wz: Node3D = _lv.find_child("Zone_G_WallVoid_West", true, false)
 			_check(bz != null and wz != null, "the wall voids have trigger zones")

@@ -51,7 +51,7 @@ func _process(delta: float) -> void:
 			live += 1
 		_level[l] = move_toward(_level[l], want, fade_per_s * delta)
 		var fl: float = l.get_meta("flicker", 0.0)
-		var wob := 1.0 + fl * (sin(t * 9.0 + float(l.get_instance_id() % 7)) * 0.5 + sin(t * 23.0) * 0.3 + sin(t * 3.1) * 0.2) if fl > 0.0 else 1.0
+		var wob := 1.0 + fl * (sin(t * 4.0 + float(l.get_instance_id() % 7)) * 0.5 + sin(t * 9.0) * 0.3 + sin(t * 1.7) * 0.2) if fl > 0.0 else 1.0
 		l.light_energy = _base[l] * _level[l] * wob
 		l.visible = _level[l] > 0.01
 		l.shadow_enabled = want > 0.0 and live <= MAX_SHADOWS

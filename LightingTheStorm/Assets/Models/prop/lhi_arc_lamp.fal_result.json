@@ -1,0 +1,19 @@
+{
+  "submission": {
+    "asset_id": "lhi_arc_lamp",
+    "category": "prop",
+    "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+    "prompt": "Lighthouse arc lamp assembly for a lantern room: brass pedestal, open burner bay with brass bars, a tiered glass Fresnel lens drum with brass rings and an iron chimney, mid-1800s, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, mid-1800s brass and iron",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "source_image": null,
+    "view_images": {},
+    "notes": "Lighthouse interior art handoff (GERFramework/reports/handoff_asset_agent_lighthouse_interior.md). Replaces a greybox prop; keep it a separate node so the interaction scripts still find it. Downscale the 4096 texture to 2048 on import."
+  },
+  "request_id": "01a16403-07bf-7fe3-860a-953276d91fe1",
+  "seed": null,
+  "textured": true,
+  "request": {
+    "prompt": "Lighthouse arc lamp assembly for a lantern room: brass pedestal, open burner bay with brass bars, a tiered glass Fresnel lens drum with brass rings and an iron chimney, mid-1800s, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, mid-1800s brass and iron",
+    "generate_type": "Normal"
+  }
+}

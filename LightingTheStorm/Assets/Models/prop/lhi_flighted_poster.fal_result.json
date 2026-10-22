@@ -1,0 +1,19 @@
+{
+  "submission": {
+    "asset_id": "lhi_flighted_poster",
+    "category": "prop",
+    "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+    "prompt": "Crude 1800s letterpress propaganda poster, a dark sphere eclipsing a silver moon above stylised waves, reverent yet ominous, heavy serif lettering reading THEY BRING THE STORMS, black, silver and navy ink only, misregistered print, weathered and peeling paper, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, mid-1800s brass and iron",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "source_image": null,
+    "view_images": {},
+    "notes": "Lighthouse interior art handoff (GERFramework/reports/handoff_asset_agent_lighthouse_interior.md). Replaces a greybox prop; keep it a separate node so the interaction scripts still find it. Downscale the 4096 texture to 2048 on import."
+  },
+  "request_id": "01a16403-07b0-79e0-937a-dbb9c6328b89",
+  "seed": null,
+  "textured": true,
+  "request": {
+    "prompt": "Crude 1800s letterpress propaganda poster, a dark sphere eclipsing a silver moon above stylised waves, reverent yet ominous, heavy serif lettering reading THEY BRING THE STORMS, black, silver and navy ink only, misregistered print, weathered and peeling paper, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, mid-1800s brass and iron",
+    "generate_type": "Normal"
+  }
+}

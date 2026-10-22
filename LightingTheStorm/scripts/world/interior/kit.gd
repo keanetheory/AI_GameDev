@@ -126,6 +126,74 @@ func sphere(parent: Node3D, nm: String, c: Vector3, r: float, m, squash := 1.0) 
 	return mi
 
 
+## An imported model (res://Assets/Models/prop/lhi_*.glb: scaled to 0.9 m on its longest side, pivot at the base centre) placed
+## in the house frame: `scale` multiplies that 0.9 m, `yaw_deg` turns it about the vertical (positive turns its +z toward the
+## house +u). `footprint` (a box size in the model's own metres after scaling, x width, y height, z depth) adds one solid
+## collision box centred over the base, or Vector3.ZERO for none.
+func model(parent: Node3D, nm: String, path: String, at: Vector3, yaw_deg: float, scale: float, footprint := Vector3.ZERO, carve := AABB()) -> Node3D:
+	var ps := load(path) as PackedScene
+	var w := Node3D.new()
+	w.name = nm
+	w.position = p(at.x, at.y, at.z)
+	w.rotation.y = deg_to_rad(yaw_deg)
+	w.scale = Vector3.ONE * scale
+	parent.add_child(w)
+	count += 1
+	if ps == null:
+		push_warning("kit.model: cannot load %s" % path)
+		return w
+	var inst := ps.instantiate() as Node3D
+	inst.name = "Model"
+	w.add_child(inst)
+	if carve.size != Vector3.ZERO:
+		for mi in inst.find_children("*", "MeshInstance3D", true, false):
+			_carve_mesh(mi as MeshInstance3D, carve)
+	for g in inst.find_children("*", "GeometryInstance3D", true, false):
+		(g as GeometryInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+	if footprint != Vector3.ZERO:
+		var sb := StaticBody3D.new()
+		sb.name = "Body"
+		sb.collision_layer = FLOOR_LAYER
+		var cs := CollisionShape3D.new()
+		var bx := BoxShape3D.new()
+		bx.size = footprint / scale
+		cs.shape = bx
+		cs.position = Vector3(0, bx.size.y * 0.5, 0)
+		sb.add_child(cs)
+		w.add_child(sb)
+	return w
+
+
+## Remove from a mesh every triangle whose centre is inside `box`, given in the mesh's own raw coordinates (the generated models
+## store z as height). Used to take a door off the generated boiler.
+func _carve_mesh(mi: MeshInstance3D, box: AABB) -> void:
+	var src := mi.mesh as ArrayMesh
+	if src == null:
+		return
+	var out := ArrayMesh.new()
+	var removed := 0
+	for s in src.get_surface_count():
+		var arr := src.surface_get_arrays(s)
+		var v: PackedVector3Array = arr[Mesh.ARRAY_VERTEX]
+		var idx: PackedInt32Array = arr[Mesh.ARRAY_INDEX]
+		if idx.is_empty():
+			idx = PackedInt32Array(range(v.size()))
+		var kept := PackedInt32Array()
+		for t in range(0, idx.size(), 3):
+			var c := (v[idx[t]] + v[idx[t + 1]] + v[idx[t + 2]]) / 3.0
+			if box.has_point(c):
+				removed += 1
+			else:
+				kept.append(idx[t])
+				kept.append(idx[t + 1])
+				kept.append(idx[t + 2])
+		arr[Mesh.ARRAY_INDEX] = kept
+		out.add_surface_from_arrays(src.surface_get_primitive_type(s), arr)
+		out.surface_set_material(out.get_surface_count() - 1, src.surface_get_material(s))
+	mi.mesh = out
+	print("kit: carved %d triangles from %s" % [removed, mi.name])
+
+
 func node(parent: Node3D, nm: String, at := Vector3.ZERO) -> Node3D:
 	var n := Node3D.new()
 	n.name = nm
@@ -138,7 +206,7 @@ func light(parent: Node3D, nm: String, at: Vector3, colour: Color, energy: float
 	var l := OmniLight3D.new()
 	l.name = nm
 	l.position = p(at.x, at.y, at.z)
-	l.light_color = colour
+	l.light_color = AMBER if (colour.g > 0.65 and colour.b > 0.35) else colour   # every warm white is the amber gas and steam light
 	l.light_energy = energy
 	l.omni_range = rng
 	l.shadow_enabled = false
@@ -159,6 +227,8 @@ func sheet(parent: Node3D, nm: String, c: Vector3, normal: Vector3, w: float, h:
 	mi.material_override = _m(m)
 	var n := p(normal.x, normal.y, normal.z).normalized()
 	var up := Vector3.UP
+	if absf(n.dot(up)) > 0.99:      # a page lying flat (a chart on a table): "up" on the page is the house's far wall (-v, +z here)
+		up = Vector3(0, 0, -1) * signf(n.dot(Vector3.UP)) * -1.0
 	var x := up.cross(n).normalized()
 	mi.transform = Transform3D(Basis(x, n.cross(x).normalized(), n), p(c.x, c.y, c.z) + n * 0.012)
 	parent.add_child(mi)
@@ -229,41 +299,50 @@ func _textured(kind: String, tint := Color.WHITE, rough := 0.9, metal := 0.0, sc
 	return s
 
 
+## The style guide's palette (Docs/Lore Build/world/style_guide.md): gritty, dark, muted, desaturated. Stone grey #6B6B66,
+## sea slate #2C3A40, navy #1F2A44, silver #B9BEC4, amber #C07A1E, gold #B8962E, Arthur's green #2F4A34, Daniel's red #7A2620.
+## Lamps are amber (the steam and gas light); the arc lamp and the beacon are cold silver. Nothing clean, glossy or saturated.
+const AMBER := Color(0.88, 0.68, 0.45)
+const SILVER := Color(0.73, 0.75, 0.77)
+
+
 func _make_materials() -> void:
-	mats["plaster"] = _textured("plaster", Color(0.8, 0.77, 0.7), 0.95, 0.0, 0.35)
-	mats["plaster_dark"] = _textured("plaster", Color(0.55, 0.50, 0.42), 0.95, 0.0, 0.35)
-	mats["whitewash"] = _textured("plaster", Color(0.92, 0.9, 0.84), 0.95, 0.0, 0.35)
-	mats["flags"] = _textured("flags", Color(0.78, 0.76, 0.72), 0.85, 0.0, 0.5)
-	mats["flags_dark"] = _textured("flags", Color(0.5, 0.5, 0.52), 0.8, 0.0, 0.5)
-	mats["planks"] = _textured("planks", Color(0.9, 0.78, 0.62), 0.8, 0.0, 0.5)
-	mats["wood"] = _textured("planks", Color(0.5, 0.36, 0.25), 0.75, 0.0, 0.6)
-	mats["wood_dark"] = _textured("planks", Color(0.3, 0.21, 0.15), 0.7, 0.0, 0.6)
-	mats["brick"] = _textured("brick", Color(0.72, 0.62, 0.58), 0.9, 0.0, 0.5)
-	mats["stone"] = _textured("flags", Color(0.62, 0.6, 0.57), 0.9, 0.0, 0.3)
-	mats["iron"] = _textured("metal", Color(0.42, 0.43, 0.46), 0.55, 0.7, 0.8)
-	mats["iron_dark"] = _textured("metal", Color(0.18, 0.18, 0.2), 0.6, 0.6, 0.8)
-	mats["boiler"] = _textured("metal", Color(0.36, 0.3, 0.28), 0.5, 0.75, 0.6)
-	mats["copper"] = colour(Color(0.72, 0.4, 0.22), 0.4, 0.85)
-	mats["brass"] = colour(Color(0.8, 0.62, 0.25), 0.35, 0.9)
-	mats["coal"] = _textured("coal", Color(0.22, 0.22, 0.24), 0.5, 0.1, 0.8)
-	mats["canvas"] = _textured("plaster", Color(0.6, 0.55, 0.42), 1.0, 0.0, 1.2)
-	mats["paper"] = _textured("plaster", Color(0.88, 0.84, 0.74), 1.0, 0.0, 2.0)
-	mats["paper_navy"] = colour(Color(0.07, 0.09, 0.16), 1.0)
-	mats["paper_old"] = colour(Color(0.74, 0.68, 0.5), 1.0)
-	mats["rug"] = colour(Color(0.38, 0.12, 0.1), 1.0)
-	mats["cloth_green"] = colour(Color(0.14, 0.26, 0.2), 1.0)
-	mats["leather"] = colour(Color(0.28, 0.16, 0.1), 0.7)
-	mats["black"] = colour(Color(0.03, 0.03, 0.035), 0.8)
-	mats["fire"] = colour(Color(1.0, 0.45, 0.12), 0.6, 0.0, 3.0)
-	mats["glow_warm"] = colour(Color(1.0, 0.8, 0.5), 0.5, 0.0, 2.2)
-	mats["gauge_face"] = colour(Color(0.9, 0.88, 0.75), 0.6)
-	mats["lamp_green"] = colour(Color(0.2, 1.0, 0.35), 0.4, 0.0, 2.0)
-	mats["lamp_red"] = colour(Color(1.0, 0.15, 0.1), 0.4, 0.0, 2.0)
+	mats["plaster"] = _textured("plaster", Color(0.62, 0.6, 0.55), 0.97, 0.0, 0.35)
+	mats["plaster_dark"] = _textured("plaster", Color(0.42, 0.41, 0.38), 0.97, 0.0, 0.35)
+	mats["whitewash"] = _textured("plaster", Color(0.7, 0.69, 0.65), 0.97, 0.0, 0.35)
+	mats["flags"] = _textured("flags", Color(0.6, 0.63, 0.66), 0.92, 0.0, 0.5)
+	mats["flags_dark"] = _textured("flags", Color(0.4, 0.43, 0.47), 0.92, 0.0, 0.5)
+	mats["planks"] = _textured("planks", Color(0.68, 0.6, 0.52), 0.9, 0.0, 0.5)
+	mats["wood"] = _textured("planks", Color(0.45, 0.37, 0.3), 0.85, 0.0, 0.6)
+	mats["wood_dark"] = _textured("planks", Color(0.27, 0.22, 0.18), 0.8, 0.0, 0.6)
+	mats["brick"] = _textured("brick", Color(0.66, 0.6, 0.58), 0.95, 0.0, 0.5)
+	mats["stone"] = _textured("flags", Color(0.55, 0.55, 0.53), 0.95, 0.0, 0.3)
+	mats["iron"] = _textured("metal", Color(0.4, 0.42, 0.45), 0.65, 0.6, 0.8)
+	mats["iron_dark"] = _textured("metal", Color(0.17, 0.18, 0.2), 0.7, 0.5, 0.8)
+	mats["boiler"] = _textured("metal", Color(0.33, 0.29, 0.27), 0.6, 0.6, 0.6)
+	mats["copper"] = colour(Color(0.5, 0.33, 0.23), 0.55, 0.7)
+	mats["brass"] = colour(Color(0.62, 0.52, 0.22), 0.5, 0.75)         # dulled gold, #B8962E gone dark with age
+	mats["coal"] = _textured("coal", Color(0.22, 0.22, 0.24), 0.55, 0.1, 0.8)
+	mats["canvas"] = _textured("plaster", Color(0.5, 0.47, 0.38), 1.0, 0.0, 1.2)
+	mats["paper"] = _textured("plaster", Color(0.72, 0.69, 0.6), 1.0, 0.0, 2.0)
+	mats["paper_navy"] = colour(Color(0.07, 0.09, 0.16), 1.0)           # the Flighted: black, silver, navy
+	mats["paper_old"] = colour(Color(0.6, 0.56, 0.44), 1.0)
+	mats["rug"] = colour(Color(0.24, 0.17, 0.15), 1.0)
+	mats["cloth_green"] = colour(Color(0.18, 0.29, 0.2), 1.0)           # Arthur's green #2F4A34, muted
+	mats["navy"] = colour(Color(0.12, 0.16, 0.27), 1.0)                 # Ted's navy #1F2A44
+	mats["red_dark"] = colour(Color(0.4, 0.15, 0.13), 1.0)              # Daniel's red #7A2620, muted
+	mats["leather"] = colour(Color(0.22, 0.14, 0.1), 0.75)
+	mats["black"] = colour(Color(0.03, 0.03, 0.035), 0.85)
+	mats["fire"] = colour(Color(0.75, 0.48, 0.12), 0.6, 0.0, 3.0)       # amber #C07A1E
+	mats["glow_warm"] = colour(AMBER, 0.5, 0.0, 1.2)
+	mats["gauge_face"] = colour(Color(0.68, 0.66, 0.56), 0.7)
+	mats["lamp_green"] = colour(Color(0.3, 0.8, 0.4), 0.4, 0.0, 1.6)
+	mats["lamp_red"] = colour(Color(0.85, 0.2, 0.15), 0.4, 0.0, 1.6)
 	var g := StandardMaterial3D.new()
-	g.albedo_color = Color(0.55, 0.72, 0.82, 0.14)
+	g.albedo_color = Color(0.5, 0.62, 0.68, 0.14)
 	g.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	g.roughness = 0.05
-	g.metallic = 0.2
+	g.roughness = 0.1
+	g.metallic = 0.1
 	g.cull_mode = BaseMaterial3D.CULL_DISABLED
 	mats["glass"] = g
 
@@ -304,13 +383,13 @@ func _texture(kind: String) -> ImageTexture:
 					var gap := (x % 16) < 1
 					var tone2: float = tile_tone[board] * (0.8 + 0.4 * n.get_noise_2d(x * 0.6, y * 0.04) * 0.5 + 0.2)
 					var seam := (y + board * 37) % 128 < 1
-					col = Color(0.1, 0.07, 0.05) if (gap or seam) else Color(0.62, 0.45, 0.3) * tone2
+					col = Color(0.1, 0.07, 0.05) if (gap or seam) else Color(0.46, 0.42, 0.38) * tone2
 				"brick":   # 8 x 16 courses of brick with mortar
 					var course := y / 8
 					var bx := (x + (8 if course % 2 == 1 else 0)) % 128
 					var mortar := (y % 8) < 1 or (bx % 16) < 1
 					var t3: float = tile_tone[(course * 3 + bx / 16) % 64] * (0.8 + 0.4 * c)
-					col = Color(0.5, 0.48, 0.44) if mortar else Color(0.46, 0.27, 0.22) * t3 * (0.9 + 0.2 * f)
+					col = Color(0.5, 0.48, 0.44) if mortar else Color(0.4, 0.31, 0.28) * t3 * (0.9 + 0.2 * f)
 				"metal":
 					var s := 0.55 + 0.35 * c + 0.12 * f
 					col = Color(s, s, s * 1.03)

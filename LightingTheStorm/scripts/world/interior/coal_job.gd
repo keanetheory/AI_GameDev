@@ -12,9 +12,9 @@ const Interactable := "res://scripts/interaction/interactable.gd"
 
 @export var loads_needed := 6
 ## How the shovelful is held: low and to the right, the blade forward, tilted down.
-@export var held_offset := Vector3(0.28, -0.42, -0.8)
-@export var held_rotation_deg := Vector3(-62.0, 18.0, 0.0)
-@export var held_scale := 0.75
+@export var held_offset := Vector3(0.26, -0.3, -0.78)
+@export var held_rotation_deg := Vector3(100.0, 18.0, 0.0)
+@export var held_scale := 0.6
 
 ## Set by rooms_house.gd.
 var gauge: Node3D
@@ -52,7 +52,50 @@ func take_shovelful() -> bool:
 	var carry := get_node_or_null("/root/Carry")
 	if carry == null or carry.is_holding() or done:
 		return false
-	return carry.hold(_make_shovel(), "coal", "shovelful of coal", held_offset, held_rotation_deg, held_scale)
+	var shovel := _make_shovel()
+	add_child(shovel)      # the hands reparent an item into the camera; it must be in the tree first (a parentless node is never shown)
+	if not carry.hold(shovel, "coal", "shovelful of coal", held_offset, held_rotation_deg, held_scale):
+		shovel.queue_free()
+		return false
+	_scoop(shovel)
+	return true
+
+
+## The shovel dips into the heap and comes up loaded: down and forward, the coal appears on the blade, back up to the carry pose.
+func _scoop(shovel: Node3D) -> void:
+	_set_coal_visible(shovel, false)
+	var base := shovel.position
+	var base_rot := shovel.rotation
+	var tw := shovel.create_tween()
+	tw.tween_property(shovel, "position", base + Vector3(0.04, -0.2, -0.22), 0.22).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tw.parallel().tween_property(shovel, "rotation", base_rot + Vector3(deg_to_rad(28.0), 0.0, 0.0), 0.22)
+	tw.tween_callback(_set_coal_visible.bind(shovel, true))
+	tw.tween_property(shovel, "position", base + Vector3(0.0, 0.03, 0.02), 0.28).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tw.parallel().tween_property(shovel, "rotation", base_rot, 0.28)
+	tw.tween_property(shovel, "position", base, 0.1)
+
+
+## The shovel is thrust at the firebox, tipped, the coal goes in, and it is drawn back and put away (the shovelful is spent).
+func animate_feed(shovel: Node3D) -> void:
+	if not is_instance_valid(shovel):
+		return
+	var base := shovel.position
+	var base_rot := shovel.rotation
+	var tw := shovel.create_tween()
+	tw.tween_property(shovel, "position", base + Vector3(0.0, 0.1, -0.42), 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tw.parallel().tween_property(shovel, "rotation", base_rot + Vector3(deg_to_rad(-30.0), 0.0, 0.0), 0.2)
+	tw.tween_callback(_set_coal_visible.bind(shovel, false))
+	tw.tween_interval(0.1)
+	tw.tween_property(shovel, "position", base + Vector3(0.0, -0.3, 0.1), 0.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	tw.tween_callback(shovel.queue_free)
+
+
+func _set_coal_visible(shovel: Node3D, v: bool) -> void:
+	if not is_instance_valid(shovel):
+		return
+	for n in shovel.get_children():
+		if String(n.name).begins_with("Coal_"):
+			(n as Node3D).visible = v
 
 
 ## The firebox's interaction (called by the hatch socket): one shovelful has gone in.
@@ -85,7 +128,7 @@ func _apply() -> void:
 	if fire_glow:
 		var m := fire_glow.material_override as StandardMaterial3D
 		if m:
-			m.emission_energy_multiplier = 1.0 + 4.0 * f
+			m.emission_energy_multiplier = 0.8 + 1.6 * f
 	if green_lamp:
 		green_lamp.visible = true
 		var lm := green_lamp.material_override as StandardMaterial3D
@@ -100,33 +143,24 @@ func _process(delta: float) -> void:
 		flywheel.rotate_object_local(Vector3.UP, delta * 5.5)
 
 
-## A shovel with coal on the blade: built on demand so the heap is never short of one.
+## A shovel with coal on the blade: built on demand so the heap is never short of one. The generated shovel (lhi_coal_shovel.glb,
+## 0.9 m, upright with its handle up and its pivot at the blade) turned so the blade points forward, plus lumps of coal on the blade.
+const SHOVEL_YAW_DEG := -90.0
+const SHOVEL_PITCH_DEG := 0.0
+const SHOVEL_SCALE := 1.0
+const BLADE_AT := Vector3(0.0, 0.1, -0.22)      # where the lumps sit, in the shovel's own space
+
+
 func _make_shovel() -> Node3D:
 	var root := Node3D.new()
 	root.name = "ShovelOfCoal"
-	var handle := MeshInstance3D.new()
-	var hm := CylinderMesh.new()
-	hm.top_radius = 0.018
-	hm.bottom_radius = 0.018
-	hm.height = 0.9
-	handle.mesh = hm
-	var wood := StandardMaterial3D.new()
-	wood.albedo_color = Color(0.35, 0.22, 0.12)
-	wood.roughness = 0.8
-	handle.material_override = wood
-	handle.position = Vector3(0.0, 0.45, 0.0)
-	root.add_child(handle)
-	var blade := MeshInstance3D.new()
-	var bm := BoxMesh.new()
-	bm.size = Vector3(0.24, 0.035, 0.3)
-	blade.mesh = bm
-	var iron := StandardMaterial3D.new()
-	iron.albedo_color = Color(0.3, 0.3, 0.33)
-	iron.metallic = 0.7
-	iron.roughness = 0.5
-	blade.material_override = iron
-	blade.position = Vector3(0.0, 0.0, -0.12)
-	root.add_child(blade)
+	var ps := load("res://Assets/Models/prop/lhi_coal_shovel.glb") as PackedScene
+	if ps:
+		var m := ps.instantiate() as Node3D
+		m.name = "ShovelModel"
+		m.rotation_degrees = Vector3(SHOVEL_PITCH_DEG, SHOVEL_YAW_DEG, 0.0)
+		m.scale = Vector3.ONE * SHOVEL_SCALE
+		root.add_child(m)
 	var coal := StandardMaterial3D.new()
 	coal.albedo_color = Color(0.07, 0.07, 0.08)
 	coal.roughness = 0.45
@@ -136,11 +170,12 @@ func _make_shovel() -> Node3D:
 	for i in 9:
 		var lump := MeshInstance3D.new()
 		var lm := BoxMesh.new()
-		var s := rng.randf_range(0.05, 0.1)
+		var s := rng.randf_range(0.04, 0.08)
 		lm.size = Vector3(s, s * 0.8, s)
 		lump.mesh = lm
 		lump.material_override = coal
-		lump.position = Vector3(rng.randf_range(-0.08, 0.08), 0.04 + rng.randf_range(0.0, 0.04), -0.12 + rng.randf_range(-0.1, 0.1))
+		lump.name = "Coal_%d" % i
+		lump.position = BLADE_AT + Vector3(rng.randf_range(-0.07, 0.07), rng.randf_range(0.0, 0.04), rng.randf_range(-0.09, 0.09))
 		lump.rotation = Vector3(rng.randf() * TAU, rng.randf() * TAU, rng.randf() * TAU)
 		root.add_child(lump)
 	return root
