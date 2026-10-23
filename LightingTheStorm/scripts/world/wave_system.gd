@@ -129,6 +129,11 @@ static func push_fraction(local_state: float, pulse: float) -> float:
 	return (Sea.table("push_fraction", local_state) + Sea.table("gust_fraction", local_state) * pulse) * Sea.intensity
 
 
+## How far the boat is along the lighthouse-to-quay route, 0 to 1 (the eclipse object follows it across the moon).
+func route_progress() -> float:
+	return _route_progress()
+
+
 func _route_progress() -> float:
 	if _boat == null:
 		return 0.0

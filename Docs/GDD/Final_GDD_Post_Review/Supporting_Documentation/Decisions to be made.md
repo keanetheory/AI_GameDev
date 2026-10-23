@@ -30,13 +30,14 @@ A. Decided in the review
 24. Boat speed (19 October 2026). The boat stays at 10 m/s until the waves are complete.
 25. Sailor placeholders (19 October 2026). Arthur and Daniel are capsules for the prototype; the rigged test character is Ted. The rowboat follows ConceptArt/rowboat and is generated as a FAL model.
 26. The stairs case (19 October 2026). If the player is on the stairs when the deadline runs out, they see nothing; the passenger ship crash plays out regardless of whether it is seen. (Resolves the rest of B7 and B8.)
+27. Discoveries content (23 October 2026). The core discoveries (about four to six) live in the lighthouse and on the island, in the untimed opening before boarding; the Saltgate keeps a light set of one or two. Each ties to why the beacon failed through a human cause that is never explained: clues show the burner was neglected or tampered with by people (keepers, and the people hiding in the walls), but never say who or why. The supernatural stays unconfirmed, and the Flighted are not named as the cause. The built poster (POSTER_EXAMINED) and wall whisper (WALL_WHISPER_HEARD) are the first two; the individual items are chosen in the Gate 2 narrative pass. (Resolves B2 and T34.)
 
 B. Still open
 
 Story and canon
 
 1. Ted’s presence. Presence resolved 19 October 2026 (see A19). Still open: Ted’s lamp-room lines are voice only; decide the final list of lines (each is voice-over cost).
-2. Discoveries content. To be resolved by the creator on Friday 23 October 2026. Decide which discoveries live in the lighthouse and island and which stay at the Saltgate, and how each ties to why the beacon failed. The Saltgate is untimed and gets no significant added detail until the prototype is considered complete; ideas for more folk-horror, canon clues and documentation are parked in Dreams for the game.
+2. Discoveries content. Resolved 23 October 2026 (see A27).
 3. Fail reason line. Resolved 19 October 2026 (see A20).
 
 Ship deadline and fail state

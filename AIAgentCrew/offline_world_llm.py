@@ -196,7 +196,7 @@ class OfflineWorldLLM(BaseLLM):
                  "clouds": {"trend": "gathering", "coverage": 0.45, "darkness": 0.35, "base_height_m": 600.0, "drift_mps": 2.5, "top_colour": STONE,
                             "underside_colour": SLATE, "moon_gap": True, "low_coverage": 0.0, "low_opacity": 0.0, "low_drift_mps": 0.0, "low_colour": BLK,
                             "note": "Ominous banks rolling in off the sea and piling up behind the Saltgate; the supermoon still hangs clear above the island."},
-                 "rain": {"intensity": 0.0, "slant_deg": 0.0, "colour": SIL, "note": "Dry. Wind only, and the smell of rain coming."},
+                 "rain": {"intensity": 0.3, "slant_deg": 0.0, "colour": SIL, "note": "Light rain from the first moment (creator, 23 Oct 2026), steadier once the boat leaves."},
                  "lightning": {"enabled": False, "style": "none", "interval_s": None, "lights_cloud_base": False, "note": "None yet; the storm is still gathering."},
                  "note": "Cold moonlit dusk on the island before the player first sets off; the storm is on its way."},
                 {"phase_id": "OUTBOUND", "ambient_colour": NAV, "ambient_energy": 0.45, "fog_colour": SLATE, "fog_density": 0.008, "hazard_visibility_m": 110,

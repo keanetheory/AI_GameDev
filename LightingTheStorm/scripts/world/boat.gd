@@ -47,6 +47,7 @@ var current_zone: Node3D = null
 var driving := false
 
 var _leave_zone: Node3D = null
+var _grace_zone: Node3D = null    # the berth just left: hazards are ignored until the boat is out through its entrance
 var _at_entrance := true          # docking: past the zone's entrance (or it has none)
 var _stun := 0.0
 var _slow := 0.0                  # seconds of wave-hit slow-down left
@@ -124,6 +125,7 @@ func cast_off() -> void:
 	if state != State.DOCKED or not driving:
 		return
 	_leave_zone = current_zone
+	_grace_zone = current_zone
 	state = State.SAILING
 	velocity = Vector3.ZERO
 	_stun = 0.0
@@ -177,7 +179,9 @@ func _sail(delta: float) -> void:
 	velocity = velocity.lerp(forward * speed_now, 1.0 - pow(drift_factor, delta))
 	var push := Vector3(water_push.x, 0.0, water_push.y)
 	global_position += (velocity + push) * delta
-	if _hits_hazard(global_transform):
+	if _grace_zone and _flat_distance(_grace_zone) > _grace_distance(_grace_zone):
+		_grace_zone = null
+	if _grace_zone == null and _hits_hazard(global_transform):
 		_recover()
 		return
 	_trail_timer += delta
@@ -231,6 +235,14 @@ func _dock(delta: float) -> void:
 		docked.emit(current_zone.zone_id)
 
 
+## How far from a berth the boat is still leaving it: out through the harbour entrance (the piers either side
+## brush the hull box, and the swell dips the hull below the dock's footings), or the zone's radius if it has none.
+func _grace_distance(zone: Node3D) -> float:
+	if zone.entrance != Vector3.ZERO:
+		return Vector2(zone.global_position.x - zone.entrance.x, zone.global_position.z - zone.entrance.z).length() + 3.0
+	return zone.radius + 2.0
+
+
 func _hits_hazard(at: Transform3D) -> bool:
 	var q := PhysicsShapeQueryParameters3D.new()
 	q.shape = _hull_shape
@@ -254,12 +266,17 @@ func _recover() -> void:
 		rotation.y = target.basis.get_euler().y
 		_trail.resize(maxi(0, back))
 	else:
-		# No clear trail yet: shove back along the bow line until clear.
-		var step := global_transform.basis.z * 1.0
-		for i in 60:
-			global_position += step
-			if not _hits_hazard(global_transform):
-				break
+		# No clear trail yet: back to the berth just left (a shove along the bow line ran the boat up the shore).
+		if current_zone:
+			global_position = Vector3(current_zone.global_position.x, global_position.y, current_zone.global_position.z)
+			rotation.y = deg_to_rad(current_zone.berth_yaw_deg)
+			_grace_zone = current_zone
+		else:
+			var step := global_transform.basis.z * 1.0
+			for i in 12:
+				global_position += step
+				if not _hits_hazard(global_transform):
+					break
 	velocity = Vector3.ZERO
 	_stun = recovery_pause_s
 	hazard_hit.emit()

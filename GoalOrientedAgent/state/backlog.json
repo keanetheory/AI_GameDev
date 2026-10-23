@@ -1334,11 +1334,59 @@
       "effort": "S",
       "agent_can_execute": false,
       "blocked_by": "Creator decision, due Friday 23 October 2026.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {"outcome": "done", "summary": "Creator decided 23 Oct 2026 (Decisions A27): core discoveries (about 4-6) in the lighthouse and island, before boarding; Saltgate keeps 1-2. Each ties to the beacon failure through an unexplained human cause (neglect or tampering by people in the walls); no supernatural confirmation and the Flighted are not named as the cause. Individual items are picked in the Gate 2 narrative pass.", "files_changed": ["Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md"]},
       "depends_on": [],
       "build_wave": 0,
       "build_order": 1
+    },
+    {
+      "id": "T35",
+      "title": "Review how findable the lighthouse is on the return now the eclipse darkens the world",
+      "priority": 7,
+      "category": "decision",
+      "summary": "With the eclipse dimming the moon, ambient, reflections and distance fog (23 Oct 2026), the lighthouse is very hard to find on the return crossing. That is partly the point (the lightning and the moon are meant to be the main light), but the player must still be able to navigate home. Playtest the return at the eclipse's total point (EclipseObject force_story = 1), decide how much the lighthouse and the dock need, and tune fog_floor, ambient_floor and reflection_floor on the lighting rig and the eclipse object, or add a guide (see T36), until it is dark but playable. Check the Saltgate departure too.",
+      "why_this_score": "The return and the burner fit are the climax of the slice, so a player who cannot find the lighthouse stalls there; it is a tuning pass, not a build, so 7.",
+      "evidence": [
+        "scripts/world/lighting_rig.gd ambient_floor, fog_floor",
+        "scripts/world/eclipse_object.gd reflection_floor, total_at_return, force_story",
+        "Creator, 23 Oct 2026: 'very difficult to find the lighthouse now ... needs lighting at the dock'"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Lighting agent",
+      "effort": "S",
+      "agent_can_execute": false,
+      "blocked_by": "Creator playtest; best done after T36 gives the dock a light.",
+      "status": "open",
+      "result": null,
+      "build_wave": 5,
+      "depends_on": [
+        "T36"
+      ],
+      "build_order": 35
+    },
+    {
+      "id": "T36",
+      "title": "Add lightposts at the Saltgate and at the lighthouse island's dock",
+      "priority": 6,
+      "category": "scene",
+      "summary": "Place lightposts as the player's guidance now the eclipse makes the world very dark: one or more on the lighthouse island's dock (the harbour berths and landing) so the player can find home on the return, and on the Saltgate quays (the landing by the burner pickup) so the player can find the berth on arrival. Real lights (OmniLight3D plus a visible lamp), warm to read against the cold storm, and left outside the eclipse dimming so they hold at totality; flickering is optional. Keep the Saltgate to the lightposts only: the decision log keeps the Saltgate minimal until the prototype is complete, so confirm with the creator before adding any other detail there.",
+      "why_this_score": "They are the player's navigation cue in the dark return, but the slice is playable without them, so 6.",
+      "evidence": [
+        "Creator, 23 Oct 2026: lights on the dock and on the Saltgate to be added",
+        "Decisions to be made A4: the Saltgate stays minimal until the prototype is complete",
+        "Level.tscn DockZoneLighthouse, DockZoneLighthouseSouth, DockZonePort, Harbour"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Level Layout agent",
+      "effort": "M",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "status": "open",
+      "result": null,
+      "build_wave": 2,
+      "depends_on": [],
+      "build_order": 36
     }
   ],
   "history": [

@@ -143,6 +143,12 @@ func _ready() -> void:
 	_apply(0.0)
 
 
+## How much of the moon's light is left (0..1). The foam is the sea's brightest thing, so it dims with the moon.
+func set_moon_dim(f: float) -> void:
+	if _mat:
+		_mat.set_shader_parameter("foam_dim", lerpf(0.2, 1.0, clampf(f, 0.0, 1.0)))
+
+
 func _process(delta: float) -> void:
 	state = move_toward(state, clampf(target_state, 0.0, 5.0), _smoothing * delta)
 	_apply(delta)
