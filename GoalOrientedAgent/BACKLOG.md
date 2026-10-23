@@ -49,8 +49,10 @@ _Generated 2026-10-19 20:16 by the Goal-Oriented Agent. Do not edit by hand; the
 | T10 | **8** | Integrate the crossing crew's hazard forecast: data file, loader, placed buoys/debris, Arthur calls | code | Hazard Forecast agent | M | open |
 | T11 | **7** | Put Arthur aboard and add the arrival 'go go go' beat on the lighthouse dock | code | Gameplay / Systems agent | M | open |
 | T13 | **7** | Drive perceptual storm cues from elapsed deadline time and trigger BEACON_RELIT | code | Lighting agent | M | open |
+| T35 | **7** | Review how findable the lighthouse is on the return now the eclipse darkens the world | decision | Lighting agent | S | open |
 | T14 | **6** | Placeholder audio: wind, rain, machinery, buoy bell, foghorn, ship impact, mix by phase | audio | Sound agent | M | open |
 | T16 | **6** | Fix the final list of Ted's lamp-room lines to record | decision | Dialogue agent | S | open |
+| T36 | **6** | Add lightposts at the Saltgate and at the lighthouse island's dock | scene | Level Layout agent | M | open |
 | T19 | **5** | Set a placeholder deadline length and write the crossing-penalty values | decision | Production Orchestrator | S | open |
 | T20 | **5** | QA scenario list and automated state-transition checks for the Gate 1 slice | test | QA agent | M | open |
 | T34 | **5** | Resolve the discoveries content (B2) on Friday 23 October 2026 | decision | Canon and Review Orchestrator | S | done |
@@ -81,6 +83,7 @@ _Generated 2026-10-19 20:16 by the Goal-Oriented Agent. Do not edit by hand; the
 | 2 | 9 | T28 | Greybox lamp socket, boiler, coal and gauge (the two FAL burners are done) | T02, T27 | T02 |
 | 2 | 10 | T30 | Capsule Arthur and Daniel and a path-follower script (the FAL rowboat is done) | - | ready |
 | 2 | 11 | T31 | Passenger ship placeholder, its approach route and the grounding point | - | ready |
+| 2 | 36 | T36 | Add lightposts at the Saltgate and at the lighthouse island's dock | - | ready |
 | 3 | 12 | T33 | Boiler coal job (BOILER_FED), using the interaction system | T02, T03, T26, T28 | T02, T28 |
 | 3 | 13 | T04 | Window moment, moored rowboat, island gate and sailors' scripted walk-in | T02, T30, T33 | T02, T30, T33 |
 | 3 | 14 | T05 | Lantern room diagnosis: Ted opens the arc lamp and finds the burner broken | T02, T04, T26, T28, T30 | T02, T04, T28, T30 |
@@ -95,6 +98,7 @@ _Generated 2026-10-19 20:16 by the Goal-Oriented Agent. Do not edit by hand; the
 | 5 | 24 | T20 | QA scenario list and automated state-transition checks for the Gate 1 slice | T08 | T08 |
 | 5 | 25 | T18 | Review the rewritten opening lines and re-record the six changed voice lines | - | ready |
 | 5 | 27 | T23 | Bake mainland/cliff carving and collision to cut level load time | - | ready |
+| 5 | 35 | T35 | Review how findable the lighthouse is on the return now the eclipse darkens the world | T36 | T36 |
 
 ## Task detail
 
@@ -283,6 +287,23 @@ mainland.gd and collider_builder.gd carve about 22,000 triangles, build trees an
 - **Evidence:** things to work on next.md item 3; scripts/world/mainland.gd _ready()
 - **Blocked by:** Needs the Godot editor to bake and verify.
 - **Needs the creator** (cannot be done by the agent alone)
+
+### T35 [7/10] Review how findable the lighthouse is on the return now the eclipse darkens the world  (open)
+
+With the eclipse dimming the moon, ambient, reflections and distance fog (23 Oct 2026), the lighthouse is very hard to find on the return crossing. That is partly the point (the lightning and the moon are meant to be the main light), but the player must still be able to navigate home. Playtest the return at the eclipse's total point (EclipseObject force_story = 1), decide how much the lighthouse and the dock need, and tune fog_floor, ambient_floor and reflection_floor on the lighting rig and the eclipse object, or add a guide (see T36), until it is dark but playable. Check the Saltgate departure too.
+
+- **Why 7:** The return and the burner fit are the climax of the slice, so a player who cannot find the lighthouse stalls there; it is a tuning pass, not a build, so 7.
+- **Evidence:** scripts/world/lighting_rig.gd ambient_floor, fog_floor; scripts/world/eclipse_object.gd reflection_floor, total_at_return, force_story; Creator, 23 Oct 2026: 'very difficult to find the lighthouse now ... needs lighting at the dock'
+- **Blocked by:** Creator playtest; best done after T36 gives the dock a light.
+- **Depends on:** T36 (still open: T36)
+- **Needs the creator** (cannot be done by the agent alone)
+
+### T36 [6/10] Add lightposts at the Saltgate and at the lighthouse island's dock  (open)
+
+Place lightposts as the player's guidance now the eclipse makes the world very dark: one or more on the lighthouse island's dock (the harbour berths and landing) so the player can find home on the return, and on the Saltgate quays (the landing by the burner pickup) so the player can find the berth on arrival. Real lights (OmniLight3D plus a visible lamp), warm to read against the cold storm, and left outside the eclipse dimming so they hold at totality; flickering is optional. Keep the Saltgate to the lightposts only: the decision log keeps the Saltgate minimal until the prototype is complete, so confirm with the creator before adding any other detail there.
+
+- **Why 6:** They are the player's navigation cue in the dark return, but the slice is playable without them, so 6.
+- **Evidence:** Creator, 23 Oct 2026: lights on the dock and on the Saltgate to be added; Decisions to be made A4: the Saltgate stays minimal until the prototype is complete; Level.tscn DockZoneLighthouse, DockZoneLighthouseSouth, DockZonePort, Harbour
 
 ### T01 [10/10] Create the central GameState autoload: phase machine, event bus, restart  (done)
 
