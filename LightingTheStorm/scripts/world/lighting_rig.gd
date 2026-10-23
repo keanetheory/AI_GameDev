@@ -75,6 +75,16 @@ var _spec: Dictionary = {}
 var _env: Environment
 var _sky_mat: ShaderMaterial
 var _moon: DirectionalLight3D
+var _moon_base := 0.0   # the moon light's energy for the phase, before the eclipse takes some away
+var _moon_dim := 1.0    # 0..1 how much of the moon is left (eclipse_object.gd)
+var _fog_base := Color(0.17, 0.23, 0.25)  # the phase's fog colour, before the eclipse takes some away
+var _ambient_base := 0.5  # the phase's ambient energy, before the eclipse takes some away
+
+## How much ambient light survives a total eclipse (1 = none lost). The ambient follows the moon's dimming down to this.
+@export_range(0.0, 1.0) var ambient_floor := 0.05
+## The same for the distance fog's colour: how much of it is left once the eclipse is total. Fog sets the colour of
+## everything far away (the lighthouse, the stacks, the far shore), and the lights do not reach it.
+@export_range(0.0, 1.0) var fog_floor := 0.06
 var _bolt: DirectionalLight3D
 var _rain: GPUParticles3D
 var _rain_mat: ParticleProcessMaterial
@@ -211,8 +221,10 @@ func _apply(v: Dictionary) -> void:
 	var dark: float = v["darkness"]
 	if _env:
 		_env.ambient_light_color = v["ambient_colour"]
-		_env.ambient_light_energy = v["ambient_energy"]
-		_env.fog_light_color = v["fog_colour"]
+		_ambient_base = float(v["ambient_energy"])
+		_env.ambient_light_energy = _ambient_base * _ambient_scale()
+		_fog_base = v["fog_colour"]
+		_env.fog_light_color = _fog_base * _fog_scale()
 		_env.fog_density = v["fog_density"]
 	if _sky_mat:
 		_sky_mat.set_shader_parameter("coverage", v["coverage"])
@@ -227,7 +239,8 @@ func _apply(v: Dictionary) -> void:
 		_sky_mat.set_shader_parameter("low_colour", v["low_colour"])
 	if _moon:
 		# the moon lights both crossings; the thickening storm only takes the edge off it
-		_moon.light_energy = float(_spec["moon"]["light_energy"]) * (1.0 - 0.3 * dark)
+		_moon_base = float(_spec["moon"]["light_energy"]) * (1.0 - 0.3 * dark)
+		_moon.light_energy = _moon_base * _moon_dim
 	if _rain:
 		var amount: float = v["rain"]
 		_rain.emitting = amount > 0.01
@@ -250,6 +263,38 @@ func _build_moon() -> void:
 	_moon.sky_mode = DirectionalLight3D.SKY_MODE_LIGHT_ONLY
 	add_child(_moon)
 	_moon.global_basis = Basis.looking_at(-_moon_dir())
+
+
+## Fog is self-lit (the lights never touch it), so it is dimmed by hand along the same curve as the ambient.
+func _fog_scale() -> float:
+	return lerpf(fog_floor, 1.0, _moon_dim)
+
+
+func _ambient_scale() -> float:
+	return lerpf(ambient_floor, 1.0, _moon_dim)
+
+
+## The eclipse object (eclipse_object.gd drives this): drawn in the sky shader between the moon and the cloud.
+## radius is its angular radius in radians, spin in turns. Does nothing in a headless run (there is no sky).
+func set_eclipse(tex: Texture2D, dir: Vector3, right: Vector3, radius: float, spin: float, moon_left := 1.0, reflection := 1.0) -> void:
+	_moon_dim = clampf(moon_left, 0.0, 1.0)
+	if _env:
+		_env.ambient_light_energy = _ambient_base * _ambient_scale()
+		_env.fog_light_color = _fog_base * _fog_scale()
+	if _moon:
+		_moon.light_energy = _moon_base * _moon_dim
+	var sea := get_parent().get_node_or_null("Sea") if get_parent() else null
+	if sea and sea.has_method("set_moon_dim"):
+		sea.set_moon_dim(_moon_dim)
+	if _sky_mat == null:
+		return
+	_sky_mat.set_shader_parameter("moon_light", _moon_dim)
+	_sky_mat.set_shader_parameter("reflection_dim", reflection)
+	_sky_mat.set_shader_parameter("eclipse_tex", tex)
+	_sky_mat.set_shader_parameter("eclipse_dir", dir)
+	_sky_mat.set_shader_parameter("eclipse_right", right)
+	_sky_mat.set_shader_parameter("eclipse_radius", radius)
+	_sky_mat.set_shader_parameter("eclipse_spin", spin)
 
 
 ## Direction towards the moon, from its compass bearing (0 = north = -Z) and elevation.

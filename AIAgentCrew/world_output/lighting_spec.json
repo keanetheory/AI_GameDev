@@ -25,10 +25,10 @@
         "note": "Ominous banks rolling in off the sea and piling up behind the Saltgate; the supermoon still hangs clear above the island."
       },
       "rain": {
-        "intensity": 0.0,
+        "intensity": 0.3,
         "slant_deg": 0.0,
         "colour": "#B9BEC4",
-        "note": "Dry. Wind only, and the smell of rain coming."
+        "note": "Light rain from the first moment (creator, 23 Oct 2026), steadier once the boat leaves."
       },
       "lightning": {
         "enabled": false,

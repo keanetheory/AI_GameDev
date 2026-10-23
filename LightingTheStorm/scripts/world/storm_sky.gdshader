@@ -18,7 +18,20 @@ uniform vec3 moon_dir = vec3(0.0, 0.37, -0.93);   // direction TOWARDS the moon
 uniform vec3 moon_colour : source_color = vec3(0.73, 0.75, 0.77);
 uniform float moon_radius = 0.03;                  // angular radius of the disc, radians
 uniform float moon_brightness = 1.6;
+uniform float reflection_dim = 1.0;                // 0..1 scales the sky as it is REFLECTED (water, wet rock, glass); the visible sky is unchanged
+uniform float moon_light = 1.0;                    // 0..1 how much light the moon gives the sky and cloud (the eclipse takes it away)
 uniform float moon_gap = 0.0;                      // 1 = only sparse wisps cross the moon
+
+// The eclipse object: a dark textured sphere drawn between the moon and the clouds, so cloud crosses it as it does the
+// moon. eclipse_radius is its angular radius in radians (0 = not drawn); eclipse_right is the sky's "right" at its place.
+uniform sampler2D eclipse_tex : source_color, filter_linear;
+uniform vec3 eclipse_dir = vec3(0.0, 0.37, -0.93);
+uniform vec3 eclipse_right = vec3(1.0, 0.0, 0.0);
+uniform float eclipse_radius = 0.0;
+uniform float eclipse_spin = 0.0;                  // turns, 0..1
+uniform float eclipse_brightness = 0.5;
+uniform float eclipse_saturation = 0.3;            // 1 = the texture's own colour, 0 = grey (tones the orange down)
+uniform float eclipse_rim = 0.35;                  // moonlight leaking round its edge
 
 uniform float flash = 0.0;                         // 0..1 the one scene-wide flash of a strike
 uniform float strobe = 0.0;                        // 0..1 the flicker of the cloud around the strike
@@ -103,7 +116,7 @@ void sky() {
 	vec3 col = mix(sky_horizon, sky_zenith, pow(up, 0.5));
 	vec3 md = normalize(moon_dir);
 	float to_moon = max(dot(d, md), 0.0);
-	col += moon_colour * (pow(to_moon, 8.0) * 0.12 + pow(to_moon, 120.0) * 0.25) * (1.0 - darkness * 0.5);
+	col += moon_colour * (pow(to_moon, 8.0) * 0.12 + pow(to_moon, 120.0) * 0.25) * (1.0 - darkness * 0.5) * moon_light;
 	col *= mix(1.0, 0.55, smoothstep(0.2, 0.9, dot(d, normalize(dark_dir))) * (1.0 - up));
 
 	// the moon disc (drawn before the cloud so cloud can cross it)
@@ -113,6 +126,31 @@ void sky() {
 		vec2 m = d.xz * 220.0;
 		float mottle = 0.8 + 0.2 * fbm(m, 4);
 		col = mix(col, moon_colour * moon_brightness * mottle, disc);
+	}
+
+	// the eclipse object, over the moon and under the cloud
+	if (eclipse_radius > 0.0) {
+		vec3 ed = normalize(eclipse_dir);
+		float ef = dot(d, ed);
+		if (ef > 0.0) {
+			vec3 eq = (d / ef - ed) / tan(eclipse_radius);
+			vec3 er = normalize(eclipse_right);
+			vec3 eu = cross(ed, er);
+			vec2 ep = vec2(dot(eq, er), dot(eq, eu));
+			float r2 = dot(ep, ep);
+			float edge = 1.0 - smoothstep(0.96, 1.0, sqrt(r2));
+			if (edge > 0.0) {
+				float ez = sqrt(max(1.0 - r2, 0.0));
+				vec3 n = normalize(er * ep.x + eu * ep.y - ed * ez);   // surface normal, facing the viewer
+				vec2 euv = vec2(atan(n.x, n.z) / TAU + 0.5 + eclipse_spin, acos(clamp(n.y, -1.0, 1.0)) / PI);
+				vec3 etex = texture(eclipse_tex, euv).rgb;
+				etex = mix(vec3(dot(etex, vec3(0.3, 0.59, 0.11))) * vec3(0.92, 0.97, 1.0), etex, eclipse_saturation);
+				vec3 ecol = etex * eclipse_brightness;
+				// the moon is behind it, so only a thin rim of light wraps round the limb
+				ecol += moon_colour * pow(1.0 - ez, 4.0) * eclipse_rim * (1.0 - darkness * 0.4);
+				col = mix(col, ecol, edge);
+			}
+		}
 	}
 
 	// the strike's tangent plane, shared by the bolt and its glow
@@ -154,7 +192,7 @@ void sky() {
 		vec3 cloud = mix(cloud_under * 0.35, cloud_top, relief);
 		cloud *= (1.0 - darkness * 0.7) * (0.35 + 0.9 * relief);
 		// moonlight on the billows nearest the moon
-		cloud += moon_colour * (moon_edge * 2.2 + 0.15) * pow(to_moon, 6.0) * (1.0 - darkness * 0.45);
+		cloud += moon_colour * (moon_edge * 2.2 + 0.15) * pow(to_moon, 6.0) * (1.0 - darkness * 0.45) * moon_light;
 		// lightning: the cloud round the strike lights from inside and its edges flare with each flicker
 		float lit = strobe * local;
 		cloud += mix(glow_colour, flash_colour, 0.4) * lit * (0.3 + relief * 2.2);
@@ -189,9 +227,9 @@ void sky() {
 		vec3 lc = low_colour * (0.5 + 0.6 * thick);
 		// the side facing the moon catches a thin silver rim, so the layer reads apart from the storm above
 		float rim = clamp((lshape - fbm(luv + normalize(md.xz + vec2(1e-4)) * 0.05, 3)) * 6.0, 0.0, 1.0);
-		lc += moon_colour * rim * (1.0 - thick) * pow(to_moon, 3.0) * 0.35;
+		lc += moon_colour * rim * (1.0 - thick) * pow(to_moon, 3.0) * 0.35 * moon_light;
 		// faint moonlight soaking through where it crosses the moon
-		lc += moon_colour * pow(to_moon, 30.0) * (1.0 - thick) * 0.35;
+		lc += moon_colour * pow(to_moon, 30.0) * (1.0 - thick) * 0.35 * moon_light;
 		// lightning lights it through from behind: thin parts glow brightest, thick cores stay dark
 		float through = strobe * local * (1.2 - thick * 0.85);
 		lc += mix(glow_colour, flash_colour, 0.45) * through * 1.9;
@@ -199,5 +237,8 @@ void sky() {
 		col = mix(col, lc, clamp(alpha, 0.0, 0.92));
 	}
 	col += flash_colour * flash * 0.012;
+	if (AT_CUBEMAP_PASS) {
+		col *= reflection_dim;
+	}
 	COLOR = col;
 }

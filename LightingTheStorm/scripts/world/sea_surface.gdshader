@@ -32,6 +32,7 @@ uniform float band_softness = 0.03;    // the width of a foam edge: small = hard
 uniform float water_softness = 0.11;   // the width of the water colour bands' edges: wider so the colours blend rather than block
 uniform float streak_scale = 0.35;     // foam streak detail
 uniform vec2 wind_dir = vec2(1.0, 0.2);
+uniform float foam_dim = 1.0;          // 0..1 darkens the whites and pale crests as the moon is eclipsed (set by the lighting rig)
 uniform float brightness = 1.0;        // the Lighting agent's exposure for the phase (1 = as designed)
 
 varying float v_f;         // the dock-shelter amplitude factor at this vertex (smooth)
@@ -141,7 +142,7 @@ void fragment() {
 	float outer_b = cel(st_f, 0.90 - 0.16 * foam_amount - 0.04) * step(0.42, lit) * foam_amount;
 	float outline = max(outer_a * min(1.0, foam_amount * 1.6 + 0.12), outer_b) * (1.0 - foam);
 	col = mix(col, ink_col, outline * 0.85);
-	col = mix(col, foam_col, foam);
+	col = mix(col, foam_col * foam_dim, foam);
 
 	// the lighting normal per pixel (the vertex normal is interpolated across 10 m quads and made the toon bands triangular)
 	NORMAL = normalize((VIEW_MATRIX * vec4(normalize(vec3(-v_grad.x, 1.0, -v_grad.y)), 0.0)).xyz);
