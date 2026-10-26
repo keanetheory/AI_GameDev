@@ -29,11 +29,11 @@ func _ready() -> void:
 	_glass.metallic = 0.3
 	_glass.cull_mode = BaseMaterial3D.CULL_DISABLED
 	# ground-floor window beside the door: a 1.2 x 1.45 opening, centre (-3.302, 12.2, -0.657), wall along (0.4309, 0, 0.9024)
-	_frame(Vector3(-3.302, 12.2, -0.657), deg_to_rad(-64.5), 1.2, 1.45, 0.45, "GroundWindowFrame")
+	# (the wooden frame that stood here floated off the wall: the ground window now gets a measured stone surround from exterior_openings.gd)
 	# tower landing window: a 1.0 x 1.8 opening at bearing -57 degrees, 2.85 m from the axis, centre y 24.7
 	var az := deg_to_rad(-57.0)
 	var tc := AXIS + Vector3(sin(az) * 2.85, 24.7, cos(az) * 2.85)
-	_frame(tc, az, 1.0, 1.8, 0.45, "TowerWindowFrame")
+	# (the wooden frame that stood here is gone: the window is dressed by tower_shell.gd inside and exterior_openings.gd outside)
 	_barrier(AXIS + Vector3(sin(az) * 2.3, 24.7, cos(az) * 2.3), az, 1.4, 2.4)
 	# the lamp room's glass, mullions and ceiling are built by interior/lantern.gd (interior_rooms.gd) now
 

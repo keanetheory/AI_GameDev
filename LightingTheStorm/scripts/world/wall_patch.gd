@@ -20,6 +20,7 @@ const G_DOOR := Vector2(127.5, 165.0)    # bearings of the hall's and the first 
 const HOUSE_SIDE := Vector2(139.0, 165.0)
 const MIN_WALL := 0.3                    # a ray hitting this far outside the inner radius has hit the wall's outer skin; nearer than that it hit something inside
 const SKIN_INSET := 0.015
+const MAX_CELL_EDGE := 0.45              # a patch cell is about 0.2 x 0.125 m; one with an edge longer than this joined two different surfaces
 const MIN_HOUSE_NODES := 160           # nodes are 0.1 x 0.125 m: 160 is 2 square metres
 const OPEN_MARGIN := 0.12                # a window's opening is kept clear this far beyond its edges
 
@@ -28,6 +29,7 @@ const OPEN_MARGIN := 0.12                # a window's opening is kept clear this
 
 var built := false
 var patched_cells := 0
+var skipped_cells := 0                     # cells left out because their corners came from different surfaces (they would be long thin planks)
 var holes_found := 0                       # hole cells found (nodes of the lattice) before patching
 var holes_left := 0                        # hole cells with no donor
 var regions: Array = []                    # [{kind, theta0, theta1, y0, y1, donor_shift, cells}] for the test
@@ -110,8 +112,9 @@ func _build() -> void:
 	var windows := _windows()
 	_patch_tower(windows)
 	_collect_grid()
-	# (the house walls: _patch_plane() can fill rectangles of the west and back walls, but the exterior's rock footing at ground level makes the wall depth there ambiguous,
-	# so no house hole is filled yet: see the report)
+	# the house: the ragged window carve in the ground-floor west wall under the first-floor plate (rectangle found from the exterior mesh: no hit at all there, wall at
+	# 2.6 m out on the left, a rock outcrop in front of the wall on the right; the creator's first screenshot, 2026-10-26)
+	_patch_plane("west", Vector2(0.3, 9.0), Vector2(1.0, 7.4), [], [{"rect": Rect2(2.75, 1.6, 1.3, 2.0), "out": 2.62, "shift": -2.1}, {"rect": Rect2(4.5, 1.0, 1.6, 1.8), "out": 2.62, "shift": -3.9}])
 	built = true
 
 
@@ -311,7 +314,7 @@ func _patch_tower(windows: Array) -> void:
 			if comp.size() < 2:
 				continue            # a stray node: a crack in the mesh, not a hole
 			_fill_component(comp, cls, hits, n_t, n_y)
-	print("wall_patch: %d hole nodes, %d cells patched, %d without a donor" % [holes_found, patched_cells, holes_left])
+	print("wall_patch: %d hole nodes, %d cells patched, %d without a donor, %d stretched cells left out" % [holes_found, patched_cells, holes_left, skipped_cells])
 
 
 func _fill_component(comp: Array, cls: PackedByteArray, hits: Array, n_t: int, n_y: int) -> void:
@@ -404,6 +407,14 @@ func _fill_component(comp: Array, cls: PackedByteArray, hits: Array, n_t: int, n
 			corners.append({"pos": pos, "uv": uv, "tri": dh["tri"], "n": Vector3(cos(th), 0, sin(th))})
 		if not ok:
 			continue
+		# a cell whose corners came from different surfaces (a donor hit on a ledge, a window reveal, a gap) is stretched into a long thin plank: leave it out
+		var stretched := false
+		for ci in 4:
+			if (corners[ci]["pos"] as Vector3).distance_to(corners[(ci + 1) % 4]["pos"]) > MAX_CELL_EDGE:
+				stretched = true
+		if stretched:
+			skipped_cells += 1
+			continue
 		var key: String = str((_tris[corners[0]["tri"]] as Array)[7].get_instance_id()) + ":" + str((_tris[corners[0]["tri"]] as Array)[6])
 		if not per_surface.has(key):
 			var st := SurfaceTool.new()
@@ -474,7 +485,7 @@ func _collect_grid() -> void:
 
 
 ## First hit of a ray (origin, unit direction, up to `length`) against the exterior triangles: {p, tri} or {}.
-func _grid_hit(o: Vector3, d: Vector3, length: float) -> Dictionary:
+func _grid_hit(o: Vector3, d: Vector3, length: float, both := false) -> Dictionary:
 	var best := {}
 	var best_t := INF
 	var seen := {}
@@ -489,6 +500,8 @@ func _grid_hit(o: Vector3, d: Vector3, length: float) -> Dictionary:
 				seen[ti] = true
 				var tr: Array = _tris[ti]
 				var hit: Variant = Geometry3D.ray_intersects_triangle(o, d, tr[0], tr[1], tr[2])
+				if hit == null and both:
+					hit = Geometry3D.ray_intersects_triangle(o, d, tr[0], tr[2], tr[1])      # from the inside of a wall the triangle faces away
 				if hit != null:
 					var tt := o.distance_to(hit as Vector3)
 					if tt < best_t:
@@ -578,7 +591,7 @@ func _patch_plane(kind: String, s_range: Vector2, y_range: Vector2, openings: Ar
 				# explicit hole rectangles (found from the exterior mesh's open edges): everything in a rectangle is hole, intact wall is a possible donor, the rest is neutral
 				var in_rect := false
 				for rc in rects:
-					if (rc as Rect2).has_point(Vector2(s, y)):
+					if (rc["rect"] as Rect2).has_point(Vector2(s, y)):
 						in_rect = true
 				if in_rect:
 					cls[j * n_s + i] = 1
@@ -622,11 +635,11 @@ func _patch_plane(kind: String, s_range: Vector2, y_range: Vector2, openings: Ar
 				print("   %s component %d nodes: s %.1f..%.1f y %.2f..%.2f" % [kind, comp.size(), s_range.x + clo.x * step_s, s_range.x + chi.x * step_s, y_range.x + clo.y * Y_STEP, y_range.x + chi.y * Y_STEP])
 			if comp.size() < (20 if not rects.is_empty() else MIN_HOUSE_NODES):
 				continue      # smaller than a window (about 2 square metres): a real opening, not a hole
-			_fill_plane_component(kind, comp, cls, hits, outs, n_s, n_y, s_range, y_range, step_s)
+			_fill_plane_component(kind, comp, cls, hits, outs, n_s, n_y, s_range, y_range, step_s, rects)
 	print("wall_patch: house %s wall: %d hole nodes" % [kind, found_total])
 
 
-func _fill_plane_component(kind: String, comp: Array, cls: PackedByteArray, hits: Array, outs: Array, n_s: int, n_y: int, s_range: Vector2, y_range: Vector2, step_s: float) -> void:
+func _fill_plane_component(kind: String, comp: Array, cls: PackedByteArray, hits: Array, outs: Array, n_s: int, n_y: int, s_range: Vector2, y_range: Vector2, step_s: float, rects: Array = []) -> void:
 	var lo_i := 1 << 30
 	var hi_i := -(1 << 30)
 	var lo_j := 1 << 30
@@ -639,7 +652,15 @@ func _fill_plane_component(kind: String, comp: Array, cls: PackedByteArray, hits
 	var width := hi_i - lo_i + 1
 	var shift := 0
 	var found := false
+	var want_out := NAN
+	for rc in rects:      # an explicit rectangle names its donor stretch (shift along the wall, metres) and the wall's outer face (metres out)
+		if (rc["rect"] as Rect2).has_point(Vector2(s_range.x + (lo_i + hi_i) * 0.5 * step_s, y_range.x + (lo_j + hi_j) * 0.5 * Y_STEP)):
+			shift = int(round(float(rc["shift"]) / step_s))
+			want_out = float(rc["out"])
+			found = true
 	for k in range(1, n_s):
+		if found:
+			break
 		for sgn in [1, -1]:
 			var sh: int = sgn * (width + 3 + k - 1)
 			var bad := 0
@@ -701,13 +722,14 @@ func _fill_plane_component(kind: String, comp: Array, cls: PackedByteArray, hits
 			var tl: float = row_l.get(jj, NAN)
 			var tr_: float = row_r.get(jj, NAN)
 			var t_frac := clampf(float(ni - lo_i) / maxf(float(hi_i - lo_i), 1.0), 0.0, 1.0)
-			var target := (tl * (1.0 - t_frac) + tr_ * t_frac) if (not is_nan(tl) and not is_nan(tr_)) else (tl if not is_nan(tl) else (tr_ if not is_nan(tr_) else float(outs[nj * n_s + di])))
+			# the wall is the nearer of the two neighbours (a rock outcrop in front of the wall on one side is not the wall)
+			var target := want_out if not is_nan(want_out) else minf(tl, tr_) if (not is_nan(tl) and not is_nan(tr_)) else (tl if not is_nan(tl) else (tr_ if not is_nan(tr_) else float(outs[nj * n_s + di])))
 			var donor_out: float = float(outs[nj * n_s + di])
 			# the donor's relief about its own row mean across the donor span
 			var mean := 0.0
 			var cnt := 0
 			for q in range(lo_i + shift, hi_i + shift + 1):
-				if q >= 0 and q < n_s and cls[jj * n_s + q] == 0:
+				if q >= 0 and q < n_s and cls[jj * n_s + q] != 1 and not (hits[jj * n_s + q] as Dictionary).is_empty():
 					mean += float(outs[jj * n_s + q])
 					cnt += 1
 			var relief := donor_out - (mean / cnt if cnt > 0 else donor_out)
@@ -715,6 +737,14 @@ func _fill_plane_component(kind: String, comp: Array, cls: PackedByteArray, hits
 			var pos := p - along * (shift * step_s) + inward * (donor_out - (target + relief) + SKIN_INSET)
 			corners.append({"pos": pos, "uv": _bary_uv(dh["tri"], p), "tri": dh["tri"], "n": -inward})
 		if not ok:
+			continue
+		# a cell whose corners came from different surfaces (a donor hit on a ledge, a window reveal, a gap) is stretched into a long thin plank: leave it out
+		var stretched := false
+		for ci in 4:
+			if (corners[ci]["pos"] as Vector3).distance_to(corners[(ci + 1) % 4]["pos"]) > MAX_CELL_EDGE:
+				stretched = true
+		if stretched:
+			skipped_cells += 1
 			continue
 		var tr0: Array = _tris[corners[0]["tri"]]
 		var key: String = str((tr0[7] as Object).get_instance_id()) + ":" + str(tr0[6])

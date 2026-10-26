@@ -19,6 +19,7 @@ const RoofLiner := preload("res://scripts/world/interior/roof_liner.gd")
 const HeroProps := preload("res://scripts/world/interior/hero_props.gd")
 const Trim := preload("res://scripts/world/interior/trim.gd")
 const WallPatch := preload("res://scripts/world/wall_patch.gd")
+const ExteriorClip := preload("res://scripts/world/exterior_clip.gd")
 
 const DOOR_SILL := Vector3(-3.494, 0.0, 8.874)   # the entry door's sill, x/z in the lighthouse frame
 const YAW := 0.4457                              # atan2(0.4309, 0.9024): turns +x onto the house's front wall
@@ -104,6 +105,12 @@ func _ready() -> void:
 	wp.name = "WallPatch"
 	wp.set("lighthouse_path", NodePath("../../Lighthouse"))
 	add_child(wp)
+	# and the parts of the exterior that stand inside the rooms are taken out of it (exterior_clip.gd)
+	var ec := Node.new()
+	ec.set_script(ExteriorClip)
+	ec.name = "ExteriorClip"
+	add_child(ec)
+	ec.apply(get_parent().get_node("Lighthouse"), frame, shell, 5.2025)
 	build_ms = Time.get_ticks_msec() - t0
 	node_count = kit.count
 

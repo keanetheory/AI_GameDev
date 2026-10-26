@@ -68,6 +68,20 @@ extends Node3D
 ## model's materials (the glTF importer gives material-less meshes a plain default one), so only set it on greyboxes.
 @export var colour_by_name: Dictionary = {}
 
+const ColliderBake := preload("res://scripts/world/collider_bake.gd")
+## Where tools/bake_colliders.gd saves each node's flattening, carve and collision shapes, so a load reads them instead of
+## working them out (the convex hulls and the carves were most of the level's load time). A node whose settings or model
+## changed since the bake no longer matches its file and is built live, as before, until the bake is re-run.
+const BAKE_DIR := "res://Assets/Baked/colliders/"
+const BAKE_VERSION := 1              # bump when what is baked changes, so every old bake stops matching
+
+static var bake_writes := false      # set by tools/bake_colliders.gd: save what is built live
+static var bake_reads := true        # tools/test_collider_bake.gd turns this off to build live and compare with the bakes
+static var written: Array[String] = []   # the bake files saved this run (the bake tool reports them)
+static var _shared := {}             # key -> bake already made this run: copies of one model (the sea stacks) share it
+
+var used_bake := ""                  # "disk", "shared" or "" (built live): for the bake tool and the tests
+
 
 func _ready() -> void:
 	var scene: PackedScene = load(model_path)
@@ -78,28 +92,38 @@ func _ready() -> void:
 		old.queue_free()
 	var root := scene.instantiate()
 	add_child(root)
+	var meshes: Array[MeshInstance3D] = []
 	for node in root.find_children("*", "MeshInstance3D", true, false):
 		var mi := node as MeshInstance3D
 		if marker_suffix != "" and String(mi.name).ends_with(marker_suffix):
 			mi.visible = false
 			continue
-		if not flatten_boxes.is_empty() or press_path.size() >= 2:
-			_flatten(mi)
-		if not carve_boxes.is_empty() or not carve_oriented.is_empty() or not carve_oriented_any.is_empty() or not carve_cylinders.is_empty() or not carve_cylinders_any.is_empty() or carve_lines.size() >= 2 or not keep_boxes.is_empty():
-			_carve(mi)
-		if solid and not Engine.is_editor_hint():
-			if collision_kind == 1:
-				mi.create_convex_collision(true, true)
-			else:
-				mi.create_trimesh_collision()
-			for child in mi.get_children():
-				if child is StaticBody3D:
-					child.collision_layer = body_layers
-			if (double_sided or backface_collision) and collision_kind == 0:
-				for shape in mi.find_children("*", "CollisionShape3D", true, false):
-					var concave := (shape as CollisionShape3D).shape as ConcavePolygonShape3D
-					if concave:
-						concave.backface_collision = true
+		meshes.append(mi)
+	var build_shapes := solid and not Engine.is_editor_hint()
+	var key := _bake_key(root, meshes)
+	var bake = _find_bake(key, build_shapes or _flattens() or _carves())
+	var live := bake == null
+	if live:
+		bake = ColliderBake.new()
+		bake.key = key
+	for m in meshes.size():
+		var mi := meshes[m]
+		var entry: Dictionary
+		if live:
+			entry = _build_entry(mi, build_shapes)
+			bake.meshes.append(entry)
+		else:
+			entry = bake.meshes[m]
+			_apply_entry(mi, entry)
+		if build_shapes and entry.get("shape"):
+			# what MeshInstance3D.create_*_collision() make: a StaticBody3D named <mesh>_col holding one shape
+			var body := StaticBody3D.new()
+			body.name = String(mi.name) + "_col"
+			body.collision_layer = body_layers
+			var cs := CollisionShape3D.new()
+			cs.shape = entry["shape"]
+			body.add_child(cs, true)
+			mi.add_child(body, true)
 		if (double_sided or tint != Color.WHITE) and mi.mesh:
 			for i in mi.mesh.get_surface_count():
 				var mat := mi.mesh.surface_get_material(i) as BaseMaterial3D
@@ -112,6 +136,132 @@ func _ready() -> void:
 		if not colour_by_name.is_empty():
 			_colour_greybox(mi)
 		mi.visible = visible_mesh
+	if live and (build_shapes or _flattens() or _carves()):
+		_shared[key] = bake
+		if bake_writes:
+			_save_bake(bake)
+
+
+func _flattens() -> bool:
+	return not flatten_boxes.is_empty() or press_path.size() >= 2
+
+
+func _carves() -> bool:
+	return not carve_boxes.is_empty() or not carve_oriented.is_empty() or not carve_oriented_any.is_empty() \
+			or not carve_cylinders.is_empty() or not carve_cylinders_any.is_empty() or carve_lines.size() >= 2 \
+			or not keep_boxes.is_empty()
+
+
+# Everything that decides the result: the settings that shape it and a signature of each mesh in the model (its path,
+# size and bounds), so a regenerated .glb gets a new key. The node's own transform is left out: carves are in its space.
+func _bake_key(root: Node, meshes: Array[MeshInstance3D]) -> String:
+	var parts := [BAKE_VERSION, model_path, solid, collision_kind, double_sided or backface_collision,
+			carve_boxes, carve_oriented, carve_oriented_any, carve_cylinders_any, carve_cylinders, carve_lines,
+			carve_line_half_width, carve_line_half_widths, keep_boxes, flatten_boxes, flatten_falloff, press_path,
+			press_half_width, press_falloff, marker_suffix]
+	for mi in meshes:
+		var sig := [String(root.get_path_to(mi))]
+		if mi.mesh:
+			sig.append(mi.mesh.get_aabb())
+			var am := mi.mesh as ArrayMesh
+			if am:
+				for s in am.get_surface_count():
+					sig.append(am.surface_get_array_len(s))
+					sig.append(am.surface_get_array_index_len(s))
+		parts.append(sig)
+	return var_to_str(parts).md5_text()
+
+
+func _bake_path(key: String) -> String:
+	return BAKE_DIR + "%s_%s.res" % [model_path.get_file().get_basename(), key.substr(0, 12)]
+
+
+# A bake for this key: one already made this run, or the file the bake tool saved. null when there is none (or, while
+# the bake tool runs, always for the first node of each key, so every file is rewritten).
+func _find_bake(key: String, has_work: bool):
+	if not bake_reads:
+		return null
+	if _shared.has(key):
+		used_bake = "shared"
+		return _shared[key]
+	if bake_writes:
+		return null
+	var path := _bake_path(key)
+	if not ResourceLoader.exists(path):
+		if has_work:
+			print("collider_builder: no bake for %s (%s), building it live; run tools/bake_colliders.gd" % [name, model_path.get_file()])
+		return null
+	var bake = load(path)
+	if bake == null or bake.key != key:
+		return null
+	used_bake = "disk"
+	_shared[key] = bake
+	return bake
+
+
+# Flattens, carves and makes the collision shape for one mesh, as the builder always has, and records the result.
+func _build_entry(mi: MeshInstance3D, build_shape: bool) -> Dictionary:
+	var entry := {}
+	var flattens := _flattens()
+	var carves := _carves()
+	if flattens:
+		_flatten(mi)
+	if carves:
+		_carve(mi)
+	var am := mi.mesh as ArrayMesh
+	if am and (flattens or carves):
+		var verts := []
+		var normals := []
+		var indices := []
+		for s in am.get_surface_count():
+			var arrays := am.surface_get_arrays(s)
+			verts.append(arrays[Mesh.ARRAY_VERTEX])
+			normals.append(arrays[Mesh.ARRAY_NORMAL] if arrays[Mesh.ARRAY_NORMAL] != null else PackedVector3Array())
+			indices.append(arrays[Mesh.ARRAY_INDEX] if arrays[Mesh.ARRAY_INDEX] != null else PackedInt32Array())
+		if flattens:
+			entry["verts"] = verts
+			entry["normals"] = normals
+		if carves:
+			entry["indices"] = indices
+	if build_shape and mi.mesh:
+		var shape: Shape3D
+		if collision_kind == 1:
+			shape = mi.mesh.create_convex_shape(true, true)
+		else:
+			shape = mi.mesh.create_trimesh_shape()
+			if (double_sided or backface_collision) and shape is ConcavePolygonShape3D:
+				shape.backface_collision = true
+		entry["shape"] = shape
+	return entry
+
+
+# Puts a baked flattening and carve back on the model's mesh (the shape is added by the caller).
+func _apply_entry(mi: MeshInstance3D, entry: Dictionary) -> void:
+	var src := mi.mesh as ArrayMesh
+	if src == null or not (entry.has("verts") or entry.has("indices")):
+		return
+	var out := ArrayMesh.new()
+	for s in src.get_surface_count():
+		var arrays := src.surface_get_arrays(s)
+		if entry.has("verts"):
+			arrays[Mesh.ARRAY_VERTEX] = entry["verts"][s]
+			if entry["normals"][s].size() > 0:
+				arrays[Mesh.ARRAY_NORMAL] = entry["normals"][s]
+		if entry.has("indices"):
+			arrays[Mesh.ARRAY_INDEX] = entry["indices"][s]      # as the carve left it, even when it kept nothing
+		out.add_surface_from_arrays(src.surface_get_primitive_type(s), arrays)
+		out.surface_set_material(s, src.surface_get_material(s))
+	mi.mesh = out
+
+
+func _save_bake(bake) -> void:
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(BAKE_DIR))
+	var path := _bake_path(bake.key)
+	var err := ResourceSaver.save(bake, path, ResourceSaver.FLAG_COMPRESS)
+	if err != OK:
+		push_error("collider_builder: could not save %s (error %d)" % [path, err])
+		return
+	written.append(path)
 
 
 func _colour_greybox(mi: MeshInstance3D) -> void:

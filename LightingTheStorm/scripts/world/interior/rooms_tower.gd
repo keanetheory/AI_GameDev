@@ -78,9 +78,12 @@ func _l1_house(P: Node3D) -> void:
 	# W3: v 5.6, radio room | wash room
 	_wall(P, "L1_W3", -0.2, 1.5, 5.55, 5.65, Y, pw)
 	# doorway lintels
-	K.box(P, "L1_Lintel_Bed", -2.1, -1.0, 2.55, 2.65, Y + 2.0, Y + pw, "plaster", false)
-	K.box(P, "L1_Lintel_Radio", -0.1, 1.0, 2.55, 2.65, Y + 2.0, Y + pw, "plaster", false)
-	K.box(P, "L1_Lintel_Mess", 3.3, 4.5, 2.55, 2.65, Y + 2.0, Y + pw, "plaster", false)
+	var lint_top := (ceil_rel(2.6) - 0.03) if not authored else pw      # to the ceiling
+	K.box(P, "L1_Lintel_Bed", -2.1, -1.0, 2.55, 2.65, Y + 2.0, Y + lint_top, "plaster", false)
+	K.box(P, "L1_Lintel_Radio", -0.1, 1.0, 2.55, 2.65, Y + 2.0, Y + lint_top, "plaster", false)
+	K.box(P, "L1_Lintel_Mess", 3.3, 4.5, 2.55, 2.65, Y + 2.0, Y + lint_top, "plaster", false)
+	if not authored:      # the wash room doorway (W2 gap, v 6.3 to 7.2) closed above its frame
+		K.box(P, "L1_Lintel_Wash", 1.45, 1.55, 6.3, 7.2, Y + 2.1, Y + ceil_rel(7.2) - 0.03, "plaster", false)
 	var hw := _house_windows()
 	if authored:
 		# the shell is the roof, the walls and the window openings: only the timbers, the glass panes and the trim are built here
@@ -393,7 +396,7 @@ func _ceiling(P: Node3D, Y: float) -> void:
 	var th := 0.12
 	_tilt_slab(P, "L1_CeilingFront", u0, u1, Vector2(0.9, Y + 1.45), Vector2(5.0, Y + 4.0), th)
 	_tilt_slab(P, "L1_CeilingBack", u0, u1, Vector2(5.0, Y + 4.0), Vector2(8.9, Y + 1.6), th)
-	K.box(P, "L1_RidgeBeam", u0, u1, 4.92, 5.08, Y + 3.88, Y + 4.02, "wood_dark", false)
+	K.box(P, "L1_RidgeBeam", u0 + 0.05, u1 - 0.45, 4.92, 5.08, Y + 3.88, Y + 4.02, "wood_dark", false)      # stops 0.45 m short of the east wall: it ran on into the tower as a plank through the L2 window (creator, 2026-10-26)
 	for i in 5:
 		var v := 1.6 + 0.0
 		var u := u0 + 0.4 + 2.1 * i
@@ -492,9 +495,72 @@ func _sloped_wall(P: Node3D, nm: String, u0: float, u1: float, v0: float, v1: fl
 	K.count += 1
 
 
+## First-floor ceiling height above the floor at house-frame v, as the old ceiling slabs (_ceiling) build it: a front slope from v 0.9 (1.45 m) to the ridge at v 5.0
+## (4.0 m), a back slope down to v 8.9 (1.6 m).
+static func ceil_rel(v: float) -> float:
+	return 1.45 + (v - 0.9) * (4.0 - 1.45) / (5.0 - 0.9) if v <= 5.0 else 4.0 - (v - 5.0) * (4.0 - 1.6) / (8.9 - 5.0)
+
+
+## A partition that runs right up to the ceiling (creator, 2026-10-26: "walls not meeting the ceiling"): a plaster panel u0..u1 whose top follows `ceil_rel` along v,
+## 3 cm under it. A partition along u (v0..v1 thin) is flat at the ceiling's height at its v.
+func _wall_to_ceiling(P: Node3D, nm: String, u0: float, u1: float, v0: float, v1: float, y0: float) -> void:
+	var top_at := func(v: float) -> float:
+		return y0 + ceil_rel(clampf(v, 0.9, 8.9)) - 0.03
+	if (v1 - v0) <= (u1 - u0):
+		var vm := (v0 + v1) * 0.5
+		K.box(P, nm, u0, u1, v0, v1, y0, top_at.call(vm), "plaster", true)
+		return
+	var pts: Array = [Vector2(v0, y0), Vector2(v1, y0)]
+	var vs: Array = []
+	var v := v1
+	while v > v0 + 0.01:
+		vs.append(v)
+		v -= 0.4
+	vs.append(v0)
+	if v0 < 5.0 and v1 > 5.0:
+		vs.append(5.0)
+		vs.sort()
+		vs.reverse()
+	for q in vs:
+		pts.append(Vector2(q, top_at.call(q)))
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var n := pts.size()
+	for side in [[u0, 1.0], [u1, -1.0]]:
+		for i in range(1, n - 1):
+			var tri := [pts[0], pts[i], pts[i + 1]]
+			if side[1] < 0.0:
+				tri = [pts[0], pts[i + 1], pts[i]]
+			for q in tri:
+				st.set_normal(Vector3(-side[1], 0, 0))
+				st.add_vertex(K.p(side[0], q.y, q.x))
+	for i in n:
+		var a: Vector2 = pts[i]
+		var b: Vector2 = pts[(i + 1) % n]
+		var pa0: Vector3 = K.p(u0, a.y, a.x)
+		var pa1: Vector3 = K.p(u1, a.y, a.x)
+		var pb0: Vector3 = K.p(u0, b.y, b.x)
+		var pb1: Vector3 = K.p(u1, b.y, b.x)
+		var nn: Vector3 = (pb0 - pa0).cross(pa1 - pa0).normalized()
+		for q in [pa0, pb0, pa1, pa1, pb0, pb1]:
+			st.set_normal(nn)
+			st.add_vertex(q)
+	var mi := MeshInstance3D.new()
+	mi.name = nm
+	mi.mesh = st.commit()
+	var m2 := (K.mats["plaster"] as StandardMaterial3D).duplicate() as StandardMaterial3D
+	m2.cull_mode = BaseMaterial3D.CULL_DISABLED
+	mi.material_override = m2
+	P.add_child(mi)
+	mi.create_trimesh_collision()
+	K.count += 1
+
+
 func _wall(P: Node3D, nm: String, u0: float, u1: float, v0: float, v1: float, y0: float, h: float) -> void:
 	if authored and (v1 - v0) > (u1 - u0) and v1 > 7.0:
 		_sloped_wall(P, nm, u0, u1, v0, v1, y0, h)      # a partition running up to the back eaves
+	elif not authored and absf(y0 - L1) < 0.01:
+		_wall_to_ceiling(P, nm, u0, u1, v0, v1, y0)      # first-floor partitions reach the ceiling
 	else:
 		K.box(P, nm, u0, u1, v0, v1, y0, y0 + h, "plaster", true)
 	# the wainscot panel stands PAD proud of both faces of the wall, on the thin axis. It used to be padded only for walls running along u: a wall

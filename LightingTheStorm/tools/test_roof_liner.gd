@@ -35,7 +35,7 @@ func _physics_process(_d: float) -> bool:
 	var tris := verts.size() / 3
 	var total_cells := (int(round((rl.U.y - rl.U.x) / rl.STEP))) * (int(round((rl.V.y - rl.V.x) / rl.STEP)))
 	var cover := float(tris) / 2.0 / float(total_cells)
-	var c_ok := cover >= 0.6
+	var c_ok := cover >= 0.5      # (was 0.6: exterior_clip.gd now removes the stray exterior inside the rooms, which the liner used to hang under)
 	print(("PASS  " if c_ok else "FAIL  ") + "covers %.0f%% of the first floor footprint (%d triangles)" % [cover * 100.0, tris])
 	fails += int(not c_ok)
 	var sp := root.get_world_3d().direct_space_state
