@@ -1,0 +1,14 @@
+{
+  "asset_id": "passenger_ship",
+  "category": "boat",
+  "fal_model": "fal-ai/hunyuan3d-v3/image-to-3d",
+  "prompt": "The Lantern Queen, a long Saint Calder passenger steamship, riveted black iron hull with rows of round portholes and a rust-red waterline, exactly two tall funnels in a single line along the centre of the ship, one behind the other, with amber bands, cream promenade decks with rows of gothic arched windows, lifeboats on davits, masts with brass lanterns, a straight raked bow and a rounded stern, weathered and rust-streaked, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of black #0E0E10, stone grey #6B6B66 and slate #2C3A40 with amber #C07A1E and gold #B8962E trim, mid-1800s iron and brass",
+  "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, sea, water, waves",
+  "source_image": "../../ConceptArt/passengership/v2 The Lantern Queen Three-View Blueprint.png",
+  "view_images": {
+    "front": "derived/passenger_ship_bow.png",
+    "back": "derived/passenger_ship_stern.png",
+    "left": "derived/passenger_ship_side.png"
+  },
+  "notes": "The passenger ship (T07 deadline, T31 route and grounding rock): seen as lights on the horizon, approaching on the return, then passing the rocks (win) or breaking up on the rock next to the island (fail, Decisions A30). Bow, stern and port side cropped from the concept sheet into derived/; the title, the searchlight beam, the frame ornament and the hull name were painted out. The port side has the bow on the right, matching the steam launch's 'left' view. Amber and gold trim: the Saint Calder Passenger Line, matching the royal standard colours. Hold the Godot import until the lighthouse session is complete: it needs a per-file size override in tools/import_scale_pivot.gd (the 'boat' category is sized to 6 m), the 4096 texture downscaled to 2048 and decimation. v2 (26 Oct 2026): the stern view is left out and the prompt asks for exactly two funnels in a line; v1 with the stern view came out with four funnels in a 2x2 block (kept as source/pending_import/passenger_ship_v1_four_funnels.glb). v3 (26 Oct 2026): views re-cropped from the creator's v2 blueprint, whose bow and stern show a single centred funnel (two in a line seen head-on), so all three views agree; the stern view is back in. v1 and v2 (both four funnels) are kept in source/pending_import/."
+}

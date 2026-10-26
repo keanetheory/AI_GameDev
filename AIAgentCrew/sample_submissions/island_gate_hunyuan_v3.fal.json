@@ -1,0 +1,8 @@
+{
+  "asset_id": "island_gate",
+  "category": "island",
+  "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+  "prompt": "Lockable wrought iron path gate set between two squat rough-hewn granite pillars with flat capstones, short stubs of dry-stone wall on each side, a single tall gate leaf of vertical iron bars with spear-point finials and a heavy crossbar, a hanging iron hasp and old padlock, rust streaks and salt crust, front view, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s stone and iron",
+  "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+  "notes": "The island gate on the single path from the dock up to the lighthouse (geography.md: 'a lockable gate along it'; Ted and the assist hints call it the iron gate). The player opens it for Arthur and Daniel (GATE_APPROACHED / GATE_OPENED). Text-to-3D, no concept art exists. The leaf comes back fused to the pillars: split it out as its own node with the hinge at the pillar edge before wiring the open animation. Downscale the 4096 texture to 2048 on import."
+}
