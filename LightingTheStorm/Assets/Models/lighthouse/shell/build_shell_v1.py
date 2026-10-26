@@ -16,25 +16,27 @@ from mathutils import Vector, Matrix
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.normpath(os.path.join(HERE, "..", "..", "..", "..", "data", "world"))
-HOUSE_O = (-3.494, 8.874)
-YAW = 0.4457
-AX, AZ = 3.5, 3.6                    # tower axis, Lighthouse frame
+SPEC = json.load(open(os.path.join(DATA, "shell_spec.json")))      # shared with the Godot code that fits the interior to this shell
+HOUSE_O = tuple(SPEC["house_origin"])
+YAW = SPEC["house_yaw"]
+AX, AZ = SPEC["tower_axis"]          # tower axis, Lighthouse frame
 SIDES = 96
-T = 0.5                              # house wall thickness, outward from the inner faces
-WALL_T = 0.75                        # tower wall thickness
+T = SPEC["house_wall_t"]             # house wall thickness, outward from the inner faces
+WALL_T = SPEC["tower_wall_t"]        # tower wall thickness
 
 # ---- levels (Lighthouse-frame y) ----
 B1_FLOOR, B1_CEIL = -2.0, 0.77
 GF, G_CEIL = 0.97, 3.75
-SLAB_TOP, L1 = 3.95, 5.2025
+SLAB_TOP, L1 = SPEC["slab_top"], 5.2025
 L1_EAVE, L1_RIDGE = 7.0, 9.9         # inner (underside) heights
 ROOF_T = 0.28
 LANTERN_FLOOR, DECK_TOP, DECK_R = 17.9, 18.33, 4.0
 CEIL_Y, APEX = 21.95, 25.18
 
 # ---- room inner faces in the house frame ----
-G_U, G_V = (-2.15, 5.55), (0.36, 6.70)               # ground floor and basement
-L1_U, L1_V = (-3.00, 5.39), (0.95, 8.70)             # first floor and the attic under the roof
+G_U, G_V = tuple(SPEC["ground_u"]), tuple(SPEC["ground_v"])      # ground floor and basement
+L1_U, L1_V = tuple(SPEC["first_u"]), tuple(SPEC["first_v"])      # first floor and the attic under the roof
+TOWER_CUT_TOP = SPEC["tower_cut_top"]
 
 
 def hf(u, y, v):
@@ -247,7 +249,7 @@ def main():
     # the tower's air is cut short by the house wall slab so a real wall stands between the hall and the tower
     tair = tower_air()
     for nm, o in [("h1", prism_uv("h1", G_U[0] - T, G_U[1] + T, G_V[0] - T, G_V[1] + T, B1_FLOOR - 1.0, SLAB_TOP)),
-                  ("h2", prism_uv("h2", L1_U[0] - T, L1_U[1] + T, L1_V[0] - T, L1_V[1] + T, SLAB_TOP, L1 + 3.0))]:
+                  ("h2", prism_uv("h2", L1_U[0] - T, L1_U[1] + T, L1_V[0] - T, L1_V[1] + T, SLAB_TOP, TOWER_CUT_TOP))]:
         boolean(tair, o, "DIFFERENCE")
         bpy.data.objects.remove(o, do_unlink=True)
     boolean(shell, tair, "DIFFERENCE")
@@ -260,8 +262,18 @@ def main():
               gable_uv("l1_a", L1_U[0], L1_U[1], L1_V[0], L1_V[1], L1, L1_EAVE, L1_RIDGE)]:
         boolean(shell, o, "DIFFERENCE")
         bpy.data.objects.remove(o, do_unlink=True)
-    # the stairwell hole through the ground floor slab (u 0.8..3.6, v 2.3..5.7), so the spiral can go down to the basement
-    o = prism_uv("hole", 0.8, 3.6, 2.3, 5.7, B1_CEIL - 0.1, GF + 0.1)
+    # the stairwell hole through the ground floor slab: a round hole just wider than the spiral (centre and radius in shell_spec.json)
+    cx, cv = SPEC["stair_hole_centre"]
+    bm = bmesh.new()
+    n = 48
+    lo = [bm.verts.new(G(*hf(cx + SPEC["stair_hole_r"] * math.cos(2 * math.pi * i / n), B1_CEIL - 0.1, cv + SPEC["stair_hole_r"] * math.sin(2 * math.pi * i / n)))) for i in range(n)]
+    hi = [bm.verts.new(G(*hf(cx + SPEC["stair_hole_r"] * math.cos(2 * math.pi * i / n), GF + 0.1, cv + SPEC["stair_hole_r"] * math.sin(2 * math.pi * i / n)))) for i in range(n)]
+    bm.faces.new(lo)
+    bm.faces.new(hi[::-1])
+    for i in range(n):
+        j = (i + 1) % n
+        bm.faces.new([lo[i], lo[j], hi[j], hi[i]])
+    o = link("hole", bm)
     boolean(shell, o, "DIFFERENCE")
     bpy.data.objects.remove(o, do_unlink=True)
     # ---------------- openings ----------------

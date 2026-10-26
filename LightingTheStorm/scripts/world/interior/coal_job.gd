@@ -20,6 +20,7 @@ const Interactable := "res://scripts/interaction/interactable.gd"
 var gauge: Node3D
 var fire_light: OmniLight3D
 var fire_glow: MeshInstance3D
+var fire_flame: Node3D          # fire_flame.gd: the living fire; it flickers and drives fire_light itself
 var flywheel: Node3D
 var green_lamp: MeshInstance3D
 var shovel_template: Dictionary = {}
@@ -123,9 +124,11 @@ func _apply() -> void:
 	var f := clampf(float(loads) / float(maxi(loads_needed, 1)), 0.0, 1.0)
 	if gauge and gauge.has_method("set_level"):
 		gauge.set_level(f)
-	if fire_light:
+	if fire_flame:
+		fire_flame.set_level(f)
+	elif fire_light:
 		fire_light.light_energy = _fire_base * (0.55 + 0.9 * f)
-	if fire_glow:
+	if fire_glow and not fire_flame:
 		var m := fire_glow.material_override as StandardMaterial3D
 		if m:
 			m.emission_energy_multiplier = 0.8 + 1.6 * f

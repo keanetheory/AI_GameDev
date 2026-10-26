@@ -35,6 +35,7 @@ func build_lantern(kit, lh: Node3D) -> void:
 	P.name = "LampRoom"
 	lh.add_child(P)
 	_shell(P)
+	_gallery(P)
 	_arc_lamp(P)
 	_broken_burner(P)
 	anchors_lh["lamp_socket"] = Vector3(TOWER.x, LAMP_Y, TOWER.y)
@@ -54,13 +55,21 @@ func _shell(P: Node3D) -> void:
 	# the stair arrives
 	_rail(P, "Lamp_StairRail", FLOOR, 297.0, 507.0, [Vector2(128.0, 152.0)])
 	# mullions and glass
-	for i in 12:
-		var a := 15.0 + 30.0 * i
-		_cyl(P, "Lamp_Mullion_%d" % i, _pt(a, GLASS_R, DECK), _pt(a, GLASS_R, CEIL_Y), 0.05, _m("iron_dark"), false)
-	var glass := _arc(P, "Lamp_Glass", GLASS_R - 0.012, GLASS_R + 0.012, 0.0, 360.0, DECK, CEIL_Y, _m("glass"), true)
+	# the lantern from the sea (creator, 2026-10-25: the roof looked like it floated): twenty-four slim mullions instead of twelve, three glazing
+	# rings, a heavy sill ring and head ring, and the glass itself is a visible pale-slate pane (it was 14% opaque, so the band read as empty sky)
+	for i in 24:
+		var a := 7.5 + 15.0 * i
+		_cyl(P, "Lamp_Mullion_%d" % i, _pt(a, GLASS_R, DECK), _pt(a, GLASS_R, CEIL_Y), 0.045 if i % 2 == 0 else 0.03, _m("iron_dark"), false)
+	_arc(P, "Lamp_SillRing", GLASS_R - 0.06, GLASS_R + 0.1, 0.0, 360.0, DECK, DECK + 0.16, _ds("iron_dark"), false)
+	_arc(P, "Lamp_HeadRing", GLASS_R - 0.06, GLASS_R + 0.1, 0.0, 360.0, CEIL_Y - 0.2, CEIL_Y, _ds("iron_dark"), false)
+	# the lantern's own glass: a darker, denser pane than a window's, so from the sea the band under the roof reads as a glazed drum and the roof
+	# sits ON something (a window's pane is 30% opaque; this is 65%)
+	var lg := (_m("glass") as StandardMaterial3D).duplicate() as StandardMaterial3D
+	lg.albedo_color = Color(0.2, 0.27, 0.33, 0.65)
+	var glass := _arc(P, "Lamp_Glass", GLASS_R - 0.012, GLASS_R + 0.012, 0.0, 360.0, DECK, CEIL_Y, lg, true)
 	(glass.get_node("Body") as StaticBody3D).add_to_group("glass")      # solid for the player, invisible to sight tests
-	for k in 2:
-		var y := DECK + 1.2 + 1.2 * k
+	for k in 3:
+		var y := DECK + 0.9 + 0.95 * k
 		_arc(P, "Lamp_Transom_%d" % k, GLASS_R - 0.03, GLASS_R + 0.05, 0.0, 360.0, y, y + 0.06, _ds("iron_dark"), false)
 	# ceiling, ring beam and a hole for the lamp's chimney
 	_arc(P, "Lamp_Ceiling", 0.2, 3.0, 0.0, 360.0, CEIL_Y, CEIL_Y + 0.14, _ds("plaster_dark"), false)
@@ -69,8 +78,7 @@ func _shell(P: Node3D) -> void:
 	for i in 12:
 		var a := 30.0 * i
 		_cyl(P, "Lamp_Rafter_%d" % i, _pt(a, 0.55, CEIL_Y - 0.02), _pt(a, 2.5, CEIL_Y - 0.02), 0.04, _m("iron_dark"), false)
-	# a lamp on the glass side of the room for the player to read the dark by
-	_wall_lamp(P, "Lamp_RoomLamp", 235.0, 2.6, FLOOR + 1.2, 1.2)
+	# (no wall lamp here: the one that stood on the glass read as a floating bulb; the room is lit by the Lantern light and the arc lamp)
 
 
 func _arc_lamp(P: Node3D) -> void:
@@ -112,9 +120,9 @@ func _arc_lamp(P: Node3D) -> void:
 	var lens_base := FLOOR + 0.95
 	# the arc itself: a bright core among the lens bands, dark until lit
 	var core_mat := StandardMaterial3D.new()
-	core_mat.albedo_color = Color(0.85, 0.88, 0.92)
+	core_mat.albedo_color = Color(1.0, 0.9, 0.66)
 	core_mat.emission_enabled = true
-	core_mat.emission = Color(0.8, 0.84, 0.9)
+	core_mat.emission = Color(1.0, 0.84, 0.5)
 	core_mat.emission_energy_multiplier = 0.0
 	var core := MeshInstance3D.new()
 	core.name = "Core"
@@ -129,7 +137,7 @@ func _arc_lamp(P: Node3D) -> void:
 	var glow := OmniLight3D.new()
 	glow.name = "Glow"
 	glow.position = Vector3(0, lens_base + 0.7, 0)
-	glow.light_color = Color(0.73, 0.77, 0.82)
+	glow.light_color = Color(1.0, 0.84, 0.5)
 	glow.light_energy = 0.0
 	glow.omni_range = 16.0
 	glow.visible = false
@@ -157,9 +165,13 @@ func _arc_lamp(P: Node3D) -> void:
 	beam_shader.code = """shader_type spatial;
 render_mode unshaded, blend_add, cull_disabled, depth_draw_never, fog_disabled;
 uniform float strength = 0.0;
+uniform vec3 tint = vec3(1.0, 0.84, 0.5);
 void fragment() {
-	float along = 1.0 - UV.y;
-	ALBEDO = vec3(0.73, 0.77, 0.82) * strength * pow(along, 1.6);
+	float along = 1.0 - UV.y;                                  // 1 at the lamp, 0 at the far mouth
+	// soft edges: bright where the cone faces the eye, fading to nothing at its silhouette (no hard capsule outline)
+	float face = pow(clamp(abs(dot(normalize(NORMAL), normalize(VIEW))), 0.0, 1.0), 1.6);
+	float fade_end = smoothstep(0.0, 0.5, along);              // the far mouth dissolves; no disc at the end
+	ALBEDO = tint * strength * pow(along, 1.3) * face * fade_end;
 }
 """
 	bm.shader = beam_shader
@@ -172,7 +184,7 @@ void fragment() {
 	spot.rotation.y = deg_to_rad(-90.0)
 	spot.spot_range = 90.0
 	spot.spot_angle = 11.0
-	spot.light_color = Color(0.73, 0.77, 0.82)
+	spot.light_color = Color(1.0, 0.84, 0.5)
 	spot.light_energy = 0.0
 	spot.shadow_enabled = false
 	pivot.add_child(spot)
@@ -202,3 +214,53 @@ func _broken_burner(P: Node3D) -> void:
 	n.scale = Vector3.ONE * 0.55
 	P.add_child(n)
 	_cyl(P, "BrokenBurnerCloth", pos + Vector3(0, 0.0, 0), pos + Vector3(0, 0.02, 0), 0.5, _m("canvas"), false)
+
+
+## The gallery balustrade (LHF-13): the exterior model's rail was a ring of lumpy posts, now carved away (Level.tscn, carve_cylinders). In
+## its place: sixteen iron newel posts with brass caps, a brass handrail, a mid rail, and a ring of slim balusters (one MultiMesh, so
+## 120 rods cost one draw call). Visual only: nobody walks out there, the glass is sealed.
+const GAL_R := 3.9
+const GAL_TOP := 19.38
+
+func _gallery(P: Node3D) -> void:
+	var iron := _m("iron_dark")
+	var brass := _m("brass")
+	var G := Node3D.new()
+	G.name = "Gallery"
+	P.add_child(G)
+	for i in 16:
+		var a := 22.5 * i
+		_cyl(G, "GalPost_%d" % i, _pt(a, GAL_R, DECK), _pt(a, GAL_R, GAL_TOP), 0.045, iron, false)
+		_cyl(G, "GalCap_%d" % i, _pt(a, GAL_R, GAL_TOP), _pt(a, GAL_R, GAL_TOP + 0.07), 0.065, brass, false)
+		var ball := MeshInstance3D.new()
+		ball.name = "GalFinial_%d" % i
+		var sm := SphereMesh.new()
+		sm.radius = 0.055
+		sm.height = 0.11
+		ball.mesh = sm
+		ball.material_override = brass
+		ball.position = _pt(a, GAL_R, GAL_TOP + 0.12)
+		G.add_child(ball)
+	_arc(G, "GalHandrail", GAL_R - 0.04, GAL_R + 0.04, 0.0, 360.0, GAL_TOP - 0.03, GAL_TOP + 0.03, brass, false)
+	_arc(G, "GalMidRail", GAL_R - 0.02, GAL_R + 0.02, 0.0, 360.0, DECK + 0.45, DECK + 0.49, iron, false)
+	_arc(G, "GalToeBoard", GAL_R - 0.03, GAL_R + 0.05, 0.0, 360.0, DECK, DECK + 0.12, iron, false)
+	var mm := MultiMesh.new()
+	mm.transform_format = MultiMesh.TRANSFORM_3D
+	var rod := CylinderMesh.new()
+	rod.top_radius = 0.014
+	rod.bottom_radius = 0.014
+	rod.height = GAL_TOP - DECK - 0.1
+	rod.radial_segments = 6
+	rod.rings = 1
+	mm.mesh = rod
+	var n := 120
+	mm.instance_count = n
+	for i in n:
+		var a2 := 360.0 * float(i) / float(n) + 1.5
+		mm.set_instance_transform(i, Transform3D(Basis.IDENTITY, _pt(a2, GAL_R, DECK + 0.1 + rod.height * 0.5)))
+	var mmi := MultiMeshInstance3D.new()
+	mmi.name = "GalBalusters"
+	mmi.multimesh = mm
+	mmi.material_override = iron
+	G.add_child(mmi)
+	K.count += 4

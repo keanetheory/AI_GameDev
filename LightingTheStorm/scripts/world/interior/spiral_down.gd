@@ -5,6 +5,7 @@
 # Built in the lighthouse frame (the treads are wedges round a centre), so it shares the helpers of rooms_tower.gd.
 extends "res://scripts/world/interior/rooms_tower.gd"
 
+const StairTread := preload("res://scripts/world/interior/stair_tread.gd")
 const GF := 0.97
 const B1 := -2.0
 const STEPS := 15
@@ -34,7 +35,14 @@ func build_spiral(kit, house: Node3D, lh: Node3D) -> void:
 	for k in STEPS:
 		var a0 := front - span * 0.5 + span * k
 		var top := GF - dh * float(k + 1)
-		_arc(P, "SpiralStep_%d" % k, R_IN - 0.02, R_OUT, a0, a0 + span, top - 0.12, top, stone, true, true, centre)
+		_arc(P, "SpiralBody_%d" % k, R_IN - 0.02, R_OUT, a0, a0 + span, top - 0.12, top, stone, true, false, centre)
+		StairTread.add(P, "SpiralStep_%d" % k, centre, R_IN - 0.02, R_OUT, a0, a0 + span, top, 0.18, stone, 500 + k)
+	# one more step, flush with the hall floor, in front of the first tread (creator, 2026-10-25): the way in was a drop from the edge of the
+	# hole to the first tread, and a player stepping in sideways could fall straight to the basement. This one is level with the floor, so
+	# the stair is entered across it and the first real tread is a normal riser below.
+	var a_land := front - span * 1.5
+	_arc(P, "SpiralLanding", R_IN - 0.02, R_OUT, a_land, a_land + span, GF - 0.18, GF, stone, true, false, centre)
+	StairTread.add(P, "SpiralLandingStep", centre, R_IN - 0.02, R_OUT, a_land, a_land + span, GF, 0.18, stone, 499)
 	# the newel
 	_cyl(P, "SpiralNewel", Vector3(centre.x, B1, centre.y), Vector3(centre.x, GF + 0.3, centre.y), R_IN, _m("stone"), true)
 	# the handrail on the outer edge, open at the first and last tread
@@ -59,7 +67,8 @@ func build_spiral(kit, house: Node3D, lh: Node3D) -> void:
 ## hole's corners, 4 mm under the floor so the existing floor wins where they overlap), and a rail runs round the circle
 ## except across the entrance, where the hall floor meets the first tread.
 func _g_opening(P: Node3D, front: float) -> void:
-	_arc(P, "G_StairFloor", R_OUT + 0.07, 2.35, 0.0, 360.0, GF - 0.2, GF - 0.004, _ds("flags"), true, true, centre)
+	if not authored:      # the authored shell's slab already has a round hole (shell_spec.json stair_hole_r) just wider than the treads
+		_arc(P, "G_StairFloor", R_OUT + 0.07, 2.35, 0.0, 360.0, GF - 0.2, GF - 0.004, _ds("flags"), true, true, centre)
 	var iron := _m("iron_dark")
 	var wood := _m("wood_dark")
 	var rr := R_OUT + 0.1

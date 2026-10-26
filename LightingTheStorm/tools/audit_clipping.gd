@@ -34,6 +34,7 @@ var _ext_tris := 0
 var _report := {}
 var _fails := 0
 var _dbg := 0
+var _cur := ""
 var _shell_node: Node3D = null
 
 
@@ -115,11 +116,11 @@ func _edge_hits_ext(a: Vector3, b: Vector3) -> bool:
 				var nrm := (arr[t + 1] - arr[t]).cross(arr[t + 2] - arr[t]).normalized()
 				var depth := minf(absf((a - (r as Vector3)).dot(nrm)), absf((b - (r as Vector3)).dot(nrm)))
 				if depth > SEAM:
-					if OS.get_environment("AUDIT_DEBUG") != "" and _dbg < 12:
+					if OS.get_environment("AUDIT_DEBUG") != "" and _dbg < 12 and OS.get_environment("AUDIT_DEBUG") in _cur:
 						_dbg += 1
 						var lh := _lv.get_node("Lighthouse") as Node3D
 						var lp := lh.to_local(r as Vector3)
-						print("      cross at local y %.2f radius %.2f depth %.3f normal %s edge %s -> %s" % [lp.y, Vector2(lp.x - 3.5, lp.z - 3.6).length(), depth, str(nrm), str(a), str(b)])
+						print("      ", _cur, " cross at local y %.2f radius %.2f depth %.3f normal %s edge %s -> %s" % [lp.y, Vector2(lp.x - 3.5, lp.z - 3.6).length(), depth, str(nrm), str(a), str(b)])
 					return true
 	return false
 
@@ -225,12 +226,17 @@ func _physics_process(_d: float) -> bool:
 	for o in outside:
 		var nm: String = o.split(" ")[0]
 		by_node[nm] = true
+	if OS.get_environment("AUDIT_DEBUG") != "":
+		for o in outside:
+			if OS.get_environment("AUDIT_DEBUG") in o:
+				print("      ", o)
 	_result("A_outside_walls", outside.is_empty(), "A  interior geometry outside the walls: %d meshes (of %d, %d vertices tested)" % [outside.size(), interior.size(), verts], outside)
 	# ---- B: crossing the exterior wall
 	_bin_ext()
 	var crossing: Array = []
 	for mi in interior:
 		var f := _faces(mi)
+		_cur = String(mi.get_path())
 		var hit := false
 		for t in range(0, f.size(), 3):
 			if _edge_hits_ext(f[t], f[t + 1]) or _edge_hits_ext(f[t + 1], f[t + 2]) or _edge_hits_ext(f[t + 2], f[t]):

@@ -11,9 +11,11 @@ extends Node3D
 @export var sweep_deg_s := 28.0
 @export var beam_length := 70.0
 @export var beam_end_radius := 5.0
-@export var lens_energy := 0.3
+@export var lens_energy := 0.22
+## The lit lamp's colour: warm gold, the style guide's amber and gold (it was a cold white that blew the lens out to flat white).
 ## How dark the lamp is before the burner is fitted (1 = as modelled).
 const DARK := 0.32
+@export var lit_colour := Color(1.0, 0.84, 0.5)
 @export var glow_light_energy := 1.0
 @export var glow_light_range := 12.0
 
@@ -78,19 +80,22 @@ func _apply(v: float) -> void:
 	var e := v * v * (3.0 - 2.0 * v)       # smoothstep: the arc strikes, then settles
 	for m in _lens_mats:
 		var base: Color = m.get_meta("base_albedo", Color.WHITE)
-		m.albedo_color = base * lerpf(DARK, 1.0, e)       # cold and dark until the arc strikes
+		m.albedo_color = (base * lerpf(DARK, 1.0, e)).lerp(base * lit_colour * 0.9, e * 0.5)       # cold and dark until the arc strikes, then warm
 		m.emission_enabled = e > 0.01
-		m.emission = Color(0.82, 0.86, 0.92)
+		m.emission = lit_colour
 		m.emission_energy_multiplier = lens_energy * e
 	if _glow:
+		_glow.light_color = lit_colour
 		_glow.light_energy = glow_light_energy * e
 		_glow.omni_range = glow_light_range
 		_glow.visible = e > 0.01
 	if _spot:
+		_spot.light_color = lit_colour
 		_spot.light_energy = 14.0 * e
 		_spot.visible = e > 0.01
 	if _beam_mat:
-		_beam_mat.set_shader_parameter("strength", 0.22 * e)
+		_beam_mat.set_shader_parameter("strength", 0.34 * e)
+		_beam_mat.set_shader_parameter("tint", Vector3(lit_colour.r, lit_colour.g, lit_colour.b))
 	if _core:
 		_core.visible = e > 0.01
 		var cm := _core.material_override as StandardMaterial3D
