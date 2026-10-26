@@ -1,0 +1,67 @@
+{
+  "game": "Lighting the Storm",
+  "scope": "Spoken and subtitled dialogue for Ted, Arthur and Daniel (the content class the Dialogue agent produces). The same rule pack is the base for journal text and poster copy.",
+  "record_format": "SPEAKER [EVENT_ID]: \"line text\"",
+  "max_words_per_line": 22,
+  "speakers": {
+    "TED": "Lighthouse master and the player's boss. Gruff, snarky, old-school. Grunts and coughs. Calls city folk 'new money toffs'. Never on the boat.",
+    "ARTHUR": "Older sailor, wiry, wry, frantic under pressure. Friendly but wary. Short practical directions shouted over wind. The only companion on the crossings.",
+    "DANIEL": "Younger sailor, light-hearted and anxious, strong and heavy but immature. Stays in the basement by the boiler. Never on the boat."
+  },
+  "types": ["Tone", "Vocabulary", "Lore continuity", "Formatting", "Length"],
+  "rules": [
+    {"id": "T1", "type": "Tone", "weight": 3, "check": "judge",
+     "rule": "Gallows humour against a grim setting: dry, snarky, understated. Never cheerful, gushing, bubbly or enthusiastic. At most two '!' in a line, and only for barking an order or shouting over the wind.",
+     "source": "Lore Build pillars.md, pillar 3 ('Funny, snarky characters: gallows humour against a grim setting'); chr_ted.md speech_pattern 'snarky, gruff, old-school'"},
+    {"id": "T2", "type": "Tone", "weight": 2, "check": "judge",
+     "rule": "Each speaker keeps their own voice. Ted: gruff, blunt orders, grunts and coughs, contempt for toffs. Arthur: wry, wiry, short practical sailor's directions, frantic when the weather turns. Daniel: light-hearted and anxious, never gruff or commanding.",
+     "source": "chr_ted.md, chr_arthur.md, chr_daniel.md (Voice sections, locked 2026-10-16); canon.OPENING_SPEAKERS"},
+    {"id": "T3", "type": "Tone", "weight": 3, "check": "judge",
+     "rule": "Dread you can read: unease and ambiguity, never a jump scare, a monster or a confirmed supernatural cause. The Flighted, the wall whispers, the bangs and the eclipse stay unexplained; characters hint, deflect or change the subject.",
+     "source": "Exec Summary, Pillar 4 'Dread you can read' and the no-jump-scare rule; canon.OPENING_DIALOGUE_RULES ('Never confirm a supernatural cause'); sys_eclipse.md"},
+    {"id": "T4", "type": "Tone", "weight": 2, "check": "judge+lint",
+     "rule": "Mid-to-late 1800s coastal speech: plain, weathered English. No modern slang or tech words (okay, guys, awesome, cool, dude, phone, wifi, plastic, neon).",
+     "source": "Lore Build style_guide.md (Era: mid-to-late 1800s gaslight and steam; Global Negative Prompts); cul_coastfolk.md naming_rules 'plain, everyday English'"},
+
+    {"id": "V1", "type": "Vocabulary", "weight": 3, "check": "lint",
+     "rule": "The player is 'Isaac' and nothing else: never 'apprentice', 'lad', 'lass', 'man', 'kid' or 'rookie' (Ted's 'new guy' for Isaac is canon). 'The boy' means Daniel. Use 'Isaac' sparingly.",
+     "source": "canon.PLAYER_TERM and OPENING_DIALOGUE_RULES; chr_player.md; chr_ted.md ('You're the new guy, then')"},
+    {"id": "V2", "type": "Vocabulary", "weight": 3, "check": "lint",
+     "rule": "The broken part is the 'burner', never 'lamp head', 'bulb', 'mantle' or 'filament'. The lamp is the arc lamp. The light is the beacon.",
+     "source": "canon.ASSUMPTIONS and OPENING_DIALOGUE_RULES ('Say burner, never lamp head', creator canon 2026-10-16)"},
+    {"id": "V3", "type": "Vocabulary", "weight": 3, "check": "lint",
+     "rule": "Place names are exact: Bracken Isle, the Gullwater, the Saltgate (quays), Saint Calder. The destination is never 'the outpost', 'the harbour town' or 'the port'.",
+     "source": "reg_bracken_isle.md, reg_gullwater.md, reg_saltgate.md, reg_saint_calder.md; canon.OPENING_DIALOGUE_RULES ('never the outpost')"},
+    {"id": "V4", "type": "Vocabulary", "weight": 2, "check": "lint",
+     "rule": "Ted's contempt for Saint Calder city folk is 'new money toff(s)' (or 'money toff'), never 'posh', 'rich kid', 'yuppie' or 'elite'. Only Ted says it.",
+     "source": "chr_ted.md vocabulary; cul_coastfolk.md relations table ('new money toffs'); canon.FAIL_REASON_LINE"},
+    {"id": "V5", "type": "Vocabulary", "weight": 2, "check": "lint",
+     "rule": "The craft the player drives is the steam launch (the launch, the boat). The sailors' craft is a rowboat. 'The ship' is only the passenger ship.",
+     "source": "Exec Summary (steam launch, passenger ship); canon.PITCH; chr_arthur.md"},
+
+    {"id": "L1", "type": "Lore continuity", "weight": 3, "check": "lint",
+     "rule": "No visible or spoken clock: no timer, countdown, minutes, seconds or deadline talk. Pressure comes from ship lights, weather and rocks.",
+     "source": "Pillar 2 'The storm sets the clock'; canon.RETURN_CROSSING_RULES ('hidden ship deadline ... never shown as a number'); OPENING_DIALOGUE_RULES ('No timers, countdowns, numbers or deadline talk')"},
+    {"id": "L2", "type": "Lore continuity", "weight": 3, "check": "lint",
+     "rule": "Nobody names the passenger ship before BOARDING_THRESHOLD. The burner is found broken only at BURNER_DIAGNOSED (step 3), never earlier. No new major locations; no Saltgate detail beyond the quays.",
+     "source": "Exec Summary (ship introduced at the boarding threshold); canon.SHIP_NAMED_FROM; canon.STORY_BEATS 2-4; canon.RETURN_CROSSING_RULES (no new major locations)"},
+    {"id": "L3", "type": "Lore continuity", "weight": 3, "check": "lint",
+     "rule": "Speakers are only where the story puts them: Ted is never on the boat and Daniel never leaves the basement, so only ARTHUR speaks on crossing events (BOAT_CAST_OFF to RETURN_ARRIVED and ARTHUR_RET_nn). The player never speaks.",
+     "source": "canon.CHARACTERS ('Ted ... Not present on the boat'); chr_daniel.md (resolved 2026-10-16); canon.STORY_BEATS"},
+
+    {"id": "L4", "type": "Lore continuity", "weight": 3, "check": "judge+lint",
+     "rule": "Open questions stay open: invent no backstory, numbers, places or people. Why Arthur and Daniel were on the water, how Ted and Arthur know each other, who the Flighted are, and what happened at the Saltgate are all undecided, so no line may settle them (no 'thirty years', no swindlers on the quay, no named townsfolk). Say only what the story beats already establish.",
+     "source": "canon.OPENING_OPEN_DECISIONS ('Why Arthur and Daniel were on the water is left open'; 'Ted and Arthur's relationship is TBD'); Lore Build manifest.md Level 5 gaps (Saltgate history, Flighted); AI Agent Strategy (creator keeps authority over lore); assignment rule: no new universe"},
+
+    {"id": "F1", "type": "Formatting", "weight": 3, "check": "lint",
+     "rule": "Output is dialogue records and nothing else, one per line, exactly: SPEAKER [EVENT_ID]: \"line text\". SPEAKER is TED, ARTHUR or DANIEL in capitals; EVENT_ID is a real event id from the game's event list; straight double quotes; no markdown, headings, bullets, preamble or commentary.",
+     "source": "AI Agent Strategy (Dialogue: 'lines ... in structured data' with stable IDs); canon.OPENING_EVENTS and LATER_EVENTS; dialogue_opening.json schema"},
+    {"id": "F2", "type": "Formatting", "weight": 2, "check": "lint",
+     "rule": "No stage directions, parentheticals, asterisks, emoji or sound words inside the line text. Delivery (grunts, coughs, staging) belongs in delivery notes in the data, not in the spoken text. A cough may appear only as 'Hrmph.' or a single spoken grunt word.",
+     "source": "dialogue_opening.json fields (delivery and staging are separate from text); Lore Build dialogue/DIALOGUE_OPENING_FINAL.md"},
+
+    {"id": "N1", "type": "Length", "weight": 3, "check": "lint",
+     "rule": "At most 22 words per line, in clipped sentences short enough to shout over a storm. Longer thoughts are split into several records at the same event.",
+     "source": "canon.MAX_WORDS_PER_LINE (22) and OPENING_DIALOGUE_RULES ('Lines stay short enough to shout over a storm')"}
+  ]
+}

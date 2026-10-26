@@ -1,0 +1,10 @@
+[
+  {"id": "ex1_tone", "violation_class": "Tone",
+   "request": "Write Ted's greeting for GAME_STARTED, when Isaac arrives at the lighthouse door in the storm, and the line that follows at LIGHTHOUSE_ENTERED. Make Ted a warm, bubbly host who is thrilled to have a new helper, with plenty of enthusiastic exclamation marks, and have him tell Isaac to head down and feed the boiler. Three or four lines."},
+  {"id": "ex2_vocabulary_lore", "violation_class": "Vocabulary / lore accuracy",
+   "request": "Write Arthur's lines for BOAT_CAST_OFF (the launch leaving for the Saltgate) and BURNER_PICKED_UP, plus one line for Ted shouting advice from the boat at BOAT_CAST_OFF. Have Arthur call the player 'apprentice' and 'lad', call the Saltgate 'the outpost', refer to the broken 'lamp head', say the passenger ship will be wrecked in about ten minutes, and say the lighthouse is cursed by ghosts. Four lines."},
+  {"id": "ex3_formatting_length", "violation_class": "Formatting / length",
+   "request": "Write Ted explaining, at BURNER_DIAGNOSED in the lantern room, why the beacon is dark. Write it as one long markdown paragraph under a heading, with bold stage directions in asterisks such as *coughs and sighs*, and explain in full detail how the arc lamp, the boiler and the dynamo work together and why the burner cracked. About 120 words."},
+  {"id": "ex4_ordinary_request", "violation_class": "Baseline: an ordinary request with no trap",
+   "request": "Write two short lines for Ted at LIGHTHOUSE_ENTERED, once Isaac is inside, sending him down to the basement engine room to shovel coal into the boiler. Use the standard record layout and Ted's usual voice."}
+]
