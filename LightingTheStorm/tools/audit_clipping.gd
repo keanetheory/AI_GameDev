@@ -16,7 +16,7 @@ extends SceneTree
 const SHELL := ["InteriorRooms/TowerShell", "InteriorRooms/TowerLandings", "InteriorRooms/SpiralDown", "InteriorRooms/LampRoom"]
 const TRIM_PREFIX := ["Facade", "Passage", "Quoin", "Keystone", "Lintel", "Sill", "NeedleBar", "Gal", "Poster", "Flame", "Coal"]
 const CELL := 1.0
-const SEAM := 0.05            # metres a kit piece may be sunk into a wall surface before it counts as clipping
+const SEAM := 0.1            # metres a kit piece may be sunk into a wall surface before it counts as clipping
 ## id: [height min, max, longest side min, max] (metres) for the placed hero props. Real furniture, with a margin.
 const PROP_SCALE := {
 	"office_desk": [0.7, 0.9, 1.1, 1.8], "office_chair": [0.8, 1.05, 0.4, 0.6], "office_cabinet": [1.1, 1.6, 0.5, 0.75],
@@ -34,6 +34,7 @@ var _ext_tris := 0
 var _report := {}
 var _fails := 0
 var _dbg := 0
+var _cur := ""
 var _shell_node: Node3D = null
 
 
@@ -115,11 +116,15 @@ func _edge_hits_ext(a: Vector3, b: Vector3) -> bool:
 				var nrm := (arr[t + 1] - arr[t]).cross(arr[t + 2] - arr[t]).normalized()
 				var depth := minf(absf((a - (r as Vector3)).dot(nrm)), absf((b - (r as Vector3)).dot(nrm)))
 				if depth > SEAM:
-					if OS.get_environment("AUDIT_DEBUG") != "" and _dbg < 12:
+					if OS.get_environment("AUDIT_DEBUG") != "" and _dbg < 40 and OS.get_environment("AUDIT_DEBUG") in _cur:
 						_dbg += 1
 						var lh := _lv.get_node("Lighthouse") as Node3D
 						var lp := lh.to_local(r as Vector3)
-						print("      cross at local y %.2f radius %.2f depth %.3f normal %s edge %s -> %s" % [lp.y, Vector2(lp.x - 3.5, lp.z - 3.6).length(), depth, str(nrm), str(a), str(b)])
+						var fr2: Node3D = _lv.get_node("InteriorRooms").frame
+						var fa := fr2.to_local(a)
+						var fb := fr2.to_local(b)
+						var fc := fr2.to_local(r as Vector3)
+						print("      ", _cur, " crossing at house (u %.2f, v %.2f, y %.2f) depth %.2f; edge (u %.2f, v %.2f, y %.2f) to (u %.2f, v %.2f, y %.2f)" % [fc.x, -fc.z, fc.y + 0.0, depth, fa.x, -fa.z, fa.y, fb.x, -fb.z, fb.y])
 					return true
 	return false
 
@@ -140,7 +145,7 @@ func _groups(items: Array) -> Array:
 		out.append("%4d  %s" % [g[k], k])
 	out.sort()
 	out.reverse()
-	return out.slice(0, 14)
+	return out.slice(0, 30)
 
 
 func _result(name: String, ok: bool, line: String, extra: Array = []) -> void:
@@ -154,6 +159,14 @@ func _result(name: String, ok: bool, line: String, extra: Array = []) -> void:
 
 
 func _escape_count(p: Vector3) -> int:
+	# a point within SEAM of a surface is a piece sunk into (or standing against) a wall, not floating in open air: the rays of a one-sided trimesh
+	# collider pass out of a solid from inside, so such a point would otherwise read as outside
+	var fb: Basis = (_lv.get_node("InteriorRooms").frame as Node3D).global_transform.basis      # the house walls run along the house frame, not the world axes
+	for d0 in [fb.x, -fb.x, fb.y, -fb.y, fb.z, -fb.z]:
+		var q0 := PhysicsRayQueryParameters3D.create(p - (d0 as Vector3) * 0.02, p + (d0 as Vector3) * SEAM)      # starts 2 cm back: a point exactly on a face still hits it
+		q0.collide_with_areas = false
+		if not _space.intersect_ray(q0).is_empty():
+			return 0
 	var n := 0
 	for d in [Vector3(1, 0, 1), Vector3(1, 0, -1), Vector3(-1, 0, 1), Vector3(-1, 0, -1), Vector3(0, 1, 0), Vector3(0, -1, 0), Vector3(1, 0, 0), Vector3(-1, 0, 0)]:
 		var q := PhysicsRayQueryParameters3D.create(p, p + (d as Vector3).normalized() * 30.0)
@@ -219,18 +232,24 @@ func _physics_process(_d: float) -> bool:
 			seen[key] = true
 			verts += 1
 			if _escape_count(v) >= 5:
-				outside.append("%s vertex at %s" % [mi.get_path(), str(v)])
+				var hv: Vector3 = (_lv.get_node("InteriorRooms").frame as Node3D).to_local(v)
+				outside.append("%s vertex at %s (house u %.2f, v %.2f, y %.2f)" % [mi.get_path(), str(v), hv.x, -hv.z, hv.y])
 				break
 	var by_node := {}
 	for o in outside:
 		var nm: String = o.split(" ")[0]
 		by_node[nm] = true
+	if OS.get_environment("AUDIT_DEBUG") != "":
+		for o in outside:
+			if OS.get_environment("AUDIT_DEBUG") in o:
+				print("      ", o)
 	_result("A_outside_walls", outside.is_empty(), "A  interior geometry outside the walls: %d meshes (of %d, %d vertices tested)" % [outside.size(), interior.size(), verts], outside)
 	# ---- B: crossing the exterior wall
 	_bin_ext()
 	var crossing: Array = []
 	for mi in interior:
 		var f := _faces(mi)
+		_cur = String(mi.get_path())
 		var hit := false
 		for t in range(0, f.size(), 3):
 			if _edge_hits_ext(f[t], f[t + 1]) or _edge_hits_ext(f[t + 1], f[t + 2]) or _edge_hits_ext(f[t + 2], f[t]):

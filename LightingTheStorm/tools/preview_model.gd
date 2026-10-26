@@ -19,7 +19,14 @@ func _initialize() -> void:
 	var box := AABB()
 	var first := true
 	for mi in m.find_children("*", "MeshInstance3D", true, false):
-		var b := (mi as MeshInstance3D).global_transform * (mi as MeshInstance3D).get_aabb()
+		# global_transform is not valid yet in _initialize, so walk up to the model root by hand
+		var xf := Transform3D.IDENTITY
+		var n: Node = mi
+		while n != null and n != root:
+			if n is Node3D:
+				xf = (n as Node3D).transform * xf
+			n = n.get_parent()
+		var b := xf * (mi as MeshInstance3D).get_aabb()
 		box = b if first else box.merge(b)
 		first = false
 	_centre = box.get_center()

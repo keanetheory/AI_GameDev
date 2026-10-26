@@ -11,11 +11,11 @@ const Gauge := preload("res://scripts/world/interior/boiler_gauge.gd")
 const Job := preload("res://scripts/world/interior/coal_job.gd")
 const Pile := preload("res://scripts/world/interior/coal_pile.gd")
 const Hatch := preload("res://scripts/world/interior/firebox_hatch.gd")
+const Flame := preload("res://scripts/world/interior/fire_flame.gd")
 const Zone := preload("res://scripts/world/interior/zone_trigger.gd")
 
 const GF := 0.97
 const B1 := -2.0
-const POSTER_TILT := 0.0      # the generated poster stands upright (pivot at its bottom edge)
 const CEIL := 3.75         # top of the ground-floor walls
 const BCEIL := 0.77        # underside of the ground floor slab: the basement ceiling
 const WALL := Color(0.0, 0.0, 0.0)
@@ -43,7 +43,8 @@ func build(kit, parent: Node3D) -> void:
 
 func _ground(P: Node3D) -> void:
 	# --- shell: ceiling, beams, panelling, trim
-	K.box(P, "G_Ceiling", -2.25, 5.65, 0.35, 6.8, CEIL, CEIL + 0.2, "plaster_dark")
+	if K.shell_spec.is_empty():      # (the authored shell's slab underside is the ceiling)
+		K.box(P, "G_Ceiling", -2.25, 5.65, 0.35, 6.8, CEIL, CEIL + 0.2, "plaster_dark")
 	for i in 6:
 		var u := -1.9 + 1.5 * i
 		K.box(P, "G_Beam_%d" % i, u - 0.1, u + 0.1, 0.4, 6.75, CEIL - 0.2, CEIL, "wood_dark", false)
@@ -58,7 +59,13 @@ func _ground(P: Node3D) -> void:
 	K.box(P, "G_Cornice_West", -2.15, -2.05, 0.36, 6.7, CEIL - 0.1, CEIL, "wood", false)
 	K.box(P, "G_Cornice_Back", -2.15, 5.55, 6.6, 6.7, CEIL - 0.1, CEIL, "wood", false)
 	# --- the front door's frame (the door itself is the LighthouseDoor node)
-	K.box(P, "G_DoorLintel", -1.0, 1.0, 0.1, 0.45, GF + 2.95, GF + 3.1, "wood_dark", false)
+	var dh := 2.95 if K.shell_spec.is_empty() else float(K.shell_spec["front_door_h"])      # the authored shell's opening is lower, under the ceiling
+	var dj := 0.0 if K.shell_spec.is_empty() else 0.1                                          # and its jambs stand inside the 1.8 m opening
+	K.box(P, "G_DoorLintel", -1.0 + dj, 1.0 - dj, 0.1, 0.45, GF + dh, GF + dh + 0.08, "wood_dark", false)
+	# LHF-12: the inside of the door: jambs, a worn stone threshold and a doorstop, so the frame reads the same as the outside's
+	K.box(P, "G_DoorJamb_L", -1.0 + dj, -0.9 + dj, 0.1, 0.45, GF, GF + dh, "wood_dark", false)
+	K.box(P, "G_DoorJamb_R", 0.9 - dj, 1.0 - dj, 0.1, 0.45, GF, GF + dh, "wood_dark", false)
+	K.box(P, "G_Threshold", -0.95, 0.95, 0.12, 0.5, GF - 0.01, GF + 0.03, "stone", false)
 
 	# --- entry vestibule and hallway (u -2.25..5.65, v 0.35..2.3)
 	K.box(P, "G_Rug", -0.8, 0.8, 0.55, 2.2, GF, GF + 0.02, "rug", false)
@@ -82,9 +89,10 @@ func _ground(P: Node3D) -> void:
 		var lu := -1.55 if i == 0 else 1.75
 		_sconce(P, "G_Sconce_Front%d" % i, Vector3(lu, GF + 2.2, 0.47), Vector3(0, 0, 1), 1.5, 5.0)
 	# the posters (E reads them; POSTER_EXAMINED)
-	_poster(P, "Poster_Storms", Vector3(1.55, GF + 1.75, 0.37), Vector3(0, 0, 1), "THEY BRING\nTHE STORMS", true)
-	_poster(P, "Poster_Seasons", Vector3(-2.1, GF + 1.75, 1.35), Vector3(1, 0, 0), "THEY CHANGE\nTHE SEASONS", true)
-	_poster(P, "Poster_Moon", Vector3(-1.55, GF + 1.75, 0.37), Vector3(0, 0, 1), "KEEP THE\nMOON'S HOUR", false)
+	_poster(P, "Poster_Storms", Vector3(1.55, GF + 1.6, 0.37), Vector3(0, 0, 1), "poster_storms_a", -1.5)
+	_poster(P, "Poster_Seasons", Vector3(-2.1, GF + 1.6, 1.35), Vector3(1, 0, 0), "poster_seasons_a", 1.2)
+	_poster(P, "Poster_Moon", Vector3(-1.55, GF + 1.6, 0.37), Vector3(0, 0, 1), "poster_storms_b", 2.0)     # keeps its node name; the old third slogan was not canon
+	_poster(P, "Poster_Seasons_B", Vector3(5.15, GF + 1.6, 0.37), Vector3(0, 0, 1), "poster_seasons_b", -2.5)
 	# documents board between the posters and the window
 	K.box(P, "G_NoticeBoard", -2.1, -2.06, 1.95, 2.95, GF + 1.0, GF + 2.05, "wood_dark", false)
 	var doc_n := [[2.1, 1.6, 0.0], [2.35, 1.45, 0.1], [2.62, 1.55, -0.1], [2.82, 1.35, 0.05]]
@@ -225,21 +233,19 @@ func _sconce(P: Node3D, nm: String, at: Vector3, normal: Vector3, energy: float,
 	K.light(P, nm + "_Light", at + n * 0.45 + Vector3(0, 0.1, 0), Color(1.0, 0.76, 0.46), energy, rng, 0.08)
 
 
-## A Flighted poster: pale paper, black ink, the dark sphere eclipsing a silver moon. Canon (fac_flighted.md): black,
-## silver and navy only; "crude but clear" letterpress; reverent but fearful. `readable` makes it an Interactable.
-func _poster(P: Node3D, nm: String, c: Vector3, normal: Vector3, text: String, flighted: bool) -> void:
-	var s = K.sheet(P, nm, c, normal, 0.72, 1.0, "paper", text, 46, Color(0.04, 0.05, 0.1), -0.3)
-	if flighted:
-		# the generated poster (lhi_flighted_poster.glb: a dark sphere over a silver moon above waves, black, silver and navy).
-		# Its lettering came out garbled (a text-to-3D limit), so the lower third is covered by a paper strip carrying the
-		# canon slogan in legible type. The sheet underneath stays as the click target.
-		s.visible = false
-		var nf := Vector3(normal.x, 0.0, -normal.z)
-		var w = K.model(P, nm + "_Art", "res://Assets/Models/prop/lhi_flighted_poster.glb", c + normal * 0.012, rad_to_deg(atan2(nf.x, nf.z)), 1.1)
-		var inst = w.get_node("Model")
-		inst.rotation.x = deg_to_rad(POSTER_TILT)
-		inst.position = Vector3(0, -0.5, 0)
-		K.sheet(P, nm + "_Strip", c + Vector3(0, -0.34, 0) + normal * 0.03, normal, 0.6, 0.27, "paper", text, 38, Color(0.04, 0.05, 0.1), 0.0)
+## A Flighted poster (LHF-09): a hand-made letterpress texture (tools/make_flighted_posters.py): black, silver and navy ink on aged
+## paper, misregistered, torn at the edges (alpha-scissored), with paste drips and a fold. Canon: fac_flighted.md. The art is a
+## flat decal 12 mm off the wall (the wall's own surface is behind it), so nothing z-fights; a few degrees of tilt keep a row of
+## posters from looking hung by a ruler. `tex` is one of the poster_*.png in Assets/Textures/interior.
+func _poster(P: Node3D, nm: String, c: Vector3, normal: Vector3, tex: String, tilt_deg := 0.0) -> void:
+	var m := StandardMaterial3D.new()
+	m.albedo_texture = load("res://Assets/Textures/interior/%s.png" % tex) as Texture2D
+	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
+	m.alpha_scissor_threshold = 0.5
+	m.roughness = 1.0
+	m.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+	var s = K.sheet(P, nm, c, normal, 0.72, 1.0, m)
+	s.rotate_object_local(Vector3(0, 0, 1), deg_to_rad(tilt_deg))
 	var it := Node3D.new()
 	it.set_script(Poster)
 	it.name = "Read"
@@ -310,8 +316,14 @@ func _basement(P: Node3D) -> void:
 	var inner = K.colour(Color(0.04, 0.025, 0.02), 0.95)
 	inner.cull_mode = BaseMaterial3D.CULL_FRONT          # we look at the inside faces of this box: a recess
 	K.box(P, "B_FireRecess", -1.5, -0.96, 5.24, 5.86, B1 + 0.18, B1 + 1.11, inner, false)
-	var coal_glow = K.colour(Color(0.7, 0.24, 0.05), 0.8, 0.0, 1.1)
-	var fire_glow = K.box(P, "B_FireDoorGlow", -1.45, -1.0, 5.28, 5.82, B1 + 0.18, B1 + 0.3, coal_glow, false)
+	# LHF-05: the fire bed is a dark coal base (no more flat red slab); fire_flame.gd puts glowing lumps and cel-shaded flames on it.
+	var coal_glow = K.colour(Color(0.05, 0.035, 0.03), 0.9)
+	var fire_glow = K.box(P, "B_FireDoorGlow", -1.45, -1.0, 5.28, 5.82, B1 + 0.18, B1 + 0.24, coal_glow, false)
+	var flame := Node3D.new()
+	flame.set_script(Flame)
+	flame.position = K.p(-1.22, B1 + 0.24, 5.55)
+	flame.rotation_degrees.y = 90.0          # the card's front (+z) faces +u, the player's side
+	P.add_child(flame)
 	refs["fire_light"] = K.light(P, "B_FireLight", Vector3(-0.45, B1 + 0.9, 5.55), Color(1.0, 0.5, 0.2), 2.0, 5.5, 0.1)
 	# the pressure gauge the coal job drives: a big dial on the wall above the coal-side corner of the boiler (the model's own
 	# gauge is a still picture)
@@ -396,6 +408,8 @@ func _basement(P: Node3D) -> void:
 	job.gauge = gauge
 	job.fire_light = refs["fire_light"]
 	job.fire_glow = fire_glow
+	job.fire_flame = flame
+	flame.bind_light(refs["fire_light"])
 	job.flywheel = flywheel
 	job.green_lamp = green_lamp
 	job._ready()

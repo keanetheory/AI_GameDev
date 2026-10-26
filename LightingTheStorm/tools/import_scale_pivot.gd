@@ -31,6 +31,7 @@ const TARGET_FOOTPRINT_M := {
 # differently sized ones.
 const TARGET_FOOTPRINT_BY_FILE_M := {
 	"rowboat": 4.2,   # Arthur and Daniel's two-man rowboat, smaller than the 6 m steam launch
+	"island_gate": 3.6,   # path gate between two pillars with wall stubs; comes out about 2.5 m tall
 }
 # Turns a category's model about Y so it faces Godot's forward axis (-Z).
 # Generated models face whichever way the concept views did.

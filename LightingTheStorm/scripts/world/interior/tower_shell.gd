@@ -25,8 +25,6 @@ const AUTHORED_WALL := 0.75                   # the authored shell's tower wall 
 const REVEAL := 0.8                            # how deep the window reveals are: the wall's thickness there
 
 var windows: Array = []
-## True when the authored tower shell supplies the wall (LHF_SHELL=1 for now): the lining is not built, the radius is analytic.
-var authored := OS.get_environment("LHF_SHELL") != ""
 
 
 var _radii: Dictionary = {}
@@ -37,7 +35,7 @@ var _radii: Dictionary = {}
 func wall_radius(y: float, bearing: float) -> float:
 	if authored:
 		# the authored shell (Assets/Models/lighthouse/shell/build_tower_shell_v1.py): its inner face IS this analytic radius, no measured pull-in
-		return 3.0 if y < PLINTH_TOP else maxf(2.9, 3.4 - 0.0385 * (y - PLINTH_TOP))
+		return minf(analytic_inner(y), house_bite(y, bearing))
 	if y < PLINTH_TOP:
 		return 3.0
 	var r := maxf(2.9, 3.4 - 0.0385 * (y - PLINTH_TOP))
@@ -185,8 +183,16 @@ func _shelf(st: SurfaceTool, r0: float, r1: float, a0: float, a1: float, y: floa
 
 
 ## One mesh per step, newel to wall, a solid slab 0.4 m thick (the v3 slabs were 0.18 m and stopped at 2.07 m).
+## The radius a piece spanning bearings a0..a1 at height y may reach: the wall's inner face (the smallest over the span), and with the authored shell exactly that,
+## because the shell is exact; with the old exterior mesh 2 cm into it so no gap shows.
+func span_radius(y: float, a0: float, a1: float) -> float:
+	if not authored:
+		return wall_radius(y, (a0 + a1) * 0.5) + 0.02
+	return minf(wall_radius(y, a0), minf(wall_radius(y, (a0 + a1) * 0.5), wall_radius(y, a1)))
+
+
 func _stairs(P: Node3D) -> void:
-	var stone := _ds("stone")
+	var stone := _ds("stone_worn")
 	for i in 96:
 		var narrow := false
 		for g in LANDING_STEPS:
@@ -198,7 +204,7 @@ func _stairs(P: Node3D) -> void:
 		var wb := fposmod(a0 + 7.5, 360.0)
 		if wb > WINDOW.x - 22.5 and wb < WINDOW.y + 22.5 and bot > 13.0:
 			narrow = true      # the treads in front of the tower window keep the view clear
-		var r := 2.07 if narrow else wall_radius(top, wb) + 0.02
+		var r := 2.07 if narrow else span_radius(top, a0, a0 + 15.0)
 		var thick := RISE if narrow else 0.4
 		# collision as before (newel to wall, hidden); what you see is a detailed tread over the walkable 1.14..2.07 m, and a plain filler
 		# slab out to the wall behind the outer rail
@@ -209,7 +215,7 @@ func _stairs(P: Node3D) -> void:
 		elif i < 92 and bot > 13.0 and wb > WINDOW.x - 22.5 and wb < WINDOW.y + 22.5:
 			# the steps in front of the tower landing window keep the window itself clear, but left a void between their edge and the wall (the
 			# "missing section of the stairs", creator 2026-10-25): fill out to the wall on both sides of the window's own sector (bearing 147 +- 14)
-			var wr := wall_radius(top, wb) + 0.02
+			var wr := span_radius(top, a0, a0 + 15.0)
 			for seg in [[a0, minf(a0 + 15.0, 133.0)], [maxf(a0, 161.0), a0 + 15.0]]:
 				if seg[1] - seg[0] > 0.5:
 					_arc(P, "StepWindowFill_%d_%d" % [i, int(seg[0])], 2.06, wr, seg[0], seg[1], top - RISE, top - 0.03, stone, false)
@@ -218,7 +224,7 @@ func _stairs(P: Node3D) -> void:
 			# 2026-10-25): fill out to the wall, from the ring up to each step's top, but only past the doorway (bearing 165 on) so the way in stays open
 			var fa0 := maxf(a0, 165.0 + 360.0 * floorf(a0 / 360.0))
 			if fa0 < a0 + 14.0:
-				_arc(P, "StepWallFill_%d" % i, 2.06, wall_radius(top, wb) + 0.02, fa0, a0 + 15.0, 0.97 - 0.004, top - 0.03, stone, false)
+				_arc(P, "StepWallFill_%d" % i, 2.06, span_radius(top, fa0, a0 + 15.0), fa0, a0 + 15.0, 0.97 - 0.004, top - 0.03, stone, false)
 
 
 ## Reveals, glass and a barrier for each tower window: the reveal boxes are the wall's thickness (REVEAL deep).

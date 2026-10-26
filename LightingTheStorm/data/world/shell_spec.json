@@ -1,0 +1,44 @@
+{
+  "note": "One source for the authored shell (Assets/Models/lighthouse/shell/build_shell_v1.py) and the code that fits the interior to it (tower_shell.gd, rooms_tower.gd). Lengths in metres. House frame: u along the front wall, v inward, y up (kit.gd); the frame sits at house_origin (x, z) in the Lighthouse frame, yawed house_yaw radians.",
+  "house_origin": [
+    -3.494,
+    8.874
+  ],
+  "house_yaw": 0.4457,
+  "tower_axis": [
+    3.5,
+    3.6
+  ],
+  "house_wall_t": 0.5,
+  "tower_wall_t": 0.75,
+  "ground_u": [
+    -2.15,
+    5.55
+  ],
+  "ground_v": [
+    0.36,
+    6.7
+  ],
+  "first_u": [
+    -3.0,
+    5.39
+  ],
+  "first_v": [
+    0.95,
+    8.7
+  ],
+  "slab_top": 3.95,
+  "tower_cut_top": 8.2,
+  "stair_hole_centre": [
+    2.2,
+    4.0
+  ],
+  "stair_hole_r": 1.42,
+  "l1_eave": 7.2,
+  "l1_ridge": 9.5,
+  "l1_door_v": [
+    1.2,
+    2.5
+  ],
+  "front_door_h": 2.7
+}

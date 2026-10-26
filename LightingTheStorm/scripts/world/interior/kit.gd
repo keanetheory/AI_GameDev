@@ -36,14 +36,62 @@ func world(u: float, y: float, v: float) -> Vector3:
 
 # ---------------------------------------------------------------- primitives
 
+## With the authored shell (interior_rooms.gd sets it): a piece built to the old greybox's wall planes that over-runs the shell's inner faces by up to 0.3 m is
+## trimmed to them, so nothing is sunk into the wall. Doors, exterior trim and anything that crosses a level are left alone.
+var shell_spec: Dictionary = {}
+const CLAMP_EXEMPT := ["Facade", "Passage", "Quoin", "Keystone", "Lintel", "Sill", "NeedleBar", "G_Door", "G_Threshold", "G_TowerDoor", "L1_TowerDoor", "L1_Door", "G_Lintel"]
+
+
+func _clamp_to_shell(nm: String, c: Array) -> Array:
+	for pre in CLAMP_EXEMPT:
+		if nm.begins_with(pre) or nm.find("_" + pre) >= 0:
+			return c
+	var slab: float = shell_spec["slab_top"]
+	var lo := minf(c[4], c[5])
+	var hi := maxf(c[4], c[5])
+	var uu: Array
+	var vv: Array
+	if hi <= slab + 0.001:
+		uu = shell_spec["ground_u"]
+		vv = shell_spec["ground_v"]
+	elif lo >= slab - 0.001:
+		uu = shell_spec["first_u"]
+		vv = shell_spec["first_v"]
+	else:
+		return c
+	var out := c.duplicate()
+	for k in [[0, 1, uu], [2, 3, vv]]:
+		var a: float = c[k[0]]
+		var b: float = c[k[1]]
+		var lim: Array = k[2]
+		var amin := minf(a, b)
+		var amax := maxf(a, b)
+		if amin < lim[0] and amin >= lim[0] - 0.3 and amax > lim[0]:
+			amin = lim[0]
+		if amax > lim[1] and amax <= lim[1] + 0.3 and amin < lim[1]:
+			amax = lim[1]
+		out[k[0]] = amin
+		out[k[1]] = amax
+	return out
+
+
 ## A box between two house-frame corners. `solid` gives it collision; `nm` names the MeshInstance3D.
 func box(parent: Node3D, nm: String, u0: float, u1: float, v0: float, v1: float, y0: float, y1: float, m, solid := true) -> MeshInstance3D:
+	if not shell_spec.is_empty():
+		var cl := _clamp_to_shell(nm, [u0, u1, v0, v1, y0, y1])
+		u0 = cl[0]
+		u1 = cl[1]
+		v0 = cl[2]
+		v1 = cl[3]
 	var size := Vector3(absf(u1 - u0), absf(y1 - y0), absf(v1 - v0))
 	var mi := MeshInstance3D.new()
 	mi.name = nm
-	var bm := BoxMesh.new()
-	bm.size = size
-	mi.mesh = bm
+	if bevel_furniture and minf(size.x, minf(size.y, size.z)) >= BEVEL_MIN_DIM and maxf(size.x, maxf(size.y, size.z)) <= BEVEL_MAX_DIM:
+		mi.mesh = bevel_mesh(size)           # LHF-08: furniture-scale boxes get a chamfered edge that catches the light and the ink
+	else:
+		var bm := BoxMesh.new()
+		bm.size = size
+		mi.mesh = bm
 	mi.material_override = _m(m)
 	mi.position = p((u0 + u1) * 0.5, (y0 + y1) * 0.5, (v0 + v1) * 0.5)
 	parent.add_child(mi)
@@ -51,6 +99,76 @@ func box(parent: Node3D, nm: String, u0: float, u1: float, v0: float, v1: float,
 	if solid:
 		_collide(mi, BoxShape3D.new(), size)
 	return mi
+
+
+## Chamfered boxes (LHF-08). A box between BEVEL_MIN_DIM and BEVEL_MAX_DIM on every side is furniture, not a wall or a beam.
+const BEVEL_MIN_DIM := 0.12
+const BEVEL_MAX_DIM := 2.6
+const BEVEL := 0.014
+var bevel_furniture := true
+static var _bevel_cache := {}
+
+
+static func bevel_mesh(size: Vector3) -> ArrayMesh:
+	var key := Vector3(snappedf(size.x, 0.001), snappedf(size.y, 0.001), snappedf(size.z, 0.001))
+	if _bevel_cache.has(key):
+		return _bevel_cache[key]
+	var h := size * 0.5
+	var b := minf(BEVEL, minf(size.x, minf(size.y, size.z)) * 0.12)
+	var i := h - Vector3(b, b, b)
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var axes := [Vector3.RIGHT, Vector3.UP, Vector3.BACK]
+	# the six faces, pulled in by the bevel
+	for a in 3:
+		var a1: int = (a + 1) % 3
+		var a2: int = (a + 2) % 3
+		for sa in [-1.0, 1.0]:
+			var n: Vector3 = axes[a] * sa
+			var q := []
+			for s1 in [-1.0, 1.0]:
+				for s2 in [-1.0, 1.0]:
+					q.append(n * h[a] + axes[a1] * (s1 * i[a1]) + axes[a2] * (s2 * i[a2]))
+			_bq(st, q[0], q[1], q[2], q[3], n)      # strip order (the nested loops give --, -+, +-, ++): the old order left a triangular wedge out of every face
+	# the twelve edge strips
+	for a in 3:
+		var a1: int = (a + 1) % 3
+		var c: int = (a + 2) % 3
+		for sa in [-1.0, 1.0]:
+			for sb in [-1.0, 1.0]:
+				var p1: Vector3 = axes[a] * (sa * h[a]) + axes[a1] * (sb * i[a1])
+				var p2: Vector3 = axes[a] * (sa * i[a]) + axes[a1] * (sb * h[a1])
+				var n: Vector3 = (axes[a] * sa + axes[a1] * sb).normalized()
+				var lo: Vector3 = axes[c] * -i[c]
+				var hi: Vector3 = axes[c] * i[c]
+				_bq(st, p1 + lo, p1 + hi, p2 + lo, p2 + hi, n)
+	# the eight corners
+	for sx in [-1.0, 1.0]:
+		for sy in [-1.0, 1.0]:
+			for sz in [-1.0, 1.0]:
+				var pa := Vector3(sx * h.x, sy * i.y, sz * i.z)
+				var pb := Vector3(sx * i.x, sy * h.y, sz * i.z)
+				var pc := Vector3(sx * i.x, sy * i.y, sz * h.z)
+				_bt(st, pa, pb, pc, Vector3(sx, sy, sz).normalized())
+	var mesh := st.commit()
+	_bevel_cache[key] = mesh
+	return mesh
+
+
+static func _bq(st: SurfaceTool, a: Vector3, b: Vector3, c: Vector3, d: Vector3, n: Vector3) -> void:
+	_bt(st, a, b, c, n)
+	_bt(st, c, b, d, n)
+
+
+## One triangle, wound so Godot (clockwise front faces) shows it from the side `n` points to.
+static func _bt(st: SurfaceTool, a: Vector3, b: Vector3, c: Vector3, n: Vector3) -> void:
+	if (b - a).cross(c - a).dot(n) > 0.0:
+		var t := b
+		b = c
+		c = t
+	for v in [a, b, c]:
+		st.set_normal(n)
+		st.add_vertex(v)
 
 
 ## An upright cylinder (a post, a tank) centred on house-frame (u, v), from y0 to y1.
@@ -307,9 +425,9 @@ const SILVER := Color(0.73, 0.75, 0.77)
 
 
 func _make_materials() -> void:
-	mats["plaster"] = _textured("plaster", Color(0.62, 0.6, 0.55), 0.97, 0.0, 0.35)
+	mats["plaster"] = _textured("plaster", Color(0.5, 0.5, 0.48), 0.97, 0.0, 0.35)
 	mats["plaster_dark"] = _textured("plaster", Color(0.42, 0.41, 0.38), 0.97, 0.0, 0.35)
-	mats["whitewash"] = _textured("plaster", Color(0.7, 0.69, 0.65), 0.97, 0.0, 0.35)
+	mats["whitewash"] = _textured("plaster", Color(0.6, 0.6, 0.58), 0.97, 0.0, 0.35)
 	mats["flags"] = _textured("flags", Color(0.6, 0.63, 0.66), 0.92, 0.0, 0.5)
 	mats["flags_dark"] = _textured("flags", Color(0.4, 0.43, 0.47), 0.92, 0.0, 0.5)
 	mats["planks"] = _textured("planks", Color(0.68, 0.6, 0.52), 0.9, 0.0, 0.5)
@@ -317,6 +435,7 @@ func _make_materials() -> void:
 	mats["wood_dark"] = _textured("planks", Color(0.27, 0.22, 0.18), 0.8, 0.0, 0.6)
 	mats["brick"] = _textured("brick", Color(0.66, 0.6, 0.58), 0.95, 0.0, 0.5)
 	mats["stone"] = _textured("flags", Color(0.55, 0.55, 0.53), 0.95, 0.0, 0.3)
+	mats["stone_worn"] = _textured("flags", Color(0.23, 0.205, 0.185), 0.98, 0.0, 0.3)      # the stairs: darker, worn grey-brown stone (creator, 2026-10-26: "a worn stone feel")
 	mats["iron"] = _textured("metal", Color(0.4, 0.42, 0.45), 0.65, 0.6, 0.8)
 	mats["iron_dark"] = _textured("metal", Color(0.17, 0.18, 0.2), 0.7, 0.5, 0.8)
 	mats["boiler"] = _textured("metal", Color(0.33, 0.29, 0.27), 0.6, 0.6, 0.6)
@@ -339,7 +458,7 @@ func _make_materials() -> void:
 	mats["lamp_green"] = colour(Color(0.3, 0.8, 0.4), 0.4, 0.0, 1.6)
 	mats["lamp_red"] = colour(Color(0.85, 0.2, 0.15), 0.4, 0.0, 1.6)
 	var g := StandardMaterial3D.new()
-	g.albedo_color = Color(0.5, 0.62, 0.68, 0.14)
+	g.albedo_color = Color(0.46, 0.58, 0.64, 0.30)
 	g.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	g.roughness = 0.1
 	g.metallic = 0.1

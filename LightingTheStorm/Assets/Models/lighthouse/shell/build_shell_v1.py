@@ -16,25 +16,27 @@ from mathutils import Vector, Matrix
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.normpath(os.path.join(HERE, "..", "..", "..", "..", "data", "world"))
-HOUSE_O = (-3.494, 8.874)
-YAW = 0.4457
-AX, AZ = 3.5, 3.6                    # tower axis, Lighthouse frame
+SPEC = json.load(open(os.path.join(DATA, "shell_spec.json")))      # shared with the Godot code that fits the interior to this shell
+HOUSE_O = tuple(SPEC["house_origin"])
+YAW = SPEC["house_yaw"]
+AX, AZ = SPEC["tower_axis"]          # tower axis, Lighthouse frame
 SIDES = 96
-T = 0.5                              # house wall thickness, outward from the inner faces
-WALL_T = 0.75                        # tower wall thickness
+T = SPEC["house_wall_t"]             # house wall thickness, outward from the inner faces
+WALL_T = SPEC["tower_wall_t"]        # tower wall thickness
 
 # ---- levels (Lighthouse-frame y) ----
 B1_FLOOR, B1_CEIL = -2.0, 0.77
 GF, G_CEIL = 0.97, 3.75
-SLAB_TOP, L1 = 3.95, 5.2025
-L1_EAVE, L1_RIDGE = 7.0, 9.9         # inner (underside) heights
+SLAB_TOP, L1 = SPEC["slab_top"], 5.2025
+L1_EAVE, L1_RIDGE = SPEC["l1_eave"], SPEC["l1_ridge"]      # underside heights: eaves at both long walls (v), ridge along u at the middle of v
 ROOF_T = 0.28
 LANTERN_FLOOR, DECK_TOP, DECK_R = 17.9, 18.33, 4.0
 CEIL_Y, APEX = 21.95, 25.18
 
 # ---- room inner faces in the house frame ----
-G_U, G_V = (-2.15, 5.55), (0.36, 6.70)               # ground floor and basement
-L1_U, L1_V = (-3.00, 5.39), (0.95, 8.70)             # first floor and the attic under the roof
+G_U, G_V = tuple(SPEC["ground_u"]), tuple(SPEC["ground_v"])      # ground floor and basement
+L1_U, L1_V = tuple(SPEC["first_u"]), tuple(SPEC["first_v"])      # first floor and the attic under the roof
+TOWER_CUT_TOP = SPEC["tower_cut_top"]
 
 
 def hf(u, y, v):
@@ -94,12 +96,12 @@ def prism_uv(name, u0, u1, v0, v1, y0, y1):
 
 
 def gable_uv(name, u0, u1, v0, v1, y_base, y_eave, y_ridge):
-    """The first-floor volume: a rectangle up to the eaves under a gable whose ridge runs along v at the middle of u."""
-    um = (u0 + u1) * 0.5
-    prof = [(u0, y_base), (u1, y_base), (u1, y_eave), (um, y_ridge), (u0, y_eave)]
+    """The first-floor volume: a rectangle up to the eaves under a gable whose ridge runs along u at the middle of v (as the old roof: gables at the u ends)."""
+    vm = (v0 + v1) * 0.5
+    prof = [(v0, y_base), (v1, y_base), (v1, y_eave), (vm, y_ridge), (v0, y_eave)]
     bm = bmesh.new()
-    a = [bm.verts.new(G(*hf(u, y, v0))) for u, y in prof]
-    b = [bm.verts.new(G(*hf(u, y, v1))) for u, y in prof]
+    a = [bm.verts.new(G(*hf(u0, y, v))) for v, y in prof]
+    b = [bm.verts.new(G(*hf(u1, y, v))) for v, y in prof]
     bm.faces.new(a[::-1])
     bm.faces.new(b)
     n = len(prof)
@@ -191,13 +193,20 @@ def cap_air():
     return solid_revolve("cap_air", prof)
 
 
-def tower_cutter(name, bearing_deg, y_c, w, h, r0=1.5, r1=7.0):
+def tower_cutter(name, bearing_deg, y_c, w, h, r0=1.5, r1=7.0, splay=0.45):
+    """A window opening through the tower wall. Splayed: it is `w` x `h` at the outer face and `splay` metres wider and taller at the inner face,
+    as a real thick-walled window is cut, so the view out is not tunnelled by the wall."""
     a = math.radians(bearing_deg)
     bm = bmesh.new()
     bmesh.ops.create_cube(bm, size=1.0)
     L = r1 - r0
+    wall_in = r_in(y_c)
     for v in bm.verts:
-        v.co = Vector((v.co.x * L, v.co.y * w, v.co.z * h))
+        x = v.co.x * L                       # local radial offset from the cutter's middle; radius = (r0 + r1) / 2 + x
+        radius = (r0 + r1) * 0.5 + x
+        # 0 at the outer face of the wall, 1 at the inner face, clamped
+        t = min(max((r_out(y_c) - radius) / max(r_out(y_c) - wall_in, 1e-6), 0.0), 1.0)
+        v.co = Vector((x, v.co.y * (w + splay * t * 2.0), v.co.z * (h + splay * t)))
     me = bpy.data.meshes.new(name)
     bm.to_mesh(me)
     bm.free()
@@ -240,6 +249,12 @@ def main():
     solids.append(prism_uv("g_o", G_U[0] - T, G_U[1] + T, G_V[0] - T, G_V[1] + T, GF, SLAB_TOP))
     solids.append(prism_uv("slab_o", L1_U[0] - T, L1_U[1] + T, L1_V[0] - T, L1_V[1] + T, SLAB_TOP, L1))
     solids.append(gable_uv("l1_o", L1_U[0] - T, L1_U[1] + T, L1_V[0] - T, L1_V[1] + T, L1, L1_EAVE + 0.1, L1_RIDGE + ROOF_T + 0.25))
+    # the entry porch: the ground in front of the door, flush with the ground floor (the exterior mesh used to supply it)
+    solids.append(prism_uv("porch_o", -1.6, 1.6, -2.4, -T + 0.4, B1_FLOOR + 1.0, GF))
+    # two chimney stacks through the ridge (the old exterior had them: they are part of the building's silhouette)
+    vm = (L1_V[0] + L1_V[1]) * 0.5
+    for cu in (-1.6, 3.6):
+        solids.append(prism_uv("chim_%d" % int(cu * 10), cu - 0.45, cu + 0.45, vm - 0.45, vm + 0.45, L1_RIDGE - 0.5, L1_RIDGE + 2.3))
     solids.append(deck_solid())
     solids.append(cap_solid())
     shell = union_all(solids, "Shell")
@@ -247,7 +262,7 @@ def main():
     # the tower's air is cut short by the house wall slab so a real wall stands between the hall and the tower
     tair = tower_air()
     for nm, o in [("h1", prism_uv("h1", G_U[0] - T, G_U[1] + T, G_V[0] - T, G_V[1] + T, B1_FLOOR - 1.0, SLAB_TOP)),
-                  ("h2", prism_uv("h2", L1_U[0] - T, L1_U[1] + T, L1_V[0] - T, L1_V[1] + T, SLAB_TOP, L1 + 3.0))]:
+                  ("h2", prism_uv("h2", L1_U[0] - T, L1_U[1] + T, L1_V[0] - T, L1_V[1] + T, SLAB_TOP, TOWER_CUT_TOP))]:
         boolean(tair, o, "DIFFERENCE")
         bpy.data.objects.remove(o, do_unlink=True)
     boolean(shell, tair, "DIFFERENCE")
@@ -260,20 +275,30 @@ def main():
               gable_uv("l1_a", L1_U[0], L1_U[1], L1_V[0], L1_V[1], L1, L1_EAVE, L1_RIDGE)]:
         boolean(shell, o, "DIFFERENCE")
         bpy.data.objects.remove(o, do_unlink=True)
-    # the stairwell hole through the ground floor slab (u 0.8..3.6, v 2.3..5.7), so the spiral can go down to the basement
-    o = prism_uv("hole", 0.8, 3.6, 2.3, 5.7, B1_CEIL - 0.1, GF + 0.1)
+    # the stairwell hole through the ground floor slab: a round hole just wider than the spiral (centre and radius in shell_spec.json)
+    cx, cv = SPEC["stair_hole_centre"]
+    bm = bmesh.new()
+    n = 48
+    lo = [bm.verts.new(G(*hf(cx + SPEC["stair_hole_r"] * math.cos(2 * math.pi * i / n), B1_CEIL - 0.1, cv + SPEC["stair_hole_r"] * math.sin(2 * math.pi * i / n)))) for i in range(n)]
+    hi = [bm.verts.new(G(*hf(cx + SPEC["stair_hole_r"] * math.cos(2 * math.pi * i / n), GF + 0.1, cv + SPEC["stair_hole_r"] * math.sin(2 * math.pi * i / n)))) for i in range(n)]
+    bm.faces.new(lo)
+    bm.faces.new(hi[::-1])
+    for i in range(n):
+        j = (i + 1) % n
+        bm.faces.new([lo[i], lo[j], hi[j], hi[i]])
+    o = link("hole", bm)
     boolean(shell, o, "DIFFERENCE")
     bpy.data.objects.remove(o, do_unlink=True)
     # ---------------- openings ----------------
     cuts = []
     # front door: 1.8 wide, GF to GF+2.95, through the front wall (v from -0.2 to 0.6)
-    cuts.append(house_cutter("c_front", -0.9, 0.9, -0.3, 0.9, GF, GF + 2.95))
+    cuts.append(house_cutter("c_front", -0.9, 0.9, -0.3, 0.9, GF, GF + SPEC["front_door_h"]))
     # hall to tower: the east wall, v 0.8..2.25, 2.3 high, through the wall slab to the tower air
     cuts.append(house_cutter("c_hall_tower", G_U[1] - 0.2, G_U[1] + T + 0.9, 0.8, 2.25, GF, GF + 2.3))
     # ground-floor west window: v 3.0..4.3, sill 1.9 head 2.9
     cuts.append(house_cutter("c_g_west", G_U[0] - T - 0.3, G_U[0] + 0.3, 3.0, 4.3, 1.9, 2.9))
     # first floor to tower: 1.3 wide (v 1.3..2.6?), 2.1 high, east wall
-    cuts.append(house_cutter("c_l1_tower", L1_U[1] - 0.2, L1_U[1] + T + 0.9, 1.0, 2.3, L1, L1 + 2.1))
+    cuts.append(house_cutter("c_l1_tower", L1_U[1] - 0.2, L1_U[1] + T + 0.9, SPEC["l1_door_v"][0], SPEC["l1_door_v"][1], L1, L1 + 2.1))
     # first-floor windows (data/world/lighthouse_windows.json: house kind, wall west 'at' = v, back 'at' = u; y centre, w, h)
     for w in json.load(open(os.path.join(DATA, "lighthouse_windows.json")))["windows"]:
         if w["kind"] != "house":
@@ -291,9 +316,60 @@ def main():
     for c in cuts:
         boolean(shell, c, "DIFFERENCE")
         bpy.data.objects.remove(c, do_unlink=True)
-    shell.data.materials.append(m_stone)
+    # weld the near-coincident vertices the exact booleans leave along tangent edges, and report what is still open
+    bm = bmesh.new()
+    bm.from_mesh(shell.data)
+    bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=2e-4)
+    bmesh.ops.dissolve_degenerate(bm, edges=bm.edges, dist=1e-5)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    open_e = [e for e in bm.edges if len(e.link_faces) == 1]
+    print("OPEN_EDGES_AFTER_WELD", len(open_e), [tuple(round(c, 2) for c in (e.verts[0].co.x, e.verts[0].co.z, -e.verts[0].co.y)) for e in open_e[:12]])
+    bm.to_mesh(shell.data)
+    bm.free()
+    # materials by what each face looks at: outside stone, roof, room plaster, basement brick (a face is "inside" when the point just off it, along its normal, is room air)
+    m_roof = mat("shell_roof", (0.2, 0.22, 0.26))
+    m_plaster = mat("shell_plaster", (0.55, 0.54, 0.5))
+    m_brick = mat("shell_brick", (0.6, 0.35, 0.3))
+    shell.data.materials.clear()
+    for m in (m_stone, m_plaster, m_brick, m_roof):
+        shell.data.materials.append(m)
+    cu, cv = SPEC["stair_hole_centre"]
+
+    def in_air(x, y, z):
+        c, sn = math.cos(YAW), math.sin(YAW)
+        rx, rz = x - HOUSE_O[0], z - HOUSE_O[1]
+        u, v = rx * c - rz * sn, -(rx * sn + rz * c)
+        if G_U[0] < u < G_U[1] and G_V[0] < v < G_V[1] and B1_FLOOR < y < G_CEIL:
+            return True
+        if L1_U[0] < u < L1_U[1] and L1_V[0] < v < L1_V[1] and L1 < y:
+            vm = (L1_V[0] + L1_V[1]) * 0.5
+            under = L1_EAVE + (L1_RIDGE - L1_EAVE) * ((v - L1_V[0]) / (vm - L1_V[0]) if v <= vm else (L1_V[1] - v) / (L1_V[1] - vm))
+            if y < under:
+                return True
+        d = math.hypot(x - AX, z - AZ)
+        if 0.0 < y < DECK_TOP + 0.4 and d < r_in(min(y, LANTERN_FLOOR)) and not (-10 < u < 10 and False):
+            return True
+        if CEIL_Y - 0.5 < y < APEX:
+            pts = [(yy, rr) for rr, yy in CAP_OUTER[1:]]       # the dome's outer radius by height
+            r_dome = 3.0
+            for (y0_, r0_), (y1_, r1_) in zip(pts, pts[1:]):
+                if y0_ <= y <= y1_:
+                    r_dome = r0_ + (r1_ - r0_) * (y - y0_) / (y1_ - y0_)
+            if d < min(3.0, r_dome - 0.2):
+                return True
+        return False
+
     for p in shell.data.polygons:
         p.use_smooth = False
+        c = p.center
+        n = p.normal
+        gx, gy, gz = c.x + n.x * 0.08, c.z + n.z * 0.08, -(c.y + n.y * 0.08)       # Blender (X, Y, Z) back to Godot (x, y, z)
+        if in_air(gx, gy, gz):
+            p.material_index = 2 if c.z < GF else 1
+        elif n.z > 0.35 and c.z > 6.0:
+            p.material_index = 3
+    import collections as _c
+    print("MATERIAL_FACES", dict(_c.Counter(p.material_index for p in shell.data.polygons)), [(m.name if m else None) for m in shell.data.materials])
     out = os.path.join(HERE, "lighthouse_shell_v1.glb")
     bpy.ops.export_scene.gltf(filepath=out, export_format="GLB", export_yup=True, export_apply=True)
     me = shell.data

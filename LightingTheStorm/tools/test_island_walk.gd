@@ -5,11 +5,13 @@
 extends SceneTree
 
 # Each route: name, then world-space waypoints (y is ignored; the player starts 1.5 m above the first one).
+# Waypoints count as reached within 1 m, so the stair-top one on the way down sits west of the landing: the player then
+# lines up with the island gate's 1.36 m opening instead of walking into its east pillar.
 const ROUTES := [
 	["north jetty -> back quay -> stone stairs -> plateau", [Vector3(-27.0, 1.5, 14.7), Vector3(-19.0, 0, 14.7), Vector3(-19.0, 0, 25.5), Vector3(-16.25, 0, 25.5), Vector3(-16.25, 0, 16.8), Vector3(-16.25, 0, 9.0), Vector3(-13.0, 0, 8.5), Vector3(-9.0, 0, 6.0)]],
 	["south jetty -> back quay -> stone stairs landing", [Vector3(-27.0, 1.5, 26.3), Vector3(-19.0, 0, 26.3), Vector3(-19.0, 0, 25.5), Vector3(-16.25, 0, 25.5), Vector3(-16.25, 0, 16.8)]],
 	["plateau -> lighthouse", [Vector3(-9.0, 10.0, 6.0), Vector3(2.0, 0, 10.0), Vector3(5.0, 0, 6.5)]],
-	["plateau -> stone stairs -> back quay -> north jetty", [Vector3(-9.0, 10.0, 6.0), Vector3(-13.0, 0, 8.5), Vector3(-16.25, 0, 9.0), Vector3(-16.25, 0, 16.8), Vector3(-16.25, 0, 25.7), Vector3(-17.3, 0, 25.7), Vector3(-19.0, 0, 25.7), Vector3(-19.0, 0, 14.7), Vector3(-26.0, 0, 14.7)]],
+	["plateau -> stone stairs -> back quay -> north jetty", [Vector3(-9.0, 10.0, 6.0), Vector3(-13.0, 0, 8.5), Vector3(-17.2, 0, 9.0), Vector3(-16.25, 0, 16.8), Vector3(-16.25, 0, 25.7), Vector3(-17.3, 0, 25.7), Vector3(-19.0, 0, 25.7), Vector3(-19.0, 0, 14.7), Vector3(-26.0, 0, 14.7)]],
 ]
 
 var _lv: Node
@@ -31,6 +33,9 @@ func _initialize() -> void:
 
 func _begin() -> void:
 	_route += 1
+	if _route == 0:
+		for g in get_nodes_in_group("gate"):   # the island gate on the stairs; tools/test_island_gate.gd covers it shut
+			g.open()
 	if _route >= ROUTES.size():
 		quit()
 		return

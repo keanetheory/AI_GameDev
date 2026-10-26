@@ -33,6 +33,13 @@ func _initialize() -> void:
 		var ws := lv.get_node_or_null("WaveSystem")
 		if ws:
 			ws.force_state = float(args[7])      # the wave system would otherwise steer the sea back to its own state
+	if OS.get_environment("SHOT_TORCH") == "1":      # SHOT_TORCH=1: a lamp at the camera, to inspect surfaces that the night leaves black
+		var torch := OmniLight3D.new()
+		torch.light_energy = 6.0
+		torch.omni_range = 14.0
+		torch.shadow_enabled = false
+		torch.position = p
+		lv.add_child(torch)
 	var pl := lv.get_node_or_null("Player")
 	if pl:
 		# SHOT_INTERIOR=1: the player (disabled, unseen) stands at the camera so the interior lights come on
@@ -46,6 +53,18 @@ func _initialize() -> void:
 
 func _process(_d: float) -> bool:
 	_f += 1
+	if _f == 8:      # SHOT_HIDE=a/b,c: hide those nodes (paths from the Level; the interior is built by now)
+		for nm in OS.get_environment("SHOT_HIDE").split(",", false):
+			var hn := root.get_node_or_null("Level/" + nm)
+			if hn:
+				hn.visible = false
+			else:
+				print("SHOT_HIDE: no node ", nm)
+	if _f == 6 and OS.get_environment("SHOT_NOFOG") == "1":      # SHOT_NOFOG=1: no distance fog (triage: is the washout the fog?)
+		var we := root.find_children("*", "WorldEnvironment", true, false)
+		for w in we:
+			if (w as WorldEnvironment).environment:
+				(w as WorldEnvironment).environment.fog_enabled = false
 	if _f == 2 and OS.get_environment("SHOT_BOAT") != "":     # e.g. SHOT_BOAT=DOCK_PORT: the launch tied up at that berth
 		var boat: Node3D = _lv.get_node("Boat")
 		for z in get_nodes_in_group("dock_zone"):

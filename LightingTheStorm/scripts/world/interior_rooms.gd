@@ -18,6 +18,7 @@ const Shell := preload("res://scripts/world/interior/tower_shell.gd")
 const RoofLiner := preload("res://scripts/world/interior/roof_liner.gd")
 const HeroProps := preload("res://scripts/world/interior/hero_props.gd")
 const Trim := preload("res://scripts/world/interior/trim.gd")
+const WallPatch := preload("res://scripts/world/wall_patch.gd")
 
 const DOOR_SILL := Vector3(-3.494, 0.0, 8.874)   # the entry door's sill, x/z in the lighthouse frame
 const YAW := 0.4457                              # atan2(0.4309, 0.9024): turns +x onto the house's front wall
@@ -27,8 +28,8 @@ const REPLACED := ["B1_boiler_placeholder", "B1_coal_pile_placeholder", "B1_dyna
 ## First match wins: part-name fragment -> material (kit.gd). Gives the greybox walls and floors real surfaces.
 const RESKIN := [
 	["G_floor_west", "planks"], ["G_floor", "flags"], ["G_tower_link", "flags"], ["B1_floor", "flags_dark"],
-	["B1_stair", "stone"], ["B1_switchback", "stone"], ["Tower_spiral_step", "stone"], ["Tower_ground_floor", "flags"],
-	["Tower_inner_guard_core", "stone"], ["Lantern_gallery", "wood_dark"], ["Lantern_arc_lamp_mount", "iron_dark"],
+	["B1_stair", "stone_worn"], ["B1_switchback", "stone_worn"], ["Tower_spiral_step", "stone_worn"], ["Tower_ground_floor", "flags"],
+	["Tower_inner_guard_core", "stone_worn"], ["Lantern_gallery", "wood_dark"], ["Lantern_arc_lamp_mount", "iron_dark"],
 	["B1_", "brick"], ["G_", "plaster"],
 ]
 
@@ -52,6 +53,8 @@ func _ready() -> void:
 	frame.rotation.y = YAW
 	add_child(frame)
 	kit = Kit.new(frame)
+	if Tower.shell_mode() != 0:
+		kit.shell_spec = Tower.shell_spec()
 	_prepare_greybox()
 	house = House.new()
 	house.build(kit, frame)
@@ -85,22 +88,29 @@ func _ready() -> void:
 	trim.build(kit, frame)
 	hero_props = HeroProps.new()
 	hero_props.build(frame)
-	roof_liner = Node3D.new()
-	roof_liner.set_script(RoofLiner)
-	roof_liner.name = "RoofLiner"
-	add_child(roof_liner)
-	roof_liner.build(frame, kit.mats["plaster_dark"])
+	if not shell.authored:      # the authored roof has its own underside: no liner
+		roof_liner = Node3D.new()
+		roof_liner.set_script(RoofLiner)
+		roof_liner.name = "RoofLiner"
+		add_child(roof_liner)
+		roof_liner.build(frame, kit.mats["plaster_dark"])
 	var mgr := get_parent().get_node_or_null("LighthouseInteriorLights")
 	if mgr and mgr.has_method("adopt"):
 		for l in kit.lights:
 			mgr.adopt(l)
+	# the holes in the exterior wall are closed with copies of the wall itself (wall_patch.gd, baked by tools/bake_wall_patch.gd)
+	var wp := Node3D.new()
+	wp.set_script(WallPatch)
+	wp.name = "WallPatch"
+	wp.set("lighthouse_path", NodePath("../../Lighthouse"))
+	add_child(wp)
 	build_ms = Time.get_ticks_msec() - t0
 	node_count = kit.count
 
 
 ## The authored tower shell (build_tower_shell_v1.py), in place of the exterior mesh's tower. Experiment, LHF_SHELL=1.
 func _add_authored_shell() -> void:
-	var full := OS.get_environment("LHF_SHELL") == "2"
+	var full := Tower.shell_mode() == 2
 	var doc := GLTFDocument.new()
 	var st := GLTFState.new()
 	doc.append_from_file("res://Assets/Models/lighthouse/shell/lighthouse_shell_v1.glb" if full else "res://Assets/Models/lighthouse/shell/lighthouse_tower_shell_v1.glb", st)
@@ -108,8 +118,31 @@ func _add_authored_shell() -> void:
 	sh.name = "LighthouseShell"
 	var lh := get_parent().get_node("Lighthouse")
 	lh.add_child(sh)
+	# the shell's faces carry four materials (build_shell_v1.py): outside stone, roof, room plaster, basement brick
+	var ext_stone := (kit.mats["stone"] as StandardMaterial3D).duplicate() as StandardMaterial3D
+	ext_stone.albedo_color = Color(0.46, 0.44, 0.42)
+	var roof := (kit.mats["flags_dark"] as StandardMaterial3D).duplicate() as StandardMaterial3D
+	roof.albedo_color = Color(0.16, 0.18, 0.22)
+	# at night the outside is lit by the moon alone and read as a black cut-out: a faint cold glow of its own texture keeps the stone and slate visible
+	for om in [ext_stone, roof]:
+		(om as StandardMaterial3D).emission_enabled = true
+		(om as StandardMaterial3D).emission = Color(0.5, 0.6, 0.78)
+		(om as StandardMaterial3D).emission_texture = (om as StandardMaterial3D).albedo_texture
+		(om as StandardMaterial3D).emission_energy_multiplier = 0.1
+	ext_stone.set_meta("base_albedo", true)      # (toon_look.gd: no interior fill on the outside of the building)
+	roof.set_meta("base_albedo", true)
+	var by_name := {"shell_stone": ext_stone, "shell_roof": roof, "shell_plaster": kit.mats["plaster"], "shell_brick": kit.mats["brick"]}
 	for mi in sh.find_children("*", "MeshInstance3D", true, false):
-		(mi as MeshInstance3D).create_trimesh_collision()
+		var m3 := mi as MeshInstance3D
+		var order := [ext_stone, kit.mats["plaster"], kit.mats["brick"], roof]      # the glb's surfaces come out in the material slot order of build_shell_v1.py
+		for i in mini(m3.mesh.get_surface_count(), order.size()):
+			var sm: Material = m3.mesh.surface_get_material(i)
+			var nm: String = sm.resource_name if sm else ""
+			var k: int = by_name.keys().find(nm) if by_name.has(nm) else i
+			m3.set_surface_override_material(i, by_name[nm] if by_name.has(nm) else order[i])
+		if OS.get_environment("LHF_SHELL_SHADOW") == "off":
+			m3.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		m3.create_trimesh_collision()
 	if full:
 		# the shell replaces the exterior mesh and the greybox's thin walls and floors (its partitions stay)
 		var cv := lh.get_node_or_null("convert")
