@@ -124,8 +124,29 @@ func _edge_hits_ext(a: Vector3, b: Vector3) -> bool:
 	return false
 
 
+func _groups(items: Array) -> Array:
+	var g := {}
+	for it in items:
+		var path: String = String(it).split(" ")[0].trim_prefix("/root/Level/InteriorRooms/")
+		var parts := path.split("/")
+		var nm: String = parts[parts.size() - 1]
+		var re := RegEx.new()
+		re.compile("[_0-9]+$")
+		nm = re.sub(nm, "")
+		var key: String = parts[0] + "/" + nm
+		g[key] = g.get(key, 0) + 1
+	var out := []
+	for k in g:
+		out.append("%4d  %s" % [g[k], k])
+	out.sort()
+	out.reverse()
+	return out.slice(0, 14)
+
+
 func _result(name: String, ok: bool, line: String, extra: Array = []) -> void:
 	print(("PASS  " if ok else "FAIL  ") + line)
+	if not ok and name in ["A_outside_walls", "B_cross_exterior"]:
+		extra = _groups(extra)
 	for e in extra:
 		print("        " + str(e))
 	_report[name] = {"ok": ok, "summary": line, "detail": extra}
@@ -186,6 +207,10 @@ func _physics_process(_d: float) -> bool:
 	var outside: Array = []
 	var verts := 0
 	for mi in interior:
+		# glass panes, mullions and the lantern drum are the envelope itself (open to the air on one side by design)
+		var nm0 := String(mi.name)
+		if nm0.ends_with("_Glass") or nm0.ends_with("_Mullion") or "/LampRoom/" in String(mi.get_path()):
+			continue
 		var seen := {}
 		for v in _faces(mi):
 			var key := Vector3i(int(round(v.x * 20.0)), int(round(v.y * 20.0)), int(round(v.z * 20.0)))
@@ -200,7 +225,7 @@ func _physics_process(_d: float) -> bool:
 	for o in outside:
 		var nm: String = o.split(" ")[0]
 		by_node[nm] = true
-	_result("A_outside_walls", outside.is_empty(), "A  interior geometry outside the walls: %d meshes (of %d, %d vertices tested)" % [outside.size(), interior.size(), verts], outside.slice(0, 8))
+	_result("A_outside_walls", outside.is_empty(), "A  interior geometry outside the walls: %d meshes (of %d, %d vertices tested)" % [outside.size(), interior.size(), verts], outside)
 	# ---- B: crossing the exterior wall
 	_bin_ext()
 	var crossing: Array = []

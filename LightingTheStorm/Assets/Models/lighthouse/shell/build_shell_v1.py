@@ -138,14 +138,23 @@ def solid_revolve(name, prof):
     return link(name, bm)
 
 
+def annulus_revolve(name, prof):
+    """A closed ring-shaped solid of revolution: `prof` is a closed loop of (radius, y) that does not touch the axis."""
+    bm = bmesh.new()
+    rings = [ring(bm, r, y) for r, y in prof]
+    for k in range(len(rings)):
+        band(bm, rings[k], rings[(k + 1) % len(rings)])
+    return link(name, bm)
+
+
 def tower_solid():
     ys = [-3.0, 0.0, 3.0, 4.92]
     y = 5.17
     while y < LANTERN_FLOOR - 0.01:
         ys.append(y)
         y += 0.5
-    ys.append(LANTERN_FLOOR)
-    prof = [(0.0, ys[0])] + [(r_out(y), y) for y in ys] + [(0.0, ys[-1])]
+    ys.append(LANTERN_FLOOR + 0.05)      # the wall ring stops just above the lantern floor and is overlapped by the deck
+    prof = [(0.0, ys[0])] + [(r_out(min(y, LANTERN_FLOOR)), y) for y in ys] + [(0.0, ys[-1])]
     return solid_revolve("tower_outer", prof)
 
 
@@ -156,19 +165,30 @@ def tower_air():
         ys.append(y)
         y += 0.5
     ys.append(LANTERN_FLOOR)
-    prof = [(0.0, ys[0])] + [(r_in(y), y) for y in ys] + [(0.0, ys[-1])]
+    ys.append(DECK_TOP + 0.4)             # the air goes on up through the lamp room (the glass drum is built in code)
+    prof = [(0.0, ys[0])] + [(r_in(min(y, LANTERN_FLOOR)), y) for y in ys] + [(0.0, ys[-1])]
     return solid_revolve("tower_air", prof)
 
 
 def deck_solid():
-    prof = [(0.0, LANTERN_FLOOR), (DECK_R - 0.25, LANTERN_FLOOR), (DECK_R - 0.25, DECK_TOP - 0.33), (DECK_R, DECK_TOP - 0.1), (DECK_R, DECK_TOP), (0.0, DECK_TOP)]
-    return solid_revolve("deck", prof)
+    """The gallery deck: a ring from inside the wall to r 4.0 with a drip edge, top at 18.33. The lamp-room floor inside r 2.9 is built in code."""
+    prof = [(2.5, LANTERN_FLOOR - 0.05), (DECK_R - 0.25, LANTERN_FLOOR - 0.05), (DECK_R - 0.25, DECK_TOP - 0.33), (DECK_R, DECK_TOP - 0.1), (DECK_R, DECK_TOP), (2.5, DECK_TOP)]
+    return annulus_revolve("deck", prof)
+
+
+CAP_OUTER = [(3.30, CEIL_Y - 0.2), (3.30, CEIL_Y), (3.0, CEIL_Y + 0.12), (2.5, CEIL_Y + 0.55), (1.8, CEIL_Y + 1.15), (1.0, CEIL_Y + 2.0), (0.45, CEIL_Y + 2.85), (0.12, APEX - 0.05)]
 
 
 def cap_solid():
-    outer = [(3.30, CEIL_Y - 0.2), (3.30, CEIL_Y), (3.0, CEIL_Y + 0.12), (2.5, CEIL_Y + 0.55), (1.8, CEIL_Y + 1.15), (1.0, CEIL_Y + 2.0), (0.45, CEIL_Y + 2.85), (0.12, APEX - 0.05)]
-    prof = [(0.0, outer[0][1])] + outer + [(0.0, APEX)]
+    prof = [(0.0, CAP_OUTER[0][1])] + CAP_OUTER + [(0.0, APEX)]
     return solid_revolve("cap", prof)
+
+
+def cap_air():
+    """The room under the dome: the outer profile pulled in 0.15 and down 0.12, opening at the bottom through r 3.0."""
+    inner = [(max(r - 0.15, 0.05), y - 0.12) for r, y in CAP_OUTER[2:]]
+    prof = [(0.0, CEIL_Y - 0.5), (3.0, CEIL_Y - 0.5)] + [(3.0, CEIL_Y - 0.08)] + inner + [(0.0, inner[-1][1])]
+    return solid_revolve("cap_air", prof)
 
 
 def tower_cutter(name, bearing_deg, y_c, w, h, r0=1.5, r1=7.0):
@@ -232,6 +252,9 @@ def main():
         bpy.data.objects.remove(o, do_unlink=True)
     boolean(shell, tair, "DIFFERENCE")
     bpy.data.objects.remove(tair, do_unlink=True)
+    ca = cap_air()
+    boolean(shell, ca, "DIFFERENCE")
+    bpy.data.objects.remove(ca, do_unlink=True)
     for o in [prism_uv("b1_a", G_U[0], G_U[1], G_V[0], G_V[1], B1_FLOOR, B1_CEIL),
               prism_uv("g_a", G_U[0], G_U[1], G_V[0], G_V[1], GF, G_CEIL),
               gable_uv("l1_a", L1_U[0], L1_U[1], L1_V[0], L1_V[1], L1, L1_EAVE, L1_RIDGE)]:

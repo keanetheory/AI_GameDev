@@ -21,6 +21,7 @@ const WINDOW := Vector2(135.0, 160.0)          # the tower landing window (Level
 const LANDING_STEPS := [[0, 2], [22, 25], [46, 49], [92, 95]]
 const StairTread := preload("res://scripts/world/interior/stair_tread.gd")
 const WINDOWS_JSON := "res://data/world/lighthouse_windows.json"
+const AUTHORED_WALL := 0.75                   # the authored shell's tower wall thickness (build_shell_v1.py WALL_T)
 const REVEAL := 0.8                            # how deep the window reveals are: the wall's thickness there
 
 var windows: Array = []
@@ -232,6 +233,15 @@ func _tower_window_frames(P: Node3D) -> void:
 		var hh: float = w["h"]
 		var r := wall_radius(y, b)
 		var rc := r + REVEAL * 0.5
+		if authored:
+			# the authored wall already has real reveals (the opening is cut through its 0.75 m): no stone boxes, the pane stands mid-wall
+			var rg := r + AUTHORED_WALL * 0.5
+			_rbox(P, w["id"] + "_Glass", b, rg, ww, 0.02, y - hh * 0.5, y + hh * 0.5, _m("glass"), false)
+			_rbox(P, w["id"] + "_Mullion", b, rg - 0.01, 0.04, 0.04, y - hh * 0.5, y + hh * 0.5, _m("iron_dark"), false)
+			var bar2 := _rbox(P, w["id"] + "_Barrier", b, r + 0.06, ww + 0.1, 0.1, y - hh * 0.5 - 0.1, y + hh * 0.5, _m("glass"), true)
+			bar2.visible = false
+			(bar2.get_node("Body") as StaticBody3D).add_to_group("glass")
+			continue
 		var dth := rad_to_deg((ww * 0.5 + 0.2) / r)      # jambs 0.4 m wide: they cover the sector quantisation round the opening
 		_rbox(P, w["id"] + "_Sill", b, rc, ww + 0.9, REVEAL, y - hh * 0.5 - 0.3, y - hh * 0.5, _m("stone"), false)
 		_rbox(P, w["id"] + "_Head", b, rc, ww + 0.9, REVEAL, y + hh * 0.5, y + hh * 0.5 + 0.3, _m("stone"), false)
