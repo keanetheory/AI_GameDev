@@ -4,7 +4,8 @@
   "name": "Lighthouse - Interior Assessment Agent",
   "reviews": "lighthouse_interior_creator",
   "feedback_to": [
-    "lighthouse_interior_creator"
+    "lighthouse_interior_creator",
+    "lighthouse_finisher"
   ],
   "mandate": "Hold the Lighthouse Interior Creator Agent to the Interior Plan V4 blueprint (B1 basement, G ground, L1 keeper's quarters, L2 control and diagnostics, L3 lantern room, left hut, right annex), the GDD beats (door, coal, window, lantern diagnosis, burner fit) and the exterior model's real dimensions: a walkable route, rooms that match the plan, sightlines that match GDD decisions 22 and 26, and lighting inside the budget. Offline AI Crew and deterministic checks only.",
   "keywords": [
@@ -206,5 +207,6 @@
   ],
   "offline_crew_consults": [
     "read AIAgentCrew/world_output/lighting_spec.json (already generated; do not regenerate)"
-  ]
+  ],
+  "crew": "Lighthouse Agent Crew"
 }

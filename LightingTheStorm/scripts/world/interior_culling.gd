@@ -48,12 +48,15 @@ func _build() -> void:
 		var c := g.global_position
 		if g is MeshInstance3D and (g as MeshInstance3D).mesh:
 			c = g.global_transform * (g as MeshInstance3D).mesh.get_aabb().get_center()
+		var path := String(g.get_path())
+		if c.y > 21.0 or path.contains("/LampRoom/") or path.contains("/TowerShell/") or path.contains("/SpiralDown/") or path.contains("/BeamPivot/"):
+			# above the house roof, the stair, the tower lining and the beacon's beam are seen from everywhere. They get NO visibility range: it used to be set
+			# before this test, and Godot measures it from the node's origin, so the beam (whose origin is 35 m out along its length) vanished whenever it
+			# swept away from the viewer, "going out" for most of every turn (creator, 2026-10-26)
+			continue
 		g.visibility_range_end = far_m
 		g.visibility_range_end_margin = 4.0
 		g.visibility_range_fade_mode = GeometryInstance3D.VISIBILITY_RANGE_FADE_DISABLED
-		var path := String(g.get_path())
-		if c.y > 21.0 or path.contains("/LampRoom/") or path.contains("/TowerShell/") or path.contains("/SpiralDown/"):
-			continue                      # above the house roof, the stair and the tower lining are seen from everywhere
 		var p := _frame.to_local(c)
 		var u := p.x
 		var v := -p.z

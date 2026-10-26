@@ -1,0 +1,119 @@
+{
+  "cap": 7.8,
+  "price_each": 0.375,
+  "spent": 5.25,
+  "models": [
+    {
+      "id": "lhi_oak_barrel",
+      "ok": true,
+      "seconds": 70,
+      "charged": 0.375,
+      "tail": "saved lhi_oak_barrel.glb (33123 KB)",
+      "err": ""
+    },
+    {
+      "id": "lhi_keeper_desk",
+      "ok": true,
+      "seconds": 141,
+      "charged": 0.375,
+      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_keeper_desk.glb (33905 KB), seed None",
+      "err": ""
+    },
+    {
+      "id": "lhi_keeper_chair",
+      "ok": true,
+      "seconds": 119,
+      "charged": 0.375,
+      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_keeper_chair.glb (25622 KB), seed None",
+      "err": ""
+    },
+    {
+      "id": "lhi_keeper_bed",
+      "ok": true,
+      "seconds": 141,
+      "charged": 0.375,
+      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_keeper_bed.glb (32693 KB), seed None",
+      "err": ""
+    },
+    {
+      "id": "lhi_wardrobe",
+      "ok": true,
+      "seconds": 130,
+      "charged": 0.375,
+      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_wardrobe.glb (32011 KB), seed None",
+      "err": ""
+    },
+    {
+      "id": "lhi_sea_chest",
+      "ok": true,
+      "seconds": 157,
+      "charged": 0.375,
+      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_sea_chest.glb (35309 KB), seed None",
+      "err": ""
+    },
+    {
+      "id": "lhi_cast_iron_stove",
+      "ok": true,
+      "seconds": 130,
+      "charged": 0.375,
+      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_cast_iron_stove.glb (31160 KB), seed None",
+      "err": ""
+    },
+    {
+      "id": "lhi_iron_bathtub",
+      "ok": true,
+      "seconds": 131,
+      "charged": 0.375,
+      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_iron_bathtub.glb (31166 KB), seed None",
+      "err": ""
+    },
+    {
+      "id": "lhi_wooden_crate",
+      "ok": true,
+      "seconds": 191,
+      "charged": 0.375,
+      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_wooden_crate.glb (36664 KB), seed None",
+      "err": ""
+    },
+    {
+      "id": "lhi_oilskin_coat",
+      "ok": true,
+      "seconds": 130,
+      "charged": 0.375,
+      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_oilskin_coat.glb (28265 KB), seed None",
+      "err": ""
+    },
+    {
+      "id": "lhi_kitchen_table",
+      "ok": true,
+      "seconds": 143,
+      "charged": 0.375,
+      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_kitchen_table.glb (31380 KB), seed None",
+      "err": ""
+    },
+    {
+      "id": "lhi_telegraph_set",
+      "ok": true,
+      "seconds": 163,
+      "charged": 0.375,
+      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_telegraph_set.glb (35814 KB), seed None",
+      "err": ""
+    },
+    {
+      "id": "lhi_oil_lamp",
+      "ok": true,
+      "seconds": 119,
+      "charged": 0.375,
+      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_oil_lamp.glb (40261 KB), seed None",
+      "err": ""
+    },
+    {
+      "id": "lhi_filing_cabinet",
+      "ok": true,
+      "seconds": 141,
+      "charged": 0.375,
+      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_filing_cabinet.glb (31655 KB), seed None",
+      "err": ""
+    }
+  ]
+}

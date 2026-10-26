@@ -58,6 +58,8 @@ func _load_baked() -> void:
 	_lh = get_node_or_null(lighthouse_path) as Node3D
 	if _lh == null or _lh.get_node_or_null("convert") == null or not ResourceLoader.exists(MESH_PATH):
 		return
+	if _lh.get("_repaired") == true:
+		return      # the repaired exterior (v4) needs no patches
 	var mesh := load(MESH_PATH) as ArrayMesh
 	var f := FileAccess.open(MAP_PATH, FileAccess.READ)
 	if mesh == null or f == null:

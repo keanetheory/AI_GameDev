@@ -1,0 +1,87 @@
+{
+  "by_level": {
+    "basement": {
+      "meshes": 491,
+      "surfaces": 491,
+      "tris": 165969
+    },
+    "first floor": {
+      "meshes": 351,
+      "surfaces": 351,
+      "tris": 187952
+    },
+    "ground": {
+      "meshes": 382,
+      "surfaces": 382,
+      "tris": 261876
+    },
+    "lamp room and gallery": {
+      "meshes": 115,
+      "surfaces": 115,
+      "tris": 78724
+    },
+    "tower and L2": {
+      "meshes": 94,
+      "surfaces": 94,
+      "tris": 106106
+    }
+  },
+  "by_source": {
+    "exterior model": {
+      "meshes": 61,
+      "surfaces": 61,
+      "tris": 35757
+    },
+    "hero props (FAL)": {
+      "meshes": 24,
+      "surfaces": 24,
+      "tris": 418622
+    },
+    "interior kit (boxes, rods)": {
+      "meshes": 740,
+      "surfaces": 740,
+      "tris": 151398
+    },
+    "lamp room + gallery": {
+      "meshes": 129,
+      "surfaces": 129,
+      "tris": 182586
+    },
+    "light cards": {
+      "meshes": 88,
+      "surfaces": 88,
+      "tris": 176
+    },
+    "opening kit": {
+      "meshes": 33,
+      "surfaces": 33,
+      "tris": 408
+    },
+    "other": {
+      "meshes": 71,
+      "surfaces": 71,
+      "tris": 4936
+    },
+    "stair treads": {
+      "meshes": 111,
+      "surfaces": 111,
+      "tris": 3672
+    },
+    "trim": {
+      "meshes": 117,
+      "surfaces": 117,
+      "tris": 1628
+    },
+    "v3 greybox shell": {
+      "meshes": 59,
+      "surfaces": 59,
+      "tris": 1444
+    }
+  },
+  "materials": 92,
+  "meshes": 1433,
+  "nodes": 2758,
+  "shadow_tris": 799013,
+  "surfaces": 1433,
+  "tris": 800627
+}

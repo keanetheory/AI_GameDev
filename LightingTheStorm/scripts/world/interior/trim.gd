@@ -172,7 +172,7 @@ func _gables() -> void:
 		var u: float = g[0]
 		var base: float = Y + float(g[1])
 		# the ceiling line: front slope (v 0.9, Y+1.45) to the ridge (v 5.0, Y+4.0), back slope to (v 8.9, Y+1.6): where it meets `base`
-		var v_front := 0.9 + (base - (Y + 1.45)) / (2.55 / 4.1)
+		var v_front := 0.9 + (base - (Y + 1.72)) / ((4.0 - 1.72) / 4.1)
 		var v_back := 5.0 + ((Y + 4.0) - base) / (2.4 / 3.9)
 		var top := Y + 3.97
 		var st := SurfaceTool.new()

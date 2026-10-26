@@ -23,6 +23,8 @@ static func shell_mode() -> int:
 	var v := OS.get_environment("LHF_SHELL")
 	return 0 if v == "" else int(v)
 static var _spec: Dictionary = {}
+## The front ceiling slope starts this high above the first floor at v 0.9 (it was 1.45: at the tower doorway the player's eyes were inside the slab and saw the sky through it, creator 2026-10-26).
+const CEIL_FRONT := 1.72
 const INNER_R := 2.13               # the ring's inner edge: just outside the stair (outer radius 2.07)
 
 var K
@@ -92,7 +94,7 @@ func _l1_house(P: Node3D) -> void:
 	else:
 		_ceiling(P, Y)
 		# plaster lining over the exterior model's dirty inside faces on the west and back walls
-		K.box(P, "L1_LiningFront", -3.0, 5.4, 0.88, 0.95, Y, Y + 1.5, "plaster", true)
+		K.box(P, "L1_LiningFront", -3.0, 5.4, 0.88, 0.95, Y, Y + CEIL_FRONT - 0.02, "plaster", true)
 		_lined_wall(P, "L1_LiningWest", "west", 0.95, 8.7, -3.06, -3.0, Y, Y + 2.7, hw)
 		_lined_wall(P, "L1_LiningBack", "back", -3.06, 5.4, 8.7, 8.76, Y, Y + 1.85, hw)
 		_house_window_frames(P, hw)
@@ -122,6 +124,12 @@ func _l1_house(P: Node3D) -> void:
 		K.box(P, "L1_TowerDoorFrame_a", 5.38, 5.6, 0.95, 1.12, Y, Y + 2.0, "wood_dark", false)
 		K.box(P, "L1_TowerDoorFrame_b", 5.38, 5.6, 2.08, 2.25, Y, Y + 2.0, "wood_dark", false)
 		K.box(P, "L1_TowerDoorFrame_c", 5.38, 5.6, 0.95, 2.25, Y + 2.0, Y + 2.12, "wood_dark", false)
+		# above the doorway the old exterior's wall is carved away right up into the roof, and the front ceiling slope comes down to 1.45 m at v 0.95, so from the
+		# tower the sky showed over the door head (creator, 2026-10-26: "the hole on L2 at the doorway, you can peek out to the sky"). A plaster plate closes the
+		# doorway's end plane from the head up to the roof.
+		K.box(P, "L1_TowerDoorCap", 5.37, 5.62, 0.9, 2.4, Y + 2.12, Y + 4.4, "plaster", false)
+		K.box(P, "L1_TowerDoorCapL", 5.37, 5.62, 0.9, 1.0, Y + 1.3, Y + 2.12, "plaster", false)
+		K.box(P, "L1_TowerDoorFront", 5.2, 6.4, 0.78, 0.95, Y + 1.3, Y + 4.4, "plaster", false)      # and the front wall beside it, which also ends above the door reveal
 	_lamp(P, "L1_HallLamp", Vector3(4.4, Y + 1.7, 1.5), 1.6)
 	_lamp(P, "L1_HallLamp2", Vector3(1.6, Y + 1.75, 1.9), 1.7)
 	_lamp(P, "L1_HallLamp3", Vector3(-1.6, Y + 1.75, 1.9), 1.7)
@@ -394,7 +402,7 @@ func _ceiling(P: Node3D, Y: float) -> void:
 	var u0 := -3.0
 	var u1 := 5.45
 	var th := 0.12
-	_tilt_slab(P, "L1_CeilingFront", u0, u1, Vector2(0.9, Y + 1.45), Vector2(5.0, Y + 4.0), th)
+	_tilt_slab(P, "L1_CeilingFront", u0, u1, Vector2(0.9, Y + CEIL_FRONT), Vector2(5.0, Y + 4.0), th)
 	_tilt_slab(P, "L1_CeilingBack", u0, u1, Vector2(5.0, Y + 4.0), Vector2(8.9, Y + 1.6), th)
 	K.box(P, "L1_RidgeBeam", u0 + 0.05, u1 - 0.45, 4.92, 5.08, Y + 3.88, Y + 4.02, "wood_dark", false)      # stops 0.45 m short of the east wall: it ran on into the tower as a plank through the L2 window (creator, 2026-10-26)
 	for i in 5:
@@ -402,7 +410,7 @@ func _ceiling(P: Node3D, Y: float) -> void:
 		var u := u0 + 0.4 + 2.1 * i
 		if u > u1 - 0.1:
 			continue          # the fifth pair stood at u 5.8, past the east wall, and its slope ran through the tower doorway (creator, 2026-10-25)
-		_rafter(P, "L1_Rafter_F%d" % i, u, Vector2(0.9, Y + 1.45), Vector2(5.0, Y + 4.0))
+		_rafter(P, "L1_Rafter_F%d" % i, u, Vector2(0.9, Y + CEIL_FRONT), Vector2(5.0, Y + 4.0))
 		_rafter(P, "L1_Rafter_B%d" % i, u, Vector2(5.0, Y + 4.0), Vector2(8.9, Y + 1.6))
 
 
@@ -416,7 +424,11 @@ func _tilt_slab(P: Node3D, nm: String, u0: float, u1: float, a: Vector2, b: Vect
 	var bm := BoxMesh.new()
 	bm.size = Vector3(u1 - u0, th, ln)
 	mi.mesh = bm
-	mi.material_override = K.mats["plaster"]
+	# double-sided: at the tower doorway the front slope is only 1.5 to 2.3 m up, the player's eyes are inside the slab, and a one-sided slab showed the sky through
+	# itself (creator, 2026-10-26: "the hole at the doorway on L2, you can peek out to the sky")
+	var dm := (K.mats["plaster"] as StandardMaterial3D).duplicate() as StandardMaterial3D
+	dm.cull_mode = BaseMaterial3D.CULL_DISABLED
+	mi.material_override = dm
 	var x := Vector3(1, 0, 0)
 	var y := Vector3(0, dv, dy) / ln
 	var z := Vector3(0, -dy, dv) / ln
@@ -498,7 +510,7 @@ func _sloped_wall(P: Node3D, nm: String, u0: float, u1: float, v0: float, v1: fl
 ## First-floor ceiling height above the floor at house-frame v, as the old ceiling slabs (_ceiling) build it: a front slope from v 0.9 (1.45 m) to the ridge at v 5.0
 ## (4.0 m), a back slope down to v 8.9 (1.6 m).
 static func ceil_rel(v: float) -> float:
-	return 1.45 + (v - 0.9) * (4.0 - 1.45) / (5.0 - 0.9) if v <= 5.0 else 4.0 - (v - 5.0) * (4.0 - 1.6) / (8.9 - 5.0)
+	return CEIL_FRONT + (v - 0.9) * (4.0 - CEIL_FRONT) / (5.0 - 0.9) if v <= 5.0 else 4.0 - (v - 5.0) * (4.0 - 1.6) / (8.9 - 5.0)
 
 
 ## A partition that runs right up to the ceiling (creator, 2026-10-26: "walls not meeting the ceiling"): a plaster panel u0..u1 whose top follows `ceil_rel` along v,

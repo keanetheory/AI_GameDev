@@ -1,0 +1,72 @@
+{
+  "id": "lighthouse_agent_crew",
+  "name": "Lighthouse Agent Crew",
+  "purpose": "Everyone who touches the Saint Calder lighthouse, inside and out, working to one finish standard: realistic, cel-shaded, optimised, lore-correct. The Finisher leads the build; the two assessors score it; the Interior Creator keeps the gameplay logic intact; the AI Crew members are called on for their lanes.",
+  "lead": "lighthouse_finisher",
+  "rules": [
+    "Offline only: --check-only and the deterministic ger.py checks. No FAL, ElevenLabs or Anthropic API spend unless the creator says so in chat.",
+    "Nothing is built before the creator's all clear (the GER approval gate). The Finisher's plan goes through review-plan first.",
+    "The Interior Creator's gameplay logic (coal job, lamp fit, doors, anchors) is not rewritten by the Finisher; the Finisher replaces only the look and the geometry.",
+    "Every change is held to the LHF-01 baseline shots and the lighthouse test suite staying green."
+  ],
+  "members": [
+    {
+      "id": "lighthouse_finisher",
+      "name": "Lighthouse Finisher Agent",
+      "role": "Lead builder: finishes the whole lighthouse. Its full objective list lives in agents/creators/lighthouse_finisher.json (LHF-01 to LHF-18).",
+      "tasks_from_spec": true
+    },
+    {
+      "id": "lighthouse_interior_creator",
+      "name": "Lighthouse Interior Creator Agent",
+      "role": "Owner of the interior code, rooms and interaction logic. Its own list is LHI-01 to LHI-18 (agents/creators/lighthouse_interior_creator.json); the crew tasks below are the extra work the finish needs from it.",
+      "tasks": [
+        {"id": "LHC-IC-1", "priority": 9, "title": "Hand the Finisher a map of every interior node, script and anchor name that must survive a re-skin (coal_job, firebox, Lens_*, LampSocket, LHI_Anchor_*, poster.gd)", "pairs_with": "LHF-05, LHF-08, LHF-09, LHF-13"},
+        {"id": "LHC-IC-2", "priority": 8, "title": "Expose the room builders (rooms_house.gd, rooms_tower.gd) so props and trim can be swapped per room without editing the logic", "pairs_with": "LHF-07, LHF-08, LHF-15"},
+        {"id": "LHC-IC-3", "priority": 8, "title": "Answer Finisher requests to change a room's collision or anchors, and re-run test_interior_walk, test_coal_job, test_lamp_fit and test_interior_anchors after each", "pairs_with": "LHF-04, LHF-16"},
+        {"id": "LHC-IC-4", "priority": 6, "title": "Retire LHI-18 (art handoff) in favour of the Finisher, and record what the Finisher took over", "pairs_with": "LHF-08, LHF-18"}
+      ]
+    },
+    {
+      "id": "lighthouse_interior_assessor",
+      "name": "Lighthouse - Interior Assessment Agent",
+      "role": "Scores the Finisher's interior work against the Interior Plan V4 blueprint, the GDD beats and the concept art. Read-only.",
+      "tasks": [
+        {"id": "LHC-IA-1", "priority": 10, "title": "Add a finish rubric (surface, trim, dressing, lighting, scale, story read; 1-10 per room) and score every room from the LHF-01 baseline shots", "pairs_with": "LHF-01, LHF-07"},
+        {"id": "LHC-IA-2", "priority": 9, "title": "Check that no exterior triangle sits inside any interior volume (probe_shards, probe_tower_intruders)", "pairs_with": "LHF-02"},
+        {"id": "LHC-IA-3", "priority": 9, "title": "Measure every staircase against the stair spec: rise, going, headroom, walk test", "pairs_with": "LHF-04"},
+        {"id": "LHC-IA-4", "priority": 9, "title": "Verify the rain test (zero particles inside) and the fire follows the coal job loads", "pairs_with": "LHF-03, LHF-05"},
+        {"id": "LHC-IA-5", "priority": 8, "title": "Check posters against the Flighted canon brief and the retired-brand rule", "pairs_with": "LHF-09"},
+        {"id": "LHC-IA-6", "priority": 8, "title": "Re-score the room table after each Finisher loop; BLOCK only on a regression, a canon break or a failed test", "pairs_with": "LHF-07, LHF-16, LHF-17"},
+        {"id": "LHC-IA-7", "priority": 6, "title": "Extend work_checks: add the new stair, rain and fire tests and a per-room triangle budget check", "pairs_with": "LHF-06, LHF-16"}
+      ]
+    },
+    {
+      "id": "lighthouse_exterior_assessor",
+      "name": "Lighthouse - Exterior Assessment Agent",
+      "role": "Scores the Finisher's exterior work and keeps the beacon silhouette intact. Read-only.",
+      "tasks": [
+        {"id": "LHC-EA-1", "priority": 10, "title": "Record the exterior silhouette, wall close-ups and exterior tri/texture budget as the baseline, and refresh the measured dimensions and door facts", "pairs_with": "LHF-01"},
+        {"id": "LHC-EA-2", "priority": 9, "title": "Confirm the exterior silhouette is unchanged after the interior carve, from the sea and from the dock in every phase", "pairs_with": "LHF-02"},
+        {"id": "LHC-EA-3", "priority": 8, "title": "Score the close-up wall work: mortar, bevels, weathering, stretched texture, 2048 limit, mesh_audit", "pairs_with": "LHF-11"},
+        {"id": "LHC-EA-4", "priority": 8, "title": "Check every opening reads the same from both sides and with the measured door", "pairs_with": "LHF-12"},
+        {"id": "LHC-EA-5", "priority": 7, "title": "Write the finish assessment (reports/lighthouse_exterior_assessor_assessment.md) and add the finisher to its feedback list; flag any regeneration needing FAL credits as a creator decision", "pairs_with": "LHF-11, LHF-17"}
+      ]
+    },
+    {
+      "id": "ai_crew",
+      "name": "AI Crew members (consulted, offline)",
+      "role": "Roster agents from AIAgentCrew/roles.py called for their lane. Run only with --check-only or the existing offline outputs.",
+      "tasks": [
+        {"id": "LHC-AI-1", "agent": "Asset agent", "priority": 9, "title": "Check-only submissions for new props, the exterior wall textures and the poster art; apply the 4096 to 2048 downscale rule and the import script", "pairs_with": "LHF-08, LHF-09, LHF-11"},
+        {"id": "LHC-AI-2", "agent": "Lighting agent", "priority": 9, "title": "Agree the toon ramp and outline with the Finisher, decide indoor-rain rules and per-room light plans inside the dynamic-light budget", "pairs_with": "LHF-03, LHF-10, LHF-14"},
+        {"id": "LHC-AI-3", "agent": "Level Layout agent", "priority": 8, "title": "Approve the stair spec, headroom and traversal, and re-check the two GDD sightlines", "pairs_with": "LHF-04, LHF-12"},
+        {"id": "LHC-AI-4", "agent": "Gameplay / Systems agent", "priority": 7, "title": "Confirm the boiler, firebox, lamp and door interaction contracts survive the re-skin", "pairs_with": "LHF-05, LHF-13"},
+        {"id": "LHC-AI-5", "agent": "Sound agent", "priority": 6, "title": "Place the fire crackle, drip and machinery emitters at the anchors the Finisher provides", "pairs_with": "LHF-03, LHF-05"},
+        {"id": "LHC-AI-6", "agent": "QA agent", "priority": 8, "title": "Own the fixed-camera shot set and the visual regression, and the green-test baseline", "pairs_with": "LHF-01, LHF-16"},
+        {"id": "LHC-AI-7", "agent": "Canon and Review Orchestrator", "priority": 7, "title": "Offline canon check of posters, signage and the Saint Calder brand", "pairs_with": "LHF-09, LHF-17"},
+        {"id": "LHC-AI-8", "agent": "Island Creator Agent", "priority": 6, "title": "Answer carve requests where the rock meets the foundation and basement", "pairs_with": "LHF-02"}
+      ]
+    }
+  ]
+}

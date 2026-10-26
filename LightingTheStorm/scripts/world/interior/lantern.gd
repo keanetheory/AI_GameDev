@@ -179,6 +179,16 @@ void fragment() {
 	beam.rotation.z = deg_to_rad(90.0)
 	beam.position = Vector3(35.0, 0, 0)
 	pivot.add_child(beam)
+	# a second beam straight opposite, sharing the first one's material (so it rises, tints and fades with it): a lighthouse seen from outside lost its beam
+	# for about a third of every turn while the single beam pointed away from the viewer or behind the tower; with a twin one beam is always turned toward
+	# somebody (creator, 2026-10-26: "it goes out every 3 seconds, I want it to be continuous")
+	var beam_b := MeshInstance3D.new()
+	beam_b.name = "BeamTwin"
+	beam_b.mesh = cm
+	beam_b.material_override = bm
+	beam_b.rotation.z = deg_to_rad(-90.0)
+	beam_b.position = Vector3(-35.0, 0, 0)
+	pivot.add_child(beam_b)
 	var spot := SpotLight3D.new()
 	spot.name = "Spot"
 	spot.rotation.y = deg_to_rad(-90.0)

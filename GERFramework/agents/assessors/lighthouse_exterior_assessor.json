@@ -5,7 +5,8 @@
   "reviews": null,
   "feedback_to": [
     "lighthouse_interior_creator",
-    "island_creator"
+    "island_creator",
+    "lighthouse_finisher"
   ],
   "mandate": "Assess the existing lighthouse exterior model (lighthouse_exterior_v3.glb) against the lore, the GDD and the lighthouse concept art, and report what the Lighthouse Interior and Island creators must respect: the true dimensions, the solid house-to-tower wall that still needs carving, the door, the silhouette as the beacon landmark, and mesh and texture health. There is no exterior creator in this batch, so this agent reviews the existing asset and the plan of any creator whose work touches it.",
   "keywords": [
@@ -63,5 +64,6 @@
   ],
   "offline_crew_consults": [
     "python main_asset.py sample_submissions/lighthouse_hunyuan_v3.fal.json --check-only"
-  ]
+  ],
+  "crew": "Lighthouse Agent Crew"
 }

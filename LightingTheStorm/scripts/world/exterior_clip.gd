@@ -68,7 +68,7 @@ func _inside(p: Vector3, frame: Node3D, shell, l1: float) -> bool:
 	var v := -(rx * sin(YAW) + rz * cos(YAW))
 	if p.y > l1 + 0.05 and u > -3.0 + MARGIN and u < 5.39 - MARGIN and v > 0.95 + MARGIN and v < 8.7 - MARGIN:
 		var rel := p.y - l1
-		var ceil_rel := 1.45 + (v - 0.9) * (4.0 - 1.45) / (5.0 - 0.9) if v <= 5.0 else 4.0 - (v - 5.0) * (4.0 - 1.6) / (8.9 - 5.0)
+		var ceil_rel := 1.72 + (v - 0.9) * (4.0 - 1.72) / (5.0 - 0.9) if v <= 5.0 else 4.0 - (v - 5.0) * (4.0 - 1.6) / (8.9 - 5.0)
 		if rel < ceil_rel - 0.1:
 			return true
 	return false

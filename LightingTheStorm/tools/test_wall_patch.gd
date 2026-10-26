@@ -18,6 +18,10 @@ func _process(_d: float) -> bool:
 		return false
 	var wp = _lv.get_node("InteriorRooms/WallPatch")
 	var fails := 0
+	if _lv.get_node("Lighthouse").get("_repaired") == true:
+		print("SKIP  the repaired exterior (v4) has no holes to patch; LHF_EXTERIOR=v3 runs this test")
+		quit(0)
+		return false
 	var ok: bool = wp.built and wp.patched_cells > 0
 	print(("PASS  " if ok else "FAIL  ") + "the baked wall copies are in the exterior (%d cells)" % wp.patched_cells)
 	fails += int(not ok)

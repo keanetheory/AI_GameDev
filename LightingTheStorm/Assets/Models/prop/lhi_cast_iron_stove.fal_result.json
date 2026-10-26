@@ -1,0 +1,19 @@
+{
+  "submission": {
+    "asset_id": "lhi_cast_iron_stove",
+    "category": "prop",
+    "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+    "prompt": "Squat cast-iron cooking range for a lighthouse kitchen, a firebox door with a small mica window, round hotplates on top, a short stove pipe collar, black iron with rust, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+    "source_image": null,
+    "view_images": {},
+    "notes": "Lighthouse Finisher Agent LHF-08 hero prop. Replaces a greybox prop in the lighthouse interior; the collision box and anchors stay. Downscale the 4096 texture to 2048 on import."
+  },
+  "request_id": "01a16f6a-df2e-7b63-be1e-60fdfe54b8b6",
+  "seed": null,
+  "textured": true,
+  "request": {
+    "prompt": "Squat cast-iron cooking range for a lighthouse kitchen, a firebox door with a small mica window, round hotplates on top, a short stove pipe collar, black iron with rust, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "generate_type": "Normal"
+  }
+}

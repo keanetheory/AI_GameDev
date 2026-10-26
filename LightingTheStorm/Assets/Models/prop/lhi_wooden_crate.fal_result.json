@@ -1,0 +1,19 @@
+{
+  "submission": {
+    "asset_id": "lhi_wooden_crate",
+    "category": "prop",
+    "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+    "prompt": "Rough wooden shipping crate made of planks with rope handles cut into the sides and rusty nails, stencilled marks worn away, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+    "source_image": null,
+    "view_images": {},
+    "notes": "Lighthouse Finisher Agent LHF-08 hero prop. Replaces a greybox prop in the lighthouse interior; the collision box and anchors stay. Downscale the 4096 texture to 2048 on import."
+  },
+  "request_id": "01a16f6e-dd32-7223-b6dc-2a24d8d9a2e0",
+  "seed": null,
+  "textured": true,
+  "request": {
+    "prompt": "Rough wooden shipping crate made of planks with rope handles cut into the sides and rusty nails, stencilled marks worn away, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "generate_type": "Normal"
+  }
+}

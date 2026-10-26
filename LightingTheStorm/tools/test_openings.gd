@@ -81,7 +81,7 @@ func _physics_process(_d: float) -> bool:
 	fails += int(not w_ok)
 	# 2026-10-25 round 3: the smooth facade round the door, the L1 doorway reveals, and the L2 panelling standing proud of its walls (the flicker fix)
 	var fac: Node3D = eo.facade
-	var f_ok: bool = fac != null and fac.get_child_count() >= 6
+	var f_ok: bool = (_lv.get_node("Lighthouse").get("_repaired") == true) or (fac != null and fac.get_child_count() >= 6)      # (the repaired exterior has a smooth wall round the door itself)
 	print(("PASS  " if f_ok else "FAIL  ") + "the front facade round the main door is built (%d parts)" % (fac.get_child_count() if fac else 0))
 	fails += int(not f_ok)
 	var rev: bool = OS.get_environment("LHF_SHELL") == "2" or (shell.find_child("L1_DoorReveal_84", true, false) != null and shell.find_child("L1_DoorRevealHead", true, false) != null)      # (the authored wall has real reveals)

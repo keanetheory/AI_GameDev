@@ -1,0 +1,19 @@
+{
+  "submission": {
+    "asset_id": "lhi_oil_lamp",
+    "category": "prop",
+    "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+    "prompt": "Brass paraffin table lamp with a glass chimney and a round glass reservoir, a small wick wheel, tarnished and smoke-stained, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+    "source_image": null,
+    "view_images": {},
+    "notes": "Lighthouse Finisher Agent LHF-08 hero prop. Replaces a greybox prop in the lighthouse interior; the collision box and anchors stay. Downscale the 4096 texture to 2048 on import."
+  },
+  "request_id": "01a16f78-76c5-7621-b6aa-b669aca4b971",
+  "seed": null,
+  "textured": true,
+  "request": {
+    "prompt": "Brass paraffin table lamp with a glass chimney and a round glass reservoir, a small wick wheel, tarnished and smoke-stained, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "generate_type": "Normal"
+  }
+}

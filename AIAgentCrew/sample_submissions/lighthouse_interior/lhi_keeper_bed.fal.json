@@ -1,0 +1,8 @@
+{
+  "asset_id": "lhi_keeper_bed",
+  "category": "prop",
+  "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+  "prompt": "Narrow iron-framed single bed for a lighthouse keeper, thin straw mattress, a rough grey wool blanket folded at the foot and a flat pillow, chipped black paint, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+  "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+  "notes": "Lighthouse Finisher Agent LHF-08 hero prop. Replaces a greybox prop in the lighthouse interior; the collision box and anchors stay. Downscale the 4096 texture to 2048 on import."
+}

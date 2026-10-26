@@ -1,0 +1,9 @@
+{
+  "rise": 0.18,
+  "rise_tolerance": 0.05,
+  "going_walkline_min": 0.25,
+  "going_walkline_max": 0.45,
+  "headroom_min": 2.0,
+  "walkline_radius": {"tower": 1.6, "basement": 0.85},
+  "note": "LHF-04. Every staircase: rise within 5 percent of 0.18 m, going on the walk line between 0.25 and 0.45 m, at least 2.0 m clear above the tread. Tower stair: 96 steps of 15 degrees; basement spiral: 15 steps of 24 degrees."
+}

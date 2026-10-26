@@ -46,6 +46,32 @@ Make Bracken Isle (the rock the lighthouse sits on) complete, clean, fast to loa
 | ISL-10 | 5 | Import hygiene: textures at 2048, provenance records, import notes |  |
 | ISL-11 | 4 | Decide what to do with the legacy island meshes (8-island.glb, 8-island-collider.glb, island_plateau.glb) | yes |
 
+## Lighthouse Finisher Agent
+_Reviewed by Lighthouse - Interior Assessment Agent_
+
+Finish the whole lighthouse, inside and out, to a realistic yet cel-shaded standard: no exterior mesh inside the interior, no rain indoors, consistent believable stairs, optimised geometry and polygon counts, real props, reset posters, a living boiler fire, and refined close-up walls.
+
+| ID | Score | Objective | Needs creator |
+|---|---|---|---|
+| LHF-01 | 10 | Baseline audit and a fixed before/after shot set |  |
+| LHF-02 | 10 | Stop the exterior mesh showing inside the interior |  |
+| LHF-03 | 10 | No rain inside the lighthouse |  |
+| LHF-04 | 10 | One realistic stair standard, applied to every staircase |  |
+| LHF-05 | 10 | Boiler: living flames in place of the red slab |  |
+| LHF-06 | 9 | Geometry and polygon optimisation |  |
+| LHF-07 | 9 | Room-by-room rebuild of the poorly rendered rooms |  |
+| LHF-08 | 9 | Replace greybox props with real models or well-made procedural props | yes |
+| LHF-09 | 9 | Reset the Flighted posters | yes |
+| LHF-10 | 9 | Cel-shaded look for the whole lighthouse | yes |
+| LHF-11 | 8 | Exterior walls: close-up realism | yes |
+| LHF-12 | 8 | Windows, doors and thresholds: one consistent opening kit |  |
+| LHF-13 | 8 | Lamp room and gallery finish |  |
+| LHF-14 | 8 | Per-room lighting and materials pass |  |
+| LHF-15 | 7 | Architectural trim: ceilings, floors, skirting, cornices, joists |  |
+| LHF-16 | 7 | Regression: every lighthouse test stays green |  |
+| LHF-17 | 6 | Offline asset and canon checks, and the assessors' final score |  |
+| LHF-18 | 5 | Handoff, changelog and fallbacks |  |
+
 ## Lighthouse Interior Creator Agent
 _Reviewed by Lighthouse - Interior Assessment Agent_
 
@@ -132,12 +158,12 @@ Reviews: island_creator  |  feedback to: island_creator
 Hold the Island Creator Agent to the lore and the GDD for Bracken Isle: no holes, no empty or unreferenced meshes, a collider that matches what the player sees, a quick load, correct lighting in every phase, and a faithful read of the island concept art. Review the plan first, then the finished work, using only the offline AI Crew and deterministic checks.
 
 ### Lighthouse - Exterior Assessment Agent
-Reviews: existing work (no creator in this batch)  |  feedback to: lighthouse_interior_creator, island_creator
+Reviews: existing work (no creator in this batch)  |  feedback to: lighthouse_interior_creator, island_creator, lighthouse_finisher
 
 Assess the existing lighthouse exterior model (lighthouse_exterior_v3.glb) against the lore, the GDD and the lighthouse concept art, and report what the Lighthouse Interior and Island creators must respect: the true dimensions, the solid house-to-tower wall that still needs carving, the door, the silhouette as the beacon landmark, and mesh and texture health. There is no exterior creator in this batch, so this agent reviews the existing asset and the plan of any creator whose work touches it.
 
 ### Lighthouse - Interior Assessment Agent
-Reviews: lighthouse_interior_creator  |  feedback to: lighthouse_interior_creator
+Reviews: lighthouse_interior_creator  |  feedback to: lighthouse_interior_creator, lighthouse_finisher
 
 Hold the Lighthouse Interior Creator Agent to the Interior Plan V4 blueprint (B1 basement, G ground, L1 keeper's quarters, L2 control and diagnostics, L3 lantern room, left hut, right annex), the GDD beats (door, coal, window, lantern diagnosis, burner fit) and the exterior model's real dimensions: a walkable route, rooms that match the plan, sightlines that match GDD decisions 22 and 26, and lighting inside the budget. Offline AI Crew and deterministic checks only.
 

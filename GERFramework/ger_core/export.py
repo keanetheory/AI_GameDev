@@ -21,6 +21,12 @@ def _table(objs):
     return "\n".join(rows)
 
 
+def crew_line(x):
+    if not x.get("crew"):
+        return ""
+    return f"\n\nYou are a member of the **{x['crew']}**; its shared rules and every member's task list are in `GERFramework/crews/{x['crew'].upper().replace(' ', '_')}.md`."
+
+
 def creator_md(c, a):
     collab = "\n".join(f"- **{x['agent']}**: {x['how']}" for x in c["collaborates_with"])
     inputs = "\n".join(f"- {k}: " + ", ".join(v) for k, v in c["inputs"].items())
@@ -30,7 +36,7 @@ description: {c['name']} (GER Framework creator). {c['mission'][:180]}
 tools: Read, Write, Edit, Glob, Grep, Bash, PowerShell
 ---
 
-You are the **{c['name']}** for *Lighting the Storm* (Godot 4.3, project in `LightingTheStorm/`, brand name Saint Calder).
+You are the **{c['name']}** for *Lighting the Storm* (Godot 4.3, project in `LightingTheStorm/`, brand name Saint Calder).{crew_line(c)}
 
 **Mission:** {c['mission']}
 
@@ -95,7 +101,7 @@ description: {a['name']} (GER Framework assessor). {a['mandate'][:180]}
 tools: Read, Glob, Grep, Bash, PowerShell
 ---
 
-You are the **{a['name']}** for *Lighting the Storm*. You assess; you do not build.
+You are the **{a['name']}** for *Lighting the Storm*. You assess; you do not build.{crew_line(a)}
 
 **Mandate:** {a['mandate']}
 
@@ -137,6 +143,21 @@ def roster_md(C, A):
     return "\n".join(L)
 
 
+def crew_md(crew, C):
+    L = [f"# {crew['name']}", "", crew["purpose"], "", "## Rules", ""] + [f"- {r}" for r in crew["rules"]] + [""]
+    for m in crew["members"]:
+        L += [f"## {m['name']}", f"_{m['role']}_", ""]
+        if m.get("tasks_from_spec"):
+            L += [_table(C[m["id"]]["objectives"]), ""]
+            continue
+        L += ["| ID | Score | Task | Pairs with |", "|---|---|---|---|"]
+        for t in sorted(m["tasks"], key=lambda t: (-t["priority"], t["id"])):
+            who = f"{t['agent']}: " if t.get("agent") else ""
+            L.append(f"| {t['id']} | {t['priority']} | {who}{t['title']} | {t.get('pairs_with', '')} |")
+        L.append("")
+    return "\n".join(L)
+
+
 def run():
     C, A = spec.creators(), spec.assessors()
     AGENTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -145,4 +166,6 @@ def run():
     for a in A.values():
         (AGENTS_DIR / f"ger-{a['id'].replace('_', '-')}.md").write_text(assessor_md(a, C), encoding="utf-8")
     (spec.ROOT / "AGENT_ROSTER.md").write_text(roster_md(C, A), encoding="utf-8")
+    for crew in spec.crews().values():
+        (spec.ROOT / "crews" / f"{crew['id'].upper()}.md").write_text(crew_md(crew, C), encoding="utf-8")
     print(f"wrote {len(C) + len(A)} agent files to .claude/agents/ and GERFramework/AGENT_ROSTER.md")

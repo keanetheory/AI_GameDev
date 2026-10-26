@@ -34,6 +34,14 @@ def assessors() -> dict:
     return _load("assessors")
 
 
+def crews() -> dict:
+    out = {}
+    for f in sorted((ROOT / "crews").glob("*.json")):
+        d = json.loads(f.read_text(encoding="utf-8"))
+        out[d["id"]] = d
+    return out
+
+
 def pair(creator_id: str) -> tuple[dict, dict]:
     c = creators()[creator_id]
     return c, assessors()[c["assessor"]]

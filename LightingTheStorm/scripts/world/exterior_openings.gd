@@ -56,7 +56,8 @@ func _build() -> void:
 	glass.cull_mode = BaseMaterial3D.CULL_DISABLED      # the fanlight's triangles face inward: from outside it was culled and only the spokes showed (creator, "missing textures over the door")
 	var space := lh.get_world_3d().direct_space_state
 	var wins := _windows()
-	if rooms != null and rooms.get("frame") != null and OS.get_environment("LHF_NO_PATCH") != "1":
+	var repaired: bool = lh.get("_repaired") == true      # the repaired exterior (v4) has no holes: no masonry plates over them, no facade panels
+	if rooms != null and rooms.get("frame") != null and OS.get_environment("LHF_NO_PATCH") != "1" and not repaired:
 		_house_walls(rooms.frame, lh, space, wall_stone, wins)
 	for w in wins:
 		if w["kind"] == "tower":
@@ -87,7 +88,7 @@ func _build() -> void:
 			fallback.append("door")
 		holder.global_transform = Transform3D(door.global_transform.basis, centre + out * dd)
 		surrounds["door"] = Kit.door(holder, "Door", dw, float(door.get("height")), stone, iron, glass)
-		if rooms != null and rooms.get("frame") != null and OS.get_environment("LHF_NO_FACADE") != "1":
+		if rooms != null and rooms.get("frame") != null and OS.get_environment("LHF_NO_FACADE") != "1" and not repaired:
 			_front_facade(rooms.frame, wall_stone, dd)
 	built = true
 

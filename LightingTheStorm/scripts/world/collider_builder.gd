@@ -6,6 +6,10 @@
 extends Node3D
 
 @export_file("*.glb") var model_path := ""
+## A repaired copy of the model with the carves already applied and the holes filled (tools/export_carved_exterior.gd + Assets/Models/lighthouse/repair/repair_exterior.py).
+## When set, it is used instead of model_path and the carve lists are ignored. LHF_EXTERIOR=v3 forces the original model with its carves (the fallback).
+@export_file("*.glb") var repaired_model_path := ""
+var _repaired := false
 @export var visible_mesh := true
 @export var solid := true
 ## Trimesh follows the mesh exactly (good for walkable ground). Convex is a cheap hull for big
@@ -84,7 +88,8 @@ var used_bake := ""                  # "disk", "shared" or "" (built live): for 
 
 
 func _ready() -> void:
-	var scene: PackedScene = load(model_path)
+	_repaired = repaired_model_path != "" and OS.get_environment("LHF_EXTERIOR") != "v3" and ResourceLoader.exists(repaired_model_path)
+	var scene: PackedScene = load(repaired_model_path if _repaired else model_path)
 	if scene == null:
 		push_error("Could not load %s" % model_path)
 		return
@@ -147,6 +152,8 @@ func _flattens() -> bool:
 
 
 func _carves() -> bool:
+	if _repaired:
+		return false
 	return not carve_boxes.is_empty() or not carve_oriented.is_empty() or not carve_oriented_any.is_empty() \
 			or not carve_cylinders.is_empty() or not carve_cylinders_any.is_empty() or carve_lines.size() >= 2 \
 			or not keep_boxes.is_empty()
@@ -155,7 +162,7 @@ func _carves() -> bool:
 # Everything that decides the result: the settings that shape it and a signature of each mesh in the model (its path,
 # size and bounds), so a regenerated .glb gets a new key. The node's own transform is left out: carves are in its space.
 func _bake_key(root: Node, meshes: Array[MeshInstance3D]) -> String:
-	var parts := [BAKE_VERSION, model_path, solid, collision_kind, double_sided or backface_collision,
+	var parts := [BAKE_VERSION, repaired_model_path if _repaired else model_path, _repaired, solid, collision_kind, double_sided or backface_collision,
 			carve_boxes, carve_oriented, carve_oriented_any, carve_cylinders_any, carve_cylinders, carve_lines,
 			carve_line_half_width, carve_line_half_widths, keep_boxes, flatten_boxes, flatten_falloff, press_path,
 			press_half_width, press_falloff, marker_suffix]
