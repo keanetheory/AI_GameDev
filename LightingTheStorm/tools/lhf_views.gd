@@ -27,8 +27,8 @@ static func views(lv: Node) -> Array:
 	out.append({"name": "tower_L2_ring", "room": "tower_L2", "from": tower(lh, 9.435 + eye, 2.6, 250.0), "to": tower(lh, 9.435 + eye, 3.4, 250.0)})
 	out.append({"name": "tower_L2_up", "room": "tower_L2", "from": tower(lh, 9.435 + eye, 2.6, 250.0), "to": tower(lh, 9.435 + 5.0, 3.2, 250.0)})
 	out.append({"name": "tower_L2_down", "room": "tower_L2", "from": tower(lh, 9.435 + eye, 2.6, 250.0), "to": tower(lh, 9.435 - 1.5, 2.9, 20.0)})
-	out.append({"name": "tower_L2_b60", "room": "tower_L2", "from": tower(lh, 9.435 + eye, 2.6, 60.0), "to": tower(lh, 9.435 + eye, 3.4, 60.0)})
-	out.append({"name": "tower_L2_b147", "room": "tower_L2", "from": tower(lh, 9.435 + eye, 2.6, 147.0), "to": tower(lh, 9.435 + eye, 3.4, 147.0)})
+	out.append({"name": "tower_L2_b60", "room": "tower_L2", "from": tower(lh, 9.435 + eye, 1.4, 60.0), "to": tower(lh, 9.435 + eye, 3.4, 60.0), "grey_palette": true})
+	out.append({"name": "tower_L2_b147", "room": "tower_L2", "from": tower(lh, 9.435 + eye, 1.4, 147.0), "to": tower(lh, 9.435 + eye, 3.4, 147.0), "grey_palette": true})
 	out.append({"name": "tower_L1_b147", "room": "tower_L1", "from": tower(lh, 5.2 + eye, 2.4, 147.0), "to": tower(lh, 5.2 + eye, 3.3, 147.0)})
 	out.append({"name": "tower_mid_stair", "room": "tower_stair", "from": tower(lh, 13.0, 1.6, 60.0), "to": tower(lh, 13.0, 3.1, 60.0)})
 	out.append({"name": "lamp_room", "room": "lamp_room", "from": tower(lh, 17.9 + eye, 1.4, 200.0), "to": tower(lh, 17.9 + eye, 2.6, 200.0)})
@@ -43,6 +43,9 @@ static func views(lv: Node) -> Array:
 		if a.get_meta("role") == "boiler_interaction":
 			boiler = (a as Node3D).global_position
 	out.append({"name": "basement", "room": "basement", "from": boiler + Vector3(0, eye, 0), "to": boiler + Vector3(-3.0, eye, 0)})
+	# the view the creator called washed out (stairwell seen from the hall) and its counterpart (the basement from the stair, "properly coloured")
+	out.append({"name": "stair_down_view", "room": "stairwell", "from": house(rooms, 2.2, 0.97 + 2.0, 1.0), "to": house(rooms, 2.2, 0.0, 4.0), "frame_stats": true})
+	out.append({"name": "basement_from_stair", "room": "basement", "from": boiler + Vector3(-1.5, 3.0, 1.0), "to": boiler + Vector3(0.0, 0.5, -1.0), "frame_stats": true})
 	# positive control: on the open ground 6 m out from the front door, away from the lighthouse. Rain MUST show here or the probe is blind.
 	var door := Vector3.ZERO
 	for a in lv.get_tree().get_nodes_in_group("lhi_anchor"):
