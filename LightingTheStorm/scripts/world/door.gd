@@ -29,7 +29,7 @@ func _init() -> void:
 
 
 func _ready() -> void:
-	if OS.get_environment("LHF_SHELL") != "":      # the authored shell cuts the opening to this height (data/world/shell_spec.json front_door_h), under the 3.75 m ceiling
+	if OS.get_environment("LHF_SHELL") == "2":      # the authored shell cuts the opening to this height (data/world/shell_spec.json front_door_h), under the 3.75 m ceiling
 		height = 2.7
 	super._ready()
 	add_to_group("door")

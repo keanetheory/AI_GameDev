@@ -92,7 +92,7 @@ func _physics_process(_delta: float) -> bool:
 			_check(_beacon.get_node("Glow").light_energy > 0.0 and _beacon.get_node("Glow").visible, "the lamp's light is on")
 			_check(_beacon.get_node("BeamPivot").visible and absf(_beacon.get_node("BeamPivot").rotation.y - _yaw0) > 0.01, "the beam is on and sweeping")
 
-			_check(_beacon._lens_mats[0].emission_enabled and _beacon._lens_mats[0].emission_energy_multiplier > 0.2, "the lamp glows")
+			_check(_beacon._lens_mats[0].emission_enabled and _beacon._lens_mats[0].emission_energy_multiplier > 0.05, "the lamp glows")   # mid-rise; the lens energy is 0.22 at full (it was 0.3, which blew the lens out to white)
 			_next(260)
 		6:
 			_check(_beacon.level >= 0.999, "the lamp reached full (%.2f)" % _beacon.level)

@@ -27,7 +27,7 @@ const OUTLINE_SHADER := preload("res://scripts/world/toon_outline.gdshader")
 ## The fill's tint: the lamps' amber, so the unlit parts of a room keep the warm palette (a neutral fill greyed everything out).
 @export var fill_tint := Color(1.0, 0.74, 0.42)
 ## Nodes whose meshes are scanned, relative to this node's parent.
-@export var scan_paths: Array[NodePath] = [NodePath("InteriorRooms"), NodePath("LighthouseInterior")]
+@export var scan_paths: Array[NodePath] = [NodePath("InteriorRooms"), NodePath("LighthouseInterior"), NodePath("Lighthouse/LighthouseShell")]
 
 var toon_count := 0                      # materials switched to toon
 var mesh_count := 0                      # meshes scanned

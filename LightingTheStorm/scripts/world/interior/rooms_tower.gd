@@ -14,7 +14,14 @@ const L1 := 0.97 + 24.0 * RISE      # 5.2025: the spiral is back on the house si
 const L2 := 0.97 + 48.0 * RISE      # 9.4350
 const LANDING_DEG := 147.0          # the bearing at which the spiral passes the house side
 ## The authored shell (Assets/Models/lighthouse/shell, LHF_SHELL set): the wall is exact, so the code is fitted to it, not the other way round.
-var authored := OS.get_environment("LHF_SHELL") != ""
+var authored := shell_mode() != 0
+
+
+## 0 (the default, the original lighthouse) = the old generated exterior with the code-built lining; 1 = the old exterior with the authored tower wall;
+## 2 = the whole authored shell (build_shell_v1.py). Set LHF_SHELL=2 to try it; it is off by the creator's decision (2026-10-26: "I really don't like it").
+static func shell_mode() -> int:
+	var v := OS.get_environment("LHF_SHELL")
+	return 0 if v == "" else int(v)
 static var _spec: Dictionary = {}
 const INNER_R := 2.13               # the ring's inner edge: just outside the stair (outer radius 2.07)
 
