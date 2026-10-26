@@ -15,6 +15,9 @@ const Tower := preload("res://scripts/world/interior/rooms_tower.gd")
 const Lantern := preload("res://scripts/world/interior/lantern.gd")
 const Spiral := preload("res://scripts/world/interior/spiral_down.gd")
 const Shell := preload("res://scripts/world/interior/tower_shell.gd")
+const RoofLiner := preload("res://scripts/world/interior/roof_liner.gd")
+const HeroProps := preload("res://scripts/world/interior/hero_props.gd")
+const Trim := preload("res://scripts/world/interior/trim.gd")
 
 const DOOR_SILL := Vector3(-3.494, 0.0, 8.874)   # the entry door's sill, x/z in the lighthouse frame
 const YAW := 0.4457                              # atan2(0.4309, 0.9024): turns +x onto the house's front wall
@@ -34,6 +37,9 @@ var frame: Node3D
 var house
 var anchors := {}           # role -> world position, for interior_anchors.gd
 var refs := {}
+var trim                          # trim.gd: skirting, cornice, architraves, hearth
+var hero_props                    # hero_props.gd: the generated furniture
+var roof_liner: Node3D           # roof_liner.gd: the first floor's ceiling
 var build_ms := 0            # how long the build took, for tools/test_interior_budget.gd
 var node_count := 0          # nodes the kit made
 
@@ -63,6 +69,8 @@ func _ready() -> void:
 	refs.merge(tower.refs)
 	var shell = Shell.new()
 	shell.build_shell(kit, self)
+	if shell.authored:
+		_add_authored_shell()
 	var spiral = Spiral.new()
 	spiral.build_spiral(kit, frame, self)
 	for role in spiral.anchors:
@@ -73,12 +81,50 @@ func _ready() -> void:
 	for role in lantern.anchors_lh:
 		anchors[role] = to_global(lantern.anchors_lh[role])
 	refs.merge(lantern.refs)
+	trim = Trim.new()
+	trim.build(kit, frame)
+	hero_props = HeroProps.new()
+	hero_props.build(frame)
+	roof_liner = Node3D.new()
+	roof_liner.set_script(RoofLiner)
+	roof_liner.name = "RoofLiner"
+	add_child(roof_liner)
+	roof_liner.build(frame, kit.mats["plaster_dark"])
 	var mgr := get_parent().get_node_or_null("LighthouseInteriorLights")
 	if mgr and mgr.has_method("adopt"):
 		for l in kit.lights:
 			mgr.adopt(l)
 	build_ms = Time.get_ticks_msec() - t0
 	node_count = kit.count
+
+
+## The authored tower shell (build_tower_shell_v1.py), in place of the exterior mesh's tower. Experiment, LHF_SHELL=1.
+func _add_authored_shell() -> void:
+	var full := OS.get_environment("LHF_SHELL") == "2"
+	var doc := GLTFDocument.new()
+	var st := GLTFState.new()
+	doc.append_from_file("res://Assets/Models/lighthouse/shell/lighthouse_shell_v1.glb" if full else "res://Assets/Models/lighthouse/shell/lighthouse_tower_shell_v1.glb", st)
+	var sh := doc.generate_scene(st) as Node3D
+	sh.name = "LighthouseShell"
+	var lh := get_parent().get_node("Lighthouse")
+	lh.add_child(sh)
+	for mi in sh.find_children("*", "MeshInstance3D", true, false):
+		(mi as MeshInstance3D).create_trimesh_collision()
+	if full:
+		# the shell replaces the exterior mesh and the greybox's thin walls and floors (its partitions stay)
+		var cv := lh.get_node_or_null("convert")
+		if cv:
+			cv.visible = false
+			for body in cv.find_children("*", "CollisionObject3D", true, false):
+				(body as CollisionObject3D).collision_layer = 0
+		var gb := get_parent().get_node_or_null("LighthouseInterior")
+		if gb:
+			for n in gb.find_children("*", "Node3D", true, false):
+				var nm := String(n.name)
+				if nm.begins_with("G_floor") or nm.begins_with("G_front_wall") or nm.begins_with("G_outer") or nm.begins_with("G_back_wall") or nm.begins_with("B1_floor") or nm.begins_with("B1_rear_wall") or nm.begins_with("B1_west_wall") or nm.begins_with("B1_east_wall") or nm.begins_with("B1_front_wall") or nm.begins_with("G_tower_link"):
+					n.visible = false
+					for body in n.find_children("*", "CollisionObject3D", true, false):
+						(body as CollisionObject3D).collision_layer = 0
 
 
 ## Remove the v3 placeholders the new props replace, and give the remaining greybox its surfaces.
@@ -95,6 +141,8 @@ func _prepare_greybox() -> void:
 			mi.get_parent().remove_child(mi)
 			mi.queue_free()
 			continue
+		if OS.get_environment("LHF_HIDE") != "" and OS.get_environment("LHF_HIDE").split(",").has(nm):
+			mi.visible = false      # triage switch: name the greybox parts to hide
 		for rule in RESKIN:
 			if nm.contains(rule[0]):
 				var key: String = rule[1]

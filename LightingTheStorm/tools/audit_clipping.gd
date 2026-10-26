@@ -16,6 +16,7 @@ extends SceneTree
 const SHELL := ["InteriorRooms/TowerShell", "InteriorRooms/TowerLandings", "InteriorRooms/SpiralDown", "InteriorRooms/LampRoom"]
 const TRIM_PREFIX := ["Facade", "Passage", "Quoin", "Keystone", "Lintel", "Sill", "NeedleBar", "Gal", "Poster", "Flame", "Coal"]
 const CELL := 1.0
+const SEAM := 0.05            # metres a kit piece may be sunk into a wall surface before it counts as clipping
 ## id: [height min, max, longest side min, max] (metres) for the placed hero props. Real furniture, with a margin.
 const PROP_SCALE := {
 	"office_desk": [0.7, 0.9, 1.1, 1.8], "office_chair": [0.8, 1.05, 0.4, 0.6], "office_cabinet": [1.1, 1.6, 0.5, 0.75],
@@ -32,6 +33,8 @@ var _bins := {}                 # ext triangles: Vector3i cell -> PackedVector3A
 var _ext_tris := 0
 var _report := {}
 var _fails := 0
+var _dbg := 0
+var _shell_node: Node3D = null
 
 
 func _initialize() -> void:
@@ -63,7 +66,13 @@ func _faces(mi: MeshInstance3D) -> PackedVector3Array:
 
 func _bin_ext() -> void:
 	var arr: Array = []
-	_meshes(_lv.get_node("Lighthouse/convert"), arr)
+	var live := _lv.get_node_or_null("Lighthouse/LighthouseShell")
+	if live != null:
+		_meshes(live, arr)             # LHF_SHELL=1: the authored shell is in the level
+	elif _shell_node != null:
+		_meshes(_shell_node, arr)      # AUDIT_SHELL: the authored shell stands in for the exterior mesh
+	else:
+		_meshes(_lv.get_node("Lighthouse/convert"), arr)
 	for mi in arr:
 		var f := _faces(mi)
 		for t in range(0, f.size(), 3):
@@ -102,7 +111,16 @@ func _edge_hits_ext(a: Vector3, b: Vector3) -> bool:
 		for t in range(0, arr.size(), 3):
 			var r: Variant = Geometry3D.ray_intersects_triangle(a, dir, arr[t], arr[t + 1], arr[t + 2])
 			if r != null and a.distance_to(r as Vector3) <= len - 0.005 and a.distance_to(r as Vector3) >= 0.005:
-				return true
+				# a seam is fine (a panel sunk up to SEAM into a wall so no gap shows); only an edge that goes deeper through the surface is clipping
+				var nrm := (arr[t + 1] - arr[t]).cross(arr[t + 2] - arr[t]).normalized()
+				var depth := minf(absf((a - (r as Vector3)).dot(nrm)), absf((b - (r as Vector3)).dot(nrm)))
+				if depth > SEAM:
+					if OS.get_environment("AUDIT_DEBUG") != "" and _dbg < 12:
+						_dbg += 1
+						var lh := _lv.get_node("Lighthouse") as Node3D
+						var lp := lh.to_local(r as Vector3)
+						print("      cross at local y %.2f radius %.2f depth %.3f normal %s edge %s -> %s" % [lp.y, Vector2(lp.x - 3.5, lp.z - 3.6).length(), depth, str(nrm), str(a), str(b)])
+					return true
 	return false
 
 
@@ -129,6 +147,13 @@ func _physics_process(_d: float) -> bool:
 	if _f < 6:
 		return false
 	_space = root.world_3d.direct_space_state
+	if OS.get_environment("AUDIT_SHELL") != "":      # AUDIT_SHELL=res://path.glb: audit against an authored shell (loaded at run time) instead of the exterior mesh
+		var doc := GLTFDocument.new()
+		var st := GLTFState.new()
+		doc.append_from_file(OS.get_environment("AUDIT_SHELL"), st)
+		_shell_node = doc.generate_scene(st) as Node3D
+		_lv.get_node("Lighthouse").add_child(_shell_node)
+		print("audit: authored shell %s loaded" % OS.get_environment("AUDIT_SHELL"))
 	var rooms := _lv.get_node("InteriorRooms")
 	var interior: Array = []      # [{mi, layer}]
 	var props: Array = []
@@ -138,6 +163,8 @@ func _physics_process(_d: float) -> bool:
 		for mi in arr:
 			if _is_trim(String(mi.name)) or mi.mesh.get_faces().size() / 3 > 3000:
 				continue
+			if _shell_node != null and String(mi.name) == "TowerLining":
+				continue      # the authored wall replaces the lining
 			interior.append(mi)
 	var hf := rooms.get_node("HouseFrame")
 	var harr: Array = []
@@ -186,7 +213,7 @@ func _physics_process(_d: float) -> bool:
 				break
 		if hit:
 			crossing.append(String(mi.get_path()))
-	_result("B_cross_exterior", crossing.is_empty(), "B  interior meshes whose edges cut through the exterior mesh: %d of %d (%d exterior triangles)" % [crossing.size(), interior.size(), _ext_tris], crossing.slice(0, 12))
+	_result("B_cross_exterior", crossing.is_empty(), "B  interior meshes whose edges cut through the exterior mesh: %d of %d (%d exterior triangles)" % [crossing.size(), interior.size(), _ext_tris], crossing.slice(0, 400))
 	# ---- C: props
 	var pboxes := {}      # holder -> AABB (global)
 	for mi in props:
