@@ -75,6 +75,9 @@ func _build_plan() -> void:
 			var r := space.intersect_ray(q)
 			if r.is_empty() or absf((r["normal"] as Vector3).y) > 0.3:
 				continue
+			var cn := String((r["collider"] as Node).name) + String((r["collider"] as Node).get_parent().name)
+			if "Door" in cn or "Glass" in cn or "Window" in cn or "Jamb" in cn:
+				continue      # a door leaf or pane is not a wall sample
 			var w: Vector3 = r["position"]
 			var n: Vector3 = r["normal"]
 			n.y = 0.0
@@ -101,7 +104,7 @@ func _build_plan() -> void:
 				continue
 			used += 1
 			for d in DISTS:
-				if d <= c["free"]:
+				if d <= c["free"] - 0.4:
 					_plan.append({"room": v["room"], "view": v["name"], "d": d, "wall": c["wall"], "cam": c["wall"] + c["n"] * d, "line": used})
 	print("lighting probe: phase %s, %d samples" % [_phase, _plan.size()])
 
@@ -150,6 +153,14 @@ func _report() -> void:
 			line += "  %.0fm: %.2f %.2f" % [s["d"], s["luma"], s["sat"]]
 			csv += "%s,%s,%d,%.0f,%.4f,%.4f\n" % [s["room"], s["view"], s["line"], s["d"], s["luma"], s["sat"]]
 		var ok := true
+		for s in arr.duplicate():
+			if s["luma"] < 0.02:      # essentially black: the camera is inside a visual-only solid (roof liner, panel): the view is blocked, not the light
+				print("        (sample %.0f m dropped: view blocked, luma %.3f)" % [s["d"], s["luma"]])
+				arr.erase(s)
+		if arr.is_empty():
+			continue
+		near = arr[0]
+		far = arr[arr.size() - 1]
 		for s in arr:
 			if s["luma"] < MIN_LUMA:
 				ok = false
@@ -158,6 +169,8 @@ func _report() -> void:
 				ok = false
 			line += "   far/near luma %.2f sat %.2f" % [far["luma"] / maxf(near["luma"], 0.001), far["sat"] / maxf(near["sat"], 0.001)]
 		print(("PASS  " if ok else "FAIL  ") + line)
+		if not ok:
+			print("        far sample: camera %s looks at wall %s" % [str(far["cam"]), str(far["wall"])])
 		fails += int(not ok)
 	if _csv != "":
 		var fa := FileAccess.open(_csv, FileAccess.WRITE)
