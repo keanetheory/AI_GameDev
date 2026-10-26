@@ -52,6 +52,8 @@ func _ready() -> void:
 	frame.rotation.y = YAW
 	add_child(frame)
 	kit = Kit.new(frame)
+	if OS.get_environment("LHF_SHELL") != "":
+		kit.shell_spec = Tower.shell_spec()
 	_prepare_greybox()
 	house = House.new()
 	house.build(kit, frame)
@@ -85,11 +87,12 @@ func _ready() -> void:
 	trim.build(kit, frame)
 	hero_props = HeroProps.new()
 	hero_props.build(frame)
-	roof_liner = Node3D.new()
-	roof_liner.set_script(RoofLiner)
-	roof_liner.name = "RoofLiner"
-	add_child(roof_liner)
-	roof_liner.build(frame, kit.mats["plaster_dark"])
+	if not shell.authored:      # the authored roof has its own underside: no liner
+		roof_liner = Node3D.new()
+		roof_liner.set_script(RoofLiner)
+		roof_liner.name = "RoofLiner"
+		add_child(roof_liner)
+		roof_liner.build(frame, kit.mats["plaster_dark"])
 	var mgr := get_parent().get_node_or_null("LighthouseInteriorLights")
 	if mgr and mgr.has_method("adopt"):
 		for l in kit.lights:

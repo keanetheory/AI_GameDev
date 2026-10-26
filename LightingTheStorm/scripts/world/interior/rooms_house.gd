@@ -43,7 +43,8 @@ func build(kit, parent: Node3D) -> void:
 
 func _ground(P: Node3D) -> void:
 	# --- shell: ceiling, beams, panelling, trim
-	K.box(P, "G_Ceiling", -2.25, 5.65, 0.35, 6.8, CEIL, CEIL + 0.2, "plaster_dark")
+	if K.shell_spec.is_empty():      # (the authored shell's slab underside is the ceiling)
+		K.box(P, "G_Ceiling", -2.25, 5.65, 0.35, 6.8, CEIL, CEIL + 0.2, "plaster_dark")
 	for i in 6:
 		var u := -1.9 + 1.5 * i
 		K.box(P, "G_Beam_%d" % i, u - 0.1, u + 0.1, 0.4, 6.75, CEIL - 0.2, CEIL, "wood_dark", false)
@@ -58,10 +59,12 @@ func _ground(P: Node3D) -> void:
 	K.box(P, "G_Cornice_West", -2.15, -2.05, 0.36, 6.7, CEIL - 0.1, CEIL, "wood", false)
 	K.box(P, "G_Cornice_Back", -2.15, 5.55, 6.6, 6.7, CEIL - 0.1, CEIL, "wood", false)
 	# --- the front door's frame (the door itself is the LighthouseDoor node)
-	K.box(P, "G_DoorLintel", -1.0, 1.0, 0.1, 0.45, GF + 2.95, GF + 3.1, "wood_dark", false)
+	var dh := 2.95 if K.shell_spec.is_empty() else float(K.shell_spec["front_door_h"])      # the authored shell's opening is lower, under the ceiling
+	var dj := 0.0 if K.shell_spec.is_empty() else 0.1                                          # and its jambs stand inside the 1.8 m opening
+	K.box(P, "G_DoorLintel", -1.0 + dj, 1.0 - dj, 0.1, 0.45, GF + dh, GF + dh + 0.08, "wood_dark", false)
 	# LHF-12: the inside of the door: jambs, a worn stone threshold and a doorstop, so the frame reads the same as the outside's
-	K.box(P, "G_DoorJamb_L", -1.0, -0.9, 0.1, 0.45, GF, GF + 2.95, "wood_dark", false)
-	K.box(P, "G_DoorJamb_R", 0.9, 1.0, 0.1, 0.45, GF, GF + 2.95, "wood_dark", false)
+	K.box(P, "G_DoorJamb_L", -1.0 + dj, -0.9 + dj, 0.1, 0.45, GF, GF + dh, "wood_dark", false)
+	K.box(P, "G_DoorJamb_R", 0.9 - dj, 1.0 - dj, 0.1, 0.45, GF, GF + dh, "wood_dark", false)
 	K.box(P, "G_Threshold", -0.95, 0.95, 0.12, 0.5, GF - 0.01, GF + 0.03, "stone", false)
 
 	# --- entry vestibule and hallway (u -2.25..5.65, v 0.35..2.3)

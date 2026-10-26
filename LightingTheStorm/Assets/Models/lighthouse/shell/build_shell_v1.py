@@ -28,7 +28,7 @@ WALL_T = SPEC["tower_wall_t"]        # tower wall thickness
 B1_FLOOR, B1_CEIL = -2.0, 0.77
 GF, G_CEIL = 0.97, 3.75
 SLAB_TOP, L1 = SPEC["slab_top"], 5.2025
-L1_EAVE, L1_RIDGE = 7.0, 9.9         # inner (underside) heights
+L1_EAVE, L1_RIDGE = SPEC["l1_eave"], SPEC["l1_ridge"]      # underside heights: eaves at both long walls (v), ridge along u at the middle of v
 ROOF_T = 0.28
 LANTERN_FLOOR, DECK_TOP, DECK_R = 17.9, 18.33, 4.0
 CEIL_Y, APEX = 21.95, 25.18
@@ -96,12 +96,12 @@ def prism_uv(name, u0, u1, v0, v1, y0, y1):
 
 
 def gable_uv(name, u0, u1, v0, v1, y_base, y_eave, y_ridge):
-    """The first-floor volume: a rectangle up to the eaves under a gable whose ridge runs along v at the middle of u."""
-    um = (u0 + u1) * 0.5
-    prof = [(u0, y_base), (u1, y_base), (u1, y_eave), (um, y_ridge), (u0, y_eave)]
+    """The first-floor volume: a rectangle up to the eaves under a gable whose ridge runs along u at the middle of v (as the old roof: gables at the u ends)."""
+    vm = (v0 + v1) * 0.5
+    prof = [(v0, y_base), (v1, y_base), (v1, y_eave), (vm, y_ridge), (v0, y_eave)]
     bm = bmesh.new()
-    a = [bm.verts.new(G(*hf(u, y, v0))) for u, y in prof]
-    b = [bm.verts.new(G(*hf(u, y, v1))) for u, y in prof]
+    a = [bm.verts.new(G(*hf(u0, y, v))) for v, y in prof]
+    b = [bm.verts.new(G(*hf(u1, y, v))) for v, y in prof]
     bm.faces.new(a[::-1])
     bm.faces.new(b)
     n = len(prof)
@@ -279,13 +279,13 @@ def main():
     # ---------------- openings ----------------
     cuts = []
     # front door: 1.8 wide, GF to GF+2.95, through the front wall (v from -0.2 to 0.6)
-    cuts.append(house_cutter("c_front", -0.9, 0.9, -0.3, 0.9, GF, GF + 2.95))
+    cuts.append(house_cutter("c_front", -0.9, 0.9, -0.3, 0.9, GF, GF + SPEC["front_door_h"]))
     # hall to tower: the east wall, v 0.8..2.25, 2.3 high, through the wall slab to the tower air
     cuts.append(house_cutter("c_hall_tower", G_U[1] - 0.2, G_U[1] + T + 0.9, 0.8, 2.25, GF, GF + 2.3))
     # ground-floor west window: v 3.0..4.3, sill 1.9 head 2.9
     cuts.append(house_cutter("c_g_west", G_U[0] - T - 0.3, G_U[0] + 0.3, 3.0, 4.3, 1.9, 2.9))
     # first floor to tower: 1.3 wide (v 1.3..2.6?), 2.1 high, east wall
-    cuts.append(house_cutter("c_l1_tower", L1_U[1] - 0.2, L1_U[1] + T + 0.9, 1.0, 2.3, L1, L1 + 2.1))
+    cuts.append(house_cutter("c_l1_tower", L1_U[1] - 0.2, L1_U[1] + T + 0.9, SPEC["l1_door_v"][0], SPEC["l1_door_v"][1], L1, L1 + 2.1))
     # first-floor windows (data/world/lighthouse_windows.json: house kind, wall west 'at' = v, back 'at' = u; y centre, w, h)
     for w in json.load(open(os.path.join(DATA, "lighthouse_windows.json")))["windows"]:
         if w["kind"] != "house":
@@ -303,6 +303,16 @@ def main():
     for c in cuts:
         boolean(shell, c, "DIFFERENCE")
         bpy.data.objects.remove(c, do_unlink=True)
+    # weld the near-coincident vertices the exact booleans leave along tangent edges, and report what is still open
+    bm = bmesh.new()
+    bm.from_mesh(shell.data)
+    bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=2e-4)
+    bmesh.ops.dissolve_degenerate(bm, edges=bm.edges, dist=1e-5)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    open_e = [e for e in bm.edges if len(e.link_faces) == 1]
+    print("OPEN_EDGES_AFTER_WELD", len(open_e), [tuple(round(c, 2) for c in (e.verts[0].co.x, e.verts[0].co.z, -e.verts[0].co.y)) for e in open_e[:12]])
+    bm.to_mesh(shell.data)
+    bm.free()
     shell.data.materials.append(m_stone)
     for p in shell.data.polygons:
         p.use_smooth = False

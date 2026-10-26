@@ -33,5 +33,12 @@
     2.2,
     4.0
   ],
-  "stair_hole_r": 1.42
+  "stair_hole_r": 1.42,
+  "l1_eave": 7.2,
+  "l1_ridge": 9.5,
+  "l1_door_v": [
+    1.2,
+    2.5
+  ],
+  "front_door_h": 2.7
 }

@@ -31,7 +31,8 @@ func build(kit, frame: Node3D) -> void:
 	frame.add_child(group)
 	_ground()
 	_first_floor()
-	_gables()
+	if OS.get_environment("LHF_SHELL") == "":      # the authored shell has its own gable walls
+		_gables()
 	_basement()
 	_hearth()
 
