@@ -31,6 +31,10 @@ A. Decided in the review
 25. Sailor placeholders (19 October 2026). Arthur and Daniel are capsules for the prototype; the rigged test character is Ted. The rowboat follows ConceptArt/rowboat and is generated as a FAL model.
 26. The stairs case (19 October 2026). If the player is on the stairs when the deadline runs out, they see nothing; the passenger ship crash plays out regardless of whether it is seen. (Resolves the rest of B7 and B8.)
 27. Discoveries content (23 October 2026). The core discoveries (about four to six) live in the lighthouse and on the island, in the untimed opening before boarding; the Saltgate keeps a light set of one or two. Each ties to why the beacon failed through a human cause that is never explained: clues show the burner was neglected or tampered with by people (keepers, and the people hiding in the walls), but never say who or why. The supernatural stays unconfirmed, and the Flighted are not named as the cause. The built poster (POSTER_EXAMINED) and wall whisper (WALL_WHISPER_HEARD) are the first two; the individual items are chosen in the Gate 2 narrative pass. (Resolves B2 and T34.)
+28. Placeholder deadline length (26 October 2026). The ship deadline is 3 minutes 30 seconds for Gate 1 testing. It is a labelled placeholder: the final value is still set from playtests once the return crossing has been tested (see B4).
+29. Pause key (26 October 2026). Pressing P pauses the game and the ship deadline, and pressing it again resumes. Menus also stop the deadline (see A23).
+30. The crash plays out in the world (26 October 2026). The fail is not audio only. At SHIP_FAIL the passenger ship really crashes and breaks up on the rock next to the island, and the game does not wait for the player or cut away. Wherever the player is, they hear it. If they are in the lighthouse they hear the crash, and if they look out of a window or out from the lamp room they can see the ship crashing; on the return crossing they can see it if the island is in view. On the stairs with no window they see nothing (A26). The “Failed” title screen follows. This replaces “audio only” for the crossing and the rest of the lighthouse.
+31. Ted's fail dialogue (26 October 2026). At SHIP_FAIL Ted delivers fail dialogue (including the reason line in A20), wherever the player is. It is a dialogue task: write, record and wire it to SHIP_FAIL (agent backlog T37).
 
 B. Still open
 
@@ -42,11 +46,11 @@ Story and canon
 
 Ship deadline and fail state
 
-4. Deadline length. Set from measured playtests so a first-time player who follows cues has room for some mistakes. To be reviewed once the boat crossing back from the Saltgate has been tested; no value is set until then.
+4. Deadline length. Set from measured playtests so a first-time player who follows cues has room for some mistakes. To be reviewed once the boat crossing back from the Saltgate has been tested. Placeholder set 26 October 2026: 3 minutes 30 seconds (see A28); the final value is still open.
 5. Final retry and save model (before Gate 2). Decide between a run-start snapshot and a phase-start snapshot. Whichever is chosen must restore time and weather together; if phase-start, define the minimum remaining time. Decide where checkpoints are, if any.
-6. Pause rules. Resolved 19 October 2026: the deadline stops during menus and deliberate pause (see A23). Still open: check for exploits before Gate 2.
+6. Pause rules. Resolved 19 October 2026: the deadline stops during menus and deliberate pause (see A23); the pause key is P (see A29). Still open: check for exploits before Gate 2.
 7. Lamp-room sightline. Resolved 19 October 2026 (see A22 and A26).
-8. Accessibility for audio-only fail cues. Resolved 19 October 2026: Ted’s reason line is subtitled, the visual is the ship breaking up on the rock (see A20), and on the stairs the player sees nothing while the crash plays out (see A26).
+8. Accessibility for audio-only fail cues. Resolved 19 October 2026: Ted’s reason line is subtitled, the visual is the ship breaking up on the rock (see A20), and on the stairs the player sees nothing while the crash plays out (see A26). Updated 26 October 2026: the fail is not audio only; the crash is visible from the windows, the lamp room and the crossing (see A30).
 9. Outbound crossing penalties. With no deadline before the return crossing, collisions on the outbound crossing cost no deadline time. Decide what they cost instead (for example a slowdown or recovery only) so the outbound crossing still teaches the player. Deferred by the creator: to be decided later, as part of the penalty review.
 
 Boat and crossings

@@ -59,11 +59,11 @@ The deadline only runs from the start of the return crossing, so there is no fai
 
 |Where the deadline expires      |What the player perceives                                                                                                  |
 |--------------------------------|---------------------------------------------------------------------------------------------------------------------------|
-|On the return crossing (burner aboard) |Audio only: ship horn, crash sounds, silence, then the “Failed” title screen. No cutaway camera.|
+|On the return crossing (burner aboard) |The ship crashes on the rock next to the island in the world; the player hears the horn and the crash and sees it if the island is in view. No cutaway camera, and the game does not wait. Then silence and the “Failed” title screen.|
 |In the lamp room                |The player sees the ship run aground on the island from the lamp room, and the audio still sounds. The lamp room needs a clear sightline to the ship’s route and the island rocks.|
-|Elsewhere in the lighthouse (stairs) |Audio only, as on the crossing, unless a window sightline exists.                                                    |
+|Elsewhere in the lighthouse |The player hears the crash. Looking out of a window shows the ship crashing on the rock. On the stairs with no window they see nothing.|
 
-Every fail shows a short line saying why the player failed (for example, that the beacon was not relit in time), delivered by Ted or Arthur or recorded in the journal, so Pillar 4 holds. Ted reacts to both outcomes from the lamp room using voice lines only; his reaction is staged by position, not a separate cutscene.
+The fail is not audio only (creator, 26 October 2026, Decisions A30): the crash happens in the world and the game does not wait for the player. Ted's fail dialogue plays at SHIP_FAIL (A31). Every fail shows a short line saying why the player failed (for example, that the beacon was not relit in time), delivered by Ted or Arthur or recorded in the journal, so Pillar 4 holds. Ted reacts to both outcomes from the lamp room using voice lines only; his reaction is staged by position, not a separate cutscene.
 
 Retry model: for Gate 1, a fail returns the player to the start of the slice (fail, then restart). The full retry and save model is settled before Gate 2 (see Technical Strategy). Any future save must not store remaining time in a way that can produce an unwinnable save.
 

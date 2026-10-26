@@ -156,7 +156,7 @@
       "title": "Create the central GameState autoload: phase machine, event bus, restart",
       "priority": 10,
       "category": "code",
-      "summary": "Add a GameState autoload (register in project.godot) holding the phase enum (ARRIVAL_AND_COAL \u2192 \u2026 \u2192 RESOLUTION), an emit_event(event_id) bus with a debug event log, and a restart() that reloads the slice. Add the DialogueLoader as a child or autoload, and connect GameState events to DialogueLoader.trigger(), the lighting rig's set_phase() and the boat's signals. Every other Gate 1 task hangs off this contract.",
+      "summary": "Add a GameState autoload (register in project.godot) holding the phase enum (ARRIVAL_AND_COAL → … → RESOLUTION), an emit_event(event_id) bus with a debug event log, and a restart() that reloads the slice. Add the DialogueLoader as a child or autoload, and connect GameState events to DialogueLoader.trigger(), the lighting rig's set_phase() and the boat's signals. Every other Gate 1 task hangs off this contract.",
       "why_this_score": "Nothing else can be wired without it, and the slice cannot run end to end, so it is a 10. It is not scored lower because six other tasks depend on it.",
       "evidence": [
         "Technical Strategy: Core state contract",
@@ -293,10 +293,10 @@
       "effort": "L",
       "agent_can_execute": false,
       "blocked_by": "Needs the Godot editor to place and walk-test the interior and sightlines.",
-      "status": "open",
+      "status": "done",
       "result": {
-        "outcome": "partial",
-        "summary": "19 Oct 2026: greybox v3 (creator-generated from greybox_v2_prompt.md + greybox_v3_fixes_prompt.md) is in Level.tscn as LighthouseInterior. The real player walks it end to end: tools/test_interior_walk.gd presses E to open the main door from the porch, then walks the player's own physics body to the dock window, down the switchback to Daniel in the basement, and up the 96-step spiral to the lamp socket on the lantern floor (local y 17.9) - all pass. tools/check_interior_reach.gd (shared flood fill in tools/interior_reach.gd) reaches all 8 markers. Exterior carves: doorway 1.7 m deep, basement, lantern deck over the stairwell (r 2.3) and the exterior's own lamp; island carved under the basement; new collider_builder options carve_oriented, carve_cylinders, colour_by_name and marker_suffix. 15 warm interior lamps (hall, basement, along the spiral, lantern) and greybox colours (floors brown, stairs ochre, walls pale, props slate). Still open: the exterior's lantern glazing is an opaque mesh, so there is no view out of the lamp room yet (needed for the ship sightline, T31/T08); the 0.45 m lamp mount can be climbed; v3's own generator checks (raycast headroom) were not run, the Godot walk test stands in for them."
+        "outcome": "done",
+        "summary": "Closed by the creator, 26 Oct 2026: the interior route (door, hall, basement, tower stairs, lantern room) is built and walkable; remaining lighthouse polish is tracked by the GER Lighthouse Finisher (LHF-16..18 and the 24 Oct playtest fixes), not here. Earlier note: Creator, 25 Oct 2026: being worked on by the Lighthouse Crew (GER Framework lighthouse interior creator/assessor and finisher). Earlier: 19 Oct 2026: greybox v3 (creator-generated from greybox_v2_prompt.md + greybox_v3_fixes_prompt.md) is in Level.tscn as LighthouseInterior. The real player walks it end to end: tools/test_interior_walk.gd presses E to open the main door from the porch, then walks the player's own physics body to the dock window, down the switchback to Daniel in the basement, and up the 96-step spiral to the lamp socket on the lantern floor (local y 17.9) - all pass. tools/check_interior_reach.gd (shared flood fill in tools/interior_reach.gd) reaches all 8 markers. Exterior carves: doorway 1.7 m deep, basement, lantern deck over the stairwell (r 2.3) and the exterior's own lamp; island carved under the basement; new collider_builder options carve_oriented, carve_cylinders, colour_by_name and marker_suffix. 15 warm interior lamps (hall, basement, along the spiral, lantern) and greybox colours (floors brown, stairs ochre, walls pale, props slate). Still open: the exterior's lantern glazing is an opaque mesh, so there is no view out of the lamp room yet (needed for the ship sightline, T31/T08); the 0.45 m lamp mount can be climbed; v3's own generator checks (raycast headroom) were not run, the Godot walk test stands in for them."
       },
       "build_wave": 2,
       "depends_on": [],
@@ -459,7 +459,7 @@
       "title": "Hidden ship deadline with ship placeholder, elapsed-time lighting and debug time scale",
       "priority": 10,
       "category": "code",
-      "summary": "Implement a numeric internal deadline timer (no UI), pausing in menus, with a placeholder ship whose lights hold at the horizon until the clock starts and then approach. Expose a debug time scale and event log. The value is a placeholder constant until playtests set it. Pause rule (creator, 19 October 2026): the deadline stops in menus and on deliberate pause.",
+      "summary": "Implement a numeric internal deadline timer (no UI), pausing in menus, with a placeholder ship whose lights hold at the horizon until the clock starts and then approach. Expose a debug time scale and event log. The value is a placeholder constant until playtests set it. Pause rule (creator, 19 October 2026): the deadline stops in menus and on deliberate pause. Creator, 26 Oct 2026: placeholder deadline 3 min 30 s (210 s), labelled as a placeholder (Decisions A28). Add pause on the P key, which freezes the deadline; menus also stop it (A29). SHIP_FAIL fires wherever the player is when time runs out, including mid-crossing, and the game does not wait (A30). The ship is spawned at runtime so Level.tscn is not touched while another session edits it; the lamp-room view of the ship is checked after the lighthouse session. GameState.deadline_progress() is already called by wave_system.gd. Scheduled for Tue 27 Oct 2026 (creator, 26 Oct): T07 deadline clock, P pause, SHIP_FAIL; then the rest of the passenger ship work: move the ship (now placed static and broadside 75 m south of the lighthouse, across the launch's route) to the horizon and drive it with the clock, lit windows and lanterns, the approach route and the grounding rock (T31), and the lamp-room sightline check.",
       "why_this_score": "The ship and the deadline are the only stakes; without them neither outcome exists. It is a 10 for the same reason as the outcome task.",
       "evidence": [
         "Technical Strategy deadline rules and 'Provide a debug time scale and event log'",
@@ -488,7 +488,7 @@
       "title": "Win and fail outcomes: foghorn, grounding, silence, 'Failed' screen with reason, restart",
       "priority": 10,
       "category": "code",
-      "summary": "Resolve WIN or FAIL exactly once. FAIL plays the foghorn, the ship grounding and silence, then a title screen with a reason line, and restarts the slice; the three expiry locations (crossing, lamp room, stairs) get their audio-only or sightline presentation, with a visual or subtitle alternative. The burner fit moved to T32. Fail reason line (creator): Ted voices \"All is lost for those on board...the storm takes more lives. What were you doing, you money toff!\", shown as a subtitle; the visual is the ship breaking up on the rock next to the island. On the stairs the player sees nothing; the crash plays out regardless (creator, A26).",
+      "summary": "Resolve WIN or FAIL exactly once. FAIL plays the foghorn, the ship grounding and silence, then a title screen with a reason line, and restarts the slice; the three expiry locations (crossing, lamp room, stairs) get their audio-only or sightline presentation, with a visual or subtitle alternative. The burner fit moved to T32. Fail reason line (creator): Ted voices \"All is lost for those on board...the storm takes more lives. What were you doing, you money toff!\", shown as a subtitle; the visual is the ship breaking up on the rock next to the island. On the stairs the player sees nothing; the crash plays out regardless (creator, A26). Creator, 26 Oct 2026: the fail is NOT audio only (Decisions A30). At SHIP_FAIL the ship really crashes and breaks up on the rock next to the island, no cutaway and the game does not wait. In the lighthouse the player hears the crash and can see it from any window or the lamp room; on the crossing they see it if the island is in view; on the stairs with no window they see nothing (A26). Ted's fail dialogue plays at SHIP_FAIL (T37).",
       "why_this_score": "Both outcomes and restart are explicit Gate 1 acceptance items, so a 10. Not lower because without it the slice has no ending.",
       "evidence": [
         "Exec Summary Fail-state contract",
@@ -676,8 +676,11 @@
       "effort": "M",
       "agent_can_execute": true,
       "blocked_by": "Tasks T07, T32. Depends on the deadline task.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Creator, 25 Oct 2026: done. The creator considers the storm atmosphere set (the eclipse, rain from the start, lightning and the lighting rig phases); no further elapsed-time blend is needed for Gate 1."
+      },
       "build_wave": 4,
       "depends_on": [
         "T07",
@@ -743,7 +746,7 @@
       "title": "Fix the final list of Ted's lamp-room lines to record",
       "priority": 6,
       "category": "decision",
-      "summary": "Ted's presence is settled (creator, 19 October 2026: he is inside the lighthouse throughout the game). What remains is the final list of lamp-room lines to voice, since every line is voice-over cost: the diagnosis lines (TED_S3_*), the waiting line when the player returns, the burner-fit and win reaction, and the fail reason line (canon.py FAIL_REASON_LINE).",
+      "summary": "Ted's presence is settled (creator, 19 October 2026: he is inside the lighthouse throughout the game). What remains is the final list of lamp-room lines to voice, since every line is voice-over cost: the diagnosis lines (TED_S3_*), the waiting line when the player returns, the burner-fit and win reaction, and the fail reason line (canon.py FAIL_REASON_LINE). Creator, 26 Oct 2026: Ted's SHIP_FAIL dialogue is tracked as its own task, T37.",
       "why_this_score": "It blocks recording, not building, so 6: the lamp-room tasks can use subtitles until the lines are voiced.",
       "evidence": [
         "Exec Summary decisions log (Ted); Decisions to be made B1",
@@ -824,7 +827,7 @@
       "title": "Set a placeholder deadline length and write the crossing-penalty values",
       "priority": 5,
       "category": "decision",
-      "summary": "The deadline length and exact collision costs are deliberately undecided until the return crossing is tested. Record a clearly labelled placeholder deadline, the outbound-crossing penalty (B9, deferred) and the collision cost so the QA tuning pass has numbers to compare against.",
+      "summary": "The deadline length and exact collision costs are deliberately undecided until the return crossing is tested. Record a clearly labelled placeholder deadline, the outbound-crossing penalty (B9, deferred) and the collision cost so the QA tuning pass has numbers to compare against. Creator, 26 Oct 2026: placeholder deadline set to 3 min 30 s (Decisions A28); the crossing-penalty values are still open.",
       "why_this_score": "It is needed for the tuning pass but cannot be settled before the crossing exists, so 5.",
       "evidence": [
         "Decisions to be made B4, B9, B11",
@@ -1122,10 +1125,10 @@
       "effort": "M",
       "agent_can_execute": true,
       "blocked_by": "Tasks T02, T27. The lamp socket must match the burner's mounting base.",
-      "status": "open",
+      "status": "done",
       "result": {
-        "outcome": "partial",
-        "summary": "Burners done, 19 Oct 2026: Assets/Models/prop/burner_replacement.glb and burner_broken.glb, 40k triangles each, 0.8 x 0.9 x 0.7 m. FAL Hunyuan3D v3 (textured, front + side views cropped from the concept sheets into AIAgentCrew/sample_submissions/derived/; main_asset.py --check-only APPROVE first). FAL returned about 500k triangles and 4096 textures, so each model was downscaled to a 2048 texture and decimated in Blender 5.2; the full-detail versions are in the model folder's source/ (gdignored). Imported headless through tools/import_scale_pivot.gd (prop height 0.9 m, rowboat 4.2 m long; both estimates). Still to do: the greybox arc-lamp socket, boiler, coal pile and gauge."
+        "outcome": "done",
+        "summary": "Creator, 25 Oct 2026: done. The lamp socket, boiler, coal pile and gauge are built in the code-built interior (scripts/world/interior/: lamp_socket.gd, coal_pile.gd, firebox_hatch.gd, boiler_gauge.gd), and the Asset agent's FAL models (lhi_boiler, lhi_arc_lamp, lhi_steam_engine, lhi_coal_shovel) are in Assets/Models/prop."
       },
       "id": "T28",
       "title": "Greybox lamp socket, boiler, coal and gauge (the two FAL burners are done)",
@@ -1254,7 +1257,7 @@
       "title": "Passenger ship placeholder, its approach route and the grounding point",
       "priority": 9,
       "owner_role": "Level Layout agent",
-      "summary": "A placeholder passenger ship with lights and a path from the horizon toward the port that the deadline drives. On a win it passes one of the rocks right next to the island safely; on a fail it crashes and breaks up on that rock. The rock must be in clear view from the lamp room, which has views all around (creator, 19 October 2026). Note (19 Oct 2026): the exterior lighthouse's lantern glazing is an opaque textured mesh, so the lamp room has no view out until its window panels are carved or replaced with glass.",
+      "summary": "A placeholder passenger ship with lights and a path from the horizon toward the port that the deadline drives. On a win it passes one of the rocks right next to the island safely; on a fail it crashes and breaks up on that rock. The rock must be in clear view from the lamp room, which has views all around (creator, 19 October 2026). Note (19 Oct 2026): the exterior lighthouse's lantern glazing is an opaque textured mesh, so the lamp room has no view out until its window panels are carved or replaced with glass. Creator, 26 Oct 2026: the creator is generating concept art for the passenger ship separately. Next step is a FAL generation of the ship from that art, AFTER the lighthouse session is complete (style guide applies; check the FAL budget with the creator first). Creator, 26 Oct 2026: the FAL ship is generated and in the level (Assets/Models/boat/passenger_ship.glb, 100 m, node PassengerShip, static, no collision or lights). Scheduled for Tue 27 Oct 2026 (creator, 26 Oct): T07 deadline clock, P pause, SHIP_FAIL; then the rest of the passenger ship work: move the ship (now placed static and broadside 75 m south of the lighthouse, across the launch's route) to the horizon and drive it with the clock, lit windows and lanterns, the approach route and the grounding rock (T31), and the lamp-room sightline check.",
       "why_this_score": "T07, T08 and the ship-sighted beat of T11 depend on it, so 9.",
       "build_wave": 2,
       "depends_on": [],
@@ -1274,7 +1277,10 @@
       "agent_can_execute": true,
       "blocked_by": "Tasks T02, T26, T28, T29.",
       "status": "open",
-      "result": null,
+      "result": {
+        "outcome": "in progress",
+        "summary": "Creator, 25 Oct 2026: close to done: the lamp socket offers '[E] Fit the burner into the lamp' (CarrySocket), fires BURNER_FITTED and SHIP_WIN follows 4.5 s later (tools/test_lamp_fit.gd). Being finished alongside T02."
+      },
       "id": "T32",
       "title": "Burner fit: carry the burner up to the lamp and fit it (BURNER_FITTED, BEACON_RELIT)",
       "priority": 10,
@@ -1301,8 +1307,11 @@
       "effort": "S",
       "agent_can_execute": true,
       "blocked_by": "Tasks T02, T03, T26, T28.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Creator, 25 Oct 2026: done. scripts/world/interior/coal_job.gd: six shovel loads from the coal store to the firebox fire BOILER_FED; test tools/test_coal_job.gd."
+      },
       "id": "T33",
       "title": "Boiler coal job (BOILER_FED), using the interaction system",
       "priority": 9,
@@ -1335,7 +1344,13 @@
       "agent_can_execute": false,
       "blocked_by": "Creator decision, due Friday 23 October 2026.",
       "status": "done",
-      "result": {"outcome": "done", "summary": "Creator decided 23 Oct 2026 (Decisions A27): core discoveries (about 4-6) in the lighthouse and island, before boarding; Saltgate keeps 1-2. Each ties to the beacon failure through an unexplained human cause (neglect or tampering by people in the walls); no supernatural confirmation and the Flighted are not named as the cause. Individual items are picked in the Gate 2 narrative pass.", "files_changed": ["Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md"]},
+      "result": {
+        "outcome": "done",
+        "summary": "Creator decided 23 Oct 2026 (Decisions A27): core discoveries (about 4-6) in the lighthouse and island, before boarding; Saltgate keeps 1-2. Each ties to the beacon failure through an unexplained human cause (neglect or tampering by people in the walls); no supernatural confirmation and the Flighted are not named as the cause. Individual items are picked in the Gate 2 narrative pass.",
+        "files_changed": [
+          "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md"
+        ]
+      },
       "depends_on": [],
       "build_wave": 0,
       "build_order": 1
@@ -1357,8 +1372,11 @@
       "effort": "S",
       "agent_can_execute": false,
       "blocked_by": "Creator playtest; best done after T36 gives the dock a light.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Creator, 25 Oct 2026: done. The creator has reviewed the return under the eclipse and is satisfied the lighthouse can be found."
+      },
       "build_wave": 5,
       "depends_on": [
         "T36"
@@ -1387,6 +1405,31 @@
       "build_wave": 2,
       "depends_on": [],
       "build_order": 36
+    },
+    {
+      "id": "T37",
+      "title": "Ted's fail dialogue at SHIP_FAIL: write, record and wire it",
+      "priority": 8,
+      "category": "dialogue",
+      "summary": "At SHIP_FAIL Ted delivers fail dialogue wherever the player is (creator, 26 Oct 2026, Decisions A31). It includes the agreed reason line (A20: \"All is lost for those on board...the storm takes more lives. What were you doing, you money toff!\"), subtitled. Decide whether there are lines beyond the reason line, write them in the Lore Build dialogue files, record the voice, and add them to the dialogue data so the Dialogue loader plays them on the SHIP_FAIL event. They play while the crash happens in the world (A30), before the 'Failed' screen.",
+      "why_this_score": "The fail must tell the player why they failed (Pillar 4), and Ted is the deliverer. Not 9 because the subtitle alone covers the requirement until the voice is recorded.",
+      "evidence": [
+        "Creator, 26 Oct 2026: at SHIP_FAIL there will be fail dialogue from Ted",
+        "Decisions to be made A20, A30, A31",
+        "canon.py FAIL_REASON_LINE"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Dialogue agent",
+      "effort": "S",
+      "agent_can_execute": true,
+      "blocked_by": "Lines can be written now; wiring is tested once T07 fires SHIP_FAIL.",
+      "status": "open",
+      "result": null,
+      "build_wave": 0,
+      "depends_on": [
+        "T07"
+      ],
+      "build_order": 37
     }
   ],
   "history": [
@@ -1587,6 +1630,42 @@
       "task_id": "T29",
       "event": "executed",
       "note": "agent-only run A6"
+    },
+    {
+      "time": "2026-10-25T11:51:18",
+      "task_id": "T28",
+      "event": "status",
+      "note": "Creator, 25 Oct 2026: marked done"
+    },
+    {
+      "time": "2026-10-25T11:51:18",
+      "task_id": "T33",
+      "event": "status",
+      "note": "Creator, 25 Oct 2026: marked done"
+    },
+    {
+      "time": "2026-10-25T11:51:18",
+      "task_id": "T13",
+      "event": "status",
+      "note": "Creator, 25 Oct 2026: marked done"
+    },
+    {
+      "time": "2026-10-25T11:51:18",
+      "task_id": "T35",
+      "event": "status",
+      "note": "Creator, 25 Oct 2026: marked done"
+    },
+    {
+      "time": "2026-10-25T11:51:18",
+      "task_id": "T02",
+      "event": "note",
+      "note": "Creator, 25 Oct 2026: being worked on by the Lighthouse Crew (GER Framework lighthouse interior creator/assessor and finisher)."
+    },
+    {
+      "time": "2026-10-25T11:51:18",
+      "task_id": "T32",
+      "event": "note",
+      "note": "Creator, 25 Oct 2026: close to done: the lamp socket offers '[E] Fit the burner into the lamp' (CarrySocket), fires BURNER_FITTED and SHIP_WIN follows 4.5 s later (tools/test_lamp_fit.gd). Being finished alongside T02."
     }
   ]
 }
