@@ -87,6 +87,8 @@ var _ambient_base := 0.5  # the phase's ambient energy, before the eclipse takes
 @export_range(0.0, 1.0) var fog_floor := 0.06
 var _bolt: DirectionalLight3D
 var _rain: GPUParticles3D
+const RAIN_SHADER := preload("res://scripts/world/rain_streak.gdshader")
+@export var rain_shelter: NodePath = ^"../RainShelter"     # its volumes (interior air) are cut out of the rain
 var _rain_mat: ParticleProcessMaterial
 var _splash: GPUParticles3D
 var _rain_floor: GPUParticlesCollisionHeightField3D
@@ -487,18 +489,42 @@ func _build_rain() -> void:
 	_rain.process_material = _rain_mat
 	var streak := QuadMesh.new()
 	streak.size = Vector2(0.018, rain_streak_len)
-	var mat := StandardMaterial3D.new()
-	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	mat.billboard_mode = BaseMaterial3D.BILLBOARD_FIXED_Y
 	var c := Color.html(_phase_spec("RETURN")["rain"]["colour"])
-	mat.albedo_color = Color(c.r * rain_dark, c.g * rain_dark, c.b * rain_dark, rain_alpha)
+	var mat := ShaderMaterial.new()
+	mat.shader = RAIN_SHADER
+	mat.set_shader_parameter("albedo", Color(c.r * rain_dark, c.g * rain_dark, c.b * rain_dark, rain_alpha))
+	mat.set_shader_parameter("fixed_y", true)
 	streak.material = mat
 	_rain.draw_pass_1 = streak
 	_rain.emitting = false
 	add_child(_rain)
 	_build_splash(Color(c.r * 0.7, c.g * 0.7, c.b * 0.7, 0.55))
 	_build_rain_floor()
+	apply_rain_shelters()
+
+
+## Hands the RainShelter volumes (the lighthouse's interior air) to the rain and splash materials, which discard any fragment inside one.
+## Boxes only turned about the vertical axis (kit frame and tower bars are). Safe to call again if the volumes change.
+func apply_rain_shelters() -> void:
+	var rs := get_node_or_null(rain_shelter)
+	if rs == null or not ("volumes" in rs):
+		return
+	var a := PackedVector4Array()
+	var b := PackedVector4Array()
+	for v in rs.volumes:
+		var xf: Transform3D = v["xf"]
+		var h: Vector3 = (v["size"] as Vector3) * 0.5
+		var ax := Vector2(xf.basis.x.x, xf.basis.x.z).normalized()
+		a.append(Vector4(xf.origin.x, xf.origin.y, xf.origin.z, h.x))
+		b.append(Vector4(ax.x, ax.y, h.y, h.z))
+	var n := mini(a.size(), 32)
+	a.resize(32)
+	b.resize(32)
+	for m in [_rain.draw_pass_1.material, _splash.draw_pass_1.material]:
+		var sm := m as ShaderMaterial
+		sm.set_shader_parameter("vol_n", n)
+		sm.set_shader_parameter("vol_a", a)
+		sm.set_shader_parameter("vol_b", b)
 
 
 ## The small drops thrown up where a raindrop hits: a short burst of tiny specks that fly up and fall back.
@@ -522,11 +548,10 @@ func _build_splash(col: Color) -> void:
 	_splash.process_material = pm
 	var drop := QuadMesh.new()
 	drop.size = Vector2(0.05, 0.1)
-	var dm := StandardMaterial3D.new()
-	dm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	dm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	dm.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
-	dm.albedo_color = col
+	var dm := ShaderMaterial.new()
+	dm.shader = RAIN_SHADER
+	dm.set_shader_parameter("albedo", col)
+	dm.set_shader_parameter("fixed_y", false)
 	drop.material = dm
 	_splash.draw_pass_1 = drop
 	add_child(_splash)
