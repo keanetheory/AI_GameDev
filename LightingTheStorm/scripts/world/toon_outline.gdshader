@@ -16,6 +16,10 @@ uniform float opacity = 1.0;
 uniform vec3 mask_centre = vec3(4.9, 20.0, -4.2);   // the lighthouse, world space: lines are drawn only inside this cylinder
 uniform float mask_radius = 12.0;
 uniform float mask_half_height = 14.0;
+uniform vec3 island_centre = vec3(-10.0, 8.0, 5.0);   // a second region: Bracken Isle, its harbour and rocks (Island Creator ISL-13)
+uniform float island_radius = 48.0;
+uniform float island_half_height = 20.0;
+uniform float sea_cut_y = 0.9;                       // no ink below this world height in the island region: the sea is not outlined
 uniform float fade_start = 40.0;                  // outlines fade out with distance, so far detail does not turn to noise
 uniform float fade_end = 110.0;
 
@@ -60,6 +64,9 @@ void fragment() {
 	vec4 vv = INV_PROJECTION_MATRIX * vec4(uv * 2.0 - 1.0, dd, 1.0);
 	vec3 wp = (INV_VIEW_MATRIX * vec4(vv.xyz / vv.w, 1.0)).xyz;
 	float inside = (1.0 - smoothstep(mask_radius, mask_radius + 4.0, length(wp.xz - mask_centre.xz))) * (1.0 - smoothstep(mask_half_height, mask_half_height + 3.0, abs(wp.y - mask_centre.y)));
+	float isl = (1.0 - smoothstep(island_radius, island_radius + 4.0, length(wp.xz - island_centre.xz))) * (1.0 - smoothstep(island_half_height, island_half_height + 3.0, abs(wp.y - island_centre.y)));
+	isl *= smoothstep(sea_cut_y, sea_cut_y + 0.5, wp.y);
+	inside = max(inside, isl);
 	fade *= inside;
 	float e = max(e_depth, e_norm) * fade;
 	ALBEDO = ink.rgb;
