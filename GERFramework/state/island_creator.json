@@ -429,6 +429,16 @@
    "status": "done",
    "note": "Archived to LightingTheStorm/archive/island_legacy_2026-10-27/ (git mv; 92 MB): 8-island.glb + collider + textures, 1-gate.glb, island_plateau.glb + texture + provenance, Level_old_island.tscn.bak. Island tests pass.",
    "at": "2026-10-27T18:18:25+00:00"
+  },
+  "ISL-02": {
+   "status": "done",
+   "note": "tools/test_island_coverage.gd (new) passes: 0.5 m grid over the island, highest visible walkable surface vs a 5 cm sphere moved down (a ray passes the scan's down-facing collision faces; a body does not, player drop test confirmed). Dock-to-door route: 0 fall-through, 0 invisible-wall clusters (6 lone points; the gate's pillar boxes are walls by design). Whole island, information: 1 fall-through point at the waterline, 198 lone or small invisible-wall points 0.4-0.8 m on steep flanks. The old 'holes near the stair top' note does not reproduce; test_island_walk passes.",
+   "at": "2026-10-27T18:26:32+00:00"
+  },
+  "ISL-08": {
+   "status": "done",
+   "note": "island_craggy and island_gate submissions APPROVE (main_asset.py --check-only) after fixing island_craggy's source paths (ConceptArt/island/new_island/ -> ConceptArt/island/). The island_plateau submission (island_hunyuan_v3.fal.json) moved to AIAgentCrew/archive/ with its model (ISL-11).",
+   "at": "2026-10-27T18:26:33+00:00"
   }
  },
  "history": [
