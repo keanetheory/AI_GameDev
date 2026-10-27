@@ -47,8 +47,8 @@ func _l1_house(P: Node3D) -> void:
 	# the floor: one slab over the ground floor's ceiling; planks on top, the doorway link into the tower
 	# the slab's edges show from outside wherever the exterior wall is carved away, so the slab is STONE (a belt course) and the plank floor is a
 	# thin sheet on top of it, inset 4 cm so the stone edge frames it (creator, 2026-10-25: a plank panel hung off the front-left corner)
-	K.box(P, "L1_Floor", -3.0, 5.5, 0.9, 9.0, 3.95, Y - 0.012, "stone", true)
-	K.box(P, "L1_FloorPlanks", -2.96, 5.46, 0.94, 8.96, Y - 0.012, Y, "planks", false)
+	K.box(P, "L1_Floor", -3.0, 5.5, 0.9, 8.85, 3.95, Y - 0.012, "stone", true)      # to just behind the back lining (9.0 stood out of the back-west corner)
+	K.box(P, "L1_FloorPlanks", -2.96, 5.46, 0.94, 8.81, Y - 0.012, Y, "planks", false)
 	K.box(P, "L1_TowerLink", 5.4, 6.6, 1.0, 2.2, Y - 0.2, Y - 0.008, "flags", true)
 	# partitions, 2.3 m high (the roof is higher than that wherever there is a partition), with doorways
 	var pw := 2.1
@@ -82,7 +82,7 @@ func _l1_house(P: Node3D) -> void:
 	for i in 4:
 		K.box(P, "L1_Collar_%d" % i, -3.0, 5.4, 3.0 + 1.4 * i, 3.15 + 1.4 * i, Y + 2.15, Y + 2.3, "wood_dark", false)
 	for i in 4:
-		K.box(P, "L1_Skirt_%d" % i, -3.0 + 2.2 * i, -2.9 + 2.2 * i, 0.95, 8.95, Y, Y + 0.12, "wood_dark", false)
+		K.box(P, "L1_Skirt_%d" % i, -3.0 + 2.2 * i, -2.9 + 2.2 * i, 0.95, 8.7, Y, Y + 0.12, "wood_dark", false)      # to the back lining (8.95 ran out through the wall)
 
 	# --- hall (v 1.0..2.6): from the tower door west; low eaves on the front, so shelving only
 	K.box(P, "L1_Runner", -2.6, 5.0, 1.55, 2.2, Y, Y + 0.02, "rug", false)
@@ -263,7 +263,15 @@ func _lw_box(P: Node3D, nm: String, wall: String, a0: float, a1: float, f0: floa
 	if a1 - a0 < 0.01 or y1 - y0 < 0.01:
 		return
 	if wall == "west":
-		K.box(P, nm, f0, f1, a0, a1, y0, y1, "plaster", true)
+		# the west wall is the gable: the ceiling slopes from 1.72 m at the front and back walls up to 4 m at the ridge, and a lining full height to
+		# the corners stood up through the roof there (clipping audit, 2026-10-27). Strips no wider than 0.5 m, each stopping 5 cm into the ceiling.
+		var n := maxi(1, int(ceil((a1 - a0) / 0.5)))
+		for k in n:
+			var s0 := a0 + (a1 - a0) * float(k) / float(n)
+			var s1 := a0 + (a1 - a0) * float(k + 1) / float(n)
+			var top := minf(y1, L1 + maxf(ceil_rel(s0), ceil_rel(s1)) + 0.05)
+			if top - y0 >= 0.01:
+				K.box(P, nm if n == 1 else "%s_s%d" % [nm, k], f0, f1, s0, s1, y0, top, "plaster", true)
 	else:
 		K.box(P, nm, a0, a1, f0, f1, y0, y1, "plaster", true)
 

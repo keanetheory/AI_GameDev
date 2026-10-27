@@ -1,18 +1,19 @@
 {
   "A_outside_walls": {
     "detail": [
-      "   2  HouseFrame/L1_LiningWest",
-      "   1  HouseFrame/L1_Skirt",
+      "   2  HouseFrame/L1_LiningWest_1_s",
+      "   1  HouseFrame/L1_LiningBack",
       "   1  HouseFrame/L1_Floor"
     ],
     "ok": false,
-    "summary": "A  interior geometry outside the walls: 4 meshes (of 1002, 11041 vertices tested)"
+    "summary": "A  interior geometry outside the walls: 4 meshes (of 1016, 11160 vertices tested)"
   },
   "B_cross_exterior": {
     "detail": [
       "  12  LampRoom/Lamp_Rafter",
       "   2  TowerShell/StepFill",
-      "   2  HouseFrame/L1_LiningWest",
+      "   2  HouseFrame/L1_LiningWest_1_s",
+      "   2  HouseFrame/L1_LiningWest_0_s",
       "   2  HouseFrame/L1_Collar",
       "   1  TowerShell/T_stair_300_b_Head",
       "   1  TowerShell/T_stair_300_a_Head",
@@ -38,11 +39,10 @@
       "   1  HouseFrame/L1_SkirtLiningBack_B",
       "   1  HouseFrame/L1_SkirtH1S_-30_P",
       "   1  HouseFrame/L1_SkirtH1S_-30_B",
-      "   1  HouseFrame/L1_SkirtH1N_-30_P",
-      "   1  HouseFrame/L1_SkirtH1N_-30_B"
+      "   1  HouseFrame/L1_SkirtH1N_-30_P"
     ],
     "ok": false,
-    "summary": "B  interior meshes whose edges cut through the exterior mesh: 60 of 1002 (36060 exterior triangles)"
+    "summary": "B  interior meshes whose edges cut through the exterior mesh: 62 of 1016 (36057 exterior triangles)"
   },
   "C_props": {
     "detail": [
@@ -66,11 +66,8 @@
     "summary": "D1 hero props outside a real-world size range: 0"
   },
   "D_windows": {
-    "detail": [
-      "H_mess_back height 0.80",
-      "H_wash_back height 0.80"
-    ],
-    "ok": false,
-    "summary": "D3 window openings outside 0.5 to 2.0 wide / 0.9 to 2.6 high: 2 of 8"
+    "detail": [],
+    "ok": true,
+    "summary": "D3 window openings outside 0.5 to 2.0 wide / 0.9 to 2.6 high: 0 of 8"
   }
 }

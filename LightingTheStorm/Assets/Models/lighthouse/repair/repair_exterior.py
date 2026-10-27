@@ -211,13 +211,20 @@ def main():
         rads0 = sorted(math.hypot(g.x - AX, g.z - AZ) for g in gs)
         samples0 = []
         for v in vs:
-            for lp in v.link_loops:
+            # the colour comes from the WALL round the hole: a rim that runs under the eaves also touches roof faces, and a fill that took their texel
+            # came out as orange roof triangles on the wall (the back wall under the first-floor windows, creator 2026-10-27)
+            walls = [lp for lp in v.link_loops if abs(lp.face.normal.z) < 0.5]
+            for lp in walls or list(v.link_loops):
                 uv0 = lp[uvl].uv
                 col = texel(uv0)
                 samples0.append((0.3 * col[0] + 0.59 * col[1] + 0.11 * col[2], (uv0[0], uv0[1])))
                 break
         samples0.sort()
-        uv_pick = samples0[len(samples0) // 2][1] if samples0 else (0.5, 0.5)
+        # the tower takes the median; the house's walls are pale render with dark mortar and soot along every cut, where the median came out a dark
+        # brown that read as flat triangles on the wall: take the upper quartile there
+        in_tower = math.hypot(c.x - AX, c.z - AZ) < 4.6 and c.y > 4.2
+        q = 2 if in_tower else 4
+        uv_pick = samples0[len(samples0) * (q - 1) // q][1] if samples0 else (0.5, 0.5)
         rim_ids = {v.index for v in vs}
         before = set(bm.faces)
         try:
