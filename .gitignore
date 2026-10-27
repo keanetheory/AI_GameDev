@@ -1,2 +1,5 @@
 *.env
 *.pyc
+# FAL original models: kept out of git, backed up in C:kupConceptArt\FAL_3D_Models
+LightingTheStorm/Assets/Models/*/source/*
+!LightingTheStorm/Assets/Models/*/source/.gdignore
