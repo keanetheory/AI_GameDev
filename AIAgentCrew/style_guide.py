@@ -39,6 +39,7 @@ class StyleGuide:
     negatives: list[str]
     colour_meanings: dict[str, str] = field(default_factory=dict)  # name -> hex
     text: str = ""
+    engine_rules: list[str] = field(default_factory=list)  # the "In-Engine Cel Look (Godot)" bullets: how the game draws the look
 
     @property
     def palette_all(self) -> set[str]:
@@ -64,9 +65,13 @@ def load_style_guide(path: Path | None = None) -> StyleGuide:
     meanings = {}
     for name, hexv in re.findall(r"^\|\s*([A-Za-z ]+?)\s*\|\s*(#[0-9A-Fa-f]{6})\s*\|", text, re.M):
         meanings[name.strip()] = hexv
+    engine_rules = []
+    eng = re.search(r"## In-Engine Cel Look[^\n]*\n(.*?)(?=\n## |\Z)", text, re.S)
+    if eng:
+        engine_rules = [re.sub(r"\*\*|`", "", m).strip() for m in re.findall(r"^- (.+)$", eng.group(1), re.M)]
     if not (palette and descriptors and negatives):
         raise ValueError(f"Could not read palette, descriptors and negatives from {path}")
-    return StyleGuide(art.group(1).strip() if art else "", palette, descriptors, negatives, meanings, text)
+    return StyleGuide(art.group(1).strip() if art else "", palette, descriptors, negatives, meanings, text, engine_rules)
 
 
 def style_block(guide: StyleGuide) -> str:
@@ -83,6 +88,7 @@ def style_block(guide: StyleGuide) -> str:
         "and steam light are the only strong sources during the eclipse. Storm light is cold, wet, high-contrast. "
         "Reference touchstones are for humans only: never name them in prompts. Saint Calder's colours are "
         "amber and gold. The Flighted are black, silver and navy."
+        + ("\nIn-engine cel look (Godot, how the game draws it): " + " ".join(guide.engine_rules) if guide.engine_rules else "")
     )
 
 
