@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://b601q1u1ked8s"]
+[gd_scene load_steps=36 format=3 uid="uid://b601q1u1ked8s"]
 
 [ext_resource type="Script" path="res://scripts/world/collider_builder.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/world/sea.gd" id="2"]
@@ -29,6 +29,7 @@
 [ext_resource type="Script" path="res://scripts/world/interior_culling.gd" id="27"]
 [ext_resource type="Script" path="res://scripts/world/island_gate.gd" id="28"]
 [ext_resource type="PackedScene" path="res://Assets/Models/boat/passenger_ship.glb" id="29"]
+[ext_resource type="Script" path="res://scripts/world/island_reactions.gd" id="30"]
 
 [sub_resource type="ProceduralSkyMaterial" id="sky"]
 sky_top_color = Color(0.12, 0.15, 0.2, 1)
@@ -315,6 +316,9 @@ radius = 8.0
 berth_yaw_deg = 90.0
 landing = Vector3(-27, 2.5, 26.3)
 entrance = Vector3(-41, 0.15, 22.8)
+
+[node name="IslandReactions" type="Node3D" parent="."]
+script = ExtResource("30")
 
 [node name="Harbour" type="Node3D" parent="."]
 transform = Transform3D(0, 0, -1, 0, 1.25, 0, 1, 0, 0, -25.9, 0.1, 20.5)
