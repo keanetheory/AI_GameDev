@@ -172,7 +172,7 @@ func _tower_window(lh: Node3D, space: PhysicsDirectSpaceState3D, w: Dictionary, 
 	holder.name = w["id"] + "_Kit"
 	lh.add_child(holder)
 	holder.transform = Transform3D(Basis(-tang, Vector3.UP, dir), axis + dir * r)      # x = up x outward: a right-handed basis (a mirrored one turns the normals inside out)
-	surrounds[w["id"]] = Kit.window(holder, w["id"], ww, hh, stone)
+	surrounds[w["id"]] = Kit.window(holder, w["id"], ww, hh, stone, 0.02)
 	_trim_tower_reveal(w["id"], r)
 
 

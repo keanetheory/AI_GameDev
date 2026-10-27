@@ -40,11 +40,26 @@ func wall_radius(y: float, bearing: float) -> float:
 		var j := clampi(int(floor((y - float(_radii["y0"])) / float(_radii["y_step"]))), 0, rows.size() - 1)
 		var k := int(floor(fposmod(bearing, 360.0) / float(_radii["bearing_step"]))) % (rows[j] as Array).size()
 		var m: float = rows[j][k]
+		var nk: int = (rows[j] as Array).size()
 		if m <= 0.0:
-			# no measurement here (the table has -1 over the carved clearing at 15.5 to 17.5 m): use the smallest measured radius within two rows and
-			# four sectors, so the lining stays in front of whatever the exterior leaves poking in (the shards in the stairwell wall, creator 2026-10-25)
+			# no measurement here (the rays met nothing: a window, the carved clearing): blend between the nearest measured cells either side in the row, so
+			# the lining runs on smoothly. The smallest radius round about (the old rule) stepped it in by up to 0.2 m beside the windows, and the ink drew
+			# each step as a dark spike (creator, 2026-10-27). An empty cell holds nothing of the exterior to cover.
+			var bs := float(_radii["bearing_step"])
+			var fb := (fposmod(bearing, 360.0) - (float(k) + 0.5) * bs) / bs      # where in its cell the bearing falls, -0.5..0.5
+			var dl := 0
+			var dr := 0
+			for step in range(1, 9):
+				if dl == 0 and float(rows[j][(k - step + nk) % nk]) > 0.0:
+					dl = step
+				if dr == 0 and float(rows[j][(k + step) % nk]) > 0.0:
+					dr = step
+			if dl > 0 and dr > 0:
+				m = lerpf(rows[j][(k - dl + nk) % nk], rows[j][(k + dr) % nk], clampf((float(dl) + fb) / float(dl + dr), 0.0, 1.0))
+		if m <= 0.0:
+			# nothing measured nearby in the row (the clearing at 15.5 to 17.5 m): use the smallest measured radius within two rows and four sectors, so the
+			# lining stays in front of whatever the exterior leaves poking in (the shards in the stairwell wall, creator 2026-10-25)
 			var best := 99.0
-			var nk: int = (rows[j] as Array).size()
 			for dj in range(-2, 3):
 				var jj := clampi(j + dj, 0, rows.size() - 1)
 				for dk in range(-4, 5):

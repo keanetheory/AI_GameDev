@@ -48,6 +48,35 @@ def load_openings():
 
 
 WINS = load_openings()
+RADII = json.load(open(os.path.join(DATA, "tower_radii.json")))
+SKIRT = 0.35          # the band round a tower window where the cut's ragged sides stand inside the wall
+
+
+def _radius_cell(y, bearing):
+    rows = RADII["rows"]
+    j = min(max(int(math.floor((y - RADII["y0"]) / RADII["y_step"])), 0), len(rows) - 1)
+    return rows[j][int(math.floor((bearing % 360.0) / RADII["bearing_step"])) % len(rows[j])]
+
+
+def in_window_skirt_shard(g):
+    """True where a point beside a tower window (within SKIRT of its opening) stands closer to the axis than the wall measured just beyond the skirt at
+    that height: a ragged side of the cut. The interior lining was pulled in round these, and its folds showed as dark spikes beside the windows
+    (creator, 2026-10-27)."""
+    d = math.hypot(g.x - AX, g.z - AZ)
+    if not 1.5 < d < 4.8:
+        return False
+    th = math.degrees(math.atan2(g.z - AZ, g.x - AX)) % 360.0
+    for w in WINS:
+        if w["kind"] != "tower":
+            continue
+        half = math.degrees((w["w"] * 0.5 + SKIRT) / 3.2)
+        if abs((th - w["bearing"] + 180) % 360 - 180) >= half or abs(g.y - w["y"]) >= w["h"] * 0.5 + SKIRT:
+            continue
+        step = RADII["bearing_step"]
+        refs = [r for r in (_radius_cell(g.y, w["bearing"] - half - step), _radius_cell(g.y, w["bearing"] + half + step)) if r > 0.0]
+        if refs and d < min(refs) - 0.03:
+            return True
+    return False
 
 
 def inside_opening(g, m=0.1):
@@ -252,7 +281,7 @@ def main():
     # 2026-10-27): any triangle with a corner more than 4 cm inside an opening goes; the reveal and the stone surround hide the notch it leaves
     shards = 0
     for f in list(bm.faces):
-        if f.is_valid and any(in_tower_window(god(v.co)) for v in f.verts):
+        if f.is_valid and any(in_tower_window(god(v.co)) or in_window_skirt_shard(god(v.co)) for v in f.verts):
             bmesh.ops.delete(bm, geom=[f], context="FACES_ONLY")
             shards += 1
     STATS["window_shards"] = shards

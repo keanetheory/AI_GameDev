@@ -23,13 +23,14 @@ static func _box(parent: Node3D, nm: String, size: Vector3, pos: Vector3, mat: M
 	return mi
 
 
-## A window surround: `w` x `h` opening, centre at the origin.
-static func window(parent: Node3D, id: String, w: float, h: float, stone: Material) -> Node3D:
+## A window surround: `w` x `h` opening, centre at the origin. `recess`: how far its stones reach back into the wall behind the outer face (the tower's
+## wall is thin, and 0.1 m there put the stones in front of the interior lining beside the window).
+static func window(parent: Node3D, id: String, w: float, h: float, stone: Material, recess := 0.1) -> Node3D:
 	var k := Node3D.new()
 	k.name = id + "_Surround"
 	parent.add_child(k)
-	var d := PROJ + 0.1
-	var zc := PROJ * 0.5 - 0.05
+	var d := PROJ + recess
+	var zc := (PROJ - recess) * 0.5
 	var jw := 0.38                                    # wide enough to cover the ragged edge the carve leaves round the hole
 	# jambs in alternating long and short blocks (quoins)
 	var n := int(ceil((h + 0.2) / 0.45))
