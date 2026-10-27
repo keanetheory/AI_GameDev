@@ -18,15 +18,12 @@
       "   1  TowerShell/T_stair_300_a_Head",
       "   1  TowerShell/T_stair_110_b_JambR",
       "   1  TowerShell/T_stair_110_b_Head",
-      "   1  TowerShell/T_stair_110_b_Glass",
       "   1  TowerShell/T_stair_110_a_JambR",
       "   1  TowerShell/T_stair_110_a_Head",
+      "   1  TowerShell/T_landing_215_JambL",
       "   1  TowerShell/T_landing_215_Head",
       "   1  TowerShell/T_landing_147_Sill",
-      "   1  TowerShell/T_landing_147_Mullion",
       "   1  TowerShell/T_landing_147_JambL",
-      "   1  TowerShell/T_landing_147_Head",
-      "   1  TowerShell/T_landing_147_Glass",
       "   1  LampRoom/Lamp_RingTrim",
       "   1  LampRoom/Lamp_RingBeam",
       "   1  LampRoom/Lamp_Kerb",
@@ -39,26 +36,20 @@
       "   1  HouseFrame/L1_SkirtLiningWest_B",
       "   1  HouseFrame/L1_SkirtLiningBack_P",
       "   1  HouseFrame/L1_SkirtLiningBack_B",
-      "   1  HouseFrame/L1_SkirtH1S_-30_P"
+      "   1  HouseFrame/L1_SkirtH1S_-30_P",
+      "   1  HouseFrame/L1_SkirtH1S_-30_B",
+      "   1  HouseFrame/L1_SkirtH1N_-30_P",
+      "   1  HouseFrame/L1_SkirtH1N_-30_B"
     ],
     "ok": false,
-    "summary": "B  interior meshes whose edges cut through the exterior mesh: 63 of 1002 (35954 exterior triangles)"
+    "summary": "B  interior meshes whose edges cut through the exterior mesh: 60 of 1002 (36060 exterior triangles)"
   },
   "C_props": {
     "detail": [
-      "Hero_office_desk overlaps Hero_office_chair by (0.647541, 0.852502, 0.231369)",
-      "Hero_office_desk overlaps Hero_lamp_office by (0.171338, 0.120001, 0.161461)",
-      "Hero_barrel_0 overlaps Hero_barrel_1 by (0.641502, 0.849999, 0.387844)",
-      "Hero_barrel_1 overlaps Hero_barrel_2 by (0.537035, 0.849999, 0.276454)",
-      "Hero_crate_0 overlaps Hero_crate_2 by (0.546668, 0.507119, 0.065896)",
-      "Hero_coat_0 overlaps Hero_coat_1 by (0.320067, 1.2, 0.384261)",
-      "Hero_coat_1 overlaps Hero_coat_2 by (0.275487, 1.2, 0.338331)",
-      "Hero_coat_2 overlaps Hero_coat_3 by (0.261701, 1.150001, 0.317837)",
-      "Hero_coat_3 overlaps Hero_coat_4 by (0.397194, 1.150001, 0.392506)",
       "Hero_bed_1 box is cut by an exterior triangle"
     ],
     "ok": false,
-    "summary": "C  props clipping other geometry: 10 (of 27 props)"
+    "summary": "C  props clipping other geometry: 1 (of 25 props)"
   },
   "D_doorways": {
     "detail": [
@@ -70,20 +61,9 @@
     "summary": "D2 doorways below real-world clearance: 0 of 3"
   },
   "D_prop_scale": {
-    "detail": [
-      "office_desk height 0.92 (want 0.70-0.90) longest side 1.34 (want 1.10-1.80)",
-      "office_chair height 0.85 (want 0.80-1.05) longest side 0.66 (want 0.40-0.60)",
-      "office_cabinet height 0.71 (want 1.10-1.60) longest side 0.70 (want 0.50-0.75)",
-      "wardrobe height 2.03 (want 1.70-2.10) longest side 1.50 (want 1.00-1.50)",
-      "mess_table height 0.92 (want 0.70-0.85) longest side 1.64 (want 1.00-1.80)",
-      "telegraph height 0.64 (want 0.15-0.50) longest side 0.82 (want 0.30-0.70)",
-      "barrel_0 height 0.85 (want 0.75-1.00) longest side 0.95 (want 0.50-0.70)",
-      "barrel_1 height 0.85 (want 0.75-1.00) longest side 0.82 (want 0.50-0.70)",
-      "barrel_2 height 0.85 (want 0.75-1.00) longest side 0.74 (want 0.50-0.70)",
-      "crate_0 height 0.59 (want 0.40-0.80) longest side 0.93 (want 0.50-0.90)"
-    ],
-    "ok": false,
-    "summary": "D1 hero props outside a real-world size range: 10"
+    "detail": [],
+    "ok": true,
+    "summary": "D1 hero props outside a real-world size range: 0"
   },
   "D_windows": {
     "detail": [
