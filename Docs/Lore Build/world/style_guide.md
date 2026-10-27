@@ -24,6 +24,14 @@ status: locked
   - Storm lighting is cold, wet, and high-contrast.
 - **Reference touchstones** (A Scanner Darkly, Borderlands) are for human reference only. Never name them in prompts.
 
+## In-Engine Cel Look (Godot)
+How the game draws the cel-shaded look at run time. Agents building or checking anything in the level follow these values; the prompt descriptors above are for generated art only. Set by the creator on 2026-10-27, first on the lighthouse (`LightingTheStorm/scripts/world/toon_look.gd`, `toon_outline.gdshader`).
+- **Outline (ink) colour:** neutral near-black charcoal, about #0C0C0C on screen (ToonLook `ink_colour` 0.04, 0.04, 0.045 in sRGB). Never pure black, and never navy or blue: navy is reserved for the Flighted and Ted.
+- **Outline weight:** thin, 1.2 px at 1080p (ToonLook `ink_thickness`), scaled with screen height. Not the heavy 1.8 px line used before 27 Oct 2026.
+- **Where the outline is drawn:** silhouettes, depth steps and sharp creases only; flat surfaces carry no line. It fades out between 40 m and 110 m so distant detail does not turn to noise.
+- **Shading:** toon diffuse with a hard light/dark step (ToonLook `toon_roughness` 0.22) and a small amber fill (`fill_tint`) so unlit interior walls keep the warm palette instead of falling to grey.
+- **Interior surfaces:** warm, muted materials (lime plaster cream, dark timber, worn stone); no neutral greys.
+
 ## Colour Meanings
 | Colour | Hex | Meaning |
 |---|---|---|

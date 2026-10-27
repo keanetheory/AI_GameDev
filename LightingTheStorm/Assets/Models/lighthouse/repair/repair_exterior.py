@@ -48,6 +48,35 @@ def load_openings():
 
 
 WINS = load_openings()
+RADII = json.load(open(os.path.join(DATA, "tower_radii.json")))
+SKIRT = 0.35          # the band round a tower window where the cut's ragged sides stand inside the wall
+
+
+def _radius_cell(y, bearing):
+    rows = RADII["rows"]
+    j = min(max(int(math.floor((y - RADII["y0"]) / RADII["y_step"])), 0), len(rows) - 1)
+    return rows[j][int(math.floor((bearing % 360.0) / RADII["bearing_step"])) % len(rows[j])]
+
+
+def in_window_skirt_shard(g):
+    """True where a point beside a tower window (within SKIRT of its opening) stands closer to the axis than the wall measured just beyond the skirt at
+    that height: a ragged side of the cut. The interior lining was pulled in round these, and its folds showed as dark spikes beside the windows
+    (creator, 2026-10-27)."""
+    d = math.hypot(g.x - AX, g.z - AZ)
+    if not 1.5 < d < 4.8:
+        return False
+    th = math.degrees(math.atan2(g.z - AZ, g.x - AX)) % 360.0
+    for w in WINS:
+        if w["kind"] != "tower":
+            continue
+        half = math.degrees((w["w"] * 0.5 + SKIRT) / 3.2)
+        if abs((th - w["bearing"] + 180) % 360 - 180) >= half or abs(g.y - w["y"]) >= w["h"] * 0.5 + SKIRT:
+            continue
+        step = RADII["bearing_step"]
+        refs = [r for r in (_radius_cell(g.y, w["bearing"] - half - step), _radius_cell(g.y, w["bearing"] + half + step)) if r > 0.0]
+        if refs and d < min(refs) - 0.03:
+            return True
+    return False
 
 
 def inside_opening(g, m=0.1):
@@ -74,8 +103,7 @@ def inside_opening(g, m=0.1):
             return True
         if w["wall"] == "back" and v > 8.3 and abs(u - w["at"]) < w["w"] / 2 + m and y0 < y < y1:
             return True
-    if u < -1.9 and 3.0 - m < v < 4.3 + m and 1.9 - m < y < 2.9 + m:
-        return True               # the ground-floor window over the dock
+    # (the ground-floor window over the dock, u < -1.9, v 3.0..4.3, y 1.9..2.9, is closed: creator, 2026-10-27 "just close it up for now")
     if -1.0 - m < u < 1.0 + m and -0.7 < v < 0.95 and GF - 0.05 < y < GF + 3.05:
         return True               # the front door
     if 5.0 < u < 9.0 and 0.8 - m < v < 2.25 + m and GF - 0.05 < y < GF + 2.4:
@@ -83,6 +111,73 @@ def inside_opening(g, m=0.1):
     if 5.0 < u < 9.0 and 1.0 - m < v < 2.3 + m and L1 - 0.05 < y < L1 + 2.2:
         return True               # the first floor's door to the tower
     return False
+
+
+def in_tower_window(g, shrink=0.04):
+    """True where a point is inside a tower window's opening, `shrink` in from its edges, between the lining and just outside the wall."""
+    d = math.hypot(g.x - AX, g.z - AZ)
+    if not 2.0 < d < 4.8:
+        return False
+    th = math.degrees(math.atan2(g.z - AZ, g.x - AX)) % 360.0
+    for w in WINS:
+        if w["kind"] != "tower":
+            continue
+        half = math.degrees((w["w"] * 0.5 - shrink) / d)
+        if abs((th - w["bearing"] + 180) % 360 - 180) < half and abs(g.y - w["y"]) < w["h"] * 0.5 - shrink:
+            return True
+    return False
+
+
+def from_house(u, y, v):
+    w = -v
+    return Vector((HO[0] + u * math.cos(YAW) + w * math.sin(YAW), y, HO[1] - u * math.sin(YAW) + w * math.cos(YAW)))
+
+
+def is_chimney_hole(c):
+    """The closed ground-floor window: a hole through the chimney breast on the west gable (house u -3.9..-2.7, v 2.7..3.6, y 1.05..3.4)."""
+    u, v = to_house(c)
+    return u < -2.5 and 2.4 < v < 3.9 and 0.9 < c.y < 3.6
+
+
+# ---------------------------------------------------------------- the back-west corner of the first floor (creator, 2026-10-27)
+# The scan has no wall there: on the west gable from just past the bedroom window (v 6.3) to the back corner, and on the back wall from the corner
+# to u -2.0, from the lean-to roof up to the main roof. The first floor's plaster lining showed from outside. It is not a closed hole (its rim runs
+# into the open ground rim), so the loop fill above never sees it. Two flat panels on the walls' measured outer planes close it.
+GABLE_U = -3.47                 # the gable's outer face beside the gap (rays at v 5.0 to 5.5)
+BACK_V = 9.4                    # the back wall's outer face (the fills there sit at 9.41)
+CORNER_Y0 = 4.4                 # below the lean-to roof that covers the gable's foot
+
+
+def gable_top(v):
+    """The underside of the main roof over the west gable at v, plus 0.12 m tucked under it (measured 8.6 at v 6.5, 7.1 at v 9.0)."""
+    return 8.6 - 0.6 * (v - 6.5) + 0.12
+
+
+def add_corner_panels(bm, uvl, uv):
+    """Plain panels in one texel of the gable's stone. (Copying the texture of the wall beside the gap was tried: the scan's texture is a patchwork
+    of small islands, and the copy came out as a garbled collage.)"""
+    made = []
+
+    def panel(pts_fn, n_a, n_y, outward):
+        grid = [[bm.verts.new(blen(pts_fn(i / n_a, j / n_y))) for j in range(n_y + 1)] for i in range(n_a + 1)]
+        for i in range(n_a):
+            for j in range(n_y):
+                f = bm.faces.new((grid[i][j], grid[i + 1][j], grid[i + 1][j + 1], grid[i][j + 1]))
+                f.normal_update()
+                if god(f.normal).dot(outward) < 0.0:
+                    f.normal_flip()
+                for lp in f.loops:
+                    lp[uvl].uv = uv
+                made.append(f)
+
+    v0, v1 = 6.3, BACK_V
+    panel(lambda a, b: from_house(GABLE_U, CORNER_Y0 + b * (gable_top(v0 + a * (v1 - v0)) - CORNER_Y0), v0 + a * (v1 - v0)), 12, 10,
+          (from_house(-1.0, 0.0, 0.0) - from_house(0.0, 0.0, 0.0)).normalized())
+    u0, u1 = GABLE_U, -1.9
+    top = gable_top(BACK_V)
+    panel(lambda a, b: from_house(u0 + a * (u1 - u0), CORNER_Y0 + b * (top - CORNER_Y0), BACK_V), 6, 8,
+          (from_house(0.0, 0.0, 1.0) - from_house(0.0, 0.0, 0.0)).normalized())
+    return made
 
 
 def main():
@@ -110,6 +205,20 @@ def main():
         return (px[i], px[i + 1], px[i + 2])
 
     bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-4)
+    # the chimney breast's own stone round the closed window (outward-facing faces on its face plane, u about -3.75): the rim of that hole is mostly
+    # brown cut-off flaps, so its fill takes its texel from here instead
+    chim = []
+    for f in bm.faces:
+        g = god(f.calc_center_median())
+        u, v = to_house(g)
+        n = god(f.normal)
+        nu = n.x * math.cos(YAW) - n.z * math.sin(YAW)
+        if abs(u + 3.75) < 0.3 and 2.0 < v < 4.4 and 0.9 < g.y < 4.6 and not (2.6 < v < 3.7 and g.y < 3.5) and nu < -0.5:
+            col = texel(f.loops[0][uvl].uv)
+            chim.append((0.3 * col[0] + 0.59 * col[1] + 0.11 * col[2], tuple(f.loops[0][uvl].uv)))
+    chim.sort()
+    chim_uv = chim[len(chim) * 4 // 5][1] if chim else None      # the pale stone (the median is a dark mortar/soot texel)
+    print("chimney face samples", len(chim), "brightness", [round(c[0], 2) for c in chim], "uv", chim_uv)
     bm.edges.ensure_lookup_table()
     bnd = [e for e in bm.edges if len(e.link_faces) == 1]
     parent = {}
@@ -143,13 +252,20 @@ def main():
         rads0 = sorted(math.hypot(g.x - AX, g.z - AZ) for g in gs)
         samples0 = []
         for v in vs:
-            for lp in v.link_loops:
+            # the colour comes from the WALL round the hole: a rim that runs under the eaves also touches roof faces, and a fill that took their texel
+            # came out as orange roof triangles on the wall (the back wall under the first-floor windows, creator 2026-10-27)
+            walls = [lp for lp in v.link_loops if abs(lp.face.normal.z) < 0.5]
+            for lp in walls or list(v.link_loops):
                 uv0 = lp[uvl].uv
                 col = texel(uv0)
                 samples0.append((0.3 * col[0] + 0.59 * col[1] + 0.11 * col[2], (uv0[0], uv0[1])))
                 break
         samples0.sort()
-        uv_pick = samples0[len(samples0) // 2][1] if samples0 else (0.5, 0.5)
+        # the tower takes the median; the house's walls are pale render with dark mortar and soot along every cut, where the median came out a dark
+        # brown that read as flat triangles on the wall: take the upper quartile there
+        in_tower = math.hypot(c.x - AX, c.z - AZ) < 4.6 and c.y > 4.2
+        q = 2 if in_tower else 4
+        uv_pick = samples0[len(samples0) * (q - 1) // q][1] if samples0 else (0.5, 0.5)
         rim_ids = {v.index for v in vs}
         before = set(bm.faces)
         try:
@@ -182,12 +298,36 @@ def main():
                 dx, dz = g.x - AX, g.z - AZ
                 dd = math.hypot(dx, dz) or 1.0
                 v.co = blen(Vector((AX + dx / dd * rr, g.y, AZ + dz / dd * rr)))
+        if is_chimney_hole(c):
+            # the closed window: a flat stretch of the chimney's face, its inner points pushed onto the face plane, in the chimney's stone
+            fe_ = list({e for f in nf for e in f.edges if e not in es})
+            bmesh.ops.subdivide_edges(bm, edges=fe_, cuts=3, use_grid_fill=True)
+            nf = [f for f in bm.faces if f not in before]
+            rim_u = sorted(to_house(g)[0] for g in gs if to_house(g)[0] < -3.4)
+            u_face = rim_u[len(rim_u) // 2] if rim_u else -3.75
+            for v in {v for f in nf for v in f.verts if v.index not in rim_ids}:
+                g = god(v.co)
+                v.co = blen(from_house(u_face, g.y, to_house(g)[1]))
+            if chim_uv:
+                uv_pick = chim_uv
+            STATS["chimney_hole"] = {"u_face": round(u_face, 3), "faces": len(nf)}
         faces_now = [f for f in nf if f.is_valid]
         for f in faces_now:
             for lp in f.loops:
                 lp[uvl].uv = uv_pick
         new_faces_all.extend(faces_now)
         filled += 1
+    # the back-west corner's two panels, in the gable's own stone (the upper quartile of its intact face beside the gap)
+    gab = []
+    for f in bm.faces:
+        g = god(f.calc_center_median())
+        u, v = to_house(g)
+        if abs(u - GABLE_U) < 0.2 and 4.6 < v < 5.6 and 5.0 < g.y < 8.5 and god(f.normal).dot(from_house(-1.0, 0.0, 0.0) - from_house(0.0, 0.0, 0.0)) > 0.4:
+            col = texel(f.loops[0][uvl].uv)
+            gab.append((0.3 * col[0] + 0.59 * col[1] + 0.11 * col[2], tuple(f.loops[0][uvl].uv)))
+    gab.sort()
+    corner_uv = gab[len(gab) * 9 // 10][1] if gab else (chim_uv or (0.5, 0.5))      # the pale render, not its mortar lines
+    STATS["corner_panels"] = {"faces": len(add_corner_panels(bm, uvl, corner_uv)), "samples": len(gab)}
     # cut the real openings back out of the fill
     cut = 0
     for f in list(new_faces_all):
@@ -196,6 +336,49 @@ def main():
         if inside_opening(god(f.calc_center_median())):
             bmesh.ops.delete(bm, geom=[f], context="FACES_ONLY")
             cut += 1
+    # the scan's own triangles that the carve left reaching into a tower window (the brown shards across the stairwell windows, creator
+    # 2026-10-27): any triangle with a corner more than 4 cm inside an opening goes; the reveal and the stone surround hide the notch it leaves
+    shards = 0
+    for f in list(bm.faces):
+        if f.is_valid and any(in_tower_window(god(v.co)) or in_window_skirt_shard(god(v.co)) for v in f.verts):
+            bmesh.ops.delete(bm, geom=[f], context="FACES_ONLY")
+            shards += 1
+    STATS["window_shards"] = shards
+    # the scan's lantern roof hangs down inside the glass drum, below the lamp room's code-built ceiling (lantern.gd: glass r 2.82, ceiling y 21.95):
+    # its triangles came through the plaster between the rafters (creator, 2026-10-27). Nothing inside the drum below the ceiling's top is seen
+    # from outside except through the glass, where it only hid the lamp room's own ceiling.
+    lamp = 0
+    for f in list(bm.faces):
+        if not f.is_valid:
+            continue
+        gs_ = [god(v.co) for v in f.verts]
+        if any(18.35 < g.y < 22.09 and math.hypot(g.x - AX, g.z - AZ) < 2.78 for g in gs_):
+            bmesh.ops.delete(bm, geom=[f], context="FACES_ONLY")
+            lamp += 1
+    STATS["lamp_room_shards"] = lamp
+    # anything of the exterior inside the first floor's rooms, below their code-built ceiling (rooms_tower.gd: lining u -3.0 / 5.39, v 0.95 / 8.7,
+    # ceiling ceil_rel), INCLUDING this script's own hole fills: the fill across the open back-west corner hung as brown flaps under the ceiling
+    # (creator, 2026-10-27)
+    def ceil_rel(v):
+        return 1.72 + (v - 0.9) * (4.0 - 1.72) / (5.0 - 0.9) if v <= 5.0 else 4.0 - (v - 5.0) * (4.0 - 1.6) / (8.9 - 5.0)
+    inner = 0
+    for f in list(bm.faces):
+        if not f.is_valid:
+            continue
+        # any corner in the room counts: triangles reaching up through the floor from below (into bed_1's corner) had their centre in the slab
+        inside = False
+        for x in f.verts:
+            g = god(x.co)
+            u, v = to_house(g)
+            # (u from -3.25: the gable wall's hidden inner skin behind the lining at -3.0; a triangle from there down through the floor cut across
+            # the room's corner behind bed_1. The wall's outer face is at -3.47.)
+            if -3.25 < u < 5.3 and 1.0 < v < 8.7 and L1 + 0.02 < g.y < L1 + ceil_rel(v) + 0.04 and math.hypot(g.x - AX, g.z - AZ) > 3.6:
+                inside = True
+                break
+        if inside:
+            bmesh.ops.delete(bm, geom=[f], context="FACES_ONLY")
+            inner += 1
+    STATS["l1_inner_faces"] = inner
     # leave smooth shading as the scan had it
     for f in bm.faces:
         f.smooth = True
@@ -215,7 +398,7 @@ def main():
     ob.matrix_parent_inverse = root.matrix_world.inverted()
     out = os.path.normpath(os.path.join(HERE, "..", "lighthouse_exterior_v4.glb"))
     bpy.ops.export_scene.gltf(filepath=out, export_format="GLB", export_yup=True, export_apply=False, export_image_format="AUTO")
-    print("REPAIR_OK", out, "loops filled", filled, "skipped", skipped, "opening faces cut", cut)
+    print("REPAIR_OK", out, "loops filled", filled, "skipped", skipped, "opening faces cut", cut, STATS)
 
 
 main()

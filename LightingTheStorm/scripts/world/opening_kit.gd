@@ -23,13 +23,14 @@ static func _box(parent: Node3D, nm: String, size: Vector3, pos: Vector3, mat: M
 	return mi
 
 
-## A window surround: `w` x `h` opening, centre at the origin.
-static func window(parent: Node3D, id: String, w: float, h: float, stone: Material) -> Node3D:
+## A window surround: `w` x `h` opening, centre at the origin. `recess`: how far its stones reach back into the wall behind the outer face at the
+## opening's centre line. `curve_r`: the radius of a round wall (the tower), 0 for a flat one. The surround is flat, so on a round wall each stone
+## reaches back further by the wall's fall-away at its outer end (0.12 m at the side stones of a 0.9 m window): the side stones meet the wall
+## and the middle ones stay outside the interior lining (the tower's wall is thin; 0.1 m everywhere put the keystone through the lining).
+static func window(parent: Node3D, id: String, w: float, h: float, stone: Material, recess := 0.1, curve_r := 0.0) -> Node3D:
 	var k := Node3D.new()
 	k.name = id + "_Surround"
 	parent.add_child(k)
-	var d := PROJ + 0.1
-	var zc := PROJ * 0.5 - 0.05
 	var jw := 0.38                                    # wide enough to cover the ragged edge the carve leaves round the hole
 	# jambs in alternating long and short blocks (quoins)
 	var n := int(ceil((h + 0.2) / 0.45))
@@ -39,14 +40,23 @@ static func window(parent: Node3D, id: String, w: float, h: float, stone: Materi
 		if bh < 0.05:
 			continue
 		var bw := jw + (0.08 if i % 2 == 0 else -0.04)
+		var rq := recess + _fall(w * 0.5 + bw + 0.03, curve_r)
 		for side in [-1.0, 1.0]:
-			_box(k, "Quoin%d_%s" % [i, "L" if side < 0.0 else "R"], Vector3(bw, bh - 0.025, d), Vector3(side * (w * 0.5 + bw * 0.5 - 0.02), y0 + bh * 0.5, zc), stone)
-	_box(k, "Lintel", Vector3(w + 1.0, 0.3, d + 0.04), Vector3(0.0, h * 0.5 + 0.2, zc + 0.02), stone)
-	_box(k, "Keystone", Vector3(0.24, 0.42, d + 0.1), Vector3(0.0, h * 0.5 + 0.22, zc + 0.05), stone)
+			# their inner faces stand 3 cm back from the opening, behind the interior's reveal: flush with it they showed inside the window as stepped teeth
+			_box(k, "Quoin%d_%s" % [i, "L" if side < 0.0 else "R"], Vector3(bw, bh - 0.025, PROJ + rq), Vector3(side * (w * 0.5 + bw * 0.5 + 0.03), y0 + bh * 0.5, (PROJ - rq) * 0.5), stone)
+	# the long stones cover the wall's fall-away only half way to their ends: all the way, their middles would come through the lining
+	var rl := recess + _fall((w + 1.0) * 0.5, curve_r) * 0.5
+	_box(k, "Lintel", Vector3(w + 1.0, 0.3, PROJ + rl + 0.04), Vector3(0.0, h * 0.5 + 0.2, (PROJ - rl) * 0.5 + 0.02), stone)
+	_box(k, "Keystone", Vector3(0.24, 0.42, PROJ + recess + 0.1), Vector3(0.0, h * 0.5 + 0.22, (PROJ - recess) * 0.5 + 0.05), stone)
 	# the sill: a slab that leans outward so the rain runs off it, over a plain course
-	_box(k, "Sill", Vector3(w + 0.9, 0.14, d + 0.14), Vector3(0.0, -h * 0.5 - 0.1, zc + 0.07), stone, Vector3(deg_to_rad(-7.0), 0.0, 0.0))
-	_box(k, "SillCourse", Vector3(w + 0.8, 0.16, d), Vector3(0.0, -h * 0.5 - 0.27, zc), stone)
+	_box(k, "Sill", Vector3(w + 0.9, 0.14, PROJ + rl + 0.14), Vector3(0.0, -h * 0.5 - 0.1, (PROJ - rl) * 0.5 + 0.07), stone, Vector3(deg_to_rad(-7.0), 0.0, 0.0))
+	_box(k, "SillCourse", Vector3(w + 0.8, 0.16, PROJ + rl), Vector3(0.0, -h * 0.5 - 0.27, (PROJ - rl) * 0.5), stone)
 	return k
+
+
+## How far a round wall of radius `r` falls back from its tangent `x` along it (0 for a flat wall).
+static func _fall(x: float, r: float) -> float:
+	return 0.0 if r <= 0.0 else r - sqrt(maxf(r * r - x * x, 0.0))
 
 
 ## The main door's surround. `w` x `h` is the door; the origin is at the sill's centre. `ink` is the iron for the fanlight spokes,
@@ -79,7 +89,9 @@ static func door(parent: Node3D, id: String, w: float, h: float, stone: Material
 		var arc_w := (PI * rr / float(count)) * 1.08
 		var m := _box(k, "Voussoir%d" % i, Vector3(0.34 + (0.06 if i % 2 == 0 else 0.0), arc_w, d + 0.02), Vector3(cos(a) * rr, cy + sin(a) * rr, zc + 0.01), stone)
 		m.rotation = Vector3(0.0, 0.0, a)         # the block's long side (its x) points out along the radius
-	# the fanlight: dark glass in the half circle, with iron spokes
+	# the fanlight: dark glass in the half circle, with iron spokes. It sits forward in the arch, 2 cm behind the voussoirs' face: at the wall's face
+	# (z -0.04) the scan's lumpy wall stood in front of it and the lintel hid it from the path (creator, 2026-10-24)
+	var fz := PROJ + 0.02
 	var fan := MeshInstance3D.new()
 	fan.name = "Fanlight"
 	var st := SurfaceTool.new()
@@ -88,7 +100,7 @@ static func door(parent: Node3D, id: String, w: float, h: float, stone: Material
 	for i in steps:
 		var a0 := PI * float(i) / float(steps)
 		var a1 := PI * float(i + 1) / float(steps)
-		for pt in [Vector3(0, cy, -0.04), Vector3(cos(a0) * r_in, cy + sin(a0) * r_in, -0.04), Vector3(cos(a1) * r_in, cy + sin(a1) * r_in, -0.04)]:
+		for pt in [Vector3(0, cy, fz), Vector3(cos(a0) * r_in, cy + sin(a0) * r_in, fz), Vector3(cos(a1) * r_in, cy + sin(a1) * r_in, fz)]:
 			st.set_normal(Vector3(0, 0, 1))
 			st.add_vertex(pt)
 	fan.mesh = st.commit()
@@ -96,9 +108,9 @@ static func door(parent: Node3D, id: String, w: float, h: float, stone: Material
 	k.add_child(fan)
 	for i in range(1, 6):
 		var a := PI * float(i) / 6.0
-		var spoke := _box(k, "Spoke%d" % i, Vector3(0.035, r_in, 0.05), Vector3(cos(a) * r_in * 0.5, cy + sin(a) * r_in * 0.5, -0.02), iron)
+		var spoke := _box(k, "Spoke%d" % i, Vector3(0.035, r_in, 0.05), Vector3(cos(a) * r_in * 0.5, cy + sin(a) * r_in * 0.5, fz + 0.02), iron)
 		spoke.rotation = Vector3(0.0, 0.0, a - PI * 0.5)
-	_box(k, "FanRing", Vector3(r_in * 2.0, 0.05, 0.05), Vector3(0.0, cy + 0.01, -0.02), iron)
+	_box(k, "FanRing", Vector3(r_in * 2.0, 0.05, 0.05), Vector3(0.0, cy + 0.01, fz + 0.02), iron)
 	# the threshold and a worn step
 	_box(k, "Threshold", Vector3(w + 0.5, 0.1, 0.5), Vector3(0.0, 0.05, 0.12), stone)
 	_box(k, "Step", Vector3(w + 0.9, 0.14, 0.45), Vector3(0.0, 0.07 - 0.12, 0.55), stone)

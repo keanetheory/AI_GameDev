@@ -1,6 +1,6 @@
 {
  "creator": "island_creator",
- "phase": "awaiting_approval",
+ "phase": "approved",
  "plan_loops": 1,
  "work_loops": 0,
  "objectives": [
@@ -278,8 +278,8 @@
   {
    "id": "ISL-09",
    "title": "Keep the island cheap when seen from the sea and from the Saltgate: visibility ranges and distant LOD",
-   "priority": 6,
-   "why_score": "The island is the destination landmark on the return, but full-detail rendering at 1.5 km wastes frame time. Not 7 because the load budget (ISL-03) comes first.",
+   "priority": 3,
+   "why_score": "The island is the destination landmark on the return, but full-detail rendering at 1.5 km wastes frame time. Not 7 because the load budget (ISL-03) comes first. Lowered from 6 to 3 by the creator on 2026-10-27.",
    "detail": "Set visibility ranges and an LOD or lower-detail stand-in for the island beyond the distances where the detail is invisible; keep the silhouette and the beacon landmark intact.",
    "acceptance": [
     "silhouette is unchanged at distance",
@@ -361,9 +361,125 @@
    "collaborates": [
     "Creator"
    ]
+  },
+  {
+   "id": "ISL-12",
+   "title": "Find what makes the whole level take 8.8 s to load and cut it",
+   "priority": 6,
+   "why_score": "Creator, 2026-10-27: the island alone loads in 0.94 s headless but the whole level takes 8.8 s; something else is slow. Not higher because the slice runs; not lower because quick loading is a creator must.",
+   "detail": "Measured 2026-10-27 with tools/measure_load_time.gd: island 0.94 s, all 8.8 s (to the second frame, headless). Run the other parts (no_cliffside, cliffside, saltgate) and profile the _ready work (collider building, the walkway cut, trees, the lighthouse interior build, exterior openings) to find where the remaining ~7.9 s goes. Fix what belongs to the island; report the rest to its owner (Cliffside, Saltgate, Lighthouse) with numbers.",
+   "acceptance": [
+    "a table of load time per part and per _ready step",
+    "the island's share stays under 2 s",
+    "the biggest cost outside the island is named with its owner and a proposed fix"
+   ],
+   "owner": "Island Creator Agent",
+   "checks": [
+    {
+     "type": "manual",
+     "note": "Verified by the measurement or the shots named in the acceptance list."
+    }
+   ],
+   "refs": [],
+   "depends_on": [],
+   "collaborates": [
+    "Cliffside Creator Agent",
+    "Lighthouse Finisher Agent"
+   ]
+  },
+  {
+   "id": "ISL-13",
+   "title": "Give the island and dock the same toon (cel-shaded) feel as the lighthouse",
+   "priority": 7,
+   "why_score": "Creator, 2026-10-27: confirm the island and dock have the same toon-like feel as the lighthouse. Not 8 because the slice plays without it; not lower because the art style is locked.",
+   "detail": "The lighthouse uses ToonLook (scripts/world/toon_look.gd): toon diffuse with a hard step, a thin 1.2 px charcoal ink outline masked to the lighthouse, and the style guide's In-Engine Cel Look section (Docs/Lore Build/world/style_guide.md). Compare the island rock, the dock, the harbour stairs and the gate against the lighthouse from the same viewpoints; bring them onto the same look (toon materials, the same ink) without changing the island's silhouette or its lighting budget.",
+   "acceptance": [
+    "side-by-side shots of lighthouse and island/dock show the same shading and ink",
+    "no outline noise on the sea",
+    "test_toon_look still passes"
+   ],
+   "owner": "Island Creator Agent",
+   "checks": [
+    {
+     "type": "manual",
+     "note": "Verified by the measurement or the shots named in the acceptance list."
+    }
+   ],
+   "refs": [],
+   "depends_on": [
+    "ISL-01"
+   ],
+   "collaborates": [
+    "Lighting agent"
+   ]
+  },
+  {
+   "id": "ISL-14",
+   "title": "Link the island gate into the rocks either side of it",
+   "priority": 7,
+   "why_score": "Creator, 2026-10-27: the gate must read as part of the island, set into the rock on both sides, not a free-standing frame. Not 8 because the gate already works and blocks the path; not lower because it is a story beat and seen up close.",
+   "detail": "The gate (Level.tscn IslandGate, scripts/world/island_gate.gd, Assets/Models/island/island_gate.glb) stands on the path at about world (-16, 12.3, 10.1), with collision-only pillar and wall-stub boxes either side (its 'Walls' body). Close the visible gap between the gate's frame and the jagged rock on each side: extend the frame or add stone wall/rubble pieces that run from each pillar into the neighbouring rock, matched to the island's toon look (ToonLook exterior_paths) and the rock's colour, so no daylight or path shows past the pillars. Keep the gateway width, the leaf swing and the GATE_* events unchanged; keep the player unable to walk round the gate.",
+   "acceptance": [
+    "no visible gap between the gate and the rock on either side from the path, the stair top and the plateau",
+    "test_island_gate passes; test_island_coverage passes on the route",
+    "the player cannot pass the gate except through it when open"
+   ],
+   "owner": "Island Creator Agent",
+   "checks": [
+    {
+     "type": "manual",
+     "note": "Shots from both sides of the gate plus test_island_gate and test_island_coverage."
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/scripts/world/island_gate.gd"
+   ],
+   "depends_on": [
+    "ISL-07"
+   ],
+   "collaborates": [
+    "Level Layout agent",
+    "Asset agent"
+   ]
   }
  ],
- "records": {},
+ "records": {
+  "ISL-03": {
+   "status": "done",
+   "note": "Creator, 2026-10-27: met. Island loads in 0.94 s headless (tools/measure_load_time.gd -- island); island_craggy.glb 13.04 MB, 199,968 tris, 2048 texture.",
+   "at": "2026-10-27T18:16:46+00:00"
+  },
+  "ISL-10": {
+   "status": "done",
+   "note": "Creator, 2026-10-27: met. Texture 2048 px; island_craggy.fal_result.json present.",
+   "at": "2026-10-27T18:16:46+00:00"
+  },
+  "ISL-11": {
+   "status": "done",
+   "note": "Archived to LightingTheStorm/archive/island_legacy_2026-10-27/ (git mv; 92 MB): 8-island.glb + collider + textures, 1-gate.glb, island_plateau.glb + texture + provenance, Level_old_island.tscn.bak. Island tests pass.",
+   "at": "2026-10-27T18:18:25+00:00"
+  },
+  "ISL-02": {
+   "status": "done",
+   "note": "tools/test_island_coverage.gd (new) passes: 0.5 m grid over the island, highest visible walkable surface vs a 5 cm sphere moved down (a ray passes the scan's down-facing collision faces; a body does not, player drop test confirmed). Dock-to-door route: 0 fall-through, 0 invisible-wall clusters (6 lone points; the gate's pillar boxes are walls by design). Whole island, information: 1 fall-through point at the waterline, 198 lone or small invisible-wall points 0.4-0.8 m on steep flanks. The old 'holes near the stair top' note does not reproduce; test_island_walk passes.",
+   "at": "2026-10-27T18:26:32+00:00"
+  },
+  "ISL-08": {
+   "status": "done",
+   "note": "island_craggy and island_gate submissions APPROVE (main_asset.py --check-only) after fixing island_craggy's source paths (ConceptArt/island/new_island/ -> ConceptArt/island/). The island_plateau submission (island_hunyuan_v3.fal.json) moved to AIAgentCrew/archive/ with its model (ISL-11).",
+   "at": "2026-10-27T18:26:33+00:00"
+  },
+  "ISL-13": {
+   "status": "done",
+   "note": "ToonLook exterior_paths (Island, RockPatch x3, Harbour, HarbourStairs, IslandGate): toon diffuse, no specular, same hard step, no indoor fill, fog kept. Outline gets a second region over the island cut off at y 0.9 so the sea is not inked. Shots isl_dock2/isl_path2/isl_sea2 match the lighthouse look; test_toon_look passes. Busy speckle on the stone stair's block faces, accepted.",
+   "at": "2026-10-27T18:31:49+00:00"
+  },
+  "ISL-05": {
+   "status": "done",
+   "note": "scripts/world/island_reactions.gd (node IslandReactions in Level.tscn): rock darkens to 72% and glosses (roughness to 0.35) as Sea.state rises from 1 to 4, over ~10 s; 14 shoreline spray bursts at the measured waterline (harbour side clear) from 5% in calm to full at state 5; both scale with Sea.intensity (reduced preset); no lights. tools/test_island_reactions.gd passes; storm shot isl_storm shows the change.",
+   "at": "2026-10-27T18:36:19+00:00"
+  }
+ },
  "history": [
   {
    "kind": "plan_review",
@@ -373,7 +489,10 @@
    "changes": []
   }
  ],
- "approval": null,
+ "approval": {
+  "at": "2026-10-27T18:16:46+00:00",
+  "quote": "Archive the old models. run through ISL-02, ISL-08, lower the priority on ISL-09, confirm the island and dock has the same toon-like feel as the lighthouse, and then work on ISL-05. ISL-03 and ISL-10 are met."
+ },
  "knowledge_note": "knowledge up to date",
  "last_findings": [],
  "last_blocks": 0

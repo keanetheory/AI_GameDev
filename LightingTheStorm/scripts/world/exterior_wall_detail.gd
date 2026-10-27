@@ -73,8 +73,8 @@ func apply(on: bool) -> void:
 		return
 	for mi in lh.find_children("*", "MeshInstance3D", true, false):
 		var m := mi as MeshInstance3D
-		if m.mesh == null or m.is_ancestor_of(self) or "LighthouseShell" in String(m.get_path()):
-			continue      # (the authored shell has its own materials: the baked-texture masonry shader is for the generated exterior only)
+		if m.mesh == null or m.is_ancestor_of(self):
+			continue
 		for i in m.mesh.get_surface_count():
 			if on:
 				var src := m.get_active_material(i) as BaseMaterial3D

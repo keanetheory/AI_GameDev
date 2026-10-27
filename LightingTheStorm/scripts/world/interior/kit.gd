@@ -36,53 +36,8 @@ func world(u: float, y: float, v: float) -> Vector3:
 
 # ---------------------------------------------------------------- primitives
 
-## With the authored shell (interior_rooms.gd sets it): a piece built to the old greybox's wall planes that over-runs the shell's inner faces by up to 0.3 m is
-## trimmed to them, so nothing is sunk into the wall. Doors, exterior trim and anything that crosses a level are left alone.
-var shell_spec: Dictionary = {}
-const CLAMP_EXEMPT := ["Facade", "Passage", "Quoin", "Keystone", "Lintel", "Sill", "NeedleBar", "G_Door", "G_Threshold", "G_TowerDoor", "L1_TowerDoor", "L1_Door", "G_Lintel"]
-
-
-func _clamp_to_shell(nm: String, c: Array) -> Array:
-	for pre in CLAMP_EXEMPT:
-		if nm.begins_with(pre) or nm.find("_" + pre) >= 0:
-			return c
-	var slab: float = shell_spec["slab_top"]
-	var lo := minf(c[4], c[5])
-	var hi := maxf(c[4], c[5])
-	var uu: Array
-	var vv: Array
-	if hi <= slab + 0.001:
-		uu = shell_spec["ground_u"]
-		vv = shell_spec["ground_v"]
-	elif lo >= slab - 0.001:
-		uu = shell_spec["first_u"]
-		vv = shell_spec["first_v"]
-	else:
-		return c
-	var out := c.duplicate()
-	for k in [[0, 1, uu], [2, 3, vv]]:
-		var a: float = c[k[0]]
-		var b: float = c[k[1]]
-		var lim: Array = k[2]
-		var amin := minf(a, b)
-		var amax := maxf(a, b)
-		if amin < lim[0] and amin >= lim[0] - 0.3 and amax > lim[0]:
-			amin = lim[0]
-		if amax > lim[1] and amax <= lim[1] + 0.3 and amin < lim[1]:
-			amax = lim[1]
-		out[k[0]] = amin
-		out[k[1]] = amax
-	return out
-
-
 ## A box between two house-frame corners. `solid` gives it collision; `nm` names the MeshInstance3D.
 func box(parent: Node3D, nm: String, u0: float, u1: float, v0: float, v1: float, y0: float, y1: float, m, solid := true) -> MeshInstance3D:
-	if not shell_spec.is_empty():
-		var cl := _clamp_to_shell(nm, [u0, u1, v0, v1, y0, y1])
-		u0 = cl[0]
-		u1 = cl[1]
-		v0 = cl[2]
-		v1 = cl[3]
 	var size := Vector3(absf(u1 - u0), absf(y1 - y0), absf(v1 - v0))
 	var mi := MeshInstance3D.new()
 	mi.name = nm
@@ -425,9 +380,10 @@ const SILVER := Color(0.73, 0.75, 0.77)
 
 
 func _make_materials() -> void:
-	mats["plaster"] = _textured("plaster", Color(0.5, 0.5, 0.48), 0.97, 0.0, 0.35)
-	mats["plaster_dark"] = _textured("plaster", Color(0.42, 0.41, 0.38), 0.97, 0.0, 0.35)
-	mats["whitewash"] = _textured("plaster", Color(0.6, 0.6, 0.58), 0.97, 0.0, 0.35)
+	# lime plaster, warm cream: the neutral grey it was (0.5, 0.5, 0.48) read as grey and washed out wherever the lamps do not reach (creator, 2026-10-24)
+	mats["plaster"] = _textured("plaster", Color(0.56, 0.5, 0.41), 0.97, 0.0, 0.35)
+	mats["plaster_dark"] = _textured("plaster", Color(0.46, 0.4, 0.32), 0.97, 0.0, 0.35)
+	mats["whitewash"] = _textured("plaster", Color(0.65, 0.6, 0.51), 0.97, 0.0, 0.35)
 	mats["flags"] = _textured("flags", Color(0.6, 0.63, 0.66), 0.92, 0.0, 0.5)
 	mats["flags_dark"] = _textured("flags", Color(0.4, 0.43, 0.47), 0.92, 0.0, 0.5)
 	mats["planks"] = _textured("planks", Color(0.68, 0.6, 0.52), 0.9, 0.0, 0.5)

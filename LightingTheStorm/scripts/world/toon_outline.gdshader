@@ -1,21 +1,25 @@
 // toon_outline.gdshader - a screen-space ink outline for the cel-shaded look (Lighthouse Finisher Agent, LHF-10).
 // Drawn by a full-screen quad parented to the camera (toon_look.gd). An edge is where the depth is not a smooth plane (a silhouette
 // or a step: the second difference of inverse depth is large; it is zero on any flat surface, however slanted) or where the surface
-// normal turns sharply (a box's corner, the rim of a tread). The line is a dark navy ink, never pure black (style guide), and
+// normal turns sharply (a box's corner, the rim of a tread). The line is a neutral near-black charcoal, never pure black (style guide), and
 // thickens a little with `thickness`. Forward+ only (it reads the depth and the normal-roughness buffers).
 shader_type spatial;
 render_mode unshaded, fog_disabled, cull_disabled, depth_test_disabled, blend_mix;
 
 uniform sampler2D depth_tex : hint_depth_texture, repeat_disable, filter_nearest;
 uniform sampler2D normal_tex : hint_normal_roughness_texture, repeat_disable, filter_nearest;
-uniform vec4 ink : source_color = vec4(0.004, 0.006, 0.016, 1.0);   // near-black navy, not pure black (style guide)
-uniform float thickness = 1.8;                    // pixels at 1080p; scales with the screen height
+uniform vec4 ink : source_color = vec4(0.003, 0.003, 0.0035, 1.0);   // near-black charcoal, not pure black (toon_look.gd ink_colour sets it)
+uniform float thickness = 1.2;                    // pixels at 1080p; scales with the screen height
 uniform float depth_threshold = 0.035;
 uniform float normal_threshold = 0.62;            // cosine of the angle across which a crease is drawn
 uniform float opacity = 1.0;
 uniform vec3 mask_centre = vec3(4.9, 20.0, -4.2);   // the lighthouse, world space: lines are drawn only inside this cylinder
 uniform float mask_radius = 12.0;
 uniform float mask_half_height = 14.0;
+uniform vec3 island_centre = vec3(-10.0, 8.0, 5.0);   // a second region: Bracken Isle, its harbour and rocks (Island Creator ISL-13)
+uniform float island_radius = 48.0;
+uniform float island_half_height = 20.0;
+uniform float sea_cut_y = 0.9;                       // no ink below this world height in the island region: the sea is not outlined
 uniform float fade_start = 40.0;                  // outlines fade out with distance, so far detail does not turn to noise
 uniform float fade_end = 110.0;
 
@@ -60,6 +64,9 @@ void fragment() {
 	vec4 vv = INV_PROJECTION_MATRIX * vec4(uv * 2.0 - 1.0, dd, 1.0);
 	vec3 wp = (INV_VIEW_MATRIX * vec4(vv.xyz / vv.w, 1.0)).xyz;
 	float inside = (1.0 - smoothstep(mask_radius, mask_radius + 4.0, length(wp.xz - mask_centre.xz))) * (1.0 - smoothstep(mask_half_height, mask_half_height + 3.0, abs(wp.y - mask_centre.y)));
+	float isl = (1.0 - smoothstep(island_radius, island_radius + 4.0, length(wp.xz - island_centre.xz))) * (1.0 - smoothstep(island_half_height, island_half_height + 3.0, abs(wp.y - island_centre.y)));
+	isl *= smoothstep(sea_cut_y, sea_cut_y + 0.5, wp.y);
+	inside = max(inside, isl);
 	fade *= inside;
 	float e = max(e_depth, e_norm) * fade;
 	ALBEDO = ink.rgb;

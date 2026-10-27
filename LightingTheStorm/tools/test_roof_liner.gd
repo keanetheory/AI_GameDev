@@ -17,10 +17,6 @@ func _physics_process(_d: float) -> bool:
 	_f += 1
 	if _f < 12:
 		return false
-	if OS.get_environment("LHF_SHELL") == "2":
-		print("SKIP  the authored roof has its own underside, so there is no roof liner (LHF_SHELL=0 runs this test)")
-		quit(0)
-		return false
 	var rl = _lv.get_node("InteriorRooms/RoofLiner")
 	var fails := 0
 	var ok: bool = rl.built

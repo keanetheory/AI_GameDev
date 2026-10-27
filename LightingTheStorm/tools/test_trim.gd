@@ -46,7 +46,7 @@ func _physics_process(_d: float) -> bool:
 	fails += int(outside > 0)
 	print(("PASS  " if in_hole == 0 else "FAIL  ") + "nothing hangs in the stairwell hole (%d)" % in_hole)
 	fails += int(in_hole > 0)
-	for nm in ([] if OS.get_environment("LHF_SHELL") == "2" else ["L1_Gable_W", "L1_Gable_E"]) + ["G_SkirtWest_P", "G_CorniceFront_0", "L1_SkirtW1E_P", "B_PierW_0", "B_Drain", "L1_Hearth", "L1_Tile_0_0"]:
+	for nm in ["L1_Gable_W", "L1_Gable_E", "G_SkirtWest_P", "G_CorniceFront_0", "L1_SkirtW1E_P", "B_PierW_0", "B_Drain", "L1_Hearth", "L1_Tile_0_0"]:
 		var ok := g.get_node_or_null(nm) != null
 		print(("PASS  " if ok else "FAIL  ") + nm)
 		fails += int(not ok)

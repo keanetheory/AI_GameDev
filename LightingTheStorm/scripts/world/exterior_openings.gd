@@ -125,10 +125,17 @@ func _hit_front(space: PhysicsDirectSpaceState3D, lh: Node, from: Vector3, to: V
 func _hit(space: PhysicsDirectSpaceState3D, lh: Node, from: Vector3, to: Vector3) -> Vector3:
 	var q := PhysicsRayQueryParameters3D.create(from, to)
 	q.collision_mask = 1
-	var r := space.intersect_ray(q)
-	if r.is_empty() or not lh.is_ancestor_of(r["collider"]):
-		return Vector3.INF
-	return r["position"]
+	for _i in 4:
+		var r := space.intersect_ray(q)
+		if r.is_empty() or not lh.is_ancestor_of(r["collider"]):
+			return Vector3.INF
+		# the interior's tower lining is built under the Lighthouse node too: rays go through it to the exterior wall (where the wall is thin the
+		# surrounds were set on the lining, 0.4 m inside the real face, and their stones came through it beside the windows)
+		if "TowerShell" in String((r["collider"] as Node).get_path()):
+			q.exclude = q.exclude + [r["rid"]]
+			continue
+		return r["position"]
+	return Vector3.INF
 
 
 func _tower_window(lh: Node3D, space: PhysicsDirectSpaceState3D, w: Dictionary, stone: Material) -> void:
@@ -145,10 +152,11 @@ func _tower_window(lh: Node3D, space: PhysicsDirectSpaceState3D, w: Dictionary, 
 		# hit that is plausibly the tower's wall (2.8 to 4.8 m from the axis)
 		for start in [5.2, 4.5, 6.0, 4.0]:
 			var hit: Vector3 = _hit(space, lh, lh.to_global(axis + dir * start + tang * off), lh.to_global(axis + tang * off))
-			var rr0 := (lh.to_local(hit) - axis).dot(dir) if hit != Vector3.INF else -1.0
+			var rr0 := _radius(lh.to_local(hit), axis) if hit != Vector3.INF else -1.0
 			attempts[w["id"]] = attempts.get(w["id"], []) + [[start, snappedf(rr0, 0.01)]]
 			if hit != Vector3.INF:
-				var rr := (lh.to_local(hit) - axis).dot(dir)
+				var rr := _radius(lh.to_local(hit), axis)     # the hit's true distance from the axis: the rays run 0.9 m beside the window's centre line,
+				                                              # and the distance along that line read 0.1 to 0.15 m short, so the surround sat inside the wall
 				if rr > 2.8 and rr < 4.8:
 					radii.append(rr)
 					break
@@ -172,8 +180,10 @@ func _tower_window(lh: Node3D, space: PhysicsDirectSpaceState3D, w: Dictionary, 
 	holder.name = w["id"] + "_Kit"
 	lh.add_child(holder)
 	holder.transform = Transform3D(Basis(-tang, Vector3.UP, dir), axis + dir * r)      # x = up x outward: a right-handed basis (a mirrored one turns the normals inside out)
-	surrounds[w["id"]] = Kit.window(holder, w["id"], ww, hh, stone)
-	_trim_tower_reveal(w["id"], r)
+	surrounds[w["id"]] = Kit.window(holder, w["id"], ww, hh, stone, 0.02, r)
+	# the reveals stop where the wall's face is beside the opening (its distance along the centre line), so they end inside the wall, not out past it
+	var side := ww * 0.5 + 0.5
+	_trim_tower_reveal(w["id"], sqrt(maxf(r * r - side * side, 0.0)))
 
 
 func _house_window(frame: Node3D, lh: Node, space: PhysicsDirectSpaceState3D, w: Dictionary, stone: Material) -> void:
@@ -206,6 +216,10 @@ func _house_window(frame: Node3D, lh: Node, space: PhysicsDirectSpaceState3D, w:
 	holder.transform = Transform3D(Basis(along, Vector3.UP, outward), plane + outward * d)
 	surrounds[w["id"]] = Kit.window(holder, w["id"], ww, hh, stone)
 	_trim_house_reveal(w["id"], west, d)
+
+
+func _radius(p: Vector3, axis: Vector3) -> float:
+	return Vector2(p.x - axis.x, p.z - axis.z).length()
 
 
 func _plain(c: Color, rough: float) -> StandardMaterial3D:

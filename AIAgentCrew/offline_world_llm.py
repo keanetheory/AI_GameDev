@@ -250,7 +250,7 @@ class OfflineWorldLLM(BaseLLM):
                              "visible_through_fog": True, "flicker": "Test: the windows flicker, each on its own - a few at a time dim and recover, never in step; the cathedral stays steady.",
                              "is_navigation_marker": False,
                              "note": "Scenery only: warm window light in the relative darkness the moon leaves over the city. It must not line up as a goal marker for the crossing."},
-            "max_dynamic_lights": 8, "max_shadow_casters": 2,
+            "max_dynamic_lights": 16, "max_shadow_casters": 2,
             "legibility_checks": [
                 "Hazards: at RETURN the nearest rock reads as a silhouette at its hazard_visibility_m with no flash.",
                 "Lightning: a flash never washes out a hazard to white; hazards read darker than the sea during a flash.",

@@ -1,0 +1,260 @@
+{
+ "max_dark_ratio": 0.25,
+ "dark_luma": 32,
+ "max_black_cells": 5,
+ "note": "Fixed cameras round the lighthouse (LHF-16 visual regression). Run with SHOT_INTERIOR=1 SHOT_FRAMES=40: python tools/visual_check.py --views tools/lighthouse_views.json",
+ "views": [
+  {
+   "name": "lh_tower_ground",
+   "from": [
+    7.953,
+    12.18,
+    -6.404
+   ],
+   "to": [
+    7.371,
+    12.18,
+    -8.001
+   ],
+   "note": "tower ground floor wall"
+  },
+  {
+   "name": "lh_tower_L1",
+   "from": [
+    7.919,
+    16.41,
+    -6.497
+   ],
+   "to": [
+    7.371,
+    16.41,
+    -8.001
+   ],
+   "note": "tower at the first floor"
+  },
+  {
+   "name": "lh_tower_L2",
+   "from": [
+    7.611,
+    20.645,
+    -7.343
+   ],
+   "to": [
+    7.337,
+    20.645,
+    -8.095
+   ],
+   "note": "the L2 ring"
+  },
+  {
+   "name": "lh_L2_window",
+   "from": [
+    7.372,
+    20.61,
+    -4.49
+   ],
+   "to": [
+    5.509,
+    19.61,
+    -6.295
+   ],
+   "note": "the L2 landing window (the spikes, 27 Oct)"
+  },
+  {
+   "name": "lh_stair_mid",
+   "from": [
+    9.3,
+    22.61,
+    -3.514
+   ],
+   "to": [
+    10.05,
+    22.61,
+    -2.215
+   ],
+   "note": "the tower stair half way up"
+  },
+  {
+   "name": "lh_landing_147",
+   "from": [
+    7.573,
+    24.7,
+    -3.416
+   ],
+   "to": [
+    5.649,
+    24.7,
+    -3.048
+   ],
+   "note": "the top landing window"
+  },
+  {
+   "name": "lh_lamp_room",
+   "from": [
+    7.184,
+    29.11,
+    -5.379
+   ],
+   "to": [
+    6.057,
+    29.11,
+    -5.789
+   ],
+   "note": "the lamp room"
+  },
+  {
+   "name": "lh_lamp_ceiling",
+   "from": [
+    6.996,
+    29.11,
+    -5.447
+   ],
+   "to": [
+    9.91,
+    31.51,
+    -4.387
+   ],
+   "note": "the lamp room ceiling and rafters"
+  },
+  {
+   "name": "lh_hall",
+   "from": [
+    1.115,
+    12.18,
+    -2.764
+   ],
+   "to": [
+    -2.043,
+    12.18,
+    -1.255
+   ],
+   "note": "the hall, the closed ground window"
+  },
+  {
+   "name": "lh_office",
+   "from": [
+    1.32,
+    12.01,
+    -4.192
+   ],
+   "to": [
+    -1.794,
+    11.11,
+    -5.142
+   ],
+   "note": "the office: desk, chair, cabinet"
+  },
+  {
+   "name": "lh_store",
+   "from": [
+    2.948,
+    11.91,
+    -5.191
+   ],
+   "to": [
+    4.301,
+    11.01,
+    -5.838
+   ],
+   "note": "the store: barrels and crates"
+  },
+  {
+   "name": "lh_house_L1",
+   "from": [
+    0.233,
+    16.41,
+    -3.451
+   ],
+   "to": [
+    3.842,
+    16.41,
+    -5.175
+   ],
+   "note": "first floor"
+  },
+  {
+   "name": "lh_house_L1_b",
+   "from": [
+    2.078,
+    16.41,
+    -6.549
+   ],
+   "to": [
+    -1.296,
+    16.61,
+    -5.491
+   ],
+   "note": "first floor, toward the gable"
+  },
+  {
+   "name": "lh_attic",
+   "from": [
+    -0.198,
+    16.41,
+    -4.353
+   ],
+   "to": [
+    0.433,
+    18.01,
+    -4.655
+   ],
+   "note": "the attic ceiling"
+  },
+  {
+   "name": "lh_out_front",
+   "from": [
+    4.093,
+    11.61,
+    5.788
+   ],
+   "to": [
+    1.506,
+    13.21,
+    0.374
+   ],
+   "note": "outside: the front door and fanlight"
+  },
+  {
+   "name": "lh_out_back",
+   "from": [
+    -2.69,
+    16.21,
+    -12.583
+   ],
+   "to": [
+    -0.62,
+    15.91,
+    -8.252
+   ],
+   "note": "outside: the back windows"
+  },
+  {
+   "name": "lh_out_corner",
+   "from": [
+    -10.414,
+    16.41,
+    -8.338
+   ],
+   "to": [
+    -4.995,
+    15.91,
+    -6.273
+   ],
+   "note": "outside: the back-west corner"
+  },
+  {
+   "name": "lh_out_lantern",
+   "from": [
+    5.764,
+    32.11,
+    -12.418
+   ],
+   "to": [
+    8.5,
+    30.61,
+    -4.9
+   ],
+   "note": "outside: the lantern"
+  }
+ ]
+}

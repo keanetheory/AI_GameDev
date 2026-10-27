@@ -54,8 +54,6 @@ func _ready() -> void:
 	frame.rotation.y = YAW
 	add_child(frame)
 	kit = Kit.new(frame)
-	if Tower.shell_mode() != 0:
-		kit.shell_spec = Tower.shell_spec()
 	_prepare_greybox()
 	house = House.new()
 	house.build(kit, frame)
@@ -73,8 +71,6 @@ func _ready() -> void:
 	refs.merge(tower.refs)
 	var shell = Shell.new()
 	shell.build_shell(kit, self)
-	if shell.authored:
-		_add_authored_shell()
 	var spiral = Spiral.new()
 	spiral.build_spiral(kit, frame, self)
 	for role in spiral.anchors:
@@ -89,12 +85,11 @@ func _ready() -> void:
 	trim.build(kit, frame)
 	hero_props = HeroProps.new()
 	hero_props.build(frame)
-	if not shell.authored:      # the authored roof has its own underside: no liner
-		roof_liner = Node3D.new()
-		roof_liner.set_script(RoofLiner)
-		roof_liner.name = "RoofLiner"
-		add_child(roof_liner)
-		roof_liner.build(frame, kit.mats["plaster_dark"])
+	roof_liner = Node3D.new()
+	roof_liner.set_script(RoofLiner)
+	roof_liner.name = "RoofLiner"
+	add_child(roof_liner)
+	roof_liner.build(frame, kit.mats["plaster_dark"])
 	var mgr := get_parent().get_node_or_null("LighthouseInteriorLights")
 	if mgr and mgr.has_method("adopt"):
 		for l in kit.lights:
@@ -113,58 +108,6 @@ func _ready() -> void:
 	ec.apply(get_parent().get_node("Lighthouse"), frame, shell, 5.2025)
 	build_ms = Time.get_ticks_msec() - t0
 	node_count = kit.count
-
-
-## The authored tower shell (build_tower_shell_v1.py), in place of the exterior mesh's tower. Experiment, LHF_SHELL=1.
-func _add_authored_shell() -> void:
-	var full := Tower.shell_mode() == 2
-	var doc := GLTFDocument.new()
-	var st := GLTFState.new()
-	doc.append_from_file("res://Assets/Models/lighthouse/shell/lighthouse_shell_v1.glb" if full else "res://Assets/Models/lighthouse/shell/lighthouse_tower_shell_v1.glb", st)
-	var sh := doc.generate_scene(st) as Node3D
-	sh.name = "LighthouseShell"
-	var lh := get_parent().get_node("Lighthouse")
-	lh.add_child(sh)
-	# the shell's faces carry four materials (build_shell_v1.py): outside stone, roof, room plaster, basement brick
-	var ext_stone := (kit.mats["stone"] as StandardMaterial3D).duplicate() as StandardMaterial3D
-	ext_stone.albedo_color = Color(0.46, 0.44, 0.42)
-	var roof := (kit.mats["flags_dark"] as StandardMaterial3D).duplicate() as StandardMaterial3D
-	roof.albedo_color = Color(0.16, 0.18, 0.22)
-	# at night the outside is lit by the moon alone and read as a black cut-out: a faint cold glow of its own texture keeps the stone and slate visible
-	for om in [ext_stone, roof]:
-		(om as StandardMaterial3D).emission_enabled = true
-		(om as StandardMaterial3D).emission = Color(0.5, 0.6, 0.78)
-		(om as StandardMaterial3D).emission_texture = (om as StandardMaterial3D).albedo_texture
-		(om as StandardMaterial3D).emission_energy_multiplier = 0.1
-	ext_stone.set_meta("base_albedo", true)      # (toon_look.gd: no interior fill on the outside of the building)
-	roof.set_meta("base_albedo", true)
-	var by_name := {"shell_stone": ext_stone, "shell_roof": roof, "shell_plaster": kit.mats["plaster"], "shell_brick": kit.mats["brick"]}
-	for mi in sh.find_children("*", "MeshInstance3D", true, false):
-		var m3 := mi as MeshInstance3D
-		var order := [ext_stone, kit.mats["plaster"], kit.mats["brick"], roof]      # the glb's surfaces come out in the material slot order of build_shell_v1.py
-		for i in mini(m3.mesh.get_surface_count(), order.size()):
-			var sm: Material = m3.mesh.surface_get_material(i)
-			var nm: String = sm.resource_name if sm else ""
-			var k: int = by_name.keys().find(nm) if by_name.has(nm) else i
-			m3.set_surface_override_material(i, by_name[nm] if by_name.has(nm) else order[i])
-		if OS.get_environment("LHF_SHELL_SHADOW") == "off":
-			m3.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		m3.create_trimesh_collision()
-	if full:
-		# the shell replaces the exterior mesh and the greybox's thin walls and floors (its partitions stay)
-		var cv := lh.get_node_or_null("convert")
-		if cv:
-			cv.visible = false
-			for body in cv.find_children("*", "CollisionObject3D", true, false):
-				(body as CollisionObject3D).collision_layer = 0
-		var gb := get_parent().get_node_or_null("LighthouseInterior")
-		if gb:
-			for n in gb.find_children("*", "Node3D", true, false):
-				var nm := String(n.name)
-				if nm.begins_with("G_floor") or nm.begins_with("G_front_wall") or nm.begins_with("G_outer") or nm.begins_with("G_back_wall") or nm.begins_with("B1_floor") or nm.begins_with("B1_rear_wall") or nm.begins_with("B1_west_wall") or nm.begins_with("B1_east_wall") or nm.begins_with("B1_front_wall") or nm.begins_with("G_tower_link"):
-					n.visible = false
-					for body in n.find_children("*", "CollisionObject3D", true, false):
-						(body as CollisionObject3D).collision_layer = 0
 
 
 ## Remove the v3 placeholders the new props replace, and give the remaining greybox its surfaces.
@@ -192,3 +135,23 @@ func _prepare_greybox() -> void:
 					cache[key] = m
 				mi.material_override = cache[key]
 				break
+	_close_ground_window(gb)
+
+
+## The ground-floor window over the dock is closed up (creator, 2026-10-27): a copy of the greybox lintel, stretched down to the sill, fills the
+## gap (v 3.0..4.3, y 1.9..2.9), so it is the same wall. The exterior's hole there is filled in lighthouse_exterior_v4 (repair_exterior.py).
+func _close_ground_window(gb: Node) -> void:
+	var lin := gb.find_child("G_outer_west_window_lintel", true, false) as MeshInstance3D
+	var sill := gb.find_child("G_outer_west_window_sill", true, false) as MeshInstance3D
+	if lin == null or sill == null:
+		return
+	var lb := lin.global_transform * lin.get_aabb()
+	var sb := sill.global_transform * sill.get_aabb()
+	var y0 := sb.end.y                    # the sill's top
+	var y1 := lb.position.y               # the lintel's underside
+	var s := (y1 - y0) / lb.size.y
+	var fill := lin.duplicate() as MeshInstance3D
+	fill.name = "G_outer_west_window_infill"
+	lin.get_parent().add_child(fill)
+	# squash the lintel's copy in world y onto [y0, y1]: y' = y0 + (y - y1) * s
+	fill.global_transform = Transform3D(Basis.from_scale(Vector3(1.0, s, 1.0)), Vector3(0.0, y0 - y1 * s, 0.0)) * lin.global_transform

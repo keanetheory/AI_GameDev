@@ -4,10 +4,10 @@
   "fal_model": "fal-ai/hunyuan3d-v3/image-to-3d",
   "prompt": "Craggy coastal island with a flat mossy grass plateau ringed by fractured vertical rock cliffs and sea stacks, a stone staircase cut into the cliff down to a small walled stone harbour with a weathered timber jetty on piles and a plank gate, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, mid-1800s stone and timber",
   "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
-  "source_image": "../../ConceptArt/island/new_island/Right-Side View of Craggy Island Dock-2.png",
+  "source_image": "../../ConceptArt/island/Right-Side View of Craggy Island Dock-2.png",
   "view_images": {
-    "front": "../../ConceptArt/island/new_island/Right-Side View of Craggy Island Dock-2.png",
-    "back": "../../ConceptArt/island/new_island/Rear rocky island with stair and dock-1.png"
+    "front": "../../ConceptArt/island/Right-Side View of Craggy Island Dock-2.png",
+    "back": "../../ConceptArt/island/Rear rocky island with stair and dock-1.png"
   },
   "notes": "Replaces island_plateau AND dock_landing: the new island has its own stone harbour, jetty and stairs, so the separate dock model is retired. View 2 (dock, harbour and stairs clearly visible) is the front; view 1 (no dock) is the opposite 3/4 angle. View 3 (Left-side) is held back because its angle sits between the other two and would confuse the multi-view fit."
 }
