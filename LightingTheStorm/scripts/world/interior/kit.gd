@@ -380,9 +380,10 @@ const SILVER := Color(0.73, 0.75, 0.77)
 
 
 func _make_materials() -> void:
-	mats["plaster"] = _textured("plaster", Color(0.5, 0.5, 0.48), 0.97, 0.0, 0.35)
-	mats["plaster_dark"] = _textured("plaster", Color(0.42, 0.41, 0.38), 0.97, 0.0, 0.35)
-	mats["whitewash"] = _textured("plaster", Color(0.6, 0.6, 0.58), 0.97, 0.0, 0.35)
+	# lime plaster, warm cream: the neutral grey it was (0.5, 0.5, 0.48) read as grey and washed out wherever the lamps do not reach (creator, 2026-10-24)
+	mats["plaster"] = _textured("plaster", Color(0.56, 0.5, 0.41), 0.97, 0.0, 0.35)
+	mats["plaster_dark"] = _textured("plaster", Color(0.46, 0.4, 0.32), 0.97, 0.0, 0.35)
+	mats["whitewash"] = _textured("plaster", Color(0.65, 0.6, 0.51), 0.97, 0.0, 0.35)
 	mats["flags"] = _textured("flags", Color(0.6, 0.63, 0.66), 0.92, 0.0, 0.5)
 	mats["flags_dark"] = _textured("flags", Color(0.4, 0.43, 0.47), 0.92, 0.0, 0.5)
 	mats["planks"] = _textured("planks", Color(0.68, 0.6, 0.52), 0.9, 0.0, 0.5)
