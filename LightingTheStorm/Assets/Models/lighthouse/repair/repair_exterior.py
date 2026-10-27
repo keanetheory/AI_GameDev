@@ -356,6 +356,29 @@ def main():
             bmesh.ops.delete(bm, geom=[f], context="FACES_ONLY")
             lamp += 1
     STATS["lamp_room_shards"] = lamp
+    # anything of the exterior inside the first floor's rooms, below their code-built ceiling (rooms_tower.gd: lining u -3.0 / 5.39, v 0.95 / 8.7,
+    # ceiling ceil_rel), INCLUDING this script's own hole fills: the fill across the open back-west corner hung as brown flaps under the ceiling
+    # (creator, 2026-10-27)
+    def ceil_rel(v):
+        return 1.72 + (v - 0.9) * (4.0 - 1.72) / (5.0 - 0.9) if v <= 5.0 else 4.0 - (v - 5.0) * (4.0 - 1.6) / (8.9 - 5.0)
+    inner = 0
+    for f in list(bm.faces):
+        if not f.is_valid:
+            continue
+        # any corner in the room counts: triangles reaching up through the floor from below (into bed_1's corner) had their centre in the slab
+        inside = False
+        for x in f.verts:
+            g = god(x.co)
+            u, v = to_house(g)
+            # (u from -3.25: the gable wall's hidden inner skin behind the lining at -3.0; a triangle from there down through the floor cut across
+            # the room's corner behind bed_1. The wall's outer face is at -3.47.)
+            if -3.25 < u < 5.3 and 1.0 < v < 8.7 and L1 + 0.02 < g.y < L1 + ceil_rel(v) + 0.04 and math.hypot(g.x - AX, g.z - AZ) > 3.6:
+                inside = True
+                break
+        if inside:
+            bmesh.ops.delete(bm, geom=[f], context="FACES_ONLY")
+            inner += 1
+    STATS["l1_inner_faces"] = inner
     # leave smooth shading as the scan had it
     for f in bm.faces:
         f.smooth = True

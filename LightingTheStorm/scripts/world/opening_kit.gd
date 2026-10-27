@@ -89,7 +89,9 @@ static func door(parent: Node3D, id: String, w: float, h: float, stone: Material
 		var arc_w := (PI * rr / float(count)) * 1.08
 		var m := _box(k, "Voussoir%d" % i, Vector3(0.34 + (0.06 if i % 2 == 0 else 0.0), arc_w, d + 0.02), Vector3(cos(a) * rr, cy + sin(a) * rr, zc + 0.01), stone)
 		m.rotation = Vector3(0.0, 0.0, a)         # the block's long side (its x) points out along the radius
-	# the fanlight: dark glass in the half circle, with iron spokes
+	# the fanlight: dark glass in the half circle, with iron spokes. It sits forward in the arch, 2 cm behind the voussoirs' face: at the wall's face
+	# (z -0.04) the scan's lumpy wall stood in front of it and the lintel hid it from the path (creator, 2026-10-24)
+	var fz := PROJ + 0.02
 	var fan := MeshInstance3D.new()
 	fan.name = "Fanlight"
 	var st := SurfaceTool.new()
@@ -98,7 +100,7 @@ static func door(parent: Node3D, id: String, w: float, h: float, stone: Material
 	for i in steps:
 		var a0 := PI * float(i) / float(steps)
 		var a1 := PI * float(i + 1) / float(steps)
-		for pt in [Vector3(0, cy, -0.04), Vector3(cos(a0) * r_in, cy + sin(a0) * r_in, -0.04), Vector3(cos(a1) * r_in, cy + sin(a1) * r_in, -0.04)]:
+		for pt in [Vector3(0, cy, fz), Vector3(cos(a0) * r_in, cy + sin(a0) * r_in, fz), Vector3(cos(a1) * r_in, cy + sin(a1) * r_in, fz)]:
 			st.set_normal(Vector3(0, 0, 1))
 			st.add_vertex(pt)
 	fan.mesh = st.commit()
@@ -106,9 +108,9 @@ static func door(parent: Node3D, id: String, w: float, h: float, stone: Material
 	k.add_child(fan)
 	for i in range(1, 6):
 		var a := PI * float(i) / 6.0
-		var spoke := _box(k, "Spoke%d" % i, Vector3(0.035, r_in, 0.05), Vector3(cos(a) * r_in * 0.5, cy + sin(a) * r_in * 0.5, -0.02), iron)
+		var spoke := _box(k, "Spoke%d" % i, Vector3(0.035, r_in, 0.05), Vector3(cos(a) * r_in * 0.5, cy + sin(a) * r_in * 0.5, fz + 0.02), iron)
 		spoke.rotation = Vector3(0.0, 0.0, a - PI * 0.5)
-	_box(k, "FanRing", Vector3(r_in * 2.0, 0.05, 0.05), Vector3(0.0, cy + 0.01, -0.02), iron)
+	_box(k, "FanRing", Vector3(r_in * 2.0, 0.05, 0.05), Vector3(0.0, cy + 0.01, fz + 0.02), iron)
 	# the threshold and a worn step
 	_box(k, "Threshold", Vector3(w + 0.5, 0.1, 0.5), Vector3(0.0, 0.05, 0.12), stone)
 	_box(k, "Step", Vector3(w + 0.9, 0.14, 0.45), Vector3(0.0, 0.07 - 0.12, 0.55), stone)

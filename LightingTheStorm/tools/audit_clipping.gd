@@ -244,6 +244,9 @@ func _physics_process(_d: float) -> bool:
 	_result("B_cross_exterior", crossing.is_empty(), "B  interior meshes whose edges cut through the exterior mesh: %d of %d (%d exterior triangles)" % [crossing.size(), interior.size(), _ext_tris], crossing.slice(0, 400))
 	# ---- C: props
 	var pboxes := {}      # holder -> AABB (global)
+	var fboxes := {}      # holder -> AABB (house frame): the house is turned 25 degrees, and a world-aligned box round a bed against the gable reached into
+	                      # the wall it stands beside (a false "cut by an exterior triangle")
+	var to_frame: Transform3D = (hf as Node3D).global_transform.affine_inverse()
 	for mi in props:
 		var holder: Node = mi
 		while holder != null and not String(holder.name).begins_with("Hero_") and holder != hf:
@@ -251,11 +254,13 @@ func _physics_process(_d: float) -> bool:
 		var key := String(holder.get_path()) if holder != null and holder != hf else String(mi.get_path())
 		var bb: AABB = (mi as MeshInstance3D).global_transform * (mi as MeshInstance3D).mesh.get_aabb()
 		pboxes[key] = pboxes[key].merge(bb) if pboxes.has(key) else bb
+		var fb: AABB = to_frame * (mi as MeshInstance3D).global_transform * (mi as MeshInstance3D).mesh.get_aabb()
+		fboxes[key] = fboxes[key].merge(fb) if fboxes.has(key) else fb
 	var clip: Array = []
 	var keys := pboxes.keys()
 	for i in keys.size():
 		for j in range(i + 1, keys.size()):
-			var inter: AABB = (pboxes[keys[i]] as AABB).intersection(pboxes[keys[j]])
+			var inter: AABB = (fboxes[keys[i]] as AABB).intersection(fboxes[keys[j]])
 			if inter.size.x > 0.06 and inter.size.y > 0.06 and inter.size.z > 0.06:
 				clip.append("%s overlaps %s by %s" % [keys[i].get_file(), keys[j].get_file(), str(inter.size)])
 	for key in keys:
@@ -265,6 +270,7 @@ func _physics_process(_d: float) -> bool:
 			for y in range(int(floor(bb2.position.y / CELL)), int(floor(bb2.end.y / CELL)) + 1):
 				for z in range(int(floor(bb2.position.z / CELL)), int(floor(bb2.end.z / CELL)) + 1):
 					cells[Vector3i(x, y, z)] = true
+		var fb2: AABB = (fboxes[key] as AABB).grow(-0.03)
 		var bad := false
 		for k in cells:
 			if not _bins.has(k):
@@ -274,7 +280,11 @@ func _physics_process(_d: float) -> bool:
 				for e in 3:
 					var a: Vector3 = arr2[t + e]
 					var b: Vector3 = arr2[t + (e + 1) % 3]
-					if bb2.intersects_segment(a, b):
+					if fb2.intersects_segment(to_frame * a, to_frame * b):
+						if OS.get_environment("AUDIT_DEBUG") != "":
+							var fa := to_frame * a
+							var fbb := to_frame * b
+							print("      %s: exterior edge (u %.2f y %.2f v %.2f) to (u %.2f y %.2f v %.2f), box u %.2f..%.2f y %.2f..%.2f v %.2f..%.2f" % [str(key).get_file(), fa.x, fa.y, -fa.z, fbb.x, fbb.y, -fbb.z, fb2.position.x, fb2.end.x, fb2.position.y, fb2.end.y, -fb2.end.z, -fb2.position.z])
 						bad = true
 						break
 				if bad:
