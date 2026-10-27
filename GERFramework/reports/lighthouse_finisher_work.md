@@ -175,3 +175,42 @@ test_interior_anchors, test_interior_walk, test_coal_job, test_lamp_fit, test_si
 
 ## Not started
 LHF-06, 07, 08 (props), 10 (cel look sample), 11 (walls), 12 to 18. Still open from the earlier list: the 4096-to-2048 and polygon audit, and per-room tri counts for the baseline.
+
+## Pass 12 (2026-10-27, branch Tuesday27): playtest fixes, clean-up and the final round (LHF-16 to 18)
+
+### What changed (one commit each, `git log d94b480..0ccae52`)
+| Commit | Change |
+|---|---|
+| 2dc22d5 | The authored shell (`Assets/Models/lighthouse/shell/`) and every shell-only code path deleted; `shell_spec.json` kept (wall_patch, repair_exterior read it). Ground-floor window over the dock **closed** (creator): inside, a stretched copy of the greybox lintel; outside, the hole through the chimney breast filled flat in the chimney's stone. Scan shards cut out of the tower windows. `audit_clipping` check B fixed: it found no exterior under v4 and was passing on nothing. |
+| 1507a1b | Dark spikes beside the L2 window: ink on creases in the tower lining, where unmeasured cells of `tower_radii.json` took the smallest radius nearby. `tower_shell.wall_radius` now blends along the row. |
+| 1e7ac5b | Props resized and spaced (filing cabinet 1.25 m, telegraph 0.38 m, barrels 0.47 m, three coats instead of five, chair out of the desk). Tower window surrounds measured past the lining with the true radius (they sat inside the wall), curve-aware stone depth. |
+| 0832261 | Back windows 1.0 m tall (were 0.8). Hole fills coloured from wall faces, not roof faces. West gable lining built in strips under the sloping ceiling. |
+| 1490da9 | The scan has no wall at the back-west corner of the first floor: two flat panels close it (plain render; a texture copy from the neighbouring wall came out as a collage and was dropped). |
+| d6c4245 | The scan's lantern roof hung inside the lamp-room drum, through the ceiling between the rafters: removed. |
+| 2da7a49 | Plaster, dark plaster and whitewash warmed from neutral grey to a lime cream (the grey, washed-out plaster item). |
+| 0ccae52 | Every exterior triangle with a corner inside the first floor's rooms removed, fills included (the brown flaps under the back-west ceiling, triangles through the floor). Beds turned along the gable wall (they lay across the room, head in the wall). Front-door fanlight brought forward so the lintel and the scan wall no longer hide it. `audit_clipping` boxes props in the house frame. |
+
+`lighthouse_exterior_v4.glb` is now **generated** by `Assets/Models/lighthouse/repair/repair_exterior.py` (Blender 5.2, `blender -b -P repair_exterior.py`): edit the script, not the .glb. After a rebuild: Godot `--import`, `tools/bake_colliders.gd`, `tools/bake_tower_radii.gd`.
+
+### LHF-16 regression
+- **19 of 19 lighthouse tests pass**; `audit_lighthouse -- check` passes: 766,825 triangles (limit 900k), 1,473 draw calls (1,600), 101 materials (120).
+- Clipping audit (`reports/lighthouse_clipping_audit.json`), morning to end of day: A outside the walls 4 to **0**; B interior meshes crossing the exterior 63 to **30**; C prop overlaps 10 to **0**; D1 prop sizes 10 to **0**; D2 doorways pass; D3 windows 2 to **0**.
+- **Visual regression** (new): `tools/lighthouse_views.json`, 18 fixed cameras (14 rooms, 4 outside). Run `SHOT_INTERIOR=1 SHOT_FRAMES=40 python tools/visual_check.py --views tools/lighthouse_views.json`. **17 of 18 pass.** `lh_out_front` fails at 48% flat-dark: the front facade in night shadow (picture checked: intact, fanlight lit). It is the check's known weakness with shadowed walls, not a hole.
+
+### LHF-17 offline checks
+- `main_asset.py sample_submissions/lighthouse_interior --check-only`: **19 of 19 approved**. No new FAL submissions today ($0 spent; $5.25 of $7.80 used in total).
+- Canon and Review Orchestrator offline (`main.py --offline`, output to a scratch folder): **PASS**, 4 of 4 pillar checks. It reviews the crossing game data; it does not look at the lighthouse.
+- **Interior assessor: 9/10, zero BLOCK** (baseline: LIG-03 failing, no route/sightline/clipping proof). REVISE: clipping B (30 meshes); LIG-03 still fails, Level.tscn has 15 OmniLight3D nodes against a limit of 8 (runtime budget passes: at most 6 lit); the corner panel needs stone. NOTE: `Parameter "m" is null` log noise; test_interior_budget's wording "39 of 25"; G_window_view_marker still a walk target behind the closed window; a small dark notch at the lamp-room glass ring.
+- **Exterior assessor: 7/10, zero BLOCK** (baseline v3 passed 4 of 4; v4 passes 3 of 4). REVISE: the corner panels read as a flat pale box from the back; v4 has 44 open loops where the check allows 0, about 18 real openings and about 26 pinholes and slivers (a ring at the lantern deck, 18.2 to 18.5 m); the tan fill triangles under the back windows; clipping B. NOTE: do not add an import script to v4 (its 34.3 scale is baked in). Not verified offline: the closed chimney window from outside, the sea silhouette per phase with v4, day lighting.
+
+### LHF-18 fallbacks
+- `LHF_EXTERIOR=v3` still loads the original exterior with its run-time carves (`collider_builder.gd`).
+- Every earlier v4 is in git history: the 26 Oct original is `git show d94b480:LightingTheStorm/Assets/Models/lighthouse/lighthouse_exterior_v4.glb`. Not copied as files (9 MB each, and the creator is keeping the push small).
+- The FAL originals are in `C:\bkupConceptArt\FAL_3D_Models`.
+
+### Left, honestly
+- Two small exterior slivers at the back-west corner of the first-floor ceiling.
+- The closed corner and some hole fills are flat single-colour patches (the tan triangles under the back windows), not textured stone.
+- A grey rectangle on the west wall beside the chimney (there before today).
+- B: 30 interior meshes still cross the exterior mesh: window reveal edges, the lamp room's rings at the glass, L1 lining strips and skirting. None was seen in the renders.
+- Only the Godot editor or a playtest can judge: the plaster colour, the flat patches at a distance, and the fanlight's glow in play.

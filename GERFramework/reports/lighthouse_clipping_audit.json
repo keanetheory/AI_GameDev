@@ -24,28 +24,25 @@
       "   1  LampRoom/Lamp_Ceiling",
       "   1  HouseFrame/L1_TowerDoorFront",
       "   1  HouseFrame/L1_TowerDoorCap",
-      "   1  HouseFrame/L1_SkirtLiningWest_P",
-      "   1  HouseFrame/L1_SkirtLiningWest_B",
       "   1  HouseFrame/L1_SkirtLiningBack_P",
-      "   1  HouseFrame/L1_Skirt",
-      "   1  HouseFrame/L1_LiningWest_1_s",
       "   1  HouseFrame/L1_LiningFront",
       "   1  HouseFrame/L1_LiningBack",
       "   1  HouseFrame/L1_Gable_W",
       "   1  HouseFrame/L1_FloorPlanks",
       "   1  HouseFrame/L1_Floor",
       "   1  HouseFrame/L1_CeilingFront",
-      "   1  HouseFrame/L1_CeilingBack"
+      "   1  HouseFrame/L1_CeilingBack",
+      "   1  HouseFrame/H_wash_back_Sill",
+      "   1  HouseFrame/H_wash_back_JambL",
+      "   1  HouseFrame/B_CoalWall_N"
     ],
     "ok": false,
-    "summary": "B  interior meshes whose edges cut through the exterior mesh: 36 of 1016 (35996 exterior triangles)"
+    "summary": "B  interior meshes whose edges cut through the exterior mesh: 30 of 1016 (35961 exterior triangles)"
   },
   "C_props": {
-    "detail": [
-      "Hero_bed_1 box is cut by an exterior triangle"
-    ],
-    "ok": false,
-    "summary": "C  props clipping other geometry: 1 (of 25 props)"
+    "detail": [],
+    "ok": true,
+    "summary": "C  props clipping other geometry: 0 (of 25 props)"
   },
   "D_doorways": {
     "detail": [
