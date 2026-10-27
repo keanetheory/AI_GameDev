@@ -1,5 +1,5 @@
 {
-  "note": "One source for the authored shell (Assets/Models/lighthouse/shell/build_shell_v1.py) and the code that fits the interior to it (tower_shell.gd, rooms_tower.gd). Lengths in metres. House frame: u along the front wall, v inward, y up (kit.gd); the frame sits at house_origin (x, z) in the Lighthouse frame, yawed house_yaw radians.",
+  "note": "The house footprint and wall measurements, read by wall_patch.gd (the authored shell that first used this file was deleted 2026-10-27). Lengths in metres. House frame: u along the front wall, v inward, y up (kit.gd); the frame sits at house_origin (x, z) in the Lighthouse frame, yawed house_yaw radians.",
   "house_origin": [
     -3.494,
     8.874

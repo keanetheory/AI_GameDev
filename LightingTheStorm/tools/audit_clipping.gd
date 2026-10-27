@@ -1,6 +1,6 @@
 # audit_clipping.gd - run: Godot --headless --path . --script res://tools/audit_clipping.gd [-- json]
 # Lighthouse clipping and scale audit (Lighthouse finish, step A1). Numbers, not eyes. Layers (by scene path):
-#   ext   = Lighthouse/convert (the generated exterior mesh, carved)
+#   ext   = the Lighthouse's "convert" node (the generated exterior mesh: v3 carved at run time, or v4 repaired in Blender)
 #   shell = InteriorRooms/TowerShell, TowerLandings, SpiralDown, LampRoom (the code-built tower interior), minus gallery parts
 #   kit   = InteriorRooms/HouseFrame meshes of 200 triangles or fewer (boxes, trim, panels), minus the exterior trim by name
 #   prop  = the generated models (Hero_* holders and the other heavy meshes)
@@ -35,7 +35,6 @@ var _report := {}
 var _fails := 0
 var _dbg := 0
 var _cur := ""
-var _shell_node: Node3D = null
 
 
 func _initialize() -> void:
@@ -67,13 +66,7 @@ func _faces(mi: MeshInstance3D) -> PackedVector3Array:
 
 func _bin_ext() -> void:
 	var arr: Array = []
-	var live := _lv.get_node_or_null("Lighthouse/LighthouseShell")
-	if live != null:
-		_meshes(live, arr)             # LHF_SHELL=1: the authored shell is in the level
-	elif _shell_node != null:
-		_meshes(_shell_node, arr)      # AUDIT_SHELL: the authored shell stands in for the exterior mesh
-	else:
-		_meshes(_lv.get_node("Lighthouse/convert"), arr)
+	_meshes(_lv.get_node("Lighthouse").find_child("convert", true, false), arr)      # v3: Lighthouse/convert; v4: Lighthouse/lighthouse_exterior_v4/convert
 	for mi in arr:
 		var f := _faces(mi)
 		for t in range(0, f.size(), 3):
@@ -181,13 +174,6 @@ func _physics_process(_d: float) -> bool:
 	if _f < 6:
 		return false
 	_space = root.world_3d.direct_space_state
-	if OS.get_environment("AUDIT_SHELL") != "":      # AUDIT_SHELL=res://path.glb: audit against an authored shell (loaded at run time) instead of the exterior mesh
-		var doc := GLTFDocument.new()
-		var st := GLTFState.new()
-		doc.append_from_file(OS.get_environment("AUDIT_SHELL"), st)
-		_shell_node = doc.generate_scene(st) as Node3D
-		_lv.get_node("Lighthouse").add_child(_shell_node)
-		print("audit: authored shell %s loaded" % OS.get_environment("AUDIT_SHELL"))
 	var rooms := _lv.get_node("InteriorRooms")
 	var interior: Array = []      # [{mi, layer}]
 	var props: Array = []
@@ -197,8 +183,6 @@ func _physics_process(_d: float) -> bool:
 		for mi in arr:
 			if _is_trim(String(mi.name)) or mi.mesh.get_faces().size() / 3 > 3000:
 				continue
-			if _shell_node != null and String(mi.name) == "TowerLining":
-				continue      # the authored wall replaces the lining
 			interior.append(mi)
 	var hf := rooms.get_node("HouseFrame")
 	var harr: Array = []

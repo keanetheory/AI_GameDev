@@ -67,8 +67,7 @@ func build_spiral(kit, house: Node3D, lh: Node3D) -> void:
 ## hole's corners, 4 mm under the floor so the existing floor wins where they overlap), and a rail runs round the circle
 ## except across the entrance, where the hall floor meets the first tread.
 func _g_opening(P: Node3D, front: float) -> void:
-	if not authored:      # the authored shell's slab already has a round hole (shell_spec.json stair_hole_r) just wider than the treads
-		_arc(P, "G_StairFloor", R_OUT + 0.07, 2.35, 0.0, 360.0, GF - 0.2, GF - 0.004, _ds("flags"), true, true, centre)
+	_arc(P, "G_StairFloor", R_OUT + 0.07, 2.35, 0.0, 360.0, GF - 0.2, GF - 0.004, _ds("flags"), true, true, centre)
 	var iron := _m("iron_dark")
 	var wood := _m("wood_dark")
 	var rr := R_OUT + 0.1

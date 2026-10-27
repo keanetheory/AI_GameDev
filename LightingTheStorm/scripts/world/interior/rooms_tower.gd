@@ -13,16 +13,6 @@ const RISE := (17.9 - 0.97) / 96.0
 const L1 := 0.97 + 24.0 * RISE      # 5.2025: the spiral is back on the house side
 const L2 := 0.97 + 48.0 * RISE      # 9.4350
 const LANDING_DEG := 147.0          # the bearing at which the spiral passes the house side
-## The authored shell (Assets/Models/lighthouse/shell, LHF_SHELL set): the wall is exact, so the code is fitted to it, not the other way round.
-var authored := shell_mode() != 0
-
-
-## 0 (the default, the original lighthouse) = the old generated exterior with the code-built lining; 1 = the old exterior with the authored tower wall;
-## 2 = the whole authored shell (build_shell_v1.py). Set LHF_SHELL=2 to try it; it is off by the creator's decision (2026-10-26: "I really don't like it").
-static func shell_mode() -> int:
-	var v := OS.get_environment("LHF_SHELL")
-	return 0 if v == "" else int(v)
-static var _spec: Dictionary = {}
 ## The front ceiling slope starts this high above the first floor at v 0.9 (it was 1.45: at the tower doorway the player's eyes were inside the slab and saw the sky through it, creator 2026-10-26).
 const CEIL_FRONT := 1.72
 const INNER_R := 2.13               # the ring's inner edge: just outside the stair (outer radius 2.07)
@@ -57,14 +47,9 @@ func _l1_house(P: Node3D) -> void:
 	# the floor: one slab over the ground floor's ceiling; planks on top, the doorway link into the tower
 	# the slab's edges show from outside wherever the exterior wall is carved away, so the slab is STONE (a belt course) and the plank floor is a
 	# thin sheet on top of it, inset 4 cm so the stone edge frames it (creator, 2026-10-25: a plank panel hung off the front-left corner)
-	if authored:
-		# the shell's slab is the floor (collision too); a thin plank sheet inset 4 cm inside the shell's inner faces, and the doorway sill is the slab itself
-		var sp := shell_spec()
-		K.box(P, "L1_FloorPlanks", float(sp["first_u"][0]) + 0.04, float(sp["first_u"][1]) - 0.04, float(sp["first_v"][0]) + 0.04, float(sp["first_v"][1]) - 0.04, Y - 0.012, Y, "planks", false)
-	else:
-		K.box(P, "L1_Floor", -3.0, 5.5, 0.9, 9.0, 3.95, Y - 0.012, "stone", true)
-		K.box(P, "L1_FloorPlanks", -2.96, 5.46, 0.94, 8.96, Y - 0.012, Y, "planks", false)
-		K.box(P, "L1_TowerLink", 5.4, 6.6, 1.0, 2.2, Y - 0.2, Y - 0.008, "flags", true)
+	K.box(P, "L1_Floor", -3.0, 5.5, 0.9, 9.0, 3.95, Y - 0.012, "stone", true)
+	K.box(P, "L1_FloorPlanks", -2.96, 5.46, 0.94, 8.96, Y - 0.012, Y, "planks", false)
+	K.box(P, "L1_TowerLink", 5.4, 6.6, 1.0, 2.2, Y - 0.2, Y - 0.008, "flags", true)
 	# partitions, 2.3 m high (the roof is higher than that wherever there is a partition), with doorways
 	var pw := 2.1
 	# H1: v 2.6, the hall's back wall, with doors into the sleeping quarters, the radio room and the mess
@@ -80,32 +65,24 @@ func _l1_house(P: Node3D) -> void:
 	# W3: v 5.6, radio room | wash room
 	_wall(P, "L1_W3", -0.2, 1.5, 5.55, 5.65, Y, pw)
 	# doorway lintels
-	var lint_top := (ceil_rel(2.6) - 0.03) if not authored else pw      # to the ceiling
+	var lint_top := ceil_rel(2.6) - 0.03      # to the ceiling
 	K.box(P, "L1_Lintel_Bed", -2.1, -1.0, 2.55, 2.65, Y + 2.0, Y + lint_top, "plaster", false)
 	K.box(P, "L1_Lintel_Radio", -0.1, 1.0, 2.55, 2.65, Y + 2.0, Y + lint_top, "plaster", false)
 	K.box(P, "L1_Lintel_Mess", 3.3, 4.5, 2.55, 2.65, Y + 2.0, Y + lint_top, "plaster", false)
-	if not authored:      # the wash room doorway (W2 gap, v 6.3 to 7.2) closed above its frame
-		K.box(P, "L1_Lintel_Wash", 1.45, 1.55, 6.3, 7.2, Y + 2.1, Y + ceil_rel(7.2) - 0.03, "plaster", false)
+	# the wash room doorway (W2 gap, v 6.3 to 7.2) closed above its frame
+	K.box(P, "L1_Lintel_Wash", 1.45, 1.55, 6.3, 7.2, Y + 2.1, Y + ceil_rel(7.2) - 0.03, "plaster", false)
 	var hw := _house_windows()
-	if authored:
-		# the shell is the roof, the walls and the window openings: only the timbers, the glass panes and the trim are built here
-		_roof_timbers(P, Y)
-		_house_window_panes(P, hw)
-	else:
-		_ceiling(P, Y)
-		# plaster lining over the exterior model's dirty inside faces on the west and back walls
-		K.box(P, "L1_LiningFront", -3.0, 5.4, 0.88, 0.95, Y, Y + CEIL_FRONT - 0.02, "plaster", true)
-		_lined_wall(P, "L1_LiningWest", "west", 0.95, 8.7, -3.06, -3.0, Y, Y + 2.7, hw)
-		_lined_wall(P, "L1_LiningBack", "back", -3.06, 5.4, 8.7, 8.76, Y, Y + 1.85, hw)
-		_house_window_frames(P, hw)
+	_ceiling(P, Y)
+	# plaster lining over the exterior model's dirty inside faces on the west and back walls
+	K.box(P, "L1_LiningFront", -3.0, 5.4, 0.88, 0.95, Y, Y + CEIL_FRONT - 0.02, "plaster", true)
+	_lined_wall(P, "L1_LiningWest", "west", 0.95, 8.7, -3.06, -3.0, Y, Y + 2.7, hw)
+	_lined_wall(P, "L1_LiningBack", "back", -3.06, 5.4, 8.7, 8.76, Y, Y + 1.85, hw)
+	_house_window_frames(P, hw)
 	# collar beams across under the lined roof
-	var cu0 := -3.0 if not authored else -2.2
-	var cu1 := 5.4 if not authored else 4.58
 	for i in 4:
-		K.box(P, "L1_Collar_%d" % i, cu0, cu1, 3.0 + 1.4 * i, 3.15 + 1.4 * i, Y + 2.15, Y + 2.3, "wood_dark", false)
-	var sv1 := 8.95 if not authored else 8.68
+		K.box(P, "L1_Collar_%d" % i, -3.0, 5.4, 3.0 + 1.4 * i, 3.15 + 1.4 * i, Y + 2.15, Y + 2.3, "wood_dark", false)
 	for i in 4:
-		K.box(P, "L1_Skirt_%d" % i, -3.0 + 2.2 * i, -2.9 + 2.2 * i, 0.95, sv1, Y, Y + 0.12, "wood_dark", false)
+		K.box(P, "L1_Skirt_%d" % i, -3.0 + 2.2 * i, -2.9 + 2.2 * i, 0.95, 8.95, Y, Y + 0.12, "wood_dark", false)
 
 	# --- hall (v 1.0..2.6): from the tower door west; low eaves on the front, so shelving only
 	K.box(P, "L1_Runner", -2.6, 5.0, 1.55, 2.2, Y, Y + 0.02, "rug", false)
@@ -115,21 +92,15 @@ func _l1_house(P: Node3D) -> void:
 	for i in 9:
 		var bu := -2.1 + 0.3 * i
 		K.box(P, "L1_Linen_%d" % i, bu, bu + 0.24, 1.0, 1.35, Y + 0.48 + 0.4 * (i % 3), Y + 0.74 + 0.4 * (i % 3), "canvas" if i % 2 == 0 else "paper", false)
-	if authored:      # inside the shell's doorway opening (v 1.0 to 2.3, 2.1 high), not in its jambs
-		var dv: Array = shell_spec()["l1_door_v"]
-		K.box(P, "L1_TowerDoorFrame_a", 5.3, 5.55, dv[0], dv[0] + 0.1, Y, Y + 2.0, "wood_dark", false)
-		K.box(P, "L1_TowerDoorFrame_b", 5.3, 5.55, dv[1] - 0.1, dv[1], Y, Y + 2.0, "wood_dark", false)
-		K.box(P, "L1_TowerDoorFrame_c", 5.3, 5.55, dv[0], dv[1], Y + 2.0, Y + 2.1, "wood_dark", false)
-	else:
-		K.box(P, "L1_TowerDoorFrame_a", 5.38, 5.6, 0.95, 1.12, Y, Y + 2.0, "wood_dark", false)
-		K.box(P, "L1_TowerDoorFrame_b", 5.38, 5.6, 2.08, 2.25, Y, Y + 2.0, "wood_dark", false)
-		K.box(P, "L1_TowerDoorFrame_c", 5.38, 5.6, 0.95, 2.25, Y + 2.0, Y + 2.12, "wood_dark", false)
-		# above the doorway the old exterior's wall is carved away right up into the roof, and the front ceiling slope comes down to 1.45 m at v 0.95, so from the
-		# tower the sky showed over the door head (creator, 2026-10-26: "the hole on L2 at the doorway, you can peek out to the sky"). A plaster plate closes the
-		# doorway's end plane from the head up to the roof.
-		K.box(P, "L1_TowerDoorCap", 5.37, 5.62, 0.9, 2.4, Y + 2.12, Y + 4.4, "plaster", false)
-		K.box(P, "L1_TowerDoorCapL", 5.37, 5.62, 0.9, 1.0, Y + 1.3, Y + 2.12, "plaster", false)
-		K.box(P, "L1_TowerDoorFront", 5.2, 6.4, 0.78, 0.95, Y + 1.3, Y + 4.4, "plaster", false)      # and the front wall beside it, which also ends above the door reveal
+	K.box(P, "L1_TowerDoorFrame_a", 5.38, 5.6, 0.95, 1.12, Y, Y + 2.0, "wood_dark", false)
+	K.box(P, "L1_TowerDoorFrame_b", 5.38, 5.6, 2.08, 2.25, Y, Y + 2.0, "wood_dark", false)
+	K.box(P, "L1_TowerDoorFrame_c", 5.38, 5.6, 0.95, 2.25, Y + 2.0, Y + 2.12, "wood_dark", false)
+	# above the doorway the old exterior's wall is carved away right up into the roof, and the front ceiling slope comes down to 1.45 m at v 0.95, so from the
+	# tower the sky showed over the door head (creator, 2026-10-26: "the hole on L2 at the doorway, you can peek out to the sky"). A plaster plate closes the
+	# doorway's end plane from the head up to the roof.
+	K.box(P, "L1_TowerDoorCap", 5.37, 5.62, 0.9, 2.4, Y + 2.12, Y + 4.4, "plaster", false)
+	K.box(P, "L1_TowerDoorCapL", 5.37, 5.62, 0.9, 1.0, Y + 1.3, Y + 2.12, "plaster", false)
+	K.box(P, "L1_TowerDoorFront", 5.2, 6.4, 0.78, 0.95, Y + 1.3, Y + 4.4, "plaster", false)      # and the front wall beside it, which also ends above the door reveal
 	_lamp(P, "L1_HallLamp", Vector3(4.4, Y + 1.7, 1.5), 1.6)
 	_lamp(P, "L1_HallLamp2", Vector3(1.6, Y + 1.75, 1.9), 1.7)
 	_lamp(P, "L1_HallLamp3", Vector3(-1.6, Y + 1.75, 1.9), 1.7)
@@ -199,7 +170,7 @@ func _l1_house(P: Node3D) -> void:
 	K.box(P, "L1_Stove", 4.55, 5.35, 6.0, 6.9, Y, Y + 0.95, "iron_dark", true)
 	K.box(P, "L1_StoveTop", 4.5, 5.4, 5.95, 6.95, Y + 0.95, Y + 1.0, "iron", false)
 	K.box(P, "L1_StoveGlow", 4.53, 4.56, 6.3, 6.6, Y + 0.35, Y + 0.55, K.colour(Color(0.72, 0.36, 0.08), 0.6, 0.0, 1.6), false)
-	K.pole(P, "L1_StovePipe", 5.1, 6.45, Y + 1.0, (Y + 3.7) if not authored else roof_under(6.45) - 0.03, 0.09, "iron_dark", false)
+	K.pole(P, "L1_StovePipe", 5.1, 6.45, Y + 1.0, Y + 3.7, 0.09, "iron_dark", false)
 	K.light(P, "L1_StoveLight", Vector3(4.3, Y + 0.5, 6.45), Color(1.0, 0.5, 0.2), 0.9, 3.6, 0.3)
 	K.box(P, "L1_Counter", 1.6, 2.3, 7.3, 8.9, Y, Y + 0.9, "wood_dark", true)
 	K.box(P, "L1_CounterTop", 1.58, 2.34, 7.28, 8.92, Y + 0.9, Y + 0.95, "wood", false)
@@ -220,11 +191,10 @@ func _l1_house(P: Node3D) -> void:
 	# the east wall's plaster starts at v 3.3: nearer the doorway the tower's curved lining stands only 0.1 m behind this plane, and the sheet's
 	# edge poked through it as a tall cream flap beside the frame (creator, 2026-10-25). The 1.1 m between the doorway and v 3.3 is the doorway's
 	# own reveal, below.
-	if not authored:
-		K.box(P, "L1_LiningEast", 5.39, 5.45, 3.3, 8.6, Y, Y + 2.3, "plaster", true)
-		for rv in [[0.84, 0.95], [2.25, 2.36]]:      # the doorway's two reveals, flush with the jambs, running out to the lining's chord
-			K.box(P, "L1_DoorReveal_%d" % int(rv[0] * 100), 5.38, 5.95, rv[0], rv[1], Y, Y + 2.14, "plaster", false)
-		K.box(P, "L1_DoorRevealHead", 5.38, 5.95, 0.84, 2.36, Y + 2.12, Y + 2.24, "plaster", false)
+	K.box(P, "L1_LiningEast", 5.39, 5.45, 3.3, 8.6, Y, Y + 2.3, "plaster", true)
+	for rv in [[0.84, 0.95], [2.25, 2.36]]:      # the doorway's two reveals, flush with the jambs, running out to the lining's chord
+		K.box(P, "L1_DoorReveal_%d" % int(rv[0] * 100), 5.38, 5.95, rv[0], rv[1], Y, Y + 2.14, "plaster", false)
+	K.box(P, "L1_DoorRevealHead", 5.38, 5.95, 0.84, 2.36, Y + 2.12, Y + 2.24, "plaster", false)
 	K.box(P, "L1_RugMess", 2.2, 4.2, 4.4, 6.9, Y, Y + 0.015, "rug", false)
 	K.box(P, "L1_RugRadio", -0.1, 0.9, 3.0, 4.2, Y, Y + 0.015, "rug", false)
 	K.sheet(P, "L1_Rules", Vector3(2.0, Y + 1.5, 2.5), Vector3(0, 0, -1), 0.5, 0.65, "paper_old", "KEEPER'S RULES
@@ -338,64 +308,6 @@ func _house_window_frames(P: Node3D, wins: Array) -> void:
 			(b2.get_node("Body") as StaticBody3D).add_to_group("glass")
 
 
-## The authored roof's underside height at house-frame v (data/world/shell_spec.json: eave at both long walls, ridge along u at the middle of v).
-func roof_under(v: float) -> float:
-	var sp := shell_spec()
-	var v0: float = sp["first_v"][0]
-	var v1: float = sp["first_v"][1]
-	var vm := (v0 + v1) * 0.5
-	var e: float = sp["l1_eave"]
-	var r: float = sp["l1_ridge"]
-	return e + (r - e) * (v - v0) / (vm - v0) if v <= vm else e + (r - e) * (v1 - v) / (v1 - vm)
-
-
-## Ridge beam and rafters under the authored roof's own underside (the shell has no timbers).
-func _roof_timbers(P: Node3D, Y: float) -> void:
-	var sp := shell_spec()
-	var u0: float = sp["first_u"][0]
-	var u1: float = sp["first_u"][1]
-	var v0: float = sp["first_v"][0]
-	var v1: float = sp["first_v"][1]
-	var vm := (v0 + v1) * 0.5
-	K.box(P, "L1_RidgeBeam", u0 + 0.02, u1 - 0.02, vm - 0.08, vm + 0.08, roof_under(vm) - 0.2, roof_under(vm) - 0.04, "wood_dark", false)
-	for i in 5:
-		var u := u0 + 0.4 + 2.1 * i
-		if u > u1 - 0.1:
-			continue
-		_rafter(P, "L1_Rafter_F%d" % i, u, Vector2(v0 + 0.05, roof_under(v0 + 0.05) + 0.0), Vector2(vm - 0.05, roof_under(vm - 0.05)))
-		_rafter(P, "L1_Rafter_B%d" % i, u, Vector2(vm + 0.05, roof_under(vm + 0.05)), Vector2(v1 - 0.05, roof_under(v1 - 0.05)))
-
-
-## Glass, mullion and the invisible barrier for each first-floor window: the shell's wall is cut through, the pane stands mid-wall.
-func _house_window_panes(P: Node3D, wins: Array) -> void:
-	var sp := shell_spec()
-	var t: float = sp["house_wall_t"]
-	for w in wins:
-		var at: float = w["at"]
-		var ww: float = w["w"]
-		var s := float(w["y"]) - float(w["h"]) * 0.5
-		var h := float(w["y"]) + float(w["h"]) * 0.5
-		var id: String = w["id"]
-		var jl := at - ww * 0.5
-		var jh := at + ww * 0.5
-		if w["wall"] == "west":
-			var f0: float = sp["first_u"][0]
-			var g := f0 - t * 0.5
-			K.box(P, id + "_Glass", g - 0.01, g + 0.01, jl, jh, s, h, "glass", false)
-			K.box(P, id + "_Mullion", g - 0.02, g + 0.02, at - 0.02, at + 0.02, s, h, "iron_dark", false)
-			var b = K.box(P, id + "_Barrier", f0 - 0.12, f0 - 0.04, jl, jh, s - 0.1, h, "glass", true)
-			b.visible = false
-			(b.get_node("Body") as StaticBody3D).add_to_group("glass")
-		else:
-			var f1: float = sp["first_v"][1]
-			var g2 := f1 + t * 0.5
-			K.box(P, id + "_Glass", jl, jh, g2 - 0.01, g2 + 0.01, s, h, "glass", false)
-			K.box(P, id + "_Mullion", at - 0.02, at + 0.02, g2 - 0.02, g2 + 0.02, s, h, "iron_dark", false)
-			var b2 = K.box(P, id + "_Barrier", jl, jh, f1 + 0.04, f1 + 0.12, s - 0.1, h, "glass", true)
-			b2.visible = false
-			(b2.get_node("Body") as StaticBody3D).add_to_group("glass")
-
-
 ## A plaster ceiling following the roof (measured: roof headroom above the floor is 1.9 m at v 1, 4.5 m at the ridge v 5,
 ## 2 m at v 8.5), 0.45 m under it, so the exterior model's lumpy roof underside does not show. Two tilted slabs.
 func _ceiling(P: Node3D, Y: float) -> void:
@@ -453,58 +365,6 @@ func _doorframe(P: Node3D, nm: String, a0: float, a1: float, at: float, y: float
 		K.box(P, nm + "_J0", a0 - t, a0, at - 0.1, at + 0.1, y, y + h, "wood_dark", false)
 		K.box(P, nm + "_J1", a1, a1 + t, at - 0.1, at + 0.1, y, y + h, "wood_dark", false)
 		K.box(P, nm + "_H", a0 - t, a1 + t, at - 0.1, at + 0.1, y + h, y + h + 0.08, "wood_dark", false)
-
-
-## A partition under the authored roof: its top follows the underside (a flat top would poke through the roof near the eaves).
-func _sloped_wall(P: Node3D, nm: String, u0: float, u1: float, v0: float, v1: float, y0: float, h: float) -> void:
-	var sp := shell_spec()
-	var va: float = sp["first_v"][0]
-	var vb: float = sp["first_v"][1]
-	var vm := (va + vb) * 0.5
-	var top := y0 + h
-	var e: float = sp["l1_eave"]
-	var r: float = sp["l1_ridge"]
-	# where the roof underside (minus a hand's breadth) reaches the partition's full height, on each slope
-	var vf := va + (top + 0.02 - e) * (vm - va) / (r - e)
-	var vbk := vb - (top + 0.02 - e) * (vb - vm) / (r - e)
-	var pts: Array = [Vector2(v0, y0), Vector2(v1, y0), Vector2(v1, minf(top, roof_under(v1) - 0.02))]
-	if vbk < v1 and vbk > v0:
-		pts.append(Vector2(vbk, top))
-	if vf > v0 and vf < v1:
-		pts.append(Vector2(vf, top))
-	pts.append(Vector2(v0, minf(top, roof_under(v0) - 0.02)))
-	var st := SurfaceTool.new()
-	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var n := pts.size()
-	for side in [[u0, 1.0], [u1, -1.0]]:
-		for i in range(1, n - 1):
-			var tri := [pts[0], pts[i], pts[i + 1]]
-			if side[1] < 0.0:
-				tri = [pts[0], pts[i + 1], pts[i]]
-			for q in tri:
-				st.set_normal(Vector3(-side[1], 0, 0))
-				st.add_vertex(K.p(side[0], q.y, q.x))
-	for i in n:
-		var a: Vector2 = pts[i]
-		var b: Vector2 = pts[(i + 1) % n]
-		var pa0: Vector3 = K.p(u0, a.y, a.x)
-		var pa1: Vector3 = K.p(u1, a.y, a.x)
-		var pb0: Vector3 = K.p(u0, b.y, b.x)
-		var pb1: Vector3 = K.p(u1, b.y, b.x)
-		var nn: Vector3 = (pb0 - pa0).cross(pa1 - pa0).normalized()
-		for q in [pa0, pb0, pa1, pa1, pb0, pb1]:
-			st.set_normal(nn)
-			st.add_vertex(q)
-	var mi := MeshInstance3D.new()
-	mi.name = nm
-	mi.mesh = st.commit()
-	var mat: Material = K.mats["plaster"]
-	var m2 := (mat as StandardMaterial3D).duplicate() as StandardMaterial3D
-	m2.cull_mode = BaseMaterial3D.CULL_DISABLED
-	mi.material_override = m2
-	P.add_child(mi)
-	mi.create_trimesh_collision()
-	K.count += 1
 
 
 ## First-floor ceiling height above the floor at house-frame v, as the old ceiling slabs (_ceiling) build it: a front slope from v 0.9 (1.45 m) to the ridge at v 5.0
@@ -569,9 +429,7 @@ func _wall_to_ceiling(P: Node3D, nm: String, u0: float, u1: float, v0: float, v1
 
 
 func _wall(P: Node3D, nm: String, u0: float, u1: float, v0: float, v1: float, y0: float, h: float) -> void:
-	if authored and (v1 - v0) > (u1 - u0) and v1 > 7.0:
-		_sloped_wall(P, nm, u0, u1, v0, v1, y0, h)      # a partition running up to the back eaves
-	elif not authored and absf(y0 - L1) < 0.01:
+	if absf(y0 - L1) < 0.01:
 		_wall_to_ceiling(P, nm, u0, u1, v0, v1, y0)      # first-floor partitions reach the ceiling
 	else:
 		K.box(P, nm, u0, u1, v0, v1, y0, y0 + h, "plaster", true)
@@ -591,66 +449,9 @@ func _lamp(P: Node3D, nm: String, at: Vector3, energy: float) -> void:
 	K.light(P, nm + "_Light", at + Vector3(0, -0.1, 0), Color(1.0, 0.75, 0.45), energy, 4.6, 0.1)
 
 
-# ======================================================================== the authored shell's house wall (data/world/shell_spec.json)
-
-static func shell_spec() -> Dictionary:
-	if _spec.is_empty():
-		var f := FileAccess.open("res://data/world/shell_spec.json", FileAccess.READ)
-		_spec = JSON.parse_string(f.get_as_text())
-	return _spec
-
-
-## The authored tower's inner radius at height y: a plinth of 3.0 to 4.92, then a cone from 3.4 narrowing to 2.9 (build_shell_v1.py r_in).
-static func analytic_inner(y: float) -> float:
-	return 3.0 if y < 4.92 else maxf(2.9, 3.4 - 0.0385 * (y - 4.92))
-
-
-## The first radius (from 1 m out) along `bearing` at height `y` where the tower's air runs into a wall of the house, or 99 if it never does. The shell cuts the
-## tower's air by the house's walls (their outer faces, thickness house_wall_t) up to tower_cut_top, so a ring or fill must stop there.
-func house_bite(y: float, bearing_deg: float) -> float:
-	var sp := shell_spec()
-	if y >= float(sp["tower_cut_top"]):
-		return 99.0
-	var t: float = sp["house_wall_t"]
-	var o: Array = sp["house_origin"]
-	var ax: Array = sp["tower_axis"]
-	var yaw: float = sp["house_yaw"]
-	var gu: Array = sp["ground_u"]
-	var gv: Array = sp["ground_v"]
-	var fu: Array = sp["first_u"]
-	var fv: Array = sp["first_v"]
-	var upper: bool = y >= float(sp["slab_top"])
-	var u0: float = (fu[0] if upper else gu[0]) - t
-	var u1: float = (fu[1] if upper else gu[1]) + t
-	var v0: float = (fv[0] if upper else gv[0]) - t
-	var v1: float = (fv[1] if upper else gv[1]) + t
-	var a := deg_to_rad(bearing_deg)
-	var r := 1.0
-	while r < 4.6:
-		var rx: float = float(ax[0]) + r * cos(a) - float(o[0])
-		var rz: float = float(ax[1]) + r * sin(a) - float(o[1])
-		var u: float = rx * cos(yaw) - rz * sin(yaw)
-		var v: float = -(rx * sin(yaw) + rz * cos(yaw))
-		if u > u0 and u < u1 and v > v0 and v < v1:
-			return r - 0.02
-		r += 0.02
-	return 99.0
-
-
-## A ring of flooring from r0 out to r1 round the tower axis. With the authored shell the outer edge follows the wall: sectors of 7.5 degrees, each stopped where the
-## house wall bites into the tower, and left out where nothing is left. Otherwise one full arc, as before.
+## A ring of flooring from r0 out to r1 round the tower axis: one full arc.
 func _ring_floor(P: Node3D, nm: String, r0: float, r1: float, y0: float, y1: float, m, solid: bool) -> void:
-	if not authored:
-		_arc(P, nm, r0, r1, 0.0, 360.0, y0, y1, m, solid)
-		return
-	var step := 7.5
-	var ym := (y0 + y1) * 0.5
-	for k in int(360.0 / step):
-		var a0 := step * float(k)
-		# the wall is a plane: the sector's nearest corner decides, and a few cm in so the edge sits clear of the face
-		var ro := minf(minf(r1, analytic_inner(ym) - 0.01), minf(house_bite(ym, a0), minf(house_bite(ym, a0 + step * 0.5), house_bite(ym, a0 + step))) - 0.04)
-		if ro > r0 + 0.05:
-			_arc(P, "%s_%d" % [nm, k], r0, ro, a0, a0 + step, y0, y1, m, solid)
+	_arc(P, nm, r0, r1, 0.0, 360.0, y0, y1, m, solid)
 
 
 # ======================================================================== tower landings (lighthouse frame)

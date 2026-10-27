@@ -74,8 +74,7 @@ def inside_opening(g, m=0.1):
             return True
         if w["wall"] == "back" and v > 8.3 and abs(u - w["at"]) < w["w"] / 2 + m and y0 < y < y1:
             return True
-    if u < -1.9 and 3.0 - m < v < 4.3 + m and 1.9 - m < y < 2.9 + m:
-        return True               # the ground-floor window over the dock
+    # (the ground-floor window over the dock, u < -1.9, v 3.0..4.3, y 1.9..2.9, is closed: creator, 2026-10-27 "just close it up for now")
     if -1.0 - m < u < 1.0 + m and -0.7 < v < 0.95 and GF - 0.05 < y < GF + 3.05:
         return True               # the front door
     if 5.0 < u < 9.0 and 0.8 - m < v < 2.25 + m and GF - 0.05 < y < GF + 2.4:
@@ -83,6 +82,32 @@ def inside_opening(g, m=0.1):
     if 5.0 < u < 9.0 and 1.0 - m < v < 2.3 + m and L1 - 0.05 < y < L1 + 2.2:
         return True               # the first floor's door to the tower
     return False
+
+
+def in_tower_window(g, shrink=0.04):
+    """True where a point is inside a tower window's opening, `shrink` in from its edges, between the lining and just outside the wall."""
+    d = math.hypot(g.x - AX, g.z - AZ)
+    if not 2.0 < d < 4.8:
+        return False
+    th = math.degrees(math.atan2(g.z - AZ, g.x - AX)) % 360.0
+    for w in WINS:
+        if w["kind"] != "tower":
+            continue
+        half = math.degrees((w["w"] * 0.5 - shrink) / d)
+        if abs((th - w["bearing"] + 180) % 360 - 180) < half and abs(g.y - w["y"]) < w["h"] * 0.5 - shrink:
+            return True
+    return False
+
+
+def from_house(u, y, v):
+    w = -v
+    return Vector((HO[0] + u * math.cos(YAW) + w * math.sin(YAW), y, HO[1] - u * math.sin(YAW) + w * math.cos(YAW)))
+
+
+def is_chimney_hole(c):
+    """The closed ground-floor window: a hole through the chimney breast on the west gable (house u -3.9..-2.7, v 2.7..3.6, y 1.05..3.4)."""
+    u, v = to_house(c)
+    return u < -2.5 and 2.4 < v < 3.9 and 0.9 < c.y < 3.6
 
 
 def main():
@@ -110,6 +135,20 @@ def main():
         return (px[i], px[i + 1], px[i + 2])
 
     bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-4)
+    # the chimney breast's own stone round the closed window (outward-facing faces on its face plane, u about -3.75): the rim of that hole is mostly
+    # brown cut-off flaps, so its fill takes its texel from here instead
+    chim = []
+    for f in bm.faces:
+        g = god(f.calc_center_median())
+        u, v = to_house(g)
+        n = god(f.normal)
+        nu = n.x * math.cos(YAW) - n.z * math.sin(YAW)
+        if abs(u + 3.75) < 0.3 and 2.0 < v < 4.4 and 0.9 < g.y < 4.6 and not (2.6 < v < 3.7 and g.y < 3.5) and nu < -0.5:
+            col = texel(f.loops[0][uvl].uv)
+            chim.append((0.3 * col[0] + 0.59 * col[1] + 0.11 * col[2], tuple(f.loops[0][uvl].uv)))
+    chim.sort()
+    chim_uv = chim[len(chim) * 4 // 5][1] if chim else None      # the pale stone (the median is a dark mortar/soot texel)
+    print("chimney face samples", len(chim), "brightness", [round(c[0], 2) for c in chim], "uv", chim_uv)
     bm.edges.ensure_lookup_table()
     bnd = [e for e in bm.edges if len(e.link_faces) == 1]
     parent = {}
@@ -182,6 +221,19 @@ def main():
                 dx, dz = g.x - AX, g.z - AZ
                 dd = math.hypot(dx, dz) or 1.0
                 v.co = blen(Vector((AX + dx / dd * rr, g.y, AZ + dz / dd * rr)))
+        if is_chimney_hole(c):
+            # the closed window: a flat stretch of the chimney's face, its inner points pushed onto the face plane, in the chimney's stone
+            fe_ = list({e for f in nf for e in f.edges if e not in es})
+            bmesh.ops.subdivide_edges(bm, edges=fe_, cuts=3, use_grid_fill=True)
+            nf = [f for f in bm.faces if f not in before]
+            rim_u = sorted(to_house(g)[0] for g in gs if to_house(g)[0] < -3.4)
+            u_face = rim_u[len(rim_u) // 2] if rim_u else -3.75
+            for v in {v for f in nf for v in f.verts if v.index not in rim_ids}:
+                g = god(v.co)
+                v.co = blen(from_house(u_face, g.y, to_house(g)[1]))
+            if chim_uv:
+                uv_pick = chim_uv
+            STATS["chimney_hole"] = {"u_face": round(u_face, 3), "faces": len(nf)}
         faces_now = [f for f in nf if f.is_valid]
         for f in faces_now:
             for lp in f.loops:
@@ -196,6 +248,14 @@ def main():
         if inside_opening(god(f.calc_center_median())):
             bmesh.ops.delete(bm, geom=[f], context="FACES_ONLY")
             cut += 1
+    # the scan's own triangles that the carve left reaching into a tower window (the brown shards across the stairwell windows, creator
+    # 2026-10-27): any triangle with a corner more than 4 cm inside an opening goes; the reveal and the stone surround hide the notch it leaves
+    shards = 0
+    for f in list(bm.faces):
+        if f.is_valid and any(in_tower_window(god(v.co)) for v in f.verts):
+            bmesh.ops.delete(bm, geom=[f], context="FACES_ONLY")
+            shards += 1
+    STATS["window_shards"] = shards
     # leave smooth shading as the scan had it
     for f in bm.faces:
         f.smooth = True
@@ -215,7 +275,7 @@ def main():
     ob.matrix_parent_inverse = root.matrix_world.inverted()
     out = os.path.normpath(os.path.join(HERE, "..", "lighthouse_exterior_v4.glb"))
     bpy.ops.export_scene.gltf(filepath=out, export_format="GLB", export_yup=True, export_apply=False, export_image_format="AUTO")
-    print("REPAIR_OK", out, "loops filled", filled, "skipped", skipped, "opening faces cut", cut)
+    print("REPAIR_OK", out, "loops filled", filled, "skipped", skipped, "opening faces cut", cut, STATS)
 
 
 main()

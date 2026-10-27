@@ -56,13 +56,13 @@ func _physics_process(_d: float) -> bool:
 	var f := FileAccess.open("res://Assets/Models/lighthouse/interior/lighthouse_greybox_v3_alignment.json", FileAccess.READ)
 	var al: Dictionary = JSON.parse_string(f.get_as_text())
 	var mk: Dictionary = al["markers"]
-	# 1a. the ground-floor window beside the door is a real opening: a ray straight out of it leaves the house
+	# 1a. the ground-floor window beside the door is closed up (creator, 2026-10-27): a ray straight out of it meets the wall within a few metres
 	var w: Array = mk["G_window_view_marker"]
 	# the marker sits at the wall corner; the opening is 1.2 m wide starting there, so stand at its middle (0.6 m along the wall)
 	var eye := interior.to_global(Vector3(w[0], float(al["ground_floor_y"]) + EYE, w[2])) + Vector3(0.4309, 0.0, 0.9024) * 0.6
 	var out := Vector3(-0.9024, 0.0, 0.4309)
 	var hw := _first_hit(space, eye, eye + out * 12.0)
-	_ok(hw.is_empty() or eye.distance_to(hw["position"]) > 8.0, "ground-floor window: open (first thing in the way %s)" % ("none within 12 m" if hw.is_empty() else "%s at %.1f m" % [_name_of(hw), eye.distance_to(hw["position"])]))
+	_ok(not hw.is_empty() and eye.distance_to(hw["position"]) < 3.0, "ground-floor window: closed (first thing in the way %s)" % ("none within 12 m" if hw.is_empty() else "%s at %.1f m" % [_name_of(hw), eye.distance_to(hw["position"])]))
 	# 1b. the dock berth where the rowboat is moored is NOT visible from low windows: the island top is a plateau at about y 9.7
 	# and the harbour drops away beyond it. Measured from here, a window needs an eye height of about 22 m to see the berth.
 	var dock := Vector3(-27.0, 1.0, 18.2)

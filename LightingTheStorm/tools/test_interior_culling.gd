@@ -75,9 +75,9 @@ func _physics_process(_d: float) -> bool:
 			_ok(_visible_count(2) > 100 and _visible_count(1) == 0 and _visible_count(0) == 0, "on the first floor only the first floor is drawn")
 			# the floor you stand on is never culled (the 2026-10-25 bug: the first floor's thick slab was filed under the ground floor)
 			var fl := _lv.get_node("InteriorRooms").frame.find_child("L1_Floor", true, false) as Node3D
-			_ok(OS.get_environment("LHF_SHELL") == "2" or (fl != null and fl.visible and _ic.levels[2].has(fl)), "on the first floor its floor slab is on the first-floor level and drawn")
+			_ok(fl != null and fl.visible and _ic.levels[2].has(fl), "on the first floor its floor slab is on the first-floor level and drawn")
 			var gc := _lv.get_node("InteriorRooms").frame.find_child("G_Ceiling", true, false) as Node3D
-			_ok(OS.get_environment("LHF_SHELL") == "2" or (gc != null and _ic.levels[1].has(gc)), "the ground-floor ceiling stays on the ground-floor level")
+			_ok(gc != null and _ic.levels[1].has(gc), "the ground-floor ceiling stays on the ground-floor level")
 			_ok(_ic.culled_meshes > 300, "meshes hidden up there: %d" % _ic.culled_meshes)
 			_at(1.0, 8.6, 4.0)                # basement
 			_step = 3

@@ -40,7 +40,8 @@ static func window(parent: Node3D, id: String, w: float, h: float, stone: Materi
 			continue
 		var bw := jw + (0.08 if i % 2 == 0 else -0.04)
 		for side in [-1.0, 1.0]:
-			_box(k, "Quoin%d_%s" % [i, "L" if side < 0.0 else "R"], Vector3(bw, bh - 0.025, d), Vector3(side * (w * 0.5 + bw * 0.5 - 0.02), y0 + bh * 0.5, zc), stone)
+			# their inner faces stand 3 cm back from the opening, behind the interior's reveal: flush with it they showed inside the window as stepped teeth
+			_box(k, "Quoin%d_%s" % [i, "L" if side < 0.0 else "R"], Vector3(bw, bh - 0.025, d), Vector3(side * (w * 0.5 + bw * 0.5 + 0.03), y0 + bh * 0.5, zc), stone)
 	_box(k, "Lintel", Vector3(w + 1.0, 0.3, d + 0.04), Vector3(0.0, h * 0.5 + 0.2, zc + 0.02), stone)
 	_box(k, "Keystone", Vector3(0.24, 0.42, d + 0.1), Vector3(0.0, h * 0.5 + 0.22, zc + 0.05), stone)
 	# the sill: a slab that leans outward so the rain runs off it, over a plain course
