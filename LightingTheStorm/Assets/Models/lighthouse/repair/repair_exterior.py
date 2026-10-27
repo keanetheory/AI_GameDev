@@ -139,6 +139,47 @@ def is_chimney_hole(c):
     return u < -2.5 and 2.4 < v < 3.9 and 0.9 < c.y < 3.6
 
 
+# ---------------------------------------------------------------- the back-west corner of the first floor (creator, 2026-10-27)
+# The scan has no wall there: on the west gable from just past the bedroom window (v 6.3) to the back corner, and on the back wall from the corner
+# to u -2.0, from the lean-to roof up to the main roof. The first floor's plaster lining showed from outside. It is not a closed hole (its rim runs
+# into the open ground rim), so the loop fill above never sees it. Two flat panels on the walls' measured outer planes close it.
+GABLE_U = -3.47                 # the gable's outer face beside the gap (rays at v 5.0 to 5.5)
+BACK_V = 9.4                    # the back wall's outer face (the fills there sit at 9.41)
+CORNER_Y0 = 4.4                 # below the lean-to roof that covers the gable's foot
+
+
+def gable_top(v):
+    """The underside of the main roof over the west gable at v, plus 0.12 m tucked under it (measured 8.6 at v 6.5, 7.1 at v 9.0)."""
+    return 8.6 - 0.6 * (v - 6.5) + 0.12
+
+
+def add_corner_panels(bm, uvl, uv):
+    """Plain panels in one texel of the gable's stone. (Copying the texture of the wall beside the gap was tried: the scan's texture is a patchwork
+    of small islands, and the copy came out as a garbled collage.)"""
+    made = []
+
+    def panel(pts_fn, n_a, n_y, outward):
+        grid = [[bm.verts.new(blen(pts_fn(i / n_a, j / n_y))) for j in range(n_y + 1)] for i in range(n_a + 1)]
+        for i in range(n_a):
+            for j in range(n_y):
+                f = bm.faces.new((grid[i][j], grid[i + 1][j], grid[i + 1][j + 1], grid[i][j + 1]))
+                f.normal_update()
+                if god(f.normal).dot(outward) < 0.0:
+                    f.normal_flip()
+                for lp in f.loops:
+                    lp[uvl].uv = uv
+                made.append(f)
+
+    v0, v1 = 6.3, BACK_V
+    panel(lambda a, b: from_house(GABLE_U, CORNER_Y0 + b * (gable_top(v0 + a * (v1 - v0)) - CORNER_Y0), v0 + a * (v1 - v0)), 12, 10,
+          (from_house(-1.0, 0.0, 0.0) - from_house(0.0, 0.0, 0.0)).normalized())
+    u0, u1 = GABLE_U, -1.9
+    top = gable_top(BACK_V)
+    panel(lambda a, b: from_house(u0 + a * (u1 - u0), CORNER_Y0 + b * (top - CORNER_Y0), BACK_V), 6, 8,
+          (from_house(0.0, 0.0, 1.0) - from_house(0.0, 0.0, 0.0)).normalized())
+    return made
+
+
 def main():
     bpy.ops.wm.read_factory_settings(use_empty=True)
     bpy.ops.import_scene.gltf(filepath=os.path.join(HERE, "exterior_carved_in.glb"))
@@ -276,6 +317,17 @@ def main():
                 lp[uvl].uv = uv_pick
         new_faces_all.extend(faces_now)
         filled += 1
+    # the back-west corner's two panels, in the gable's own stone (the upper quartile of its intact face beside the gap)
+    gab = []
+    for f in bm.faces:
+        g = god(f.calc_center_median())
+        u, v = to_house(g)
+        if abs(u - GABLE_U) < 0.2 and 4.6 < v < 5.6 and 5.0 < g.y < 8.5 and god(f.normal).dot(from_house(-1.0, 0.0, 0.0) - from_house(0.0, 0.0, 0.0)) > 0.4:
+            col = texel(f.loops[0][uvl].uv)
+            gab.append((0.3 * col[0] + 0.59 * col[1] + 0.11 * col[2], tuple(f.loops[0][uvl].uv)))
+    gab.sort()
+    corner_uv = gab[len(gab) * 9 // 10][1] if gab else (chim_uv or (0.5, 0.5))      # the pale render, not its mortar lines
+    STATS["corner_panels"] = {"faces": len(add_corner_panels(bm, uvl, corner_uv)), "samples": len(gab)}
     # cut the real openings back out of the fill
     cut = 0
     for f in list(new_faces_all):
