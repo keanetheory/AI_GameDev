@@ -344,6 +344,18 @@ def main():
             bmesh.ops.delete(bm, geom=[f], context="FACES_ONLY")
             shards += 1
     STATS["window_shards"] = shards
+    # the scan's lantern roof hangs down inside the glass drum, below the lamp room's code-built ceiling (lantern.gd: glass r 2.82, ceiling y 21.95):
+    # its triangles came through the plaster between the rafters (creator, 2026-10-27). Nothing inside the drum below the ceiling's top is seen
+    # from outside except through the glass, where it only hid the lamp room's own ceiling.
+    lamp = 0
+    for f in list(bm.faces):
+        if not f.is_valid:
+            continue
+        gs_ = [god(v.co) for v in f.verts]
+        if any(18.35 < g.y < 22.09 and math.hypot(g.x - AX, g.z - AZ) < 2.78 for g in gs_):
+            bmesh.ops.delete(bm, geom=[f], context="FACES_ONLY")
+            lamp += 1
+    STATS["lamp_room_shards"] = lamp
     # leave smooth shading as the scan had it
     for f in bm.faces:
         f.smooth = True
