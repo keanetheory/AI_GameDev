@@ -412,6 +412,35 @@
    "collaborates": [
     "Lighting agent"
    ]
+  },
+  {
+   "id": "ISL-14",
+   "title": "Link the island gate into the rocks either side of it",
+   "priority": 7,
+   "why_score": "Creator, 2026-10-27: the gate must read as part of the island, set into the rock on both sides, not a free-standing frame. Not 8 because the gate already works and blocks the path; not lower because it is a story beat and seen up close.",
+   "detail": "The gate (Level.tscn IslandGate, scripts/world/island_gate.gd, Assets/Models/island/island_gate.glb) stands on the path at about world (-16, 12.3, 10.1), with collision-only pillar and wall-stub boxes either side (its 'Walls' body). Close the visible gap between the gate's frame and the jagged rock on each side: extend the frame or add stone wall/rubble pieces that run from each pillar into the neighbouring rock, matched to the island's toon look (ToonLook exterior_paths) and the rock's colour, so no daylight or path shows past the pillars. Keep the gateway width, the leaf swing and the GATE_* events unchanged; keep the player unable to walk round the gate.",
+   "acceptance": [
+    "no visible gap between the gate and the rock on either side from the path, the stair top and the plateau",
+    "test_island_gate passes; test_island_coverage passes on the route",
+    "the player cannot pass the gate except through it when open"
+   ],
+   "owner": "Island Creator Agent",
+   "checks": [
+    {
+     "type": "manual",
+     "note": "Shots from both sides of the gate plus test_island_gate and test_island_coverage."
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/scripts/world/island_gate.gd"
+   ],
+   "depends_on": [
+    "ISL-07"
+   ],
+   "collaborates": [
+    "Level Layout agent",
+    "Asset agent"
+   ]
   }
  ],
  "records": {
