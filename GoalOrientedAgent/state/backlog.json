@@ -156,7 +156,7 @@
       "title": "Create the central GameState autoload: phase machine, event bus, restart",
       "priority": 10,
       "category": "code",
-      "summary": "Add a GameState autoload (register in project.godot) holding the phase enum (ARRIVAL_AND_COAL → … → RESOLUTION), an emit_event(event_id) bus with a debug event log, and a restart() that reloads the slice. Add the DialogueLoader as a child or autoload, and connect GameState events to DialogueLoader.trigger(), the lighting rig's set_phase() and the boat's signals. Every other Gate 1 task hangs off this contract.",
+      "summary": "Add a GameState autoload (register in project.godot) holding the phase enum (ARRIVAL_AND_COAL \u2192 \u2026 \u2192 RESOLUTION), an emit_event(event_id) bus with a debug event log, and a restart() that reloads the slice. Add the DialogueLoader as a child or autoload, and connect GameState events to DialogueLoader.trigger(), the lighting rig's set_phase() and the boat's signals. Every other Gate 1 task hangs off this contract.",
       "why_this_score": "Nothing else can be wired without it, and the slice cannot run end to end, so it is a 10. It is not scored lower because six other tasks depend on it.",
       "evidence": [
         "Technical Strategy: Core state contract",
@@ -1430,6 +1430,27 @@
         "T07"
       ],
       "build_order": 37
+    },
+    {
+      "id": "T38",
+      "title": "Texture the lighthouse exterior's plain patches (back-west corner panels, fills under the back windows)",
+      "priority": 4,
+      "category": "art",
+      "summary": "repair_exterior.py closes the scan's missing back-west corner of the first floor with two flat panels and fills some holes (the tan triangles under the back windows) with one texel of wall colour. They read as flat, untextured patches, most visibly from behind the house (GERFramework/shots/lh_out_corner.png, lh_out_back.png). Give them coursed stone or render that matches the scan: a tiling stone material on the panels, or let the run-time masonry shader (exterior_wall_detail) course them. A copy of the neighbouring wall's UVs was tried on 27 Oct 2026 and came out as a collage of texture islands.",
+      "why_this_score": "Cosmetic: both assessors list it as REVISE, not BLOCK (interior 9/10, exterior 7/10, 27 Oct 2026). Not higher because it does not face the sea approach or affect play.",
+      "evidence": [
+        "Creator, 27 Oct 2026: add the plain patches to the backlog",
+        "GERFramework/reports/lighthouse_finisher_work.md pass 12",
+        "LightingTheStorm/Assets/Models/lighthouse/repair/repair_exterior.py add_corner_panels"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Lighthouse Finisher Agent",
+      "effort": "S",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "depends_on": [],
+      "status": "open",
+      "result": null
     }
   ],
   "history": [

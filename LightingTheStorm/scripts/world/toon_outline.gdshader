@@ -1,15 +1,15 @@
 // toon_outline.gdshader - a screen-space ink outline for the cel-shaded look (Lighthouse Finisher Agent, LHF-10).
 // Drawn by a full-screen quad parented to the camera (toon_look.gd). An edge is where the depth is not a smooth plane (a silhouette
 // or a step: the second difference of inverse depth is large; it is zero on any flat surface, however slanted) or where the surface
-// normal turns sharply (a box's corner, the rim of a tread). The line is a dark navy ink, never pure black (style guide), and
+// normal turns sharply (a box's corner, the rim of a tread). The line is a neutral near-black charcoal, never pure black (style guide), and
 // thickens a little with `thickness`. Forward+ only (it reads the depth and the normal-roughness buffers).
 shader_type spatial;
 render_mode unshaded, fog_disabled, cull_disabled, depth_test_disabled, blend_mix;
 
 uniform sampler2D depth_tex : hint_depth_texture, repeat_disable, filter_nearest;
 uniform sampler2D normal_tex : hint_normal_roughness_texture, repeat_disable, filter_nearest;
-uniform vec4 ink : source_color = vec4(0.004, 0.006, 0.016, 1.0);   // near-black navy, not pure black (style guide)
-uniform float thickness = 1.8;                    // pixels at 1080p; scales with the screen height
+uniform vec4 ink : source_color = vec4(0.003, 0.003, 0.0035, 1.0);   // near-black charcoal, not pure black (toon_look.gd ink_colour sets it)
+uniform float thickness = 1.2;                    // pixels at 1080p; scales with the screen height
 uniform float depth_threshold = 0.035;
 uniform float normal_threshold = 0.62;            // cosine of the angle across which a crease is drawn
 uniform float opacity = 1.0;

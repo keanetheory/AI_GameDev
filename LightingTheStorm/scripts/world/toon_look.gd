@@ -17,8 +17,12 @@ const OUTLINE_SHADER := preload("res://scripts/world/toon_outline.gdshader")
 @export var mask_radius := 12.0
 @export var mask_half_height := 14.0
 @export var camera_range := 130.0
-## The basement's ink: thickness in pixels at 1080p.
-@export var ink_thickness := 1.8
+## The ink: thickness in pixels at 1080p. 1.2 since 27 Oct 2026 (creator: "thinner and darker"; it was 1.8).
+@export var ink_thickness := 1.2
+## The ink's colour: a neutral near-black charcoal (creator, 27 Oct 2026: darker, and not the navy blue it was, (0.004, 0.006, 0.016)). Still not
+## pure black, so it reads as ink against the darkest shadows. Set from here it is an sRGB colour (the shader's source_color hint converts it):
+## (0.04, 0.04, 0.045) draws as about (10, 10, 11) on screen.
+@export var ink_colour := Color(0.04, 0.04, 0.045)
 ## How hard the light/dark step is: lower is crisper (Godot softens the toon edge with roughness).
 @export_range(0.05, 1.0) var toon_roughness := 0.22
 ## How much of each surface's own colour it gives off regardless of the lights (the "fill"): the interior has only 6 live lights, each reaching a few metres, so a wall
@@ -106,6 +110,7 @@ func _build_outline() -> void:
 	_outline_mat = ShaderMaterial.new()
 	_outline_mat.shader = OUTLINE_SHADER
 	_outline_mat.set_shader_parameter("thickness", ink_thickness)
+	_outline_mat.set_shader_parameter("ink", ink_colour)
 	_outline_mat.set_shader_parameter("mask_centre", mask_centre)
 	_outline_mat.set_shader_parameter("mask_radius", mask_radius)
 	_outline_mat.set_shader_parameter("mask_half_height", mask_half_height)
