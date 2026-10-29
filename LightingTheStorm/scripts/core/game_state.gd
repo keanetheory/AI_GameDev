@@ -15,6 +15,7 @@ extends Node
 
 const DebugFlags := preload("res://scripts/core/debug_flags.gd")
 const ShipDeadline := preload("res://scripts/core/ship_deadline.gd")
+const AudioMixer := preload("res://scripts/core/audio_mixer.gd")
 
 signal event_emitted(id: String, phase: int)
 signal phase_changed(old_phase: int, new_phase: int)
@@ -88,6 +89,7 @@ var burner_fitted := false       # set by BURNER_FITTED
 var _dialogue: Node
 var _boat: Node
 var _director: Node            # ship_deadline.gd: the hidden clock and the passenger ship
+var _mixer: Node               # audio_mixer.gd: the placeholder audio (T14)
 var _rig: Node
 var _lighting_phase := ""
 
@@ -209,6 +211,7 @@ func _reset_state() -> void:
 	burner_fitted = false
 	_lighting_phase = ""
 	_director = null
+	_mixer = null
 
 
 func _record(id: String, note: String) -> void:
@@ -270,6 +273,10 @@ func _bind_director() -> void:
 	_director.name = "ShipDeadline"
 	_boat.get_parent().add_child(_director)
 	_director.setup(self, _boat.get_parent())
+	_mixer = AudioMixer.new()
+	_mixer.name = "AudioMixer"
+	_boat.get_parent().add_child(_mixer)
+	_mixer.setup(self, _boat.get_parent())
 
 
 ## The hidden ship deadline as 0..1 (1 = the clock ran out), -1 until the return crossing starts it. The sea (wave_system.gd)
@@ -278,6 +285,10 @@ func deadline_progress() -> float:
 	if _director != null and is_instance_valid(_director):
 		return _director.progress()
 	return -1.0
+
+
+func audio() -> Node:
+	return _mixer if _mixer != null and is_instance_valid(_mixer) else null
 
 
 func deadline() -> Node:

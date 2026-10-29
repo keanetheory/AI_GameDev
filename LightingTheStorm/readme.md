@@ -97,6 +97,7 @@ godot --headless --path . --script res://tools/test_interior_walk.gd  # walk the
 godot --headless --path . --script res://tools/test_boat.gd           # boat handling, hazards, both crossings
 godot --headless --path . --script res://tools/test_ship_route.gd     # passenger ship lane, grounding rock, lamp-room sightline
 godot --headless --path . --script res://tools/test_ship_deadline.gd  # hidden deadline, pause, fail and win
+godot --headless --path . --script res://tools/test_audio_mixer.gd    # placeholder audio mix by phase, the fail sequence
 godot --headless --path . --script res://tools/test_debug_flags.gd    # run again with  -- --no-debug-ui  to check the off state
 godot --headless --path . --script res://tools/test_collider_bake.gd  # the collider bakes are up to date and match a live build
 ```

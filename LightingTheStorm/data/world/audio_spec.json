@@ -1,0 +1,62 @@
+{
+  "spec_id": "audio_spec_v1",
+  "owner": "Sound agent (backlog T14)",
+  "note": "Placeholder audio for Gate 1: layered wind and rain, machinery, buoy bells, the foghorn and the ship's impact, mixed by game phase. Levels are dB (0 = the file at full level). scripts/core/audio_mixer.gd reads this file; retune here. The sounds are synthesised by tools/make_placeholder_audio.py (CC0, see Assets/Audio/placeholder/SOURCES.md).",
+  "buses": ["Ambience", "SFX"],
+  "streams": {
+    "wind": {"path": "res://Assets/Audio/placeholder/wind_loop.wav", "loop": true},
+    "rain": {"path": "res://Assets/Audio/placeholder/rain_loop.wav", "loop": true},
+    "machinery": {"path": "res://Assets/Audio/placeholder/machinery_loop.wav", "loop": true},
+    "engine": {"path": "res://Assets/Audio/placeholder/engine_loop.wav", "loop": true},
+    "bell": {"path": "res://Assets/Audio/placeholder/bell.wav", "loop": false},
+    "foghorn": {"path": "res://Assets/Audio/placeholder/foghorn.wav", "loop": false},
+    "impact": {"path": "res://Assets/Audio/placeholder/ship_impact.wav", "loop": false}
+  },
+  "phases": {
+    "ARRIVAL_AND_COAL": {"wind": -18.0, "rain": -26.0, "machinery": -80.0, "engine": -80.0},
+    "SHELTER_AND_GATE": {"wind": -17.0, "rain": -25.0, "machinery": -12.0, "engine": -80.0},
+    "BEACON_DIAGNOSIS": {"wind": -16.0, "rain": -24.0, "machinery": -12.0, "engine": -80.0},
+    "BOARDING": {"wind": -15.0, "rain": -23.0, "machinery": -12.0, "engine": -80.0},
+    "OUTBOUND": {"wind": -14.0, "rain": -20.0, "machinery": -30.0, "engine": -20.0},
+    "SALTGATE": {"wind": -14.0, "rain": -20.0, "machinery": -80.0, "engine": -80.0},
+    "RETURN": {"wind": [-12.0, -2.0], "rain": [-16.0, -5.0], "machinery": -30.0, "engine": [-14.0, -6.0]},
+    "FINAL_REPAIR": {"wind": [-12.0, -2.0], "rain": [-16.0, -5.0], "machinery": -12.0, "engine": -80.0},
+    "RESOLUTION": {"wind": [-12.0, -2.0], "rain": [-16.0, -5.0], "machinery": -12.0, "engine": -80.0}
+  },
+  "phases_note": "A two-number entry is [value at deadline progress 0, value at progress 1]: the storm channel follows elapsed deadline time (Decisions A2). Before the clock runs it uses the first number. Once the burner is fitted the clock is frozen, so the storm stays where it was (the GDD keeps it near full strength).",
+  "engine_only_when_underway": true,
+  "machinery_outside_db": -14.0,
+  "machinery_note": "A 3D source in the lighthouse basement: the machinery_db above is its level at the source; the player hears it through the walls by distance.",
+  "indoor": {
+    "lowpass_hz": 700.0,
+    "ambience_db": -5.0,
+    "rate_per_s": 4.0,
+    "note": "Inside the house footprint (interior_culling.inside) the wind and rain are muffled."
+  },
+  "duck": {
+    "ambience_db": -6.0,
+    "attack_per_s": 24.0,
+    "release_per_s": 6.0,
+    "note": "While Ted, Arthur or Daniel speak, the ambience and effects drop so Arthur's calls stay audible (Technical Strategy: companion calls)."
+  },
+  "smoothing_per_s": 1.5,
+  "bells": {
+    "positions": [[60.0, 3.0, 140.0], [-40.0, 3.0, 300.0], [55.0, 3.0, 455.0]],
+    "note": "Placeholder bell buoys beside the return route until the hazard forecast (T10) places real buoys.",
+    "interval_s": [6.0, 11.0],
+    "volume_db": -4.0,
+    "unit_size": 25.0,
+    "max_distance": 300.0
+  },
+  "fail": {
+    "horn_blasts": 3,
+    "horn_gap_s": 5.0,
+    "horn_db": 4.0,
+    "horn_note": "gap is start to start; the horn sound lasts 4.5 s, so 5 s keeps the blasts from cutting each other off. The ship needs about 13.6 s to reach the rock, so three blasts fit.",
+    "after_impact_s": 5.0,
+    "silence_fade_s": 2.0,
+    "silence_hold_s": 1.5,
+    "note": "A30: foghorn (from the ship, as soon as the deadline runs out), the crash, silence, then the Failed screen. fail_audio_finished is emitted after the silence so T08 can show the screen."
+  },
+  "impact_db": 6.0
+}
