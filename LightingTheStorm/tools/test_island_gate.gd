@@ -4,7 +4,8 @@
 #   1. on the lighthouse side facing the gate, the prompt reads "[E] Open the gate";
 #   2. walking at the shut gate, the player cannot get through;
 #   3. E opens it (before SAILORS_MOORED: no GATE_OPENED is reported) and the player walks through towards the dock;
-#   4. E closes it; after SAILORS_MOORED, coming close reports GATE_APPROACHED and opening reports GATE_OPENED.
+#   4. E closes it; after SAILORS_MOORED, coming close reports GATE_APPROACHED and opening reports GATE_OPENED;
+#   5. shut again, the player cannot get round it on either side, from the stairs or the plateau, and does not fall off the path.
 # Exits 0 when every check passes, 1 otherwise.
 extends SceneTree
 
@@ -80,9 +81,19 @@ func _physics_process(_delta: float) -> bool:
 			_next(70)
 		10:
 			_check(_gate.is_open and _gs.fired.has("GATE_OPENED"), "opening it after SAILORS_MOORED reports GATE_OPENED")
-			print("RESULT: %s (%d failed)" % ["OK" if _failed == 0 else "FAILED", _failed])
-			quit(0 if _failed == 0 else 1)
-	if _f > 3000:
+			Input.action_press("interact")
+			_next(70)
+		11:
+			_check(not _gate.is_open and _gate.get("wing_blocks") > 0, "shut again; the wing walls tie it into the rock (%d blocks)" % _gate.get("wing_blocks"))
+			_try = -1
+			_next_try()
+			_step = 12
+		12:
+			_drive_try()
+	if _step == 13:
+		print("RESULT: %s (%d failed)" % ["OK" if _failed == 0 else "FAILED", _failed])
+		quit(0 if _failed == 0 else 1)
+	if _f > 6000:
 		print("FAIL: TIMEOUT in step ", _step)
 		quit(1)
 	return false
@@ -134,3 +145,49 @@ func _check(ok: bool, what: String) -> void:
 	print(("PASS  " if ok else "FAIL  ") + what)
 	if not ok:
 		_failed += 1
+
+
+# ---- 11. with the gate shut, nobody gets round it (Island Creator ISL-07/ISL-14): from the stairs and from the plateau, on each side, the
+# player walks at the gap between the gate and the rock for 8 s. Each try must end on the side it started, standing on the path's level
+# (not fallen off the cliff). World coordinates; the gate line is z 9.85, the wings stand between z 9.3 and 10.6.
+const ROUND_TRIES := [
+	["stairs -> plateau, east of the gate", Vector3(-16.25, 9.9, 11.0), [Vector3(-13.6, 0, 11.2), Vector3(-12.5, 0, 8.0)]],
+	["stairs -> plateau, west of the gate", Vector3(-16.25, 9.9, 11.0), [Vector3(-18.6, 0, 11.0), Vector3(-19.0, 0, 8.5), Vector3(-15.0, 0, 7.5)]],
+	["plateau -> stairs, east of the gate", Vector3(-13.0, 10.4, 8.0), [Vector3(-13.4, 0, 10.6), Vector3(-15.8, 0, 13.0)]],
+	["plateau -> stairs, west of the gate", Vector3(-16.25, 10.7, 8.8), [Vector3(-19.0, 0, 9.5), Vector3(-17.5, 0, 12.5)]],
+]
+var _try := -1
+var _try_wp := 0
+var _try_n := 0
+
+
+func _next_try() -> void:
+	Input.action_release("move_forward")
+	_try += 1
+	if _try >= ROUND_TRIES.size():
+		_step = 13
+		return
+	_player.global_position = ROUND_TRIES[_try][1]
+	_player.velocity = Vector3.ZERO
+	_try_wp = 0
+	_try_n = 0
+
+
+func _drive_try() -> void:
+	_try_n += 1
+	var t: Array = ROUND_TRIES[_try]
+	var wps: Array = t[2]
+	var to: Vector3 = wps[_try_wp]
+	var dv := Vector3(to.x - _player.global_position.x, 0.0, to.z - _player.global_position.z)
+	if dv.length() < 0.8 and _try_wp < wps.size() - 1:
+		_try_wp += 1
+	if _try_n > 480:
+		var p := _player.global_position
+		var from_stairs: bool = (t[1] as Vector3).z > 10.0
+		# the east wing angles back towards the dock, so its plateau face stands up to 0.7 m past the gate line: a crossing is clearly past both
+		var same_side: bool = p.z > 9.3 if from_stairs else p.z < 10.6
+		_check(same_side and p.y > 8.5, "%s: stopped at (%.1f, %.1f, %.1f), %s" % [t[0], p.x, p.y, p.z, "on its own side, on the path" if same_side and p.y > 8.5 else ("GOT ROUND THE GATE" if not same_side else "FELL OFF THE PATH")])
+		_next_try()
+		return
+	_player.rotation.y = atan2(-dv.x, -dv.z)
+	Input.action_press("move_forward")
