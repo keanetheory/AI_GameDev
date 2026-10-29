@@ -58,5 +58,9 @@
     "silence_hold_s": 1.5,
     "note": "A30: foghorn (from the ship, as soon as the deadline runs out), the crash, silence, then the Failed screen. fail_audio_finished is emitted after the silence so T08 can show the screen."
   },
+  "win": {
+    "horn_db": 0.0,
+    "note": "Creator, 29 Oct 2026: the saved ship sounds its horn once as it clears the rock (one blast, from the ship, 3D)."
+  },
   "impact_db": 6.0
 }

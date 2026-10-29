@@ -8,6 +8,7 @@
 #   - indoors (the house footprint) the wind and rain are muffled by a low-pass on the Ambience bus;
 #   - while anyone speaks the ambience and effects duck, so Arthur's calls stay audible;
 #   - the engine only sounds while the boat is under way;
+#   - a saved ship sounds its horn once as it clears the rock;
 #   - at SHIP_FAIL: the ship's foghorn sounds (3D, from the ship), then the crash when the ship strikes, then silence, then
 #     fail_audio_finished is emitted for the Failed screen (T08). The sequence is timed on game time, so pause freezes it.
 # No audio assets are real yet: the sounds are synthesised placeholders (Assets/Audio/placeholder/SOURCES.md).
@@ -27,6 +28,7 @@ var duck_t := 0.0
 var speaking := 0
 var fail_active := false
 var silence_done := false
+var win_horns := 0                    # blasts sounded by a saved ship (one per attempt)
 
 var _gs: Node
 var _boat: Node
@@ -162,6 +164,7 @@ func _attach_ship(ship: Node3D) -> void:
 		ship.add_child(p)
 		players[nm] = p
 	ship.impact.connect(_on_impact)
+	ship.cleared_rock.connect(_on_cleared_rock)
 
 
 func _process(delta: float) -> void:
@@ -230,6 +233,17 @@ func _on_event(id: String, _phase: int) -> void:
 		var dl: Node = _gs.deadline()
 		if _ship == null and dl and dl.ship:
 			_attach_ship(dl.ship)
+
+
+## A saved ship sounds its horn once as it clears the rock (creator, 29 October 2026).
+func _on_cleared_rock() -> void:
+	if fail_active or (_gs != null and _gs.outcome == _gs.Outcome.FAIL):
+		return
+	win_horns += 1
+	var h: Node = players.get("foghorn")
+	if h and h.get("stream"):
+		h.set("volume_db", float(spec["win"]["horn_db"]))
+		h.call("play")
 
 
 func _on_impact() -> void:

@@ -137,6 +137,7 @@ func _run() -> void:
 	_check(impact_seen, "the ship's impact sound is triggered when it strikes the rock")
 	_check(finished[0] == 1, "silence ends the sequence: fail_audio_finished fired once, %.1f s after the deadline" % t)
 	_check(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Ambience")) <= -79.0, "the buses are silent when the Failed screen is due")
+	_check(mx.win_horns == 0, "a failed ship sounds no win horn")
 	# a restart brings the sound back
 	gs.restart()
 	lv.queue_free()
@@ -150,6 +151,23 @@ func _run() -> void:
 	await process_frame
 	await process_frame
 	_check(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Ambience")) > -1.0, "after a restart the buses are back at full level")
+	# the win path: the saved ship's horn sounds once as it clears the rock
+	var mx2: Node = gs.audio()
+	var dl2: Node = gs.deadline()
+	gs.emit_event("BOAT_CAST_OFF")
+	gs.emit_event("BURNER_PICKED_UP")
+	gs.emit_event("RETURN_DEPARTED")
+	dl2._process(100.0)
+	gs.emit_event("BURNER_FITTED")
+	gs.emit_event("SHIP_WIN")
+	var guard := 0
+	while not dl2.ship.cleared and guard < 3000:
+		dl2.ship._process(0.1)
+		guard += 1
+	_check(dl2.ship.cleared and mx2.win_horns == 1, "a saved ship sounds its horn once as it clears the rock (%d blast)" % mx2.win_horns)
+	for i in 600:
+		dl2.ship._process(0.1)
+	_check(mx2.win_horns == 1, "and only once as it carries on to port")
 	lv2.queue_free()
 	print("RESULT: %s (%d failed)" % ["OK" if _fails == 0 else "FAILED", _fails])
 	quit(1 if _fails > 0 else 0)

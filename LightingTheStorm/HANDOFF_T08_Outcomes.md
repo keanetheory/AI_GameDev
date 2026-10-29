@@ -8,7 +8,7 @@ Resolve WIN or FAIL exactly once. FAIL: foghorn, the ship runs onto the rock whi
 
 New:
 - `scripts/ui/outcome_screen.gd`: the Failed screen and the win card (a CanvasLayer created by GameState with the level).
-- `data/world/outcome_screens.json`: the wording and timings. **Placeholder wording**.
+- `data/world/outcome_screens.json`: the wording and timings. Wording approved by the creator on 29 Oct 2026 (the win card thanks the player and asks for a review).
 - `tools/test_outcome_screen.gd` (17 checks), `tools/shot_outcome.gd` (render check).
 
 Edited:
@@ -52,6 +52,4 @@ PROPOSED: `GameState.outcome_screen()`; `ship.cleared_rock`; the win card as an 
 
 ## 8. Open creator decisions
 
-- **Wording.** The Failed screen's reason line ("The burner did not reach the lamp in time, and the ship ran aground.") and the win card ("The light holds") are placeholders. The GDD asks for a short reason line; Ted's voiced line (A20) is the spoken one.
-- **Win presentation.** The GDD says only that the ship sails safely into port and Ted reacts (`TED_S5_01/02`). Is a win card wanted at all, or a return to the title?
-- **Saved ship speed.** 3x so the win resolves in about 45 s; slower is possible, but the card then waits longer.
+Resolved 29 Oct 2026: the screen wording is fine, the win card reads "You successfully lit the storm! Thank you for playing this short game, please leave a review with your thoughts!" under the title "The light holds", and the saved ship sounds its horn once as it clears the rock (audio_mixer.gd). Still open: the saved ship's speed (3x so the win resolves in about 45 s).
