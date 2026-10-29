@@ -10,7 +10,7 @@ const Route := preload("res://scripts/world/ship_route.gd")
 const Ship := preload("res://scripts/world/passenger_ship.gd")
 
 const HULL_MARGIN := 10.0      # clear water the hull must keep from rock or island on every lane
-const SIGHT_EYE_Y := 20.8      # eye height in the lamp room, just above the burner seat (19.45)
+const SIGHT_EYE_Y := 29.1      # eye height standing at the lamp (world y of ANCHOR_lamp_stand 27.5 plus 1.6), in the lamp room
 const BOAT_SEES_MIN := 0.5     # share of the return route from which the boat must see the ship
 const SIGHT_MIN := 0.9         # fraction of sampled lane points the lamp room must see
 

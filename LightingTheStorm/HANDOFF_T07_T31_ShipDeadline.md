@@ -44,6 +44,8 @@ The lane (revised 29 Oct 2026 after the creator's first play): the ship appears 
 - `test_ship_deadline.gd`: OK, 0 failed (31 checks): hidden until boarding, inactive before the return, starts once, P pauses and resumes, the time scale and penalty work, expiry fires `SHIP_FAIL` exactly once and the ship crashes with one `impact`, a later `SHIP_WIN` cannot flip it, a restart gives a fresh clock, BURNER_FITTED freezes the clock and the ship reaches port, pausing after the outcome does nothing.
 - Render check (`tools/shot.gd`): the ship's hull and lit windows read from the lamp room; at the crash the ship lies on the rock's east flank, listing.
 
+**Correction, 29 Oct 2026:** the lamp-room sightline checks were first run from an eye height of 20.8 m, which is the tower landing below the lamp room. The lamp is at 29.1 m (`ANCHOR_lamp_stand` 27.5 plus 1.6); the test now uses that and still passes every lamp-room check.
+
 ## 5. Not verified
 
 - Feel: whether 3 min 30 s with a ship at 4.4 m/s reads as urgent; whether the ship is easy enough to spot from the boat on the return crossing. Needs a play.
