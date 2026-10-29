@@ -493,6 +493,11 @@
    "status": "done",
    "note": "Assets/Models/island/repair/build_rock_patch.py (Blender) cuts the same piece of island_craggy the RockPatch nodes reused (keep box, in the import script's 90 m frame), closes its cut (1 loop, 186 cap faces pushed slightly into the rock, darkest-tenth rock texel) and writes rock_patch.glb (no import script needed). The three RockPatch nodes load it with no keep_boxes. The hollow shells by the stair foot are solid (shots seam_se_b, seam_se2_c, seam_se2_night). Island tests pass; island load 0.87 s.",
    "at": "2026-10-29T16:17:06+00:00"
+  },
+  "ISL-12": {
+   "status": "in_progress",
+   "note": "2026-10-29 profiled (tools/profile_ready.gd; temporary timing taken out again). The same build loads in 4.1 to 9.7 s headless (6 runs). Steady part, about 3.6 s to the first frame: load+instantiate 0.4 s, node _ready 3.5 s (InteriorRooms 1.1, Mainland 0.55, Saltgate 0.44, Island 0.35, Cliffs 0.33, Boat 0.15, Harbour 0.13; island and patches under 0.5 s in all). Deferred calls (ToonLook scan, culling, light cards, openings, wave hookup) drain in under 0.3 s. The variable part, 0 to 6 s, is one stall inside the first physics iteration AFTER the deferred queue is empty; it also happens with the physics server paused and with the interior's trigger zones off, so it is not script code, not the physics solve and not the zones. Windows Defender (MsMpEng) was active during the runs. Next: confirm with a Defender exclusion on the project folder or Godot's own profiler in the editor (creator's call), then trim InteriorRooms' 1.1 s build (owner: Lighthouse Finisher).",
+   "at": "2026-10-29T16:36:39+00:00"
   }
  },
  "history": [
