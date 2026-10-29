@@ -107,7 +107,7 @@ def build_world_crew(llm, guide: StyleGuide, verbose: bool = True, state: dict |
             "have no effect. Describe steering response, maximum turn rate, a rudder that returns to centre, "
             "a little drift for weight, waypoints per leg (WP_OUT_01.., WP_RET_01..), automatic docking zones, "
             "collision recovery to a safe point, the waves_enabled=false tide_hook, and at least five handling checks "
-            "(including docking, steering at full lock, releasing the keys, and threading a narrow gap). Use speed_mps 3.0 (confirmed). Put open "
+            "(including docking, steering at full lock, releasing the keys, and threading a narrow gap). Use speed_mps 8.0 (confirmed). Put open "
             "questions in open_creator_decisions; speed, W/S and the port are already decided, so do not list them."
             f"\n\n{JSON_RULE}{_schema(BoatSpec)}"
         ),

@@ -89,6 +89,8 @@ func _run() -> void:
 	_check(rig.calls.back() == "RETURN", "rig went to RETURN via GameState: %s" % [rig.calls])
 	boat.emit_signal("docked", "DOCK_LIGHTHOUSE")
 	_check(gs.phase == gs.Phase.FINAL_REPAIR, "docking at the lighthouse on the return -> FINAL_REPAIR (RETURN_ARRIVED)")
+	_check(gs.emit_event("LAMP_ROOM_REENTERED") and gs.phase == gs.Phase.FINAL_REPAIR, "LAMP_ROOM_REENTERED is an accepted event and keeps FINAL_REPAIR")
+	_check(not gs.emit_event("LAMP_ROOM_REENTERED"), "LAMP_ROOM_REENTERED is one-shot")
 	gs.emit_event("BURNER_FITTED")
 	_check(rig.calls.back() == "BEACON_RELIT", "BURNER_FITTED -> lighting BEACON_RELIT")
 

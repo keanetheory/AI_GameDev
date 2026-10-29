@@ -43,7 +43,7 @@ BOAT_RULES = [
     "Waves and tides are approved (creator, 2026-10-20). They push the boat only through the water_push hook, always by less than "
     "A/D steering can cancel, and waves_enabled is the on/off switch. The first crossing is easy, the return hectic.",
     "CREATOR DECISION (confirmed 2026-10-20): the fixed speed is 8 m/s, held as data (speed_mps) and to be confirmed after playtest. "
-    "It replaces the earlier 3 m/s and differs from GDD Decision 24 (10 m/s); note it, do not raise it as a question.",
+    "It replaces the earlier 3 m/s, and GDD Decision 24 now agrees (29 October 2026); do not raise it as a question.",
     "CREATOR DECISION (confirmed): W and S do nothing because the boat has no throttle. The port is the Saltgate quays (DOCK_PORT).",
 ]
 
@@ -63,8 +63,8 @@ LIGHTING_FACTS = [
     "outbound and the return crossing. It sits low on the far side of the lighthouse from the Saltgate (to the north; "
     "the Saltgate and Saint Calder are due south), so it lights the crossings from behind the lighthouse and leaves "
     "Saint Calder in relative darkness. The clouds keep a break for it. The Flighted ship that eclipses it is added later.",
-    "Sky and weather by phase (creator decision, 2026-10-16): ISLAND - ominous clouds gathering, still dry, no lightning, "
-    "before the player first sets off. OUTBOUND (fetching the burner) - the clouds darker and fuller and the rain starts. "
+    "Sky and weather by phase (creator decisions, 2026-10-16 and 2026-10-23): ISLAND - ominous clouds gathering, light rain from the first moment, no lightning, "
+    "before the player first sets off. OUTBOUND (fetching the burner) - the clouds darker and fuller and the rain steadier. "
     "RETURN (burner collected) - darker skies, heavier rain, and lightning flashing between the clouds. "
     "BEACON_RELIT - the storm stays near full strength; the relit beacon is what changes. "
     "Reference: the title splash screen - dense, billowing black storm cloud with lit edges, a forked bolt that "

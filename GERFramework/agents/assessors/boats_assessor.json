@@ -29,7 +29,7 @@
   ],
   "rubric_focus": [
     "The one-control promise (A/D only, fixed speed) is never broken by a proposal.",
-    "GDD versus spec conflicts are surfaced, not resolved: Decision 24 says 10 m/s, the spec and boat.gd say 3 m/s.",
+    "GDD versus spec conflicts are surfaced, not resolved. Boat speed is aligned at 8 m/s (GDD Decision 24, boat_spec.json speed_mps and boat.gd, 29 October 2026).",
     "The boat must still be fair with waves off, and waves must be removable by a setting.",
     "Mesh and texture budgets measured on boat_launch.glb and rowboat.glb."
   ],

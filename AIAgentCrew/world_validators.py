@@ -241,12 +241,12 @@ def check_lighting(s: LightingSpec, guide: StyleGuide) -> list[str]:
         errs.append("RETURN: low_opacity must be 0.3-0.85, so the lightning lights the layer through.")
     if lo.low_drift_mps >= lo.drift_mps:
         errs.append("RETURN: the low layer moves slowly - low_drift_mps must be below the main layer's drift_mps.")
-    # Rain: dry on the island, starts on the outbound crossing, no lighter on the return.
+    # Rain: light from the first moment (creator, 2026-10-23), steadier outbound, no lighter on the return.
     r = {pid: ph[pid].rain.intensity for pid in ph}
-    if r["ISLAND"] != 0:
-        errs.append("ISLAND must be dry: the rain starts on the outbound crossing.")
-    if r["OUTBOUND"] <= 0:
-        errs.append("OUTBOUND rain must have started (intensity above 0).")
+    if r["ISLAND"] <= 0:
+        errs.append("ISLAND must have light rain from the first moment (creator, 2026-10-23): intensity above 0.")
+    if r["OUTBOUND"] < r["ISLAND"]:
+        errs.append("OUTBOUND rain must be at least as heavy as ISLAND.")
     if r["RETURN"] < r["OUTBOUND"]:
         errs.append("RETURN rain must be at least as heavy as OUTBOUND.")
     fl, fh = s.lightning.flash_duration_s

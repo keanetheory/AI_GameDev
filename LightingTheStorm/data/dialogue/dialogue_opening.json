@@ -62,6 +62,22 @@
       "player_action": "Follow Ted up to the lantern room, where he finds the burner broken; then board the steam launch with Arthur, cross the Gullwater and pick up the replacement burner at the Saltgate quays.",
       "starts_on": "BEACON_STILL_DARK",
       "ends_on": "RETURN_DEPARTED"
+    },
+    {
+      "step": 4,
+      "title": "Fit the burner",
+      "location": "Lighthouse dock, hall, tower stairs, lamp room",
+      "player_action": "Carry the burner up the tower and fit it into the arc lamp, with Ted waiting in the lamp room.",
+      "starts_on": "RETURN_ARRIVED",
+      "ends_on": "BURNER_FITTED"
+    },
+    {
+      "step": 5,
+      "title": "Resolution",
+      "location": "Lamp room and the sea",
+      "player_action": "Watch the ship pass the rocks safely (win) or run aground (fail).",
+      "starts_on": "BURNER_FITTED",
+      "ends_on": "SHIP_WIN or SHIP_FAIL"
     }
   ],
   "events": [
@@ -287,6 +303,41 @@
       "step": 3,
       "emitted_by": "game",
       "note": "Player has not found the burner at the Saltgate quays.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "RETURN_ARRIVED",
+      "step": 4,
+      "emitted_by": "game",
+      "note": "Boat docks at the lighthouse jetty with the burner; Arthur says go, go, go.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "LAMP_ROOM_REENTERED",
+      "step": 4,
+      "emitted_by": "game",
+      "note": "Player enters the lamp room carrying the burner, where Ted waits. Accepted 29 October 2026 (Decisions A17); the emitter is not built yet.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "BURNER_FITTED",
+      "step": 4,
+      "emitted_by": "game",
+      "note": "Player fits the burner into the arc-lamp socket.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "SHIP_WIN",
+      "step": 5,
+      "emitted_by": "game",
+      "note": "Ship sails safely past the rocks; resolves once.",
+      "existing_crew_event": false
+    },
+    {
+      "event_id": "SHIP_FAIL",
+      "step": 5,
+      "emitted_by": "game",
+      "note": "Ship runs aground on the rock; resolves once; the Failed screen follows.",
       "existing_crew_event": false
     }
   ],
@@ -539,6 +590,20 @@
       "journal_id": "JRN_03",
       "staging": "Ted in the lighthouse hall, lamplight swaying as the wind shakes the walls.",
       "note": "Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
+    },
+    {
+      "line_id": "TED_S3_05",
+      "step": 3,
+      "beat": "Ted names the ship",
+      "kind": "discovery",
+      "speaker": "TED",
+      "trigger": "BOARDING_THRESHOLD",
+      "text": "A passenger ship? Now? It's not in the log! Without the beacon she'll find the rocks. Go, Isaac!",
+      "subtitle": "TED: A passenger ship? Now? It's not in the log! Without the beacon she'll find the rocks. Go, Isaac!",
+      "delivery": "Shocked, then barking; shouted from the dock path.",
+      "pause_before": 0.0,
+      "once": true,
+      "note": "Creator pick, 29 Oct 2026. Exec Summary step 4: Ted names the ship at the boarding threshold. Plays before ARTHUR_S3_01. Passes the offline rules; not yet through a live Dialogue/Canon review."
     },
     {
       "line_id": "ARTHUR_S3_01",
@@ -865,6 +930,92 @@
       "once": false,
       "tier": 3,
       "assist_text": "Find the replacement burner, pick it up and bring it back to the boat."
+    },
+    {
+      "line_id": "TED_S4_01",
+      "step": 4,
+      "beat": "Return arrival",
+      "kind": "objective",
+      "speaker": "TED",
+      "trigger": "RETURN_ARRIVED",
+      "text": "Up here, Isaac! Bring the burner. Mind the stairs, and don't you dare drop it!",
+      "subtitle": "TED: Up here, Isaac! Bring the burner. Mind the stairs, and don't you dare drop it!",
+      "delivery": "Shouted down the stairwell, hoarse, urgent.",
+      "pause_before": 1.0,
+      "once": true,
+      "staging": "Ted calls from the lamp room.",
+      "note": "Creator pick, 29 Oct 2026 (T16/T37). Passes the offline rules; not yet through a live Dialogue/Canon review. Plays after Arthur's \"Go, go, go\" arrival line."
+    },
+    {
+      "line_id": "TED_S4_03",
+      "step": 4,
+      "beat": "Waiting in the lamp room",
+      "kind": "objective",
+      "speaker": "TED",
+      "trigger": "LAMP_ROOM_REENTERED",
+      "text": "Socket's open. Burner in, and be quick about it. Slowly, mind. She's old.",
+      "subtitle": "TED: Socket's open. Burner in, and be quick about it. Slowly, mind. She's old.",
+      "delivery": "Tense, close at hand.",
+      "pause_before": 0.5,
+      "once": true,
+      "assist_text": "Fit the burner into the lamp socket.",
+      "note": "Creator pick, 29 Oct 2026 (T16/T37). Passes the offline rules; not yet through a live Dialogue/Canon review. Needs the new LAMP_ROOM_REENTERED event."
+    },
+    {
+      "line_id": "TED_S4_06",
+      "step": 4,
+      "beat": "Burner fitted",
+      "kind": "reaction",
+      "speaker": "TED",
+      "trigger": "BURNER_FITTED",
+      "text": "That's the burner home. Stand back, Isaac. Give her room to wake.",
+      "subtitle": "TED: That's the burner home. Stand back, Isaac. Give her room to wake.",
+      "delivery": "Gruff, hushed.",
+      "pause_before": 0.5,
+      "once": true,
+      "note": "Creator pick, 29 Oct 2026 (T16/T37). Passes the offline rules; not yet through a live Dialogue/Canon review."
+    },
+    {
+      "line_id": "TED_S5_02",
+      "step": 5,
+      "beat": "Win reaction",
+      "kind": "reaction",
+      "speaker": "TED",
+      "trigger": "SHIP_WIN",
+      "text": "She sees us! Look at her go, clear of the rocks. You did it, you money toff.",
+      "subtitle": "TED: She sees us! Look at her go, clear of the rocks. You did it, you money toff.",
+      "delivery": "Cracked, half-laughing.",
+      "pause_before": 1.0,
+      "once": true,
+      "note": "Creator pick, 29 Oct 2026 (T16/T37). Passes the offline rules; not yet through a live Dialogue/Canon review."
+    },
+    {
+      "line_id": "TED_F_01",
+      "step": 5,
+      "beat": "Fail: the ship strikes",
+      "kind": "reaction",
+      "speaker": "TED",
+      "trigger": "SHIP_FAIL",
+      "text": "No. No, turn! Turn, you fool, the rocks! Oh, no.",
+      "subtitle": "TED: No. No, turn! Turn, you fool, the rocks! Oh, no.",
+      "delivery": "Shouted, then a breaking whisper.",
+      "pause_before": 0.0,
+      "once": true,
+      "note": "Creator pick, 29 Oct 2026 (T16/T37). Passes the offline rules; not yet through a live Dialogue/Canon review. Reason line TED_F_03 follows once the creator has reworded it."
+    },
+    {
+      "line_id": "TED_F_03",
+      "step": 5,
+      "beat": "Fail: reason line",
+      "kind": "reaction",
+      "speaker": "TED",
+      "trigger": "SHIP_FAIL",
+      "text": "That ship...we didn't get the burner out in time...those poor souls on board...we've failed...FAILED!!",
+      "subtitle": "TED: That ship...we didn't get the burner out in time...those poor souls on board...we've failed...FAILED!!",
+      "delivery": "Sorrowful, upset: grief breaking into anguish on the last word.",
+      "pause_before": 1.5,
+      "once": true,
+      "note": "Creator wording, 29 Oct 2026 (replaces the 19 Oct 'All is lost for those on board' line, canon FAIL_REASON_LINE). Plays after TED_F_01, then silence and the Failed screen."
     }
   ],
   "journal": [

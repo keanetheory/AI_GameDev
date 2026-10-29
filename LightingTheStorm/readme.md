@@ -77,7 +77,7 @@ They start before the level, in this order, and talk to each other by signal, ne
 
    `GAME_STARTED, LIGHTHOUSE_ENTERED, ENGINE_ROOM_ENTERED, COAL_LOADED_FIRST, COAL_LOADED_HALF, BOILER_FED, SAILORS_MOORED, WINDOW_LOOKED, GATE_APPROACHED, GATE_OPENED, SAILORS_INSIDE, DANIEL_IN_BASEMENT, BEACON_STILL_DARK, LAMP_ROOM_ENTERED, BURNER_DIAGNOSED, BURNER_BRIEFING, BOARDING_THRESHOLD, SHIP_SIGHTED, BOAT_CAST_OFF, OUTBOUND_NEAR_MISS, OUTBOUND_COLLISION, SALTGATE_REACHED, BURNER_PICKED_UP, RETURN_DEPARTED, POSTER_EXAMINED, WALL_WHISPER_HEARD, BASEMENT_BANG, BASEMENT_TALK, IDLE_STEP_1, IDLE_STEP_2, IDLE_STEP_3, IDLE_SALTGATE`
 
-   plus `RETURN_ARRIVED, BURNER_FITTED, SHIP_WIN, SHIP_FAIL` (accepted additions). The source of truth is `EVENTS` in `scripts/core/game_state.gd` and `OPENING_EVENTS` in `../AIAgentCrew/canon.py`.
+   plus `RETURN_ARRIVED, LAMP_ROOM_REENTERED, BURNER_FITTED, SHIP_WIN, SHIP_FAIL` (accepted additions). The source of truth is `EVENTS` in `scripts/core/game_state.gd` and `OPENING_EVENTS` in `../AIAgentCrew/canon.py`.
 3. **Phases** run ARRIVAL_AND_COAL, SHELTER_AND_GATE, BEACON_DIAGNOSIS, BOARDING, OUTBOUND, SALTGATE, RETURN, FINAL_REPAIR, RESOLUTION, and only move forward. The event that moves each one is the table `PHASE_ON_EVENT` in `game_state.gd`.
 4. **Anything the player uses is an `Interactable`.** Extend it by path (`extends "res://scripts/interaction/interactable.gd"`), override `prompt_text()` and `interact()`, and report to GameState from there. See `scripts/world/door.gd` and `burner_pickup.gd`. Keep interactables outside the boat's `board_radius`, because the boat keeps its own E.
 5. **Listen, do not drive.** Audio, UI and dialogue respond to events. They never move the story on.

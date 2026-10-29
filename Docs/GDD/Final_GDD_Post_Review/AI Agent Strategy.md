@@ -21,7 +21,7 @@ Purpose: let a solo creator delegate bounded implementation and content tasks wh
 4. Return actual editable outputs, source files and licences/provenance for external assets, import settings, test instructions, and known limitations. Mockups or prose alone do not count as implementation.
 5. Run the relevant project import/build and focused checks. State what you observed, what you could not verify, and which human decision remains.
 6. The creator reviews and merges each change. AI output is a first pass; dialogue performance, art fit, tuning, and story interpretation require human judgement.
-7. Do not build anything marked Proposed, deferred, or on the cut list (waves, route branching, further repairs beyond feeding the boiler and fitting the burner) without the creator’s go-ahead. Do not add significant detail to the Saltgate until the creator considers the prototype complete.
+7. Do not build anything marked Proposed, deferred, or on the cut list (route branching, further repairs beyond feeding the boiler and fitting the burner) without the creator’s go-ahead. Do not add significant detail to the Saltgate until the creator considers the prototype complete.
 
 ## Orchestration and oversight
 
@@ -29,7 +29,7 @@ The creator delegates goals to orchestrators; orchestrators delegate bounded tas
 
 |Orchestrator              |Responsibility                                                                                                                                  |Escalates to the creator when                                                         |
 |--------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
-|Production Orchestrator   |Turns a creator goal or gate into a task list; writes task briefs; assigns work to worker roles; orders dependencies; tracks status against the six-week schedule; keeps event IDs and contracts in sync across agents; assembles the integrated build.|A schedule exit test is missed; a contract must change; two tasks conflict; week 5 load slips (burner diagnosis and fit, waves). |
+|Production Orchestrator   |Turns a creator goal or gate into a task list; writes task briefs; assigns work to worker roles; orders dependencies; tracks status against the six-week schedule; keeps event IDs and contracts in sync across agents; assembles the integrated build.|A schedule exit test is missed; a contract must change; two tasks conflict; week 5 load slips (burner diagnosis and fit). |
 |Canon and Review Orchestrator|Checks every handoff against the review checklist, the four pillars, the scope rule, and the Decisions log; blocks work that decides an unresolved story point; keeps the Decisions log and changed contracts current; collects QA findings.|A canon question appears (for example Ted, retry model, penalty rules); a pillar test fails; a fail-state or ship-reveal rule is unclear.|
 
 ## Orchestrator rules:
@@ -44,7 +44,7 @@ The creator delegates goals to orchestrators; orchestrators delegate bounded tas
 
 |Agent           |Initial deliverable                                                                |Input contract                                                |Review gate                                        |
 |----------------|-----------------------------------------------------------------------------------|--------------------------------------------------------------|---------------------------------------------------|
-|Boat/Physics    |Steering spike, hazard collisions, boat reaction, docking, recovery, tunable parameters. Wave fields only as a later stretch task.|Hazard forecast API, one steering axis, recovery event, dock zones.|Creator plays Gate 0; readable, enjoyable steering.|
+|Boat/Physics    |Steering spike, hazard collisions, boat reaction, docking, recovery, tunable parameters. Waves are owned by the Wave Creator Agent and drive the boat only through the water push hook.|Hazard forecast API, one steering axis, recovery event, dock zones.|Creator plays Gate 0; readable, enjoyable steering.|
 |Hazard Forecast |Shared hazard forecast and single safe-route signal read by hazards, boat reaction and Arthur’s calls.|Route data, hazard placement, difficulty presets.|Arthur’s calls never disagree with the forecast; one route only until branching is approved.|
 |Level Layout    |Greybox lighthouse route, window view of the moored rowboat and island gate, short sea corridor, the Saltgate quays pickup, lantern-room route for Ted’s burner diagnosis, lamp-room sightline to the ship and island rocks.|Location sizes, beacon visibility, interaction anchors.       |Traversal and camera checks in engine.             |
 |Gameplay/Systems|Phase controller following the story beats, arrival and coal-feeding interaction, shelter and gate trigger, beacon diagnosis trigger (only after the sailors are in), boarding trigger, return-departure clock trigger, cargo, win and fail states, restart.|Stable event and save IDs from Technical Strategy.            |Gate 1 complete end-to-end; no dead ends.          |
@@ -97,12 +97,12 @@ Rules:
 6. Story/Fail-State: implement the fail-state contract before week 5 ends.
 7. Dialogue and Asset: fill approved content after the slice proves the route; keep sources editable.
 8. QA and creator: test first-time play, both input methods, all phase transitions, restart, and the win and fail endings from every expiry location as they are added.
-9. Stretch, waves: only after Gate 0 passes and the six-week schedule in Technical Strategy has room, Boat/Physics adds wave hazards as an optional layer behind one on/off setting. QA confirms the build still plays correctly with waves off. Do not start this task without the creator’s go-ahead.
+9. Waves (approved 20 October 2026, in the game): the Wave Creator Agent owns the sea state and waves as an optional layer behind one on/off setting; Boat/Physics keeps the water push hook. QA confirms the build still plays correctly with waves off.
 10. Before Gate 2: Canon and Review Orchestrator tables the retry and save model, penalty rules, and branching cut-list item for the creator’s decision.
 
 ## Example agent task brief
 
-> **Task:** Implement the Gate 0 boat steering spike in the selected engine. **Inputs:** Technical Strategy boat section, greybox sea scene, approved event IDs. **Owned output:** boat scene/controller and tuning resource, plus a short README. **Constraints:** one fixed speed with no throttle, one steering axis, placed rock, buoy and debris hazards, no wave forces (waves are a later stretch task), no visible timer, no irreversible failure. **Acceptance:** keyboard and controller both complete a two-minute route; approaching hazards and collision risk are visible; a collision recovers; steering and hazard strength can be tuned from data. **Handoff:** changed files, playable build instructions, observed behaviour, known limitations, and any interface change proposal. Stop and ask the creator to assess feel before expanding the system.
+> **Task:** Implement the Gate 0 boat steering spike in the selected engine. **Inputs:** Technical Strategy boat section, greybox sea scene, approved event IDs. **Owned output:** boat scene/controller and tuning resource, plus a short README. **Constraints:** one fixed speed with no throttle, one steering axis, placed rock, buoy and debris hazards, no wave forces in this spike (waves are a separate system, Decisions A32), no visible timer, no irreversible failure. **Acceptance:** keyboard and controller both complete a two-minute route; approaching hazards and collision risk are visible; a collision recovers; steering and hazard strength can be tuned from data. **Handoff:** changed files, playable build instructions, observed behaviour, known limitations, and any interface change proposal. Stop and ask the creator to assess feel before expanding the system.
 
 ## Example orchestrator brief
 

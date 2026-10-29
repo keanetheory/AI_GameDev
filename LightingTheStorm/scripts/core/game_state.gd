@@ -31,8 +31,8 @@ const EVENTS := [
 	"BOARDING_THRESHOLD", "SHIP_SIGHTED", "BOAT_CAST_OFF", "OUTBOUND_NEAR_MISS", "OUTBOUND_COLLISION",
 	"SALTGATE_REACHED", "BURNER_PICKED_UP", "RETURN_DEPARTED", "POSTER_EXAMINED", "WALL_WHISPER_HEARD",
 	"BASEMENT_BANG", "BASEMENT_TALK", "IDLE_STEP_1", "IDLE_STEP_2", "IDLE_STEP_3", "IDLE_SALTGATE",
-	# After the opening: canon.py LATER_EVENTS (accepted by the creator, 19 October 2026).
-	"RETURN_ARRIVED", "BURNER_FITTED", "SHIP_WIN", "SHIP_FAIL",
+	# After the opening: canon.py LATER_EVENTS (accepted by the creator, 19 October 2026; LAMP_ROOM_REENTERED added 29 October 2026).
+	"RETURN_ARRIVED", "LAMP_ROOM_REENTERED", "BURNER_FITTED", "SHIP_WIN", "SHIP_FAIL",
 ]
 
 # These may fire more than once per attempt. Every other event is one-shot: a repeat is logged and ignored.
@@ -48,6 +48,7 @@ const PHASE_ON_EVENT := {
 	"SALTGATE_REACHED": Phase.SALTGATE,
 	"RETURN_DEPARTED": Phase.RETURN,
 	"RETURN_ARRIVED": Phase.FINAL_REPAIR,
+	"LAMP_ROOM_REENTERED": Phase.FINAL_REPAIR,
 	"BURNER_FITTED": Phase.FINAL_REPAIR,
 	"SHIP_WIN": Phase.RESOLUTION,
 	"SHIP_FAIL": Phase.RESOLUTION,
