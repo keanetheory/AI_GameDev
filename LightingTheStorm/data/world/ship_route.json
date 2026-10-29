@@ -1,0 +1,55 @@
+{
+  "spec_id": "ship_route_v1",
+  "owner": "Gameplay / Systems agent (T31, T07)",
+  "note": "The passenger ship's lane and the hidden deadline. All x,z in world metres on the sea plane (the lighthouse is at 5, -8.5; the island fills about -45..45 on both axes; the player's boat runs south from the dock at -27, 18 to the Saltgate at 6, 531). Retune here, then run tools/test_ship_route.gd.",
+  "deadline": {
+    "length_s": 210.0,
+    "length_note": "PLACEHOLDER: 3 min 30 s for Gate 1 testing (creator, 26 Oct 2026, Decisions A28). The final value comes from playtests (B4).",
+    "debug_time_scales": [0.25, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0]
+  },
+  "ship": {
+    "model": "res://Assets/Models/boat/passenger_ship.glb",
+    "keel_y": -2.4,
+    "length_m": 100.0,
+    "beam_m": 26.5,
+    "turn_rate_deg_s": 8.0,
+    "port_speed_scale": 1.0
+  },
+  "approach": {
+    "note": "The lane the ship holds with no beacon: down the east side of the island, then a turn west that runs straight onto the grounding rock. It is the ship's CENTRE line. The last point is where the centre sits when the bow touches the rock. The deadline expires commit_distance_m before it; from then on the ship can no longer turn and runs on to the rock.",
+    "points": [[110.0, -900.0], [110.0, -40.0], [110.0, 20.0], [68.8, 79.3]],
+    "commit_distance_m": 60.0
+  },
+  "safe_lane": {
+    "note": "Where the ship goes once the burner is fitted: it steers away from the approach lane (turn_rate_deg_s) onto these points, past the rock on its east side and on towards Saint Calder.",
+    "points": [[96.0, 150.0], [96.0, 300.0], [60.0, 500.0], [15.0, 800.0]],
+    "waypoint_radius_m": 30.0
+  },
+  "grounding_rock": {
+    "node": "SeaRocks/SeaStack1",
+    "centre": [24.0, 125.0],
+    "radius_m": 17.0,
+    "note": "The nearest sea stack to the island (about 80 m off its south shore). It also sits beside the player's return route, so a crash is visible from the boat."
+  },
+  "crash": {
+    "bow_rise_deg": 7.0,
+    "list_deg": 24.0,
+    "sink_m": 9.0,
+    "sink_s": 40.0,
+    "lights_out_s": 14.0,
+    "note": "Placeholder grounding: the ship rides up on the rock, lists, sinks slowly and its lights die. A real break-up needs art (T08)."
+  },
+  "lights": {
+    "note": "Placeholder lit windows and navigation lights (emissive, fog-proof so they read at the horizon). Local ship frame: bow is -Z, keel at y 0.",
+    "window_rows_y": [12.0, 16.0],
+    "window_radius_m": 0.7,
+    "mast_radius_m": 2.2,
+    "nav_radius_m": 1.8,
+    "window_z": [-34.0, 34.0],
+    "window_step_m": 5.0,
+    "window_half_beam_m": 12.6,
+    "masthead": [0.0, 31.0, -8.0],
+    "port_red": [-12.6, 21.0, -30.0],
+    "starboard_green": [12.6, 21.0, -30.0]
+  }
+}

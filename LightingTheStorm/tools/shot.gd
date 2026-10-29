@@ -1,6 +1,7 @@
 # shot.gd - render still frames of the level from a camera, for visual checks.
 # Run: Godot --path . --write-movie <out>.png --fixed-fps 10 --quit-after N --script res://tools/shot.gd -- x y z  tx ty tz
 # (no --headless: it needs the renderer). Frame N of the PNG sequence is the picture.
+# SHOT_SHIP=<0..1> shows the passenger ship at that deadline progress (SHOT_SHIP=crash:<s> a while after it struck the rock).
 extends SceneTree
 
 const Sea := preload("res://scripts/world/sea.gd")
@@ -72,6 +73,24 @@ func _process(_d: float) -> bool:
 				boat.global_position = Vector3(z.global_position.x, 0.0, z.global_position.z)
 				boat.rotation.y = deg_to_rad(z.berth_yaw_deg)
 				boat.current_zone = z
+	if _f == 4 and OS.get_environment("SHOT_SHIP") != "":      # SHOT_SHIP=0.5: the passenger ship at that deadline progress; =crash:12: 12 s after it struck the rock
+		var gs := get_root().get_node_or_null("GameState")
+		var dl: Node = gs.deadline() if gs else null
+		if dl == null or dl.ship == null:
+			print("SHOT_SHIP: no ship (GameState has no deadline director)")
+		else:
+			var spec := OS.get_environment("SHOT_SHIP")
+			dl.ship.appear()
+			if spec.begins_with("crash"):
+				dl.ship.set_progress(1.0)
+				dl.ship.commit()
+				var secs := float(spec.get_slice(":", 1)) + 40.0
+				var t := 0.0
+				while t < secs:
+					dl.ship._process(0.1)
+					t += 0.1
+			else:
+				dl.ship.set_progress(float(spec))
 	if _f == 3 and OS.get_environment("SHOT_HOLD") != "":     # an item held in view, as the player would see it (coal, burner)
 		var cam := _cam
 		var item: Node3D = null

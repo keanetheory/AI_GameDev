@@ -7,12 +7,14 @@
 #   - drives the lighting rig's phase (the rig no longer listens to the boat itself),
 #   - turns the boat's signals into events (BOAT_CAST_OFF, SALTGATE_REACHED, RETURN_DEPARTED ...).
 # Gate 1 retry model: fail, then restart the slice (restart() reloads the scene and clears the attempt).
-# It builds no triggers, door, gate, boiler, deadline or fail screen: those tasks call emit_event().
+# It builds no triggers, door, gate, boiler or fail screen: those tasks call emit_event(). The hidden ship deadline and the passenger
+# ship are created here at run time (ship_deadline.gd, T07), so the level scene carries neither.
 # Debug keys (debug_keys): F9 restarts the slice, F10 prints the event log, F11 fires BURNER_PICKED_UP (until the
 # pickup task exists, nothing else does, so without it leaving the Saltgate never starts the RETURN phase).
 extends Node
 
 const DebugFlags := preload("res://scripts/core/debug_flags.gd")
+const ShipDeadline := preload("res://scripts/core/ship_deadline.gd")
 
 signal event_emitted(id: String, phase: int)
 signal phase_changed(old_phase: int, new_phase: int)
@@ -85,6 +87,7 @@ var burner_fitted := false       # set by BURNER_FITTED
 
 var _dialogue: Node
 var _boat: Node
+var _director: Node            # ship_deadline.gd: the hidden clock and the passenger ship
 var _rig: Node
 var _lighting_phase := ""
 
@@ -158,6 +161,7 @@ func reset_idle(key: String) -> void:
 func restart() -> void:
 	attempt += 1
 	_reset_state()
+	get_tree().paused = false   # a restart from the pause key must not reload into a frozen level
 	if _dialogue:
 		_dialogue.reset_for_restart()   # clears played lines, idle tiers and the queue
 	restarted.emit()
@@ -175,6 +179,8 @@ func dump_log() -> void:
 	print("--- GameState event log (attempt %d, phase %s, outcome %s) ---" % [attempt, phase_name(), Outcome.keys()[outcome]])
 	for e in event_log:
 		print("  %6d ms  %-20s %-17s %s" % [e["t_msec"], e["id"], e["phase"], e["note"]])
+	if deadline() != null:
+		deadline().dump()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -202,6 +208,7 @@ func _reset_state() -> void:
 	burner_aboard = false
 	burner_fitted = false
 	_lighting_phase = ""
+	_director = null
 
 
 func _record(id: String, note: String) -> void:
@@ -237,6 +244,7 @@ func _scene_ready() -> void:
 	if get_tree().get_first_node_in_group("boat") == null:
 		return
 	_bind_boat(get_tree().get_first_node_in_group("boat"))
+	_bind_director()
 	_bind_rig(get_tree().get_first_node_in_group("lighting_rig"))
 	emit_event("GAME_STARTED")   # ignored if this attempt already started
 
@@ -251,6 +259,29 @@ func _bind_boat(b: Node) -> void:
 		b.docked.connect(_on_boat_docked)
 	if b.has_signal("hazard_hit"):
 		b.hazard_hit.connect(_on_boat_hazard_hit)
+
+
+func _bind_director() -> void:
+	if _director != null and is_instance_valid(_director):
+		return
+	if _boat == null or _boat.get_parent() == null:
+		return
+	_director = ShipDeadline.new()
+	_director.name = "ShipDeadline"
+	_boat.get_parent().add_child(_director)
+	_director.setup(self, _boat.get_parent())
+
+
+## The hidden ship deadline as 0..1 (1 = the clock ran out), -1 until the return crossing starts it. The sea (wave_system.gd)
+## and the perceptual storm cues read this; nothing shows it to the player.
+func deadline_progress() -> float:
+	if _director != null and is_instance_valid(_director):
+		return _director.progress()
+	return -1.0
+
+
+func deadline() -> Node:
+	return _director if _director != null and is_instance_valid(_director) else null
 
 
 func _bind_rig(r: Node) -> void:
