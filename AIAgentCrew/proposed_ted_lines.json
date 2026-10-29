@@ -1,0 +1,131 @@
+{
+  "status": "proposed",
+  "note": "Candidate Ted lines for T16 (lamp-room list) and T37 (SHIP_FAIL). Nothing here is in the game data or the voice plan until the creator picks. Run: python check_proposed_lines.py",
+  "lines": [
+    {
+      "line_id": "TED_S4_01",
+      "trigger": "RETURN_ARRIVED",
+      "group": "TED_RETURN_ARRIVED",
+      "kind": "objective",
+      "text": "Up here, Isaac! Bring the burner. Mind the stairs, and don't you dare drop it!",
+      "delivery": "Shouted down the stairwell, hoarse, urgent.",
+      "task": "T16"
+    },
+    {
+      "line_id": "TED_S4_02",
+      "trigger": "RETURN_ARRIVED",
+      "group": "TED_RETURN_ARRIVED",
+      "kind": "objective",
+      "text": "Burner in hand? Then climb! The lamp room, Isaac. She won't light herself.",
+      "delivery": "Shouted down the stairwell, gruff, coughing.",
+      "task": "T16"
+    },
+    {
+      "line_id": "TED_S4_03",
+      "trigger": "LAMP_ROOM_REENTERED",
+      "group": "TED_LAMP_WAIT",
+      "kind": "objective",
+      "text": "Socket's open. Burner in, and be quick about it. Slowly, mind. She's old.",
+      "delivery": "Tense, close at hand, steadying.",
+      "event_is_new": true,
+      "task": "T16"
+    },
+    {
+      "line_id": "TED_S4_04",
+      "trigger": "LAMP_ROOM_REENTERED",
+      "group": "TED_LAMP_WAIT",
+      "kind": "objective",
+      "text": "Well, don't just stand there gawping. The burner goes in the socket. Go on.",
+      "delivery": "Impatient, then softer on 'Go on'.",
+      "event_is_new": true,
+      "task": "T16"
+    },
+    {
+      "line_id": "TED_S4_05",
+      "trigger": "BURNER_FITTED",
+      "group": "TED_FITTED",
+      "kind": "reaction",
+      "text": "Seated. Come on, old girl. Come on. Let's see if she catches.",
+      "delivery": "Low, held breath, almost to himself.",
+      "task": "T16"
+    },
+    {
+      "line_id": "TED_S4_06",
+      "trigger": "BURNER_FITTED",
+      "group": "TED_FITTED",
+      "kind": "reaction",
+      "text": "That's the burner home. Stand back, Isaac. Give her room to wake.",
+      "delivery": "Gruff, hushed, expectant.",
+      "task": "T16"
+    },
+    {
+      "line_id": "TED_S5_01",
+      "trigger": "SHIP_WIN",
+      "group": "TED_WIN",
+      "kind": "reaction",
+      "text": "There's the light, and she's turning clear of the rocks. Hrmph. Not bad, Isaac. Not bad.",
+      "delivery": "Gruff, a cough covering real relief.",
+      "task": "T16"
+    },
+    {
+      "line_id": "TED_S5_02",
+      "trigger": "SHIP_WIN",
+      "group": "TED_WIN",
+      "kind": "reaction",
+      "text": "She sees us! Look at her go, clear of the rocks. You did it, you money toff.",
+      "delivery": "Cracked, half-laughing, gruff affection.",
+      "task": "T16"
+    },
+    {
+      "line_id": "TED_F_01",
+      "trigger": "SHIP_FAIL",
+      "group": "TED_FAIL_CRASH",
+      "kind": "reaction",
+      "text": "No. No, turn! Turn, you fool, the rocks! Oh, no.",
+      "delivery": "Shouted, then a breaking whisper on the last two words.",
+      "task": "T37",
+      "plays": "first, as the ship strikes"
+    },
+    {
+      "line_id": "TED_F_02",
+      "trigger": "SHIP_FAIL",
+      "group": "TED_FAIL_CRASH",
+      "kind": "reaction",
+      "text": "She's too close. She's too close! Turn, damn you. Turn!",
+      "delivery": "Rising, desperate, voice cracking.",
+      "task": "T37",
+      "plays": "first, as the ship strikes"
+    },
+    {
+      "line_id": "TED_F_03",
+      "trigger": "SHIP_FAIL",
+      "group": null,
+      "kind": "reaction",
+      "text": "That ship...we didn't get the burner out in time...those poor souls on board...we've failed...FAILED!!",
+      "delivery": "Sorrowful, upset: grief breaking into anguish on the last word.",
+      "task": "T37",
+      "plays": "second, after the crash line, then silence and the Failed screen",
+      "fixed": true
+    },
+    {
+      "trigger": "BURNER_DIAGNOSED",
+      "group": "TED_NAME_SHIP",
+      "kind": "discovery",
+      "task": "R05 / Exec Summary step 4: Ted names the ship at the boarding threshold",
+      "line_id": "TED_S3_05",
+      "text": "A passenger ship? Now? It's not in the log! Without the beacon she'll find the rocks. Go, Isaac!",
+      "delivery": "Shocked, then barking; shouted from the dock path.",
+      "plays": "before ARTHUR_S3_01 (In you get)"
+    },
+    {
+      "trigger": "BURNER_DIAGNOSED",
+      "group": "TED_NAME_SHIP",
+      "kind": "discovery",
+      "task": "R05 / Exec Summary step 4: Ted names the ship at the boarding threshold",
+      "line_id": "TED_S3_06",
+      "text": "That's a passenger ship out there, and she's heading for my rocks. No beacon, no hope. Go!",
+      "delivery": "Grim, urgent, coughing.",
+      "plays": "before ARTHUR_S3_01 (In you get)"
+    }
+  ]
+}

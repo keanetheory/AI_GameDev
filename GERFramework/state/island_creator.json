@@ -478,6 +478,26 @@
    "status": "done",
    "note": "scripts/world/island_reactions.gd (node IslandReactions in Level.tscn): rock darkens to 72% and glosses (roughness to 0.35) as Sea.state rises from 1 to 4, over ~10 s; 14 shoreline spray bursts at the measured waterline (harbour side clear) from 5% in calm to full at state 5; both scale with Sea.intensity (reduced preset); no lights. tools/test_island_reactions.gd passes; storm shot isl_storm shows the change.",
    "at": "2026-10-27T18:36:19+00:00"
+  },
+  "ISL-14": {
+   "status": "done",
+   "note": "island_gate.gd _build_wings: west buttress stepping down the cliff face, east low wall angled back to the rock on the stair side; coursed blocks in the frame's stone (133 blocks), collision on the Walls body. Shots gate_plat3/gate_stair3/gate_east3. test_island_gate (now also: no way round the shut gate either side, from stairs or plateau), test_island_walk (frames unchanged), test_island_coverage and test_toon_look pass.",
+   "at": "2026-10-29T15:56:47+00:00"
+  },
+  "ISL-07": {
+   "status": "done",
+   "note": "Gate base 9.95 sits 0.1 m into the stair-top landing (10.05, measured with a falling sphere: rays pass the island's one-sided collision); jetty piers stand in the water and the quay meets the rock (shots jetty_low, quay_low). The shut gate cannot be bypassed on either side and nobody falls off the stair top (test_island_gate step 11). The walk routes all reach their ends.",
+   "at": "2026-10-29T15:56:47+00:00"
+  },
+  "ISL-01": {
+   "status": "done",
+   "note": "Assets/Models/island/repair/build_rock_patch.py (Blender) cuts the same piece of island_craggy the RockPatch nodes reused (keep box, in the import script's 90 m frame), closes its cut (1 loop, 186 cap faces pushed slightly into the rock, darkest-tenth rock texel) and writes rock_patch.glb (no import script needed). The three RockPatch nodes load it with no keep_boxes. The hollow shells by the stair foot are solid (shots seam_se_b, seam_se2_c, seam_se2_night). Island tests pass; island load 0.87 s.",
+   "at": "2026-10-29T16:17:06+00:00"
+  },
+  "ISL-12": {
+   "status": "in_progress",
+   "note": "2026-10-29 profiled (tools/profile_ready.gd; temporary timing taken out again). The same build loads in 4.1 to 9.7 s headless (6 runs). Steady part, about 3.6 s to the first frame: load+instantiate 0.4 s, node _ready 3.5 s (InteriorRooms 1.1, Mainland 0.55, Saltgate 0.44, Island 0.35, Cliffs 0.33, Boat 0.15, Harbour 0.13; island and patches under 0.5 s in all). Deferred calls (ToonLook scan, culling, light cards, openings, wave hookup) drain in under 0.3 s. The variable part, 0 to 6 s, is one stall inside the first physics iteration AFTER the deferred queue is empty; it also happens with the physics server paused and with the interior's trigger zones off, so it is not script code, not the physics solve and not the zones. Windows Defender (MsMpEng) was active during the runs. Next: confirm with a Defender exclusion on the project folder or Godot's own profiler in the editor (creator's call), then trim InteriorRooms' 1.1 s build (owner: Lighthouse Finisher).",
+   "at": "2026-10-29T16:36:39+00:00"
   }
  },
  "history": [

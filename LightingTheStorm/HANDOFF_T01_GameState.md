@@ -74,7 +74,7 @@ Phase boundaries (`PHASE_ON_EVENT`; the GDD lists phases and events but not wher
 - BOAT_CAST_OFF -> OUTBOUND
 - SALTGATE_REACHED -> SALTGATE
 - RETURN_DEPARTED -> RETURN
-- RETURN_ARRIVED, BURNER_FITTED -> FINAL_REPAIR
+- RETURN_ARRIVED, LAMP_ROOM_REENTERED, BURNER_FITTED -> FINAL_REPAIR (LAMP_ROOM_REENTERED accepted 29 October 2026; the emitter is not built yet)
 - SHIP_WIN, SHIP_FAIL -> RESOLUTION
 
 Lighting mapping: ISLAND for the first four phases, OUTBOUND for OUTBOUND and SALTGATE, RETURN for RETURN and FINAL_REPAIR, BEACON_RELIT once the burner is fitted. Note that the rig stays on ISLAND during BOARDING and switches on cast-off, as before GameState.

@@ -175,6 +175,7 @@ OPENING_EVENTS = [
 # OPENING_EVENTS because the opening dialogue brief must cover exactly that list.
 LATER_EVENTS = [
     ("RETURN_ARRIVED", "Boat docks at DOCK_LIGHTHOUSE during RETURN; Arthur's arrival line plays."),
+    ("LAMP_ROOM_REENTERED", "The player enters the lamp room carrying the burner, where Ted waits (accepted 29 October 2026). LAMP_ROOM_ENTERED is one-shot and already used by the diagnosis visit."),
     ("BURNER_FITTED", "The burner is fitted to the beacon; the beacon is relit."),
     ("SHIP_WIN", "The ship passes the rocks safely into port. Resolves once per attempt."),
     ("SHIP_FAIL", "The deadline runs out; the ship breaks up on the rock next to the island. Resolves once per attempt."),
@@ -184,14 +185,15 @@ LATER_EVENTS = [
 PHASE_ON_EVENT = {
     "BOILER_FED": "SHELTER_AND_GATE", "DANIEL_IN_BASEMENT": "BEACON_DIAGNOSIS", "BURNER_BRIEFING": "BOARDING",
     "BOAT_CAST_OFF": "OUTBOUND", "SALTGATE_REACHED": "SALTGATE", "RETURN_DEPARTED": "RETURN",
-    "RETURN_ARRIVED": "FINAL_REPAIR", "BURNER_FITTED": "FINAL_REPAIR", "SHIP_WIN": "RESOLUTION", "SHIP_FAIL": "RESOLUTION",
+    "RETURN_ARRIVED": "FINAL_REPAIR", "LAMP_ROOM_REENTERED": "FINAL_REPAIR", "BURNER_FITTED": "FINAL_REPAIR",
+    "SHIP_WIN": "RESOLUTION", "SHIP_FAIL": "RESOLUTION",
 }
 
-# Creator wording, 19 October 2026. Ted voices it; the "Failed" screen shows it as a subtitle.
+# Creator wording, reworded 29 October 2026 (was 19 October). Ted voices it; the "Failed" screen shows it as a subtitle.
 FAIL_REASON_LINE = {"speaker": "Ted",
-                    "text": "All is lost for those on board...the storm takes more lives. What were you doing, you money toff!"}
+                    "text": "That ship...we didn't get the burner out in time...those poor souls on board...we've failed...FAILED!!"}
 
-SHIP_NAMED_FROM = "BOARDING_THRESHOLD"  # Exec Summary: the ship is introduced at the boarding threshold
+SHIP_NAMED_FROM = "BURNER_DIAGNOSED"  # creator, 29 Oct 2026: Ted names the unplanned ship in the lamp room, straight after finding the burner broken
 
 OPENING_DIALOGUE_RULES = [
     f"Refer to the player only as '{PLAYER_TERM}' (never 'apprentice'). The player never speaks.",
@@ -201,7 +203,7 @@ OPENING_DIALOGUE_RULES = [
     "through the island gate. Step 3: Ted finds the burner broken in the lantern room (only after the sailors "
     "are in), then Isaac retrieves the replacement from the Saltgate quays across the Gullwater.",
     "The burner is found broken in step 3, never in step 1. The destination is the Saltgate, never 'the outpost'.",
-    "Ted never names the passenger ship before the boarding threshold (BOARDING_THRESHOLD).",
+    "Ted never names the passenger ship before he finds the burner broken in the lamp room (BURNER_DIAGNOSED); he then names it there, with the ship in view.",
     "Say 'burner', never 'lamp head'. No timers, countdowns, numbers or deadline talk.",
     "Never confirm a supernatural cause. Flighted and wall-whisper details stay ambiguous.",
     "Do not address the player as lad, lass or man. Ted's 'the boy' means Daniel.",

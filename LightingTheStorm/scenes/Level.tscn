@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://b601q1u1ked8s"]
+[gd_scene load_steps=35 format=3 uid="uid://b601q1u1ked8s"]
 
 [ext_resource type="Script" path="res://scripts/world/collider_builder.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/world/sea.gd" id="2"]
@@ -28,7 +28,6 @@
 [ext_resource type="Script" path="res://scripts/world/room_light_cards.gd" id="26"]
 [ext_resource type="Script" path="res://scripts/world/interior_culling.gd" id="27"]
 [ext_resource type="Script" path="res://scripts/world/island_gate.gd" id="28"]
-[ext_resource type="PackedScene" path="res://Assets/Models/boat/passenger_ship.glb" id="29"]
 [ext_resource type="Script" path="res://scripts/world/island_reactions.gd" id="30"]
 
 [sub_resource type="ProceduralSkyMaterial" id="sky"]
@@ -92,31 +91,28 @@ press_path = PackedVector3Array()
 [node name="RockPatchSE" type="Node3D" parent="."]
 transform = Transform3D(0, 0, 1.4, 0, 1.4, 0, -1.4, 0, 0, -3.42, -1.66, -17.02)
 script = ExtResource("1")
-model_path = "res://Assets/Models/island/island_craggy.glb"
+model_path = "res://Assets/Models/island/rock_patch.glb"
 body_layers = 3
 carve_lines = PackedVector3Array()
 carve_line_half_widths = PackedFloat32Array()
-keep_boxes = Array[AABB]([AABB(-31.5, 0.9, -8.6, 6, 10, 4.2)])
 press_path = PackedVector3Array()
 
 [node name="RockPatchSE2" type="Node3D" parent="."]
 transform = Transform3D(0, 0, 0.9, 0, 0.9, 0, -0.9, 0, 0, -4.22, -1.21, -0.47)
 script = ExtResource("1")
-model_path = "res://Assets/Models/island/island_craggy.glb"
+model_path = "res://Assets/Models/island/rock_patch.glb"
 body_layers = 3
 carve_lines = PackedVector3Array()
 carve_line_half_widths = PackedFloat32Array()
-keep_boxes = Array[AABB]([AABB(-31.5, 0.9, -8.6, 6, 10, 4.2)])
 press_path = PackedVector3Array()
 
 [node name="RockPatchNE" type="Node3D" parent="."]
 transform = Transform3D(-0.85, 0, 0, 0, 0.85, 0, 0, 0, -0.85, -43.26, 0.93, 6.13)
 script = ExtResource("1")
-model_path = "res://Assets/Models/island/island_craggy.glb"
+model_path = "res://Assets/Models/island/rock_patch.glb"
 body_layers = 3
 carve_lines = PackedVector3Array()
 carve_line_half_widths = PackedFloat32Array()
-keep_boxes = Array[AABB]([AABB(-31.5, 0.9, -8.6, 6, 10, 4.2)])
 press_path = PackedVector3Array()
 
 [node name="Lighthouse" type="Node3D" parent="."]
@@ -340,10 +336,6 @@ start_wall = true
 editor_description = "The lockable iron gate at the top of the harbour stairs (geography.md: one path from the dock to the lighthouse, with a lockable gate). Front (padlock side) faces the dock (+Z). scripts/world/island_gate.gd"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.25, 9.95, 9.85)
 script = ExtResource("28")
-
-[node name="PassengerShip" parent="." instance=ExtResource("29")]
-editor_description = "The Lantern Queen (passenger ship, T07/T31), 100 m. Placed broadside to the lighthouse on the lighthouse-to-coast line, about 75 m out (the island shore along that line is at about 47 m), bow east. Keel at y -2.4 so the red waterline band sits at the sea surface (y 0.5). Static for now: T07 moves it."
-transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.14, -2.4, 66.5)
 
 [node name="DockZonePort" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.15, 531.5)
