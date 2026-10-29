@@ -11,6 +11,7 @@ const Ship := preload("res://scripts/world/passenger_ship.gd")
 
 const HULL_MARGIN := 10.0      # clear water the hull must keep from rock or island on every lane
 const SIGHT_EYE_Y := 20.8      # eye height in the lamp room, just above the burner seat (19.45)
+const BOAT_SEES_MIN := 0.5     # share of the return route from which the boat must see the ship
 const SIGHT_MIN := 0.9         # fraction of sampled lane points the lamp room must see
 
 var _lv: Node
@@ -234,3 +235,27 @@ func _test_sight() -> void:
 	_check(_sees(Vector3(sp.x, 14.0, sp.y)), "the lamp room sees the ship pass the rock on the safe lane")
 	var start: Vector2 = pts[0]
 	_check(_sees(Vector3(start.x, 20.0, start.y)), "the lamp room sees the ship's lights at its starting point on the horizon")
+	_test_boat_view(pts, total)
+
+
+## The player's boat on the return crossing (heading north up the west side, the ship off to its right) must see the ship for most of
+## the way: sampled every 40 m of the route, at the ship's lights at the start, half way in, at the turn and at the moment of impact.
+## Some of the route is shadowed by the sea stacks beside it; that is scenery, so the bar is a share of the route, not all of it.
+func _test_boat_view(pts: PackedVector2Array, total: float) -> void:
+	var spots := {"start": 0.0, "half way": total * 0.5, "the turn": Route.length(PackedVector2Array([pts[0], pts[1]])), "impact": total}
+	var saved := _eye
+	for label in spots:
+		var smp: Dictionary = Route.sample(pts, float(spots[label]))
+		var p: Vector2 = smp["pos"]
+		var seen := 0
+		var n := 0
+		var z := 100.0
+		while z <= 520.0:
+			_eye = Vector3(lerpf(-24.0, 4.0, (z - 100.0) / 420.0), 2.0, z)
+			n += 1
+			if _sees(Vector3(p.x, 14.0, p.y)):
+				seen += 1
+			z += 40.0
+		print("     return crossing: the ship at its %s is in view from %d of %d points along the route" % [label, seen, n])
+		_check(float(seen) / float(n) >= BOAT_SEES_MIN, "the boat sees the ship at its %s from %.0f%% of the return route (>= %.0f%%)" % [label, 100.0 * seen / n, 100.0 * BOAT_SEES_MIN])
+	_eye = saved

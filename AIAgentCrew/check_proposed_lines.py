@@ -7,7 +7,7 @@ from validators import TIMER_WORDS, DEADLINE_WORDS, GENDERED_ADDRESS, SUPERNATUR
 HERE = Path(__file__).resolve().parent
 GAME = HERE.parent / "LightingTheStorm" / "data" / "dialogue" / "dialogue_opening.json"
 T18 = ["TED_S1_01", "TED_S1_09", "TED_S1_10", "TED_S1_11", "TED_S3_02", "ARTHUR_S3_04", "TED_S3_00"]
-POST_BOARDING = {"RETURN_ARRIVED", "LAMP_ROOM_REENTERED", "BURNER_FITTED", "SHIP_WIN", "SHIP_FAIL"}
+POST_BOARDING = {"RETURN_ARRIVED", "LAMP_ROOM_REENTERED", "BURNER_FITTED", "SHIP_WIN", "SHIP_FAIL", "BURNER_DIAGNOSED"}
 
 
 def check(lid, trigger, text):
@@ -20,8 +20,7 @@ def check(lid, trigger, text):
     if re.search(r"\blamp head\b", text, re.I): e.append("'lamp head'")
     if SUPERNATURAL.search(text): e.append("confirms a supernatural cause")
     if SHIP_WORD.search(text) and trigger not in POST_BOARDING and not trigger.startswith("IDLE") \
-            and trigger in ("GAME_STARTED", "LIGHTHOUSE_ENTERED", "BOILER_FED", "BEACON_STILL_DARK", "LAMP_ROOM_ENTERED",
-                            "BURNER_DIAGNOSED", "BURNER_BRIEFING"):
+            and trigger in ("GAME_STARTED", "LIGHTHOUSE_ENTERED", "BOILER_FED", "BEACON_STILL_DARK", "LAMP_ROOM_ENTERED"):
         e.append(f"names the ship before {SHIP_NAMED_FROM}")
     return e
 

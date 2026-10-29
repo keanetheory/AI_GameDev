@@ -193,7 +193,7 @@ PHASE_ON_EVENT = {
 FAIL_REASON_LINE = {"speaker": "Ted",
                     "text": "That ship...we didn't get the burner out in time...those poor souls on board...we've failed...FAILED!!"}
 
-SHIP_NAMED_FROM = "BOARDING_THRESHOLD"  # Exec Summary: the ship is introduced at the boarding threshold
+SHIP_NAMED_FROM = "BURNER_DIAGNOSED"  # creator, 29 Oct 2026: Ted names the unplanned ship in the lamp room, straight after finding the burner broken
 
 OPENING_DIALOGUE_RULES = [
     f"Refer to the player only as '{PLAYER_TERM}' (never 'apprentice'). The player never speaks.",
@@ -203,7 +203,7 @@ OPENING_DIALOGUE_RULES = [
     "through the island gate. Step 3: Ted finds the burner broken in the lantern room (only after the sailors "
     "are in), then Isaac retrieves the replacement from the Saltgate quays across the Gullwater.",
     "The burner is found broken in step 3, never in step 1. The destination is the Saltgate, never 'the outpost'.",
-    "Ted never names the passenger ship before the boarding threshold (BOARDING_THRESHOLD).",
+    "Ted never names the passenger ship before he finds the burner broken in the lamp room (BURNER_DIAGNOSED); he then names it there, with the ship in view.",
     "Say 'burner', never 'lamp head'. No timers, countdowns, numbers or deadline talk.",
     "Never confirm a supernatural cause. Flighted and wall-whisper details stay ambiguous.",
     "Do not address the player as lad, lass or man. Ted's 'the boy' means Daniel.",

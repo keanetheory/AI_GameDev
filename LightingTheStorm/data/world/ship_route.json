@@ -17,13 +17,14 @@
     "saved_speed_note": "Once the beacon is lit the ship makes for port at this multiple of its approach speed, so the win card does not wait minutes (the turn rate is unchanged, so the turn is wider; tools/test_ship_route.gd checks the clearance)."
   },
   "approach": {
-    "note": "The lane the ship holds with no beacon: down the east side of the island, then a turn west that runs straight onto the grounding rock. It is the ship's CENTRE line. The last point is where the centre sits when the bow touches the rock. The deadline expires commit_distance_m before it; from then on the ship can no longer turn and runs on to the rock.",
-    "points": [[110.0, -900.0], [110.0, -40.0], [110.0, 20.0], [68.8, 79.3]],
-    "commit_distance_m": 60.0
+    "note": "The lane the ship holds with no beacon: in from the north-east (the creator, 29 Oct 2026: out along the coast to the right of the return crossing, so the lamp room and the boat both see it), then a straight run west-south-west onto the grounding rock. It is the ship's CENTRE line. The last point is where the centre sits when the bow touches the rock. The deadline expires commit_distance_m before it; from then on the ship can no longer turn and runs on to the rock.",
+    "points": [[700.0, -250.0], [132.0, 28.0], [73.6, 80.4]],
+    "commit_distance_m": 43.0
   },
   "safe_lane": {
-    "note": "Where the ship goes once the burner is fitted: it steers away from the approach lane (turn_rate_deg_s) onto these points, past the rock on its east side and on towards Saint Calder.",
-    "points": [[96.0, 150.0], [96.0, 300.0], [60.0, 500.0], [15.0, 800.0]],
+    "note": "Where the ship goes once the burner is fitted: it keeps to the approach lane as far as its first point (first_is_approach_index, skipped if it is already past it), then steers (turn_rate_deg_s) through these points, past the rock on its east side and on towards Saint Calder.",
+    "first_is_approach_index": 1,
+    "points": [[132.0, 28.0], [112.0, 190.0], [96.0, 300.0], [60.0, 500.0], [15.0, 800.0]],
     "waypoint_radius_m": 30.0
   },
   "grounding_rock": {
@@ -45,6 +46,9 @@
     "note": "Placeholder lit windows and navigation lights (emissive, fog-proof so they read at the horizon). Local ship frame: bow is -Z, keel at y 0.",
     "window_rows_y": [12.0, 16.0],
     "window_radius_m": 0.7,
+    "scale_per_m": 0.0025,
+    "scale_max": 3.5,
+    "scale_note": "Each light grows with its distance from the camera (1 + distance x scale_per_m, capped) so the lit windows still read as a ship at 700 m.",
     "mast_radius_m": 2.2,
     "nav_radius_m": 1.8,
     "window_z": [-34.0, 34.0],

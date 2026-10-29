@@ -108,7 +108,7 @@
       "fixed": true
     },
     {
-      "trigger": "BOARDING_THRESHOLD",
+      "trigger": "BURNER_DIAGNOSED",
       "group": "TED_NAME_SHIP",
       "kind": "discovery",
       "task": "R05 / Exec Summary step 4: Ted names the ship at the boarding threshold",
@@ -118,7 +118,7 @@
       "plays": "before ARTHUR_S3_01 (In you get)"
     },
     {
-      "trigger": "BOARDING_THRESHOLD",
+      "trigger": "BURNER_DIAGNOSED",
       "group": "TED_NAME_SHIP",
       "kind": "discovery",
       "task": "R05 / Exec Summary step 4: Ted names the ship at the boarding threshold",

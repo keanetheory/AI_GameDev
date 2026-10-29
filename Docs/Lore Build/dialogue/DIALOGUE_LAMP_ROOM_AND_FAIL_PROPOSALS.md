@@ -47,7 +47,7 @@ The seven lines (`TED_S1_01`, `S1_09`, `S1_10`, `S1_11`, `S3_02`, `ARTHUR_S3_04`
 
 **Audio that no longer matches the text: eight lines, not six.** The recorded set (`voice_output_picked_live/elevenlabs`) differs from the current text for `TED_S1_01`, `TED_S1_09`, `TED_S1_10`, `TED_S1_11`, `TED_S3_02`, `ARTHUR_S3_04`, **and `ARTHUR_S3_I2` and `ARTHUR_S3_I3`** (both still say "outpost"). `TED_S3_00` has no audio at all. Add the picked T16/T37 lines and the reason line to the same regeneration. Dry run first; `--send` spends ElevenLabs credits.
 
-## Ted names the ship at BOARDING_THRESHOLD (drafted 29 Oct 2026; creator picked `TED_S3_05`, added to the game data, 47 lines)
+## Ted names the ship (BURNER_DIAGNOSED, moved 29 Oct from BOARDING_THRESHOLD) (drafted 29 Oct 2026; creator picked `TED_S3_05`, added to the game data, 47 lines)
 
 The GDD (Exec Summary step 4) says Ted names the passenger ship at the boarding threshold, but the only line on that event is Arthur's `ARTHUR_S3_01`. Arthur's own ship line is on `SHIP_SIGHTED`. Pick one, or neither (then change the GDD so Arthur introduces the ship):
 
@@ -57,3 +57,5 @@ The GDD (Exec Summary step 4) says Ted names the passenger ship at the boarding 
 | `TED_S3_06` | "That's a passenger ship out there, and she's heading for my rocks. No beacon, no hope. Go!" | Grim, urgent, coughing |
 
 `TED_S3_05` echoes the lore sample line ("A passenger ship? NOW?... It's not in the log!"). Either plays before Arthur's "In you get". Added to `dialogue_opening.json` before `ARTHUR_S3_01`.
+
+**Moved 29 Oct 2026 (creator):** `TED_S3_05` now plays on `BURNER_DIAGNOSED`, straight after `TED_S1_11` ("The burner's finished"), in the lamp room with the ship in view (Decisions A34). `canon.py` `SHIP_NAMED_FROM` is now `BURNER_DIAGNOSED`.

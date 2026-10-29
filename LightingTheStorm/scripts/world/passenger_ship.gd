@@ -24,6 +24,7 @@ var _approach := PackedVector2Array()
 var _safe := PackedVector2Array()
 var _commit_s := 0.0           # path distance at which the clock expires (progress 1)
 var _total_s := 0.0            # path distance of the bow-on-rock point
+var _join_s := 0.0             # path distance of the approach point the safe lane starts from
 var _s := 0.0                  # distance travelled along the approach lane
 var _speed := 0.0              # m/s, set by the director from the deadline length
 var _pos := Vector2.ZERO
@@ -44,6 +45,10 @@ func setup(route: Dictionary) -> void:
 	_safe = Route.points(route["safe_lane"]["points"])
 	_total_s = Route.length(_approach)
 	_commit_s = maxf(_total_s - float(route["approach"]["commit_distance_m"]), 1.0)
+	var upto := PackedVector2Array()
+	for i in int(route["safe_lane"]["first_is_approach_index"]) + 1:
+		upto.append(_approach[i])
+	_join_s = Route.length(upto)
 	_keel_y = float(route["ship"]["keel_y"])
 	_hull = Node3D.new()
 	_hull.name = "Hull"
@@ -122,7 +127,7 @@ func avoid() -> void:
 		mode = Mode.HOLD
 	if mode == Mode.HOLD or mode == Mode.APPROACH:
 		mode = Mode.AVOIDING
-		_wp = 0
+		_wp = 1 if _s >= _join_s else 0    # already past the point where the lanes part: start with the next one
 
 
 func is_resolved() -> bool:
@@ -131,6 +136,7 @@ func is_resolved() -> bool:
 
 func _process(delta: float) -> void:
 	_t += delta
+	_scale_lights()
 	match mode:
 		Mode.COMMITTED:
 			_s = minf(_s + _speed * delta, _total_s)
@@ -200,6 +206,20 @@ func _crash(delta: float) -> void:
 	for l in _lights:
 		var flick := 1.0 if out >= 1.0 else out * (0.6 + 0.4 * sin(_crash_t * 37.0 + float(l[2])))
 		l[0].material_override.emission_energy_multiplier = float(l[1]) * maxf(flick, 0.0)
+
+
+## The lit windows and lamps grow with distance from the camera, so a ship hundreds of metres out still reads as a ship.
+func _scale_lights() -> void:
+	if not visible or _lights.is_empty():
+		return
+	var cam := get_viewport().get_camera_3d() if is_inside_tree() else null
+	if cam == null:
+		return
+	var cfg: Dictionary = spec["lights"]
+	for l in _lights:
+		var mi: MeshInstance3D = l[0]
+		var d := cam.global_position.distance_to(mi.global_position)
+		mi.scale = Vector3.ONE * minf(1.0 + d * float(cfg["scale_per_m"]), float(cfg["scale_max"]))
 
 
 func _build_lights(cfg: Dictionary) -> void:

@@ -575,6 +575,20 @@
       "note": "Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
     },
     {
+      "line_id": "TED_S3_05",
+      "step": 3,
+      "beat": "Ted names the unplanned ship",
+      "kind": "discovery",
+      "speaker": "TED",
+      "trigger": "BURNER_DIAGNOSED",
+      "text": "A passenger ship? Now? It's not in the log! Without the beacon she'll find the rocks. Go, Isaac!",
+      "subtitle": "TED: A passenger ship? Now? It's not in the log! Without the beacon she'll find the rocks. Go, Isaac!",
+      "delivery": "Shocked, then barking; shouted from the dock path.",
+      "pause_before": 1.0,
+      "once": true,
+      "note": "Creator pick, 29 Oct 2026; moved the same day: Ted names the ship in the lamp room straight after \"The burner's finished\", with the ship in view (creator order: coal, up to the lamp room, \"the burner is busted\", then the unplanned ship). Plays after TED_S1_11. Passes the offline rules."
+    },
+    {
       "line_id": "TED_S3_02",
       "step": 3,
       "beat": "Step 3 objective (alternate)",
@@ -590,20 +604,6 @@
       "journal_id": "JRN_03",
       "staging": "Ted in the lighthouse hall, lamplight swaying as the wind shakes the walls.",
       "note": "Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Story-beat revision 2026-10-16 (creator canon: arrival outside, coal, sailors, then Ted finds the burner broken)."
-    },
-    {
-      "line_id": "TED_S3_05",
-      "step": 3,
-      "beat": "Ted names the ship",
-      "kind": "discovery",
-      "speaker": "TED",
-      "trigger": "BOARDING_THRESHOLD",
-      "text": "A passenger ship? Now? It's not in the log! Without the beacon she'll find the rocks. Go, Isaac!",
-      "subtitle": "TED: A passenger ship? Now? It's not in the log! Without the beacon she'll find the rocks. Go, Isaac!",
-      "delivery": "Shocked, then barking; shouted from the dock path.",
-      "pause_before": 0.0,
-      "once": true,
-      "note": "Creator pick, 29 Oct 2026. Exec Summary step 4: Ted names the ship at the boarding threshold. Plays before ARTHUR_S3_01. Passes the offline rules; not yet through a live Dialogue/Canon review."
     },
     {
       "line_id": "ARTHUR_S3_01",

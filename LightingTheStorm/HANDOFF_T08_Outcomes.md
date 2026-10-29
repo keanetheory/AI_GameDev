@@ -26,7 +26,7 @@ godot --headless --path . --script res://tools/test_outcome_screen.gd
 godot --path . --write-movie out.png --fixed-fps 10 --quit-after 40 --script res://tools/shot_outcome.gd -- FAIL   # or WIN
 ```
 
-The fail timeline (game time, after the deadline runs out): 0 s `SHIP_FAIL`, `TED_F_01` plays and the foghorn sounds; 5.1 and 10.1 s more blasts; about 12 s `TED_F_03`; 13.6 s the ship strikes and the impact plays; 18.6 s both audio buses fade to silence over 2 s; 22.0 s the Failed screen fades in. Enter, Space, R or a left click restarts (after a 1 s grace so a held key cannot skip it); `GameState.restart()` reloads the level and clears the attempt, including the deadline and the audio buses.
+The fail timeline (game time, after the deadline runs out): 0 s `SHIP_FAIL`, `TED_F_01` plays and the foghorn sounds; 5.1 and 10.1 s more blasts; about 12 s `TED_F_03`; 13.6 s the ship strikes and the impact plays; 18.6 s both audio buses fade to silence over 2 s; about 22 s the Failed screen fades in. Enter, Space, R or a left click restarts (after a 1 s grace so a held key cannot skip it); `GameState.restart()` reloads the level and clears the attempt, including the deadline and the audio buses.
 
 The win timeline: the burner is fitted, `SHIP_WIN` follows 4.5 s later (lamp_socket.gd), the saved ship steers off and sails on at 3x speed; once it is 60 m past the rock plus 3 s the win card shows ("The light holds"). Enter or Space plays again, Esc goes to the Title scene.
 

@@ -52,9 +52,9 @@ func _run() -> void:
 		quit(1)
 		return
 	_check(dl.length_s == 210.0, "placeholder deadline length is 3 min 30 s (%.0f s)" % dl.length_s)
-	_check(not dl.ship.visible and gs.deadline_progress() == -1.0, "before boarding: the ship is hidden and the clock reads -1")
-	gs.emit_event("BOAT_CAST_OFF")
-	_check(dl.ship.visible and dl.ship.mode == dl.ship.Mode.HOLD, "at the boarding threshold / cast-off the ship appears at the horizon and holds")
+	_check(not dl.ship.visible and gs.deadline_progress() == -1.0, "before the boiler is fed: the ship is hidden and the clock reads -1")
+	gs.emit_event("BOILER_FED")
+	_check(dl.ship.visible and dl.ship.mode == dl.ship.Mode.HOLD, "once the boiler is fed the unplanned ship appears at the horizon and holds (it is there to see from the lamp room)")
 	dl._process(30.0)
 	_check(dl.state == dl.State.WAITING and gs.deadline_progress() == -1.0, "the clock is inactive before the return crossing: 30 s pass, still waiting")
 	_check(dl.ship.travelled() == 0.0, "the ship holds at its starting lights until the clock starts")

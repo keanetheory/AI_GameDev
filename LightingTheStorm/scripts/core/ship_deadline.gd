@@ -140,9 +140,9 @@ func _step_scale(dir: int) -> void:
 
 func _on_event(id: String, _phase: int) -> void:
 	match id:
-		"BOARDING_THRESHOLD", "SHIP_SIGHTED", "BOAT_CAST_OFF":
+		"BOILER_FED", "LAMP_ROOM_ENTERED", "BURNER_DIAGNOSED", "BOARDING_THRESHOLD", "SHIP_SIGHTED", "BOAT_CAST_OFF":
 			if ship:
-				ship.appear()   # the ship comes up on the horizon at the boarding threshold and holds there
+				ship.appear()   # the unplanned ship comes up on the horizon once the boiler is fed (creator, 29 Oct 2026), so it is there to see from the lamp room
 		"RETURN_DEPARTED":
 			_start()
 		"BURNER_FITTED", "SHIP_WIN":

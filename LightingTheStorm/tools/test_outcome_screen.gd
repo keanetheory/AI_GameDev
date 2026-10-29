@@ -74,11 +74,17 @@ func _run() -> void:
 	_check(gs.outcome == gs.Outcome.FAIL, "the deadline ran out: outcome FAIL")
 	_step(gs, 8.0)
 	_check(not scr.showing, "8 s on, the ship is still running onto the rock: no screen yet (the game does not cut away)")
-	_step(gs, 6.0)
+	var guard_f := 0.0
+	while dl.ship.mode != dl.ship.Mode.CRASHED and guard_f < 60.0:
+		_step(gs, 1.0)
+		guard_f += 1.0
 	_check(dl.ship.mode == dl.ship.Mode.CRASHED and not scr.showing, "the ship has struck the rock; the audio is still playing out, no screen yet")
 	var shown_kind := [""]
 	scr.shown.connect(func(k: String) -> void: shown_kind[0] = k)
-	_step(gs, 12.0)
+	guard_f = 0.0
+	while not scr.showing and guard_f < 40.0:
+		_step(gs, 1.0)
+		guard_f += 1.0
 	_check(scr.showing and scr.kind == "FAIL" and shown_kind[0] == "FAIL", "after the silence the Failed screen shows")
 	_check(scr._title.text == "Failed" and scr._reason.text.length() > 10, "it says Failed and gives a reason line: \"%s\"" % scr._reason.text)
 	_step(gs, 3.0)
