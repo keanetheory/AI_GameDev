@@ -490,9 +490,9 @@
    "at": "2026-10-29T15:56:47+00:00"
   },
   "ISL-01": {
-   "status": "in_progress",
-   "note": "2026-10-29 measured: the three RockPatch copies (1,242 tris each, cut from island_craggy by keep_boxes) have open cut edges. SE and SE2 (beside the stair foot, x -15..-8, z 18..28) show as hollow thin shells from the harbour at sea level (shots seam_se, seam_se2): 27 and 33 edge vertices more than 0.3 m from any other surface, worst 1.6 m. NE (x -21..-16, z 10..12) reads solid from outside (51 edge vertices, worst 1.8 m, tucked against the stair parapet). Fix proposed: cap the cut loops offline (Blender, like repair_exterior.py) into a closed rock_patch.glb, or sink SE/SE2 so the cuts sit below the sea.",
-   "at": "2026-10-29T16:01:59+00:00"
+   "status": "done",
+   "note": "Assets/Models/island/repair/build_rock_patch.py (Blender) cuts the same piece of island_craggy the RockPatch nodes reused (keep box, in the import script's 90 m frame), closes its cut (1 loop, 186 cap faces pushed slightly into the rock, darkest-tenth rock texel) and writes rock_patch.glb (no import script needed). The three RockPatch nodes load it with no keep_boxes. The hollow shells by the stair foot are solid (shots seam_se_b, seam_se2_c, seam_se2_night). Island tests pass; island load 0.87 s.",
+   "at": "2026-10-29T16:17:06+00:00"
   }
  },
  "history": [

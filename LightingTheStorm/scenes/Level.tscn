@@ -92,31 +92,28 @@ press_path = PackedVector3Array()
 [node name="RockPatchSE" type="Node3D" parent="."]
 transform = Transform3D(0, 0, 1.4, 0, 1.4, 0, -1.4, 0, 0, -3.42, -1.66, -17.02)
 script = ExtResource("1")
-model_path = "res://Assets/Models/island/island_craggy.glb"
+model_path = "res://Assets/Models/island/rock_patch.glb"
 body_layers = 3
 carve_lines = PackedVector3Array()
 carve_line_half_widths = PackedFloat32Array()
-keep_boxes = Array[AABB]([AABB(-31.5, 0.9, -8.6, 6, 10, 4.2)])
 press_path = PackedVector3Array()
 
 [node name="RockPatchSE2" type="Node3D" parent="."]
 transform = Transform3D(0, 0, 0.9, 0, 0.9, 0, -0.9, 0, 0, -4.22, -1.21, -0.47)
 script = ExtResource("1")
-model_path = "res://Assets/Models/island/island_craggy.glb"
+model_path = "res://Assets/Models/island/rock_patch.glb"
 body_layers = 3
 carve_lines = PackedVector3Array()
 carve_line_half_widths = PackedFloat32Array()
-keep_boxes = Array[AABB]([AABB(-31.5, 0.9, -8.6, 6, 10, 4.2)])
 press_path = PackedVector3Array()
 
 [node name="RockPatchNE" type="Node3D" parent="."]
 transform = Transform3D(-0.85, 0, 0, 0, 0.85, 0, 0, 0, -0.85, -43.26, 0.93, 6.13)
 script = ExtResource("1")
-model_path = "res://Assets/Models/island/island_craggy.glb"
+model_path = "res://Assets/Models/island/rock_patch.glb"
 body_layers = 3
 carve_lines = PackedVector3Array()
 carve_line_half_widths = PackedFloat32Array()
-keep_boxes = Array[AABB]([AABB(-31.5, 0.9, -8.6, 6, 10, 4.2)])
 press_path = PackedVector3Array()
 
 [node name="Lighthouse" type="Node3D" parent="."]
