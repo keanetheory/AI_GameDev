@@ -5,13 +5,15 @@
 # Modes: HIDDEN (before boarding) -> HOLD (lights at the horizon, progress 0) -> APPROACH (the director sets the progress
 # 0..1 each frame) -> COMMITTED (the clock ran out: it can no longer turn and runs onto the rock) -> CRASHED, or
 # AVOIDING (the beacon is lit: it steers off the approach lane onto the safe lane) -> PASSED (into port, hidden).
-# Signals: impact (the bow meets the rock; T08 times the crash audio and Ted's line on it) and passed.
+# Signals: impact (the bow meets the rock; the audio mixer and the outcome screen time on it), cleared_rock (a saved ship is
+# past the rock: the win card waits for it) and passed (into port).
 extends Node3D
 
 const Route := preload("res://scripts/world/ship_route.gd")
 
 signal impact
 signal passed
+signal cleared_rock      # saved: the ship is past the grounding rock and the island, heading for port
 
 enum Mode { HIDDEN, HOLD, APPROACH, COMMITTED, CRASHED, AVOIDING, PASSED }
 
@@ -33,6 +35,7 @@ var _lights: Array = []        # [MeshInstance3D, base_energy, phase]
 var _t := 0.0
 var _crash_t := -1.0
 var _keel_y := -2.4
+var cleared := false
 
 
 func setup(route: Dictionary) -> void:
@@ -152,8 +155,11 @@ func _steer(delta: float) -> void:
 	var diff := wrapf(goal - cur, -PI, PI)
 	cur += clampf(diff, -turn_max, turn_max)
 	_dir = Vector2(sin(cur), cos(cur))
-	_pos += _dir * _speed * delta
+	_pos += _dir * _speed * float(spec["ship"]["saved_speed_factor"]) * delta
 	_apply_transform()
+	if not cleared and _pos.y > float(spec["grounding_rock"]["centre"][1]) + float(spec["grounding_rock"]["clear_past_m"]):
+		cleared = true
+		cleared_rock.emit()
 	if _pos.distance_to(target) < float(spec["safe_lane"]["waypoint_radius_m"]):
 		if _wp < _safe.size() - 1:
 			_wp += 1

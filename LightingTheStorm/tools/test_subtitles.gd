@@ -85,6 +85,9 @@ func _run() -> void:
 	# 6. the real opening dialogue through GameState
 	var level := Node3D.new()
 	level.name = "FakeLevel"
+	var fake_boat := Node3D.new()      # GameState only treats a scene as the game once it holds a boat
+	fake_boat.add_to_group("boat")
+	level.add_child(fake_boat)
 	root.add_child(level)
 	await create_timer(1.5).timeout   # TED_S1_01 has a 1 s pause before it
 	_check(ui.subtitle_label.visible and ui.subtitle_label.text.begins_with("TED:"), "GAME_STARTED shows Ted's first line ('%s')" % ui.subtitle_label.text.left(30))

@@ -1,0 +1,20 @@
+{
+  "spec_id": "outcome_screens_v1",
+  "owner": "Story / Fail-State agent (backlog T08)",
+  "note": "PLACEHOLDER wording and look for the two end cards. The Failed screen follows the fail audio (foghorn, crash, silence) and shows a short reason line (Exec Summary, Fail-state contract; Decisions A20). The win card waits until the saved ship is past the rock. The creator should reword both.",
+  "input_grace_s": 1.0,
+  "win_card_delay_s": 3.0,
+  "fallback_after_impact_s": 8.0,
+  "fail": {
+    "title": "Failed",
+    "reason": "The burner did not reach the lamp in time, and the ship ran aground.",
+    "prompt": "Press Enter to try again",
+    "fade_s": 2.0
+  },
+  "win": {
+    "title": "The light holds",
+    "reason": "The burner is fitted, and the ship sails safely past the rocks and into port.",
+    "prompt": "Press Enter to play again, or Esc for the title",
+    "fade_s": 2.5
+  }
+}

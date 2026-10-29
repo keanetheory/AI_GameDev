@@ -1013,9 +1013,9 @@
       "text": "That ship...we didn't get the burner out in time...those poor souls on board...we've failed...FAILED!!",
       "subtitle": "TED: That ship...we didn't get the burner out in time...those poor souls on board...we've failed...FAILED!!",
       "delivery": "Sorrowful, upset: grief breaking into anguish on the last word.",
-      "pause_before": 1.5,
+      "pause_before": 9.0,
       "once": true,
-      "note": "Creator wording, 29 Oct 2026 (replaces the 19 Oct 'All is lost for those on board' line, canon FAIL_REASON_LINE). Plays after TED_F_01, then silence and the Failed screen."
+      "note": "Creator wording, 29 Oct 2026 (replaces the 19 Oct 'All is lost for those on board' line, canon FAIL_REASON_LINE). Plays after TED_F_01, then silence and the Failed screen. Pause 9 s so it starts as the ship strikes (about 13.6 s after SHIP_FAIL, after TED_F_01)."
     }
   ],
   "journal": [

@@ -13,7 +13,8 @@
     "length_m": 100.0,
     "beam_m": 26.5,
     "turn_rate_deg_s": 8.0,
-    "port_speed_scale": 1.0
+    "saved_speed_factor": 3.0,
+    "saved_speed_note": "Once the beacon is lit the ship makes for port at this multiple of its approach speed, so the win card does not wait minutes (the turn rate is unchanged, so the turn is wider; tools/test_ship_route.gd checks the clearance)."
   },
   "approach": {
     "note": "The lane the ship holds with no beacon: down the east side of the island, then a turn west that runs straight onto the grounding rock. It is the ship's CENTRE line. The last point is where the centre sits when the bow touches the rock. The deadline expires commit_distance_m before it; from then on the ship can no longer turn and runs on to the rock.",
@@ -29,6 +30,7 @@
     "node": "SeaRocks/SeaStack1",
     "centre": [24.0, 125.0],
     "radius_m": 17.0,
+    "clear_past_m": 60.0,
     "note": "The nearest sea stack to the island (about 80 m off its south shore). It also sits beside the player's return route, so a crash is visible from the boat."
   },
   "crash": {
