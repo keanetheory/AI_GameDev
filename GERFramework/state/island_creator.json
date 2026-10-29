@@ -488,6 +488,11 @@
    "status": "done",
    "note": "Gate base 9.95 sits 0.1 m into the stair-top landing (10.05, measured with a falling sphere: rays pass the island's one-sided collision); jetty piers stand in the water and the quay meets the rock (shots jetty_low, quay_low). The shut gate cannot be bypassed on either side and nobody falls off the stair top (test_island_gate step 11). The walk routes all reach their ends.",
    "at": "2026-10-29T15:56:47+00:00"
+  },
+  "ISL-01": {
+   "status": "in_progress",
+   "note": "2026-10-29 measured: the three RockPatch copies (1,242 tris each, cut from island_craggy by keep_boxes) have open cut edges. SE and SE2 (beside the stair foot, x -15..-8, z 18..28) show as hollow thin shells from the harbour at sea level (shots seam_se, seam_se2): 27 and 33 edge vertices more than 0.3 m from any other surface, worst 1.6 m. NE (x -21..-16, z 10..12) reads solid from outside (51 edge vertices, worst 1.8 m, tucked against the stair parapet). Fix proposed: cap the cut loops offline (Blender, like repair_exterior.py) into a closed rock_patch.glb, or sink SE/SE2 so the cuts sit below the sea.",
+   "at": "2026-10-29T16:01:59+00:00"
   }
  },
  "history": [
