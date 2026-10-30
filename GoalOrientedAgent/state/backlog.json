@@ -1509,8 +1509,11 @@
       "agent_can_execute": false,
       "blocked_by": "Creator generates or approves the model.",
       "depends_on": [],
-      "status": "open",
-      "result": null
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "30 Oct 2026: the creator generated lhi_arc_lamp_open.glb (Meshy, title Open Arc Lamp, same licence). Decimated from 1.24M to 56k triangles, textures 2048, imported with the prop script (0.9 m, pivot at the base, the same size as the closed lamp). Original kept in Assets/Models/prop/source/ and backed up to C:/bkupConceptArt/FAL_3D_Models/prop/."
+      }
     },
     {
       "id": "T40",
@@ -1531,8 +1534,11 @@
       "depends_on": [
         "T39"
       ],
-      "status": "open",
-      "result": null
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "30 Oct 2026: lantern.gd adds LampModelOpen beside LampModel; lamp_beacon.gd shows the closed lamp first, the open one from BURNER_DIAGNOSED, and closes it 1.2 s after BURNER_FITTED as the lamp lights. test_lamp_fit.gd checks all four states."
+      }
     },
     {
       "id": "T41",
@@ -1828,6 +1834,18 @@
       "task_id": "T42",
       "event": "added",
       "note": "Creator asked for buoy assets (30 Oct 2026)"
+    },
+    {
+      "time": "2026-10-30T15:20:35",
+      "task_id": "T39",
+      "event": "done",
+      "note": "30 Oct 2026: the creator generated lhi_arc_lamp_open.glb (Meshy, title Open Arc "
+    },
+    {
+      "time": "2026-10-30T15:20:35",
+      "task_id": "T40",
+      "event": "done",
+      "note": "30 Oct 2026: lantern.gd adds LampModelOpen beside LampModel; lamp_beacon.gd show"
     }
   ]
 }

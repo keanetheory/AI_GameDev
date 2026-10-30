@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-10-30 14:06 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-10-30 15:20 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -36,9 +36,7 @@ _Generated 2026-10-30 14:06 by the Goal-Oriented Agent. Do not edit by hand; the
 
 | ID | Score | Task | Category | Owner role | Effort | Status |
 |---|---|---|---|---|---|---|
-| T39 | **7** | Generate the open arc lamp model | asset | Creator with the Asset agent | M | open |
 | T41 | **7** | Generate updated models for Ted, Arthur and Daniel | asset | Creator with the Asset agent | L | open |
-| T40 | **6** | Open lamp in the diagnosis; the fitted burner disappears and the lamp closes with light emanating | code | Gameplay / Systems agent | M | open |
 | T42 | **6** | Generate the buoy models for the sea hazards | asset | Creator with the Asset agent | M | open |
 | T19 | **5** | Set a placeholder deadline length and write the crossing-penalty values | decision | Production Orchestrator | S | open |
 | T18 | **4** | Review the rewritten opening lines and re-record the six changed voice lines | dialogue | Dialogue agent | M | open |
@@ -67,11 +65,13 @@ _Generated 2026-10-30 14:06 by the Goal-Oriented Agent. Do not edit by hand; the
 | T13 | **7** | Drive perceptual storm cues from elapsed deadline time and trigger BEACON_RELIT | code | Lighting agent | M | done |
 | T26 | **7** | Accept the proposed event IDs and phase boundaries into the contract docs | decision | Canon and Review Orchestrator | S | done |
 | T35 | **7** | Review how findable the lighthouse is on the return now the eclipse darkens the world | decision | Lighting agent | S | done |
+| T39 | **7** | Generate the open arc lamp model | asset | Creator with the Asset agent | M | done |
 | T14 | **6** | Placeholder audio: wind, rain, machinery, buoy bell, foghorn, ship impact, mix by phase | audio | Sound agent | M | done |
 | T15 | **6** | Decide whether the prototype needs controller support, then add bindings and prompts | decision | Player Movement agent | M | done |
 | T16 | **6** | Fix the final list of Ted's lamp-room lines to record | decision | Dialogue agent | S | done |
 | T17 | **6** | Tune and record the Gate 0 steering go/no-go (speed, route length, time per crossing) | test | Boat / Physics agent | M | deferred |
 | T36 | **6** | Add lightposts at the Saltgate and at the lighthouse island's dock | scene | Level Layout agent | M | done |
+| T40 | **6** | Open lamp in the diagnosis; the fitted burner disappears and the lamp closes with light emanating | code | Gameplay / Systems agent | M | done |
 | T20 | **5** | QA scenario list and automated state-transition checks for the Gate 1 slice | test | QA agent | M | done |
 | T25 | **5** | Repair tools/test_boat.gd for the two-berth harbour and make it fail on timeout | test | Boat / Physics agent | S | done |
 | T34 | **5** | Resolve the discoveries content (B2) on Friday 23 October 2026 | decision | Canon and Review Orchestrator | S | done |
@@ -89,15 +89,6 @@ _Generated 2026-10-30 14:06 by the Goal-Oriented Agent. Do not edit by hand; the
 
 ## Task detail
 
-### T39 [7/10] Generate the open arc lamp model  (open)
-
-The lamp room's arc lamp (Assets/Models/prop/lhi_arc_lamp.glb) is shown closed and dark with an empty burner socket. Generate a second model of the same lamp OPEN, with its bay or cover swung open and the burner seat visible and empty, matching the closed lamp's size, pivot and style (concept art ConceptArt/burner and the lamp sheets). It is for the diagnosis (Ted opens the lamp and finds the burner cracked), so it must read clearly from the lamp stand. Import it with tools/import_scale_pivot.gd, downscale the texture to 2048, and run main_asset.py --check-only before any FAL submission (FAL Hunyuan v3 costs credits: ask first).
-
-- **Why 7:** The creator wants the diagnosis to show an open lamp and the fit to end with a closed, lit lamp; both need this model. Not higher because the current empty socket and the burner on the floor are an acceptable stand-in.
-- **Evidence:** Creator, 30 Oct 2026: add 'generate open arc lamp model' to the backlog; scripts/world/interior/lantern.gd _arc_lamp; HANDOFF_T05_Diagnosis.md section 8
-- **Blocked by:** Creator generates or approves the model.
-- **Needs the creator** (cannot be done by the agent alone)
-
 ### T41 [7/10] Generate updated models for Ted, Arthur and Daniel  (open)
 
 Ted is the rigged test character (Assets/Characters/ted.glb: walking, running and an alert turn, frozen in one pose when he stands); Arthur and Daniel are capsules. Generate updated, matching character models for all three from the concept sheets (ConceptArt/characters), rigged and textured to the style guide: Ted with an idle (and ideally a talking idle), Arthur and Daniel with walk, idle, and a seated pose for the rowboat and the launch (the capsules stand in the boat). Each must work with scripts/character/npc.gd (forward is -Z, feet at the origin, 1.65 to 1.85 m tall) and keep jaw lip-sync possible (scripts/character/jaw_lipsync.gd). Import with tools/import_scale_pivot.gd, texture 2048 at most, and run main_asset.py --check-only before any FAL submission (credits: ask first). Then replace the capsules in npc.gd (a model entry per character, as Ted has).
@@ -106,15 +97,6 @@ Ted is the rigged test character (Assets/Characters/ted.glb: walking, running an
 - **Evidence:** Creator, 31 Oct 2026: then we can generate updated models for Ted, Arthur, and Daniel; scripts/character/npc.gd; ConceptArt/characters
 - **Blocked by:** Creator generates or approves the models; credits.
 - **Needs the creator** (cannot be done by the agent alone)
-
-### T40 [6/10] Open lamp in the diagnosis; the fitted burner disappears and the lamp closes with light emanating  (open)
-
-Once the open arc lamp model exists: show the open lamp from the start until the replacement burner is fitted; at BURNER_DIAGNOSED Ted takes the cracked burner out (it appears on the floor, as built); when the player fits the replacement burner (BURNER_FITTED) the burner simply disappears (no burner left in the socket), the open lamp is swapped for the closed one and light emanates from it (lamp_beacon.gd, the beam). Keep lamp_socket.gd's carry flow, SHIP_WIN after 4.5 s, and tools/test_lamp_fit.gd passing; add a test for the swap.
-
-- **Why 6:** Finishes the lamp story the creator described on 30 Oct 2026. Blocked on the open lamp model, so below it.
-- **Evidence:** Creator, 30 Oct 2026: the replacement burner simply disappears and the lamp appears closed with light emanating; scripts/world/interior/lamp_socket.gd, lamp_beacon.gd
-- **Blocked by:** Task: generate the open arc lamp model.
-- **Depends on:** T39 (still open: T39)
 
 ### T42 [6/10] Generate the buoy models for the sea hazards  (open)
 
@@ -407,6 +389,16 @@ With the eclipse dimming the moon, ambient, reflections and distance fog (23 Oct
 - **Needs the creator** (cannot be done by the agent alone)
 - **Result (done):** Creator, 25 Oct 2026: done. The creator has reviewed the return under the eclipse and is satisfied the lighthouse can be found.
 
+### T39 [7/10] Generate the open arc lamp model  (done)
+
+The lamp room's arc lamp (Assets/Models/prop/lhi_arc_lamp.glb) is shown closed and dark with an empty burner socket. Generate a second model of the same lamp OPEN, with its bay or cover swung open and the burner seat visible and empty, matching the closed lamp's size, pivot and style (concept art ConceptArt/burner and the lamp sheets). It is for the diagnosis (Ted opens the lamp and finds the burner cracked), so it must read clearly from the lamp stand. Import it with tools/import_scale_pivot.gd, downscale the texture to 2048, and run main_asset.py --check-only before any FAL submission (FAL Hunyuan v3 costs credits: ask first).
+
+- **Why 7:** The creator wants the diagnosis to show an open lamp and the fit to end with a closed, lit lamp; both need this model. Not higher because the current empty socket and the burner on the floor are an acceptable stand-in.
+- **Evidence:** Creator, 30 Oct 2026: add 'generate open arc lamp model' to the backlog; scripts/world/interior/lantern.gd _arc_lamp; HANDOFF_T05_Diagnosis.md section 8
+- **Blocked by:** Creator generates or approves the model.
+- **Needs the creator** (cannot be done by the agent alone)
+- **Result (done):** 30 Oct 2026: the creator generated lhi_arc_lamp_open.glb (Meshy, title Open Arc Lamp, same licence). Decimated from 1.24M to 56k triangles, textures 2048, imported with the prop script (0.9 m, pivot at the base, the same size as the closed lamp). Original kept in Assets/Models/prop/source/ and backed up to C:/bkupConceptArt/FAL_3D_Models/prop/.
+
 ### T14 [6/10] Placeholder audio: wind, rain, machinery, buoy bell, foghorn, ship impact, mix by phase  (done)
 
 Add placeholder audio buses and AudioStreamPlayers for wind, rain, boiler/dynamo, buoy bells, foghorn and impact, mixed by phase and with Arthur's calls kept audible. Record source and licence per file and wire the six re-recorded voice lines later.
@@ -455,6 +447,16 @@ Place lightposts as the player's guidance now the eclipse makes the world very d
 - **Why 6:** They are the player's navigation cue in the dark return, but the slice is playable without them, so 6.
 - **Evidence:** Creator, 23 Oct 2026: lights on the dock and on the Saltgate to be added; Decisions to be made A4: the Saltgate stays minimal until the prototype is complete; Level.tscn DockZoneLighthouse, DockZoneLighthouseSouth, DockZonePort, Harbour
 - **Result (done):** 31 Oct 2026: three gas lampposts (Meshy model, 30k tris, 3.4 m): one each side of the island harbour opening and one at the Saltgate quay by the landing; warm flickering lights gated by distance. See LightingTheStorm/HANDOFF_T36_Lampposts.md. The scene now holds 18 OmniLights against max_dynamic_lights 16 (creator decision).
+
+### T40 [6/10] Open lamp in the diagnosis; the fitted burner disappears and the lamp closes with light emanating  (done)
+
+Once the open arc lamp model exists: show the open lamp from the start until the replacement burner is fitted; at BURNER_DIAGNOSED Ted takes the cracked burner out (it appears on the floor, as built); when the player fits the replacement burner (BURNER_FITTED) the burner simply disappears (no burner left in the socket), the open lamp is swapped for the closed one and light emanates from it (lamp_beacon.gd, the beam). Keep lamp_socket.gd's carry flow, SHIP_WIN after 4.5 s, and tools/test_lamp_fit.gd passing; add a test for the swap.
+
+- **Why 6:** Finishes the lamp story the creator described on 30 Oct 2026. Blocked on the open lamp model, so below it.
+- **Evidence:** Creator, 30 Oct 2026: the replacement burner simply disappears and the lamp appears closed with light emanating; scripts/world/interior/lamp_socket.gd, lamp_beacon.gd
+- **Blocked by:** Task: generate the open arc lamp model.
+- **Depends on:** T39 (all closed)
+- **Result (done):** 30 Oct 2026: lantern.gd adds LampModelOpen beside LampModel; lamp_beacon.gd shows the closed lamp first, the open one from BURNER_DIAGNOSED, and closes it 1.2 s after BURNER_FITTED as the lamp lights. test_lamp_fit.gd checks all four states.
 
 ### T20 [5/10] QA scenario list and automated state-transition checks for the Gate 1 slice  (done)
 

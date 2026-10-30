@@ -58,6 +58,11 @@ func _physics_process(_delta: float) -> bool:
 			_check(_beacon.get_node_or_null("LampModel") != null and _beacon._lens_mats.size() > 0, "the generated lamp model is in place (%d materials)" % _beacon._lens_mats.size())
 			_check(not _beacon._lens_mats[0].emission_enabled and _beacon._lens_mats[0].albedo_color.v < 0.5 * _beacon._lens_mats[0].get_meta("base_albedo").v + 0.01, "the lamp is dark and cold at the start")
 			_check(not _beacon.get_node("Glow").visible and not _beacon.get_node("BeamPivot").visible, "no lamp light or beam at the start")
+			var closed_m := _beacon.get_node("LampModel") as Node3D
+			var open_m := _beacon.get_node_or_null("LampModelOpen") as Node3D
+			_check(open_m != null and closed_m.visible and not open_m.visible, "the closed lamp shows before the diagnosis; the open one is hidden")
+			_beacon._on_event("BURNER_DIAGNOSED", 0)
+			_check(open_m.visible and not closed_m.visible, "from the diagnosis the open lamp shows, its bay empty")
 			_check(_lv.find_child("BrokenBurner", true, false) != null, "the broken burner is lying in the lamp room")
 			_check(_lv.find_child("BrokenBurner", true, false).get_parent() != _socket, "the broken burner is not in the lamp's socket")
 			# stand on the lamp-room floor 1.7 m from the lamp axis, empty-handed, looking at the socket
@@ -82,12 +87,14 @@ func _physics_process(_delta: float) -> bool:
 			_check(_gs.burner_fitted, "GameState has burner_fitted")
 			_check(_gs.phase_name() == "FINAL_REPAIR", "the phase is FINAL_REPAIR (%s)" % _gs.phase_name())
 			_check(_beacon.lit, "the lamp is lit")
+			_check(_beacon.get_node("LampModelOpen").visible, "the bay is still open as the burner is seated")
 			_yaw0 = _beacon.get_node("BeamPivot").rotation.y
 			_next(8)
 		4:
 			_check(_im.focus != _socket, "the fitted burner cannot be taken back out (focus: %s)" % str(_im.focus))
 			_next(120)   # about 2 s at 60 physics frames a second
 		5:
+			_check(_beacon.get_node("LampModel").visible and not _beacon.get_node("LampModelOpen").visible, "the bay has closed again and the closed lamp shows")
 			_check(_beacon.level > 0.3, "the lamp is coming up (%.2f)" % _beacon.level)
 			_check(_beacon.get_node("Glow").light_energy > 0.0 and _beacon.get_node("Glow").visible, "the lamp's light is on")
 			_check(_beacon.get_node("BeamPivot").visible and absf(_beacon.get_node("BeamPivot").rotation.y - _yaw0) > 0.01, "the beam is on and sweeping")
