@@ -32,6 +32,7 @@ var _last_pos := Vector3.ZERO     # boat position last frame, for reporting wher
 
 
 func _initialize() -> void:
+	Engine.set_meta("no_crossing_hazards", true)      # these tests sail the route with a simple bot; the forecast's hazards are tested in test_crossing_sequence.gd
 	_lv = load("res://scenes/Level.tscn").instantiate()
 	root.add_child(_lv)
 	_boat = _lv.get_node("Boat")

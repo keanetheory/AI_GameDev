@@ -104,6 +104,7 @@ godot --headless --path . --script res://tools/test_sailors_sequence.gd # the ro
 godot --headless --path . --script res://tools/test_diagnosis_sequence.gd # Ted, the lamp-room diagnosis and the briefing
 godot --headless --path . --script res://tools/test_intro_sequence.gd # the knock, Ted's greeting and walk, Ted's lines only inside
 godot --headless --path . --script res://tools/test_boarding_sequence.gd # Arthur walks to the launch, boards, steps ashore
+godot --headless --path . --script res://tools/test_crossing_sequence.gd # the return forecast hazards, safe lane and Arthur calls
 godot --headless --path . --script res://tools/test_debug_flags.gd    # run again with  -- --no-debug-ui  to check the off state
 godot --headless --path . --script res://tools/test_collider_bake.gd  # the collider bakes are up to date and match a live build
 ```

@@ -578,8 +578,11 @@
       "effort": "M",
       "agent_can_execute": true,
       "blocked_by": "Tasks T12. Best done after Arthur is in the boat; steering feel play check needed.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Built 30 Oct 2026: the return forecast laid on the sea (hazards, safe lane, Arthur calls) and OUTBOUND_NEAR_MISS."
+      },
       "build_wave": 5,
       "depends_on": [
         "T12"
@@ -607,8 +610,11 @@
       "effort": "M",
       "agent_can_execute": true,
       "blocked_by": "Tasks T30, T31. Depends on GameState and the crossing integration.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Built 30 Oct 2026: Arthur walks to the launch, boards, BOARDING_THRESHOLD, SHIP_SIGHTED, the arrival go-go-go beat."
+      },
       "build_wave": 3,
       "depends_on": [
         "T30",

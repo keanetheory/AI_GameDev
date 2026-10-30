@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-10-30 10:23 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-10-30 11:42 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -37,8 +37,6 @@ _Generated 2026-10-30 10:23 by the Goal-Oriented Agent. Do not edit by hand; the
 | ID | Score | Task | Category | Owner role | Effort | Status |
 |---|---|---|---|---|---|---|
 | T32 | **10** | Burner fit: carry the burner up to the lamp and fit it (BURNER_FITTED, BEACON_RELIT) | code | Gameplay / Systems agent | M | open |
-| T10 | **8** | Integrate the crossing crew's hazard forecast: data file, loader, placed buoys/debris, Arthur calls | code | Hazard Forecast agent | M | open |
-| T11 | **7** | Put Arthur aboard and add the arrival 'go go go' beat on the lighthouse dock | code | Gameplay / Systems agent | M | open |
 | T39 | **7** | Generate the open arc lamp model | asset | Creator with the Asset agent | M | open |
 | T36 | **6** | Add lightposts at the Saltgate and at the lighthouse island's dock | scene | Level Layout agent | M | open |
 | T40 | **6** | Open lamp in the diagnosis; the fitted burner disappears and the lamp closes with light emanating | code | Gameplay / Systems agent | M | open |
@@ -62,7 +60,9 @@ _Generated 2026-10-30 10:23 by the Goal-Oriented Agent. Do not edit by hand; the
 | T31 | **9** | Passenger ship placeholder, its approach route and the grounding point | scene | Level Layout agent | M | done |
 | T33 | **9** | Boiler coal job (BOILER_FED), using the interaction system | code | Gameplay / Systems agent | S | done |
 | T09 | **8** | Decide the fail reason line, deliverer and audio-only fail alternative | decision | Canon and Review Orchestrator | S | done |
+| T10 | **8** | Integrate the crossing crew's hazard forecast: data file, loader, placed buoys/debris, Arthur calls | code | Hazard Forecast agent | M | done |
 | T37 | **8** | Ted's fail dialogue at SHIP_FAIL: write, record and wire it | dialogue | Dialogue agent | S | done |
+| T11 | **7** | Put Arthur aboard and add the arrival 'go go go' beat on the lighthouse dock | code | Gameplay / Systems agent | M | done |
 | T12 | **7** | Subtitle and journal UI fed by the DialogueLoader signals | code | Dialogue agent | M | done |
 | T13 | **7** | Drive perceptual storm cues from elapsed deadline time and trigger BEACON_RELIT | code | Lighting agent | M | done |
 | T26 | **7** | Accept the proposed event IDs and phase boundaries into the contract docs | decision | Canon and Review Orchestrator | S | done |
@@ -82,10 +82,8 @@ _Generated 2026-10-30 10:23 by the Goal-Oriented Agent. Do not edit by hand; the
 | Wave | Order | ID | Task | Depends on | Waiting on |
 |---|---|---|---|---|---|
 | 2 | 36 | T36 | Add lightposts at the Saltgate and at the lighthouse island's dock | - | ready |
-| 3 | 15 | T11 | Put Arthur aboard and add the arrival 'go go go' beat on the lighthouse dock | T30, T31 | ready |
 | 4 | 17 | T19 | Set a placeholder deadline length and write the crossing-penalty values | T25 | ready |
 | 4 | 19 | T32 | Burner fit: carry the burner up to the lamp and fit it (BURNER_FITTED, BEACON_RELIT) | T02, T26, T28, T29 | ready |
-| 5 | 23 | T10 | Integrate the crossing crew's hazard forecast: data file, loader, placed buoys/debris, Arthur calls | T12 | ready |
 | 5 | 24 | T20 | QA scenario list and automated state-transition checks for the Gate 1 slice | T08 | ready |
 | 5 | 25 | T18 | Review the rewritten opening lines and re-record the six changed voice lines | - | ready |
 | 5 | 27 | T23 | Bake mainland/cliff carving and collision to cut level load time | - | ready |
@@ -101,24 +99,6 @@ Split out of T08. With Ted waiting in the lamp room, the player carries the burn
 - **Blocked by:** Tasks T02, T26, T28, T29.
 - **Depends on:** T02, T26, T28, T29 (all closed)
 - **Result (in progress):** Creator, 25 Oct 2026: close to done: the lamp socket offers '[E] Fit the burner into the lamp' (CarrySocket), fires BURNER_FITTED and SHIP_WIN follows 4.5 s later (tools/test_lamp_fit.gd). Being finished alongside T02.
-
-### T10 [8/10] Integrate the crossing crew's hazard forecast: data file, loader, placed buoys/debris, Arthur calls  (open)
-
-Copy return_crossing.json into LightingTheStorm/data, add crossing_loader.gd to the scene with a route-position feed from the boat, spawn hazards (rocks, buoys, debris) from it, and play Arthur's calls as subtitles from the same safe-lane signal. Add an equivalent, easier outbound forecast. Do not add waves or branching.
-
-- **Why 8:** Readable hazards and Arthur's guidance are the central skill and Pillar 4. It is below 10 because the slice runs with only static rocks, and the pipeline already exists.
-- **Evidence:** AIAgentCrew/output/return_crossing.json; AIAgentCrew/godot/crossing_loader.gd; Technical Strategy hazard forecast; Level.tscn SeaStack nodes only
-- **Blocked by:** Tasks T12. Best done after Arthur is in the boat; steering feel play check needed.
-- **Depends on:** T12 (all closed)
-
-### T11 [7/10] Put Arthur aboard and add the arrival 'go go go' beat on the lighthouse dock  (open)
-
-Seat Arthur on the engine boat as the only companion, fire BOARDING_THRESHOLD (Ted introduces the ship) and the SALTGATE_REACHED and arrival events from dock-zone arrival. Plays his line on return arrival, then he leaves the player to climb.
-
-- **Why 7:** Companion guidance is part of the beats but the slice can be tested with the loader's lines alone, so 7.
-- **Evidence:** Exec Summary steps 4-7 and Cast; boat.gd docked signal; dialogue_opening.json
-- **Blocked by:** Tasks T30, T31. Depends on GameState and the crossing integration.
-- **Depends on:** T30, T31 (all closed)
 
 ### T39 [7/10] Generate the open arc lamp model  (open)
 
@@ -356,6 +336,16 @@ The creator must choose the wording of the short line shown on 'Failed' and who 
 - **Needs the creator** (cannot be done by the agent alone)
 - **Result (done):** Creator decision, 19 October 2026. Ted voices the fail reason line and it is shown as a subtitle: "All is lost for those on board...the storm takes more lives. What were you doing, you money toff!" The visual is the passenger ship crashing and breaking up on one of the rocks right next to the island. (The first wording ended 'lad???', which broke the canon rule against calling the player lad; the creator changed it to 'you money toff!'.) Recorded in Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md (A20).
 
+### T10 [8/10] Integrate the crossing crew's hazard forecast: data file, loader, placed buoys/debris, Arthur calls  (done)
+
+Copy return_crossing.json into LightingTheStorm/data, add crossing_loader.gd to the scene with a route-position feed from the boat, spawn hazards (rocks, buoys, debris) from it, and play Arthur's calls as subtitles from the same safe-lane signal. Add an equivalent, easier outbound forecast. Do not add waves or branching.
+
+- **Why 8:** Readable hazards and Arthur's guidance are the central skill and Pillar 4. It is below 10 because the slice runs with only static rocks, and the pipeline already exists.
+- **Evidence:** AIAgentCrew/output/return_crossing.json; AIAgentCrew/godot/crossing_loader.gd; Technical Strategy hazard forecast; Level.tscn SeaStack nodes only
+- **Blocked by:** Tasks T12. Best done after Arthur is in the boat; steering feel play check needed.
+- **Depends on:** T12 (all closed)
+- **Result (done):** Built 30 Oct 2026: the return forecast laid on the sea (hazards, safe lane, Arthur calls) and OUTBOUND_NEAR_MISS.
+
 ### T37 [8/10] Ted's fail dialogue at SHIP_FAIL: write, record and wire it  (done)
 
 At SHIP_FAIL Ted delivers fail dialogue wherever the player is (creator, 26 Oct 2026, Decisions A31). It includes the agreed reason line (A20: "All is lost for those on board...the storm takes more lives. What were you doing, you money toff!"), subtitled. Decide whether there are lines beyond the reason line, write them in the Lore Build dialogue files, record the voice, and add them to the dialogue data so the Dialogue loader plays them on the SHIP_FAIL event. They play while the crash happens in the world (A30), before the 'Failed' screen.
@@ -365,6 +355,16 @@ At SHIP_FAIL Ted delivers fail dialogue wherever the player is (creator, 26 Oct 
 - **Blocked by:** Lines can be written now; wiring is tested once T07 fires SHIP_FAIL.
 - **Depends on:** T07 (all closed)
 - **Result (done):** Written, picked and wired 29-30 Oct 2026 (TED_F_01, TED_F_03).
+
+### T11 [7/10] Put Arthur aboard and add the arrival 'go go go' beat on the lighthouse dock  (done)
+
+Seat Arthur on the engine boat as the only companion, fire BOARDING_THRESHOLD (Ted introduces the ship) and the SALTGATE_REACHED and arrival events from dock-zone arrival. Plays his line on return arrival, then he leaves the player to climb.
+
+- **Why 7:** Companion guidance is part of the beats but the slice can be tested with the loader's lines alone, so 7.
+- **Evidence:** Exec Summary steps 4-7 and Cast; boat.gd docked signal; dialogue_opening.json
+- **Blocked by:** Tasks T30, T31. Depends on GameState and the crossing integration.
+- **Depends on:** T30, T31 (all closed)
+- **Result (done):** Built 30 Oct 2026: Arthur walks to the launch, boards, BOARDING_THRESHOLD, SHIP_SIGHTED, the arrival go-go-go beat.
 
 ### T12 [7/10] Subtitle and journal UI fed by the DialogueLoader signals  (done)
 

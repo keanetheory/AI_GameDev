@@ -339,6 +339,41 @@
       "emitted_by": "game",
       "note": "Ship runs aground on the rock; resolves once; the Failed screen follows.",
       "existing_crew_event": false
+    },
+    {
+      "event_id": "ARTHUR_RET_01",
+      "step": 3,
+      "emitted_by": "game",
+      "note": "Arthur's call for SEG_01 (centre lane safe): played by crossing_sequence.gd when the boat passes route_m 0 (the crossing crew's forecast, data/world/return_crossing.json).",
+      "existing_crew_event": true
+    },
+    {
+      "event_id": "ARTHUR_RET_02",
+      "step": 3,
+      "emitted_by": "game",
+      "note": "Arthur's call for SEG_02 (left lane safe): played by crossing_sequence.gd when the boat passes route_m 85 (the crossing crew's forecast, data/world/return_crossing.json).",
+      "existing_crew_event": true
+    },
+    {
+      "event_id": "ARTHUR_RET_03",
+      "step": 3,
+      "emitted_by": "game",
+      "note": "Arthur's call for SEG_03 (right lane safe): played by crossing_sequence.gd when the boat passes route_m 205 (the crossing crew's forecast, data/world/return_crossing.json).",
+      "existing_crew_event": true
+    },
+    {
+      "event_id": "ARTHUR_RET_04",
+      "step": 3,
+      "emitted_by": "game",
+      "note": "Arthur's call for SEG_04 (centre lane safe): played by crossing_sequence.gd when the boat passes route_m 325 (the crossing crew's forecast, data/world/return_crossing.json).",
+      "existing_crew_event": true
+    },
+    {
+      "event_id": "ARTHUR_RET_05",
+      "step": 3,
+      "emitted_by": "game",
+      "note": "Arthur's call for SEG_05 (left lane safe): played by crossing_sequence.gd when the boat passes route_m 445 (the crossing crew's forecast, data/world/return_crossing.json).",
+      "existing_crew_event": true
     }
   ],
   "lines": [
@@ -730,6 +765,76 @@
       "delivery": "Relieved, still wary.",
       "pause_before": 0.0,
       "once": true
+    },
+    {
+      "line_id": "ARTHUR_RET_01",
+      "step": 3,
+      "beat": "Return crossing call, SEG_01",
+      "kind": "reaction",
+      "speaker": "ARTHUR",
+      "trigger": "ARTHUR_RET_01",
+      "text": "Hold her straight! Straight down the middle!",
+      "subtitle": "ARTHUR: Hold her straight! Straight down the middle!",
+      "delivery": "Shouted over the engine and the storm, urgent.",
+      "pause_before": 0.0,
+      "once": true,
+      "note": "From the Storm Crossing Crew's forecast (AIAgentCrew/output/return_crossing.json), added to the opening data for T10. Safe lane: centre."
+    },
+    {
+      "line_id": "ARTHUR_RET_02",
+      "step": 3,
+      "beat": "Return crossing call, SEG_02",
+      "kind": "reaction",
+      "speaker": "ARTHUR",
+      "trigger": "ARTHUR_RET_02",
+      "text": "Left! Get us left of that!",
+      "subtitle": "ARTHUR: Left! Get us left of that!",
+      "delivery": "Shouted over the engine and the storm, urgent.",
+      "pause_before": 0.0,
+      "once": true,
+      "note": "From the Storm Crossing Crew's forecast (AIAgentCrew/output/return_crossing.json), added to the opening data for T10. Safe lane: left."
+    },
+    {
+      "line_id": "ARTHUR_RET_03",
+      "step": 3,
+      "beat": "Return crossing call, SEG_03",
+      "kind": "reaction",
+      "speaker": "ARTHUR",
+      "trigger": "ARTHUR_RET_03",
+      "text": "Bring her right! Right, now!",
+      "subtitle": "ARTHUR: Bring her right! Right, now!",
+      "delivery": "Shouted over the engine and the storm, urgent.",
+      "pause_before": 0.0,
+      "once": true,
+      "note": "From the Storm Crossing Crew's forecast (AIAgentCrew/output/return_crossing.json), added to the opening data for T10. Safe lane: right."
+    },
+    {
+      "line_id": "ARTHUR_RET_04",
+      "step": 3,
+      "beat": "Return crossing call, SEG_04",
+      "kind": "reaction",
+      "speaker": "ARTHUR",
+      "trigger": "ARTHUR_RET_04",
+      "text": "Steady, middle! Don't you touch them!",
+      "subtitle": "ARTHUR: Steady, middle! Don't you touch them!",
+      "delivery": "Shouted over the engine and the storm, urgent.",
+      "pause_before": 0.0,
+      "once": true,
+      "note": "From the Storm Crossing Crew's forecast (AIAgentCrew/output/return_crossing.json), added to the opening data for T10. Safe lane: centre."
+    },
+    {
+      "line_id": "ARTHUR_RET_05",
+      "step": 3,
+      "beat": "Return crossing call, SEG_05",
+      "kind": "reaction",
+      "speaker": "ARTHUR",
+      "trigger": "ARTHUR_RET_05",
+      "text": "Hard left! Rocks to starboard!",
+      "subtitle": "ARTHUR: Hard left! Rocks to starboard!",
+      "delivery": "Shouted over the engine and the storm, urgent.",
+      "pause_before": 0.0,
+      "once": true,
+      "note": "From the Storm Crossing Crew's forecast (AIAgentCrew/output/return_crossing.json), added to the opening data for T10. Safe lane: left. Changed from 'Hard left, lad!' (canon: nobody calls the player lad)."
     },
     {
       "line_id": "ARTHUR_S0_13",

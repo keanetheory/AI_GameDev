@@ -1,0 +1,56 @@
+{
+  "spec_id": "crossing_sequence_v1",
+  "owner": "Hazard Forecast agent (backlog T10)",
+  "note": "How the Storm Crossing Crew's return forecast (data/world/return_crossing.json) is laid on the level's real return route. scripts/world/crossing_sequence.gd reads this file. The forecast's 600 m route is stretched along the straight line from the Saltgate quay to the harbour mouth; its lanes are lateral offsets from that line (left and right as seen heading home). One forecast drives the hazards, the safe-lane signal and Arthur's calls, so they can never disagree.",
+  "port": [
+    6.0,
+    531.5
+  ],
+  "berth": [
+    -27.0,
+    18.2
+  ],
+  "lane_offset_m": 12.0,
+  "spawn_on": "SALTGATE_REACHED",
+  "spawn_note": "The hazards are placed when the boat docks at the Saltgate, so the outbound crossing stays free practice and nothing pops into view mid-crossing.",
+  "hazards": {
+    "rock": {
+      "scale": 0.16,
+      "radius_m": 2.6,
+      "height_m": 3.4,
+      "model": "res://Assets/Models/sea_rocks/sea_stack.glb"
+    },
+    "reef": {
+      "count": 3,
+      "spacing_m": 4.5,
+      "scale": 0.1,
+      "radius_m": 1.8
+    },
+    "buoy": {
+      "radius_m": 1.0,
+      "height_m": 2.4,
+      "light_blink_s": 1.6
+    },
+    "debris": {
+      "planks": 3,
+      "size_m": [
+        5.5,
+        0.35,
+        1.1
+      ]
+    }
+  },
+  "near_miss": {
+    "outbound_only": true,
+    "edge_m": 5.0,
+    "note": "OUTBOUND_NEAR_MISS fires (repeatably) when the boat passes within edge_m of a sea stack's edge without touching it."
+  },
+  "calls": {
+    "note": "Arthur's calls are dialogue lines whose trigger is the call id (ARTHUR_RET_01 ...), played when the boat's route position passes the call's trigger_route_m."
+  },
+  "end": [
+    -24.0,
+    80.0
+  ],
+  "end_note": "The forecast's 600 m ends here, 35 m south of the island's rim at the harbour mouth, so no hazard lands on the island or in the harbour; the boat's own docking takes it the rest of the way (RETURN_ARRIVED)."
+}

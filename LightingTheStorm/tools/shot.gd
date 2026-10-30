@@ -1,6 +1,7 @@
 # shot.gd - render still frames of the level from a camera, for visual checks.
 # Run: Godot --path . --write-movie <out>.png --fixed-fps 10 --quit-after N --script res://tools/shot.gd -- x y z  tx ty tz
 # (no --headless: it needs the renderer). Frame N of the PNG sequence is the picture.
+# SHOT_CROSSING=1 shows the return forecast's hazards.
 # SHOT_BOARD=1 shows Arthur aboard the launch.
 # SHOT_INTRO=1 shows the front door open with Ted waiting just inside.
 # SHOT_ROWBOAT=1 shows the sailors' rowboat moored at the south berth.
@@ -77,6 +78,11 @@ func _process(_d: float) -> bool:
 				boat.global_position = Vector3(z.global_position.x, 0.0, z.global_position.z)
 				boat.rotation.y = deg_to_rad(z.berth_yaw_deg)
 				boat.current_zone = z
+	if _f == 4 and OS.get_environment("SHOT_CROSSING") != "":      # SHOT_CROSSING=1: the return forecast's hazards on the sea
+		var gsc := get_root().get_node_or_null("GameState")
+		var cq: Node = gsc.crossing() if gsc else null
+		if cq:
+			cq._spawn_hazards()
 	if _f == 4 and OS.get_environment("SHOT_BOARD") != "":      # SHOT_BOARD=1: Arthur aboard the launch at the lighthouse berth
 		var gsb := get_root().get_node_or_null("GameState")
 		var bq: Node = gsb.boarding() if gsb else null
