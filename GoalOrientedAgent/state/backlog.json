@@ -379,8 +379,11 @@
       "effort": "L",
       "agent_can_execute": false,
       "blocked_by": "Tasks T02, T30, T33. Needs the editor to place the rowboat, gate and NPC paths; greybox Arthur and Daniel and the rowboat do not exist yet.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Built 30 Oct 2026: the sailors row in, moor, wait at the gate, walk up; Arthur waits past the door, Daniel in the basement; Daniel speaks only with the player there."
+      },
       "build_wave": 3,
       "depends_on": [
         "T02",
@@ -408,8 +411,11 @@
       "effort": "M",
       "agent_can_execute": true,
       "blocked_by": "Tasks T02, T04, T26, T28, T30. Depends on GameState, the interior and Ted being in the scene.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Built 30 Oct 2026: the lamp-room diagnosis and briefing with Ted in the lamp room; LAMP_ROOM_REENTERED emitter."
+      },
       "build_wave": 3,
       "depends_on": [
         "T02",
@@ -474,8 +480,11 @@
       "effort": "M",
       "agent_can_execute": true,
       "blocked_by": "Tasks T06, T31. Depends on GameState and the burner/return trigger. The final deadline length is a creator decision (B4), so use a labelled placeholder.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Built 29 Oct 2026: hidden ship deadline (210 s placeholder, data/world/ship_route.json), P pause, debug time scale and log, SHIP_FAIL once; see LightingTheStorm/HANDOFF_T07_T31_ShipDeadline.md."
+      },
       "build_wave": 4,
       "depends_on": [
         "T06",
@@ -504,8 +513,11 @@
       "effort": "L",
       "agent_can_execute": false,
       "blocked_by": "Tasks T26, T07, T09, T12, T14, T31.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Built 29 Oct 2026: the fail sequence (foghorn, crash, silence, Failed screen with reason) and the win card; wording approved."
+      },
       "build_wave": 4,
       "depends_on": [
         "T26",
@@ -707,8 +719,11 @@
       "effort": "M",
       "agent_can_execute": false,
       "blocked_by": "Needs audio source files and licences; sound choices need creator ears.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Built 29 Oct 2026: seven synthesised CC0 placeholder sounds mixed by phase (audio_mixer.gd); sound review scheduled Tuesday 3 Nov 2026."
+      },
       "build_wave": 4,
       "depends_on": [],
       "build_order": 21
@@ -760,8 +775,11 @@
       "effort": "S",
       "agent_can_execute": false,
       "blocked_by": "Creator sign-off on the line list.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Picked 29 Oct 2026 (Decisions A33)."
+      },
       "build_wave": 0,
       "depends_on": [],
       "build_order": 2
@@ -1221,10 +1239,10 @@
       "effort": "M",
       "agent_can_execute": false,
       "blocked_by": "Paths need an editor check.",
-      "status": "open",
+      "status": "done",
       "result": {
-        "outcome": "partial",
-        "summary": "Rowboat done, 19 Oct 2026: Assets/Models/boat/rowboat.glb, 60k triangles, 2.0 x 1.1 x 4.2 m (beamy, as the concept sheet is; check the width and whether the thwarts and oars survived decimation). FAL Hunyuan3D v3 (textured, front + side views cropped from the concept sheets into AIAgentCrew/sample_submissions/derived/; main_asset.py --check-only APPROVE first). FAL returned about 500k triangles and 4096 textures, so each model was downscaled to a 2048 texture and decimated in Blender 5.2; the full-detail versions are in the model folder's source/ (gdignored). Imported headless through tools/import_scale_pivot.gd (prop height 0.9 m, rowboat 4.2 m long; both estimates). Still to do: capsule Arthur and Daniel and the path-follower script."
+        "outcome": "done",
+        "summary": "Built 29 Oct 2026: capsule Arthur and Daniel (npc.gd) with baked routes."
       },
       "id": "T30",
       "title": "Capsule Arthur and Daniel and a path-follower script (the FAL rowboat is done)",
@@ -1251,8 +1269,11 @@
       "effort": "M",
       "agent_can_execute": false,
       "blocked_by": "Needs the editor for the route and sightline.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Built 29 Oct 2026: the ship appears after the boiler is fed out to the north-east, lane onto SeaStack1, safe lane, lamp-room sightline tested."
+      },
       "id": "T31",
       "title": "Passenger ship placeholder, its approach route and the grounding point",
       "priority": 9,
@@ -1423,8 +1444,11 @@
       "effort": "S",
       "agent_can_execute": true,
       "blocked_by": "Lines can be written now; wiring is tested once T07 fires SHIP_FAIL.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Written, picked and wired 29-30 Oct 2026 (TED_F_01, TED_F_03)."
+      },
       "build_wave": 0,
       "depends_on": [
         "T07"
@@ -1449,6 +1473,49 @@
       "agent_can_execute": true,
       "blocked_by": "",
       "depends_on": [],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T39",
+      "title": "Generate the open arc lamp model",
+      "priority": 7,
+      "category": "asset",
+      "summary": "The lamp room's arc lamp (Assets/Models/prop/lhi_arc_lamp.glb) is shown closed and dark with an empty burner socket. Generate a second model of the same lamp OPEN, with its bay or cover swung open and the burner seat visible and empty, matching the closed lamp's size, pivot and style (concept art ConceptArt/burner and the lamp sheets). It is for the diagnosis (Ted opens the lamp and finds the burner cracked), so it must read clearly from the lamp stand. Import it with tools/import_scale_pivot.gd, downscale the texture to 2048, and run main_asset.py --check-only before any FAL submission (FAL Hunyuan v3 costs credits: ask first).",
+      "why_this_score": "The creator wants the diagnosis to show an open lamp and the fit to end with a closed, lit lamp; both need this model. Not higher because the current empty socket and the burner on the floor are an acceptable stand-in.",
+      "evidence": [
+        "Creator, 30 Oct 2026: add 'generate open arc lamp model' to the backlog",
+        "scripts/world/interior/lantern.gd _arc_lamp",
+        "HANDOFF_T05_Diagnosis.md section 8"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Creator with the Asset agent",
+      "effort": "M",
+      "agent_can_execute": false,
+      "blocked_by": "Creator generates or approves the model.",
+      "depends_on": [],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T40",
+      "title": "Open lamp in the diagnosis; the fitted burner disappears and the lamp closes with light emanating",
+      "priority": 6,
+      "category": "code",
+      "summary": "Once the open arc lamp model exists: show the open lamp from the start until the replacement burner is fitted; at BURNER_DIAGNOSED Ted takes the cracked burner out (it appears on the floor, as built); when the player fits the replacement burner (BURNER_FITTED) the burner simply disappears (no burner left in the socket), the open lamp is swapped for the closed one and light emanates from it (lamp_beacon.gd, the beam). Keep lamp_socket.gd's carry flow, SHIP_WIN after 4.5 s, and tools/test_lamp_fit.gd passing; add a test for the swap.",
+      "why_this_score": "Finishes the lamp story the creator described on 30 Oct 2026. Blocked on the open lamp model, so below it.",
+      "evidence": [
+        "Creator, 30 Oct 2026: the replacement burner simply disappears and the lamp appears closed with light emanating",
+        "scripts/world/interior/lamp_socket.gd, lamp_beacon.gd"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Gameplay / Systems agent",
+      "effort": "M",
+      "agent_can_execute": true,
+      "blocked_by": "Task: generate the open arc lamp model.",
+      "depends_on": [
+        "T39"
+      ],
       "status": "open",
       "result": null
     }
@@ -1687,6 +1754,12 @@
       "task_id": "T32",
       "event": "note",
       "note": "Creator, 25 Oct 2026: close to done: the lamp socket offers '[E] Fit the burner into the lamp' (CarrySocket), fires BURNER_FITTED and SHIP_WIN follows 4.5 s later (tools/test_lamp_fit.gd). Being finished alongside T02."
+    },
+    {
+      "time": "2026-10-30T10:23:25",
+      "task_id": "T39",
+      "event": "added",
+      "note": "Creator, 30 Oct 2026"
     }
   ]
 }

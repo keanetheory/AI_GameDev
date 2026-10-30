@@ -19,6 +19,7 @@ const AudioMixer := preload("res://scripts/core/audio_mixer.gd")
 const OutcomeScreen := preload("res://scripts/ui/outcome_screen.gd")
 const SailorsSequence := preload("res://scripts/world/sailors_sequence.gd")
 const DiagnosisSequence := preload("res://scripts/world/diagnosis_sequence.gd")
+const IntroSequence := preload("res://scripts/world/intro_sequence.gd")
 
 signal event_emitted(id: String, phase: int)
 signal phase_changed(old_phase: int, new_phase: int)
@@ -96,6 +97,8 @@ var _mixer: Node               # audio_mixer.gd: the placeholder audio (T14)
 var _outcome_screen: Node      # outcome_screen.gd: the Failed screen and the win card (T08)
 var _sailors: Node             # sailors_sequence.gd: the rowboat, the gate and the walk-in (T04)
 var _diagnosis: Node           # diagnosis_sequence.gd: Ted, the lamp room, the broken burner and the briefing (T05)
+var _intro: Node               # intro_sequence.gd: Ted behind the door, the knock, the greeting (creator, 30 Oct 2026)
+var _level_root: Node
 var _rig: Node
 var _lighting_phase := ""
 
@@ -223,6 +226,8 @@ func _reset_state() -> void:
 	_outcome_screen = null
 	_sailors = null
 	_diagnosis = null
+	_intro = null
+	_level_root = null
 
 
 func _record(id: String, note: String) -> void:
@@ -260,6 +265,8 @@ func _scene_ready() -> void:
 	_bind_boat(get_tree().get_first_node_in_group("boat"))
 	_bind_director()
 	_bind_rig(get_tree().get_first_node_in_group("lighting_rig"))
+	if _intro != null and _intro.holds_start:
+		return       # the game starts when the player knocks (intro_sequence.gd)
 	emit_event("GAME_STARTED")   # ignored if this attempt already started
 
 
@@ -280,6 +287,11 @@ func _bind_director() -> void:
 		return
 	if _boat == null or _boat.get_parent() == null:
 		return
+	_level_root = _boat.get_parent()
+	_intro = IntroSequence.new()
+	_intro.name = "IntroSequence"
+	_boat.get_parent().add_child(_intro)
+	_intro.setup(self, _boat.get_parent())
 	_director = ShipDeadline.new()
 	_director.name = "ShipDeadline"
 	_boat.get_parent().add_child(_director)
@@ -307,6 +319,10 @@ func deadline_progress() -> float:
 	if _director != null and is_instance_valid(_director):
 		return _director.progress()
 	return -1.0
+
+
+func intro() -> Node:
+	return _intro if _intro != null and is_instance_valid(_intro) else null
 
 
 func diagnosis() -> Node:
@@ -339,10 +355,38 @@ func player_in_basement() -> bool:
 	return g.y < BASEMENT_MAX_Y and g.x > BASEMENT_X.x and g.x < BASEMENT_X.y and g.z > BASEMENT_Z.x and g.z < BASEMENT_Z.y
 
 
+## Is the player inside the lighthouse (the house, its basement, or the tower)? Ted's lines are only spoken while they are (creator,
+## 30 October 2026; how loud and how muffled he should be elsewhere is for the Tuesday sound review). The knock greeting is the one
+## exception: it carries no `requires`.
+const TOWER_CENTRE := Vector2(8.5, -4.9)
+const TOWER_RADIUS := 3.4
+
+
+func player_inside_building() -> bool:
+	var p := get_tree().get_first_node_in_group("player") as Node3D
+	if p == null or _level_root == null or not is_instance_valid(_level_root):
+		return false
+	var g := p.global_position
+	if g.y > 9.0 and Vector2(g.x - TOWER_CENTRE.x, g.z - TOWER_CENTRE.y).length() < TOWER_RADIUS:
+		return true
+	var rooms := _level_root.get_node_or_null("InteriorRooms")
+	var culling := _level_root.get_node_or_null("InteriorCulling")
+	if rooms == null or culling == null or rooms.get("frame") == null:
+		return false
+	var local: Vector3 = (rooms.frame as Node3D).to_local(g)
+	var u := local.x
+	var v := -local.z
+	var hu: Vector2 = culling.HOUSE_U
+	var hv: Vector2 = culling.HOUSE_V
+	return u > hu.x and u < hu.y and v > hv.x and v < hv.y
+
+
 ## What a dialogue line's `requires` field asks (see dialogue_loader.gd). Daniel only speaks when he and the player are both
 ## in the basement (creator, 30 October 2026).
 func dialogue_condition(name: String) -> bool:
 	match name:
+		"player_inside":
+			return player_inside_building()
 		"player_and_daniel_in_basement":
 			return fired.has("DANIEL_IN_BASEMENT") and player_in_basement()
 	push_warning("GameState: unknown dialogue condition '%s'" % name)

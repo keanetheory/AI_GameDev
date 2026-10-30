@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-10-27 18:05 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-10-30 10:23 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -36,19 +36,12 @@ _Generated 2026-10-27 18:05 by the Goal-Oriented Agent. Do not edit by hand; the
 
 | ID | Score | Task | Category | Owner role | Effort | Status |
 |---|---|---|---|---|---|---|
-| T07 | **10** | Hidden ship deadline with ship placeholder, elapsed-time lighting and debug time scale | code | Gameplay / Systems agent | M | open |
-| T08 | **10** | Win and fail outcomes: foghorn, grounding, silence, 'Failed' screen with reason, restart | code | Story / Fail-State agent | L | open |
 | T32 | **10** | Burner fit: carry the burner up to the lamp and fit it (BURNER_FITTED, BEACON_RELIT) | code | Gameplay / Systems agent | M | open |
-| T04 | **9** | Window moment, moored rowboat, island gate and sailors' scripted walk-in | scene | Level Layout agent | L | open |
-| T05 | **9** | Lantern room diagnosis: Ted opens the arc lamp and finds the burner broken | code | Gameplay / Systems agent | M | open |
-| T30 | **9** | Capsule Arthur and Daniel and a path-follower script (the FAL rowboat is done) | code | Gameplay / Systems agent | M | open |
-| T31 | **9** | Passenger ship placeholder, its approach route and the grounding point | scene | Level Layout agent | M | open |
 | T10 | **8** | Integrate the crossing crew's hazard forecast: data file, loader, placed buoys/debris, Arthur calls | code | Hazard Forecast agent | M | open |
-| T37 | **8** | Ted's fail dialogue at SHIP_FAIL: write, record and wire it | dialogue | Dialogue agent | S | open |
 | T11 | **7** | Put Arthur aboard and add the arrival 'go go go' beat on the lighthouse dock | code | Gameplay / Systems agent | M | open |
-| T14 | **6** | Placeholder audio: wind, rain, machinery, buoy bell, foghorn, ship impact, mix by phase | audio | Sound agent | M | open |
-| T16 | **6** | Fix the final list of Ted's lamp-room lines to record | decision | Dialogue agent | S | open |
+| T39 | **7** | Generate the open arc lamp model | asset | Creator with the Asset agent | M | open |
 | T36 | **6** | Add lightposts at the Saltgate and at the lighthouse island's dock | scene | Level Layout agent | M | open |
+| T40 | **6** | Open lamp in the diagnosis; the fitted burner disappears and the lamp closes with light emanating | code | Gameplay / Systems agent | M | open |
 | T19 | **5** | Set a placeholder deadline length and write the crossing-penalty values | decision | Production Orchestrator | S | open |
 | T20 | **5** | QA scenario list and automated state-transition checks for the Gate 1 slice | test | QA agent | M | open |
 | T18 | **4** | Review the rewritten opening lines and re-record the six changed voice lines | dialogue | Dialogue agent | M | open |
@@ -57,17 +50,26 @@ _Generated 2026-10-27 18:05 by the Goal-Oriented Agent. Do not edit by hand; the
 | T01 | **10** | Create the central GameState autoload: phase machine, event bus, restart | code | Gameplay / Systems agent | M | done |
 | T02 | **10** | Greybox lighthouse interior route: door, hall, basement, tower stairs, lantern room | scene | Level Layout agent | L | done |
 | T06 | **10** | Saltgate burner pickup: place the burner by the landing, pick it up, carry it aboard | code | Gameplay / Systems agent | M | done |
+| T07 | **10** | Hidden ship deadline with ship placeholder, elapsed-time lighting and debug time scale | code | Gameplay / Systems agent | M | done |
+| T08 | **10** | Win and fail outcomes: foghorn, grounding, silence, 'Failed' screen with reason, restart | code | Story / Fail-State agent | L | done |
 | T29 | **10** | Hand carry: pick up the burner, hold it on the boat, fit it at the lamp | code | Gameplay / Systems agent | M | done |
 | T03 | **9** | Generic first-person interaction system (raycast, prompt, the 'interact' action) | code | Gameplay / Systems agent | M | done |
+| T04 | **9** | Window moment, moored rowboat, island gate and sailors' scripted walk-in | scene | Level Layout agent | L | done |
+| T05 | **9** | Lantern room diagnosis: Ted opens the arc lamp and finds the burner broken | code | Gameplay / Systems agent | M | done |
 | T27 | **9** | Decide what the burner is, how it is carried, and how it is staged at the Saltgate | decision | Canon and Review Orchestrator | S | done |
 | T28 | **9** | Greybox lamp socket, boiler, coal and gauge (the two FAL burners are done) | asset | Asset agent | M | done |
+| T30 | **9** | Capsule Arthur and Daniel and a path-follower script (the FAL rowboat is done) | code | Gameplay / Systems agent | M | done |
+| T31 | **9** | Passenger ship placeholder, its approach route and the grounding point | scene | Level Layout agent | M | done |
 | T33 | **9** | Boiler coal job (BOILER_FED), using the interaction system | code | Gameplay / Systems agent | S | done |
 | T09 | **8** | Decide the fail reason line, deliverer and audio-only fail alternative | decision | Canon and Review Orchestrator | S | done |
+| T37 | **8** | Ted's fail dialogue at SHIP_FAIL: write, record and wire it | dialogue | Dialogue agent | S | done |
 | T12 | **7** | Subtitle and journal UI fed by the DialogueLoader signals | code | Dialogue agent | M | done |
 | T13 | **7** | Drive perceptual storm cues from elapsed deadline time and trigger BEACON_RELIT | code | Lighting agent | M | done |
 | T26 | **7** | Accept the proposed event IDs and phase boundaries into the contract docs | decision | Canon and Review Orchestrator | S | done |
 | T35 | **7** | Review how findable the lighthouse is on the return now the eclipse darkens the world | decision | Lighting agent | S | done |
+| T14 | **6** | Placeholder audio: wind, rain, machinery, buoy bell, foghorn, ship impact, mix by phase | audio | Sound agent | M | done |
 | T15 | **6** | Decide whether the prototype needs controller support, then add bindings and prompts | decision | Player Movement agent | M | done |
+| T16 | **6** | Fix the final list of Ted's lamp-room lines to record | decision | Dialogue agent | S | done |
 | T17 | **6** | Tune and record the Gate 0 steering go/no-go (speed, route length, time per crossing) | test | Boat / Physics agent | M | deferred |
 | T25 | **5** | Repair tools/test_boat.gd for the two-berth harbour and make it fail on timeout | test | Boat / Physics agent | S | done |
 | T34 | **5** | Resolve the discoveries content (B2) on Friday 23 October 2026 | decision | Canon and Review Orchestrator | S | done |
@@ -79,44 +81,16 @@ _Generated 2026-10-27 18:05 by the Goal-Oriented Agent. Do not edit by hand; the
 
 | Wave | Order | ID | Task | Depends on | Waiting on |
 |---|---|---|---|---|---|
-| 0 | 2 | T16 | Fix the final list of Ted's lamp-room lines to record | - | ready |
-| 0 | 37 | T37 | Ted's fail dialogue at SHIP_FAIL: write, record and wire it | T07 | T07 |
-| 2 | 10 | T30 | Capsule Arthur and Daniel and a path-follower script (the FAL rowboat is done) | - | ready |
-| 2 | 11 | T31 | Passenger ship placeholder, its approach route and the grounding point | - | ready |
 | 2 | 36 | T36 | Add lightposts at the Saltgate and at the lighthouse island's dock | - | ready |
-| 3 | 13 | T04 | Window moment, moored rowboat, island gate and sailors' scripted walk-in | T02, T30, T33 | T30 |
-| 3 | 14 | T05 | Lantern room diagnosis: Ted opens the arc lamp and finds the burner broken | T02, T04, T26, T28, T30 | T04, T30 |
-| 3 | 15 | T11 | Put Arthur aboard and add the arrival 'go go go' beat on the lighthouse dock | T30, T31 | T30, T31 |
+| 3 | 15 | T11 | Put Arthur aboard and add the arrival 'go go go' beat on the lighthouse dock | T30, T31 | ready |
 | 4 | 17 | T19 | Set a placeholder deadline length and write the crossing-penalty values | T25 | ready |
-| 4 | 18 | T07 | Hidden ship deadline with ship placeholder, elapsed-time lighting and debug time scale | T06, T31 | T31 |
 | 4 | 19 | T32 | Burner fit: carry the burner up to the lamp and fit it (BURNER_FITTED, BEACON_RELIT) | T02, T26, T28, T29 | ready |
-| 4 | 21 | T14 | Placeholder audio: wind, rain, machinery, buoy bell, foghorn, ship impact, mix by phase | - | ready |
-| 4 | 22 | T08 | Win and fail outcomes: foghorn, grounding, silence, 'Failed' screen with reason, restart | T26, T07, T09, T12, T14, T31 | T07, T14, T31 |
 | 5 | 23 | T10 | Integrate the crossing crew's hazard forecast: data file, loader, placed buoys/debris, Arthur calls | T12 | ready |
-| 5 | 24 | T20 | QA scenario list and automated state-transition checks for the Gate 1 slice | T08 | T08 |
+| 5 | 24 | T20 | QA scenario list and automated state-transition checks for the Gate 1 slice | T08 | ready |
 | 5 | 25 | T18 | Review the rewritten opening lines and re-record the six changed voice lines | - | ready |
 | 5 | 27 | T23 | Bake mainland/cliff carving and collision to cut level load time | - | ready |
 
 ## Task detail
-
-### T07 [10/10] Hidden ship deadline with ship placeholder, elapsed-time lighting and debug time scale  (open)
-
-Implement a numeric internal deadline timer (no UI), pausing in menus, with a placeholder ship whose lights hold at the horizon until the clock starts and then approach. Expose a debug time scale and event log. The value is a placeholder constant until playtests set it. Pause rule (creator, 19 October 2026): the deadline stops in menus and on deliberate pause. Creator, 26 Oct 2026: placeholder deadline 3 min 30 s (210 s), labelled as a placeholder (Decisions A28). Add pause on the P key, which freezes the deadline; menus also stop it (A29). SHIP_FAIL fires wherever the player is when time runs out, including mid-crossing, and the game does not wait (A30). The ship is spawned at runtime so Level.tscn is not touched while another session edits it; the lamp-room view of the ship is checked after the lighthouse session. GameState.deadline_progress() is already called by wave_system.gd. Scheduled for Tue 27 Oct 2026 (creator, 26 Oct): T07 deadline clock, P pause, SHIP_FAIL; then the rest of the passenger ship work: move the ship (now placed static and broadside 75 m south of the lighthouse, across the launch's route) to the horizon and drive it with the clock, lit windows and lanterns, the approach route and the grounding rock (T31), and the lamp-room sightline check.
-
-- **Why 10:** The ship and the deadline are the only stakes; without them neither outcome exists. It is a 10 for the same reason as the outcome task.
-- **Evidence:** Technical Strategy deadline rules and 'Provide a debug time scale and event log'; Pillar 2
-- **Blocked by:** Tasks T06, T31. Depends on GameState and the burner/return trigger. The final deadline length is a creator decision (B4), so use a labelled placeholder.
-- **Depends on:** T06, T31 (still open: T31)
-
-### T08 [10/10] Win and fail outcomes: foghorn, grounding, silence, 'Failed' screen with reason, restart  (open)
-
-Resolve WIN or FAIL exactly once. FAIL plays the foghorn, the ship grounding and silence, then a title screen with a reason line, and restarts the slice; the three expiry locations (crossing, lamp room, stairs) get their audio-only or sightline presentation, with a visual or subtitle alternative. The burner fit moved to T32. Fail reason line (creator): Ted voices "All is lost for those on board...the storm takes more lives. What were you doing, you money toff!", shown as a subtitle; the visual is the ship breaking up on the rock next to the island. On the stairs the player sees nothing; the crash plays out regardless (creator, A26). Creator, 26 Oct 2026: the fail is NOT audio only (Decisions A30). At SHIP_FAIL the ship really crashes and breaks up on the rock next to the island, no cutaway and the game does not wait. In the lighthouse the player hears the crash and can see it from any window or the lamp room; on the crossing they see it if the island is in view; on the stairs with no window they see nothing (A26). Ted's fail dialogue plays at SHIP_FAIL (T37).
-
-- **Why 10:** Both outcomes and restart are explicit Gate 1 acceptance items, so a 10. Not lower because without it the slice has no ending.
-- **Evidence:** Exec Summary Fail-state contract; Technical Strategy fail-state presentation and Gate 1 acceptance; no outcome code in LightingTheStorm/scripts
-- **Blocked by:** Tasks T26, T07, T09, T12, T14, T31.
-- **Depends on:** T26, T07, T09, T12, T14, T31 (still open: T07, T14, T31)
-- **Needs the creator** (cannot be done by the agent alone)
 
 ### T32 [10/10] Burner fit: carry the burner up to the lamp and fit it (BURNER_FITTED, BEACON_RELIT)  (open)
 
@@ -128,44 +102,6 @@ Split out of T08. With Ted waiting in the lamp room, the player carries the burn
 - **Depends on:** T02, T26, T28, T29 (all closed)
 - **Result (in progress):** Creator, 25 Oct 2026: close to done: the lamp socket offers '[E] Fit the burner into the lamp' (CarrySocket), fires BURNER_FITTED and SHIP_WIN follows 4.5 s later (tools/test_lamp_fit.gd). Being finished alongside T02.
 
-### T04 [9/10] Window moment, moored rowboat, island gate and sailors' scripted walk-in  (open)
-
-Add a distinct rowboat at the island dock visible from the window, trigger the SAILORS_MOORED window moment with a short-delay fallback, make the existing island gate (1-gate.glb) a single interaction, and script Arthur and Daniel walking to the lighthouse and Daniel to the basement (DANIEL_IN_BASEMENT). Needs placeholder Arthur and Daniel meshes.
-
-- **Why 9:** Beat 3 is a required slice stage and gates the diagnosis, so it is 9. It is below 10 because it can use capsule placeholders.
-- **Evidence:** Exec Summary step 2 and 'Two boats'; Technical Strategy shelter and gate sequence; Assets/Island/environment/1-gate.glb; ConceptArt/characters (Arthur, Daniel sheets), ConceptArt/dock
-- **Blocked by:** Tasks T02, T30, T33. Needs the editor to place the rowboat, gate and NPC paths; greybox Arthur and Daniel and the rowboat do not exist yet.
-- **Depends on:** T02, T30, T33 (still open: T30)
-- **Needs the creator** (cannot be done by the agent alone)
-
-### T05 [9/10] Lantern room diagnosis: Ted opens the arc lamp and finds the burner broken  (open)
-
-Implement the BEACON_DIAGNOSIS trigger that fires only after DANIEL_IN_BASEMENT, with Ted leading the player to the lantern room, the arc lamp opening, BURNER_DIAGNOSED and BURNER_BRIEFING opening the way to the boat. Reuse the dialogue lines in dialogue_opening.json.
-
-- **Why 9:** It is the story pivot that sends the player to the Saltgate, so it is needed to pass Gate 1. It is under 10 because it can be a simple triggered sequence once the interior and state exist.
-- **Evidence:** Exec Summary step 3; Technical Strategy BEACON_DIAGNOSIS; data/dialogue/dialogue_opening.json lines TED_S3_00..02
-- **Blocked by:** Tasks T02, T04, T26, T28, T30. Depends on GameState, the interior and Ted being in the scene.
-- **Depends on:** T02, T04, T26, T28, T30 (still open: T04, T30)
-
-### T30 [9/10] Capsule Arthur and Daniel and a path-follower script (the FAL rowboat is done)  (open)
-
-Arthur and Daniel are capsules for the prototype (creator, 19 October 2026). The rigged test character is Ted (Assets/Characters/ted.glb), present inside the lighthouse throughout. Generate the rowboat as a FAL model from ConceptArt/rowboat/Crude Rowboat Concept Sheet.png. Add one NPC script that walks a path, waits, follows the player, or sits at a seat on the boat.
-
-- **Why 9:** Three story tasks depend on it, so 9. Capsules would do, so not 10.
-- **Evidence:** Assets/Characters has only ted.glb and the rigged test character; Assets/Models/boat has only boat_launch.glb; ConceptArt/characters
-- **Blocked by:** Paths need an editor check.
-- **Needs the creator** (cannot be done by the agent alone)
-- **Result (partial):** Rowboat done, 19 Oct 2026: Assets/Models/boat/rowboat.glb, 60k triangles, 2.0 x 1.1 x 4.2 m (beamy, as the concept sheet is; check the width and whether the thwarts and oars survived decimation). FAL Hunyuan3D v3 (textured, front + side views cropped from the concept sheets into AIAgentCrew/sample_submissions/derived/; main_asset.py --check-only APPROVE first). FAL returned about 500k triangles and 4096 textures, so each model was downscaled to a 2048 texture and decimated in Blender 5.2; the full-detail versions are in the model folder's source/ (gdignored). Imported headless through tools/import_scale_pivot.gd (prop height 0.9 m, rowboat 4.2 m long; both estimates). Still to do: capsule Arthur and Daniel and the path-follower script.
-
-### T31 [9/10] Passenger ship placeholder, its approach route and the grounding point  (open)
-
-A placeholder passenger ship with lights and a path from the horizon toward the port that the deadline drives. On a win it passes one of the rocks right next to the island safely; on a fail it crashes and breaks up on that rock. The rock must be in clear view from the lamp room, which has views all around (creator, 19 October 2026). Note (19 Oct 2026): the exterior lighthouse's lantern glazing is an opaque textured mesh, so the lamp room has no view out until its window panels are carved or replaced with glass. Creator, 26 Oct 2026: the creator is generating concept art for the passenger ship separately. Next step is a FAL generation of the ship from that art, AFTER the lighthouse session is complete (style guide applies; check the FAL budget with the creator first). Creator, 26 Oct 2026: the FAL ship is generated and in the level (Assets/Models/boat/passenger_ship.glb, 100 m, node PassengerShip, static, no collision or lights). Scheduled for Tue 27 Oct 2026 (creator, 26 Oct): T07 deadline clock, P pause, SHIP_FAIL; then the rest of the passenger ship work: move the ship (now placed static and broadside 75 m south of the lighthouse, across the launch's route) to the horizon and drive it with the clock, lit windows and lanterns, the approach route and the grounding rock (T31), and the lamp-room sightline check.
-
-- **Why 9:** T07, T08 and the ship-sighted beat of T11 depend on it, so 9.
-- **Evidence:** No ship object in Level.tscn; Exec Summary fail-state contract (runs aground); Technical Strategy lamp-room sightline
-- **Blocked by:** Needs the editor for the route and sightline.
-- **Needs the creator** (cannot be done by the agent alone)
-
 ### T10 [8/10] Integrate the crossing crew's hazard forecast: data file, loader, placed buoys/debris, Arthur calls  (open)
 
 Copy return_crossing.json into LightingTheStorm/data, add crossing_loader.gd to the scene with a route-position feed from the boat, spawn hazards (rocks, buoys, debris) from it, and play Arthur's calls as subtitles from the same safe-lane signal. Add an equivalent, easier outbound forecast. Do not add waves or branching.
@@ -175,15 +111,6 @@ Copy return_crossing.json into LightingTheStorm/data, add crossing_loader.gd to 
 - **Blocked by:** Tasks T12. Best done after Arthur is in the boat; steering feel play check needed.
 - **Depends on:** T12 (all closed)
 
-### T37 [8/10] Ted's fail dialogue at SHIP_FAIL: write, record and wire it  (open)
-
-At SHIP_FAIL Ted delivers fail dialogue wherever the player is (creator, 26 Oct 2026, Decisions A31). It includes the agreed reason line (A20: "All is lost for those on board...the storm takes more lives. What were you doing, you money toff!"), subtitled. Decide whether there are lines beyond the reason line, write them in the Lore Build dialogue files, record the voice, and add them to the dialogue data so the Dialogue loader plays them on the SHIP_FAIL event. They play while the crash happens in the world (A30), before the 'Failed' screen.
-
-- **Why 8:** The fail must tell the player why they failed (Pillar 4), and Ted is the deliverer. Not 9 because the subtitle alone covers the requirement until the voice is recorded.
-- **Evidence:** Creator, 26 Oct 2026: at SHIP_FAIL there will be fail dialogue from Ted; Decisions to be made A20, A30, A31; canon.py FAIL_REASON_LINE
-- **Blocked by:** Lines can be written now; wiring is tested once T07 fires SHIP_FAIL.
-- **Depends on:** T07 (still open: T07)
-
 ### T11 [7/10] Put Arthur aboard and add the arrival 'go go go' beat on the lighthouse dock  (open)
 
 Seat Arthur on the engine boat as the only companion, fire BOARDING_THRESHOLD (Ted introduces the ship) and the SALTGATE_REACHED and arrival events from dock-zone arrival. Plays his line on return arrival, then he leaves the player to climb.
@@ -191,24 +118,15 @@ Seat Arthur on the engine boat as the only companion, fire BOARDING_THRESHOLD (T
 - **Why 7:** Companion guidance is part of the beats but the slice can be tested with the loader's lines alone, so 7.
 - **Evidence:** Exec Summary steps 4-7 and Cast; boat.gd docked signal; dialogue_opening.json
 - **Blocked by:** Tasks T30, T31. Depends on GameState and the crossing integration.
-- **Depends on:** T30, T31 (still open: T30, T31)
+- **Depends on:** T30, T31 (all closed)
 
-### T14 [6/10] Placeholder audio: wind, rain, machinery, buoy bell, foghorn, ship impact, mix by phase  (open)
+### T39 [7/10] Generate the open arc lamp model  (open)
 
-Add placeholder audio buses and AudioStreamPlayers for wind, rain, boiler/dynamo, buoy bells, foghorn and impact, mixed by phase and with Arthur's calls kept audible. Record source and licence per file and wire the six re-recorded voice lines later.
+The lamp room's arc lamp (Assets/Models/prop/lhi_arc_lamp.glb) is shown closed and dark with an empty burner socket. Generate a second model of the same lamp OPEN, with its bay or cover swung open and the burner seat visible and empty, matching the closed lamp's size, pivot and style (concept art ConceptArt/burner and the lamp sheets). It is for the diagnosis (Ted opens the lamp and finds the burner cracked), so it must read clearly from the lamp stand. Import it with tools/import_scale_pivot.gd, downscale the texture to 2048, and run main_asset.py --check-only before any FAL submission (FAL Hunyuan v3 costs credits: ask first).
 
-- **Why 6:** Audio carries the deadline when there is no UI and the fail cue on the crossing. Placeholder is acceptable per Gate 1, so 6.
-- **Evidence:** Exec Summary atmosphere; AI Agent Strategy (Sound); no AudioStreamPlayer anywhere in LightingTheStorm
-- **Blocked by:** Needs audio source files and licences; sound choices need creator ears.
-- **Needs the creator** (cannot be done by the agent alone)
-
-### T16 [6/10] Fix the final list of Ted's lamp-room lines to record  (open)
-
-Ted's presence is settled (creator, 19 October 2026: he is inside the lighthouse throughout the game). What remains is the final list of lamp-room lines to voice, since every line is voice-over cost: the diagnosis lines (TED_S3_*), the waiting line when the player returns, the burner-fit and win reaction, and the fail reason line (canon.py FAIL_REASON_LINE). Creator, 26 Oct 2026: Ted's SHIP_FAIL dialogue is tracked as its own task, T37.
-
-- **Why 6:** It blocks recording, not building, so 6: the lamp-room tasks can use subtitles until the lines are voiced.
-- **Evidence:** Exec Summary decisions log (Ted); Decisions to be made B1; Assets/Characters/ted.glb exists
-- **Blocked by:** Creator sign-off on the line list.
+- **Why 7:** The creator wants the diagnosis to show an open lamp and the fit to end with a closed, lit lamp; both need this model. Not higher because the current empty socket and the burner on the floor are an acceptable stand-in.
+- **Evidence:** Creator, 30 Oct 2026: add 'generate open arc lamp model' to the backlog; scripts/world/interior/lantern.gd _arc_lamp; HANDOFF_T05_Diagnosis.md section 8
+- **Blocked by:** Creator generates or approves the model.
 - **Needs the creator** (cannot be done by the agent alone)
 
 ### T36 [6/10] Add lightposts at the Saltgate and at the lighthouse island's dock  (open)
@@ -217,6 +135,15 @@ Place lightposts as the player's guidance now the eclipse makes the world very d
 
 - **Why 6:** They are the player's navigation cue in the dark return, but the slice is playable without them, so 6.
 - **Evidence:** Creator, 23 Oct 2026: lights on the dock and on the Saltgate to be added; Decisions to be made A4: the Saltgate stays minimal until the prototype is complete; Level.tscn DockZoneLighthouse, DockZoneLighthouseSouth, DockZonePort, Harbour
+
+### T40 [6/10] Open lamp in the diagnosis; the fitted burner disappears and the lamp closes with light emanating  (open)
+
+Once the open arc lamp model exists: show the open lamp from the start until the replacement burner is fitted; at BURNER_DIAGNOSED Ted takes the cracked burner out (it appears on the floor, as built); when the player fits the replacement burner (BURNER_FITTED) the burner simply disappears (no burner left in the socket), the open lamp is swapped for the closed one and light emanates from it (lamp_beacon.gd, the beam). Keep lamp_socket.gd's carry flow, SHIP_WIN after 4.5 s, and tools/test_lamp_fit.gd passing; add a test for the swap.
+
+- **Why 6:** Finishes the lamp story the creator described on 30 Oct 2026. Blocked on the open lamp model, so below it.
+- **Evidence:** Creator, 30 Oct 2026: the replacement burner simply disappears and the lamp appears closed with light emanating; scripts/world/interior/lamp_socket.gd, lamp_beacon.gd
+- **Blocked by:** Task: generate the open arc lamp model.
+- **Depends on:** T39 (still open: T39)
 
 ### T19 [5/10] Set a placeholder deadline length and write the crossing-penalty values  (open)
 
@@ -235,7 +162,7 @@ Write a reproducible scenario list covering each phase transition, the clock sta
 - **Why 5:** Gate checks need evidence, but it only becomes useful once the state controller exists, so 5.
 - **Evidence:** Technical Strategy 'Validation and integration'; AI Agent Strategy (QA); tools/test_boat.gd
 - **Blocked by:** Tasks T08. Depends on the GameState task.
-- **Depends on:** T08 (still open: T08)
+- **Depends on:** T08 (all closed)
 
 ### T18 [4/10] Review the rewritten opening lines and re-record the six changed voice lines  (open)
 
@@ -307,6 +234,27 @@ Place the replacement burner (T28) on the ground at the Saltgate dock, close to 
 - **Depends on:** T25, T26, T28, T29 (all closed)
 - **Result (done):** 19 Oct 2026: the replacement burner (Assets/Models/prop/burner_replacement.glb) stands on the Saltgate landing platform at (4.5, 4.4, 540.5), 2.5 m from the landing and 13.6 m from the berth, outside the boat's 10 m board radius so one E cannot both pick up and board. scripts/world/burner_pickup.gd shows '[E] Pick up the burner' within 2.5 m when facing it; E reparents the model to the camera (low and centred, no shadow) and fires GameState.emit_event('BURNER_PICKED_UP'). Boarding and casting off use the boat's own E, and casting off from DOCK_PORT then fires RETURN_DEPARTED (phase RETURN). New headless test tools/test_burner_pickup.gd drives all of it through the real E key: 13 checks pass, exit 0. Checked in the real renderer with a screenshot. The F11 stand-in is still there for debugging (inside debug_keys). Play-tested by the creator on 19 Oct 2026: works.
 
+### T07 [10/10] Hidden ship deadline with ship placeholder, elapsed-time lighting and debug time scale  (done)
+
+Implement a numeric internal deadline timer (no UI), pausing in menus, with a placeholder ship whose lights hold at the horizon until the clock starts and then approach. Expose a debug time scale and event log. The value is a placeholder constant until playtests set it. Pause rule (creator, 19 October 2026): the deadline stops in menus and on deliberate pause. Creator, 26 Oct 2026: placeholder deadline 3 min 30 s (210 s), labelled as a placeholder (Decisions A28). Add pause on the P key, which freezes the deadline; menus also stop it (A29). SHIP_FAIL fires wherever the player is when time runs out, including mid-crossing, and the game does not wait (A30). The ship is spawned at runtime so Level.tscn is not touched while another session edits it; the lamp-room view of the ship is checked after the lighthouse session. GameState.deadline_progress() is already called by wave_system.gd. Scheduled for Tue 27 Oct 2026 (creator, 26 Oct): T07 deadline clock, P pause, SHIP_FAIL; then the rest of the passenger ship work: move the ship (now placed static and broadside 75 m south of the lighthouse, across the launch's route) to the horizon and drive it with the clock, lit windows and lanterns, the approach route and the grounding rock (T31), and the lamp-room sightline check.
+
+- **Why 10:** The ship and the deadline are the only stakes; without them neither outcome exists. It is a 10 for the same reason as the outcome task.
+- **Evidence:** Technical Strategy deadline rules and 'Provide a debug time scale and event log'; Pillar 2
+- **Blocked by:** Tasks T06, T31. Depends on GameState and the burner/return trigger. The final deadline length is a creator decision (B4), so use a labelled placeholder.
+- **Depends on:** T06, T31 (all closed)
+- **Result (done):** Built 29 Oct 2026: hidden ship deadline (210 s placeholder, data/world/ship_route.json), P pause, debug time scale and log, SHIP_FAIL once; see LightingTheStorm/HANDOFF_T07_T31_ShipDeadline.md.
+
+### T08 [10/10] Win and fail outcomes: foghorn, grounding, silence, 'Failed' screen with reason, restart  (done)
+
+Resolve WIN or FAIL exactly once. FAIL plays the foghorn, the ship grounding and silence, then a title screen with a reason line, and restarts the slice; the three expiry locations (crossing, lamp room, stairs) get their audio-only or sightline presentation, with a visual or subtitle alternative. The burner fit moved to T32. Fail reason line (creator): Ted voices "All is lost for those on board...the storm takes more lives. What were you doing, you money toff!", shown as a subtitle; the visual is the ship breaking up on the rock next to the island. On the stairs the player sees nothing; the crash plays out regardless (creator, A26). Creator, 26 Oct 2026: the fail is NOT audio only (Decisions A30). At SHIP_FAIL the ship really crashes and breaks up on the rock next to the island, no cutaway and the game does not wait. In the lighthouse the player hears the crash and can see it from any window or the lamp room; on the crossing they see it if the island is in view; on the stairs with no window they see nothing (A26). Ted's fail dialogue plays at SHIP_FAIL (T37).
+
+- **Why 10:** Both outcomes and restart are explicit Gate 1 acceptance items, so a 10. Not lower because without it the slice has no ending.
+- **Evidence:** Exec Summary Fail-state contract; Technical Strategy fail-state presentation and Gate 1 acceptance; no outcome code in LightingTheStorm/scripts
+- **Blocked by:** Tasks T26, T07, T09, T12, T14, T31.
+- **Depends on:** T26, T07, T09, T12, T14, T31 (all closed)
+- **Needs the creator** (cannot be done by the agent alone)
+- **Result (done):** Built 29 Oct 2026: the fail sequence (foghorn, crash, silence, Failed screen with reason) and the win card; wording approved.
+
 ### T29 [10/10] Hand carry: pick up the burner, hold it on the boat, fit it at the lamp  (done)
 
 The player picks the burner up with his hands and holds it, visible in first person, through the return crossing, the walk up from the dock and the stairs. The only places it can be released are the boat and the lamp socket; there is no drop elsewhere. It survives boat.gd _recover() on a hazard hit. Steering and boarding must work while holding it. GameState.burner_aboard follows the carried state.
@@ -326,6 +274,27 @@ Add a raycast/Area-based interactable using the existing 'interact' action, with
 - **Blocked by:** Tasks T15. Controller decision (T15) settles the prompt glyphs.
 - **Depends on:** T15 (all closed)
 - **Result (done):** Added the generic interaction system: an Interaction autoload that is the single on-foot consumer of the interact action and owns the one prompt label, and a reusable Interactable node (prompt, reach, facing, enabled, overridable can_interact/prompt_text/interact). It picks the nearest, most central usable target, stays quiet while seated in the boat or when blocked, and reads the key label from the input map. Not yet wired to the door or burner, which still carry their own prompts.
+
+### T04 [9/10] Window moment, moored rowboat, island gate and sailors' scripted walk-in  (done)
+
+Add a distinct rowboat at the island dock visible from the window, trigger the SAILORS_MOORED window moment with a short-delay fallback, make the existing island gate (1-gate.glb) a single interaction, and script Arthur and Daniel walking to the lighthouse and Daniel to the basement (DANIEL_IN_BASEMENT). Needs placeholder Arthur and Daniel meshes.
+
+- **Why 9:** Beat 3 is a required slice stage and gates the diagnosis, so it is 9. It is below 10 because it can use capsule placeholders.
+- **Evidence:** Exec Summary step 2 and 'Two boats'; Technical Strategy shelter and gate sequence; Assets/Island/environment/1-gate.glb; ConceptArt/characters (Arthur, Daniel sheets), ConceptArt/dock
+- **Blocked by:** Tasks T02, T30, T33. Needs the editor to place the rowboat, gate and NPC paths; greybox Arthur and Daniel and the rowboat do not exist yet.
+- **Depends on:** T02, T30, T33 (all closed)
+- **Needs the creator** (cannot be done by the agent alone)
+- **Result (done):** Built 30 Oct 2026: the sailors row in, moor, wait at the gate, walk up; Arthur waits past the door, Daniel in the basement; Daniel speaks only with the player there.
+
+### T05 [9/10] Lantern room diagnosis: Ted opens the arc lamp and finds the burner broken  (done)
+
+Implement the BEACON_DIAGNOSIS trigger that fires only after DANIEL_IN_BASEMENT, with Ted leading the player to the lantern room, the arc lamp opening, BURNER_DIAGNOSED and BURNER_BRIEFING opening the way to the boat. Reuse the dialogue lines in dialogue_opening.json.
+
+- **Why 9:** It is the story pivot that sends the player to the Saltgate, so it is needed to pass Gate 1. It is under 10 because it can be a simple triggered sequence once the interior and state exist.
+- **Evidence:** Exec Summary step 3; Technical Strategy BEACON_DIAGNOSIS; data/dialogue/dialogue_opening.json lines TED_S3_00..02
+- **Blocked by:** Tasks T02, T04, T26, T28, T30. Depends on GameState, the interior and Ted being in the scene.
+- **Depends on:** T02, T04, T26, T28, T30 (all closed)
+- **Result (done):** Built 30 Oct 2026: the lamp-room diagnosis and briefing with Ted in the lamp room; LAMP_ROOM_REENTERED emitter.
 
 ### T27 [9/10] Decide what the burner is, how it is carried, and how it is staged at the Saltgate  (done)
 
@@ -347,6 +316,26 @@ Generate the broken and replacement burners as FAL models from ConceptArt/burner
 - **Depends on:** T02, T27 (all closed)
 - **Result (done):** Creator, 25 Oct 2026: done. The lamp socket, boiler, coal pile and gauge are built in the code-built interior (scripts/world/interior/: lamp_socket.gd, coal_pile.gd, firebox_hatch.gd, boiler_gauge.gd), and the Asset agent's FAL models (lhi_boiler, lhi_arc_lamp, lhi_steam_engine, lhi_coal_shovel) are in Assets/Models/prop.
 
+### T30 [9/10] Capsule Arthur and Daniel and a path-follower script (the FAL rowboat is done)  (done)
+
+Arthur and Daniel are capsules for the prototype (creator, 19 October 2026). The rigged test character is Ted (Assets/Characters/ted.glb), present inside the lighthouse throughout. Generate the rowboat as a FAL model from ConceptArt/rowboat/Crude Rowboat Concept Sheet.png. Add one NPC script that walks a path, waits, follows the player, or sits at a seat on the boat.
+
+- **Why 9:** Three story tasks depend on it, so 9. Capsules would do, so not 10.
+- **Evidence:** Assets/Characters has only ted.glb and the rigged test character; Assets/Models/boat has only boat_launch.glb; ConceptArt/characters
+- **Blocked by:** Paths need an editor check.
+- **Needs the creator** (cannot be done by the agent alone)
+- **Result (done):** Built 29 Oct 2026: capsule Arthur and Daniel (npc.gd) with baked routes.
+
+### T31 [9/10] Passenger ship placeholder, its approach route and the grounding point  (done)
+
+A placeholder passenger ship with lights and a path from the horizon toward the port that the deadline drives. On a win it passes one of the rocks right next to the island safely; on a fail it crashes and breaks up on that rock. The rock must be in clear view from the lamp room, which has views all around (creator, 19 October 2026). Note (19 Oct 2026): the exterior lighthouse's lantern glazing is an opaque textured mesh, so the lamp room has no view out until its window panels are carved or replaced with glass. Creator, 26 Oct 2026: the creator is generating concept art for the passenger ship separately. Next step is a FAL generation of the ship from that art, AFTER the lighthouse session is complete (style guide applies; check the FAL budget with the creator first). Creator, 26 Oct 2026: the FAL ship is generated and in the level (Assets/Models/boat/passenger_ship.glb, 100 m, node PassengerShip, static, no collision or lights). Scheduled for Tue 27 Oct 2026 (creator, 26 Oct): T07 deadline clock, P pause, SHIP_FAIL; then the rest of the passenger ship work: move the ship (now placed static and broadside 75 m south of the lighthouse, across the launch's route) to the horizon and drive it with the clock, lit windows and lanterns, the approach route and the grounding rock (T31), and the lamp-room sightline check.
+
+- **Why 9:** T07, T08 and the ship-sighted beat of T11 depend on it, so 9.
+- **Evidence:** No ship object in Level.tscn; Exec Summary fail-state contract (runs aground); Technical Strategy lamp-room sightline
+- **Blocked by:** Needs the editor for the route and sightline.
+- **Needs the creator** (cannot be done by the agent alone)
+- **Result (done):** Built 29 Oct 2026: the ship appears after the boiler is fed out to the north-east, lane onto SeaStack1, safe lane, lamp-room sightline tested.
+
 ### T33 [9/10] Boiler coal job (BOILER_FED), using the interaction system  (done)
 
 Split out of T03. In the basement, pick up and shovel coal until the gauge climbs, emitting LIGHTHOUSE_ENTERED on entry and BOILER_FED when done, and start the dynamo hum or effect.
@@ -367,6 +356,16 @@ The creator must choose the wording of the short line shown on 'Failed' and who 
 - **Needs the creator** (cannot be done by the agent alone)
 - **Result (done):** Creator decision, 19 October 2026. Ted voices the fail reason line and it is shown as a subtitle: "All is lost for those on board...the storm takes more lives. What were you doing, you money toff!" The visual is the passenger ship crashing and breaking up on one of the rocks right next to the island. (The first wording ended 'lad???', which broke the canon rule against calling the player lad; the creator changed it to 'you money toff!'.) Recorded in Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md (A20).
 
+### T37 [8/10] Ted's fail dialogue at SHIP_FAIL: write, record and wire it  (done)
+
+At SHIP_FAIL Ted delivers fail dialogue wherever the player is (creator, 26 Oct 2026, Decisions A31). It includes the agreed reason line (A20: "All is lost for those on board...the storm takes more lives. What were you doing, you money toff!"), subtitled. Decide whether there are lines beyond the reason line, write them in the Lore Build dialogue files, record the voice, and add them to the dialogue data so the Dialogue loader plays them on the SHIP_FAIL event. They play while the crash happens in the world (A30), before the 'Failed' screen.
+
+- **Why 8:** The fail must tell the player why they failed (Pillar 4), and Ted is the deliverer. Not 9 because the subtitle alone covers the requirement until the voice is recorded.
+- **Evidence:** Creator, 26 Oct 2026: at SHIP_FAIL there will be fail dialogue from Ted; Decisions to be made A20, A30, A31; canon.py FAIL_REASON_LINE
+- **Blocked by:** Lines can be written now; wiring is tested once T07 fires SHIP_FAIL.
+- **Depends on:** T07 (all closed)
+- **Result (done):** Written, picked and wired 29-30 Oct 2026 (TED_F_01, TED_F_03).
+
 ### T12 [7/10] Subtitle and journal UI fed by the DialogueLoader signals  (done)
 
 Add a CanvasLayer showing speaker-attributed subtitles from line_started and a handwritten-style journal reading journal_entry_added. No quest markers and no timer; the assist hint stays off by default.
@@ -382,7 +381,7 @@ In lighting_rig.gd, add a blend by normalised elapsed deadline time for rain, li
 - **Why 7:** This implements the storm-split decision and Pillar 2, but the slice works with phase-only lighting, so 7.
 - **Evidence:** Exec Summary decisions log (Storm escalation); lighting_rig.gd phases and 'BEACON_RELIT has no trigger yet'
 - **Blocked by:** Tasks T07, T32. Depends on the deadline task.
-- **Depends on:** T07, T32 (still open: T07, T32)
+- **Depends on:** T07, T32 (still open: T32)
 - **Result (done):** Creator, 25 Oct 2026: done. The creator considers the storm atmosphere set (the eclipse, rain from the start, lightning and the lighting rig phases); no further elapsed-time blend is needed for Gate 1.
 
 ### T26 [7/10] Accept the proposed event IDs and phase boundaries into the contract docs  (done)
@@ -406,6 +405,16 @@ With the eclipse dimming the moon, ambient, reflections and distance fog (23 Oct
 - **Needs the creator** (cannot be done by the agent alone)
 - **Result (done):** Creator, 25 Oct 2026: done. The creator has reviewed the return under the eclipse and is satisfied the lighthouse can be found.
 
+### T14 [6/10] Placeholder audio: wind, rain, machinery, buoy bell, foghorn, ship impact, mix by phase  (done)
+
+Add placeholder audio buses and AudioStreamPlayers for wind, rain, boiler/dynamo, buoy bells, foghorn and impact, mixed by phase and with Arthur's calls kept audible. Record source and licence per file and wire the six re-recorded voice lines later.
+
+- **Why 6:** Audio carries the deadline when there is no UI and the fail cue on the crossing. Placeholder is acceptable per Gate 1, so 6.
+- **Evidence:** Exec Summary atmosphere; AI Agent Strategy (Sound); no AudioStreamPlayer anywhere in LightingTheStorm
+- **Blocked by:** Needs audio source files and licences; sound choices need creator ears.
+- **Needs the creator** (cannot be done by the agent alone)
+- **Result (done):** Built 29 Oct 2026: seven synthesised CC0 placeholder sounds mixed by phase (audio_mixer.gd); sound review scheduled Tuesday 3 Nov 2026.
+
 ### T15 [6/10] Decide whether the prototype needs controller support, then add bindings and prompts  (done)
 
 Technical Strategy Gate 1 requires keyboard and controller but the Exec Summary puts controller in the full game (B14). The creator should settle this. If yes, add joypad bindings (steer, interact, look), a gamepad look in player.gd and prompt glyphs in the boat label.
@@ -415,6 +424,16 @@ Technical Strategy Gate 1 requires keyboard and controller but the Exec Summary 
 - **Blocked by:** Creator decision B14, then a controller test in the editor.
 - **Needs the creator** (cannot be done by the agent alone)
 - **Result (done):** Creator decision, 19 October 2026. No controller in this iteration; the prototype is keyboard and mouse. Technical Strategy Gate 1 acceptance reworded. Recorded in Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md (A21).
+
+### T16 [6/10] Fix the final list of Ted's lamp-room lines to record  (done)
+
+Ted's presence is settled (creator, 19 October 2026: he is inside the lighthouse throughout the game). What remains is the final list of lamp-room lines to voice, since every line is voice-over cost: the diagnosis lines (TED_S3_*), the waiting line when the player returns, the burner-fit and win reaction, and the fail reason line (canon.py FAIL_REASON_LINE). Creator, 26 Oct 2026: Ted's SHIP_FAIL dialogue is tracked as its own task, T37.
+
+- **Why 6:** It blocks recording, not building, so 6: the lamp-room tasks can use subtitles until the lines are voiced.
+- **Evidence:** Exec Summary decisions log (Ted); Decisions to be made B1; Assets/Characters/ted.glb exists
+- **Blocked by:** Creator sign-off on the line list.
+- **Needs the creator** (cannot be done by the agent alone)
+- **Result (done):** Picked 29 Oct 2026 (Decisions A33).
 
 ### T17 [6/10] Tune and record the Gate 0 steering go/no-go (speed, route length, time per crossing)  (deferred)
 

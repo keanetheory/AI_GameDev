@@ -3,7 +3,7 @@
 # data/world/diagnosis_sequence.json. This script only reports events; GameState owns the phase and the dialogue plays the lines.
 #
 #   SAILORS_INSIDE + DANIEL_IN_BASEMENT -> a few seconds later BEACON_STILL_DARK (Ted, now in the lamp room, calls the player up: "Dynamo's
-#       running and still no light ... Lantern room, Isaac. With me."); Ted appears beside the arc lamp;
+#       running and still no light ... Lantern room, Isaac. With me."); Ted, who walked up earlier, is at his spot beside the arc lamp;
 #   the player reaches the lamp room -> LAMP_ROOM_ENTERED (Ted: "Arc lamp's in the middle. Let's open her up ...");
 #   a few seconds later -> BURNER_DIAGNOSED: the cracked burner Ted has taken out appears on the floor beside him ("Cracked clean
 #       through. The burner's finished ..."), then he names the ship, which is in view out of the lamp-room windows;
@@ -13,7 +13,7 @@
 # The arc lamp is not animated open: the socket is simply empty and the broken burner turns up on the floor (an art task).
 extends Node
 
-const Ted := preload("res://scripts/character/ted.gd")
+const Npc := preload("res://scripts/character/npc.gd")
 const Routes := preload("res://scripts/character/npc_routes.gd")
 const SPEC_PATH := "res://data/world/diagnosis_sequence.json"
 
@@ -104,13 +104,15 @@ func _process(delta: float) -> void:
 		_gs.emit_event("BURNER_BRIEFING")
 
 
+## Ted is in the lamp room by now (he walked up while sending the player to the coal, intro_sequence.gd); make sure he is at his spot,
+## facing the lamp, even if the player was quick and he is still on the stairs.
 func _place_ted() -> void:
-	if ted != null and is_instance_valid(ted):
-		return
 	var t: Dictionary = spec["ted"]
-	ted = Ted.new()
-	_level.add_child(ted)
-	ted.setup(String(t["pose_clip"]), float(t["pose_time"]))
+	var intro: Node = _gs.intro()
+	ted = intro.ted if intro != null else null
+	if ted == null:
+		ted = Npc.spawn(_level, "TED", Vector3.ZERO)
+	ted.stop()
 	ted.global_position = Vector3(float(t["spot"][0]), float(t["spot"][1]), float(t["spot"][2]))
 	ted.face(Vector3(float(t["look_at"][0]), float(t["look_at"][1]), float(t["look_at"][2])))
 

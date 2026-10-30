@@ -27,6 +27,7 @@ var _leg_time := 0.0
 
 
 func _initialize() -> void:
+	Engine.set_meta("skip_intro", true)      # these tests use the front door as an ordinary door; the knock opening is tested in test_intro_sequence.gd
 	_lv = load("res://scenes/Level.tscn").instantiate()
 	root.add_child(_lv)
 	_player = _lv.get_node("Player")

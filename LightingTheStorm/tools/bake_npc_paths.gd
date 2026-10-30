@@ -199,6 +199,15 @@ func _bake() -> void:
 	to_launch.append_array(back_plateau)
 	to_launch.append_array(_outdoor(space, STAIRS_TO_LAUNCH, exclude, back_plateau[-1].y))
 	routes["hall_to_launch_berth"] = {"note": "Arthur from the hall to the player's launch berth (the north jetty), for boarding (T11).", "points": to_launch}
+	# Ted: from where he greets the player, up the spiral stairs to his spot beside the arc lamp
+	var ted_from: Vector3 = (_lv.get_node("InteriorAnchors").anchors["ted_greeting"] as Node3D).global_position
+	print("bake_npc_paths: Ted greets from ", ted_from)
+	if reach.flood(ted_from + Vector3(0, 0.05, 0)):
+		var ted_goal := reach.nearest(Vector3(8.5, 27.51, -6.8), true)
+		if not ted_goal.is_empty():
+			routes["ted_to_lamp"] = {"note": "Ted from the greeting spot behind the front door up the tower stairs to his spot beside the arc lamp (he walks it while he sends the player to the coal).", "points": reach.path_to(ted_goal)}
+	else:
+		push_warning("bake_npc_paths: no standable spot at Ted's greeting spot")
 	var data := {"spec_id": "npc_paths_v1", "baked_by": "tools/bake_npc_paths.gd", "note": "Baked world-space routes with floor heights. Do not edit by hand; re-run the bake tool when the level changes.", "routes": {}}
 	for k in routes:
 		var pts: Array = []

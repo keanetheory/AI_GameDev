@@ -68,7 +68,7 @@ func _blocked_points(pts: PackedVector3Array) -> Array:
 
 func _run() -> void:
 	var names := Routes.names()
-	for n in ["sailors_dock_to_porch", "sailors_dock_to_hall", "daniel_dock_to_basement", "hall_to_porch", "porch_to_hall", "hall_to_launch_berth"]:
+	for n in ["sailors_dock_to_porch", "sailors_dock_to_hall", "daniel_dock_to_basement", "hall_to_porch", "porch_to_hall", "hall_to_launch_berth", "ted_to_lamp"]:
 		_check(names.has(n), "route %s is baked" % n)
 	var to_hall := Routes.route("sailors_dock_to_hall")
 	var to_base := Routes.route("daniel_dock_to_basement")
@@ -87,7 +87,7 @@ func _run() -> void:
 	_check(through_door, "the route passes through the door opening")
 
 	# fit
-	for n in ["sailors_dock_to_hall", "daniel_dock_to_basement", "hall_to_launch_berth"]:
+	for n in ["sailors_dock_to_hall", "daniel_dock_to_basement", "hall_to_launch_berth", "ted_to_lamp"]:
 		var bad := _blocked_points(Routes.route(n))
 		_check(bad.is_empty(), "%s is clear for a walker's body along its whole length (%d blocked sample points)%s" % [n, bad.size(), "" if bad.is_empty() else ", first at " + str(bad[0])])
 	_walk_tests(to_hall, to_base)

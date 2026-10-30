@@ -46,7 +46,7 @@ func _run() -> void:
 	_check(seq != null and not seq.spec.is_empty(), "GameState creates the diagnosis sequence when the level is ready")
 	var broken := _lv.find_child("BrokenBurner", true, false) as Node3D
 	_check(broken != null and not broken.visible, "the cracked burner is not on the lamp-room floor until Ted has taken it out")
-	_check(seq.ted == null, "Ted is not in the lamp room yet")
+	_check(seq.ted == null, "the diagnosis has not moved Ted yet (he is wherever the intro left him)")
 	player.global_position = Vector3(7.15, 27.6, -5.85)
 	_step(seq, 5.0)
 	_check(not gs.fired.has("LAMP_ROOM_ENTERED") and not gs.fired.has("BEACON_STILL_DARK"), "walking into the lamp room early fires nothing: the diagnosis waits for the sailors")

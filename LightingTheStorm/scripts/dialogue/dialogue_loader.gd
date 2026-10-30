@@ -153,6 +153,8 @@ func _pick_lines(candidates: Array) -> Array:
 func _enqueue(lines: Array) -> void:
 	for line in lines:
 		if not _condition_met(line):
+			if bool(line.get("requires_drop", false)):
+				continue         # a nudge that cannot be heard now is dropped, not saved for later
 			var already := false
 			for h in _held:
 				if h["line_id"] == line["line_id"]:

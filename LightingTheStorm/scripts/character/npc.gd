@@ -20,6 +20,9 @@ enum State { IDLE, WALKING, WAITING, FOLLOWING, SEATED }
 const LOOKS := {
 	"ARTHUR": {"height": 1.78, "radius": 0.32, "colour": Color(0.36, 0.48, 0.55), "speed": 1.45},   # older sailor: a heavy teal-grey coat
 	"DANIEL": {"height": 1.66, "radius": 0.28, "colour": Color(0.92, 0.74, 0.2), "speed": 1.55},   # younger sailor: a yellow oilskin
+	# Ted is the rigged character: his own model, the Walking clip while he walks, and the first frame of Alert_Quick_Turn_Right (he has
+	# no idle clip) when he stands. Forward is -Z for him too.
+	"TED": {"model": "res://Assets/Characters/ted.glb", "height": 1.83, "radius": 0.3, "speed": 1.15, "walk_clip": "Walking", "pose_clip": "Alert_Quick_Turn_Right"},
 }
 
 @export var who := "ARTHUR"
@@ -37,6 +40,8 @@ var _follow_speed := 1.7
 var _seat_parent: Node
 var _body: MeshInstance3D
 var _look: Dictionary = {}
+var _anim: AnimationPlayer
+var _walking_anim := false
 
 
 static func spawn(parent: Node, character: String, at: Vector3) -> Node3D:
@@ -56,6 +61,9 @@ func _ready() -> void:
 
 
 func _build_body() -> void:
+	if _look.has("model"):
+		_build_model()
+		return
 	var h: float = _look["height"]
 	var r: float = _look["radius"]
 	_body = MeshInstance3D.new()
@@ -82,6 +90,44 @@ func _build_body() -> void:
 	add_child(nose)
 
 
+func _build_model() -> void:
+	var ps := load(String(_look["model"])) as PackedScene
+	if ps == null:
+		push_warning("npc: %s did not load" % _look["model"])
+		return
+	var m := ps.instantiate() as Node3D
+	m.name = "Model"
+	add_child(m)
+	var aps := m.find_children("*", "AnimationPlayer", true, false)
+	if not aps.is_empty():
+		_anim = aps[0]
+		if _anim.has_animation(String(_look["walk_clip"])):
+			_anim.get_animation(String(_look["walk_clip"])).loop_mode = Animation.LOOP_LINEAR
+		_stand()
+
+
+func _stand() -> void:
+	if _anim == null:
+		return
+	_walking_anim = false
+	var clip := String(_look["pose_clip"])
+	if _anim.has_animation(clip):
+		_anim.play(clip)
+		_anim.seek(0.0, true)
+		_anim.pause()
+
+
+func _update_anim() -> void:
+	if _anim == null:
+		return
+	var walking := state == State.WALKING or state == State.FOLLOWING
+	if walking and not _walking_anim:
+		_walking_anim = true
+		_anim.play(String(_look["walk_clip"]))
+	elif not walking and _walking_anim:
+		_stand()
+
+
 ## Walk the points in order (world positions at floor height). arrived(route_name) fires at the last one.
 func walk(points: PackedVector3Array, name_of_route := "", speed := -1.0) -> void:
 	if state == State.SEATED:
@@ -101,6 +147,13 @@ func wait(seconds: float, then_resume := true) -> void:
 	_resume_after_wait = then_resume and state == State.WALKING
 	_wait_left = seconds
 	state = State.WAITING
+
+
+## Turn to look at a point (on the ground plane).
+func face(point: Vector3) -> void:
+	var flat := Vector3(point.x - global_position.x, 0.0, point.z - global_position.z)
+	if flat.length() > 0.01:
+		rotation.y = atan2(-flat.x, -flat.z)
 
 
 func stop() -> void:
@@ -139,6 +192,7 @@ func release_seat() -> void:
 
 
 func _process(delta: float) -> void:
+	_update_anim()
 	match state:
 		State.WALKING:
 			_walk(delta)

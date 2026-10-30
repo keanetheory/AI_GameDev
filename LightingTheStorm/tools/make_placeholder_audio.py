@@ -136,7 +136,22 @@ def impact():
     return norm(crack * 1.2 + thump + groan + rubble, 0.9)
 
 
+def knock():
+    secs = 1.6
+    t = np.arange(int(SR * secs)) / SR
+    x = np.zeros_like(t)
+    for start in (0.05, 0.42, 0.78):          # three knuckle raps on a heavy wooden door
+        s0 = int(start * SR)
+        L = int(0.32 * SR)
+        k = np.arange(L) / SR
+        thud = np.sin(2 * np.pi * (150 - 40 * k * 3) * k) * np.exp(-k * 18.0) * 1.0
+        body = shaped_noise(0.32, 200, 1800, tilt=0.4)[:L] * np.exp(-k * 30.0) * 0.5
+        tap = shaped_noise(0.32, 1500, 5000)[:L] * np.exp(-k * 90.0) * 0.25
+        x[s0:s0 + L] += (thud + body + tap) * np.minimum(k / 0.002, 1.0)
+    return norm(x, 0.9)
+
+
 if __name__ == "__main__":
     for name, fn in (("wind_loop.wav", wind), ("rain_loop.wav", rain), ("machinery_loop.wav", machinery), ("engine_loop.wav", engine),
-                     ("bell.wav", bell), ("foghorn.wav", foghorn), ("ship_impact.wav", impact)):
+                     ("bell.wav", bell), ("foghorn.wav", foghorn), ("ship_impact.wav", impact), ("knock.wav", knock)):
         save(name, fn())

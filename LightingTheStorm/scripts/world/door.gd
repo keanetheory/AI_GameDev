@@ -7,6 +7,8 @@ extends "res://scripts/interaction/interactable.gd"
 
 signal opened
 signal closed
+## Knock mode (the story opening, scripts/world/intro_sequence.gd): E knocks instead of opening, once; Ted opens the door from inside.
+signal knocked
 
 @export var width := 1.8
 @export var height := 3.0
@@ -19,6 +21,7 @@ signal closed
 @export var detailed := true
 
 var is_open := false
+var knock_mode := false
 
 var _leaf: AnimatableBody3D
 var _tween: Tween
@@ -62,10 +65,18 @@ func _ready() -> void:
 
 
 func prompt_text() -> String:
+	if knock_mode:
+		return "Knock"
 	return "Close the door" if is_open else "Open the door"
 
 
 func interact(player: Node3D) -> void:
+	if knock_mode:
+		knock_mode = false
+		enabled = false          # no prompt until Ted has opened the door
+		knocked.emit()
+		interacted.emit(player)
+		return
 	toggle()
 	interacted.emit(player)
 
