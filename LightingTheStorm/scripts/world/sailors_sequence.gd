@@ -183,8 +183,20 @@ func _on_walk_done(route_name: String) -> void:
 		"sailors_dock_to_hall":
 			_gs.emit_event("SAILORS_INSIDE")
 		"daniel_dock_to_basement":
+			_daniel_sits_down()
 			_gs.emit_event("DANIEL_IN_BASEMENT")
 			stage = Stage.DONE
+
+
+## Daniel's resting place is sat in the basement, where the walk ends (creator, 30 Oct 2026): a seat marker on the floor where he stands,
+## facing the way he was walking, and the sit clip on the plank every seated model character brings until a real chair is generated.
+func _daniel_sits_down() -> void:
+	var seat := Node3D.new()
+	seat.name = "DanielSeat"
+	_level.add_child(seat)
+	seat.global_position = daniel.global_position
+	seat.rotation.y = daniel.global_rotation.y
+	daniel.sit(seat, Vector3.ZERO)
 
 
 ## Both sailors are at the gate (or still walking up to it) and the gate is open: on through it.
