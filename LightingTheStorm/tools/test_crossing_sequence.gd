@@ -45,10 +45,10 @@ func _run() -> void:
 	_check(seq != null and not seq.spec.is_empty() and seq.loader != null, "GameState creates the crossing sequence and loads the forecast")
 	var segs: Array = seq.loader.data["segments"]
 	_check(segs.size() == 5 and seq.loader.hazards().size() == 15, "the forecast has 5 segments and 15 hazards")
-	_check(seq.hazard_nodes.is_empty(), "no hazards on the sea before the Saltgate (the outbound crossing is free practice)")
+	_check(seq.hazard_nodes.size() == 15, "all 15 hazards are on the sea from the start of the game, so both crossings see the same sea")
 	gs.emit_event("BOAT_CAST_OFF")
 	gs.emit_event("SALTGATE_REACHED")
-	_check(seq.hazard_nodes.size() == 15, "docking at the Saltgate places all 15 hazards")
+	_check(seq.hazard_nodes.size() == 15, "and docking at the Saltgate does not place them again")
 	var types := {}
 	var all_layer2 := true
 	for h in seq.hazard_nodes:
@@ -183,26 +183,122 @@ func _run() -> void:
 					buoy_near += 1
 	_check(buoy_near >= 2, "the bells ring from the two buoys (%d placed)" % buoy_near)
 
-	# near misses outbound (a fresh phase is not possible, so check the helper directly with the phase forced)
+	# near misses: Arthur gets more frantic each time (three levels, the third repeats), outbound and on the return
 	seq._near_cool.clear()
+	seq._last_near = -100.0
+	seq.dialogue_log.clear()
+	seq.near_misses = 0
 	var stack1: Array = stacks[0]
 	var near := Vector2(float(stack1[0].x) - float(stack1[1]) - 2.8 - 3.0, float(stack1[0].y))
-	var before := 0
-	for e in gs.event_log:
-		if e["id"] == "OUTBOUND_NEAR_MISS":
-			before += 1
 	boat.global_position = Vector3(near.x, 0.5, near.y)
+	for i in 4:
+		seq._near_cool.clear()
+		seq._last_near = -100.0
+		seq._near_misses()
+	_check(seq.dialogue_log == ["ARTHUR_NEAR_1", "ARTHUR_NEAR_2", "ARTHUR_NEAR_3", "ARTHUR_NEAR_3"], "four near misses on one crossing: level 1, 2, 3, 3 (%s)" % [seq.dialogue_log])
 	seq._near_misses()
-	var after1 := 0
-	for e in gs.event_log:
-		if e["id"] == "OUTBOUND_NEAR_MISS":
-			after1 += 1
-	_check(after1 == before + 1, "passing 3 m off a sea stack's edge fires OUTBOUND_NEAR_MISS")
+	_check(seq.dialogue_log.size() == 4, "and not again at once (cool-down)")
+	# a near miss on a hazard (not only the stacks): 3 m off a rock hazard's edge
+	seq._new_leg(true)
+	seq.dialogue_log.clear()
+	var rock_h: Node3D = null
+	for h in seq.hazard_nodes:
+		if h.get_meta("type") == "rock":
+			rock_h = h
+			break
+	var rp := Vector2(rock_h.global_position.x, rock_h.global_position.z)
+	boat.global_position = Vector3(rp.x + float(rock_h.get_meta("near_r")) + 2.8 + 3.0, 0.5, rp.y)
+	seq._near_cool.clear()
+	seq._last_near = -100.0
 	seq._near_misses()
-	var after2 := 0
-	for e in gs.event_log:
-		if e["id"] == "OUTBOUND_NEAR_MISS":
-			after2 += 1
-	_check(after2 == after1, "and not again straight away")
+	_check(seq.dialogue_log == ["ARTHUR_NEAR_1"], "a pass 3 m off a hazard's edge on the return is a near miss too, and a new crossing starts calm (%s)" % [seq.dialogue_log])
+	var lines_ok := true
+	for id in ["ARTHUR_NEAR_1", "ARTHUR_NEAR_2", "ARTHUR_NEAR_3", "ARTHUR_HIT_1", "ARTHUR_HIT_2", "ARTHUR_HIT_3", "DOCKING_DIALOGUE", "DOCKING_DIALOGUE_LIGHTHOUSE_1", "DOCKING_DIALOGUE_LIGHTHOUSE_2", "DOCKING_DIALOGUE_LIGHTHOUSE_3"]:
+		var found := false
+		for l in dlg.data["lines"]:
+			if l["trigger"] == id and l["speaker"] == "ARTHUR":
+				found = true
+		lines_ok = lines_ok and found
+	_check(lines_ok, "every near-miss, collision and docking trigger has an Arthur line in the dialogue data")
+
+	# a return collision: thrown back, rocking hard, 5 s on the deadline, not put back at the last clear spot
+	var dl: Node = gs.deadline()
+	seq._new_leg(true)
+	seq.dialogue_log.clear()
+	seq.return_hits = 0
+	_check(boat.hard_bounce, "the return switches the hard bounce on")
+	var elapsed0: float = dl.elapsed
+	var target: Node3D = null
+	for h in seq.hazard_nodes:
+		if h.get_meta("type") == "rock":
+			target = h
+	var tp2 := Vector2(target.global_position.x, target.global_position.z)
+	var approach := Vector2(tp2.x, tp2.y - 3.4)             # just south of the rock, heading north (-Z) into it
+	boat.global_position = Vector3(approach.x, boat.global_position.y, approach.y)
+	boat.rotation.y = 0.0
+	boat.state = boat.State.SAILING
+	boat.driving = false
+	boat._grace_zone = null
+	boat._leave_zone = null
+	boat._trail.clear()
+	var start_pos: Vector3 = boat.global_position
+	var hits_before: int = seq.return_hits
+	boat._sail(1.0 / 60.0)
+	_check(seq.return_hits == hits_before + 1, "driving into a rock on the return is a collision")
+	_check(is_equal_approx(dl.elapsed - elapsed0, 5.0), "which costs 5 s on the deadline (%.1f s)" % (dl.elapsed - elapsed0))
+	_check(seq.dialogue_log.has("ARTHUR_HIT_1"), "and Arthur's first collision line plays")
+	_check(boat._rock_t >= 0.0 and boat._bounce_t >= 0.0, "the hull rocks and is being thrown back")
+	var max_step := 0.0
+	var last: Vector3 = boat.global_position
+	var rocked := 0.0
+	for i in 120:
+		boat._sail(1.0 / 60.0)
+		boat._float(1.0 / 60.0)
+		max_step = maxf(max_step, boat.global_position.distance_to(last))
+		last = boat.global_position
+		rocked = maxf(rocked, absf(boat.get_node("Rig").rotation.z))
+	var thrown := Vector2(boat.global_position.x - tp2.x, boat.global_position.z - tp2.y).length()
+	var moved := Vector2(boat.global_position.x - start_pos.x, boat.global_position.z - start_pos.z).length()
+	_check(moved > 8.0 and moved < 14.0, "it is thrown back about 11 m from where it hit (%.1f m), not put back at an earlier spot" % moved)
+	_check(max_step < 1.0, "smoothly, with no jump (largest step in one frame %.2f m)" % max_step)
+	_check(rocked > deg_to_rad(5.0), "rocking hard (up to %.0f degrees of roll)" % rad_to_deg(rocked))
+	_check(thrown > 6.0 and not boat._hits_hazard(boat.global_transform), "and ends clear of the rock")
+	# outbound keeps the old recovery: no penalty, put back at the last clear spot
+	seq._new_leg(false)
+	_check(not boat.hard_bounce, "outbound collisions keep the old recovery")
+	var el1: float = dl.elapsed
+	seq._on_hit()
+	_check(dl.elapsed == el1, "an outbound collision costs nothing")
+
+	# docking: DOCKING_DIALOGUE every time; the admonishment at the lighthouse after a rough return
+	seq.dialogue_log.clear()
+	seq.return_hits = 0
+	boat.docking_started.emit("DOCK_PORT")
+	boat.docking_started.emit("DOCK_LIGHTHOUSE")
+	_check(seq.dialogue_log == ["DOCKING_DIALOGUE", "DOCKING_DIALOGUE"], "a clean run: DOCKING_DIALOGUE at both docks (%s)" % [seq.dialogue_log])
+	var tiers := {}
+	for n in [1, 2, 3, 4, 6]:
+		seq.dialogue_log.clear()
+		seq.return_hits = n
+		boat.docking_started.emit("DOCK_LIGHTHOUSE")
+		tiers[n] = seq.dialogue_log[0]
+	_check(tiers == {1: "DOCKING_DIALOGUE_LIGHTHOUSE_1", 2: "DOCKING_DIALOGUE_LIGHTHOUSE_2", 3: "DOCKING_DIALOGUE_LIGHTHOUSE_2", 4: "DOCKING_DIALOGUE_LIGHTHOUSE_3", 6: "DOCKING_DIALOGUE_LIGHTHOUSE_3"}, "after 1, 2-3, 4+ collisions the lighthouse docking line is level 1, 2, 3 (%s)" % [tiers])
+	seq.dialogue_log.clear()
+	seq.return_hits = 5
+	boat.docking_started.emit("DOCK_PORT")
+	_check(seq.dialogue_log == ["DOCKING_DIALOGUE"], "the Saltgate docking line does not change")
+	# the real auto-dock fires the signal
+	seq.dialogue_log.clear()
+	seq.return_hits = 0
+	var port: Node3D = null
+	for z in get_nodes_in_group("dock_zone"):
+		if z.zone_id == "DOCK_PORT":
+			port = z
+	boat.state = boat.State.SAILING
+	boat._leave_zone = null
+	boat._grace_zone = null
+	boat.global_position = Vector3(port.global_position.x, boat.global_position.y, port.global_position.z - 4.0)
+	boat._sail(1.0 / 60.0)
+	_check(boat.state == boat.State.DOCKING and seq.dialogue_log.has("DOCKING_DIALOGUE"), "the boat's own auto-docking at the quay says DOCKING_DIALOGUE")
 	print("RESULT: %s (%d failed)" % ["OK" if _fails == 0 else "FAILED", _fails])
 	quit(1 if _fails > 0 else 0)

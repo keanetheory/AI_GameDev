@@ -11,8 +11,8 @@
     18.2
   ],
   "lane_offset_m": 12.0,
-  "spawn_on": "SALTGATE_REACHED",
-  "spawn_note": "The hazards are placed when the boat docks at the Saltgate, so the outbound crossing stays free practice and nothing pops into view mid-crossing.",
+  "spawn_on": "LEVEL_READY",
+  "spawn_note": "The hazards are placed when the level is ready (creator, 31 Oct 2026), so the sea is the same on the outbound and the return crossings: the outbound has to weave round them too.",
   "hazards": {
     "rock": {
       "scale": 0.16,
@@ -41,9 +41,10 @@
     }
   },
   "near_miss": {
-    "outbound_only": true,
+    "outbound_only": false,
     "edge_m": 5.0,
-    "note": "OUTBOUND_NEAR_MISS fires (repeatably) when the boat passes within edge_m of a sea stack's edge without touching it."
+    "note": "A near miss (outbound or return) is a pass within edge_m of a sea stack or a hazard without touching it. Each leg counts them, and Arthur's line gets more frantic each time (ARTHUR_NEAR_1, _2, _3; the third repeats).",
+    "global_cooldown_s": 3.0
   },
   "calls": {
     "note": "Arthur's calls are dialogue lines whose trigger is the call id (ARTHUR_RET_01 ...), played when the boat's route position passes the call's trigger_route_m."
@@ -52,5 +53,22 @@
     -24.0,
     80.0
   ],
-  "end_note": "The forecast's 600 m ends here, 35 m south of the island's rim at the harbour mouth, so no hazard lands on the island or in the harbour; the boat's own docking takes it the rest of the way (RETURN_ARRIVED)."
+  "end_note": "The forecast's 600 m ends here, 35 m south of the island's rim at the harbour mouth, so no hazard lands on the island or in the harbour; the boat's own docking takes it the rest of the way (RETURN_ARRIVED).",
+  "return_collision": {
+    "penalty_s": 5.0,
+    "bounce_m": 11.0,
+    "bounce_s": 1.2,
+    "rock_deg": 22.0,
+    "rock_s": 2.2,
+    "stun_s": 0.8,
+    "note": "A collision on the return (creator, 31 Oct 2026): the boat is thrown back 11 m from what it hit over 1.2 s and rocks hard for about 2 s, instead of being put back at the last clear spot, and the deadline is charged 5 s. Outbound collisions keep the old recovery and cost nothing."
+  },
+  "docking": {
+    "tier_hits": [
+      1,
+      2,
+      4
+    ],
+    "note": "DOCKING_DIALOGUE plays every time auto-docking starts. At the lighthouse after a return with collisions it is replaced by an admonishment: tier 1 for 1 hit, 2 for 2-3, 3 for 4 or more (DOCKING_DIALOGUE_LIGHTHOUSE_1..3)."
+  }
 }

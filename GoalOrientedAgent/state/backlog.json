@@ -851,7 +851,7 @@
       "title": "Set a placeholder deadline length and write the crossing-penalty values",
       "priority": 5,
       "category": "decision",
-      "summary": "The deadline length and exact collision costs are deliberately undecided until the return crossing is tested. Record a clearly labelled placeholder deadline, the outbound-crossing penalty (B9, deferred) and the collision cost so the QA tuning pass has numbers to compare against. Creator, 26 Oct 2026: placeholder deadline set to 3 min 30 s (Decisions A28); the crossing-penalty values are still open.",
+      "summary": "The deadline length and exact collision costs are deliberately undecided until the return crossing is tested. Record a clearly labelled placeholder deadline, the outbound-crossing penalty (B9, deferred) and the collision cost so the QA tuning pass has numbers to compare against. Creator, 26 Oct 2026: placeholder deadline set to 3 min 30 s (Decisions A28); the crossing-penalty values are still open. Update 31 Oct 2026: the return collision cost is set at 5 s of deadline (data/world/crossing_sequence.json); the outbound crossing costs nothing; the deadline length is still the 3:30 placeholder.",
       "why_this_score": "It is needed for the tuning pass but cannot be settled before the crossing exists, so 5.",
       "evidence": [
         "Decisions to be made B4, B9, B11",
@@ -866,7 +866,10 @@
       "agent_can_execute": false,
       "blocked_by": "Tasks T25. Time a crossing at 10 m/s (the creator's speed until the waves are complete), then set the labelled placeholder.",
       "status": "open",
-      "result": null,
+      "result": {
+        "outcome": "partial",
+        "summary": "Return collision penalty set to 5 s (31 Oct 2026); outbound penalty and the final deadline length still open."
+      },
       "build_wave": 4,
       "depends_on": [
         "T25"

@@ -3,12 +3,16 @@
 # data/world/crossing_sequence.json; the forecast itself is data/world/return_crossing.json (the Storm Crossing Crew's output) and is
 # read by crossing_loader.gd, so the hazards, the safe-lane signal and Arthur's calls all come from ONE forecast and can never disagree.
 #
-#   SALTGATE_REACHED -> the forecast's hazards (rocks, reefs, buoys, debris) are placed along the straight line from the quay to the
-#       harbour mouth, in the forecast's left, centre and right lanes (hazards.gd); the audio mixer's bells move onto the buoys;
+#   when the level is ready the forecast's hazards (rocks, reefs, buoys, debris) are placed along the straight line from the quay to the
+#       harbour mouth, in the forecast's left, centre and right lanes (hazards.gd), so the sea is the same on both crossings; the audio
+#       mixer's bells move onto the buoys;
 #   on the return the boat's distance along that line (stretched to the forecast's 600 m) is fed to the loader every physics frame:
 #       it fires Arthur's calls (ARTHUR_RET_01 ... as dialogue lines) ahead of each segment and reports the segment and its safe lane;
-#   outbound, passing close to a sea stack without touching it fires OUTBOUND_NEAR_MISS (Arthur: "Too close! ...").
-# Collision costs are T19's: nothing here charges the deadline yet (hazard_hits counts them for the QA pass).
+#   passing close to a sea stack or a hazard without touching it is a near miss (outbound it also fires OUTBOUND_NEAR_MISS); Arthur's
+#       line gets more frantic each time, in three levels (ARTHUR_NEAR_1..3), and so does his line after a collision (ARTHUR_HIT_1..3);
+#   a collision on the return throws the boat back and rocks it (boat.gd hard_bounce) and costs 5 s of deadline;
+#   every time auto-docking starts Arthur says DOCKING_DIALOGUE; at the lighthouse after a rough return he admonishes instead, in three
+#       levels, before the "go go go".
 extends Node
 
 const Loader := preload("res://scripts/world/crossing_loader.gd")
@@ -23,8 +27,12 @@ var loader: Node
 var hazard_nodes: Array = []
 var safe_lane := ""
 var segment_id := ""
-var hazard_hits := 0
+var hazard_hits := 0                 # every collision this attempt
+var return_hits := 0                 # collisions on the return crossing (they cost deadline time and colour the docking line)
+var leg_hits := 0                    # collisions on the current crossing (they set how frantic Arthur sounds)
+var near_misses := 0                 # near misses on the current crossing
 var calls_made: Array = []
+var dialogue_log: Array = []         # every dialogue trigger this director fired (for the tests)
 
 var _gs: Node
 var _level: Node
@@ -38,6 +46,7 @@ var _k := 1.0                        # world metres per forecast metre
 var _stacks: Array = []              # {centre Vector2, r}
 var _near_cool: Dictionary = {}
 var _spawned := false
+var _last_near := -100.0
 
 
 func setup(gs: Node, level: Node) -> void:
@@ -67,8 +76,19 @@ func setup(gs: Node, level: Node) -> void:
 	loader.arthur_call.connect(_on_call)
 	loader.segment_entered.connect(_on_segment)
 	if _boat != null and _boat.has_signal("hazard_hit"):
-		_boat.hazard_hit.connect(func() -> void: hazard_hits += 1)
+		_boat.hazard_hit.connect(_on_hit)
+	if _boat != null and _boat.has_signal("docking_started"):
+		_boat.docking_started.connect(_on_docking)
+	var rc: Dictionary = spec["return_collision"]
+	if _boat != null and "bounce_distance_m" in _boat:
+		_boat.bounce_distance_m = float(rc["bounce_m"])
+		_boat.bounce_time_s = float(rc["bounce_s"])
+		_boat.rock_deg = float(rc["rock_deg"])
+		_boat.rock_time_s = float(rc["rock_s"])
+		_boat.bounce_stun_s = float(rc["stun_s"])
 	gs.event_emitted.connect(_on_event)
+	if not Engine.has_meta("no_crossing_hazards"):
+		_spawn_hazards.call_deferred()       # the sea is the same from the first minute (creator, 31 Oct 2026)
 
 
 # ---- the forecast on the level ----
@@ -94,8 +114,24 @@ func lane_point(route_m: float, lane: String) -> Vector2:
 
 
 func _on_event(id: String, _phase: int) -> void:
-	if id == spec["spawn_on"] or id == "BURNER_PICKED_UP":
-		_spawn_hazards()
+	match id:
+		"BOAT_CAST_OFF":
+			_new_leg(false)
+		"RETURN_DEPARTED":
+			_new_leg(true)
+		"RETURN_ARRIVED":
+			if _boat != null and "hard_bounce" in _boat:
+				_boat.hard_bounce = false
+
+
+## A crossing begins: the near-miss and collision counts start again (Arthur starts calm), and a return collision is the hard kind.
+func _new_leg(is_return: bool) -> void:
+	near_misses = 0
+	leg_hits = 0
+	if is_return:
+		return_hits = 0
+	if _boat != null and "hard_bounce" in _boat:
+		_boat.hard_bounce = is_return
 
 
 func _spawn_hazards() -> void:
@@ -125,7 +161,7 @@ func _physics_process(_delta: float) -> void:
 	var phase: String = _gs.phase_name()
 	if sailing and (phase == "RETURN" or phase == "FINAL_REPAIR"):
 		loader.advance(route_position(_boat.global_position))
-	elif sailing and phase == "OUTBOUND":
+	if sailing and (phase == "OUTBOUND" or phase == "RETURN"):
 		_near_misses()
 
 
@@ -158,8 +194,57 @@ func _near_misses() -> void:
 				_stacks.append({"name": String(r.name), "centre": Vector2(aabb.get_center().x, aabb.get_center().z), "r": maxf(aabb.size.x, aabb.size.z) * 0.5})
 	var bp := Vector2(_boat.global_position.x, _boat.global_position.z)
 	var now := Time.get_ticks_msec() / 1000.0
-	for s in _stacks:
-		var gap: float = bp.distance_to(s["centre"]) - float(s["r"]) - 2.8      # from the hull's nose to the rock's edge
-		if gap > 1.0 and gap < float(spec["near_miss"]["edge_m"]) and now - float(_near_cool.get(s["name"], -100.0)) > 12.0:
-			_near_cool[s["name"]] = now
+	if now - _last_near > float(spec["near_miss"]["global_cooldown_s"]):
+		for st in _stacks:
+			if _check_near(bp, st["centre"], float(st["r"]), String(st["name"]), now):
+				return
+		for h in hazard_nodes:
+			if is_instance_valid(h) and _check_near(bp, Vector2(h.global_position.x, h.global_position.z), float(h.get_meta("near_r", 2.0)), String(h.name), now):
+				return
+
+
+func _check_near(bp: Vector2, centre: Vector2, r: float, key: String, now: float) -> bool:
+	var gap: float = bp.distance_to(centre) - r - 2.8      # from the hull's nose to the obstacle's edge
+	if gap > 1.0 and gap < float(spec["near_miss"]["edge_m"]) and now - float(_near_cool.get(key, -100.0)) > 12.0:
+		_near_cool[key] = now
+		_last_near = now
+		near_misses += 1
+		if String(_gs.phase_name()) == "OUTBOUND":
 			_gs.emit_event("OUTBOUND_NEAR_MISS")
+		_say("ARTHUR_NEAR_%d" % mini(near_misses, 3))
+		return true
+	return false
+
+
+## A collision (the boat reports hazard_hit): count it, and on the return charge the deadline and note it for the docking line.
+func _on_hit() -> void:
+	hazard_hits += 1
+	leg_hits += 1
+	var on_return: bool = _boat != null and bool(_boat.get("hard_bounce"))      # set from RETURN_DEPARTED until RETURN_ARRIVED
+	if on_return:
+		return_hits += 1
+		var dl: Node = _gs.deadline()
+		if dl != null:
+			dl.add_penalty(float(spec["return_collision"]["penalty_s"]), "return collision")
+	_say("ARTHUR_HIT_%d" % mini(leg_hits, 3))
+
+
+## Auto-docking has taken the wheel: Arthur's DOCKING_DIALOGUE, every time; at the lighthouse after a rough return it is the admonishment.
+func _on_docking(zone_id: String) -> void:
+	var id := "DOCKING_DIALOGUE"
+	if zone_id == "DOCK_LIGHTHOUSE" and return_hits > 0:
+		var tiers: Array = spec["docking"]["tier_hits"]
+		var tier := 1
+		if return_hits >= int(tiers[2]):
+			tier = 3
+		elif return_hits >= int(tiers[1]):
+			tier = 2
+		id = "DOCKING_DIALOGUE_LIGHTHOUSE_%d" % tier
+	_say(id)
+
+
+func _say(trigger_id: String) -> void:
+	dialogue_log.append(trigger_id)
+	var dlg := get_node_or_null("/root/Dialogue")
+	if dlg:
+		dlg.trigger(trigger_id)

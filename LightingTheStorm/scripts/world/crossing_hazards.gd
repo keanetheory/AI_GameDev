@@ -20,12 +20,16 @@ static func make(h: Dictionary, pos: Vector3, along: Vector2, cfg: Dictionary) -
 	match String(h["type"]):
 		"rock":
 			_rock(body, cfg["rock"], 0.0, 1.0)
+			body.set_meta("near_r", float(cfg["rock"]["radius_m"]))
 		"reef":
 			_reef(body, cfg["reef"], cfg["rock"])
+			body.set_meta("near_r", (int(cfg["reef"]["count"]) - 1) * 0.5 * float(cfg["reef"]["spacing_m"]) + float(cfg["reef"]["radius_m"]))
 		"buoy":
 			_buoy(body, cfg["buoy"])
+			body.set_meta("near_r", float(cfg["buoy"]["radius_m"]))
 		"debris":
 			_debris(body, cfg["debris"])
+			body.set_meta("near_r", 2.5)
 		_:
 			push_warning("crossing_hazards: unknown hazard type %s" % h["type"])
 	return body

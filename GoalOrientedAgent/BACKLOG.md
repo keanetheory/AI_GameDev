@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-10-30 11:42 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-10-30 12:20 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -127,13 +127,14 @@ Once the open arc lamp model exists: show the open lamp from the start until the
 
 ### T19 [5/10] Set a placeholder deadline length and write the crossing-penalty values  (open)
 
-The deadline length and exact collision costs are deliberately undecided until the return crossing is tested. Record a clearly labelled placeholder deadline, the outbound-crossing penalty (B9, deferred) and the collision cost so the QA tuning pass has numbers to compare against. Creator, 26 Oct 2026: placeholder deadline set to 3 min 30 s (Decisions A28); the crossing-penalty values are still open.
+The deadline length and exact collision costs are deliberately undecided until the return crossing is tested. Record a clearly labelled placeholder deadline, the outbound-crossing penalty (B9, deferred) and the collision cost so the QA tuning pass has numbers to compare against. Creator, 26 Oct 2026: placeholder deadline set to 3 min 30 s (Decisions A28); the crossing-penalty values are still open. Update 31 Oct 2026: the return collision cost is set at 5 s of deadline (data/world/crossing_sequence.json); the outbound crossing costs nothing; the deadline length is still the 3:30 placeholder.
 
 - **Why 5:** It is needed for the tuning pass but cannot be settled before the crossing exists, so 5.
 - **Evidence:** Decisions to be made B4, B9, B11; Exec Summary Crossing penalties 'loose for Gate 1'
 - **Blocked by:** Tasks T25. Time a crossing at 10 m/s (the creator's speed until the waves are complete), then set the labelled placeholder.
 - **Depends on:** T25 (all closed)
 - **Needs the creator** (cannot be done by the agent alone)
+- **Result (partial):** Return collision penalty set to 5 s (31 Oct 2026); outbound penalty and the final deadline length still open.
 
 ### T20 [5/10] QA scenario list and automated state-transition checks for the Gate 1 slice  (open)
 

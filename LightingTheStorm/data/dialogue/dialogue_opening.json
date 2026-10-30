@@ -374,6 +374,76 @@
       "emitted_by": "game",
       "note": "Arthur's call for SEG_05 (left lane safe): played by crossing_sequence.gd when the boat passes route_m 445 (the crossing crew's forecast, data/world/return_crossing.json).",
       "existing_crew_event": true
+    },
+    {
+      "event_id": "ARTHUR_NEAR_2",
+      "step": 3,
+      "emitted_by": "game",
+      "note": "Dialogue trigger fired by crossing_sequence.gd (not a GameState event): Near miss, level 2 (worried).",
+      "existing_crew_event": true
+    },
+    {
+      "event_id": "ARTHUR_NEAR_3",
+      "step": 3,
+      "emitted_by": "game",
+      "note": "Dialogue trigger fired by crossing_sequence.gd (not a GameState event): Near miss, level 3 (frantic).",
+      "existing_crew_event": true
+    },
+    {
+      "event_id": "ARTHUR_HIT_2",
+      "step": 3,
+      "emitted_by": "game",
+      "note": "Dialogue trigger fired by crossing_sequence.gd (not a GameState event): Collision, level 2 (alarmed).",
+      "existing_crew_event": true
+    },
+    {
+      "event_id": "ARTHUR_HIT_3",
+      "step": 3,
+      "emitted_by": "game",
+      "note": "Dialogue trigger fired by crossing_sequence.gd (not a GameState event): Collision, level 3 (desperate).",
+      "existing_crew_event": true
+    },
+    {
+      "event_id": "DOCKING_DIALOGUE",
+      "step": 3,
+      "emitted_by": "game",
+      "note": "Dialogue trigger fired by crossing_sequence.gd (not a GameState event): Docking: hands off.",
+      "existing_crew_event": true
+    },
+    {
+      "event_id": "DOCKING_DIALOGUE_LIGHTHOUSE_1",
+      "step": 3,
+      "emitted_by": "game",
+      "note": "Dialogue trigger fired by crossing_sequence.gd (not a GameState event): Docking at the lighthouse after a rough return, level 1.",
+      "existing_crew_event": true
+    },
+    {
+      "event_id": "DOCKING_DIALOGUE_LIGHTHOUSE_2",
+      "step": 3,
+      "emitted_by": "game",
+      "note": "Dialogue trigger fired by crossing_sequence.gd (not a GameState event): Docking at the lighthouse after a rough return, level 2.",
+      "existing_crew_event": true
+    },
+    {
+      "event_id": "DOCKING_DIALOGUE_LIGHTHOUSE_3",
+      "step": 3,
+      "emitted_by": "game",
+      "note": "Dialogue trigger fired by crossing_sequence.gd (not a GameState event): Docking at the lighthouse after a rough return, level 3.",
+      "existing_crew_event": true
+    },
+    {
+      "event_id": "ARTHUR_NEAR_1",
+      "step": 3,
+      "emitted_by": "game",
+      "note": "Dialogue trigger fired by crossing_sequence.gd (not a GameState event): level 1 of the near-miss / collision lines.",
+      "existing_crew_event": true
+    },
+    {
+      "event_id": "ARTHUR_HIT_1",
+      "step": 3,
+      "emitted_by": "game",
+      "note": "Dialogue trigger fired by crossing_sequence.gd (not a GameState event): level 1 of the near-miss / collision lines.",
+      "existing_crew_event": true
     }
   ],
   "lines": [
@@ -714,30 +784,142 @@
     {
       "line_id": "ARTHUR_S3_07",
       "step": 3,
-      "beat": "Outbound near miss (alternate)",
+      "beat": "Near miss, level 1 (mild)",
       "speaker": "ARTHUR",
       "kind": "reaction",
-      "trigger": "OUTBOUND_NEAR_MISS",
+      "trigger": "ARTHUR_NEAR_1",
       "text": "Too close! Give the rocks some room, Isaac.",
       "subtitle": "ARTHUR: Too close! Give the rocks some room, Isaac.",
       "delivery": "Sharp, breathless.",
       "pause_before": 0.0,
       "once": false,
-      "note": "Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped."
+      "note": "Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Now triggered by crossing_sequence.gd on every near miss, outbound or return, as level 1 of three that get more frantic (creator, 31 Oct 2026)."
     },
     {
       "line_id": "ARTHUR_S3_08",
       "step": 3,
-      "beat": "Outbound collision",
+      "beat": "Collision, level 1 (mild)",
       "speaker": "ARTHUR",
       "kind": "reaction",
-      "trigger": "OUTBOUND_COLLISION",
+      "trigger": "ARTHUR_HIT_1",
       "text": "Hold on! Swing wide of the rock and steer clear. Gently now.",
       "subtitle": "ARTHUR: Hold on! Swing wide of the rock and steer clear. Gently now.",
       "delivery": "Shouted, rattled but steady.",
       "pause_before": 0.0,
       "once": false,
-      "note": "Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. Reworded from: \"Hold on! Back her off the rock and steer clear. Gently now.\""
+      "note": "Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. Reworded from: \"Hold on! Back her off the rock and steer clear. Gently now.\" | Now triggered by crossing_sequence.gd on a collision, outbound or return, as level 1 of three (creator, 31 Oct 2026)."
+    },
+    {
+      "line_id": "ARTHUR_NEAR_2",
+      "step": 3,
+      "beat": "Near miss, level 2 (worried)",
+      "kind": "reaction",
+      "speaker": "ARTHUR",
+      "trigger": "ARTHUR_NEAR_2",
+      "text": "Careful, Isaac! That was far too close. Keep us well clear of the rocks!",
+      "subtitle": "ARTHUR: Careful, Isaac! That was far too close. Keep us well clear of the rocks!",
+      "delivery": "Tight, worried, louder.",
+      "pause_before": 0.0,
+      "once": false,
+      "note": "Creator, 31 Oct 2026: near-miss lines get more frantic each time."
+    },
+    {
+      "line_id": "ARTHUR_NEAR_3",
+      "step": 3,
+      "beat": "Near miss, level 3 (frantic)",
+      "kind": "reaction",
+      "speaker": "ARTHUR",
+      "trigger": "ARTHUR_NEAR_3",
+      "text": "Isaac! We'll be on the rocks! Steer away, steer away, now, now, now!",
+      "subtitle": "ARTHUR: Isaac! We'll be on the rocks! Steer away, steer away, now, now, now!",
+      "delivery": "Frantic, near panic, shouted over the engine.",
+      "pause_before": 0.0,
+      "once": false,
+      "note": "Level 3 repeats for every further near miss on the crossing."
+    },
+    {
+      "line_id": "ARTHUR_HIT_2",
+      "step": 3,
+      "beat": "Collision, level 2 (alarmed)",
+      "kind": "reaction",
+      "speaker": "ARTHUR",
+      "trigger": "ARTHUR_HIT_2",
+      "text": "Hold on, Isaac! She's taking a beating! Swing wide and steady her, quick!",
+      "subtitle": "ARTHUR: Hold on, Isaac! She's taking a beating! Swing wide and steady her, quick!",
+      "delivery": "Alarmed, shouted.",
+      "pause_before": 0.0,
+      "once": false,
+      "note": "Creator, 31 Oct 2026: three levels of concern."
+    },
+    {
+      "line_id": "ARTHUR_HIT_3",
+      "step": 3,
+      "beat": "Collision, level 3 (desperate)",
+      "kind": "reaction",
+      "speaker": "ARTHUR",
+      "trigger": "ARTHUR_HIT_3",
+      "text": "She won't take much more! You'll sink us, Isaac! Get clear of that and steer true!",
+      "subtitle": "ARTHUR: She won't take much more! You'll sink us, Isaac! Get clear of that and steer true!",
+      "delivery": "Desperate, hoarse.",
+      "pause_before": 0.0,
+      "once": false,
+      "note": "Level 3 repeats for every further collision on the crossing."
+    },
+    {
+      "line_id": "ARTHUR_DOCK_01",
+      "step": 3,
+      "beat": "Docking: hands off",
+      "kind": "reaction",
+      "speaker": "ARTHUR",
+      "trigger": "DOCKING_DIALOGUE",
+      "text": "Hands off now, you've done the steering, I'll bring her in while you get ready to jump.",
+      "subtitle": "ARTHUR: Hands off now, you've done the steering, I'll bring her in while you get ready to jump.",
+      "delivery": "Steadying, calm, taking the wheel.",
+      "pause_before": 0.0,
+      "once": false,
+      "note": "Creator, 31 Oct 2026 (DOCKING_DIALOGUE): plays every time the boat starts auto-docking, at the Saltgate and at the lighthouse. Wording is the creator's."
+    },
+    {
+      "line_id": "ARTHUR_DOCK_L1",
+      "step": 3,
+      "beat": "Docking at the lighthouse after a rough return, level 1",
+      "kind": "reaction",
+      "speaker": "ARTHUR",
+      "trigger": "DOCKING_DIALOGUE_LIGHTHOUSE_1",
+      "text": "Hands off now. That was rough going, Isaac. I'll bring her in; you get ready to jump.",
+      "subtitle": "ARTHUR: Hands off now. That was rough going, Isaac. I'll bring her in; you get ready to jump.",
+      "delivery": "Dry, a little pointed.",
+      "pause_before": 0.0,
+      "once": false,
+      "note": "Replaces DOCKING_DIALOGUE at the lighthouse when the return had 1 collision (creator, 31 Oct 2026). Plays before \"go go go\"."
+    },
+    {
+      "line_id": "ARTHUR_DOCK_L2",
+      "step": 3,
+      "beat": "Docking at the lighthouse after a rough return, level 2",
+      "kind": "reaction",
+      "speaker": "ARTHUR",
+      "trigger": "DOCKING_DIALOGUE_LIGHTHOUSE_2",
+      "text": "Hands off! You nearly wrecked us out there, Isaac. I'll bring her in; be ready to jump.",
+      "subtitle": "ARTHUR: Hands off! You nearly wrecked us out there, Isaac. I'll bring her in; be ready to jump.",
+      "delivery": "Sharp, angry under the relief.",
+      "pause_before": 0.0,
+      "once": false,
+      "note": "Replaces DOCKING_DIALOGUE at the lighthouse when the return had 2 or 3 collisions."
+    },
+    {
+      "line_id": "ARTHUR_DOCK_L3",
+      "step": 3,
+      "beat": "Docking at the lighthouse after a rough return, level 3",
+      "kind": "reaction",
+      "speaker": "ARTHUR",
+      "trigger": "DOCKING_DIALOGUE_LIGHTHOUSE_3",
+      "text": "Hands off, for pity's sake! You hit everything out there! I'll bring her in, you just be ready to jump!",
+      "subtitle": "ARTHUR: Hands off, for pity's sake! You hit everything out there! I'll bring her in, you just be ready to jump!",
+      "delivery": "Furious, shouted.",
+      "pause_before": 0.0,
+      "once": false,
+      "note": "Replaces DOCKING_DIALOGUE at the lighthouse when the return had 4 or more collisions."
     },
     {
       "line_id": "ARTHUR_S3_04",
