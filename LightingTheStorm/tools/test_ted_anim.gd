@@ -6,6 +6,8 @@ extends SceneTree
 var _ted: Node3D
 var _f := 0
 var _fails := 0
+var _f_talk := 0
+var _max_open := 0.0
 
 
 func _initialize() -> void:
@@ -40,6 +42,33 @@ func _process(_d: float) -> bool:
 		_ted._update_anim()
 		_check(a.current_animation == "Walking", "walking, he plays Walking (%s)" % a.current_animation)
 		_check(absf(absf(_ted.get_node("Model").rotation.y) - PI) < 0.01, "the model is turned 180 degrees to face -Z")
+		# the jaw: the bone is there, no clip animates it, and it opens while his line is "spoken" (the procedural flap)
+		var jaw: Node = _ted.get_node_or_null("JawLipsync")
+		_check(jaw != null and jaw._jaw_idx >= 0, "Ted has a jaw bone driven by jaw_lipsync")
+		var animated := 0
+		for c in a.get_animation_list():
+			for i in a.get_animation(c).get_track_count():
+				if str(a.get_animation(c).track_get_path(i)).ends_with("Jaw"):
+					animated += 1
+		_check(animated == 0, "no animation clip has a jaw track to fight the lip-sync (%d)" % animated)
+		var sk: Skeleton3D = jaw._skeleton
+		var rest: Quaternion = sk.get_bone_rest(jaw._jaw_idx).basis.get_rotation_quaternion()
+		_check(sk.get_bone_pose_rotation(jaw._jaw_idx).angle_to(rest) < 0.01, "the jaw is shut while he is silent")
+		_ted._talking = false
+		dlg.line_started.emit("TED_Y", "TED", "", "")
+		_f_talk = _f
+	if _f_talk > 0 and _f == _f_talk + 45:
+		var jaw2: Node = _ted.get_node("JawLipsync")
+		var sk2: Skeleton3D = jaw2._skeleton
+		var rest2: Quaternion = sk2.get_bone_rest(jaw2._jaw_idx).basis.get_rotation_quaternion()
+		_max_open = maxf(_max_open, sk2.get_bone_pose_rotation(jaw2._jaw_idx).angle_to(rest2))
+	if _f_talk > 0 and _f >= _f_talk + 45:
+		_check(_max_open > 0.05, "the jaw opens while he speaks (%.1f degrees)" % rad_to_deg(_max_open))
 		print("RESULT: %s (%d failed)" % ["OK" if _fails == 0 else "FAILED", _fails])
 		quit(1 if _fails > 0 else 0)
+	if _f_talk > 0 and _f > _f_talk and _f < _f_talk + 45:
+		var jaw3: Node = _ted.get_node("JawLipsync")
+		var sk3: Skeleton3D = jaw3._skeleton
+		var rest3: Quaternion = sk3.get_bone_rest(jaw3._jaw_idx).basis.get_rotation_quaternion()
+		_max_open = maxf(_max_open, sk3.get_bone_pose_rotation(jaw3._jaw_idx).angle_to(rest3))
 	return false

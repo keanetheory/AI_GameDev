@@ -23,7 +23,7 @@ const LOOKS := {
 	# Ted is the rigged character (the Meshy "Ironclad Mariner", 30 Oct 2026): his own model, Walking while he walks, Idle_3 (looping)
 	# when he stands, and Stand_Talking_Angry (looping) while one of his lines is playing. The Meshy rig faces +Z, so the model is turned
 	# 180 degrees about Y to face -Z like everything else.
-	"TED": {"model": "res://Assets/Characters/ted.glb", "height": 1.83, "radius": 0.3, "speed": 1.15, "walk_clip": "Walking", "idle_clip": "Idle_3", "talk_clip": "Stand_Talking_Angry", "model_yaw_deg": 180.0},
+	"TED": {"model": "res://Assets/Characters/ted.glb", "height": 1.83, "radius": 0.3, "speed": 1.15, "walk_clip": "Walking", "idle_clip": "Idle_3", "talk_clip": "Stand_Talking_Angry", "model_yaw_deg": 180.0, "jaw": true},
 }
 
 @export var who := "ARTHUR"
@@ -107,6 +107,14 @@ func _build_model() -> void:
 		for k in ["walk_clip", "idle_clip", "talk_clip"]:
 			if _look.has(k) and _anim.has_animation(String(_look[k])):
 				_anim.get_animation(String(_look[k])).loop_mode = Animation.LOOP_LINEAR
+		if _look.get("jaw", false):
+			# the jaw bone (tools/add_jaw_bone.py) opens from the voice, or flaps while this character's line is "spoken"
+			var jaw := Node.new()
+			jaw.name = "JawLipsync"
+			jaw.set_script(load("res://scripts/character/jaw_lipsync.gd"))
+			jaw.set("dialogue_loader", get_node_or_null("/root/Dialogue"))
+			jaw.set("speaker_id", who)
+			add_child(jaw)
 		if _look.has("talk_clip"):
 			var dlg := get_node_or_null("/root/Dialogue")
 			if dlg and dlg.has_signal("line_started"):

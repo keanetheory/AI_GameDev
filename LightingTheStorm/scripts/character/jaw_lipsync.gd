@@ -1,5 +1,5 @@
 # jaw_lipsync.gd - Godot 4.3 / GDScript
-# Drives a character's "mixamorig:Jaw" bone from voice loudness, or from a procedural flap while a
+# Drives a character's "mixamorig:Jaw" bone (imported by Godot as "mixamorig_Jaw"; tools/add_jaw_bone.py adds it to a Meshy rig) from voice loudness, or from a procedural flap while a
 # line is "spoken" but no audio is playing (dialogue_loader's auto_advance mode).
 #
 # Setup:
@@ -36,9 +36,9 @@ var _open := 0.0
 var _speaking_text := false
 var _flap_t := 0.0
 
-# Note on axis/sign: the jaw bone was made in Blender and opens by rotating about its local X.
-# If Godot's import turns the bone axes, change open_axis (try Vector3.RIGHT, UP, FORWARD) and
-# open_sign until it opens downward, using the Skeleton3D pose in the editor to check.
+# Note on axis/sign: the jaw bone was made in Blender and opens by rotating about its local X. Checked on the Meshy "Ironclad
+# Mariner" rig (tools/probe_jaw_axis.gd): Vector3.RIGHT and +1.0 swing the chin down. If another rig differs, change open_axis
+# (try Vector3.RIGHT, UP, FORWARD) and open_sign until it opens downward.
 
 
 func _ready() -> void:
@@ -52,6 +52,14 @@ func _ready() -> void:
 		set_process(false)
 		return
 	_jaw_idx = _skeleton.find_bone(jaw_bone)
+	if _jaw_idx < 0:
+		# Godot's glTF import turns the ':' of Mixamo bone names into '_' ("mixamorig_Jaw"); accept that, or any bone ending in "Jaw"
+		_jaw_idx = _skeleton.find_bone(jaw_bone.replace(":", "_"))
+	if _jaw_idx < 0:
+		for i in _skeleton.get_bone_count():
+			if _skeleton.get_bone_name(i).ends_with("Jaw"):
+				_jaw_idx = i
+				break
 	if _jaw_idx < 0:
 		push_error("jaw_lipsync: bone '%s' not found; is this the jaw-rigged ted.glb?" % jaw_bone)
 		set_process(false)
