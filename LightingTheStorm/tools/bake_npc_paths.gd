@@ -166,8 +166,18 @@ func _bake() -> void:
 	ext.pop_back()
 	ext.append_array(_outdoor(space, plateau_to_porch, exclude, ext[-1].y))
 	# interior routes
-	var hall_target: Vector3 = door.middle() - out_v * 2.5
-	var hall_goal := reach.nearest(hall_target, true)
+	# Arthur waits just past the main door (creator, 30 October 2026): 1.7 m inside, to one side of the doorway so he does not block it
+	var side_v := Vector3(out_v.z, 0.0, -out_v.x)
+	var hall_goal := {}
+	for sgn in [-1.0, 1.0]:
+		var cand: Vector3 = door.middle() - out_v * 1.7 + side_v * 1.2 * sgn
+		var g := reach.nearest(cand, true)
+		if not g.is_empty() and Vector2(g["pos"].x - cand.x, g["pos"].z - cand.z).length() < 0.5 and not _blocked(space, g["pos"], exclude):
+			hall_goal = g
+			print("bake_npc_paths: Arthur's wait spot ", g["pos"], " (door side ", sgn, ")")
+			break
+	if hall_goal.is_empty():
+		hall_goal = reach.nearest(door.middle() - out_v * 2.5, true)
 	var anchors: Dictionary = _lv.get_node("InteriorRooms").anchors
 	var daniel_goal := reach.nearest(Check.markers(_lv)["B1_daniel_marker"], true)
 	var hall_path: Array[Vector3] = reach.path_to(hall_goal)
@@ -189,6 +199,15 @@ func _bake() -> void:
 	to_launch.append_array(back_plateau)
 	to_launch.append_array(_outdoor(space, STAIRS_TO_LAUNCH, exclude, back_plateau[-1].y))
 	routes["hall_to_launch_berth"] = {"note": "Arthur from the hall to the player's launch berth (the north jetty), for boarding (T11).", "points": to_launch}
+	# Ted: from where he greets the player, up the spiral stairs to his spot beside the arc lamp
+	var ted_from: Vector3 = (_lv.get_node("InteriorAnchors").anchors["ted_greeting"] as Node3D).global_position
+	print("bake_npc_paths: Ted greets from ", ted_from)
+	if reach.flood(ted_from + Vector3(0, 0.05, 0)):
+		var ted_goal := reach.nearest(Vector3(8.5, 27.51, -6.8), true)
+		if not ted_goal.is_empty():
+			routes["ted_to_lamp"] = {"note": "Ted from the greeting spot behind the front door up the tower stairs to his spot beside the arc lamp (he walks it while he sends the player to the coal).", "points": reach.path_to(ted_goal)}
+	else:
+		push_warning("bake_npc_paths: no standable spot at Ted's greeting spot")
 	var data := {"spec_id": "npc_paths_v1", "baked_by": "tools/bake_npc_paths.gd", "note": "Baked world-space routes with floor heights. Do not edit by hand; re-run the bake tool when the level changes.", "routes": {}}
 	for k in routes:
 		var pts: Array = []

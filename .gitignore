@@ -3,3 +3,9 @@
 # FAL original models: kept out of git, backed up in C:kupConceptArt\FAL_3D_Models
 LightingTheStorm/Assets/Models/*/source/*
 !LightingTheStorm/Assets/Models/*/source/.gdignore
+LightingTheStorm/Assets/Characters/source/meshy_ironclad_mariner_all_animations.glb
+LightingTheStorm/Assets/Characters/source/ted_old_rig.glb
+LightingTheStorm/Assets/Characters/source/meshy_dockside_outlaw_all_animations.glb
+LightingTheStorm/Assets/Characters/source/arthur_4k_texture.glb
+LightingTheStorm/Assets/Characters/source/meshy_red_capped_wayfarer_all_animations.glb
+LightingTheStorm/Assets/Characters/source/daniel_4k_texture.glb

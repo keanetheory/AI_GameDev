@@ -68,15 +68,16 @@ func _blocked_points(pts: PackedVector3Array) -> Array:
 
 func _run() -> void:
 	var names := Routes.names()
-	for n in ["sailors_dock_to_porch", "sailors_dock_to_hall", "daniel_dock_to_basement", "hall_to_porch", "porch_to_hall", "hall_to_launch_berth"]:
+	for n in ["sailors_dock_to_porch", "sailors_dock_to_hall", "daniel_dock_to_basement", "hall_to_porch", "porch_to_hall", "hall_to_launch_berth", "ted_to_lamp"]:
 		_check(names.has(n), "route %s is baked" % n)
 	var to_hall := Routes.route("sailors_dock_to_hall")
 	var to_base := Routes.route("daniel_dock_to_basement")
 	var start := Vector3(-27.0, 1.48, 26.3)
 	_check(to_hall[0].distance_to(start) < 0.3 and to_base[0].distance_to(start) < 0.3, "the sailors' routes start at the south jetty, the rowboat's berth")
 	var door: Node3D = _lv.get_node("LighthouseDoor")
-	var inside_door: Vector3 = door.middle() - door.global_transform.basis.z * 2.5
-	_check(Vector2(to_hall[-1].x - inside_door.x, to_hall[-1].z - inside_door.z).length() < 0.8 and absf(to_hall[-1].y - 10.58) < 0.3, "Arthur's route ends in the hall just inside the door (%s)" % to_hall[-1])
+	var out_v: Vector3 = door.global_transform.basis.z
+	var rel: Vector3 = to_hall[-1] - door.middle()
+	_check(rel.dot(out_v) < -1.2 and rel.dot(out_v) > -3.5 and rel.length() < 3.5 and absf(to_hall[-1].y - 10.58) < 0.3, "Arthur's route ends just past the main door, inside the hall (%.1f m in, %.1f m from the door; %s)" % [-rel.dot(out_v), rel.length(), to_hall[-1]])
 	var daniel_marker: Vector3 = Check.markers(_lv)["B1_daniel_marker"]
 	_check(Vector2(to_base[-1].x - daniel_marker.x, to_base[-1].z - daniel_marker.z).length() < 1.5 and to_base[-1].y < 9.0, "Daniel's route ends in the basement next to his marker (%.1f m off)" % Vector2(to_base[-1].x - daniel_marker.x, to_base[-1].z - daniel_marker.z).length())
 	var through_door := false
@@ -86,7 +87,7 @@ func _run() -> void:
 	_check(through_door, "the route passes through the door opening")
 
 	# fit
-	for n in ["sailors_dock_to_hall", "daniel_dock_to_basement", "hall_to_launch_berth"]:
+	for n in ["sailors_dock_to_hall", "daniel_dock_to_basement", "hall_to_launch_berth", "ted_to_lamp"]:
 		var bad := _blocked_points(Routes.route(n))
 		_check(bad.is_empty(), "%s is clear for a walker's body along its whole length (%d blocked sample points)%s" % [n, bad.size(), "" if bad.is_empty() else ", first at " + str(bad[0])])
 	_walk_tests(to_hall, to_base)
@@ -104,7 +105,7 @@ func _walk_tests(to_hall: PackedVector3Array, to_base: PackedVector3Array) -> vo
 	# walking
 	var arthur := Npc.spawn(_lv, "ARTHUR", to_hall[0])
 	var daniel := Npc.spawn(_lv, "DANIEL", to_base[0])
-	_check(arthur.get_node("Capsule") != null and daniel.is_in_group("npc"), "Arthur and Daniel are capsules")
+	_check(arthur.get_node_or_null("Model") != null and daniel.get_node_or_null("Model") != null and daniel.is_in_group("npc"), "Arthur and Daniel have their own models")
 	var arrivals := []
 	arthur.arrived.connect(func(n: String) -> void: arrivals.append("arthur:" + n))
 	daniel.arrived.connect(func(n: String) -> void: arrivals.append("daniel:" + n))

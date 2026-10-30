@@ -117,6 +117,18 @@ func _arc_lamp(P: Node3D) -> void:
 		lm.scale = Vector3.ONE * LAMP_SCALE
 		lm.add_child(ps.instantiate())
 		beacon.add_child(lm)
+	# the same lamp with its burner bay open and empty (lhi_arc_lamp_open.glb, T39/T40): shown from the diagnosis until the
+	# burner is fitted (lamp_beacon.gd swaps the two), so the player sees the empty seat they are bringing the burner back to
+	var pso := load("res://Assets/Models/prop/lhi_arc_lamp_open.glb") as PackedScene
+	if ps and pso:
+		var lo := Node3D.new()
+		lo.name = "LampModelOpen"
+		lo.position = Vector3(0, FLOOR, 0)
+		lo.rotation.y = atan2(cos(face), sin(face))
+		lo.scale = Vector3.ONE * LAMP_SCALE
+		lo.visible = false
+		lo.add_child(pso.instantiate())
+		beacon.add_child(lo)
 	var lens_base := FLOOR + 0.95
 	# the arc itself: a bright core among the lens bands, dark until lit
 	var core_mat := StandardMaterial3D.new()

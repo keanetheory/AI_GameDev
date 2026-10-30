@@ -151,6 +151,12 @@ func _make_players(level: Node) -> void:
 		_bell_timers.append(_rng.randf_range(0.5, float(b["interval_s"][1])))
 
 
+## The bells ring from the real buoys (crossing_sequence.gd) once they are placed; extra bells keep their placeholder spots.
+func place_bells(positions: Array) -> void:
+	for i in mini(positions.size(), _bells.size()):
+		(_bells[i] as AudioStreamPlayer3D).global_position = positions[i]
+
+
 func _attach_ship(ship: Node3D) -> void:
 	_ship = ship
 	for nm in ["foghorn", "impact"]:

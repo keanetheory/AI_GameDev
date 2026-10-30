@@ -1,0 +1,19 @@
+{
+  "spec_id": "diagnosis_sequence_v1",
+  "owner": "Gameplay / Systems agent (backlog T05)",
+  "note": "The beacon diagnosis (Exec Summary step 3, Technical Strategy BEACON_DIAGNOSIS) and the briefing after it. Once Arthur and Daniel are in (SAILORS_INSIDE, DANIEL_IN_BASEMENT) Ted, now in the lamp room, calls the player up (BEACON_STILL_DARK); the player climbs to the lamp room (LAMP_ROOM_ENTERED), Ted takes out the broken burner (BURNER_DIAGNOSED: it appears on the floor beside him, then Ted names the ship); back down in the hall the player is briefed (BURNER_BRIEFING) and sent to the Saltgate with Arthur. The same lamp-room zone fires LAMP_ROOM_REENTERED later, when the player comes back carrying the replacement burner. scripts/world/diagnosis_sequence.gd reads this file.",
+  "still_dark_delay_s": 8.0,
+  "still_dark_note": "Seconds after Arthur is in the hall and Daniel is in the basement before Ted shouts for the player ('Dynamo's running and still no light').",
+  "ted": {
+    "spot": [8.5, 27.51, -6.8],
+    "look_at": [8.5, 27.51, -4.9],
+    "pose_clip": "Alert_Quick_Turn_Right",
+    "pose_time": 0.0,
+    "note": "Beside the arc lamp, off the player's route to the burner seat (tools/probe_ted_spot.gd), next to where the broken burner lies. Ted appears when he calls the player up."
+  },
+  "lamp_room": {"centre": [8.5, -4.9], "radius_m": 3.3, "y_band": [27.0, 33.0]},
+  "open_delay_s": 5.0,
+  "open_note": "Seconds after the player reaches the lamp room before Ted has the burner out and says it is cracked (BURNER_DIAGNOSED). Ted's first line, 'Arc lamp's in the middle. Let's open her up...', fills the time.",
+  "hall": {"radius_m": 3.2, "y_band": [10.0, 12.0], "note": "The briefing fires when the player is back in the hall near Arthur (the end of his baked walk-in) after the diagnosis."},
+  "idle_step3": {"first_nudge_s": 60.0, "next_nudge_s": 30.0, "tiers": 3, "note": "After the briefing, if the player has not cast off, IDLE_STEP_3 nudges (Arthur's ladder: hint, sharper, explicit)."}
+}

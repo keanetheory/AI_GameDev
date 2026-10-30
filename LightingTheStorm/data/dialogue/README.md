@@ -44,7 +44,7 @@ With `auto_advance` on, each line lasts an estimated reading time. For real voic
 
 ## Line fields
 
-`line_id`, `step` (0 = optional), `beat`, `speaker` (`TED`/`ARTHUR`/`DANIEL`), `kind`, `trigger` (event ID), `text`, `subtitle` (`"TED: ..."`), `delivery` (voice direction), `pause_before`, `once`. Optional: `group` (alternates: one is picked at random), `tier` (nudge level), `assist_text`, `journal_id`, `staging`, `note`.
+`line_id`, `step` (0 = optional), `beat`, `speaker` (`TED`/`ARTHUR`/`DANIEL`), `kind`, `trigger` (event ID), `text`, `subtitle` (`"TED: ..."`), `delivery` (voice direction), `pause_before`, `once`. Optional: `requires` (a condition GameState answers before the line is spoken; `player_and_daniel_in_basement` holds every Daniel line until Daniel and the player are both in the basement, creator 30 Oct 2026; a held line speaks as soon as it comes true), `group` (alternates: one is picked at random), `tier` (nudge level), `assist_text`, `journal_id`, `staging`, `note`.
 
 ## Not tested in the engine
 

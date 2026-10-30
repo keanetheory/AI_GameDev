@@ -294,7 +294,8 @@
     "is_navigation_marker": false,
     "note": "Scenery only: warm window light in the relative darkness the moon leaves over the city. It must not line up as a goal marker for the crossing."
   },
-  "max_dynamic_lights": 16,
+  "max_dynamic_lights": 18,
+  "max_dynamic_lights_note": "18 since 31 Oct 2026 (creator): the 15 interior lights plus the three dock lampposts (T36). The lamps are only lit near the player, so far fewer are live at once.",
   "max_shadow_casters": 2,
   "legibility_checks": [
     "Hazards: at RETURN the nearest rock reads as a silhouette at its hazard_visibility_m with no flash.",

@@ -18,8 +18,18 @@ signal released                 # left a seat
 enum State { IDLE, WALKING, WAITING, FOLLOWING, SEATED }
 
 const LOOKS := {
-	"ARTHUR": {"height": 1.78, "radius": 0.32, "colour": Color(0.36, 0.48, 0.55), "speed": 1.45},   # older sailor: a heavy teal-grey coat
-	"DANIEL": {"height": 1.66, "radius": 0.28, "colour": Color(0.92, 0.74, 0.2), "speed": 1.55},   # younger sailor: a yellow oilskin
+	# Arthur is the Meshy "Dockside Outlaw" (30 Oct 2026), same Mixamo rig and jaw bone as Ted: Walking, Idle_3, Talk_with_Right_Hand_Open
+	# while his own line plays, and Chair_Sit_Idle_M on the launch's and the rowboat's seats, held at its halfway point (sit_hold_frac): later in
+	# the clip he leans back and his body goes through the boat (creator, 30 Oct 2026).
+	"ARTHUR": {"model": "res://Assets/Characters/arthur.glb", "height": 1.78, "radius": 0.32, "speed": 1.45, "walk_clip": "Walking", "idle_clip": "Idle_3", "talk_clip": "Talk_with_Right_Hand_Open", "sit_clip": "Chair_Sit_Idle_M", "sit_hold_frac": 0.5, "model_yaw_deg": 180.0, "jaw": true},
+	# Daniel is the Meshy "The Red-Capped Wayfarer" (30 Oct 2026), same Mixamo rig and jaw bone: Walking, Talk_with_Hands_Open while his own
+	# line plays and Sit_Cross_Legged on the rowboat's seat. His download has no standing idle, so he stands in a frozen pose (pose_clip)
+	# until an idle is added in Meshy.
+	"DANIEL": {"model": "res://Assets/Characters/daniel.glb", "height": 1.66, "radius": 0.28, "speed": 1.55, "walk_clip": "Walking", "pose_clip": "Talk_with_Hands_Open", "talk_clip": "Talk_with_Hands_Open", "sit_clip": "Sit_Cross_Legged", "bench_m": 0.42, "model_yaw_deg": 180.0, "jaw": true},
+	# Ted is the rigged character (the Meshy "Ironclad Mariner", 30 Oct 2026): his own model, Walking while he walks, Idle_3 (looping)
+	# when he stands, and Stand_Talking_Angry (looping) while one of his lines is playing. The Meshy rig faces +Z, so the model is turned
+	# 180 degrees about Y to face -Z like everything else.
+	"TED": {"model": "res://Assets/Characters/ted.glb", "height": 1.83, "radius": 0.3, "speed": 1.15, "walk_clip": "Walking", "idle_clip": "Idle_3", "talk_clip": "Stand_Talking_Angry", "model_yaw_deg": 180.0, "jaw": true},
 }
 
 @export var who := "ARTHUR"
@@ -37,6 +47,10 @@ var _follow_speed := 1.7
 var _seat_parent: Node
 var _body: MeshInstance3D
 var _look: Dictionary = {}
+var _anim: AnimationPlayer
+var _walking_anim := false
+var _talking := false
+var _sit_held := false          # the sit clip has reached its hold point and is paused there
 
 
 static func spawn(parent: Node, character: String, at: Vector3) -> Node3D:
@@ -56,6 +70,9 @@ func _ready() -> void:
 
 
 func _build_body() -> void:
+	if _look.has("model"):
+		_build_model()
+		return
 	var h: float = _look["height"]
 	var r: float = _look["radius"]
 	_body = MeshInstance3D.new()
@@ -82,6 +99,115 @@ func _build_body() -> void:
 	add_child(nose)
 
 
+func _build_model() -> void:
+	var ps := load(String(_look["model"])) as PackedScene
+	if ps == null:
+		push_warning("npc: %s did not load" % _look["model"])
+		return
+	var m := ps.instantiate() as Node3D
+	m.name = "Model"
+	m.rotation.y = deg_to_rad(float(_look.get("model_yaw_deg", 0.0)))
+	add_child(m)
+	var aps := m.find_children("*", "AnimationPlayer", true, false)
+	if not aps.is_empty():
+		_anim = aps[0]
+		for k in ["walk_clip", "idle_clip", "talk_clip", "sit_clip"]:
+			if _look.has(k) and _anim.has_animation(String(_look[k])):
+				_anim.get_animation(String(_look[k])).loop_mode = Animation.LOOP_LINEAR
+		if _look.get("jaw", false):
+			# the jaw bone (tools/add_jaw_bone.py) opens from the voice, or flaps while this character's line is "spoken"
+			var jaw := Node.new()
+			jaw.name = "JawLipsync"
+			jaw.set_script(load("res://scripts/character/jaw_lipsync.gd"))
+			jaw.set("dialogue_loader", get_node_or_null("/root/Dialogue"))
+			jaw.set("speaker_id", who)
+			add_child(jaw)
+		if _look.has("talk_clip"):
+			var dlg := get_node_or_null("/root/Dialogue")
+			if dlg and dlg.has_signal("line_started"):
+				dlg.line_started.connect(_on_line_started)
+				dlg.line_finished.connect(_on_line_finished)
+		_stand()
+
+
+func _stand() -> void:
+	if _anim == null:
+		return
+	_walking_anim = false
+	if state == State.SEATED and _look.has("sit_clip") and _anim.has_animation(String(_look["sit_clip"])):
+		var sc := String(_look["sit_clip"])
+		if _sit_held and _anim.assigned_animation == sc:
+			return       # already sitting, paused at its hold point: a line of dialogue must not sit him down again
+		_sit_held = false
+		_play_loop(sc)
+		return
+	_sit_held = false
+	if _talking and _look.has("talk_clip") and _anim.has_animation(String(_look["talk_clip"])):
+		_play_loop(String(_look["talk_clip"]))
+		return
+	if _look.has("idle_clip") and _anim.has_animation(String(_look["idle_clip"])):
+		_play_loop(String(_look["idle_clip"]))
+		return
+	var clip := String(_look.get("pose_clip", ""))
+	if _anim.has_animation(clip):
+		_anim.play(clip)
+		_anim.seek(0.0, true)
+		_anim.pause()
+
+
+## The boat models have no thwart at the height the sit clip assumes (it sits on a chair about half a metre above the feet), so a
+## seated model character brings a plank: a bench of boards across the boat under him, taken away when he stands.
+func _set_bench(on: bool) -> void:
+	var old := get_node_or_null("Bench")
+	if old:
+		old.queue_free()
+	if not on or not _look.has("sit_clip"):
+		return
+	var bench := MeshInstance3D.new()
+	bench.name = "Bench"
+	var bm := BoxMesh.new()
+	bm.size = Vector3(0.95, 0.07, 0.34)
+	bench.mesh = bm
+	bench.position = Vector3(0.0, float(_look.get("bench_m", 0.5)), 0.0)
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = Color(0.2, 0.14, 0.1)
+	bench.material_override = mat
+	add_child(bench)
+
+
+func _play_loop(clip: String) -> void:
+	if _anim.current_animation != clip or not _anim.is_playing():
+		_anim.play(clip, 0.25)
+
+
+func _on_line_started(_line_id: String, speaker: String, _subtitle: String, _delivery: String) -> void:
+	_talking = speaker == who
+	if not _walking_anim:
+		_stand()
+
+
+func _on_line_finished(_line_id: String) -> void:
+	_talking = false
+	if not _walking_anim:
+		_stand()
+
+
+func _update_anim() -> void:
+	if _anim == null:
+		return
+	if state == State.SEATED and not _sit_held and _look.has("sit_hold_frac") and _anim.current_animation == String(_look.get("sit_clip", "")):
+		var hold_at: float = _anim.current_animation_length * float(_look["sit_hold_frac"])
+		if _anim.current_animation_position >= hold_at:
+			_anim.pause()
+			_sit_held = true
+	var walking := state == State.WALKING or state == State.FOLLOWING
+	if walking and not _walking_anim:
+		_walking_anim = true
+		_anim.play(String(_look["walk_clip"]))
+	elif not walking and _walking_anim:
+		_stand()
+
+
 ## Walk the points in order (world positions at floor height). arrived(route_name) fires at the last one.
 func walk(points: PackedVector3Array, name_of_route := "", speed := -1.0) -> void:
 	if state == State.SEATED:
@@ -101,6 +227,13 @@ func wait(seconds: float, then_resume := true) -> void:
 	_resume_after_wait = then_resume and state == State.WALKING
 	_wait_left = seconds
 	state = State.WAITING
+
+
+## Turn to look at a point (on the ground plane).
+func face(point: Vector3) -> void:
+	var flat := Vector3(point.x - global_position.x, 0.0, point.z - global_position.z)
+	if flat.length() > 0.01:
+		rotation.y = atan2(-flat.x, -flat.z)
 
 
 func stop() -> void:
@@ -127,6 +260,8 @@ func sit(seat: Node3D, offset := Vector3.ZERO) -> void:
 	reparent(seat, false)
 	position = offset
 	rotation = Vector3.ZERO
+	_stand()
+	_set_bench(true)
 
 
 func release_seat() -> void:
@@ -135,10 +270,13 @@ func release_seat() -> void:
 		return
 	reparent(_seat_parent, true)
 	state = State.IDLE
+	_stand()
+	_set_bench(false)
 	released.emit()
 
 
 func _process(delta: float) -> void:
+	_update_anim()
 	match state:
 		State.WALKING:
 			_walk(delta)

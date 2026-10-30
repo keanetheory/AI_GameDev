@@ -379,8 +379,11 @@
       "effort": "L",
       "agent_can_execute": false,
       "blocked_by": "Tasks T02, T30, T33. Needs the editor to place the rowboat, gate and NPC paths; greybox Arthur and Daniel and the rowboat do not exist yet.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Built 30 Oct 2026: the sailors row in, moor, wait at the gate, walk up; Arthur waits past the door, Daniel in the basement; Daniel speaks only with the player there."
+      },
       "build_wave": 3,
       "depends_on": [
         "T02",
@@ -408,8 +411,11 @@
       "effort": "M",
       "agent_can_execute": true,
       "blocked_by": "Tasks T02, T04, T26, T28, T30. Depends on GameState, the interior and Ted being in the scene.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Built 30 Oct 2026: the lamp-room diagnosis and briefing with Ted in the lamp room; LAMP_ROOM_REENTERED emitter."
+      },
       "build_wave": 3,
       "depends_on": [
         "T02",
@@ -474,8 +480,11 @@
       "effort": "M",
       "agent_can_execute": true,
       "blocked_by": "Tasks T06, T31. Depends on GameState and the burner/return trigger. The final deadline length is a creator decision (B4), so use a labelled placeholder.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Built 29 Oct 2026: hidden ship deadline (210 s placeholder, data/world/ship_route.json), P pause, debug time scale and log, SHIP_FAIL once; see LightingTheStorm/HANDOFF_T07_T31_ShipDeadline.md."
+      },
       "build_wave": 4,
       "depends_on": [
         "T06",
@@ -504,8 +513,11 @@
       "effort": "L",
       "agent_can_execute": false,
       "blocked_by": "Tasks T26, T07, T09, T12, T14, T31.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Built 29 Oct 2026: the fail sequence (foghorn, crash, silence, Failed screen with reason) and the win card; wording approved."
+      },
       "build_wave": 4,
       "depends_on": [
         "T26",
@@ -566,8 +578,11 @@
       "effort": "M",
       "agent_can_execute": true,
       "blocked_by": "Tasks T12. Best done after Arthur is in the boat; steering feel play check needed.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Built 30 Oct 2026: the return forecast laid on the sea (hazards, safe lane, Arthur calls) and OUTBOUND_NEAR_MISS."
+      },
       "build_wave": 5,
       "depends_on": [
         "T12"
@@ -595,8 +610,11 @@
       "effort": "M",
       "agent_can_execute": true,
       "blocked_by": "Tasks T30, T31. Depends on GameState and the crossing integration.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Built 30 Oct 2026: Arthur walks to the launch, boards, BOARDING_THRESHOLD, SHIP_SIGHTED, the arrival go-go-go beat."
+      },
       "build_wave": 3,
       "depends_on": [
         "T30",
@@ -707,8 +725,11 @@
       "effort": "M",
       "agent_can_execute": false,
       "blocked_by": "Needs audio source files and licences; sound choices need creator ears.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Built 29 Oct 2026: seven synthesised CC0 placeholder sounds mixed by phase (audio_mixer.gd); sound review scheduled Tuesday 3 Nov 2026."
+      },
       "build_wave": 4,
       "depends_on": [],
       "build_order": 21
@@ -760,8 +781,11 @@
       "effort": "S",
       "agent_can_execute": false,
       "blocked_by": "Creator sign-off on the line list.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Picked 29 Oct 2026 (Decisions A33)."
+      },
       "build_wave": 0,
       "depends_on": [],
       "build_order": 2
@@ -827,7 +851,7 @@
       "title": "Set a placeholder deadline length and write the crossing-penalty values",
       "priority": 5,
       "category": "decision",
-      "summary": "The deadline length and exact collision costs are deliberately undecided until the return crossing is tested. Record a clearly labelled placeholder deadline, the outbound-crossing penalty (B9, deferred) and the collision cost so the QA tuning pass has numbers to compare against. Creator, 26 Oct 2026: placeholder deadline set to 3 min 30 s (Decisions A28); the crossing-penalty values are still open.",
+      "summary": "The deadline length and exact collision costs are deliberately undecided until the return crossing is tested. Record a clearly labelled placeholder deadline, the outbound-crossing penalty (B9, deferred) and the collision cost so the QA tuning pass has numbers to compare against. Creator, 26 Oct 2026: placeholder deadline set to 3 min 30 s (Decisions A28); the crossing-penalty values are still open. Update 31 Oct 2026: the return collision cost is set at 5 s of deadline (data/world/crossing_sequence.json); the outbound crossing costs nothing; the deadline length is still the 3:30 placeholder.",
       "why_this_score": "It is needed for the tuning pass but cannot be settled before the crossing exists, so 5.",
       "evidence": [
         "Decisions to be made B4, B9, B11",
@@ -842,7 +866,10 @@
       "agent_can_execute": false,
       "blocked_by": "Tasks T25. Time a crossing at 10 m/s (the creator's speed until the waves are complete), then set the labelled placeholder.",
       "status": "open",
-      "result": null,
+      "result": {
+        "outcome": "partial",
+        "summary": "Return collision penalty set to 5 s (31 Oct 2026); outbound penalty and the final deadline length still open."
+      },
       "build_wave": 4,
       "depends_on": [
         "T25"
@@ -870,8 +897,11 @@
       "effort": "M",
       "agent_can_execute": true,
       "blocked_by": "Tasks T08. Depends on the GameState task.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "31 Oct 2026: LightingTheStorm/QA_SCENARIOS.md (17 scenarios, known gaps) and tools/test_slice_playthrough.gd (the whole win, and -- fail for the failure and restart), both passing."
+      },
       "build_wave": 5,
       "depends_on": [
         "T08"
@@ -1221,10 +1251,10 @@
       "effort": "M",
       "agent_can_execute": false,
       "blocked_by": "Paths need an editor check.",
-      "status": "open",
+      "status": "done",
       "result": {
-        "outcome": "partial",
-        "summary": "Rowboat done, 19 Oct 2026: Assets/Models/boat/rowboat.glb, 60k triangles, 2.0 x 1.1 x 4.2 m (beamy, as the concept sheet is; check the width and whether the thwarts and oars survived decimation). FAL Hunyuan3D v3 (textured, front + side views cropped from the concept sheets into AIAgentCrew/sample_submissions/derived/; main_asset.py --check-only APPROVE first). FAL returned about 500k triangles and 4096 textures, so each model was downscaled to a 2048 texture and decimated in Blender 5.2; the full-detail versions are in the model folder's source/ (gdignored). Imported headless through tools/import_scale_pivot.gd (prop height 0.9 m, rowboat 4.2 m long; both estimates). Still to do: capsule Arthur and Daniel and the path-follower script."
+        "outcome": "done",
+        "summary": "Built 29 Oct 2026: capsule Arthur and Daniel (npc.gd) with baked routes."
       },
       "id": "T30",
       "title": "Capsule Arthur and Daniel and a path-follower script (the FAL rowboat is done)",
@@ -1251,8 +1281,11 @@
       "effort": "M",
       "agent_can_execute": false,
       "blocked_by": "Needs the editor for the route and sightline.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Built 29 Oct 2026: the ship appears after the boiler is fed out to the north-east, lane onto SeaStack1, safe lane, lamp-room sightline tested."
+      },
       "id": "T31",
       "title": "Passenger ship placeholder, its approach route and the grounding point",
       "priority": 9,
@@ -1276,10 +1309,10 @@
       "effort": "M",
       "agent_can_execute": true,
       "blocked_by": "Tasks T02, T26, T28, T29.",
-      "status": "open",
+      "status": "done",
       "result": {
-        "outcome": "in progress",
-        "summary": "Creator, 25 Oct 2026: close to done: the lamp socket offers '[E] Fit the burner into the lamp' (CarrySocket), fires BURNER_FITTED and SHIP_WIN follows 4.5 s later (tools/test_lamp_fit.gd). Being finished alongside T02."
+        "outcome": "done",
+        "summary": "The lamp socket fits the burner (CarrySocket), fires BURNER_FITTED, the lamp relights, SHIP_WIN follows 4.5 s later; checked by tools/test_lamp_fit.gd and the full-slice playthrough (31 Oct 2026). The open/closed lamp model is T39/T40."
       },
       "id": "T32",
       "title": "Burner fit: carry the burner up to the lamp and fit it (BURNER_FITTED, BEACON_RELIT)",
@@ -1400,8 +1433,11 @@
       "effort": "M",
       "agent_can_execute": true,
       "blocked_by": "",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "31 Oct 2026: three gas lampposts (Meshy model, 30k tris, 3.4 m): one each side of the island harbour opening and one at the Saltgate quay by the landing; warm flickering lights gated by distance. See LightingTheStorm/HANDOFF_T36_Lampposts.md. The scene now holds 18 OmniLights against max_dynamic_lights 16 (creator decision)."
+      },
       "build_wave": 2,
       "depends_on": [],
       "build_order": 36
@@ -1423,8 +1459,11 @@
       "effort": "S",
       "agent_can_execute": true,
       "blocked_by": "Lines can be written now; wiring is tested once T07 fires SHIP_FAIL.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "Written, picked and wired 29-30 Oct 2026 (TED_F_01, TED_F_03)."
+      },
       "build_wave": 0,
       "depends_on": [
         "T07"
@@ -1448,6 +1487,320 @@
       "effort": "S",
       "agent_can_execute": true,
       "blocked_by": "",
+      "depends_on": [],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T39",
+      "title": "Generate the open arc lamp model",
+      "priority": 7,
+      "category": "asset",
+      "summary": "The lamp room's arc lamp (Assets/Models/prop/lhi_arc_lamp.glb) is shown closed and dark with an empty burner socket. Generate a second model of the same lamp OPEN, with its bay or cover swung open and the burner seat visible and empty, matching the closed lamp's size, pivot and style (concept art ConceptArt/burner and the lamp sheets). It is for the diagnosis (Ted opens the lamp and finds the burner cracked), so it must read clearly from the lamp stand. Import it with tools/import_scale_pivot.gd, downscale the texture to 2048, and run main_asset.py --check-only before any FAL submission (FAL Hunyuan v3 costs credits: ask first).",
+      "why_this_score": "The creator wants the diagnosis to show an open lamp and the fit to end with a closed, lit lamp; both need this model. Not higher because the current empty socket and the burner on the floor are an acceptable stand-in.",
+      "evidence": [
+        "Creator, 30 Oct 2026: add 'generate open arc lamp model' to the backlog",
+        "scripts/world/interior/lantern.gd _arc_lamp",
+        "HANDOFF_T05_Diagnosis.md section 8"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Creator with the Asset agent",
+      "effort": "M",
+      "agent_can_execute": false,
+      "blocked_by": "Creator generates or approves the model.",
+      "depends_on": [],
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "30 Oct 2026: the creator generated lhi_arc_lamp_open.glb (Meshy, title Open Arc Lamp, same licence). Decimated from 1.24M to 56k triangles, textures 2048, imported with the prop script (0.9 m, pivot at the base, the same size as the closed lamp). Original kept in Assets/Models/prop/source/ and backed up to C:/bkupConceptArt/FAL_3D_Models/prop/."
+      }
+    },
+    {
+      "id": "T40",
+      "title": "Open lamp in the diagnosis; the fitted burner disappears and the lamp closes with light emanating",
+      "priority": 6,
+      "category": "code",
+      "summary": "Once the open arc lamp model exists: show the open lamp from the start until the replacement burner is fitted; at BURNER_DIAGNOSED Ted takes the cracked burner out (it appears on the floor, as built); when the player fits the replacement burner (BURNER_FITTED) the burner simply disappears (no burner left in the socket), the open lamp is swapped for the closed one and light emanates from it (lamp_beacon.gd, the beam). Keep lamp_socket.gd's carry flow, SHIP_WIN after 4.5 s, and tools/test_lamp_fit.gd passing; add a test for the swap.",
+      "why_this_score": "Finishes the lamp story the creator described on 30 Oct 2026. Blocked on the open lamp model, so below it.",
+      "evidence": [
+        "Creator, 30 Oct 2026: the replacement burner simply disappears and the lamp appears closed with light emanating",
+        "scripts/world/interior/lamp_socket.gd, lamp_beacon.gd"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Gameplay / Systems agent",
+      "effort": "M",
+      "agent_can_execute": true,
+      "blocked_by": "Task: generate the open arc lamp model.",
+      "depends_on": [
+        "T39"
+      ],
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "30 Oct 2026: lantern.gd adds LampModelOpen beside LampModel; lamp_beacon.gd shows the closed lamp first, the open one from BURNER_DIAGNOSED, and closes it 1.2 s after BURNER_FITTED as the lamp lights. test_lamp_fit.gd checks all four states."
+      }
+    },
+    {
+      "id": "T41",
+      "title": "Generate updated models for Ted, Arthur and Daniel",
+      "priority": 7,
+      "category": "asset",
+      "summary": "Ted is the rigged test character (Assets/Characters/ted.glb: walking, running and an alert turn, frozen in one pose when he stands); Arthur and Daniel are capsules. Generate updated, matching character models for all three from the concept sheets (ConceptArt/characters), rigged and textured to the style guide: Ted with an idle (and ideally a talking idle), Arthur and Daniel with walk, idle, and a seated pose for the rowboat and the launch (the capsules stand in the boat). Each must work with scripts/character/npc.gd (forward is -Z, feet at the origin, 1.65 to 1.85 m tall) and keep jaw lip-sync possible (scripts/character/jaw_lipsync.gd). Import with tools/import_scale_pivot.gd, texture 2048 at most, and run main_asset.py --check-only before any FAL submission (credits: ask first). Then replace the capsules in npc.gd (a model entry per character, as Ted has). PROGRESS 30 Oct 2026: Ted is done (Meshy Ironclad Mariner, Mixamo rig, Idle_3, Walking, Stand_Talking_Angry wired into npc.gd, test_ted_anim.gd). Arthur and Daniel remain; generate them on the same Mixamo skeleton so the clips can be shared, and include a seated pose. PROGRESS 30 Oct 2026 (2): Arthur is done too (Meshy The Dockside Outlaw, jaw bone, Idle_3, Walking, Talk_with_Right_Hand_Open, Chair_Sit_Idle_M, test_arthur_anim.gd). Daniel remains. PROGRESS 30 Oct 2026 (3): Daniel is done too (Meshy The Red-Capped Wayfarer, jaw, Walking, Talk_with_Hands_Open, Sit_Cross_Legged, test_daniel_anim.gd). Open item: his download has no standing idle clip (he holds a still pose).",
+      "why_this_score": "The capsule sailors are the most visible placeholder in the slice; the creator wants all three redone together so the cast matches.",
+      "evidence": [
+        "Creator, 31 Oct 2026: then we can generate updated models for Ted, Arthur, and Daniel",
+        "scripts/character/npc.gd",
+        "ConceptArt/characters"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Creator with the Asset agent",
+      "effort": "L",
+      "agent_can_execute": false,
+      "blocked_by": "Creator generates or approves the models; credits.",
+      "depends_on": [],
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "30 Oct 2026: Ted, Arthur and Daniel are Meshy models on the shared Mixamo skeleton with jaw bones (tools/add_jaw_bone.py), clips wired in npc.gd and tested (test_ted_anim, test_arthur_anim, test_daniel_anim). Daniel has no idle clip yet; the seated clips use a small plank on the boats; the models have not been seen in the running level."
+      }
+    },
+    {
+      "id": "T42",
+      "title": "Generate the buoy models for the sea hazards",
+      "priority": 6,
+      "category": "asset",
+      "summary": "The buoy hazards in the crossing (scripts/world/crossing_hazards.gd, _buoy) are built from primitives: a red body with a blinking light. Generate proper buoy models (at least the red channel buoy the forecast names; ideally a second variant, e.g. a green or striped one, and a bell buoy since the audio mixer has a bell) in the same style as the other sea props, with a base that sits on the waterline, a mast or cage for the blinking lamp, and a collision size that matches data/world/boat_spec.json and crossing_sequence.json (the buoy radius_m). Import with tools/import_scale_pivot.gd (add a buoy category or per-file height), downscale the texture to 2048, then swap the model into _buoy and keep the blinking light and near-miss radius. Run main_asset.py --check-only before any FAL submission (credits: ask first).",
+      "why_this_score": "The hazards are the sea's main readable obstacle on the return; primitive buoys look like placeholders next to the generated rocks and ship. Not higher because it does not block the slice.",
+      "evidence": [
+        "Creator, 30 Oct 2026: additional backlog item is to generate assets for the buoys in the sea",
+        "scripts/world/crossing_hazards.gd"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Creator with the Asset agent",
+      "effort": "M",
+      "agent_can_execute": false,
+      "blocked_by": "Creator generates or approves the models; credits.",
+      "depends_on": [],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T43",
+      "title": "Generate a chair for Daniel in front of the boiler",
+      "priority": 6,
+      "category": "asset",
+      "summary": "Daniel's resting place is sat in the basement, in front of the boiler, facing it (the player has finished shovelling coal by then). On the stand-in plank he levitated and faced the coal, so the sit-down is switched off (sailors_sequence.json daniel_sits_in_basement false). Generate a chair model (Meshy or FAL, same look as the lighthouse props, about 0.42 m seat height for the Sit_Cross_Legged clip), import it, place it in front of the boiler with the walk ending at it and Daniel's seat marker on it, then turn daniel_sits_in_basement on and check he does not clip. Check the chair against tools/probe_seat_heights.gd.",
+      "why_this_score": "The creator wants Daniel seated for the rest of the game; the plank looked wrong. Not higher because the slice runs with him standing.",
+      "evidence": [
+        "Creator, 30 Oct 2026: Daniel sits on a levitating plank facing the coal, it's better for us to generate a chair for him to sit on in front of the boiler",
+        "scripts/world/sailors_sequence.gd _daniel_sits_down"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Creator with the Asset agent",
+      "effort": "S",
+      "agent_can_execute": false,
+      "blocked_by": "Creator generates the chair; credits.",
+      "depends_on": [],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T44",
+      "title": "Polish the passenger ship: light it properly",
+      "priority": 8,
+      "category": "scene",
+      "summary": "The passenger ship (the Lantern Queen, scripts/world/passenger_ship.gd) shows its lights as blobs floating outside the hull, which look bad. Light the ship so it reads clearly at night in a realistic way: lit portholes and windows (emissive, with some flicker or variation), a lit bridge and deck lamps, the masthead and navigation lights (red, green, white) mounted on the structure at the right places, a soft light spill on the hull and water close by, and nothing floating off the hull. It must read from the lamp room and from the launch at range (R19: warm lamplight against the blue-grey storm), stay inside the Lighting budget (max_dynamic_lights 18) and keep the crash on the rock readable. Use emissive materials and a few small lights, not one blob per window. Run test_ship_route.gd and test_outcome_screen.gd after.",
+      "why_this_score": "The creator says the ship lights look awful; the ship is the player's goal and the final image of both endings.",
+      "evidence": [
+        "Creator, 30 Oct 2026: polish the passenger ship, right now the lights are just blobs outside the ship and they look awful",
+        "scripts/world/passenger_ship.gd"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Lighting agent with the creator",
+      "effort": "M",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "depends_on": [],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T45",
+      "title": "List the greyboxed lighthouse props and plan their FAL replacements",
+      "priority": 8,
+      "category": "asset",
+      "summary": "Inventory every prop in the lighthouse (basement, ground floor, L1, L2, lamp room, hut) that is still a primitive greybox (boxes, cylinders, planes built in scripts/world/interior/*.gd) rather than a generated model, with its room, size, role (decor, interactable, collider) and priority. Output a table the creator can approve (a doc in LightingTheStorm), then the Lighthouse Finisher / Asset agents submit the replacements through main_asset.py --check-only first (FAL credits: ask first, cap in the memory file lighthouse-finisher-approval).",
+      "why_this_score": "The interior is built in code from primitives; the creator wants real FAL props. The list has to come first so the credits are spent once.",
+      "evidence": [
+        "Creator, 30 Oct 2026: we need to list out the remaining props in the lighthouse that have been greyboxed so we can generate FAL replacements for them",
+        "scripts/world/interior/"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Asset agent",
+      "effort": "M",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "depends_on": [],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T46",
+      "title": "Remove the random orbs of light in the lighthouse stairwell",
+      "priority": 8,
+      "category": "scene",
+      "summary": "There are floating orbs of light in the stairwell of the lighthouse. Find where they come from (stair or landing lamps built in scripts/world/interior/stairs or lighting code, emissive spheres, OmniLight head meshes, or fog volumes), remove them, and keep the stairwell lit by the intended sources only. Check the light count stays within max_dynamic_lights 18 and run test_rain_shelter.gd, test_interior_anchors.gd and test_sightlines.gd.",
+      "why_this_score": "A visible bug in a place the player passes through on every run.",
+      "evidence": [
+        "Creator, 30 Oct 2026: there are random orbs of light in the stairwell of the lighthouse, we need to remove those"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Level Layout agent",
+      "effort": "S",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "depends_on": [],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T47",
+      "title": "Fix the clipping in the stairwell where the external mesh comes through",
+      "priority": 8,
+      "category": "scene",
+      "summary": "Parts of the external lighthouse mesh come through the walls of the stairwell. Find which exterior pieces (lighthouse_exterior_v3.glb or the island and cliff meshes) intersect the stair shaft, and fix it by moving or hiding the outer mesh behind the shaft, adding an interior liner or cutting the exterior mesh. Keep the collider bake in step (tools/test_collider_bake.gd already fails on G_outer_west_window_infill, which may be the same fault) and check with test_interior_anchors.gd and a few screenshots from each stair landing.",
+      "why_this_score": "A visible bug; likely related to the failing collider-bake test.",
+      "evidence": [
+        "Creator, 30 Oct 2026: there are still clippings in the stairwell where the external mesh is coming through",
+        "tools/test_collider_bake.gd"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Level Layout agent",
+      "effort": "M",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "depends_on": [],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T48",
+      "title": "Rebuild the L2 room: remove the stick in the bathroom and replace its props with FAL models",
+      "priority": 7,
+      "category": "scene",
+      "summary": "The L2 room (control and diagnostics level) needs a lot of work. First fix the random stick that cuts through the bathroom. Then list every prop on L2, generate FAL replacements for all of them (same process as the greybox list item), place them to the Interior Plan V4 blueprint and check readability and walk routes (test_interior_anchors.gd, test_npc.gd baked routes may need a rebake with tools/bake_npc_paths.gd).",
+      "why_this_score": "The creator calls L2 the weakest room; props are all greyboxed.",
+      "evidence": [
+        "Creator, 30 Oct 2026: the L2 room still needs a lot of work, the bathroom in the L2 has a random stick cutting through it and we need to generate FAL replacements for all of the props in that level"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Lighthouse Interior Creator with the creator",
+      "effort": "L",
+      "agent_can_execute": false,
+      "blocked_by": "FAL credits; creator approves the prop list.",
+      "depends_on": [
+        "T45"
+      ],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T49",
+      "title": "Regenerate the Saltgate burner pickup area and replace the landing with a walk-in hut",
+      "priority": 7,
+      "category": "scene",
+      "summary": "Regenerate the part of Saltgate where the player picks up the replacement burner. Replace the landing with a hut that looks like a garage or equipment area the player can walk into, with the replacement burner inside (pickup, carry and return invariants stay: tools/test_burner_pickup.gd, test_carry.gd, the boat docks at DOCK_PORT). Use the Saltgate Creator and the Asset agent (FAL, check-only first, credits ask first); keep the Saltgate minimal and dark and eerie (lore), the lamppost and the boat berth where they are or move them with the hut, and keep the walk to the hut short.",
+      "why_this_score": "The creator wants the pickup to be a place, not a landing; it is the middle beat of the slice.",
+      "evidence": [
+        "Creator, 30 Oct 2026: regenerate the part of Saltgate where the player picks up the replacement burner, and replace the landing with a hut that looks like a garage or equipment area that the player can walk into"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Saltgate Creator with the creator",
+      "effort": "L",
+      "agent_can_execute": false,
+      "blocked_by": "FAL credits; creator approves the hut concept.",
+      "depends_on": [],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T50",
+      "title": "Generate the dialogue lines and their timings; onboard the music and its cues (Tuesday)",
+      "priority": 8,
+      "category": "dialogue",
+      "summary": "Tuesday 3 Nov: with the creator, finalise every dialogue line (data/dialogue/dialogue_opening.json) and its timing (gaps, reply delays, the length of each beat, auto-advance lengths), then onboard the musical pieces and decide when each one fires (phase, event or deadline-driven) in data/world/audio_spec.json and scripts/core/audio_mixer.gd. Includes the sound review already scheduled for the same morning (placeholder sounds) and the voice recording plan (credits, ask first). Run test_audio_mixer.gd, test_slice_playthrough.gd and the dialogue tests after.",
+      "why_this_score": "The scheduled Tuesday review; dialogue timing and music are what make the slice feel finished.",
+      "evidence": [
+        "Creator, 30 Oct 2026: we then need to work on generating the dialogue lines, and their timings - that's the reminder on tuesday, along with onboarding the musical pieces and when they fire."
+      ],
+      "requirement_ids": [],
+      "owner_role": "Creator with the Dialogue and Audio agents",
+      "effort": "L",
+      "agent_can_execute": false,
+      "blocked_by": "Tuesday 3 Nov, with the creator; the music pieces.",
+      "depends_on": [],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T51",
+      "title": "Decide where the characters look during specific lines (the Arthur and Ted opening)",
+      "priority": 6,
+      "category": "dialogue",
+      "summary": "Talk through, line by line, where each character looks when they speak or listen: for example Arthur and Ted's brief conversation at the start (the knock and the door, who faces whom), Ted telling the player to shovel, the diagnosis in the lamp room, Arthur at the helm. Then build it: a gaze or facing target per line in the dialogue data (a character id, the player, a point or a prop), applied by npc.gd as a head turn (a head-bone look-at) or a body turn, with a fallback to the player. Needs the new rigs (Ted, Arthur, Daniel are Mixamo-rigged with Head and Neck bones).",
+      "why_this_score": "The characters currently stand still and face their route; eye lines make the dialogue read as conversation.",
+      "evidence": [
+        "Creator, 30 Oct 2026: we also need to talk through where the characters look for specific parts of their dialogue, like Arthur and Ted having their brief conversation at the start",
+        "scripts/character/npc.gd"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Creator with the Dialogue agent",
+      "effort": "M",
+      "agent_can_execute": false,
+      "blocked_by": "Needs the creator walk-through of each beat first.",
+      "depends_on": [
+        "T50"
+      ],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T52",
+      "title": "Review all dialogue for snark and humour",
+      "priority": 7,
+      "category": "dialogue",
+      "summary": "Read the whole slice's dialogue (data/dialogue/dialogue_opening.json, every speaker) with the creator and make it snarkier and funnier where it is flat, keeping canon (canon.py), the style guide, the inside-only rule for Ted, the timings (previous item) and the line ids the tests rely on (rewrite text, not ids, or update the tests). Run the Style Generator and Refiner agents for a first pass if useful, then the creator signs off line by line.",
+      "why_this_score": "The creator wants the tone to be snarky and funny; the lines are the main personality of the slice.",
+      "evidence": [
+        "Creator, 30 Oct 2026: I then want to review all of the dialogue to make sure it's snarky and funny enough."
+      ],
+      "requirement_ids": [],
+      "owner_role": "Creator with the Dialogue agent",
+      "effort": "M",
+      "agent_can_execute": false,
+      "blocked_by": "Creator sign-off; best after the Tuesday dialogue session.",
+      "depends_on": [
+        "T50"
+      ],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T53",
+      "title": "Create the playtest QA agents and a web deployment agent for itch.io (Tuesday evening)",
+      "priority": 8,
+      "category": "code",
+      "summary": "Tuesday 3 Nov evening: build (1) playtest QA agents that play the slice (the scenarios in QA_SCENARIOS.md, the whole-slice playthrough test, plus exploratory runs and checks on timing, softlocks, stuck NPCs, clipping and framerate) and report issues into the backlog, and (2) a web deployment agent that exports the whole game to HTML5 (Godot 4.3 web export: threads and cross-origin isolation headers for itch.io, texture and audio sizes, load time, memory, the Compatibility renderer if the Forward+ look does not run on the web) and packages it for the itch.io upload, with a checklist (credits and attributions for every CC BY model, the licence notes, the page text). Plan the agent briefs in the AI agent strategy and approve them with the creator (the GER approval gate) before they run.",
+      "why_this_score": "The creator's plan for Tuesday evening; the launch is on itch.io.",
+      "evidence": [
+        "Creator, 30 Oct 2026: for Tuesday evening I'll then need to generate playtest QA agents, and a web deployment agent to handle this entire game so I can launch it on itch.io",
+        "QA_SCENARIOS.md"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Creator with the GOA / GER framework",
+      "effort": "L",
+      "agent_can_execute": false,
+      "blocked_by": "Tuesday 3 Nov evening; needs the creator's approval of the agent briefs.",
       "depends_on": [],
       "status": "open",
       "result": null
@@ -1687,6 +2040,120 @@
       "task_id": "T32",
       "event": "note",
       "note": "Creator, 25 Oct 2026: close to done: the lamp socket offers '[E] Fit the burner into the lamp' (CarrySocket), fires BURNER_FITTED and SHIP_WIN follows 4.5 s later (tools/test_lamp_fit.gd). Being finished alongside T02."
+    },
+    {
+      "time": "2026-10-30T10:23:25",
+      "task_id": "T39",
+      "event": "added",
+      "note": "Creator, 30 Oct 2026"
+    },
+    {
+      "time": "2026-10-30T13:37:23",
+      "task_id": "T41",
+      "event": "added",
+      "note": "Creator, 31 Oct 2026"
+    },
+    {
+      "time": "2026-10-30T14:06:27",
+      "task_id": "T42",
+      "event": "added",
+      "note": "Creator asked for buoy assets (30 Oct 2026)"
+    },
+    {
+      "time": "2026-10-30T15:20:35",
+      "task_id": "T39",
+      "event": "done",
+      "note": "30 Oct 2026: the creator generated lhi_arc_lamp_open.glb (Meshy, title Open Arc "
+    },
+    {
+      "time": "2026-10-30T15:20:35",
+      "task_id": "T40",
+      "event": "done",
+      "note": "30 Oct 2026: lantern.gd adds LampModelOpen beside LampModel; lamp_beacon.gd show"
+    },
+    {
+      "time": "2026-10-30T16:15:33",
+      "task_id": "T41",
+      "event": "progress",
+      "note": "Ted done"
+    },
+    {
+      "time": "2026-10-30T17:09:59",
+      "task_id": "T41",
+      "event": "progress",
+      "note": "Arthur done"
+    },
+    {
+      "time": "2026-10-30T17:25:19",
+      "task_id": "T41",
+      "event": "done",
+      "note": "all three characters"
+    },
+    {
+      "time": "2026-10-30T18:23:11",
+      "task_id": "T43",
+      "event": "added",
+      "note": "Creator weekend list, 30 Oct 2026"
+    },
+    {
+      "time": "2026-10-30T18:23:11",
+      "task_id": "T44",
+      "event": "added",
+      "note": "Creator weekend list, 30 Oct 2026"
+    },
+    {
+      "time": "2026-10-30T18:23:11",
+      "task_id": "T45",
+      "event": "added",
+      "note": "Creator weekend list, 30 Oct 2026"
+    },
+    {
+      "time": "2026-10-30T18:23:11",
+      "task_id": "T46",
+      "event": "added",
+      "note": "Creator weekend list, 30 Oct 2026"
+    },
+    {
+      "time": "2026-10-30T18:23:11",
+      "task_id": "T47",
+      "event": "added",
+      "note": "Creator weekend list, 30 Oct 2026"
+    },
+    {
+      "time": "2026-10-30T18:23:11",
+      "task_id": "T48",
+      "event": "added",
+      "note": "Creator weekend list, 30 Oct 2026"
+    },
+    {
+      "time": "2026-10-30T18:23:11",
+      "task_id": "T49",
+      "event": "added",
+      "note": "Creator weekend list, 30 Oct 2026"
+    },
+    {
+      "time": "2026-10-30T18:23:11",
+      "task_id": "T50",
+      "event": "added",
+      "note": "Creator weekend list, 30 Oct 2026"
+    },
+    {
+      "time": "2026-10-30T18:23:11",
+      "task_id": "T51",
+      "event": "added",
+      "note": "Creator weekend list, 30 Oct 2026"
+    },
+    {
+      "time": "2026-10-30T18:23:11",
+      "task_id": "T52",
+      "event": "added",
+      "note": "Creator weekend list, 30 Oct 2026"
+    },
+    {
+      "time": "2026-10-30T18:23:11",
+      "task_id": "T53",
+      "event": "added",
+      "note": "Creator weekend list, 30 Oct 2026"
     }
   ]
 }

@@ -17,6 +17,11 @@ const DebugFlags := preload("res://scripts/core/debug_flags.gd")
 const ShipDeadline := preload("res://scripts/core/ship_deadline.gd")
 const AudioMixer := preload("res://scripts/core/audio_mixer.gd")
 const OutcomeScreen := preload("res://scripts/ui/outcome_screen.gd")
+const SailorsSequence := preload("res://scripts/world/sailors_sequence.gd")
+const DiagnosisSequence := preload("res://scripts/world/diagnosis_sequence.gd")
+const IntroSequence := preload("res://scripts/world/intro_sequence.gd")
+const BoardingSequence := preload("res://scripts/world/boarding_sequence.gd")
+const CrossingSequence := preload("res://scripts/world/crossing_sequence.gd")
 
 signal event_emitted(id: String, phase: int)
 signal phase_changed(old_phase: int, new_phase: int)
@@ -92,6 +97,12 @@ var _boat: Node
 var _director: Node            # ship_deadline.gd: the hidden clock and the passenger ship
 var _mixer: Node               # audio_mixer.gd: the placeholder audio (T14)
 var _outcome_screen: Node      # outcome_screen.gd: the Failed screen and the win card (T08)
+var _sailors: Node             # sailors_sequence.gd: the rowboat, the gate and the walk-in (T04)
+var _diagnosis: Node           # diagnosis_sequence.gd: Ted, the lamp room, the broken burner and the briefing (T05)
+var _intro: Node               # intro_sequence.gd: Ted behind the door, the knock, the greeting (creator, 30 Oct 2026)
+var _boarding: Node            # boarding_sequence.gd: Arthur walks to the launch, boards, steps ashore on the return (T11)
+var _crossing: Node            # crossing_sequence.gd: the return forecast laid on the sea: hazards, safe lane, Arthur's calls (T10)
+var _level_root: Node
 var _rig: Node
 var _lighting_phase := ""
 
@@ -101,8 +112,10 @@ func _ready() -> void:
 	_dialogue = get_node_or_null("/root/Dialogue")
 	if _dialogue == null:
 		push_error("GameState: the Dialogue autoload is missing (project.godot [autoload])")
-	elif debug_log:
-		_dialogue.line_started.connect(_on_line_started)
+	else:
+		_dialogue.condition_provider = Callable(self, "dialogue_condition")
+		if debug_log:
+			_dialogue.line_started.connect(_on_line_started)
 	# The level has no script of its own, so notice scenes entering the root and bind to them once they are ready.
 	get_tree().root.child_entered_tree.connect(_on_root_child_entered)
 	# The main scene is added to the root before the autoloads' _ready runs, so on the very first start that
@@ -215,6 +228,12 @@ func _reset_state() -> void:
 	_director = null
 	_mixer = null
 	_outcome_screen = null
+	_sailors = null
+	_diagnosis = null
+	_intro = null
+	_boarding = null
+	_crossing = null
+	_level_root = null
 
 
 func _record(id: String, note: String) -> void:
@@ -252,6 +271,8 @@ func _scene_ready() -> void:
 	_bind_boat(get_tree().get_first_node_in_group("boat"))
 	_bind_director()
 	_bind_rig(get_tree().get_first_node_in_group("lighting_rig"))
+	if _intro != null and _intro.holds_start:
+		return       # the game starts when the player knocks (intro_sequence.gd)
 	emit_event("GAME_STARTED")   # ignored if this attempt already started
 
 
@@ -272,6 +293,11 @@ func _bind_director() -> void:
 		return
 	if _boat == null or _boat.get_parent() == null:
 		return
+	_level_root = _boat.get_parent()
+	_intro = IntroSequence.new()
+	_intro.name = "IntroSequence"
+	_boat.get_parent().add_child(_intro)
+	_intro.setup(self, _boat.get_parent())
 	_director = ShipDeadline.new()
 	_director.name = "ShipDeadline"
 	_boat.get_parent().add_child(_director)
@@ -283,6 +309,22 @@ func _bind_director() -> void:
 	_outcome_screen = OutcomeScreen.new()
 	_boat.get_parent().add_child(_outcome_screen)
 	_outcome_screen.setup(self, _boat.get_parent())
+	_sailors = SailorsSequence.new()
+	_sailors.name = "SailorsSequence"
+	_boat.get_parent().add_child(_sailors)
+	_sailors.setup(self, _boat.get_parent())
+	_diagnosis = DiagnosisSequence.new()
+	_diagnosis.name = "DiagnosisSequence"
+	_boat.get_parent().add_child(_diagnosis)
+	_diagnosis.setup(self, _boat.get_parent())
+	_boarding = BoardingSequence.new()
+	_boarding.name = "BoardingSequence"
+	_boat.get_parent().add_child(_boarding)
+	_boarding.setup(self, _boat.get_parent())
+	_crossing = CrossingSequence.new()
+	_crossing.name = "CrossingSequence"
+	_boat.get_parent().add_child(_crossing)
+	_crossing.setup(self, _boat.get_parent())
 
 
 ## The hidden ship deadline as 0..1 (1 = the clock ran out), -1 until the return crossing starts it. The sea (wave_system.gd)
@@ -293,12 +335,84 @@ func deadline_progress() -> float:
 	return -1.0
 
 
+func crossing() -> Node:
+	return _crossing if _crossing != null and is_instance_valid(_crossing) else null
+
+
+func boarding() -> Node:
+	return _boarding if _boarding != null and is_instance_valid(_boarding) else null
+
+
+func intro() -> Node:
+	return _intro if _intro != null and is_instance_valid(_intro) else null
+
+
+func diagnosis() -> Node:
+	return _diagnosis if _diagnosis != null and is_instance_valid(_diagnosis) else null
+
+
+func sailors() -> Node:
+	return _sailors if _sailors != null and is_instance_valid(_sailors) else null
+
+
 func outcome_screen() -> Node:
 	return _outcome_screen if _outcome_screen != null and is_instance_valid(_outcome_screen) else null
 
 
 func audio() -> Node:
 	return _mixer if _mixer != null and is_instance_valid(_mixer) else null
+
+
+## The basement under the lighthouse house (world). The island dock and the sea are outside these bounds.
+const BASEMENT_X := Vector2(-6.0, 12.0)
+const BASEMENT_Z := Vector2(-10.0, 3.0)
+const BASEMENT_MAX_Y := 9.3
+
+
+func player_in_basement() -> bool:
+	var p := get_tree().get_first_node_in_group("player") as Node3D
+	if p == null:
+		return false
+	var g := p.global_position
+	return g.y < BASEMENT_MAX_Y and g.x > BASEMENT_X.x and g.x < BASEMENT_X.y and g.z > BASEMENT_Z.x and g.z < BASEMENT_Z.y
+
+
+## Is the player inside the lighthouse (the house, its basement, or the tower)? Ted's lines are only spoken while they are (creator,
+## 30 October 2026; how loud and how muffled he should be elsewhere is for the Tuesday sound review). The knock greeting is the one
+## exception: it carries no `requires`.
+const TOWER_CENTRE := Vector2(8.5, -4.9)
+const TOWER_RADIUS := 3.4
+
+
+func player_inside_building() -> bool:
+	var p := get_tree().get_first_node_in_group("player") as Node3D
+	if p == null or _level_root == null or not is_instance_valid(_level_root):
+		return false
+	var g := p.global_position
+	if g.y > 9.0 and Vector2(g.x - TOWER_CENTRE.x, g.z - TOWER_CENTRE.y).length() < TOWER_RADIUS:
+		return true
+	var rooms := _level_root.get_node_or_null("InteriorRooms")
+	var culling := _level_root.get_node_or_null("InteriorCulling")
+	if rooms == null or culling == null or rooms.get("frame") == null:
+		return false
+	var local: Vector3 = (rooms.frame as Node3D).to_local(g)
+	var u := local.x
+	var v := -local.z
+	var hu: Vector2 = culling.HOUSE_U
+	var hv: Vector2 = culling.HOUSE_V
+	return u > hu.x and u < hu.y and v > hv.x and v < hv.y
+
+
+## What a dialogue line's `requires` field asks (see dialogue_loader.gd). Daniel only speaks when he and the player are both
+## in the basement (creator, 30 October 2026).
+func dialogue_condition(name: String) -> bool:
+	match name:
+		"player_inside":
+			return player_inside_building()
+		"player_and_daniel_in_basement":
+			return fired.has("DANIEL_IN_BASEMENT") and player_in_basement()
+	push_warning("GameState: unknown dialogue condition '%s'" % name)
+	return true
 
 
 func deadline() -> Node:

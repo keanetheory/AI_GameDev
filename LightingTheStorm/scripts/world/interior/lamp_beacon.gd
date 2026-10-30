@@ -19,7 +19,11 @@ const DARK := 0.32
 @export var glow_light_energy := 1.0
 @export var glow_light_range := 12.0
 
+## Seconds the open lamp stays open after the burner is fitted, so the burner is seen seated before the bay closes.
+@export var close_delay_s := 1.2
+
 var lit := false
+var _closing_in := -1.0
 var level := 0.0                  # 0 dark .. 1 full
 
 var _lens_mats: Array[StandardMaterial3D] = []
@@ -60,8 +64,21 @@ func setup() -> void:
 
 
 func _on_event(id: String, _phase: int) -> void:
-	if id == "BURNER_FITTED":
+	if id == "BURNER_DIAGNOSED":
+		_show_open(true)
+	elif id == "BURNER_FITTED":
+		_closing_in = close_delay_s
 		relight()
+
+
+## The lamp shows closed, then open and empty from the diagnosis, then closed again once the burner is fitted.
+func _show_open(open: bool) -> void:
+	var closed := get_node_or_null("LampModel") as Node3D
+	var opened := get_node_or_null("LampModelOpen") as Node3D
+	if closed == null or opened == null:
+		return
+	closed.visible = not open
+	opened.visible = open
 
 
 func relight() -> void:
@@ -69,6 +86,10 @@ func relight() -> void:
 
 
 func _process(delta: float) -> void:
+	if _closing_in >= 0.0:
+		_closing_in -= delta
+		if _closing_in < 0.0:
+			_show_open(false)
 	if lit and level < 1.0:
 		level = minf(1.0, level + delta / maxf(rise_s, 0.01))
 		_apply(level)

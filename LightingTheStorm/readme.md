@@ -100,6 +100,13 @@ godot --headless --path . --script res://tools/test_ship_deadline.gd  # hidden d
 godot --headless --path . --script res://tools/test_audio_mixer.gd    # placeholder audio mix by phase, the fail sequence
 godot --headless --path . --script res://tools/test_outcome_screen.gd # the Failed screen and the win card, restart
 godot --headless --path . --script res://tools/test_npc.gd            # the capsule sailors and their baked routes
+godot --headless --path . --script res://tools/test_sailors_sequence.gd # the rowboat, the gate and the sailors' walk-in
+godot --headless --path . --script res://tools/test_diagnosis_sequence.gd # Ted, the lamp-room diagnosis and the briefing
+godot --headless --path . --script res://tools/test_intro_sequence.gd # the knock, Ted's greeting and walk, Ted's lines only inside
+godot --headless --path . --script res://tools/test_boarding_sequence.gd # Arthur walks to the launch, boards, steps ashore
+godot --headless --path . --script res://tools/test_crossing_sequence.gd # the return forecast hazards, safe lane and Arthur calls
+godot --headless --path . --script res://tools/test_slice_playthrough.gd   # the whole slice, start to win (add  -- fail  for the failure and restart); see QA_SCENARIOS.md
+godot --headless --path . --script res://tools/test_lampposts.gd           # the three dock lampposts
 godot --headless --path . --script res://tools/test_debug_flags.gd    # run again with  -- --no-debug-ui  to check the off state
 godot --headless --path . --script res://tools/test_collider_bake.gd  # the collider bakes are up to date and match a live build
 ```

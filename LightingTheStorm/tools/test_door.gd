@@ -20,6 +20,7 @@ var _start := Vector3.ZERO
 
 
 func _initialize() -> void:
+	Engine.set_meta("skip_intro", true)      # these tests use the front door as an ordinary door; the knock opening is tested in test_intro_sequence.gd
 	_lv = load("res://scenes/Level.tscn").instantiate()
 	_lv.get_node("LighthouseInterior").free()
 	root.add_child(_lv)

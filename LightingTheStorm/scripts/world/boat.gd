@@ -12,6 +12,10 @@ const Sea := preload("res://scripts/world/sea.gd")
 signal docked(zone_id: String)
 signal departed(zone_id: String)
 signal hazard_hit
+## Auto-docking has taken over the boat at a dock zone (the player lets go of the wheel).
+signal docking_started(zone_id: String)
+## A hard hit (see hard_bounce): the boat was thrown back and is rocking.
+signal hard_hit
 ## A wave (not a rock) hit the boat: it slows briefly and takes on water. WaveSystem calls apply_wave_hit(); it never happens outbound.
 signal wave_hit(water: float)
 
@@ -34,6 +38,15 @@ enum State { DOCKED, SAILING, DOCKING }
 @export var hull_size := Vector3(2.8, 1.2, 5.6)        # box used to detect hazard hits
 @export var recovery_back_s := 2.5        # on a hit, move back to where the boat was this long ago
 @export var recovery_pause_s := 1.5       # small cost: held still this long (you can still turn)
+## Return-crossing collisions (the creator, 31 Oct 2026): instead of being put back at the last clear spot, the boat is thrown back from
+## what it hit, further from where it is, and rocks hard. crossing_sequence.gd switches this on for the return and sets the numbers
+## from data/world/crossing_sequence.json.
+var hard_bounce := false
+var bounce_distance_m := 11.0
+var bounce_time_s := 1.2
+var rock_deg := 14.0
+var rock_time_s := 2.2
+var bounce_stun_s := 0.8
 
 var state := State.DOCKED
 var rudder := 0.0
@@ -45,11 +58,18 @@ var water_push := Vector2.ZERO
 var water_in_boat := 0.0
 var current_zone: Node3D = null
 var driving := false
+## Non-empty: the boat will not cast off yet and the prompt says why (boarding_sequence.gd holds it until Arthur is aboard).
+var cast_off_hold := ""
 
 var _leave_zone: Node3D = null
 var _grace_zone: Node3D = null    # the berth just left: hazards are ignored until the boat is out through its entrance
 var _at_entrance := true          # docking: past the zone's entrance (or it has none)
 var _stun := 0.0
+var _bounce_vel := Vector3.ZERO     # the throw back after a hard hit, decaying to nothing over bounce_time_s
+var _bounce_t := -1.0
+var _base_pitch := 0.0              # the swell's pitch and roll, smoothed; a hard hit's rocking is added on top
+var _base_roll := 0.0
+var _rock_t := -1.0                 # time since a hard hit while the hull is still rocking
 var _slow := 0.0                  # seconds of wave-hit slow-down left
 var _slow_factor := 1.0
 var _water_drain := 0.02
@@ -122,7 +142,7 @@ func board() -> void:
 
 
 func cast_off() -> void:
-	if state != State.DOCKED or not driving:
+	if state != State.DOCKED or not driving or cast_off_hold != "":
 		return
 	_leave_zone = current_zone
 	_grace_zone = current_zone
@@ -168,6 +188,21 @@ func _sail(delta: float) -> void:
 	var axis := Input.get_axis("move_left", "move_right") if driving else 0.0
 	rudder = move_toward(rudder, axis, delta / steer_response_s)
 	rotation.y -= rudder * deg_to_rad(max_turn_rate_deg) * delta
+	if _bounce_t >= 0.0:   # being thrown back from a hard hit: the throw decays; stop at once if it runs into something else
+		_bounce_t += delta
+		var left := 1.0 - _bounce_t / bounce_time_s
+		if left <= 0.0:
+			_bounce_t = -1.0
+			_bounce_vel = Vector3.ZERO
+		else:
+			var before := global_position
+			global_position += _bounce_vel * left * delta
+			if _hits_hazard(global_transform):
+				global_position = before
+				_bounce_t = -1.0
+				_bounce_vel = Vector3.ZERO
+		velocity = Vector3.ZERO
+		return
 	if _stun > 0.0:   # after a hit: held still, but you can turn to line up a way out
 		_stun -= delta
 		velocity = Vector3.ZERO
@@ -182,7 +217,10 @@ func _sail(delta: float) -> void:
 	if _grace_zone and _flat_distance(_grace_zone) > _grace_distance(_grace_zone):
 		_grace_zone = null
 	if _grace_zone == null and _hits_hazard(global_transform):
-		_recover()
+		if hard_bounce:
+			_hard_hit()
+		else:
+			_recover()
 		return
 	_trail_timer += delta
 	if _trail_timer >= 0.5:
@@ -211,6 +249,7 @@ func _sail(delta: float) -> void:
 		current_zone = nearest
 		state = State.DOCKING
 		_at_entrance = nearest.entrance == Vector3.ZERO
+		docking_started.emit(nearest.zone_id)
 
 
 func _dock(delta: float) -> void:
@@ -249,6 +288,35 @@ func _hits_hazard(at: Transform3D) -> bool:
 	q.transform = Transform3D(at.basis, at.origin + Vector3(0.0, 0.9, 0.0))
 	q.collision_mask = hazard_mask
 	return not get_world_3d().direct_space_state.intersect_shape(q, 1).is_empty()
+
+
+## A hard hit: clear the hull of what it struck, then throw the boat back along the line away from it, over bounce_time_s, and rock it.
+## Nothing is reset: the boat ends further from where it was, wherever that is.
+func _hard_hit() -> void:
+	var away := Vector3.ZERO
+	var q := PhysicsShapeQueryParameters3D.new()
+	q.shape = _hull_shape
+	q.transform = Transform3D(global_transform.basis, global_position + Vector3(0.0, 0.9, 0.0))
+	q.collision_mask = hazard_mask
+	for h in get_world_3d().direct_space_state.intersect_shape(q, 1):
+		var c := h["collider"] as Node3D
+		if c != null:
+			away = global_position - c.global_position
+	away.y = 0.0
+	if away.length() < 0.1:
+		away = -(-global_transform.basis.z)        # no better idea: straight back
+	away = away.normalized()
+	for i in 16:                                    # step out of the overlap first, half a metre at a time
+		if not _hits_hazard(global_transform):
+			break
+		global_position += away * 0.5
+	_bounce_vel = away * (2.0 * bounce_distance_m / bounce_time_s)
+	_bounce_t = 0.0
+	_rock_t = 0.0
+	_stun = bounce_stun_s
+	velocity = Vector3.ZERO
+	hazard_hit.emit()
+	hard_hit.emit()
 
 
 ## Spec: on a hazard hit the boat bounces off and is moved to the nearest safe point with a small cost.
@@ -298,8 +366,19 @@ func _float(delta: float) -> void:
 	var pitch := atan2((h_bow - h_stern) * wave_follow, half_length * 2.0)
 	var roll := atan2((h_right - h_left) * wave_follow, half_beam * 2.0) - rudder * 0.07
 	var k := 1.0 if delta <= 0.0 else 1.0 - exp(-8.0 * delta)
-	_rig.rotation.x = lerp_angle(_rig.rotation.x, pitch, k)
-	_rig.rotation.z = lerp_angle(_rig.rotation.z, roll, k)
+	_base_pitch = lerp_angle(_base_pitch, pitch, k)
+	_base_roll = lerp_angle(_base_roll, roll, k)
+	var rock_roll := 0.0
+	var rock_pitch := 0.0
+	if _rock_t >= 0.0:     # after a hard hit the hull rocks hard, side to side, dying away; added after the swell smoothing so it is not softened
+		_rock_t += delta
+		var damp := exp(-_rock_t * 1.5)
+		rock_roll = sin(_rock_t * 10.0) * deg_to_rad(rock_deg) * damp
+		rock_pitch = sin(_rock_t * 7.5 + 1.0) * deg_to_rad(rock_deg * 0.45) * damp
+		if _rock_t > rock_time_s:
+			_rock_t = -1.0
+	_rig.rotation.x = _base_pitch + rock_pitch
+	_rig.rotation.z = _base_roll + rock_roll
 	if _deck:
 		_deck.global_transform = _rig.global_transform
 
@@ -391,7 +470,7 @@ func _update_prompt() -> void:
 		if state == State.DOCKED and _player_in_reach() and not _interaction_busy():
 			text = "[E] Board the launch"
 	elif state == State.DOCKED:
-		text = "[E] Cast off      [Q] Step onto the dock"
+		text = "[E] Cast off      [Q] Step onto the dock" if cast_off_hold == "" else "[Q] Step onto the dock      (%s)" % cast_off_hold
 	elif state == State.SAILING:
 		text = "Rocks! Steer clear..." if _stun > 0.0 else "[A] / [D] Steer"
 	elif state == State.DOCKING:

@@ -1,0 +1,15 @@
+{
+  "spec_id": "boarding_sequence_v1",
+  "owner": "Gameplay / Systems agent (backlog T11)",
+  "note": "Arthur as the only crossing companion (Exec Summary step 4-8, Technical Strategy invariants): after the briefing he walks from the hall to the launch's berth and boards (the boat will not cast off until he is aboard); BOARDING_THRESHOLD fires when the player comes up to the launch with Arthur aboard; SHIP_SIGHTED a few seconds after casting off; on the return, when the launch docks at the lighthouse (RETURN_ARRIVED) Arthur says 'go go go, don't wait for me', steps ashore and leaves the player to climb. scripts/world/boarding_sequence.gd reads this file.",
+  "leave_delay_s": 3.0,
+  "seat": [0.75, 0.45, -0.5],
+  "seat_note": "Boat (rig) space: beside and just ahead of the helm (the player stands at 0, 0.5, 0.2); the engine block and funnel are aft with the cargo slot (0, 0.13, 1.3).",
+  "board_distance_m": 7.0,
+  "sight_delay_s": 8.0,
+  "stays_aboard": true,
+  "stays_aboard_note": "Creator, 30 Oct 2026: Arthur stays in his seat on the launch after the return crossing. Set false to bring back the old step ashore onto jetty_spot after ashore_delay_s.",
+  "ashore_delay_s": 2.0,
+  "jetty_spot": [-26.0, 1.48, 14.7],
+  "hold_text": "Arthur is on his way"
+}

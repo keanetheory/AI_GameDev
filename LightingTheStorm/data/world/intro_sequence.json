@@ -1,0 +1,18 @@
+{
+  "spec_id": "intro_sequence_v1",
+  "owner": "Gameplay / Systems agent (creator's opening, 30 Oct 2026)",
+  "note": "The opening: Ted waits just inside, behind the shut front door; the player knocks (E); Ted opens the door; only then GAME_STARTED and his greeting; when the player steps in he walks up to the lamp room while he sends the player to the coal (creator, 31 Oct 2026: his dialogue fires after the door is opened). scripts/world/intro_sequence.gd reads this file.",
+  "reply_delay_s": 1.3,
+  "ted_walk_speed_mps": 1.15,
+  "lamp_look_at": [
+    8.5,
+    27.51,
+    -4.9
+  ],
+  "knock": {
+    "sound": "res://Assets/Audio/placeholder/knock.wav",
+    "db": 2.0
+  },
+  "start_after_open_s": 0.5,
+  "reply_note": "Seconds after the knock before Ted opens the door; start_after_open_s is the beat between the door opening and his greeting (GAME_STARTED)."
+}
