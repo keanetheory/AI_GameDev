@@ -28,14 +28,14 @@ Where they stand: `Lamppost_IslandDock_North` and `_South` at the outer edge of 
 
 ## 5. Not verified
 
-- **Light budget.** `lighting_spec.json` `max_dynamic_lights` is 16 and `Level.tscn` already holds 15 OmniLights (the interior). The three lamp lights make 18 in the scene file, but at most one or two are on at a time (the player's distance gates them), so the live count is about 3 near the Saltgate and 3 on the island; the static count the Lighting assessor reads is now 18 (this is the LIG-03 question again: it needs the Lighting agent or you to decide the limit or whether to gate the interior lights too).
+- **Light budget.** `Level.tscn` holds the interior's 15 OmniLights; the three lamp lights make 18, which is now the limit (`max_dynamic_lights` 18, creator, 31 Oct 2026). At most a few are live at once, because the lamps are gated by the player's distance.
 - Not played: how bright the docks read at night and whether the lamp glow is enough (it is an OmniLight and an emissive head, no halo or rain-streak effect).
 - The lamps are the model as generated: glass is part of the mesh (not see-through), no animation.
 - The post colliders block the player on the jetty tips only slightly (28 cm radius); the boat does not collide with them (they are on the world layer, not the hazard layer).
 
 ## 6. Licences and provenance
 
-The model is Meshy AI generated ("Meshy AI Vintage Gas Street Lamp"); check Meshy's terms for your plan before release. Source and backup locations are above.
+The model is Meshy AI's "Vintage Gas Street Lamp", licensed **CC BY 4.0** (confirmed by the creator, 31 Oct 2026). CC BY requires attribution: the game's credits must name Meshy AI and the model title (recorded in `Assets/Models/lamppost/SOURCES.md`). Source and backup locations are above.
 
 ## 7. Interface or contract changes proposed
 
@@ -43,5 +43,5 @@ None.
 
 ## 8. Open creator decisions
 
-- Raise `max_dynamic_lights` (the lamps and the interior make 18 in the scene file), or gate the interior lights by distance like the lamps?
+- Resolved 31 Oct 2026: `max_dynamic_lights` is now 18 in `data/world/lighting_spec.json` (the interior's 15 plus the three lamps); the AI Crew schema allows up to 24 and its offline lighting spec says 18.
 - More lamps (the Saltgate has only the one by the landing; the island has none up the stairs)?

@@ -244,7 +244,7 @@ class LightingSpec(BaseModel):
     sources: list[LightSource] = Field(min_length=5)
     beacon: BeaconSpec
     saint_calder: SaintCalderSpec
-    max_dynamic_lights: int = Field(ge=1, le=16)
+    max_dynamic_lights: int = Field(ge=1, le=24)
     max_shadow_casters: int = Field(ge=0, le=4)
     legibility_checks: list[str] = Field(min_length=4)
     open_creator_decisions: list[str]
