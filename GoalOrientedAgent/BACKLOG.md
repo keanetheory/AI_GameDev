@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-10-30 17:25 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-10-30 18:23 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -36,7 +36,18 @@ _Generated 2026-10-30 17:25 by the Goal-Oriented Agent. Do not edit by hand; the
 
 | ID | Score | Task | Category | Owner role | Effort | Status |
 |---|---|---|---|---|---|---|
+| T44 | **8** | Polish the passenger ship: light it properly | scene | Lighting agent with the creator | M | open |
+| T45 | **8** | List the greyboxed lighthouse props and plan their FAL replacements | asset | Asset agent | M | open |
+| T46 | **8** | Remove the random orbs of light in the lighthouse stairwell | scene | Level Layout agent | S | open |
+| T47 | **8** | Fix the clipping in the stairwell where the external mesh comes through | scene | Level Layout agent | M | open |
+| T50 | **8** | Generate the dialogue lines and their timings; onboard the music and its cues (Tuesday) | dialogue | Creator with the Dialogue and Audio agents | L | open |
+| T53 | **8** | Create the playtest QA agents and a web deployment agent for itch.io (Tuesday evening) | code | Creator with the GOA / GER framework | L | open |
+| T48 | **7** | Rebuild the L2 room: remove the stick in the bathroom and replace its props with FAL models | scene | Lighthouse Interior Creator with the creator | L | open |
+| T49 | **7** | Regenerate the Saltgate burner pickup area and replace the landing with a walk-in hut | scene | Saltgate Creator with the creator | L | open |
+| T52 | **7** | Review all dialogue for snark and humour | dialogue | Creator with the Dialogue agent | M | open |
 | T42 | **6** | Generate the buoy models for the sea hazards | asset | Creator with the Asset agent | M | open |
+| T43 | **6** | Generate a chair for Daniel in front of the boiler | asset | Creator with the Asset agent | S | open |
+| T51 | **6** | Decide where the characters look during specific lines (the Arthur and Ted opening) | dialogue | Creator with the Dialogue agent | M | open |
 | T19 | **5** | Set a placeholder deadline length and write the crossing-penalty values | decision | Production Orchestrator | S | open |
 | T18 | **4** | Review the rewritten opening lines and re-record the six changed voice lines | dialogue | Dialogue agent | M | open |
 | T38 | **4** | Texture the lighthouse exterior's plain patches (back-west corner panels, fills under the back windows) | art | Lighthouse Finisher Agent | S | open |
@@ -89,6 +100,81 @@ _Generated 2026-10-30 17:25 by the Goal-Oriented Agent. Do not edit by hand; the
 
 ## Task detail
 
+### T44 [8/10] Polish the passenger ship: light it properly  (open)
+
+The passenger ship (the Lantern Queen, scripts/world/passenger_ship.gd) shows its lights as blobs floating outside the hull, which look bad. Light the ship so it reads clearly at night in a realistic way: lit portholes and windows (emissive, with some flicker or variation), a lit bridge and deck lamps, the masthead and navigation lights (red, green, white) mounted on the structure at the right places, a soft light spill on the hull and water close by, and nothing floating off the hull. It must read from the lamp room and from the launch at range (R19: warm lamplight against the blue-grey storm), stay inside the Lighting budget (max_dynamic_lights 18) and keep the crash on the rock readable. Use emissive materials and a few small lights, not one blob per window. Run test_ship_route.gd and test_outcome_screen.gd after.
+
+- **Why 8:** The creator says the ship lights look awful; the ship is the player's goal and the final image of both endings.
+- **Evidence:** Creator, 30 Oct 2026: polish the passenger ship, right now the lights are just blobs outside the ship and they look awful; scripts/world/passenger_ship.gd
+
+### T45 [8/10] List the greyboxed lighthouse props and plan their FAL replacements  (open)
+
+Inventory every prop in the lighthouse (basement, ground floor, L1, L2, lamp room, hut) that is still a primitive greybox (boxes, cylinders, planes built in scripts/world/interior/*.gd) rather than a generated model, with its room, size, role (decor, interactable, collider) and priority. Output a table the creator can approve (a doc in LightingTheStorm), then the Lighthouse Finisher / Asset agents submit the replacements through main_asset.py --check-only first (FAL credits: ask first, cap in the memory file lighthouse-finisher-approval).
+
+- **Why 8:** The interior is built in code from primitives; the creator wants real FAL props. The list has to come first so the credits are spent once.
+- **Evidence:** Creator, 30 Oct 2026: we need to list out the remaining props in the lighthouse that have been greyboxed so we can generate FAL replacements for them; scripts/world/interior/
+
+### T46 [8/10] Remove the random orbs of light in the lighthouse stairwell  (open)
+
+There are floating orbs of light in the stairwell of the lighthouse. Find where they come from (stair or landing lamps built in scripts/world/interior/stairs or lighting code, emissive spheres, OmniLight head meshes, or fog volumes), remove them, and keep the stairwell lit by the intended sources only. Check the light count stays within max_dynamic_lights 18 and run test_rain_shelter.gd, test_interior_anchors.gd and test_sightlines.gd.
+
+- **Why 8:** A visible bug in a place the player passes through on every run.
+- **Evidence:** Creator, 30 Oct 2026: there are random orbs of light in the stairwell of the lighthouse, we need to remove those
+
+### T47 [8/10] Fix the clipping in the stairwell where the external mesh comes through  (open)
+
+Parts of the external lighthouse mesh come through the walls of the stairwell. Find which exterior pieces (lighthouse_exterior_v3.glb or the island and cliff meshes) intersect the stair shaft, and fix it by moving or hiding the outer mesh behind the shaft, adding an interior liner or cutting the exterior mesh. Keep the collider bake in step (tools/test_collider_bake.gd already fails on G_outer_west_window_infill, which may be the same fault) and check with test_interior_anchors.gd and a few screenshots from each stair landing.
+
+- **Why 8:** A visible bug; likely related to the failing collider-bake test.
+- **Evidence:** Creator, 30 Oct 2026: there are still clippings in the stairwell where the external mesh is coming through; tools/test_collider_bake.gd
+
+### T50 [8/10] Generate the dialogue lines and their timings; onboard the music and its cues (Tuesday)  (open)
+
+Tuesday 3 Nov: with the creator, finalise every dialogue line (data/dialogue/dialogue_opening.json) and its timing (gaps, reply delays, the length of each beat, auto-advance lengths), then onboard the musical pieces and decide when each one fires (phase, event or deadline-driven) in data/world/audio_spec.json and scripts/core/audio_mixer.gd. Includes the sound review already scheduled for the same morning (placeholder sounds) and the voice recording plan (credits, ask first). Run test_audio_mixer.gd, test_slice_playthrough.gd and the dialogue tests after.
+
+- **Why 8:** The scheduled Tuesday review; dialogue timing and music are what make the slice feel finished.
+- **Evidence:** Creator, 30 Oct 2026: we then need to work on generating the dialogue lines, and their timings - that's the reminder on tuesday, along with onboarding the musical pieces and when they fire.
+- **Blocked by:** Tuesday 3 Nov, with the creator; the music pieces.
+- **Needs the creator** (cannot be done by the agent alone)
+
+### T53 [8/10] Create the playtest QA agents and a web deployment agent for itch.io (Tuesday evening)  (open)
+
+Tuesday 3 Nov evening: build (1) playtest QA agents that play the slice (the scenarios in QA_SCENARIOS.md, the whole-slice playthrough test, plus exploratory runs and checks on timing, softlocks, stuck NPCs, clipping and framerate) and report issues into the backlog, and (2) a web deployment agent that exports the whole game to HTML5 (Godot 4.3 web export: threads and cross-origin isolation headers for itch.io, texture and audio sizes, load time, memory, the Compatibility renderer if the Forward+ look does not run on the web) and packages it for the itch.io upload, with a checklist (credits and attributions for every CC BY model, the licence notes, the page text). Plan the agent briefs in the AI agent strategy and approve them with the creator (the GER approval gate) before they run.
+
+- **Why 8:** The creator's plan for Tuesday evening; the launch is on itch.io.
+- **Evidence:** Creator, 30 Oct 2026: for Tuesday evening I'll then need to generate playtest QA agents, and a web deployment agent to handle this entire game so I can launch it on itch.io; QA_SCENARIOS.md
+- **Blocked by:** Tuesday 3 Nov evening; needs the creator's approval of the agent briefs.
+- **Needs the creator** (cannot be done by the agent alone)
+
+### T48 [7/10] Rebuild the L2 room: remove the stick in the bathroom and replace its props with FAL models  (open)
+
+The L2 room (control and diagnostics level) needs a lot of work. First fix the random stick that cuts through the bathroom. Then list every prop on L2, generate FAL replacements for all of them (same process as the greybox list item), place them to the Interior Plan V4 blueprint and check readability and walk routes (test_interior_anchors.gd, test_npc.gd baked routes may need a rebake with tools/bake_npc_paths.gd).
+
+- **Why 7:** The creator calls L2 the weakest room; props are all greyboxed.
+- **Evidence:** Creator, 30 Oct 2026: the L2 room still needs a lot of work, the bathroom in the L2 has a random stick cutting through it and we need to generate FAL replacements for all of the props in that level
+- **Blocked by:** FAL credits; creator approves the prop list.
+- **Depends on:** T45 (still open: T45)
+- **Needs the creator** (cannot be done by the agent alone)
+
+### T49 [7/10] Regenerate the Saltgate burner pickup area and replace the landing with a walk-in hut  (open)
+
+Regenerate the part of Saltgate where the player picks up the replacement burner. Replace the landing with a hut that looks like a garage or equipment area the player can walk into, with the replacement burner inside (pickup, carry and return invariants stay: tools/test_burner_pickup.gd, test_carry.gd, the boat docks at DOCK_PORT). Use the Saltgate Creator and the Asset agent (FAL, check-only first, credits ask first); keep the Saltgate minimal and dark and eerie (lore), the lamppost and the boat berth where they are or move them with the hut, and keep the walk to the hut short.
+
+- **Why 7:** The creator wants the pickup to be a place, not a landing; it is the middle beat of the slice.
+- **Evidence:** Creator, 30 Oct 2026: regenerate the part of Saltgate where the player picks up the replacement burner, and replace the landing with a hut that looks like a garage or equipment area that the player can walk into
+- **Blocked by:** FAL credits; creator approves the hut concept.
+- **Needs the creator** (cannot be done by the agent alone)
+
+### T52 [7/10] Review all dialogue for snark and humour  (open)
+
+Read the whole slice's dialogue (data/dialogue/dialogue_opening.json, every speaker) with the creator and make it snarkier and funnier where it is flat, keeping canon (canon.py), the style guide, the inside-only rule for Ted, the timings (previous item) and the line ids the tests rely on (rewrite text, not ids, or update the tests). Run the Style Generator and Refiner agents for a first pass if useful, then the creator signs off line by line.
+
+- **Why 7:** The creator wants the tone to be snarky and funny; the lines are the main personality of the slice.
+- **Evidence:** Creator, 30 Oct 2026: I then want to review all of the dialogue to make sure it's snarky and funny enough.
+- **Blocked by:** Creator sign-off; best after the Tuesday dialogue session.
+- **Depends on:** T50 (still open: T50)
+- **Needs the creator** (cannot be done by the agent alone)
+
 ### T42 [6/10] Generate the buoy models for the sea hazards  (open)
 
 The buoy hazards in the crossing (scripts/world/crossing_hazards.gd, _buoy) are built from primitives: a red body with a blinking light. Generate proper buoy models (at least the red channel buoy the forecast names; ideally a second variant, e.g. a green or striped one, and a bell buoy since the audio mixer has a bell) in the same style as the other sea props, with a base that sits on the waterline, a mast or cage for the blinking lamp, and a collision size that matches data/world/boat_spec.json and crossing_sequence.json (the buoy radius_m). Import with tools/import_scale_pivot.gd (add a buoy category or per-file height), downscale the texture to 2048, then swap the model into _buoy and keep the blinking light and near-miss radius. Run main_asset.py --check-only before any FAL submission (credits: ask first).
@@ -96,6 +182,25 @@ The buoy hazards in the crossing (scripts/world/crossing_hazards.gd, _buoy) are 
 - **Why 6:** The hazards are the sea's main readable obstacle on the return; primitive buoys look like placeholders next to the generated rocks and ship. Not higher because it does not block the slice.
 - **Evidence:** Creator, 30 Oct 2026: additional backlog item is to generate assets for the buoys in the sea; scripts/world/crossing_hazards.gd
 - **Blocked by:** Creator generates or approves the models; credits.
+- **Needs the creator** (cannot be done by the agent alone)
+
+### T43 [6/10] Generate a chair for Daniel in front of the boiler  (open)
+
+Daniel's resting place is sat in the basement, in front of the boiler, facing it (the player has finished shovelling coal by then). On the stand-in plank he levitated and faced the coal, so the sit-down is switched off (sailors_sequence.json daniel_sits_in_basement false). Generate a chair model (Meshy or FAL, same look as the lighthouse props, about 0.42 m seat height for the Sit_Cross_Legged clip), import it, place it in front of the boiler with the walk ending at it and Daniel's seat marker on it, then turn daniel_sits_in_basement on and check he does not clip. Check the chair against tools/probe_seat_heights.gd.
+
+- **Why 6:** The creator wants Daniel seated for the rest of the game; the plank looked wrong. Not higher because the slice runs with him standing.
+- **Evidence:** Creator, 30 Oct 2026: Daniel sits on a levitating plank facing the coal, it's better for us to generate a chair for him to sit on in front of the boiler; scripts/world/sailors_sequence.gd _daniel_sits_down
+- **Blocked by:** Creator generates the chair; credits.
+- **Needs the creator** (cannot be done by the agent alone)
+
+### T51 [6/10] Decide where the characters look during specific lines (the Arthur and Ted opening)  (open)
+
+Talk through, line by line, where each character looks when they speak or listen: for example Arthur and Ted's brief conversation at the start (the knock and the door, who faces whom), Ted telling the player to shovel, the diagnosis in the lamp room, Arthur at the helm. Then build it: a gaze or facing target per line in the dialogue data (a character id, the player, a point or a prop), applied by npc.gd as a head turn (a head-bone look-at) or a body turn, with a fallback to the player. Needs the new rigs (Ted, Arthur, Daniel are Mixamo-rigged with Head and Neck bones).
+
+- **Why 6:** The characters currently stand still and face their route; eye lines make the dialogue read as conversation.
+- **Evidence:** Creator, 30 Oct 2026: we also need to talk through where the characters look for specific parts of their dialogue, like Arthur and Ted having their brief conversation at the start; scripts/character/npc.gd
+- **Blocked by:** Needs the creator walk-through of each beat first.
+- **Depends on:** T50 (still open: T50)
 - **Needs the creator** (cannot be done by the agent alone)
 
 ### T19 [5/10] Set a placeholder deadline length and write the crossing-penalty values  (open)

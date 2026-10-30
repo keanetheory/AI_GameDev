@@ -7,6 +7,8 @@
   "seat_note": "Boat (rig) space: beside and just ahead of the helm (the player stands at 0, 0.5, 0.2); the engine block and funnel are aft with the cargo slot (0, 0.13, 1.3).",
   "board_distance_m": 7.0,
   "sight_delay_s": 8.0,
+  "stays_aboard": true,
+  "stays_aboard_note": "Creator, 30 Oct 2026: Arthur stays in his seat on the launch after the return crossing. Set false to bring back the old step ashore onto jetty_spot after ashore_delay_s.",
   "ashore_delay_s": 2.0,
   "jetty_spot": [-26.0, 1.48, 14.7],
   "hold_text": "Arthur is on his way"

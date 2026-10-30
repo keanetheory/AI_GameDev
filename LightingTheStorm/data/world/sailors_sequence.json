@@ -20,6 +20,8 @@
     "daniel_back_m": 3.8,
     "note": "Where the sailors stand on the stairs below the gate, metres back along their route from the gate."
   },
+  "daniel_sits_in_basement": false,
+  "daniel_sits_note": "Creator, 30 Oct 2026: Daniel's resting place is sat in front of the boiler, on a generated chair (backlog T43). Until that chair is placed he stands where his walk ends; set true once the chair is in, with the walk ending at the chair.",
   "after_gate_open": {
     "arthur_delay_s": 0.8,
     "daniel_delay_s": 3.5

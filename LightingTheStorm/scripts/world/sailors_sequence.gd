@@ -183,13 +183,15 @@ func _on_walk_done(route_name: String) -> void:
 		"sailors_dock_to_hall":
 			_gs.emit_event("SAILORS_INSIDE")
 		"daniel_dock_to_basement":
-			_daniel_sits_down()
+			if bool(spec.get("daniel_sits_in_basement", false)):
+				_daniel_sits_down()
 			_gs.emit_event("DANIEL_IN_BASEMENT")
 			stage = Stage.DONE
 
 
-## Daniel's resting place is sat in the basement, where the walk ends (creator, 30 Oct 2026): a seat marker on the floor where he stands,
-## facing the way he was walking, and the sit clip on the plank every seated model character brings until a real chair is generated.
+## Daniel's resting place is sat in the basement (creator, 30 Oct 2026), but only once there is a chair for him: on a plank he levitated and
+## faced the coal. Off until the chair (backlog T43) is placed in front of the boiler; then "daniel_sits_in_basement" turns it on and the seat
+## marker goes on the chair: a marker on the floor where he stands, facing the way he was walking, and the sit clip.
 func _daniel_sits_down() -> void:
 	var seat := Node3D.new()
 	seat.name = "DanielSeat"

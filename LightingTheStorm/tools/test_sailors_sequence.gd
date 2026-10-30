@@ -189,7 +189,12 @@ func _run() -> void:
 		_step(seq, 1.0)
 		guard += 1.0
 	_check(gs.fired.has("DANIEL_IN_BASEMENT") and seq.daniel.global_position.y < 9.0, "Daniel reaches the basement: DANIEL_IN_BASEMENT (y %.1f)" % seq.daniel.global_position.y)
-	_check(seq.daniel.state == seq.daniel.State.SEATED and seq.daniel._anim.current_animation == "Sit_Cross_Legged" and seq.daniel.get_node_or_null("Bench") != null, "Daniel's resting place is sat in the basement, in the sit clip")
+	_check(seq.daniel.state != seq.daniel.State.SEATED and seq.daniel.get_node_or_null("Bench") == null, "until there is a chair, Daniel stands where his walk ends (no levitating plank)")
+	var daniel_at: Vector3 = seq.daniel.global_position
+	seq._daniel_sits_down()
+	_check(seq.daniel.state == seq.daniel.State.SEATED and seq.daniel._anim.current_animation == "Sit_Cross_Legged" and seq.daniel.global_position.distance_to(daniel_at) < 0.05, "the sit-down is still there behind daniel_sits_in_basement, for when the chair is placed")
+	seq.daniel.release_seat()
+	seq.daniel.global_position = daniel_at
 	_check(gs.phase == gs.Phase.BEACON_DIAGNOSIS, "DANIEL_IN_BASEMENT moves the game on to BEACON_DIAGNOSIS")
 	# Daniel only speaks when he and the player are both in the basement
 	_check(not gs.player_in_basement() and not dlg._played.has("DANIEL_OPT_02") and _held_ids(dlg).has("DANIEL_OPT_02"), "the player is upstairs: Daniel's arrival line is held, not spoken")

@@ -7,8 +7,9 @@
 #   BOAT_CAST_OFF -> a few seconds later SHIP_SIGHTED (Arthur: "There! Ship's lights, out in the swell ...");
 #   Arthur rides the whole crossing (he "keeps the engine turning" at the Saltgate); the capsule rides the boat's rig, so it pitches and
 #       rolls with it;
-#   RETURN_ARRIVED (the launch docks at the lighthouse) -> Arthur's "Go, go, go - don't you wait for me!", then he steps ashore on the
-#       jetty and stays there: he leaves the player to climb to the lamp.
+#   RETURN_ARRIVED (the launch docks at the lighthouse) -> Arthur's "Go, go, go - don't you wait for me!"; he stays in his seat aboard
+#       the launch and the player climbs to the lamp alone (creator, 30 Oct 2026; "stays_aboard": false in the data brings back the old
+#       step ashore onto the jetty).
 extends Node
 
 const Npc := preload("res://scripts/character/npc.gd")
@@ -110,7 +111,7 @@ func _board() -> void:
 
 
 func _step_ashore() -> void:
-	if arthur == null or stage != Stage.ABOARD:
+	if arthur == null or stage != Stage.ABOARD or bool(spec.get("stays_aboard", true)):
 		return
 	var j: Array = spec["jetty_spot"]
 	arthur.release_seat()

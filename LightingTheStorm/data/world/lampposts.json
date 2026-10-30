@@ -3,7 +3,7 @@
   "owner": "Level Layout agent (backlog T36)",
   "note": "Gas street lamps on the docks (creator, 31 Oct 2026): two on the island dock, one either side of the opening of the harbour (the outer edge of each jetty near its tip, at x -33.5), and one at the Saltgate quay beside the landing where the launch docks. scripts/world/lampposts.gd reads this file; y is the rough deck height, the post is stood on the real ground.",
   "model": "res://Assets/Models/lamppost/lamppost.glb",
-  "model_note": "Meshy Verdigris Beacon (creator, 30 Oct 2026), swapped in for the Verdigris Lantern; the lantern glass is centred 3.05 m up the 3.4 m post and the light and glowing head sit there.",
+  "model_note": "Meshy Verdigris Beacon (creator, 30 Oct 2026), swapped in for the Verdigris Lantern; the light and the glowing head sit 2.65 m up the 3.4 m post, inside the lantern (they were 0.4 m higher, the head diameter, and showed above the roof).",
   "posts": [
     {"id": "Lamppost_IslandDock_North", "x": -33.5, "y": 1.5, "z": 14.0, "yaw_deg": 0.0},
     {"id": "Lamppost_IslandDock_South", "x": -33.5, "y": 1.5, "z": 27.0, "yaw_deg": 180.0},
@@ -12,7 +12,7 @@
   "lamp": {
     "height_m": 3.4,
     "collider_radius_m": 0.28,
-    "light_height_m": 3.05,
+    "light_height_m": 2.65,
     "head_radius_m": 0.2,
     "head_emission": 6.0,
     "colour": [1.0, 0.72, 0.4],

@@ -46,8 +46,16 @@ func _process(_d: float) -> bool:
 		_arthur.sit(_seat, Vector3.ZERO)
 		_check(a.current_animation == "Chair_Sit_Idle_M", "on a seat he plays the sit clip (%s)" % a.current_animation)
 		_check(_arthur.get_node_or_null("Bench") != null, "he brings a plank to sit on")
+		# the sit clip is held at its halfway point (later in the clip his body goes through the boat), and talking does not sit him down again
+		a.seek(a.current_animation_length * 0.55, true)
+		_arthur._update_anim()
+		_check(not a.is_playing() and _arthur._sit_held, "the sit clip is paused at its halfway point (%.1f of %.1f s)" % [a.current_animation_position, a.current_animation_length])
+		var held_at: float = a.current_animation_position
+		root.get_node("Dialogue").line_started.emit("ARTHUR_H", "ARTHUR", "", "")
+		root.get_node("Dialogue").line_finished.emit("ARTHUR_H")
+		_check(absf(a.current_animation_position - held_at) < 0.01 and _arthur._sit_held, "a line of dialogue does not sit him down again (%.2f -> %.2f, held %s, %s)" % [held_at, a.current_animation_position, str(_arthur._sit_held), a.assigned_animation])
 		dlg.line_started.emit("ARTHUR_Y", "ARTHUR", "", "")
-		_check(a.current_animation == "Chair_Sit_Idle_M", "he keeps sitting while he talks")
+		_check(a.assigned_animation == "Chair_Sit_Idle_M", "he keeps sitting while he talks")
 		dlg.line_finished.emit("ARTHUR_Y")
 		_arthur.release_seat()
 		_check(a.current_animation == "Idle_3", "standing again, he plays Idle_3 (%s)" % a.current_animation)

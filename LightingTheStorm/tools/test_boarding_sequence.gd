@@ -2,7 +2,7 @@
 # T11: Arthur as the only crossing companion, in the real level through the real GameState and the real launch. After the briefing
 # he walks from the hall to the launch's berth and sits aboard; the boat will not cast off until he is aboard; BOARDING_THRESHOLD
 # fires when the player comes up to the launch with him aboard; SHIP_SIGHTED follows casting off; he rides the boat; on the return
-# (RETURN_ARRIVED) he shouts "go go go", steps ashore on the jetty and stays there.
+# (RETURN_ARRIVED) he shouts "go go go" and stays in his seat aboard (stays_aboard in the data).
 extends SceneTree
 
 var _lv: Node
@@ -94,16 +94,15 @@ func _run() -> void:
 	_check(dlg._played.has("ARTHUR_S4_01"), "on the return Arthur shouts 'Go, go, go - don't you wait for me!' (ARTHUR_S4_01)")
 	_check(seq.arthur.state == seq.arthur.State.SEATED, "he is still in his seat for a moment")
 	_step(seq, 2.2)
-	_check(seq.stage == seq.Stage.ASHORE and seq.arthur.state == seq.arthur.State.WALKING and seq.arthur.get_parent() == _lv, "then he steps ashore onto the jetty")
-	guard = 0.0
-	while seq.arthur.state == seq.arthur.State.WALKING and guard < 60.0:
-		_step(seq, 1.0)
-		guard += 1.0
-	var j: Array = seq.spec["jetty_spot"]
+	_check(seq.stage == seq.Stage.ABOARD and seq.arthur.state == seq.arthur.State.SEATED and seq.arthur.get_parent() == boat.get_node("Rig"), "he stays in his seat aboard the launch (he does not step ashore)")
 	var rest: Vector3 = seq.arthur.global_position
-	_check(rest.distance_to(Vector3(float(j[0]), float(j[1]), float(j[2]))) < 0.1, "and stands on the jetty, leaving the player to climb (%s)" % rest)
 	_step(seq, 30.0)
-	_check(seq.arthur.global_position == rest, "he stays there")
+	_check(seq.arthur.state == seq.arthur.State.SEATED and seq.arthur.global_position.distance_to(rest) < 0.5, "and is still there after the player has climbed away")
+	# the old step ashore is still available behind the data flag
+	seq.spec["stays_aboard"] = false
+	seq._ashore_in = 0.0
+	_step(seq, 0.1)
+	_check(seq.stage == seq.Stage.ASHORE and seq.arthur.get_parent() == _lv, "with stays_aboard off he steps ashore onto the jetty as before")
 	var counts := {}
 	for e in gs.event_log:
 		if e["note"] == "":

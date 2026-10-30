@@ -19,8 +19,9 @@ enum State { IDLE, WALKING, WAITING, FOLLOWING, SEATED }
 
 const LOOKS := {
 	# Arthur is the Meshy "Dockside Outlaw" (30 Oct 2026), same Mixamo rig and jaw bone as Ted: Walking, Idle_3, Talk_with_Right_Hand_Open
-	# while his own line plays, and Chair_Sit_Idle_M on the launch's and the rowboat's seats.
-	"ARTHUR": {"model": "res://Assets/Characters/arthur.glb", "height": 1.78, "radius": 0.32, "speed": 1.45, "walk_clip": "Walking", "idle_clip": "Idle_3", "talk_clip": "Talk_with_Right_Hand_Open", "sit_clip": "Chair_Sit_Idle_M", "model_yaw_deg": 180.0, "jaw": true},
+	# while his own line plays, and Chair_Sit_Idle_M on the launch's and the rowboat's seats, held at its halfway point (sit_hold_frac): later in
+	# the clip he leans back and his body goes through the boat (creator, 30 Oct 2026).
+	"ARTHUR": {"model": "res://Assets/Characters/arthur.glb", "height": 1.78, "radius": 0.32, "speed": 1.45, "walk_clip": "Walking", "idle_clip": "Idle_3", "talk_clip": "Talk_with_Right_Hand_Open", "sit_clip": "Chair_Sit_Idle_M", "sit_hold_frac": 0.5, "model_yaw_deg": 180.0, "jaw": true},
 	# Daniel is the Meshy "The Red-Capped Wayfarer" (30 Oct 2026), same Mixamo rig and jaw bone: Walking, Talk_with_Hands_Open while his own
 	# line plays and Sit_Cross_Legged on the rowboat's seat. His download has no standing idle, so he stands in a frozen pose (pose_clip)
 	# until an idle is added in Meshy.
@@ -49,6 +50,7 @@ var _look: Dictionary = {}
 var _anim: AnimationPlayer
 var _walking_anim := false
 var _talking := false
+var _sit_held := false          # the sit clip has reached its hold point and is paused there
 
 
 static func spawn(parent: Node, character: String, at: Vector3) -> Node3D:
@@ -133,8 +135,13 @@ func _stand() -> void:
 		return
 	_walking_anim = false
 	if state == State.SEATED and _look.has("sit_clip") and _anim.has_animation(String(_look["sit_clip"])):
-		_play_loop(String(_look["sit_clip"]))
+		var sc := String(_look["sit_clip"])
+		if _sit_held and _anim.assigned_animation == sc:
+			return       # already sitting, paused at its hold point: a line of dialogue must not sit him down again
+		_sit_held = false
+		_play_loop(sc)
 		return
+	_sit_held = false
 	if _talking and _look.has("talk_clip") and _anim.has_animation(String(_look["talk_clip"])):
 		_play_loop(String(_look["talk_clip"]))
 		return
@@ -188,6 +195,11 @@ func _on_line_finished(_line_id: String) -> void:
 func _update_anim() -> void:
 	if _anim == null:
 		return
+	if state == State.SEATED and not _sit_held and _look.has("sit_hold_frac") and _anim.current_animation == String(_look.get("sit_clip", "")):
+		var hold_at: float = _anim.current_animation_length * float(_look["sit_hold_frac"])
+		if _anim.current_animation_position >= hold_at:
+			_anim.pause()
+			_sit_held = true
 	var walking := state == State.WALKING or state == State.FOLLOWING
 	if walking and not _walking_anim:
 		_walking_anim = true

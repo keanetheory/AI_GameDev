@@ -97,7 +97,7 @@ func _run() -> void:
 	_check(absf(by_id["Lamppost_Saltgate_Dock"]["light"].light_energy - l0) > 0.001, "the gas light flickers")
 	var lamp_light: OmniLight3D = by_id["Lamppost_Saltgate_Dock"]["light"]
 	var lh: float = lamp_light.global_position.y - salt.global_position.y
-	_check(lh > 2.8 and lh < 3.3 and absf(lamp_light.global_position.x - salt.global_position.x) < 0.05, "the light comes from the lantern head, %.2f m up the post on its axis" % lh)
+	_check(lh > 2.4 and lh < 2.9 and absf(lamp_light.global_position.x - salt.global_position.x) < 0.05, "the light comes from the lantern head, %.2f m up the post on its axis" % lh)
 	var lit := 0
 	for n in _lv.find_children("*", "OmniLight3D", true, false):
 		if (n as OmniLight3D).is_visible_in_tree():
