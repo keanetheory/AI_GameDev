@@ -1545,7 +1545,7 @@
       "title": "Generate updated models for Ted, Arthur and Daniel",
       "priority": 7,
       "category": "asset",
-      "summary": "Ted is the rigged test character (Assets/Characters/ted.glb: walking, running and an alert turn, frozen in one pose when he stands); Arthur and Daniel are capsules. Generate updated, matching character models for all three from the concept sheets (ConceptArt/characters), rigged and textured to the style guide: Ted with an idle (and ideally a talking idle), Arthur and Daniel with walk, idle, and a seated pose for the rowboat and the launch (the capsules stand in the boat). Each must work with scripts/character/npc.gd (forward is -Z, feet at the origin, 1.65 to 1.85 m tall) and keep jaw lip-sync possible (scripts/character/jaw_lipsync.gd). Import with tools/import_scale_pivot.gd, texture 2048 at most, and run main_asset.py --check-only before any FAL submission (credits: ask first). Then replace the capsules in npc.gd (a model entry per character, as Ted has). PROGRESS 30 Oct 2026: Ted is done (Meshy Ironclad Mariner, Mixamo rig, Idle_3, Walking, Stand_Talking_Angry wired into npc.gd, test_ted_anim.gd). Arthur and Daniel remain; generate them on the same Mixamo skeleton so the clips can be shared, and include a seated pose.",
+      "summary": "Ted is the rigged test character (Assets/Characters/ted.glb: walking, running and an alert turn, frozen in one pose when he stands); Arthur and Daniel are capsules. Generate updated, matching character models for all three from the concept sheets (ConceptArt/characters), rigged and textured to the style guide: Ted with an idle (and ideally a talking idle), Arthur and Daniel with walk, idle, and a seated pose for the rowboat and the launch (the capsules stand in the boat). Each must work with scripts/character/npc.gd (forward is -Z, feet at the origin, 1.65 to 1.85 m tall) and keep jaw lip-sync possible (scripts/character/jaw_lipsync.gd). Import with tools/import_scale_pivot.gd, texture 2048 at most, and run main_asset.py --check-only before any FAL submission (credits: ask first). Then replace the capsules in npc.gd (a model entry per character, as Ted has). PROGRESS 30 Oct 2026: Ted is done (Meshy Ironclad Mariner, Mixamo rig, Idle_3, Walking, Stand_Talking_Angry wired into npc.gd, test_ted_anim.gd). Arthur and Daniel remain; generate them on the same Mixamo skeleton so the clips can be shared, and include a seated pose. PROGRESS 30 Oct 2026 (2): Arthur is done too (Meshy The Dockside Outlaw, jaw bone, Idle_3, Walking, Talk_with_Right_Hand_Open, Chair_Sit_Idle_M, test_arthur_anim.gd). Daniel remains.",
       "why_this_score": "The capsule sailors are the most visible placeholder in the slice; the creator wants all three redone together so the cast matches.",
       "evidence": [
         "Creator, 31 Oct 2026: then we can generate updated models for Ted, Arthur, and Daniel",
@@ -1852,6 +1852,12 @@
       "task_id": "T41",
       "event": "progress",
       "note": "Ted done"
+    },
+    {
+      "time": "2026-10-30T17:09:59",
+      "task_id": "T41",
+      "event": "progress",
+      "note": "Arthur done"
     }
   ]
 }

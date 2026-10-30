@@ -105,7 +105,7 @@ func _walk_tests(to_hall: PackedVector3Array, to_base: PackedVector3Array) -> vo
 	# walking
 	var arthur := Npc.spawn(_lv, "ARTHUR", to_hall[0])
 	var daniel := Npc.spawn(_lv, "DANIEL", to_base[0])
-	_check(arthur.get_node("Capsule") != null and daniel.is_in_group("npc"), "Arthur and Daniel are capsules")
+	_check(arthur.get_node_or_null("Model") != null and daniel.get_node("Capsule") != null and daniel.is_in_group("npc"), "Arthur has his model and Daniel is a capsule")
 	var arrivals := []
 	arthur.arrived.connect(func(n: String) -> void: arrivals.append("arthur:" + n))
 	daniel.arrived.connect(func(n: String) -> void: arrivals.append("daniel:" + n))

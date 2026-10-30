@@ -18,7 +18,9 @@ signal released                 # left a seat
 enum State { IDLE, WALKING, WAITING, FOLLOWING, SEATED }
 
 const LOOKS := {
-	"ARTHUR": {"height": 1.78, "radius": 0.32, "colour": Color(0.36, 0.48, 0.55), "speed": 1.45},   # older sailor: a heavy teal-grey coat
+	# Arthur is the Meshy "Dockside Outlaw" (30 Oct 2026), same Mixamo rig and jaw bone as Ted: Walking, Idle_3, Talk_with_Right_Hand_Open
+	# while his own line plays, and Chair_Sit_Idle_M on the launch's and the rowboat's seats.
+	"ARTHUR": {"model": "res://Assets/Characters/arthur.glb", "height": 1.78, "radius": 0.32, "speed": 1.45, "walk_clip": "Walking", "idle_clip": "Idle_3", "talk_clip": "Talk_with_Right_Hand_Open", "sit_clip": "Chair_Sit_Idle_M", "model_yaw_deg": 180.0, "jaw": true},
 	"DANIEL": {"height": 1.66, "radius": 0.28, "colour": Color(0.92, 0.74, 0.2), "speed": 1.55},   # younger sailor: a yellow oilskin
 	# Ted is the rigged character (the Meshy "Ironclad Mariner", 30 Oct 2026): his own model, Walking while he walks, Idle_3 (looping)
 	# when he stands, and Stand_Talking_Angry (looping) while one of his lines is playing. The Meshy rig faces +Z, so the model is turned
@@ -104,7 +106,7 @@ func _build_model() -> void:
 	var aps := m.find_children("*", "AnimationPlayer", true, false)
 	if not aps.is_empty():
 		_anim = aps[0]
-		for k in ["walk_clip", "idle_clip", "talk_clip"]:
+		for k in ["walk_clip", "idle_clip", "talk_clip", "sit_clip"]:
 			if _look.has(k) and _anim.has_animation(String(_look[k])):
 				_anim.get_animation(String(_look[k])).loop_mode = Animation.LOOP_LINEAR
 		if _look.get("jaw", false):
@@ -127,6 +129,9 @@ func _stand() -> void:
 	if _anim == null:
 		return
 	_walking_anim = false
+	if state == State.SEATED and _look.has("sit_clip") and _anim.has_animation(String(_look["sit_clip"])):
+		_play_loop(String(_look["sit_clip"]))
+		return
 	if _talking and _look.has("talk_clip") and _anim.has_animation(String(_look["talk_clip"])):
 		_play_loop(String(_look["talk_clip"]))
 		return
@@ -138,6 +143,26 @@ func _stand() -> void:
 		_anim.play(clip)
 		_anim.seek(0.0, true)
 		_anim.pause()
+
+
+## The boat models have no thwart at the height the sit clip assumes (it sits on a chair about half a metre above the feet), so a
+## seated model character brings a plank: a bench of boards across the boat under him, taken away when he stands.
+func _set_bench(on: bool) -> void:
+	var old := get_node_or_null("Bench")
+	if old:
+		old.queue_free()
+	if not on or not _look.has("sit_clip"):
+		return
+	var bench := MeshInstance3D.new()
+	bench.name = "Bench"
+	var bm := BoxMesh.new()
+	bm.size = Vector3(0.95, 0.07, 0.34)
+	bench.mesh = bm
+	bench.position = Vector3(0.0, 0.5, 0.0)
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = Color(0.2, 0.14, 0.1)
+	bench.material_override = mat
+	add_child(bench)
 
 
 func _play_loop(clip: String) -> void:
@@ -220,6 +245,8 @@ func sit(seat: Node3D, offset := Vector3.ZERO) -> void:
 	reparent(seat, false)
 	position = offset
 	rotation = Vector3.ZERO
+	_stand()
+	_set_bench(true)
 
 
 func release_seat() -> void:
@@ -228,6 +255,8 @@ func release_seat() -> void:
 		return
 	reparent(_seat_parent, true)
 	state = State.IDLE
+	_stand()
+	_set_bench(false)
 	released.emit()
 
 

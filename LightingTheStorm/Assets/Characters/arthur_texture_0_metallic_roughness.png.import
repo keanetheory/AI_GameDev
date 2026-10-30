@@ -1,0 +1,37 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://dr52qqmb1wc77"
+path="res://.godot/imported/arthur_texture_0_metallic_roughness.png-1b164eb9a89bf8ed614e8f4273aad5e7.ctex"
+metadata={
+"vram_texture": false
+}
+generator_parameters={
+"md5": "0a2e3e0602fd563ff966f3e991261a23"
+}
+
+[deps]
+
+source_file="res://Assets/Characters/arthur_texture_0_metallic_roughness.png"
+dest_files=["res://.godot/imported/arthur_texture_0_metallic_roughness.png-1b164eb9a89bf8ed614e8f4273aad5e7.ctex"]
+
+[params]
+
+compress/mode=0
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=1

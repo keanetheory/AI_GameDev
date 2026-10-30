@@ -17,6 +17,11 @@ const TARGET_HEIGHT_M := {
 	"prop": 0.9,         # burner_broken / burner_replacement: carried in both hands, fits the arc lamp
 	"lamppost": 3.4,     # a gas street lamp for the docks (the Meshy model is 1.9 units tall as generated)
 }
+# Per-model height overrides (file name without extension) for a model that shares a folder with differently sized ones.
+const TARGET_HEIGHT_BY_FILE_M := {
+	"arthur": 1.78,   # the older sailor (npc.gd LOOKS)
+	"daniel": 1.66,   # the younger sailor
+}
 # Categories sized by their longest horizontal extent (X or Z) instead of height,
 # e.g. an island whose height depends on its terrain.
 const TARGET_FOOTPRINT_M := {
@@ -59,6 +64,9 @@ func _post_import(scene: Node) -> Object:
 	if TARGET_FOOTPRINT_BY_FILE_M.has(file_key):
 		target = TARGET_FOOTPRINT_BY_FILE_M[file_key]
 		s = target / maxf(bounds.size.x, bounds.size.z)
+	elif TARGET_HEIGHT_BY_FILE_M.has(file_key):
+		target = TARGET_HEIGHT_BY_FILE_M[file_key]
+		s = target / bounds.size.y
 	elif TARGET_FOOTPRINT_M.has(category):
 		target = TARGET_FOOTPRINT_M[category]
 		s = target / maxf(bounds.size.x, bounds.size.z)
