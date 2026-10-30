@@ -6,8 +6,8 @@ scripts/character/jaw_lipsync.gd can open the mouth from the voice. Offline, in 
 All the positions are fractions of the head length L (the Head bone to HeadTop_End), measured on Ted (the Meshy "Ironclad
 Mariner", 30 Oct 2026): the hinge sits under the ear, the mouth line a little below the nose, the chin at the bottom of the
 beard. Arthur and Daniel come from the same Meshy rig and head size, so the same fractions should do; override on the command
-line (--hinge_up, --hinge_front, --mouth, --chin, all in units of L from the Head bone's origin; up is positive) if a face
-differs. The front is found from the model's "headfront" bone, so a character facing either way works.
+line (--hinge_up, --hinge_front, --mouth, --chin, all in units of L from the Head bone's origin; up is positive; --fwd0 and
+--fwd1 set how far forward of the head the face starts) if a face differs (Arthur and Daniel needed their own: see Assets/Characters/SOURCES.md). The front is found from the model's "headfront" bone, so a character facing either way works.
 
 Weights: a vertex that the Head bone already moves (and is in front of the hinge, within the lower face) gives part of its Head
 weight to the jaw: 0 at the mouth line rising smoothly to 1 at the chin, faded out toward the ears so the cheeks near the
@@ -29,6 +29,8 @@ ap.add_argument("--hinge_up", type=float, default=0.28)
 ap.add_argument("--hinge_front", type=float, default=0.49)
 ap.add_argument("--mouth", type=float, default=0.2)
 ap.add_argument("--chin", type=float, default=-0.28)
+ap.add_argument("--fwd0", type=float, default=0.35, help="forward from the Head origin (units of L) where the jaw weight starts")
+ap.add_argument("--fwd1", type=float, default=0.55, help="and where it is full: the neck, scarf and collar sit behind this, the face and beard in front")
 ap.add_argument("--test-pose", action="store_true")
 a = ap.parse_args(argv)
 
@@ -80,7 +82,7 @@ for v in mesh.data.vertices:
     ahead = (p.dot(front) - f_hinge) / (0.25 * L)     # in front of the hinge, so the cheeks by the ears stay put
     w *= max(0.0, min(ahead, 1.0))
     fwd = (p.dot(front) - f_head) / L                 # far enough forward to be face or beard, not the neck, scarf or collar
-    w *= max(0.0, min(1.0, (fwd - 0.35) / 0.2))
+    w *= max(0.0, min(1.0, (fwd - a.fwd0) / (a.fwd1 - a.fwd0)))
     lat = abs(p.dot(side) - head.dot(side)) / (0.55 * L)
     w *= 1.0 - max(0.0, min(1.0, (lat - 0.6) / 0.4))
     if w < 0.02:

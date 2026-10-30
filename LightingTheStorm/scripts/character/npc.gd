@@ -21,7 +21,10 @@ const LOOKS := {
 	# Arthur is the Meshy "Dockside Outlaw" (30 Oct 2026), same Mixamo rig and jaw bone as Ted: Walking, Idle_3, Talk_with_Right_Hand_Open
 	# while his own line plays, and Chair_Sit_Idle_M on the launch's and the rowboat's seats.
 	"ARTHUR": {"model": "res://Assets/Characters/arthur.glb", "height": 1.78, "radius": 0.32, "speed": 1.45, "walk_clip": "Walking", "idle_clip": "Idle_3", "talk_clip": "Talk_with_Right_Hand_Open", "sit_clip": "Chair_Sit_Idle_M", "model_yaw_deg": 180.0, "jaw": true},
-	"DANIEL": {"height": 1.66, "radius": 0.28, "colour": Color(0.92, 0.74, 0.2), "speed": 1.55},   # younger sailor: a yellow oilskin
+	# Daniel is the Meshy "The Red-Capped Wayfarer" (30 Oct 2026), same Mixamo rig and jaw bone: Walking, Talk_with_Hands_Open while his own
+	# line plays and Sit_Cross_Legged on the rowboat's seat. His download has no standing idle, so he stands in a frozen pose (pose_clip)
+	# until an idle is added in Meshy.
+	"DANIEL": {"model": "res://Assets/Characters/daniel.glb", "height": 1.66, "radius": 0.28, "speed": 1.55, "walk_clip": "Walking", "pose_clip": "Talk_with_Hands_Open", "talk_clip": "Talk_with_Hands_Open", "sit_clip": "Sit_Cross_Legged", "bench_m": 0.42, "model_yaw_deg": 180.0, "jaw": true},
 	# Ted is the rigged character (the Meshy "Ironclad Mariner", 30 Oct 2026): his own model, Walking while he walks, Idle_3 (looping)
 	# when he stands, and Stand_Talking_Angry (looping) while one of his lines is playing. The Meshy rig faces +Z, so the model is turned
 	# 180 degrees about Y to face -Z like everything else.
@@ -158,7 +161,7 @@ func _set_bench(on: bool) -> void:
 	var bm := BoxMesh.new()
 	bm.size = Vector3(0.95, 0.07, 0.34)
 	bench.mesh = bm
-	bench.position = Vector3(0.0, 0.5, 0.0)
+	bench.position = Vector3(0.0, float(_look.get("bench_m", 0.5)), 0.0)
 	var mat := StandardMaterial3D.new()
 	mat.albedo_color = Color(0.2, 0.14, 0.1)
 	bench.material_override = mat

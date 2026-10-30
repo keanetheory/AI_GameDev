@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-10-30 17:09 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-10-30 17:25 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -36,7 +36,6 @@ _Generated 2026-10-30 17:09 by the Goal-Oriented Agent. Do not edit by hand; the
 
 | ID | Score | Task | Category | Owner role | Effort | Status |
 |---|---|---|---|---|---|---|
-| T41 | **7** | Generate updated models for Ted, Arthur and Daniel | asset | Creator with the Asset agent | L | open |
 | T42 | **6** | Generate the buoy models for the sea hazards | asset | Creator with the Asset agent | M | open |
 | T19 | **5** | Set a placeholder deadline length and write the crossing-penalty values | decision | Production Orchestrator | S | open |
 | T18 | **4** | Review the rewritten opening lines and re-record the six changed voice lines | dialogue | Dialogue agent | M | open |
@@ -66,6 +65,7 @@ _Generated 2026-10-30 17:09 by the Goal-Oriented Agent. Do not edit by hand; the
 | T26 | **7** | Accept the proposed event IDs and phase boundaries into the contract docs | decision | Canon and Review Orchestrator | S | done |
 | T35 | **7** | Review how findable the lighthouse is on the return now the eclipse darkens the world | decision | Lighting agent | S | done |
 | T39 | **7** | Generate the open arc lamp model | asset | Creator with the Asset agent | M | done |
+| T41 | **7** | Generate updated models for Ted, Arthur and Daniel | asset | Creator with the Asset agent | L | done |
 | T14 | **6** | Placeholder audio: wind, rain, machinery, buoy bell, foghorn, ship impact, mix by phase | audio | Sound agent | M | done |
 | T15 | **6** | Decide whether the prototype needs controller support, then add bindings and prompts | decision | Player Movement agent | M | done |
 | T16 | **6** | Fix the final list of Ted's lamp-room lines to record | decision | Dialogue agent | S | done |
@@ -88,15 +88,6 @@ _Generated 2026-10-30 17:09 by the Goal-Oriented Agent. Do not edit by hand; the
 | 5 | 27 | T23 | Bake mainland/cliff carving and collision to cut level load time | - | ready |
 
 ## Task detail
-
-### T41 [7/10] Generate updated models for Ted, Arthur and Daniel  (open)
-
-Ted is the rigged test character (Assets/Characters/ted.glb: walking, running and an alert turn, frozen in one pose when he stands); Arthur and Daniel are capsules. Generate updated, matching character models for all three from the concept sheets (ConceptArt/characters), rigged and textured to the style guide: Ted with an idle (and ideally a talking idle), Arthur and Daniel with walk, idle, and a seated pose for the rowboat and the launch (the capsules stand in the boat). Each must work with scripts/character/npc.gd (forward is -Z, feet at the origin, 1.65 to 1.85 m tall) and keep jaw lip-sync possible (scripts/character/jaw_lipsync.gd). Import with tools/import_scale_pivot.gd, texture 2048 at most, and run main_asset.py --check-only before any FAL submission (credits: ask first). Then replace the capsules in npc.gd (a model entry per character, as Ted has). PROGRESS 30 Oct 2026: Ted is done (Meshy Ironclad Mariner, Mixamo rig, Idle_3, Walking, Stand_Talking_Angry wired into npc.gd, test_ted_anim.gd). Arthur and Daniel remain; generate them on the same Mixamo skeleton so the clips can be shared, and include a seated pose. PROGRESS 30 Oct 2026 (2): Arthur is done too (Meshy The Dockside Outlaw, jaw bone, Idle_3, Walking, Talk_with_Right_Hand_Open, Chair_Sit_Idle_M, test_arthur_anim.gd). Daniel remains.
-
-- **Why 7:** The capsule sailors are the most visible placeholder in the slice; the creator wants all three redone together so the cast matches.
-- **Evidence:** Creator, 31 Oct 2026: then we can generate updated models for Ted, Arthur, and Daniel; scripts/character/npc.gd; ConceptArt/characters
-- **Blocked by:** Creator generates or approves the models; credits.
-- **Needs the creator** (cannot be done by the agent alone)
 
 ### T42 [6/10] Generate the buoy models for the sea hazards  (open)
 
@@ -398,6 +389,16 @@ The lamp room's arc lamp (Assets/Models/prop/lhi_arc_lamp.glb) is shown closed a
 - **Blocked by:** Creator generates or approves the model.
 - **Needs the creator** (cannot be done by the agent alone)
 - **Result (done):** 30 Oct 2026: the creator generated lhi_arc_lamp_open.glb (Meshy, title Open Arc Lamp, same licence). Decimated from 1.24M to 56k triangles, textures 2048, imported with the prop script (0.9 m, pivot at the base, the same size as the closed lamp). Original kept in Assets/Models/prop/source/ and backed up to C:/bkupConceptArt/FAL_3D_Models/prop/.
+
+### T41 [7/10] Generate updated models for Ted, Arthur and Daniel  (done)
+
+Ted is the rigged test character (Assets/Characters/ted.glb: walking, running and an alert turn, frozen in one pose when he stands); Arthur and Daniel are capsules. Generate updated, matching character models for all three from the concept sheets (ConceptArt/characters), rigged and textured to the style guide: Ted with an idle (and ideally a talking idle), Arthur and Daniel with walk, idle, and a seated pose for the rowboat and the launch (the capsules stand in the boat). Each must work with scripts/character/npc.gd (forward is -Z, feet at the origin, 1.65 to 1.85 m tall) and keep jaw lip-sync possible (scripts/character/jaw_lipsync.gd). Import with tools/import_scale_pivot.gd, texture 2048 at most, and run main_asset.py --check-only before any FAL submission (credits: ask first). Then replace the capsules in npc.gd (a model entry per character, as Ted has). PROGRESS 30 Oct 2026: Ted is done (Meshy Ironclad Mariner, Mixamo rig, Idle_3, Walking, Stand_Talking_Angry wired into npc.gd, test_ted_anim.gd). Arthur and Daniel remain; generate them on the same Mixamo skeleton so the clips can be shared, and include a seated pose. PROGRESS 30 Oct 2026 (2): Arthur is done too (Meshy The Dockside Outlaw, jaw bone, Idle_3, Walking, Talk_with_Right_Hand_Open, Chair_Sit_Idle_M, test_arthur_anim.gd). Daniel remains. PROGRESS 30 Oct 2026 (3): Daniel is done too (Meshy The Red-Capped Wayfarer, jaw, Walking, Talk_with_Hands_Open, Sit_Cross_Legged, test_daniel_anim.gd). Open item: his download has no standing idle clip (he holds a still pose).
+
+- **Why 7:** The capsule sailors are the most visible placeholder in the slice; the creator wants all three redone together so the cast matches.
+- **Evidence:** Creator, 31 Oct 2026: then we can generate updated models for Ted, Arthur, and Daniel; scripts/character/npc.gd; ConceptArt/characters
+- **Blocked by:** Creator generates or approves the models; credits.
+- **Needs the creator** (cannot be done by the agent alone)
+- **Result (done):** 30 Oct 2026: Ted, Arthur and Daniel are Meshy models on the shared Mixamo skeleton with jaw bones (tools/add_jaw_bone.py), clips wired in npc.gd and tested (test_ted_anim, test_arthur_anim, test_daniel_anim). Daniel has no idle clip yet; the seated clips use a small plank on the boats; the models have not been seen in the running level.
 
 ### T14 [6/10] Placeholder audio: wind, rain, machinery, buoy bell, foghorn, ship impact, mix by phase  (done)
 

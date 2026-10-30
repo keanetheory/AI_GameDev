@@ -8,6 +8,7 @@ var _close := false
 var _ted: Node3D
 var _who := "TED"
 var _sit := false
+var _clip := ""
 
 
 func _initialize() -> void:
@@ -17,6 +18,8 @@ func _initialize() -> void:
 	_close = args.size() > 1 and args[1] == "close"   # a head close-up with the jaw wide open
 	if args.size() > 2:
 		_who = args[2]                                  # TED, ARTHUR, DANIEL
+	if args.size() > 3 and args[3].begins_with("clip:"):
+		_clip = args[3].substr(5)                      # freeze this clip at the given time (arg 5, seconds)
 	_sit = args.size() > 3 and args[3] == "sit"        # sat on a 0.45 m box with the sit clip
 	var holder := Node3D.new()
 	root.add_child(holder)
@@ -36,7 +39,7 @@ func _initialize() -> void:
 	root.add_child(cam)
 	if _close:
 		cam.fov = 14.0
-		cam.look_at_from_position(Vector3(-1.6, 1.62, -1.6), Vector3(0, 1.62, 0))
+		cam.look_at_from_position(Vector3(-1.6, 1.55, -1.6), Vector3(0, 1.55, 0))
 	else:
 		cam.look_at_from_position(Vector3(0.6, 1.5, -3.2), Vector3(0, 1.0, 0))
 	cam.current = true
@@ -50,6 +53,12 @@ func _process(_d: float) -> bool:
 		jaw._speaking_text = true
 		jaw.set_process(false)
 		jaw._skeleton.set_bone_pose_rotation(jaw._jaw_idx, jaw._skeleton.get_bone_rest(jaw._jaw_idx).basis.get_rotation_quaternion() * Quaternion(Vector3.RIGHT, deg_to_rad(18.0)))
+	if _f == 12 and _clip != "":
+		var ap: AnimationPlayer = _ted._anim
+		ap.play(_clip)
+		var args := OS.get_cmdline_user_args()
+		ap.seek(float(args[4]) if args.size() > 4 else 0.0, true)
+		ap.pause()
 	if _f == 30 and _sit:
 		var m := _ted.get_node("Model") as Node3D
 		var sk := m.find_children("*", "Skeleton3D", true, false)[0] as Skeleton3D
