@@ -1850,6 +1850,89 @@
         "outcome": "done",
         "summary": "30 Oct 2026: the same HUD shows the controls in the lower right, built from the input map for ON_FOOT and AT_HELM (data/world/controls.json), debug keys left out, dimming after 45 s and brightening on a mode change. The subtitle width and the journal note moved so nothing overlaps. test_guidance_hud.gd."
       }
+    },
+    {
+      "id": "T56",
+      "title": "Toggle the controls list with C",
+      "priority": 7,
+      "category": "code",
+      "summary": "Add a 'Toggle controls (C)' prompt to the controls list (T55, scripts/ui/guidance_hud.gd, data/world/controls.json). Pressing C shrinks the controls view to a single small line, 'Controls (C)', and pressing it again opens the full list. Add a 'toggle_controls' action to the input map (project.godot, physical key C) so the key shows in the list itself ('C  Hide controls'), remember the choice for the rest of the session (and across a restart), keep it working while paused and at the helm, and replace the 45-second dimming with this (or keep the dim only while open: ask). Check C does not clash with another binding or with typing in the title and settings screens. Extend tools/test_guidance_hud.gd (the shrink, the second press, the key name from the input map, the choice surviving a restart) and QA_SCENARIOS.md S19.",
+      "why_this_score": "The creator wants the controls out of the way once learned; a small, cheap follow-up to T55.",
+      "evidence": [
+        "Creator, 30 Oct 2026: put a 'toggle controls (c)' prompt. if the player hits c it shrinks the control view to just 'controls (c)'",
+        "scripts/ui/guidance_hud.gd"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Gameplay / UI agent",
+      "effort": "S",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "depends_on": [
+        "T55"
+      ],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T57",
+      "title": "Think about the pieces for the journal",
+      "priority": 5,
+      "category": "decision",
+      "summary": "Decide what the player's journal (J, scripts/ui/subtitle_ui.gd and the 'journal' array in data/dialogue/dialogue_opening.json) should hold for Gate 1. Today it is a handwritten-style panel that records journal entries triggered by story events, with no other pieces. Talk through with the creator what belongs in it: the entries Isaac writes as the story moves (one per beat, in his voice, snarky like the dialogue), the goal history, the boat and lighthouse notes, a sketch or map, what Ted and Arthur said that matters, the warnings (the rocks, the ship), and found objects such as the poster and the wall whisper. Then list the pieces (text entries, drawings, pinned items), their triggers (the story events), their wording, and the art needed (paper, handwriting font, sketches: any generated assets need credits and a licence note), and write it up as a proposal for sign-off. Build comes after (a follow-up task).",
+      "why_this_score": "The journal exists but is nearly empty; the creator wants it designed before more is built on it.",
+      "evidence": [
+        "Creator, 30 Oct 2026: think about pieces for the journal",
+        "scripts/ui/subtitle_ui.gd",
+        "data/dialogue/dialogue_opening.json"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Creator with the Dialogue agent",
+      "effort": "M",
+      "agent_can_execute": false,
+      "blocked_by": "A conversation with the creator; best after the Tuesday dialogue session.",
+      "depends_on": [],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T58",
+      "title": "Remove the automatic lighting of the lighthouse when the player steps close to it",
+      "priority": 7,
+      "category": "scene",
+      "summary": "When the player walks close to the lighthouse exterior, its lighting changes automatically (a proximity effect). Remove it: the lighthouse should be lit by the phase lighting (lighting_rig.gd, data/world/lighting_spec.json, the beacon only when the burner is fitted) and not by the player's distance. Find the source (an Area3D or a distance check in scripts/world/lighting_rig.gd, lighthouse exterior lights, the toon look or an exterior light that switches on near the player), remove or disable it without changing the phase lighting, keep the light count within max_dynamic_lights 18, and check with screenshots from far and near (tools/shot_hud.gd style) and tests/test_lighting*.gd, test_toon.gd, test_slice_playthrough.gd.",
+      "why_this_score": "A visible pop that breaks the mood and the beacon moment; the creator asked for it to go.",
+      "evidence": [
+        "Creator, 30 Oct 2026: remove the auto lighting of the lighthouse when you step close to it",
+        "scripts/world/lighting_rig.gd"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Lighting agent",
+      "effort": "S",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "depends_on": [],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T59",
+      "title": "Sort out the plain wall tiling at the back of the lighthouse",
+      "priority": 6,
+      "category": "scene",
+      "summary": "The back of the lighthouse (the side away from the dock) shows plain, repeating wall tiling: the exterior texture is a flat tile there. Fix it so it reads as the same weathered stone as the rest: look at the back wall in screenshots from the cliff path and the lamp room windows, then either re-texture with the exterior's own UVs and a blended stone (T38 covers the plain patches on the exterior; this is the back wall in particular), add detail (stones, stains, windows, a drainpipe, ivy, the ladder), or regenerate the back section through FAL (check-only first, credits: ask). Keep the collider bake in step (tools/bake_colliders and test_collider_bake.gd) and run the toon look tests.",
+      "why_this_score": "A visible flat patch on a wall the player sees from the path and the boat; related to T38.",
+      "evidence": [
+        "Creator, 30 Oct 2026: sort out the plain wall tiling at the back of the lighthouse",
+        "T38"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Lighthouse Finisher with the creator",
+      "effort": "M",
+      "agent_can_execute": false,
+      "blocked_by": "May need FAL credits (ask first).",
+      "depends_on": [],
+      "status": "open",
+      "result": null
     }
   ],
   "history": [
@@ -2224,6 +2307,30 @@
       "task_id": "T55",
       "event": "done",
       "note": "30 Oct 2026: the same HUD shows the controls in the lower right, built"
+    },
+    {
+      "time": "2026-10-30T19:08:35",
+      "task_id": "T56",
+      "event": "added",
+      "note": "Creator, 30 Oct 2026"
+    },
+    {
+      "time": "2026-10-30T19:08:35",
+      "task_id": "T57",
+      "event": "added",
+      "note": "Creator, 30 Oct 2026"
+    },
+    {
+      "time": "2026-10-30T19:08:35",
+      "task_id": "T58",
+      "event": "added",
+      "note": "Creator, 30 Oct 2026"
+    },
+    {
+      "time": "2026-10-30T19:08:35",
+      "task_id": "T59",
+      "event": "added",
+      "note": "Creator, 30 Oct 2026"
     }
   ]
 }

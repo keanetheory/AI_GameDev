@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-10-30 18:55 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-10-30 19:08 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -45,10 +45,14 @@ _Generated 2026-10-30 18:55 by the Goal-Oriented Agent. Do not edit by hand; the
 | T48 | **7** | Rebuild the L2 room: remove the stick in the bathroom and replace its props with FAL models | scene | Lighthouse Interior Creator with the creator | L | open |
 | T49 | **7** | Regenerate the Saltgate burner pickup area and replace the landing with a walk-in hut | scene | Saltgate Creator with the creator | L | open |
 | T52 | **7** | Review all dialogue for snark and humour | dialogue | Creator with the Dialogue agent | M | open |
+| T56 | **7** | Toggle the controls list with C | code | Gameplay / UI agent | S | open |
+| T58 | **7** | Remove the automatic lighting of the lighthouse when the player steps close to it | scene | Lighting agent | S | open |
 | T42 | **6** | Generate the buoy models for the sea hazards | asset | Creator with the Asset agent | M | open |
 | T43 | **6** | Generate a chair for Daniel in front of the boiler | asset | Creator with the Asset agent | S | open |
 | T51 | **6** | Decide where the characters look during specific lines (the Arthur and Ted opening) | dialogue | Creator with the Dialogue agent | M | open |
+| T59 | **6** | Sort out the plain wall tiling at the back of the lighthouse | scene | Lighthouse Finisher with the creator | M | open |
 | T19 | **5** | Set a placeholder deadline length and write the crossing-penalty values | decision | Production Orchestrator | S | open |
+| T57 | **5** | Think about the pieces for the journal | decision | Creator with the Dialogue agent | M | open |
 | T18 | **4** | Review the rewritten opening lines and re-record the six changed voice lines | dialogue | Dialogue agent | M | open |
 | T38 | **4** | Texture the lighthouse exterior's plain patches (back-west corner panels, fills under the back windows) | art | Lighthouse Finisher Agent | S | open |
 | T23 | **3** | Bake mainland/cliff carving and collision to cut level load time | code | Level Layout agent | L | open |
@@ -177,6 +181,21 @@ Read the whole slice's dialogue (data/dialogue/dialogue_opening.json, every spea
 - **Depends on:** T50 (still open: T50)
 - **Needs the creator** (cannot be done by the agent alone)
 
+### T56 [7/10] Toggle the controls list with C  (open)
+
+Add a 'Toggle controls (C)' prompt to the controls list (T55, scripts/ui/guidance_hud.gd, data/world/controls.json). Pressing C shrinks the controls view to a single small line, 'Controls (C)', and pressing it again opens the full list. Add a 'toggle_controls' action to the input map (project.godot, physical key C) so the key shows in the list itself ('C  Hide controls'), remember the choice for the rest of the session (and across a restart), keep it working while paused and at the helm, and replace the 45-second dimming with this (or keep the dim only while open: ask). Check C does not clash with another binding or with typing in the title and settings screens. Extend tools/test_guidance_hud.gd (the shrink, the second press, the key name from the input map, the choice surviving a restart) and QA_SCENARIOS.md S19.
+
+- **Why 7:** The creator wants the controls out of the way once learned; a small, cheap follow-up to T55.
+- **Evidence:** Creator, 30 Oct 2026: put a 'toggle controls (c)' prompt. if the player hits c it shrinks the control view to just 'controls (c)'; scripts/ui/guidance_hud.gd
+- **Depends on:** T55 (all closed)
+
+### T58 [7/10] Remove the automatic lighting of the lighthouse when the player steps close to it  (open)
+
+When the player walks close to the lighthouse exterior, its lighting changes automatically (a proximity effect). Remove it: the lighthouse should be lit by the phase lighting (lighting_rig.gd, data/world/lighting_spec.json, the beacon only when the burner is fitted) and not by the player's distance. Find the source (an Area3D or a distance check in scripts/world/lighting_rig.gd, lighthouse exterior lights, the toon look or an exterior light that switches on near the player), remove or disable it without changing the phase lighting, keep the light count within max_dynamic_lights 18, and check with screenshots from far and near (tools/shot_hud.gd style) and tests/test_lighting*.gd, test_toon.gd, test_slice_playthrough.gd.
+
+- **Why 7:** A visible pop that breaks the mood and the beacon moment; the creator asked for it to go.
+- **Evidence:** Creator, 30 Oct 2026: remove the auto lighting of the lighthouse when you step close to it; scripts/world/lighting_rig.gd
+
 ### T42 [6/10] Generate the buoy models for the sea hazards  (open)
 
 The buoy hazards in the crossing (scripts/world/crossing_hazards.gd, _buoy) are built from primitives: a red body with a blinking light. Generate proper buoy models (at least the red channel buoy the forecast names; ideally a second variant, e.g. a green or striped one, and a bell buoy since the audio mixer has a bell) in the same style as the other sea props, with a base that sits on the waterline, a mast or cage for the blinking lamp, and a collision size that matches data/world/boat_spec.json and crossing_sequence.json (the buoy radius_m). Import with tools/import_scale_pivot.gd (add a buoy category or per-file height), downscale the texture to 2048, then swap the model into _buoy and keep the blinking light and near-miss radius. Run main_asset.py --check-only before any FAL submission (credits: ask first).
@@ -205,6 +224,15 @@ Talk through, line by line, where each character looks when they speak or listen
 - **Depends on:** T50 (still open: T50)
 - **Needs the creator** (cannot be done by the agent alone)
 
+### T59 [6/10] Sort out the plain wall tiling at the back of the lighthouse  (open)
+
+The back of the lighthouse (the side away from the dock) shows plain, repeating wall tiling: the exterior texture is a flat tile there. Fix it so it reads as the same weathered stone as the rest: look at the back wall in screenshots from the cliff path and the lamp room windows, then either re-texture with the exterior's own UVs and a blended stone (T38 covers the plain patches on the exterior; this is the back wall in particular), add detail (stones, stains, windows, a drainpipe, ivy, the ladder), or regenerate the back section through FAL (check-only first, credits: ask). Keep the collider bake in step (tools/bake_colliders and test_collider_bake.gd) and run the toon look tests.
+
+- **Why 6:** A visible flat patch on a wall the player sees from the path and the boat; related to T38.
+- **Evidence:** Creator, 30 Oct 2026: sort out the plain wall tiling at the back of the lighthouse; T38
+- **Blocked by:** May need FAL credits (ask first).
+- **Needs the creator** (cannot be done by the agent alone)
+
 ### T19 [5/10] Set a placeholder deadline length and write the crossing-penalty values  (open)
 
 The deadline length and exact collision costs are deliberately undecided until the return crossing is tested. Record a clearly labelled placeholder deadline, the outbound-crossing penalty (B9, deferred) and the collision cost so the QA tuning pass has numbers to compare against. Creator, 26 Oct 2026: placeholder deadline set to 3 min 30 s (Decisions A28); the crossing-penalty values are still open. Update 31 Oct 2026: the return collision cost is set at 5 s of deadline (data/world/crossing_sequence.json); the outbound crossing costs nothing; the deadline length is still the 3:30 placeholder.
@@ -215,6 +243,15 @@ The deadline length and exact collision costs are deliberately undecided until t
 - **Depends on:** T25 (all closed)
 - **Needs the creator** (cannot be done by the agent alone)
 - **Result (partial):** Return collision penalty set to 5 s (31 Oct 2026); outbound penalty and the final deadline length still open.
+
+### T57 [5/10] Think about the pieces for the journal  (open)
+
+Decide what the player's journal (J, scripts/ui/subtitle_ui.gd and the 'journal' array in data/dialogue/dialogue_opening.json) should hold for Gate 1. Today it is a handwritten-style panel that records journal entries triggered by story events, with no other pieces. Talk through with the creator what belongs in it: the entries Isaac writes as the story moves (one per beat, in his voice, snarky like the dialogue), the goal history, the boat and lighthouse notes, a sketch or map, what Ted and Arthur said that matters, the warnings (the rocks, the ship), and found objects such as the poster and the wall whisper. Then list the pieces (text entries, drawings, pinned items), their triggers (the story events), their wording, and the art needed (paper, handwriting font, sketches: any generated assets need credits and a licence note), and write it up as a proposal for sign-off. Build comes after (a follow-up task).
+
+- **Why 5:** The journal exists but is nearly empty; the creator wants it designed before more is built on it.
+- **Evidence:** Creator, 30 Oct 2026: think about pieces for the journal; scripts/ui/subtitle_ui.gd; data/dialogue/dialogue_opening.json
+- **Blocked by:** A conversation with the creator; best after the Tuesday dialogue session.
+- **Needs the creator** (cannot be done by the agent alone)
 
 ### T18 [4/10] Review the rewritten opening lines and re-record the six changed voice lines  (open)
 
