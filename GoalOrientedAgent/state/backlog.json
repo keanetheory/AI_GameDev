@@ -897,8 +897,11 @@
       "effort": "M",
       "agent_can_execute": true,
       "blocked_by": "Tasks T08. Depends on the GameState task.",
-      "status": "open",
-      "result": null,
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "31 Oct 2026: LightingTheStorm/QA_SCENARIOS.md (17 scenarios, known gaps) and tools/test_slice_playthrough.gd (the whole win, and -- fail for the failure and restart), both passing."
+      },
       "build_wave": 5,
       "depends_on": [
         "T08"
@@ -1306,10 +1309,10 @@
       "effort": "M",
       "agent_can_execute": true,
       "blocked_by": "Tasks T02, T26, T28, T29.",
-      "status": "open",
+      "status": "done",
       "result": {
-        "outcome": "in progress",
-        "summary": "Creator, 25 Oct 2026: close to done: the lamp socket offers '[E] Fit the burner into the lamp' (CarrySocket), fires BURNER_FITTED and SHIP_WIN follows 4.5 s later (tools/test_lamp_fit.gd). Being finished alongside T02."
+        "outcome": "done",
+        "summary": "The lamp socket fits the burner (CarrySocket), fires BURNER_FITTED, the lamp relights, SHIP_WIN follows 4.5 s later; checked by tools/test_lamp_fit.gd and the full-slice playthrough (31 Oct 2026). The open/closed lamp model is T39/T40."
       },
       "id": "T32",
       "title": "Burner fit: carry the burner up to the lamp and fit it (BURNER_FITTED, BEACON_RELIT)",

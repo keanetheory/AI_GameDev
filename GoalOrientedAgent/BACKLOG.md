@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-10-30 12:20 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-10-30 13:18 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -36,12 +36,10 @@ _Generated 2026-10-30 12:20 by the Goal-Oriented Agent. Do not edit by hand; the
 
 | ID | Score | Task | Category | Owner role | Effort | Status |
 |---|---|---|---|---|---|---|
-| T32 | **10** | Burner fit: carry the burner up to the lamp and fit it (BURNER_FITTED, BEACON_RELIT) | code | Gameplay / Systems agent | M | open |
 | T39 | **7** | Generate the open arc lamp model | asset | Creator with the Asset agent | M | open |
 | T36 | **6** | Add lightposts at the Saltgate and at the lighthouse island's dock | scene | Level Layout agent | M | open |
 | T40 | **6** | Open lamp in the diagnosis; the fitted burner disappears and the lamp closes with light emanating | code | Gameplay / Systems agent | M | open |
 | T19 | **5** | Set a placeholder deadline length and write the crossing-penalty values | decision | Production Orchestrator | S | open |
-| T20 | **5** | QA scenario list and automated state-transition checks for the Gate 1 slice | test | QA agent | M | open |
 | T18 | **4** | Review the rewritten opening lines and re-record the six changed voice lines | dialogue | Dialogue agent | M | open |
 | T38 | **4** | Texture the lighthouse exterior's plain patches (back-west corner panels, fills under the back windows) | art | Lighthouse Finisher Agent | S | open |
 | T23 | **3** | Bake mainland/cliff carving and collision to cut level load time | code | Level Layout agent | L | open |
@@ -51,6 +49,7 @@ _Generated 2026-10-30 12:20 by the Goal-Oriented Agent. Do not edit by hand; the
 | T07 | **10** | Hidden ship deadline with ship placeholder, elapsed-time lighting and debug time scale | code | Gameplay / Systems agent | M | done |
 | T08 | **10** | Win and fail outcomes: foghorn, grounding, silence, 'Failed' screen with reason, restart | code | Story / Fail-State agent | L | done |
 | T29 | **10** | Hand carry: pick up the burner, hold it on the boat, fit it at the lamp | code | Gameplay / Systems agent | M | done |
+| T32 | **10** | Burner fit: carry the burner up to the lamp and fit it (BURNER_FITTED, BEACON_RELIT) | code | Gameplay / Systems agent | M | done |
 | T03 | **9** | Generic first-person interaction system (raycast, prompt, the 'interact' action) | code | Gameplay / Systems agent | M | done |
 | T04 | **9** | Window moment, moored rowboat, island gate and sailors' scripted walk-in | scene | Level Layout agent | L | done |
 | T05 | **9** | Lantern room diagnosis: Ted opens the arc lamp and finds the burner broken | code | Gameplay / Systems agent | M | done |
@@ -71,6 +70,7 @@ _Generated 2026-10-30 12:20 by the Goal-Oriented Agent. Do not edit by hand; the
 | T15 | **6** | Decide whether the prototype needs controller support, then add bindings and prompts | decision | Player Movement agent | M | done |
 | T16 | **6** | Fix the final list of Ted's lamp-room lines to record | decision | Dialogue agent | S | done |
 | T17 | **6** | Tune and record the Gate 0 steering go/no-go (speed, route length, time per crossing) | test | Boat / Physics agent | M | deferred |
+| T20 | **5** | QA scenario list and automated state-transition checks for the Gate 1 slice | test | QA agent | M | done |
 | T25 | **5** | Repair tools/test_boat.gd for the two-berth harbour and make it fail on timeout | test | Boat / Physics agent | S | done |
 | T34 | **5** | Resolve the discoveries content (B2) on Friday 23 October 2026 | decision | Canon and Review Orchestrator | S | done |
 | T22 | **4** | Write LightingTheStorm/readme.md and per-task HANDOFF.md template; reconcile doc gaps | doc | Production Orchestrator | S | done |
@@ -83,22 +83,10 @@ _Generated 2026-10-30 12:20 by the Goal-Oriented Agent. Do not edit by hand; the
 |---|---|---|---|---|---|
 | 2 | 36 | T36 | Add lightposts at the Saltgate and at the lighthouse island's dock | - | ready |
 | 4 | 17 | T19 | Set a placeholder deadline length and write the crossing-penalty values | T25 | ready |
-| 4 | 19 | T32 | Burner fit: carry the burner up to the lamp and fit it (BURNER_FITTED, BEACON_RELIT) | T02, T26, T28, T29 | ready |
-| 5 | 24 | T20 | QA scenario list and automated state-transition checks for the Gate 1 slice | T08 | ready |
 | 5 | 25 | T18 | Review the rewritten opening lines and re-record the six changed voice lines | - | ready |
 | 5 | 27 | T23 | Bake mainland/cliff carving and collision to cut level load time | - | ready |
 
 ## Task detail
-
-### T32 [10/10] Burner fit: carry the burner up to the lamp and fit it (BURNER_FITTED, BEACON_RELIT)  (open)
-
-Split out of T08. With Ted waiting in the lamp room, the player carries the burner off the boat, up the stairs and fits it into the arc-lamp socket, emitting BURNER_FITTED. GameState already maps BURNER_FITTED to FINAL_REPAIR and the BEACON_RELIT lighting.
-
-- **Why 10:** The final hands-on job and the win condition, so 10.
-- **Evidence:** Exec Summary step 8; scripts/core/game_state.gd BURNER_FITTED (proposed)
-- **Blocked by:** Tasks T02, T26, T28, T29.
-- **Depends on:** T02, T26, T28, T29 (all closed)
-- **Result (in progress):** Creator, 25 Oct 2026: close to done: the lamp socket offers '[E] Fit the burner into the lamp' (CarrySocket), fires BURNER_FITTED and SHIP_WIN follows 4.5 s later (tools/test_lamp_fit.gd). Being finished alongside T02.
 
 ### T39 [7/10] Generate the open arc lamp model  (open)
 
@@ -135,15 +123,6 @@ The deadline length and exact collision costs are deliberately undecided until t
 - **Depends on:** T25 (all closed)
 - **Needs the creator** (cannot be done by the agent alone)
 - **Result (partial):** Return collision penalty set to 5 s (31 Oct 2026); outbound penalty and the final deadline length still open.
-
-### T20 [5/10] QA scenario list and automated state-transition checks for the Gate 1 slice  (open)
-
-Write a reproducible scenario list covering each phase transition, the clock starting once, the exactly-once outcome, restart, each fail expiry location and a keyboard/controller pass. Add headless GDScript checks beside the existing tools/test_boat.gd where practical.
-
-- **Why 5:** Gate checks need evidence, but it only becomes useful once the state controller exists, so 5.
-- **Evidence:** Technical Strategy 'Validation and integration'; AI Agent Strategy (QA); tools/test_boat.gd
-- **Blocked by:** Tasks T08. Depends on the GameState task.
-- **Depends on:** T08 (all closed)
 
 ### T18 [4/10] Review the rewritten opening lines and re-record the six changed voice lines  (open)
 
@@ -245,6 +224,16 @@ The player picks the burner up with his hands and holds it, visible in first per
 - **Blocked by:** Tasks T03, T27. T03 (interaction system); T27 (how it is carried).
 - **Depends on:** T03, T27 (all closed)
 - **Result (done):** Built the carry system on top of the existing burner pickup. A Carry autoload is the player's hands: one item at a time, held in view, with no drop key, so an item can only be put down in a CarrySocket. CarrySocket is an Interactable offering '[E] Put the burner down' and '[E] Pick up the burner'. The boat gets a cargo slot on its rig (so what is stowed rides with the hull through waves and hazard recoveries), reachable from the lighthouse landing. burner_pickup.gd now hands the burner to Carry. The boat leaves E to the slot when it is offered, so one press cannot both stow and board. The lamp socket (T32) can reuse CarrySocket with allow_take off.
+
+### T32 [10/10] Burner fit: carry the burner up to the lamp and fit it (BURNER_FITTED, BEACON_RELIT)  (done)
+
+Split out of T08. With Ted waiting in the lamp room, the player carries the burner off the boat, up the stairs and fits it into the arc-lamp socket, emitting BURNER_FITTED. GameState already maps BURNER_FITTED to FINAL_REPAIR and the BEACON_RELIT lighting.
+
+- **Why 10:** The final hands-on job and the win condition, so 10.
+- **Evidence:** Exec Summary step 8; scripts/core/game_state.gd BURNER_FITTED (proposed)
+- **Blocked by:** Tasks T02, T26, T28, T29.
+- **Depends on:** T02, T26, T28, T29 (all closed)
+- **Result (done):** The lamp socket fits the burner (CarrySocket), fires BURNER_FITTED, the lamp relights, SHIP_WIN follows 4.5 s later; checked by tools/test_lamp_fit.gd and the full-slice playthrough (31 Oct 2026). The open/closed lamp model is T39/T40.
 
 ### T03 [9/10] Generic first-person interaction system (raycast, prompt, the 'interact' action)  (done)
 
@@ -382,7 +371,7 @@ In lighting_rig.gd, add a blend by normalised elapsed deadline time for rain, li
 - **Why 7:** This implements the storm-split decision and Pillar 2, but the slice works with phase-only lighting, so 7.
 - **Evidence:** Exec Summary decisions log (Storm escalation); lighting_rig.gd phases and 'BEACON_RELIT has no trigger yet'
 - **Blocked by:** Tasks T07, T32. Depends on the deadline task.
-- **Depends on:** T07, T32 (still open: T32)
+- **Depends on:** T07, T32 (all closed)
 - **Result (done):** Creator, 25 Oct 2026: done. The creator considers the storm atmosphere set (the eclipse, rain from the start, lightning and the lighting rig phases); no further elapsed-time blend is needed for Gate 1.
 
 ### T26 [7/10] Accept the proposed event IDs and phase boundaries into the contract docs  (done)
@@ -446,6 +435,16 @@ Level.tscn overrides the boat's speed to 10.0 m/s while boat_spec.json says 3.0,
 - **Depends on:** T25 (all closed)
 - **Needs the creator** (cannot be done by the agent alone)
 - **Result (deferred):** Creator decision, 19 October 2026: the boat stays at 10 m/s until the waves are complete. Re-tune speed and steering then. data/world/boat_spec.json (3.0) is not read by the game.
+
+### T20 [5/10] QA scenario list and automated state-transition checks for the Gate 1 slice  (done)
+
+Write a reproducible scenario list covering each phase transition, the clock starting once, the exactly-once outcome, restart, each fail expiry location and a keyboard/controller pass. Add headless GDScript checks beside the existing tools/test_boat.gd where practical.
+
+- **Why 5:** Gate checks need evidence, but it only becomes useful once the state controller exists, so 5.
+- **Evidence:** Technical Strategy 'Validation and integration'; AI Agent Strategy (QA); tools/test_boat.gd
+- **Blocked by:** Tasks T08. Depends on the GameState task.
+- **Depends on:** T08 (all closed)
+- **Result (done):** 31 Oct 2026: LightingTheStorm/QA_SCENARIOS.md (17 scenarios, known gaps) and tools/test_slice_playthrough.gd (the whole win, and -- fail for the failure and restart), both passing.
 
 ### T25 [5/10] Repair tools/test_boat.gd for the two-berth harbour and make it fail on timeout  (done)
 
