@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-10-30 15:20 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-10-30 16:15 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -91,7 +91,7 @@ _Generated 2026-10-30 15:20 by the Goal-Oriented Agent. Do not edit by hand; the
 
 ### T41 [7/10] Generate updated models for Ted, Arthur and Daniel  (open)
 
-Ted is the rigged test character (Assets/Characters/ted.glb: walking, running and an alert turn, frozen in one pose when he stands); Arthur and Daniel are capsules. Generate updated, matching character models for all three from the concept sheets (ConceptArt/characters), rigged and textured to the style guide: Ted with an idle (and ideally a talking idle), Arthur and Daniel with walk, idle, and a seated pose for the rowboat and the launch (the capsules stand in the boat). Each must work with scripts/character/npc.gd (forward is -Z, feet at the origin, 1.65 to 1.85 m tall) and keep jaw lip-sync possible (scripts/character/jaw_lipsync.gd). Import with tools/import_scale_pivot.gd, texture 2048 at most, and run main_asset.py --check-only before any FAL submission (credits: ask first). Then replace the capsules in npc.gd (a model entry per character, as Ted has).
+Ted is the rigged test character (Assets/Characters/ted.glb: walking, running and an alert turn, frozen in one pose when he stands); Arthur and Daniel are capsules. Generate updated, matching character models for all three from the concept sheets (ConceptArt/characters), rigged and textured to the style guide: Ted with an idle (and ideally a talking idle), Arthur and Daniel with walk, idle, and a seated pose for the rowboat and the launch (the capsules stand in the boat). Each must work with scripts/character/npc.gd (forward is -Z, feet at the origin, 1.65 to 1.85 m tall) and keep jaw lip-sync possible (scripts/character/jaw_lipsync.gd). Import with tools/import_scale_pivot.gd, texture 2048 at most, and run main_asset.py --check-only before any FAL submission (credits: ask first). Then replace the capsules in npc.gd (a model entry per character, as Ted has). PROGRESS 30 Oct 2026: Ted is done (Meshy Ironclad Mariner, Mixamo rig, Idle_3, Walking, Stand_Talking_Angry wired into npc.gd, test_ted_anim.gd). Arthur and Daniel remain; generate them on the same Mixamo skeleton so the clips can be shared, and include a seated pose.
 
 - **Why 7:** The capsule sailors are the most visible placeholder in the slice; the creator wants all three redone together so the cast matches.
 - **Evidence:** Creator, 31 Oct 2026: then we can generate updated models for Ted, Arthur, and Daniel; scripts/character/npc.gd; ConceptArt/characters

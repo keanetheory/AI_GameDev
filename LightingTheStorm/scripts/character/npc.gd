@@ -20,9 +20,10 @@ enum State { IDLE, WALKING, WAITING, FOLLOWING, SEATED }
 const LOOKS := {
 	"ARTHUR": {"height": 1.78, "radius": 0.32, "colour": Color(0.36, 0.48, 0.55), "speed": 1.45},   # older sailor: a heavy teal-grey coat
 	"DANIEL": {"height": 1.66, "radius": 0.28, "colour": Color(0.92, 0.74, 0.2), "speed": 1.55},   # younger sailor: a yellow oilskin
-	# Ted is the rigged character: his own model, the Walking clip while he walks, and the first frame of Alert_Quick_Turn_Right (he has
-	# no idle clip) when he stands. Forward is -Z for him too.
-	"TED": {"model": "res://Assets/Characters/ted.glb", "height": 1.83, "radius": 0.3, "speed": 1.15, "walk_clip": "Walking", "pose_clip": "Alert_Quick_Turn_Right"},
+	# Ted is the rigged character (the Meshy "Ironclad Mariner", 30 Oct 2026): his own model, Walking while he walks, Idle_3 (looping)
+	# when he stands, and Stand_Talking_Angry (looping) while one of his lines is playing. The Meshy rig faces +Z, so the model is turned
+	# 180 degrees about Y to face -Z like everything else.
+	"TED": {"model": "res://Assets/Characters/ted.glb", "height": 1.83, "radius": 0.3, "speed": 1.15, "walk_clip": "Walking", "idle_clip": "Idle_3", "talk_clip": "Stand_Talking_Angry", "model_yaw_deg": 180.0},
 }
 
 @export var who := "ARTHUR"
@@ -42,6 +43,7 @@ var _body: MeshInstance3D
 var _look: Dictionary = {}
 var _anim: AnimationPlayer
 var _walking_anim := false
+var _talking := false
 
 
 static func spawn(parent: Node, character: String, at: Vector3) -> Node3D:
@@ -97,12 +99,19 @@ func _build_model() -> void:
 		return
 	var m := ps.instantiate() as Node3D
 	m.name = "Model"
+	m.rotation.y = deg_to_rad(float(_look.get("model_yaw_deg", 0.0)))
 	add_child(m)
 	var aps := m.find_children("*", "AnimationPlayer", true, false)
 	if not aps.is_empty():
 		_anim = aps[0]
-		if _anim.has_animation(String(_look["walk_clip"])):
-			_anim.get_animation(String(_look["walk_clip"])).loop_mode = Animation.LOOP_LINEAR
+		for k in ["walk_clip", "idle_clip", "talk_clip"]:
+			if _look.has(k) and _anim.has_animation(String(_look[k])):
+				_anim.get_animation(String(_look[k])).loop_mode = Animation.LOOP_LINEAR
+		if _look.has("talk_clip"):
+			var dlg := get_node_or_null("/root/Dialogue")
+			if dlg and dlg.has_signal("line_started"):
+				dlg.line_started.connect(_on_line_started)
+				dlg.line_finished.connect(_on_line_finished)
 		_stand()
 
 
@@ -110,11 +119,34 @@ func _stand() -> void:
 	if _anim == null:
 		return
 	_walking_anim = false
-	var clip := String(_look["pose_clip"])
+	if _talking and _look.has("talk_clip") and _anim.has_animation(String(_look["talk_clip"])):
+		_play_loop(String(_look["talk_clip"]))
+		return
+	if _look.has("idle_clip") and _anim.has_animation(String(_look["idle_clip"])):
+		_play_loop(String(_look["idle_clip"]))
+		return
+	var clip := String(_look.get("pose_clip", ""))
 	if _anim.has_animation(clip):
 		_anim.play(clip)
 		_anim.seek(0.0, true)
 		_anim.pause()
+
+
+func _play_loop(clip: String) -> void:
+	if _anim.current_animation != clip or not _anim.is_playing():
+		_anim.play(clip, 0.25)
+
+
+func _on_line_started(_line_id: String, speaker: String, _subtitle: String, _delivery: String) -> void:
+	_talking = speaker == who
+	if not _walking_anim:
+		_stand()
+
+
+func _on_line_finished(_line_id: String) -> void:
+	_talking = false
+	if not _walking_anim:
+		_stand()
 
 
 func _update_anim() -> void:
