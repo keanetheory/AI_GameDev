@@ -1804,6 +1804,46 @@
       "depends_on": [],
       "status": "open",
       "result": null
+    },
+    {
+      "id": "T54",
+      "title": "Goal tracker in the upper right of the screen",
+      "priority": 8,
+      "category": "code",
+      "summary": "Keep a goal tracker in the upper right corner of the screen so the player always knows what to do next. One short current objective (for example 'Shovel coal into the boiler', 'Open the island gate', 'Go up to the lamp room', 'Board the launch', 'Collect the replacement burner from the Saltgate', 'Fit the burner into the arc lamp'), driven by GameState: the phase and the story events in order (ARRIVAL_AND_COAL through RESOLUTION, see QA_SCENARIOS.md), with the objective text and the event that completes it in a data file (data/world/goals.json) so it can be retuned without code. A CanvasLayer HUD in the corner in the game's style guide (readable on the dark storm, a small heading, one line, a short tick or fade when a goal is done, no clutter), hidden on the title, the outcome screens and while paused if the pause overlay already shows it. Sub-steps where a phase has several jobs (coal then boiler then door). The hidden deadline clock must stay hidden: the tracker never shows time. Needs a test (every phase has a goal, goals advance with the events, restart resets it) and an entry in QA_SCENARIOS.md. Check it does not cover the interaction prompt or the subtitles, and works at 16:9 and narrower widths.",
+      "why_this_score": "The slice has no markers by design, but a first-time player has no way to know what to do next; the creator asked for a goal tracker.",
+      "evidence": [
+        "Creator, 30 Oct 2026: in the upper right hand side of the screen keep a goal tracker so the player knows what to do",
+        "scripts/core/game_state.gd"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Gameplay / UI agent",
+      "effort": "M",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "depends_on": [],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T55",
+      "title": "On-screen controls in the lower right of the screen",
+      "priority": 8,
+      "category": "code",
+      "summary": "Display the controls in the bottom right corner of the screen: move, look, interact (E), the boat controls while driving the launch, disembark (Q), pause (P), and anything else the slice uses. Read the real input map (project.godot) so the list cannot drift from the bindings, and show the keys that matter for what the player is doing now (on foot, carrying the burner, at the helm), with the less used ones (F9 restart, F10 debug dump, Page Up and Page Down deadline scaling) left out of the player-facing list or behind a debug flag. A CanvasLayer HUD in the style guide, small and unobtrusive, perhaps fading down after the first minutes and returning on H or while paused; mouse and keyboard glyphs as text. Needs a test (every bound action shown has a key name, the list follows the player's mode) and an entry in QA_SCENARIOS.md. Check it does not overlap the interaction prompt, the subtitles or the goal tracker (the item above, upper right).",
+      "why_this_score": "Players need the controls on screen, and the creator asked for them in the bottom right.",
+      "evidence": [
+        "Creator, 30 Oct 2026: in the bottom right hand side of the screen, display the controls",
+        "project.godot (input map)"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Gameplay / UI agent",
+      "effort": "S",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "depends_on": [],
+      "status": "open",
+      "result": null
     }
   ],
   "history": [
@@ -2154,6 +2194,18 @@
       "task_id": "T53",
       "event": "added",
       "note": "Creator weekend list, 30 Oct 2026"
+    },
+    {
+      "time": "2026-10-30T18:39:15",
+      "task_id": "T54",
+      "event": "added",
+      "note": "Creator HUD request, 30 Oct 2026"
+    },
+    {
+      "time": "2026-10-30T18:39:15",
+      "task_id": "T55",
+      "event": "added",
+      "note": "Creator HUD request, 30 Oct 2026"
     }
   ]
 }

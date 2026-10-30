@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-10-30 18:23 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-10-30 18:39 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -42,6 +42,8 @@ _Generated 2026-10-30 18:23 by the Goal-Oriented Agent. Do not edit by hand; the
 | T47 | **8** | Fix the clipping in the stairwell where the external mesh comes through | scene | Level Layout agent | M | open |
 | T50 | **8** | Generate the dialogue lines and their timings; onboard the music and its cues (Tuesday) | dialogue | Creator with the Dialogue and Audio agents | L | open |
 | T53 | **8** | Create the playtest QA agents and a web deployment agent for itch.io (Tuesday evening) | code | Creator with the GOA / GER framework | L | open |
+| T54 | **8** | Goal tracker in the upper right of the screen | code | Gameplay / UI agent | M | open |
+| T55 | **8** | On-screen controls in the lower right of the screen | code | Gameplay / UI agent | S | open |
 | T48 | **7** | Rebuild the L2 room: remove the stick in the bathroom and replace its props with FAL models | scene | Lighthouse Interior Creator with the creator | L | open |
 | T49 | **7** | Regenerate the Saltgate burner pickup area and replace the landing with a walk-in hut | scene | Saltgate Creator with the creator | L | open |
 | T52 | **7** | Review all dialogue for snark and humour | dialogue | Creator with the Dialogue agent | M | open |
@@ -145,6 +147,20 @@ Tuesday 3 Nov evening: build (1) playtest QA agents that play the slice (the sce
 - **Evidence:** Creator, 30 Oct 2026: for Tuesday evening I'll then need to generate playtest QA agents, and a web deployment agent to handle this entire game so I can launch it on itch.io; QA_SCENARIOS.md
 - **Blocked by:** Tuesday 3 Nov evening; needs the creator's approval of the agent briefs.
 - **Needs the creator** (cannot be done by the agent alone)
+
+### T54 [8/10] Goal tracker in the upper right of the screen  (open)
+
+Keep a goal tracker in the upper right corner of the screen so the player always knows what to do next. One short current objective (for example 'Shovel coal into the boiler', 'Open the island gate', 'Go up to the lamp room', 'Board the launch', 'Collect the replacement burner from the Saltgate', 'Fit the burner into the arc lamp'), driven by GameState: the phase and the story events in order (ARRIVAL_AND_COAL through RESOLUTION, see QA_SCENARIOS.md), with the objective text and the event that completes it in a data file (data/world/goals.json) so it can be retuned without code. A CanvasLayer HUD in the corner in the game's style guide (readable on the dark storm, a small heading, one line, a short tick or fade when a goal is done, no clutter), hidden on the title, the outcome screens and while paused if the pause overlay already shows it. Sub-steps where a phase has several jobs (coal then boiler then door). The hidden deadline clock must stay hidden: the tracker never shows time. Needs a test (every phase has a goal, goals advance with the events, restart resets it) and an entry in QA_SCENARIOS.md. Check it does not cover the interaction prompt or the subtitles, and works at 16:9 and narrower widths.
+
+- **Why 8:** The slice has no markers by design, but a first-time player has no way to know what to do next; the creator asked for a goal tracker.
+- **Evidence:** Creator, 30 Oct 2026: in the upper right hand side of the screen keep a goal tracker so the player knows what to do; scripts/core/game_state.gd
+
+### T55 [8/10] On-screen controls in the lower right of the screen  (open)
+
+Display the controls in the bottom right corner of the screen: move, look, interact (E), the boat controls while driving the launch, disembark (Q), pause (P), and anything else the slice uses. Read the real input map (project.godot) so the list cannot drift from the bindings, and show the keys that matter for what the player is doing now (on foot, carrying the burner, at the helm), with the less used ones (F9 restart, F10 debug dump, Page Up and Page Down deadline scaling) left out of the player-facing list or behind a debug flag. A CanvasLayer HUD in the style guide, small and unobtrusive, perhaps fading down after the first minutes and returning on H or while paused; mouse and keyboard glyphs as text. Needs a test (every bound action shown has a key name, the list follows the player's mode) and an entry in QA_SCENARIOS.md. Check it does not overlap the interaction prompt, the subtitles or the goal tracker (the item above, upper right).
+
+- **Why 8:** Players need the controls on screen, and the creator asked for them in the bottom right.
+- **Evidence:** Creator, 30 Oct 2026: in the bottom right hand side of the screen, display the controls; project.godot (input map)
 
 ### T48 [7/10] Rebuild the L2 room: remove the stick in the bathroom and replace its props with FAL models  (open)
 
