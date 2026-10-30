@@ -18,6 +18,8 @@ Removed: the raw 21 MB Meshy file that had been committed in `Assets/Models/lamp
 
 The gas lamp was replaced by the Meshy "Verdigris Lantern" (same folder, same pipeline: 454k to 30k triangles, 1024 textures, 3.4 m, pivot at the base). Positions and yaws are unchanged. The OmniLight and the glowing head now sit at 2.96 m, the centre of the lantern glass (`light_height_m` in `data/world/lampposts.json`), and the test checks the light is on the lantern axis at that height. The old model and originals are in `Assets/Models/lamppost/source/`.
 
+A second swap followed the same day: the Meshy "Verdigris Beacon" replaced the Verdigris Lantern (519k to 30k triangles, 0.7 m wide, 3.4 m tall). The lantern glass is centred 3.05 m up, so `light_height_m` is 3.05; positions unchanged.
+
 ## 3. How to run and test
 
 ```bash
