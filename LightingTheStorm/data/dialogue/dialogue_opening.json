@@ -976,6 +976,20 @@
       "assist_text": "Find the replacement burner, pick it up and bring it back to the boat."
     },
     {
+      "line_id": "ARTHUR_S4_01",
+      "step": 4,
+      "beat": "Return arrival",
+      "kind": "reaction",
+      "speaker": "ARTHUR",
+      "trigger": "RETURN_ARRIVED",
+      "text": "That's the jetty! Go, go, go - don't you wait for me!",
+      "subtitle": "ARTHUR: That's the jetty! Go, go, go - don't you wait for me!",
+      "delivery": "Urgent, shouted, already stepping onto the jetty.",
+      "pause_before": 0.3,
+      "once": true,
+      "note": "The crossing crew's arrival_line (AIAgentCrew/output/return_crossing.json), added to the opening data for T11. Plays before TED_S4_01."
+    },
+    {
       "line_id": "TED_S4_01",
       "step": 4,
       "beat": "Return arrival",

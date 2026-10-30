@@ -45,6 +45,8 @@ var water_push := Vector2.ZERO
 var water_in_boat := 0.0
 var current_zone: Node3D = null
 var driving := false
+## Non-empty: the boat will not cast off yet and the prompt says why (boarding_sequence.gd holds it until Arthur is aboard).
+var cast_off_hold := ""
 
 var _leave_zone: Node3D = null
 var _grace_zone: Node3D = null    # the berth just left: hazards are ignored until the boat is out through its entrance
@@ -122,7 +124,7 @@ func board() -> void:
 
 
 func cast_off() -> void:
-	if state != State.DOCKED or not driving:
+	if state != State.DOCKED or not driving or cast_off_hold != "":
 		return
 	_leave_zone = current_zone
 	_grace_zone = current_zone
@@ -391,7 +393,7 @@ func _update_prompt() -> void:
 		if state == State.DOCKED and _player_in_reach() and not _interaction_busy():
 			text = "[E] Board the launch"
 	elif state == State.DOCKED:
-		text = "[E] Cast off      [Q] Step onto the dock"
+		text = "[E] Cast off      [Q] Step onto the dock" if cast_off_hold == "" else "[Q] Step onto the dock      (%s)" % cast_off_hold
 	elif state == State.SAILING:
 		text = "Rocks! Steer clear..." if _stun > 0.0 else "[A] / [D] Steer"
 	elif state == State.DOCKING:
