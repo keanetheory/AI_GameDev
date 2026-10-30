@@ -30,6 +30,8 @@ Phase order the machine must follow, one step at a time: ARRIVAL_AND_COAL, SHELT
 | S15 | Restart after a fail or a win | A new attempt: level reloaded, state cleared, door shut and knockable, deadline -1, hazards back, buses at full level | `test_slice_playthrough.gd -- fail`, `test_game_state.gd` | |
 | S16 | Waves on and off | Easy outbound, hectic return, never out-pushes the steering; waves off behaves calm | `test_wave_crossings.gd` | Whether the return reads as "hectic" without being unfair |
 | S17 | Audio mix | Layers follow the phase; the storm follows the deadline clock; ducking under speech; indoor muffle; the fail sequence | `test_audio_mixer.gd` | Everything about how it sounds (nothing has been heard): the Tuesday 3 Nov review |
+| S18 | Goal tracker (upper right) | One short goal at a time, in story order, never behind the player; a tick and the old text for a moment when a goal is done; hidden once the attempt resolves; never shows time; fresh on restart | `test_guidance_hud.gd`, `test_slice_playthrough.gd` | Whether the wording is clear and the pace of the goals feels right; that it does not crowd the "Journal updated" note |
+| S19 | Controls list (lower right) | The keys for what the player is doing (on foot, at the helm), read from the input map; debug keys not listed; dims after 45 s and comes back when the mode changes | `test_guidance_hud.gd` | Legibility over the bright sky and the dark interior; that the subtitles clear it (they were narrowed to 840 px) |
 
 ## Known gaps (not yet automated or not decided)
 
@@ -37,4 +39,3 @@ Phase order the machine must follow, one step at a time: ARRIVAL_AND_COAL, SHELT
 - Real steering by a person along the safe lane (the full-slice test puts the boat on the route; the sweep tests prove the lane is clear).
 - Deadline length (3:30 is a placeholder) and the outbound collision penalty (T19); the return penalty is 5 s.
 - Voice: nothing is recorded; the line list to record is in `data/dialogue/dialogue_opening.json`.
-- The open arc lamp (T39) and the lamp swap (T40) are not built.

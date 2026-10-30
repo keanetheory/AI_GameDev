@@ -1,0 +1,28 @@
+{
+  "spec_id": "controls_v1",
+  "owner": "Gameplay / UI agent (backlog T55)",
+  "note": "The controls list in the lower right of the screen (creator, 30 Oct 2026). scripts/ui/guidance_hud.gd builds it from the real input map (project.godot [input]), so a key rebound there changes here too. A row is a label plus either 'actions' (input-map action names, shown as their keys) or 'text' (a literal key name for what is not an input action: the mouse, P for pause, Esc). Two modes: ON_FOOT, and AT_HELM while the player is seated in the launch. The debug keys (F9, F10, F11, Page Up and Down, Home) are deliberately not listed.",
+  "heading": "CONTROLS",
+  "dim_after_s": 45.0,
+  "dim_alpha": 0.5,
+  "bright_after_mode_change_s": 6.0,
+  "modes": {
+    "ON_FOOT": [
+      {"label": "Move", "actions": ["move_forward", "move_left", "move_back", "move_right"]},
+      {"label": "Look", "text": "Mouse"},
+      {"label": "Sprint", "actions": ["sprint"]},
+      {"label": "Jump", "actions": ["jump"]},
+      {"label": "Interact", "actions": ["interact"]},
+      {"label": "Journal", "actions": ["journal"]},
+      {"label": "Pause", "text": "P"},
+      {"label": "Free the mouse", "text": "Esc"}
+    ],
+    "AT_HELM": [
+      {"label": "Steer", "actions": ["move_left", "move_right"]},
+      {"label": "Cast off (when moored)", "actions": ["interact"]},
+      {"label": "Step ashore", "actions": ["disembark"]},
+      {"label": "Journal", "actions": ["journal"]},
+      {"label": "Pause", "text": "P"}
+    ]
+  }
+}

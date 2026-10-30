@@ -1822,8 +1822,11 @@
       "agent_can_execute": true,
       "blocked_by": "",
       "depends_on": [],
-      "status": "open",
-      "result": null
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "30 Oct 2026: scripts/ui/guidance_hud.gd (created by GameState) shows one goal from data/world/goals.json in the upper right, 19 goals in story order, advancing on the story events with a tick, hidden when the attempt resolves, never any time. test_guidance_hud.gd. See LightingTheStorm/HANDOFF_T54_T55_Guidance.md. Not played; wording is a draft for the Tuesday dialogue review."
+      }
     },
     {
       "id": "T55",
@@ -1842,8 +1845,11 @@
       "agent_can_execute": true,
       "blocked_by": "",
       "depends_on": [],
-      "status": "open",
-      "result": null
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "30 Oct 2026: the same HUD shows the controls in the lower right, built from the input map for ON_FOOT and AT_HELM (data/world/controls.json), debug keys left out, dimming after 45 s and brightening on a mode change. The subtitle width and the journal note moved so nothing overlaps. test_guidance_hud.gd."
+      }
     }
   ],
   "history": [
@@ -2206,6 +2212,18 @@
       "task_id": "T55",
       "event": "added",
       "note": "Creator HUD request, 30 Oct 2026"
+    },
+    {
+      "time": "2026-10-30T18:55:54",
+      "task_id": "T54",
+      "event": "done",
+      "note": "30 Oct 2026: scripts/ui/guidance_hud.gd (created by GameState) shows o"
+    },
+    {
+      "time": "2026-10-30T18:55:54",
+      "task_id": "T55",
+      "event": "done",
+      "note": "30 Oct 2026: the same HUD shows the controls in the lower right, built"
     }
   ]
 }

@@ -22,6 +22,7 @@ const DiagnosisSequence := preload("res://scripts/world/diagnosis_sequence.gd")
 const IntroSequence := preload("res://scripts/world/intro_sequence.gd")
 const BoardingSequence := preload("res://scripts/world/boarding_sequence.gd")
 const CrossingSequence := preload("res://scripts/world/crossing_sequence.gd")
+const GuidanceHud := preload("res://scripts/ui/guidance_hud.gd")
 
 signal event_emitted(id: String, phase: int)
 signal phase_changed(old_phase: int, new_phase: int)
@@ -102,6 +103,7 @@ var _diagnosis: Node           # diagnosis_sequence.gd: Ted, the lamp room, the 
 var _intro: Node               # intro_sequence.gd: Ted behind the door, the knock, the greeting (creator, 30 Oct 2026)
 var _boarding: Node            # boarding_sequence.gd: Arthur walks to the launch, boards, steps ashore on the return (T11)
 var _crossing: Node            # crossing_sequence.gd: the return forecast laid on the sea: hazards, safe lane, Arthur's calls (T10)
+var _guidance: Node            # guidance_hud.gd: the goal tracker (upper right) and the controls list (lower right) (T54, T55)
 var _level_root: Node
 var _rig: Node
 var _lighting_phase := ""
@@ -233,6 +235,7 @@ func _reset_state() -> void:
 	_intro = null
 	_boarding = null
 	_crossing = null
+	_guidance = null
 	_level_root = null
 
 
@@ -325,6 +328,10 @@ func _bind_director() -> void:
 	_crossing.name = "CrossingSequence"
 	_boat.get_parent().add_child(_crossing)
 	_crossing.setup(self, _boat.get_parent())
+	_guidance = GuidanceHud.new()
+	_guidance.name = "GuidanceHud"
+	_boat.get_parent().add_child(_guidance)
+	_guidance.setup(self, _boat.get_parent())
 
 
 ## The hidden ship deadline as 0..1 (1 = the clock ran out), -1 until the return crossing starts it. The sea (wave_system.gd)
@@ -333,6 +340,10 @@ func deadline_progress() -> float:
 	if _director != null and is_instance_valid(_director):
 		return _director.progress()
 	return -1.0
+
+
+func guidance() -> Node:
+	return _guidance if _guidance != null and is_instance_valid(_guidance) else null
 
 
 func crossing() -> Node:

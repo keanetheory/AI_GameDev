@@ -120,7 +120,7 @@ func _build_ui() -> void:
 
 	subtitle_label = _label(26, 6)
 	subtitle_label.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
-	subtitle_label.custom_minimum_size.x = 1100
+	subtitle_label.custom_minimum_size.x = 840      # narrow enough to clear the controls list in the lower right (guidance_hud.gd)
 	subtitle_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	subtitle_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	subtitle_label.grow_horizontal = Control.GROW_DIRECTION_BOTH
@@ -139,9 +139,11 @@ func _build_ui() -> void:
 
 	notice_label = _label(18, 4)
 	notice_label.text = "Journal updated  [J]"
-	notice_label.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	# upper right, below the goal tracker (guidance_hud.gd) so the two never overlap
+	notice_label.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT, Control.PRESET_MODE_MINSIZE, 24)
 	notice_label.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-	notice_label.position = Vector2(-24, 20)
+	notice_label.offset_top += 120.0
+	notice_label.offset_bottom += 120.0
 	notice_label.modulate.a = 0.0
 	layer.add_child(notice_label)
 

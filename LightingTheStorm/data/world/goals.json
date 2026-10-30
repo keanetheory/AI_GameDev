@@ -1,0 +1,28 @@
+{
+  "spec_id": "goals_v1",
+  "owner": "Gameplay / UI agent (backlog T54)",
+  "note": "The goal tracker in the upper right of the screen (creator, 30 Oct 2026). One short current objective, in story order. scripts/ui/guidance_hud.gd shows the first goal after the last one whose done_on event has fired, so a player who skips ahead is never shown a goal behind them. The text is plain instructions in Ted's and the game's voice; edit freely, keep it to one short line. Never shows time: the ship deadline stays hidden.",
+  "heading": "GOAL",
+  "done_flash_s": 1.4,
+  "goals": [
+    {"id": "KNOCK", "text": "Knock on the lighthouse door", "done_on": "GAME_STARTED"},
+    {"id": "ENTER", "text": "Go inside the lighthouse", "done_on": "LIGHTHOUSE_ENTERED"},
+    {"id": "ENGINE_ROOM", "text": "Go down to the engine room", "done_on": "ENGINE_ROOM_ENTERED"},
+    {"id": "COAL", "text": "Shovel coal into the firebox", "done_on": "BOILER_FED"},
+    {"id": "ROWBOAT", "text": "Look for the rowboat at the island dock", "done_on": "SAILORS_MOORED"},
+    {"id": "GATE", "text": "Open the island gate for the sailors", "done_on": "GATE_OPENED"},
+    {"id": "SAILORS", "text": "Wait for the sailors to come up to the lighthouse", "done_on": "DANIEL_IN_BASEMENT"},
+    {"id": "LAMP_ROOM", "text": "Go up to the lamp room with Ted", "done_on": "LAMP_ROOM_ENTERED"},
+    {"id": "DIAGNOSE", "text": "Help Ted open up the arc lamp", "done_on": "BURNER_DIAGNOSED"},
+    {"id": "BRIEFING", "text": "Hear Ted out", "done_on": "BURNER_BRIEFING"},
+    {"id": "LAUNCH", "text": "Go to the launch at the island dock", "done_on": "BOARDING_THRESHOLD"},
+    {"id": "CAST_OFF", "text": "Board the launch and cast off", "done_on": "BOAT_CAST_OFF"},
+    {"id": "CROSS", "text": "Steer across the Gullwater to the Saltgate", "done_on": "SALTGATE_REACHED"},
+    {"id": "BURNER", "text": "Fetch the spare burner from the Saltgate", "done_on": "BURNER_PICKED_UP"},
+    {"id": "RETURN_CAST_OFF", "text": "Get back aboard and cast off", "done_on": "RETURN_DEPARTED"},
+    {"id": "RETURN", "text": "Steer the launch home, clear of the rocks", "done_on": "RETURN_ARRIVED"},
+    {"id": "RUN_UP", "text": "Take the burner up to the lamp room", "done_on": "LAMP_ROOM_REENTERED"},
+    {"id": "FIT", "text": "Fit the burner into the arc lamp", "done_on": "BURNER_FITTED"},
+    {"id": "WATCH", "text": "Stand back and watch the light", "done_on": "SHIP_WIN"}
+  ]
+}
