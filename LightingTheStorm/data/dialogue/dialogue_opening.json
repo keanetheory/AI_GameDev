@@ -516,6 +516,21 @@
       "note": "Proposal pairing with ARTHUR_S2_05. 'The boy' means Daniel."
     },
     {
+      "line_id": "ARTHUR_S2_06",
+      "step": 2,
+      "beat": "Arthur waits by the door",
+      "kind": "reaction",
+      "speaker": "ARTHUR",
+      "trigger": "SAILORS_INSIDE",
+      "text": "I'm going to wait here until Daniel has settled in.",
+      "subtitle": "ARTHUR: I'm going to wait here until Daniel has settled in.",
+      "delivery": "Steady, a little weary, watching the stairwell.",
+      "pause_before": 1.0,
+      "once": true,
+      "staging": "Arthur stands just inside the main door and stays there while Daniel goes down.",
+      "note": "Creator, 30 Oct 2026: Arthur waits just past the main door and says this once he is in. Plays after TED_S2_04. Passes the offline rules."
+    },
+    {
       "line_id": "DANIEL_OPT_02",
       "step": 2,
       "beat": "Daniel shelters (alternate)",
@@ -528,7 +543,8 @@
       "pause_before": 0.0,
       "once": true,
       "staging": "Daniel settles beside the boiler.",
-      "note": "Ambiguous hint only; never confirmed. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped."
+      "note": "Ambiguous hint only; never confirmed. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.",
+      "requires": "player_and_daniel_in_basement"
     },
     {
       "line_id": "TED_S3_00",
@@ -729,7 +745,8 @@
       "pause_before": 0.0,
       "once": false,
       "staging": "Daniel in the basement, close to the wall.",
-      "note": "Ambiguous; never confirm a cause. Optional event. Gate: play only when the player is in the basement and DANIEL_IN_BASEMENT has fired; never elsewhere. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped."
+      "note": "Ambiguous; never confirm a cause. Optional event. Gate: play only when the player is in the basement and DANIEL_IN_BASEMENT has fired; never elsewhere. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.",
+      "requires": "player_and_daniel_in_basement"
     },
     {
       "line_id": "DANIEL_OPT_06",
@@ -743,7 +760,8 @@
       "delivery": "Anxious, breathless.",
       "pause_before": 0.0,
       "once": false,
-      "note": "Cause stays ambiguous. Optional event; basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped."
+      "note": "Cause stays ambiguous. Optional event; basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.",
+      "requires": "player_and_daniel_in_basement"
     },
     {
       "line_id": "DANIEL_OPT_04",
@@ -757,7 +775,8 @@
       "delivery": "Anxious chatter, nervous laugh.",
       "pause_before": 0.0,
       "once": false,
-      "note": "Optional event. Basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped."
+      "note": "Optional event. Basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.",
+      "requires": "player_and_daniel_in_basement"
     },
     {
       "line_id": "TED_S1_I1",

@@ -75,8 +75,9 @@ func _run() -> void:
 	var start := Vector3(-27.0, 1.48, 26.3)
 	_check(to_hall[0].distance_to(start) < 0.3 and to_base[0].distance_to(start) < 0.3, "the sailors' routes start at the south jetty, the rowboat's berth")
 	var door: Node3D = _lv.get_node("LighthouseDoor")
-	var inside_door: Vector3 = door.middle() - door.global_transform.basis.z * 2.5
-	_check(Vector2(to_hall[-1].x - inside_door.x, to_hall[-1].z - inside_door.z).length() < 0.8 and absf(to_hall[-1].y - 10.58) < 0.3, "Arthur's route ends in the hall just inside the door (%s)" % to_hall[-1])
+	var out_v: Vector3 = door.global_transform.basis.z
+	var rel: Vector3 = to_hall[-1] - door.middle()
+	_check(rel.dot(out_v) < -1.2 and rel.dot(out_v) > -3.5 and rel.length() < 3.5 and absf(to_hall[-1].y - 10.58) < 0.3, "Arthur's route ends just past the main door, inside the hall (%.1f m in, %.1f m from the door; %s)" % [-rel.dot(out_v), rel.length(), to_hall[-1]])
 	var daniel_marker: Vector3 = Check.markers(_lv)["B1_daniel_marker"]
 	_check(Vector2(to_base[-1].x - daniel_marker.x, to_base[-1].z - daniel_marker.z).length() < 1.5 and to_base[-1].y < 9.0, "Daniel's route ends in the basement next to his marker (%.1f m off)" % Vector2(to_base[-1].x - daniel_marker.x, to_base[-1].z - daniel_marker.z).length())
 	var through_door := false

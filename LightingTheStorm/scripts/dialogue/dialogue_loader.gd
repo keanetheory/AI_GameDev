@@ -27,6 +27,10 @@ var _journal_by_trigger := {}
 var _played := {}
 var _idle_tier := {}
 var _queue: Array = []
+var _held: Array = []      # lines waiting for their `requires` condition (e.g. Daniel speaks only with the player in the basement)
+var _held_check := 0.0
+## Answers a line's `requires` name: set by GameState (dialogue_condition). With none set every line plays.
+var condition_provider: Callable = Callable()
 var _playing := false
 var _generation := 0   # bumped by reset_for_restart() so a line still being played from the old attempt is dropped
 
@@ -93,8 +97,35 @@ func reset_for_restart() -> void:
 	_played.clear()
 	_idle_tier.clear()
 	_queue.clear()
+	_held.clear()
 	_generation += 1    # a _play_queue() coroutine mid-line sees this on waking and returns without speaking
 	_playing = false
+
+
+func _condition_met(line: Dictionary) -> bool:
+	var need: String = String(line.get("requires", ""))
+	if need == "" or not condition_provider.is_valid():
+		return true
+	return bool(condition_provider.call(need))
+
+
+## Held lines are retried a few times a second; one whose condition has come true joins the queue.
+func _process(delta: float) -> void:
+	if _held.is_empty():
+		return
+	_held_check -= delta
+	if _held_check > 0.0:
+		return
+	_held_check = 0.25
+	var ready: Array = []
+	for line in _held:
+		if _condition_met(line):
+			ready.append(line)
+	if ready.is_empty():
+		return
+	for line in ready:
+		_held.erase(line)
+	_enqueue(ready)
 
 
 func _pick_lines(candidates: Array) -> Array:
@@ -121,6 +152,14 @@ func _pick_lines(candidates: Array) -> Array:
 
 func _enqueue(lines: Array) -> void:
 	for line in lines:
+		if not _condition_met(line):
+			var already := false
+			for h in _held:
+				if h["line_id"] == line["line_id"]:
+					already = true
+			if not already:
+				_held.append(line)      # not played, not marked played: it speaks when its condition comes true
+			continue
 		_played[line["line_id"]] = true
 		_queue.append(line)
 	if not _playing and not _queue.is_empty():

@@ -166,8 +166,18 @@ func _bake() -> void:
 	ext.pop_back()
 	ext.append_array(_outdoor(space, plateau_to_porch, exclude, ext[-1].y))
 	# interior routes
-	var hall_target: Vector3 = door.middle() - out_v * 2.5
-	var hall_goal := reach.nearest(hall_target, true)
+	# Arthur waits just past the main door (creator, 30 October 2026): 1.7 m inside, to one side of the doorway so he does not block it
+	var side_v := Vector3(out_v.z, 0.0, -out_v.x)
+	var hall_goal := {}
+	for sgn in [-1.0, 1.0]:
+		var cand: Vector3 = door.middle() - out_v * 1.7 + side_v * 1.2 * sgn
+		var g := reach.nearest(cand, true)
+		if not g.is_empty() and Vector2(g["pos"].x - cand.x, g["pos"].z - cand.z).length() < 0.5 and not _blocked(space, g["pos"], exclude):
+			hall_goal = g
+			print("bake_npc_paths: Arthur's wait spot ", g["pos"], " (door side ", sgn, ")")
+			break
+	if hall_goal.is_empty():
+		hall_goal = reach.nearest(door.middle() - out_v * 2.5, true)
 	var anchors: Dictionary = _lv.get_node("InteriorRooms").anchors
 	var daniel_goal := reach.nearest(Check.markers(_lv)["B1_daniel_marker"], true)
 	var hall_path: Array[Vector3] = reach.path_to(hall_goal)

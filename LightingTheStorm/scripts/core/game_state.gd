@@ -103,8 +103,10 @@ func _ready() -> void:
 	_dialogue = get_node_or_null("/root/Dialogue")
 	if _dialogue == null:
 		push_error("GameState: the Dialogue autoload is missing (project.godot [autoload])")
-	elif debug_log:
-		_dialogue.line_started.connect(_on_line_started)
+	else:
+		_dialogue.condition_provider = Callable(self, "dialogue_condition")
+		if debug_log:
+			_dialogue.line_started.connect(_on_line_started)
 	# The level has no script of its own, so notice scenes entering the root and bind to them once they are ready.
 	get_tree().root.child_entered_tree.connect(_on_root_child_entered)
 	# The main scene is added to the root before the autoloads' _ready runs, so on the very first start that
@@ -310,6 +312,30 @@ func outcome_screen() -> Node:
 
 func audio() -> Node:
 	return _mixer if _mixer != null and is_instance_valid(_mixer) else null
+
+
+## The basement under the lighthouse house (world). The island dock and the sea are outside these bounds.
+const BASEMENT_X := Vector2(-6.0, 12.0)
+const BASEMENT_Z := Vector2(-10.0, 3.0)
+const BASEMENT_MAX_Y := 9.3
+
+
+func player_in_basement() -> bool:
+	var p := get_tree().get_first_node_in_group("player") as Node3D
+	if p == null:
+		return false
+	var g := p.global_position
+	return g.y < BASEMENT_MAX_Y and g.x > BASEMENT_X.x and g.x < BASEMENT_X.y and g.z > BASEMENT_Z.x and g.z < BASEMENT_Z.y
+
+
+## What a dialogue line's `requires` field asks (see dialogue_loader.gd). Daniel only speaks when he and the player are both
+## in the basement (creator, 30 October 2026).
+func dialogue_condition(name: String) -> bool:
+	match name:
+		"player_and_daniel_in_basement":
+			return fired.has("DANIEL_IN_BASEMENT") and player_in_basement()
+	push_warning("GameState: unknown dialogue condition '%s'" % name)
+	return true
 
 
 func deadline() -> Node:

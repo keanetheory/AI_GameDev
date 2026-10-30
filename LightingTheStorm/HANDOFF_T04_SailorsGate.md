@@ -47,5 +47,4 @@ PROPOSED: `GameState.sailors()`; the director emits the four story events (no ne
 
 ## 8. Open creator decisions
 
-- The window moment: the berth is hidden from every window, so should Ted's "See them?" stay a fallback line, or should the rowboat's row-in be made visible from the ground-floor window (closed on 27 Oct) or L1?
-- Arthur's idle behaviour in the hall (waiting, or following the player) until T11.
+Resolved 30 Oct 2026 after the creator's play: "See them?" stays a fallback line; Arthur waits (just past the main door, about 2 m inside and to one side, saying `ARTHUR_S2_06` "I'm going to wait here until Daniel has settled in."); Daniel walks down to the basement, and **all Daniel's dialogue is spoken only when both he and the player are in the basement** (a `requires` field on his four lines; `GameState.player_in_basement()`; a line spoken too early is held and plays when the player comes down). Nothing open.

@@ -44,6 +44,18 @@ func _step(seq: Node, seconds: float, dt := 0.1) -> void:
 		t += dt
 
 
+func _held_ids(dlg: Node) -> Array:
+	var out := []
+	for h in dlg._held:
+		out.append(h["line_id"])
+	return out
+
+
+func _in_basement_at(gs: Node, p: Vector3) -> bool:
+	(_lv.get_node("Player") as Node3D).global_position = p
+	return gs.player_in_basement()
+
+
 func _order(gs: Node, ids: Array) -> bool:
 	var last := -1
 	for id in ids:
@@ -169,13 +181,25 @@ func _run() -> void:
 	_check(gs.fired.has("SAILORS_INSIDE"), "Arthur reaches the hall: SAILORS_INSIDE (%.0f s after the gate opens)" % guard)
 	var door: Node3D = _lv.get_node("LighthouseDoor")
 	_check(seq.arthur.global_position.distance_to(door.middle()) < 4.5 and seq.arthur.global_position.y > 10.0, "Arthur is in the hall by the door (%s)" % seq.arthur.global_position)
-	_check(not gs.fired.has("DANIEL_IN_BASEMENT") or true, "(Daniel is behind him)")
+	var dlg: Node = root.get_node("Dialogue")
+	_check(dlg._played.has("ARTHUR_S2_06"), "Arthur says he will wait here until Daniel has settled in (ARTHUR_S2_06, after Ted's reply)")
+	_check(seq.arthur.global_position.distance_to(door.middle()) < 3.5 and seq.arthur.state == seq.arthur.State.IDLE, "and he waits there, just past the door")
 	guard = 0.0
 	while not gs.fired.has("DANIEL_IN_BASEMENT") and guard < 150.0:
 		_step(seq, 1.0)
 		guard += 1.0
 	_check(gs.fired.has("DANIEL_IN_BASEMENT") and seq.daniel.global_position.y < 9.0, "Daniel reaches the basement: DANIEL_IN_BASEMENT (y %.1f)" % seq.daniel.global_position.y)
 	_check(gs.phase == gs.Phase.BEACON_DIAGNOSIS, "DANIEL_IN_BASEMENT moves the game on to BEACON_DIAGNOSIS")
+	# Daniel only speaks when he and the player are both in the basement
+	_check(not gs.player_in_basement() and not dlg._played.has("DANIEL_OPT_02") and _held_ids(dlg).has("DANIEL_OPT_02"), "the player is upstairs: Daniel's arrival line is held, not spoken")
+	gs.emit_event("BASEMENT_BANG")
+	_check(_held_ids(dlg).has("DANIEL_OPT_06") and not dlg._played.has("DANIEL_OPT_06"), "and a basement bang upstairs gets no Daniel line either")
+	player.global_position = Vector3(3.65, 7.9, -4.4)
+	_check(gs.player_in_basement(), "the player is in the basement")
+	dlg._process(0.3)
+	_check(dlg._played.has("DANIEL_OPT_02") and dlg._played.has("DANIEL_OPT_06") and dlg._held.is_empty(), "once the player is down there with Daniel, his held lines are spoken")
+	_check(not _in_basement_at(gs, Vector3(1.9, 10.6, 1.4)) and not _in_basement_at(gs, Vector3(-27.0, 1.5, 18.0)) and _in_basement_at(gs, Vector3(0.0, 7.9, -4.6)), "the basement test: the porch and the dock are not the basement; the boiler room is")
+
 	_check(_order(gs, ["BOILER_FED", "SAILORS_MOORED", "WINDOW_LOOKED", "GATE_APPROACHED", "GATE_OPENED", "SAILORS_INSIDE", "DANIEL_IN_BASEMENT"]), "the events came in the story's order")
 	var rest: Vector3 = seq.daniel.global_position
 	_step(seq, 30.0)
