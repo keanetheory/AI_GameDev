@@ -100,6 +100,7 @@ godot --headless --path . --script res://tools/test_ship_deadline.gd  # hidden d
 godot --headless --path . --script res://tools/test_audio_mixer.gd    # placeholder audio mix by phase, the fail sequence
 godot --headless --path . --script res://tools/test_outcome_screen.gd # the Failed screen and the win card, restart
 godot --headless --path . --script res://tools/test_npc.gd            # the capsule sailors and their baked routes
+godot --headless --path . --script res://tools/test_sailors_sequence.gd # the rowboat, the gate and the sailors' walk-in
 godot --headless --path . --script res://tools/test_debug_flags.gd    # run again with  -- --no-debug-ui  to check the off state
 godot --headless --path . --script res://tools/test_collider_bake.gd  # the collider bakes are up to date and match a live build
 ```

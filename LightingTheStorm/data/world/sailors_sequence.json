@@ -1,0 +1,43 @@
+{
+  "spec_id": "sailors_sequence_v1",
+  "owner": "Level Layout agent (backlog T04)",
+  "note": "The shelter-and-gate beat (Exec Summary step 2, Technical Strategy 'shelter and gate'): after the boiler is fed, Arthur and Daniel row in out of the storm and moor at the island dock, Ted sends the player to open the island gate, and once it is open the sailors walk up to the lighthouse: Arthur into the hall (SAILORS_INSIDE), Daniel on down to the basement (DANIEL_IN_BASEMENT). scripts/world/sailors_sequence.gd reads this file; retune here.",
+  "arrive_delay_s": 5.0,
+  "arrive_delay_note": "Seconds after BOILER_FED before the rowboat comes into view at the harbour mouth (Ted's 'dynamo whine' line is playing).",
+  "rowboat": {
+    "model": "res://Assets/Models/boat/rowboat.glb",
+    "path": [[-84.0, 22.6], [-46.0, 23.2], [-27.5, 23.4]],
+    "speed_mps": 1.9,
+    "keel_y": 0.3,
+    "seat_arthur": [0.0, 0.2, 0.7],
+    "seat_daniel": [0.0, 0.2, -0.9],
+    "bob_m": 0.06,
+    "path_note": "Out beyond the harbour mouth to the south berth, bow first. The tower landing window sees the water outside the mouth (tools/test_sightlines.gd); the berth itself is hidden from every window."
+  },
+  "step_ashore_delay_s": 2.0,
+  "wait_at_gate": {
+    "arthur_back_m": 2.4,
+    "daniel_back_m": 3.8,
+    "note": "Where the sailors stand on the stairs below the gate, metres back along their route from the gate."
+  },
+  "after_gate_open": {
+    "arthur_delay_s": 0.8,
+    "daniel_delay_s": 3.5
+  },
+  "window": {
+    "spot": [7.2, 24.9, -4.0],
+    "radius_m": 2.2,
+    "height_band_m": [22.0, 27.0],
+    "look_toward": [-48.0, 0.8, 24.0],
+    "look_dot_min": 0.5,
+    "fallback_s": 10.0,
+    "note": "WINDOW_LOOKED fires when the player stands at the tower landing window looking out at the harbour mouth after the sailors have moored, or fallback_s after they moor, whichever is first."
+  },
+  "idle": {
+    "first_nudge_s": 40.0,
+    "next_nudge_s": 25.0,
+    "tiers": 3,
+    "note": "If the gate stays shut, IDLE_STEP_2 nudges Ted's ladder (hint, sharper, explicit)."
+  },
+  "walk_speed_scale": 1.0
+}

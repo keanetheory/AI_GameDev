@@ -17,6 +17,7 @@ const DebugFlags := preload("res://scripts/core/debug_flags.gd")
 const ShipDeadline := preload("res://scripts/core/ship_deadline.gd")
 const AudioMixer := preload("res://scripts/core/audio_mixer.gd")
 const OutcomeScreen := preload("res://scripts/ui/outcome_screen.gd")
+const SailorsSequence := preload("res://scripts/world/sailors_sequence.gd")
 
 signal event_emitted(id: String, phase: int)
 signal phase_changed(old_phase: int, new_phase: int)
@@ -92,6 +93,7 @@ var _boat: Node
 var _director: Node            # ship_deadline.gd: the hidden clock and the passenger ship
 var _mixer: Node               # audio_mixer.gd: the placeholder audio (T14)
 var _outcome_screen: Node      # outcome_screen.gd: the Failed screen and the win card (T08)
+var _sailors: Node             # sailors_sequence.gd: the rowboat, the gate and the walk-in (T04)
 var _rig: Node
 var _lighting_phase := ""
 
@@ -215,6 +217,7 @@ func _reset_state() -> void:
 	_director = null
 	_mixer = null
 	_outcome_screen = null
+	_sailors = null
 
 
 func _record(id: String, note: String) -> void:
@@ -283,6 +286,10 @@ func _bind_director() -> void:
 	_outcome_screen = OutcomeScreen.new()
 	_boat.get_parent().add_child(_outcome_screen)
 	_outcome_screen.setup(self, _boat.get_parent())
+	_sailors = SailorsSequence.new()
+	_sailors.name = "SailorsSequence"
+	_boat.get_parent().add_child(_sailors)
+	_sailors.setup(self, _boat.get_parent())
 
 
 ## The hidden ship deadline as 0..1 (1 = the clock ran out), -1 until the return crossing starts it. The sea (wave_system.gd)
@@ -291,6 +298,10 @@ func deadline_progress() -> float:
 	if _director != null and is_instance_valid(_director):
 		return _director.progress()
 	return -1.0
+
+
+func sailors() -> Node:
+	return _sailors if _sailors != null and is_instance_valid(_sailors) else null
 
 
 func outcome_screen() -> Node:
