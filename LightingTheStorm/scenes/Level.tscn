@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://b601q1u1ked8s"]
+[gd_scene load_steps=36 format=3 uid="uid://b601q1u1ked8s"]
 
 [ext_resource type="Script" path="res://scripts/world/collider_builder.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/world/sea.gd" id="2"]
@@ -29,6 +29,7 @@
 [ext_resource type="Script" path="res://scripts/world/interior_culling.gd" id="27"]
 [ext_resource type="Script" path="res://scripts/world/island_gate.gd" id="28"]
 [ext_resource type="Script" path="res://scripts/world/island_reactions.gd" id="30"]
+[ext_resource type="Script" path="res://scripts/world/lampposts.gd" id="31"]
 
 [sub_resource type="ProceduralSkyMaterial" id="sky"]
 sky_top_color = Color(0.12, 0.15, 0.2, 1)
@@ -336,6 +337,9 @@ start_wall = true
 editor_description = "The lockable iron gate at the top of the harbour stairs (geography.md: one path from the dock to the lighthouse, with a lockable gate). Front (padlock side) faces the dock (+Z). scripts/world/island_gate.gd"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.25, 9.95, 9.85)
 script = ExtResource("28")
+
+[node name="Lampposts" type="Node3D" parent="."]
+script = ExtResource("31")
 
 [node name="DockZonePort" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.15, 531.5)

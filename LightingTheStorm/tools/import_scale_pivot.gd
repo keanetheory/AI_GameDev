@@ -15,6 +15,7 @@ const TARGET_HEIGHT_M := {
 	"lighthouse": 27.0,
 	"Characters": 1.83,  # Ted, 6 ft
 	"prop": 0.9,         # burner_broken / burner_replacement: carried in both hands, fits the arc lamp
+	"lamppost": 3.4,     # a gas street lamp for the docks (the Meshy model is 1.9 units tall as generated)
 }
 # Categories sized by their longest horizontal extent (X or Z) instead of height,
 # e.g. an island whose height depends on its terrain.

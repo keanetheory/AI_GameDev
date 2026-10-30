@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-10-30 13:18 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-10-30 13:37 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -37,7 +37,7 @@ _Generated 2026-10-30 13:18 by the Goal-Oriented Agent. Do not edit by hand; the
 | ID | Score | Task | Category | Owner role | Effort | Status |
 |---|---|---|---|---|---|---|
 | T39 | **7** | Generate the open arc lamp model | asset | Creator with the Asset agent | M | open |
-| T36 | **6** | Add lightposts at the Saltgate and at the lighthouse island's dock | scene | Level Layout agent | M | open |
+| T41 | **7** | Generate updated models for Ted, Arthur and Daniel | asset | Creator with the Asset agent | L | open |
 | T40 | **6** | Open lamp in the diagnosis; the fitted burner disappears and the lamp closes with light emanating | code | Gameplay / Systems agent | M | open |
 | T19 | **5** | Set a placeholder deadline length and write the crossing-penalty values | decision | Production Orchestrator | S | open |
 | T18 | **4** | Review the rewritten opening lines and re-record the six changed voice lines | dialogue | Dialogue agent | M | open |
@@ -70,6 +70,7 @@ _Generated 2026-10-30 13:18 by the Goal-Oriented Agent. Do not edit by hand; the
 | T15 | **6** | Decide whether the prototype needs controller support, then add bindings and prompts | decision | Player Movement agent | M | done |
 | T16 | **6** | Fix the final list of Ted's lamp-room lines to record | decision | Dialogue agent | S | done |
 | T17 | **6** | Tune and record the Gate 0 steering go/no-go (speed, route length, time per crossing) | test | Boat / Physics agent | M | deferred |
+| T36 | **6** | Add lightposts at the Saltgate and at the lighthouse island's dock | scene | Level Layout agent | M | done |
 | T20 | **5** | QA scenario list and automated state-transition checks for the Gate 1 slice | test | QA agent | M | done |
 | T25 | **5** | Repair tools/test_boat.gd for the two-berth harbour and make it fail on timeout | test | Boat / Physics agent | S | done |
 | T34 | **5** | Resolve the discoveries content (B2) on Friday 23 October 2026 | decision | Canon and Review Orchestrator | S | done |
@@ -81,7 +82,6 @@ _Generated 2026-10-30 13:18 by the Goal-Oriented Agent. Do not edit by hand; the
 
 | Wave | Order | ID | Task | Depends on | Waiting on |
 |---|---|---|---|---|---|
-| 2 | 36 | T36 | Add lightposts at the Saltgate and at the lighthouse island's dock | - | ready |
 | 4 | 17 | T19 | Set a placeholder deadline length and write the crossing-penalty values | T25 | ready |
 | 5 | 25 | T18 | Review the rewritten opening lines and re-record the six changed voice lines | - | ready |
 | 5 | 27 | T23 | Bake mainland/cliff carving and collision to cut level load time | - | ready |
@@ -97,12 +97,14 @@ The lamp room's arc lamp (Assets/Models/prop/lhi_arc_lamp.glb) is shown closed a
 - **Blocked by:** Creator generates or approves the model.
 - **Needs the creator** (cannot be done by the agent alone)
 
-### T36 [6/10] Add lightposts at the Saltgate and at the lighthouse island's dock  (open)
+### T41 [7/10] Generate updated models for Ted, Arthur and Daniel  (open)
 
-Place lightposts as the player's guidance now the eclipse makes the world very dark: one or more on the lighthouse island's dock (the harbour berths and landing) so the player can find home on the return, and on the Saltgate quays (the landing by the burner pickup) so the player can find the berth on arrival. Real lights (OmniLight3D plus a visible lamp), warm to read against the cold storm, and left outside the eclipse dimming so they hold at totality; flickering is optional. Keep the Saltgate to the lightposts only: the decision log keeps the Saltgate minimal until the prototype is complete, so confirm with the creator before adding any other detail there.
+Ted is the rigged test character (Assets/Characters/ted.glb: walking, running and an alert turn, frozen in one pose when he stands); Arthur and Daniel are capsules. Generate updated, matching character models for all three from the concept sheets (ConceptArt/characters), rigged and textured to the style guide: Ted with an idle (and ideally a talking idle), Arthur and Daniel with walk, idle, and a seated pose for the rowboat and the launch (the capsules stand in the boat). Each must work with scripts/character/npc.gd (forward is -Z, feet at the origin, 1.65 to 1.85 m tall) and keep jaw lip-sync possible (scripts/character/jaw_lipsync.gd). Import with tools/import_scale_pivot.gd, texture 2048 at most, and run main_asset.py --check-only before any FAL submission (credits: ask first). Then replace the capsules in npc.gd (a model entry per character, as Ted has).
 
-- **Why 6:** They are the player's navigation cue in the dark return, but the slice is playable without them, so 6.
-- **Evidence:** Creator, 23 Oct 2026: lights on the dock and on the Saltgate to be added; Decisions to be made A4: the Saltgate stays minimal until the prototype is complete; Level.tscn DockZoneLighthouse, DockZoneLighthouseSouth, DockZonePort, Harbour
+- **Why 7:** The capsule sailors are the most visible placeholder in the slice; the creator wants all three redone together so the cast matches.
+- **Evidence:** Creator, 31 Oct 2026: then we can generate updated models for Ted, Arthur, and Daniel; scripts/character/npc.gd; ConceptArt/characters
+- **Blocked by:** Creator generates or approves the models; credits.
+- **Needs the creator** (cannot be done by the agent alone)
 
 ### T40 [6/10] Open lamp in the diagnosis; the fitted burner disappears and the lamp closes with light emanating  (open)
 
@@ -391,7 +393,7 @@ With the eclipse dimming the moon, ambient, reflections and distance fog (23 Oct
 - **Why 7:** The return and the burner fit are the climax of the slice, so a player who cannot find the lighthouse stalls there; it is a tuning pass, not a build, so 7.
 - **Evidence:** scripts/world/lighting_rig.gd ambient_floor, fog_floor; scripts/world/eclipse_object.gd reflection_floor, total_at_return, force_story; Creator, 23 Oct 2026: 'very difficult to find the lighthouse now ... needs lighting at the dock'
 - **Blocked by:** Creator playtest; best done after T36 gives the dock a light.
-- **Depends on:** T36 (still open: T36)
+- **Depends on:** T36 (all closed)
 - **Needs the creator** (cannot be done by the agent alone)
 - **Result (done):** Creator, 25 Oct 2026: done. The creator has reviewed the return under the eclipse and is satisfied the lighthouse can be found.
 
@@ -435,6 +437,14 @@ Level.tscn overrides the boat's speed to 10.0 m/s while boat_spec.json says 3.0,
 - **Depends on:** T25 (all closed)
 - **Needs the creator** (cannot be done by the agent alone)
 - **Result (deferred):** Creator decision, 19 October 2026: the boat stays at 10 m/s until the waves are complete. Re-tune speed and steering then. data/world/boat_spec.json (3.0) is not read by the game.
+
+### T36 [6/10] Add lightposts at the Saltgate and at the lighthouse island's dock  (done)
+
+Place lightposts as the player's guidance now the eclipse makes the world very dark: one or more on the lighthouse island's dock (the harbour berths and landing) so the player can find home on the return, and on the Saltgate quays (the landing by the burner pickup) so the player can find the berth on arrival. Real lights (OmniLight3D plus a visible lamp), warm to read against the cold storm, and left outside the eclipse dimming so they hold at totality; flickering is optional. Keep the Saltgate to the lightposts only: the decision log keeps the Saltgate minimal until the prototype is complete, so confirm with the creator before adding any other detail there.
+
+- **Why 6:** They are the player's navigation cue in the dark return, but the slice is playable without them, so 6.
+- **Evidence:** Creator, 23 Oct 2026: lights on the dock and on the Saltgate to be added; Decisions to be made A4: the Saltgate stays minimal until the prototype is complete; Level.tscn DockZoneLighthouse, DockZoneLighthouseSouth, DockZonePort, Harbour
+- **Result (done):** 31 Oct 2026: three gas lampposts (Meshy model, 30k tris, 3.4 m): one each side of the island harbour opening and one at the Saltgate quay by the landing; warm flickering lights gated by distance. See LightingTheStorm/HANDOFF_T36_Lampposts.md. The scene now holds 18 OmniLights against max_dynamic_lights 16 (creator decision).
 
 ### T20 [5/10] QA scenario list and automated state-transition checks for the Gate 1 slice  (done)
 
