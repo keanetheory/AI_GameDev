@@ -75,6 +75,12 @@ func _process(_d: float) -> bool:
 				boat.global_position = Vector3(z.global_position.x, 0.0, z.global_position.z)
 				boat.rotation.y = deg_to_rad(z.berth_yaw_deg)
 				boat.current_zone = z
+	if _f == 4 and OS.get_environment("SHOT_TED") != "":      # SHOT_TED=Alert_Quick_Turn_Right:0.0 puts Ted in the lamp room in that frame of that clip
+		var ted: Node3D = (load("res://scripts/character/ted.gd") as GDScript).new()
+		_lv.add_child(ted)
+		ted.setup(OS.get_environment("SHOT_TED").get_slice(":", 0), float(OS.get_environment("SHOT_TED").get_slice(":", 1)))
+		ted.global_position = Vector3(8.5, 27.51, -6.8)
+		ted.face(Vector3(8.5, 27.51, -4.9))
 	if _f == 4 and OS.get_environment("SHOT_ROWBOAT") != "":      # SHOT_ROWBOAT=1: the rowboat at its berth with Arthur and Daniel aboard
 		var gs2 := get_root().get_node_or_null("GameState")
 		var sq: Node = gs2.sailors() if gs2 else null
