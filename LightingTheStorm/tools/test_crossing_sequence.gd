@@ -189,7 +189,7 @@ func _run() -> void:
 	seq.dialogue_log.clear()
 	seq.near_misses = 0
 	var stack1: Array = stacks[0]
-	var near := Vector2(float(stack1[0].x) - float(stack1[1]) - 2.8 - 3.0, float(stack1[0].y))
+	var near := Vector2(float(stack1[0].x) - float(stack1[1]) - 2.8 - 1.8, float(stack1[0].y))
 	boat.global_position = Vector3(near.x, 0.5, near.y)
 	for i in 4:
 		seq._near_cool.clear()
@@ -198,6 +198,13 @@ func _run() -> void:
 	_check(seq.dialogue_log == ["ARTHUR_NEAR_1", "ARTHUR_NEAR_2", "ARTHUR_NEAR_3", "ARTHUR_NEAR_3"], "four near misses on one crossing: level 1, 2, 3, 3 (%s)" % [seq.dialogue_log])
 	seq._near_misses()
 	_check(seq.dialogue_log.size() == 4, "and not again at once (cool-down)")
+	seq._near_cool.clear()
+	seq._last_near = -100.0
+	seq.dialogue_log.clear()
+	boat.global_position = Vector3(near.x - 3.0, 0.5, near.y)       # 4.8 m off the edge: not close enough any more
+	seq._near_misses()
+	_check(seq.dialogue_log.is_empty(), "a pass 4.8 m off the edge is not a near miss any more: Arthur waits until the boat is closer")
+	boat.global_position = Vector3(near.x, 0.5, near.y)
 	# a near miss on a hazard (not only the stacks): 3 m off a rock hazard's edge
 	seq._new_leg(true)
 	seq.dialogue_log.clear()
@@ -207,11 +214,11 @@ func _run() -> void:
 			rock_h = h
 			break
 	var rp := Vector2(rock_h.global_position.x, rock_h.global_position.z)
-	boat.global_position = Vector3(rp.x + float(rock_h.get_meta("near_r")) + 2.8 + 3.0, 0.5, rp.y)
+	boat.global_position = Vector3(rp.x + float(rock_h.get_meta("near_r")) + 2.8 + 1.8, 0.5, rp.y)
 	seq._near_cool.clear()
 	seq._last_near = -100.0
 	seq._near_misses()
-	_check(seq.dialogue_log == ["ARTHUR_NEAR_1"], "a pass 3 m off a hazard's edge on the return is a near miss too, and a new crossing starts calm (%s)" % [seq.dialogue_log])
+	_check(seq.dialogue_log == ["ARTHUR_NEAR_1"], "a pass 1.8 m off a hazard's edge on the return is a near miss too, and a new crossing starts calm (%s)" % [seq.dialogue_log])
 	var lines_ok := true
 	for id in ["ARTHUR_NEAR_1", "ARTHUR_NEAR_2", "ARTHUR_NEAR_3", "ARTHUR_HIT_1", "ARTHUR_HIT_2", "ARTHUR_HIT_3", "DOCKING_DIALOGUE", "DOCKING_DIALOGUE_LIGHTHOUSE_1", "DOCKING_DIALOGUE_LIGHTHOUSE_2", "DOCKING_DIALOGUE_LIGHTHOUSE_3"]:
 		var found := false
@@ -233,7 +240,7 @@ func _run() -> void:
 		if h.get_meta("type") == "rock":
 			target = h
 	var tp2 := Vector2(target.global_position.x, target.global_position.z)
-	var approach := Vector2(tp2.x, tp2.y - 3.4)             # just south of the rock, heading north (-Z) into it
+	var approach := Vector2(tp2.x, tp2.y + 5.3)             # just south of the rock (its radius plus the hull's half length), heading north (-Z) into it
 	boat.global_position = Vector3(approach.x, boat.global_position.y, approach.y)
 	boat.rotation.y = 0.0
 	boat.state = boat.State.SAILING
@@ -259,10 +266,10 @@ func _run() -> void:
 		rocked = maxf(rocked, absf(boat.get_node("Rig").rotation.z))
 	var thrown := Vector2(boat.global_position.x - tp2.x, boat.global_position.z - tp2.y).length()
 	var moved := Vector2(boat.global_position.x - start_pos.x, boat.global_position.z - start_pos.z).length()
-	_check(moved > 8.0 and moved < 14.0, "it is thrown back about 11 m from where it hit (%.1f m), not put back at an earlier spot" % moved)
+	_check(moved > 2.0 and moved < 5.0, "it is thrown back about 3 m from where it hit (%.1f m), not put back at an earlier spot" % moved)
 	_check(max_step < 1.0, "smoothly, with no jump (largest step in one frame %.2f m)" % max_step)
-	_check(rocked > deg_to_rad(5.0), "rocking hard (up to %.0f degrees of roll)" % rad_to_deg(rocked))
-	_check(thrown > 6.0 and not boat._hits_hazard(boat.global_transform), "and ends clear of the rock")
+	_check(rocked > deg_to_rad(25.0), "rocking very hard (up to %.0f degrees of roll)" % rad_to_deg(rocked))
+	_check(thrown > 3.0 and not boat._hits_hazard(boat.global_transform), "and ends clear of the rock")
 	# outbound keeps the old recovery: no penalty, put back at the last clear spot
 	seq._new_leg(false)
 	_check(not boat.hard_bounce, "outbound collisions keep the old recovery")

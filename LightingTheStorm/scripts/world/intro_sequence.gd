@@ -1,7 +1,7 @@
 # intro_sequence.gd - the opening of the game (creator, 30 October 2026; Exec Summary step 1, Decisions A16).
 # GameState creates one inside the level once it is ready. The game starts with Ted already inside, behind the shut front door:
-#   the player knocks (E on the door shows "Knock") -> the knock sounds -> GAME_STARTED, Ted's greeting ("Hrmph. You're the new guy,
-#   then ... In.") -> Ted opens the door -> the player steps in (LIGHTHOUSE_ENTERED, Ted: "Boiler's cold ... Shovel coal, Isaac.")
+#   the player knocks (E on the door shows "Knock") -> the knock sounds -> Ted opens the door -> GAME_STARTED, Ted's greeting ("Hrmph.
+#   You're the new guy, then ... In.") with the door open (creator, 31 Oct 2026) -> the player steps in (LIGHTHOUSE_ENTERED, Ted: "Boiler's cold ... Shovel coal, Isaac.")
 #   and Ted walks up the tower to the lamp room while he says it, where he waits (the diagnosis finds him there).
 # If the level has no front door (a test scene) nothing is held and GameState starts the game as before. Ted is the rigged character
 # (npc.gd "TED"). All timings are in data/world/intro_sequence.json.
@@ -61,17 +61,18 @@ func _process(delta: float) -> void:
 		return
 	if ted == null and _anchors.anchors.has("ted_greeting"):
 		_spawn_ted()
-	if _start_in >= 0.0:
-		_start_in -= delta
-		if _start_in < 0.0:
-			_start_in = -2.0
-			_gs.emit_event("GAME_STARTED")
 	if _open_in >= 0.0:
 		_open_in -= delta
 		if _open_in < 0.0:
 			_open_in = -2.0
 			door.open()
 			door.enabled = true       # from now on the door is an ordinary door
+			_start_in = float(spec["start_after_open_s"])
+	if _start_in >= 0.0:
+		_start_in -= delta
+		if _start_in < 0.0:
+			_start_in = -2.0
+			_gs.emit_event("GAME_STARTED")      # Ted's greeting, now the door is open
 
 
 ## Ted waits just inside, behind the shut door, out of the swing of the leaf.
@@ -87,8 +88,7 @@ func _spawn_ted() -> void:
 func _on_knock() -> void:
 	if _knock_player:
 		_knock_player.play()
-	_start_in = float(spec["reply_delay_s"])
-	_open_in = float(spec["reply_delay_s"]) + float(spec["open_after_start_s"])
+	_open_in = float(spec["reply_delay_s"])
 
 
 func _on_event(id: String, _phase: int) -> void:

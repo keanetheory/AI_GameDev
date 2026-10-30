@@ -67,6 +67,8 @@ var _at_entrance := true          # docking: past the zone's entrance (or it has
 var _stun := 0.0
 var _bounce_vel := Vector3.ZERO     # the throw back after a hard hit, decaying to nothing over bounce_time_s
 var _bounce_t := -1.0
+var _base_pitch := 0.0              # the swell's pitch and roll, smoothed; a hard hit's rocking is added on top
+var _base_roll := 0.0
 var _rock_t := -1.0                 # time since a hard hit while the hull is still rocking
 var _slow := 0.0                  # seconds of wave-hit slow-down left
 var _slow_factor := 1.0
@@ -364,15 +366,19 @@ func _float(delta: float) -> void:
 	var pitch := atan2((h_bow - h_stern) * wave_follow, half_length * 2.0)
 	var roll := atan2((h_right - h_left) * wave_follow, half_beam * 2.0) - rudder * 0.07
 	var k := 1.0 if delta <= 0.0 else 1.0 - exp(-8.0 * delta)
-	if _rock_t >= 0.0:     # after a hard hit the hull rocks hard, side to side, dying away
+	_base_pitch = lerp_angle(_base_pitch, pitch, k)
+	_base_roll = lerp_angle(_base_roll, roll, k)
+	var rock_roll := 0.0
+	var rock_pitch := 0.0
+	if _rock_t >= 0.0:     # after a hard hit the hull rocks hard, side to side, dying away; added after the swell smoothing so it is not softened
 		_rock_t += delta
-		var damp := exp(-_rock_t * 1.8)
-		roll += sin(_rock_t * 12.0) * deg_to_rad(rock_deg) * damp
-		pitch += sin(_rock_t * 9.0 + 1.0) * deg_to_rad(rock_deg * 0.4) * damp
+		var damp := exp(-_rock_t * 1.5)
+		rock_roll = sin(_rock_t * 10.0) * deg_to_rad(rock_deg) * damp
+		rock_pitch = sin(_rock_t * 7.5 + 1.0) * deg_to_rad(rock_deg * 0.45) * damp
 		if _rock_t > rock_time_s:
 			_rock_t = -1.0
-	_rig.rotation.x = lerp_angle(_rig.rotation.x, pitch, k)
-	_rig.rotation.z = lerp_angle(_rig.rotation.z, roll, k)
+	_rig.rotation.x = _base_pitch + rock_pitch
+	_rig.rotation.z = _base_roll + rock_roll
 	if _deck:
 		_deck.global_transform = _rig.global_transform
 

@@ -68,14 +68,13 @@ func _run() -> void:
 	door.interact(player)
 	_check(not door.is_open and not door.enabled and not door.knock_mode, "E knocks: the door stays shut and offers nothing more")
 	_step(intro, 0.5)
-	_check(not gs.fired.has("GAME_STARTED"), "Ted answers a moment after the knock")
+	_check(not door.is_open and not gs.fired.has("GAME_STARTED"), "a moment after the knock the door is still shut and Ted has said nothing")
 	_step(intro, 1.0)
-	_check(gs.fired.has("GAME_STARTED"), "GAME_STARTED fires after the knock")
-	_check(dlg._played.has("TED_S1_01") and not gs.player_inside_building(), "Ted's greeting is spoken with the player still outside (the one exception)")
-	_step(intro, 4.0)
-	_check(not door.is_open, "the door is still shut while the greeting runs")
-	_step(intro, 3.0)
-	_check(door.is_open and door.enabled and door.prompt_text() == "Close the door", "Ted opens the door as the greeting ends; it is an ordinary door again")
+	_check(door.is_open and door.enabled and door.prompt_text() == "Close the door", "Ted opens the door; it is an ordinary door again")
+	_check(not gs.fired.has("GAME_STARTED") and not dlg._played.has("TED_S1_01"), "his greeting has not started yet: it waits for the door to be open")
+	_step(intro, 0.6)
+	_check(gs.fired.has("GAME_STARTED"), "GAME_STARTED fires once the door is open")
+	_check(dlg._played.has("TED_S1_01") and not gs.player_inside_building(), "Ted's greeting is spoken, with the player still outside (the one exception)")
 	# Ted must be out of the swing of the leaf
 	await physics_frame
 	await create_timer(0.9).timeout

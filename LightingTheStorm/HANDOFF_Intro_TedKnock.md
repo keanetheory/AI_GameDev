@@ -1,5 +1,9 @@
 # HANDOFF - The opening: Ted behind the door, the knock, and Ted's lines only inside
 
+## Update, 31 Oct 2026
+
+Ted's dialogue now fires after the door is opened: the knock, then 1.3 s later Ted opens the door, then 0.5 s after that `GAME_STARTED` fires and he greets the player in the open doorway (before, the greeting came first and the door opened as it ended). Timings: `data/world/intro_sequence.json` (`reply_delay_s`, `start_after_open_s`).
+
 ## 1. Task and goal
 
 Creator, 30 Oct 2026:

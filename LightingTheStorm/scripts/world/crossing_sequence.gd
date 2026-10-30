@@ -205,7 +205,7 @@ func _near_misses() -> void:
 
 func _check_near(bp: Vector2, centre: Vector2, r: float, key: String, now: float) -> bool:
 	var gap: float = bp.distance_to(centre) - r - 2.8      # from the hull's nose to the obstacle's edge
-	if gap > 1.0 and gap < float(spec["near_miss"]["edge_m"]) and now - float(_near_cool.get(key, -100.0)) > 12.0:
+	if gap > float(spec["near_miss"]["min_gap_m"]) and gap < float(spec["near_miss"]["edge_m"]) and now - float(_near_cool.get(key, -100.0)) > 12.0:
 		_near_cool[key] = now
 		_last_near = now
 		near_misses += 1
