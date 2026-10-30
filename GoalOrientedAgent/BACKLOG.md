@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-10-30 13:37 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-10-30 14:06 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -39,6 +39,7 @@ _Generated 2026-10-30 13:37 by the Goal-Oriented Agent. Do not edit by hand; the
 | T39 | **7** | Generate the open arc lamp model | asset | Creator with the Asset agent | M | open |
 | T41 | **7** | Generate updated models for Ted, Arthur and Daniel | asset | Creator with the Asset agent | L | open |
 | T40 | **6** | Open lamp in the diagnosis; the fitted burner disappears and the lamp closes with light emanating | code | Gameplay / Systems agent | M | open |
+| T42 | **6** | Generate the buoy models for the sea hazards | asset | Creator with the Asset agent | M | open |
 | T19 | **5** | Set a placeholder deadline length and write the crossing-penalty values | decision | Production Orchestrator | S | open |
 | T18 | **4** | Review the rewritten opening lines and re-record the six changed voice lines | dialogue | Dialogue agent | M | open |
 | T38 | **4** | Texture the lighthouse exterior's plain patches (back-west corner panels, fills under the back windows) | art | Lighthouse Finisher Agent | S | open |
@@ -114,6 +115,15 @@ Once the open arc lamp model exists: show the open lamp from the start until the
 - **Evidence:** Creator, 30 Oct 2026: the replacement burner simply disappears and the lamp appears closed with light emanating; scripts/world/interior/lamp_socket.gd, lamp_beacon.gd
 - **Blocked by:** Task: generate the open arc lamp model.
 - **Depends on:** T39 (still open: T39)
+
+### T42 [6/10] Generate the buoy models for the sea hazards  (open)
+
+The buoy hazards in the crossing (scripts/world/crossing_hazards.gd, _buoy) are built from primitives: a red body with a blinking light. Generate proper buoy models (at least the red channel buoy the forecast names; ideally a second variant, e.g. a green or striped one, and a bell buoy since the audio mixer has a bell) in the same style as the other sea props, with a base that sits on the waterline, a mast or cage for the blinking lamp, and a collision size that matches data/world/boat_spec.json and crossing_sequence.json (the buoy radius_m). Import with tools/import_scale_pivot.gd (add a buoy category or per-file height), downscale the texture to 2048, then swap the model into _buoy and keep the blinking light and near-miss radius. Run main_asset.py --check-only before any FAL submission (credits: ask first).
+
+- **Why 6:** The hazards are the sea's main readable obstacle on the return; primitive buoys look like placeholders next to the generated rocks and ship. Not higher because it does not block the slice.
+- **Evidence:** Creator, 30 Oct 2026: additional backlog item is to generate assets for the buoys in the sea; scripts/world/crossing_hazards.gd
+- **Blocked by:** Creator generates or approves the models; credits.
+- **Needs the creator** (cannot be done by the agent alone)
 
 ### T19 [5/10] Set a placeholder deadline length and write the crossing-penalty values  (open)
 

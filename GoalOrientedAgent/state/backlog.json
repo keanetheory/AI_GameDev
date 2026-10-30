@@ -1554,6 +1554,26 @@
       "depends_on": [],
       "status": "open",
       "result": null
+    },
+    {
+      "id": "T42",
+      "title": "Generate the buoy models for the sea hazards",
+      "priority": 6,
+      "category": "asset",
+      "summary": "The buoy hazards in the crossing (scripts/world/crossing_hazards.gd, _buoy) are built from primitives: a red body with a blinking light. Generate proper buoy models (at least the red channel buoy the forecast names; ideally a second variant, e.g. a green or striped one, and a bell buoy since the audio mixer has a bell) in the same style as the other sea props, with a base that sits on the waterline, a mast or cage for the blinking lamp, and a collision size that matches data/world/boat_spec.json and crossing_sequence.json (the buoy radius_m). Import with tools/import_scale_pivot.gd (add a buoy category or per-file height), downscale the texture to 2048, then swap the model into _buoy and keep the blinking light and near-miss radius. Run main_asset.py --check-only before any FAL submission (credits: ask first).",
+      "why_this_score": "The hazards are the sea's main readable obstacle on the return; primitive buoys look like placeholders next to the generated rocks and ship. Not higher because it does not block the slice.",
+      "evidence": [
+        "Creator, 30 Oct 2026: additional backlog item is to generate assets for the buoys in the sea",
+        "scripts/world/crossing_hazards.gd"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Creator with the Asset agent",
+      "effort": "M",
+      "agent_can_execute": false,
+      "blocked_by": "Creator generates or approves the models; credits.",
+      "depends_on": [],
+      "status": "open",
+      "result": null
     }
   ],
   "history": [
@@ -1802,6 +1822,12 @@
       "task_id": "T41",
       "event": "added",
       "note": "Creator, 31 Oct 2026"
+    },
+    {
+      "time": "2026-10-30T14:06:27",
+      "task_id": "T42",
+      "event": "added",
+      "note": "Creator asked for buoy assets (30 Oct 2026)"
     }
   ]
 }

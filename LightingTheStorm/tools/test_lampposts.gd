@@ -95,9 +95,12 @@ func _run() -> void:
 	var l0: float = by_id["Lamppost_Saltgate_Dock"]["light"].light_energy
 	lp._process(0.4)
 	_check(absf(by_id["Lamppost_Saltgate_Dock"]["light"].light_energy - l0) > 0.001, "the gas light flickers")
+	var lamp_light: OmniLight3D = by_id["Lamppost_Saltgate_Dock"]["light"]
+	var lh: float = lamp_light.global_position.y - salt.global_position.y
+	_check(lh > 2.7 and lh < 3.2 and absf(lamp_light.global_position.x - salt.global_position.x) < 0.05, "the light comes from the lantern head, %.2f m up the post on its axis" % lh)
 	var lit := 0
 	for n in _lv.find_children("*", "OmniLight3D", true, false):
 		if (n as OmniLight3D).is_visible_in_tree():
 			lit += 1
-	print("     live OmniLights with the player at the Saltgate: %d (Lighting budget max_dynamic_lights 16, see handoff)" % lit)
+	print("     live OmniLights with the player at the Saltgate: %d (Lighting budget max_dynamic_lights 18, see handoff)" % lit)
 	print("RESULT: %s (%d failed)" % ["OK" if _fails == 0 else "FAILED", _fails])
