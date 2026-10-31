@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-10-30 19:08 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-10-31 09:39 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -38,15 +38,12 @@ _Generated 2026-10-30 19:08 by the Goal-Oriented Agent. Do not edit by hand; the
 |---|---|---|---|---|---|---|
 | T44 | **8** | Polish the passenger ship: light it properly | scene | Lighting agent with the creator | M | open |
 | T45 | **8** | List the greyboxed lighthouse props and plan their FAL replacements | asset | Asset agent | M | open |
-| T46 | **8** | Remove the random orbs of light in the lighthouse stairwell | scene | Level Layout agent | S | open |
 | T47 | **8** | Fix the clipping in the stairwell where the external mesh comes through | scene | Level Layout agent | M | open |
 | T50 | **8** | Generate the dialogue lines and their timings; onboard the music and its cues (Tuesday) | dialogue | Creator with the Dialogue and Audio agents | L | open |
 | T53 | **8** | Create the playtest QA agents and a web deployment agent for itch.io (Tuesday evening) | code | Creator with the GOA / GER framework | L | open |
 | T48 | **7** | Rebuild the L2 room: remove the stick in the bathroom and replace its props with FAL models | scene | Lighthouse Interior Creator with the creator | L | open |
 | T49 | **7** | Regenerate the Saltgate burner pickup area and replace the landing with a walk-in hut | scene | Saltgate Creator with the creator | L | open |
 | T52 | **7** | Review all dialogue for snark and humour | dialogue | Creator with the Dialogue agent | M | open |
-| T56 | **7** | Toggle the controls list with C | code | Gameplay / UI agent | S | open |
-| T58 | **7** | Remove the automatic lighting of the lighthouse when the player steps close to it | scene | Lighting agent | S | open |
 | T42 | **6** | Generate the buoy models for the sea hazards | asset | Creator with the Asset agent | M | open |
 | T43 | **6** | Generate a chair for Daniel in front of the boiler | asset | Creator with the Asset agent | S | open |
 | T51 | **6** | Decide where the characters look during specific lines (the Arthur and Ted opening) | dialogue | Creator with the Dialogue agent | M | open |
@@ -74,6 +71,7 @@ _Generated 2026-10-30 19:08 by the Goal-Oriented Agent. Do not edit by hand; the
 | T09 | **8** | Decide the fail reason line, deliverer and audio-only fail alternative | decision | Canon and Review Orchestrator | S | done |
 | T10 | **8** | Integrate the crossing crew's hazard forecast: data file, loader, placed buoys/debris, Arthur calls | code | Hazard Forecast agent | M | done |
 | T37 | **8** | Ted's fail dialogue at SHIP_FAIL: write, record and wire it | dialogue | Dialogue agent | S | done |
+| T46 | **8** | Remove the random orbs of light in the lighthouse stairwell | scene | Level Layout agent | S | done |
 | T54 | **8** | Goal tracker in the upper right of the screen | code | Gameplay / UI agent | M | done |
 | T55 | **8** | On-screen controls in the lower right of the screen | code | Gameplay / UI agent | S | done |
 | T11 | **7** | Put Arthur aboard and add the arrival 'go go go' beat on the lighthouse dock | code | Gameplay / Systems agent | M | done |
@@ -83,6 +81,8 @@ _Generated 2026-10-30 19:08 by the Goal-Oriented Agent. Do not edit by hand; the
 | T35 | **7** | Review how findable the lighthouse is on the return now the eclipse darkens the world | decision | Lighting agent | S | done |
 | T39 | **7** | Generate the open arc lamp model | asset | Creator with the Asset agent | M | done |
 | T41 | **7** | Generate updated models for Ted, Arthur and Daniel | asset | Creator with the Asset agent | L | done |
+| T56 | **7** | Toggle the controls list with C | code | Gameplay / UI agent | S | done |
+| T58 | **7** | Remove the automatic lighting of the lighthouse when the player steps close to it | scene | Lighting agent | S | done |
 | T14 | **6** | Placeholder audio: wind, rain, machinery, buoy bell, foghorn, ship impact, mix by phase | audio | Sound agent | M | done |
 | T15 | **6** | Decide whether the prototype needs controller support, then add bindings and prompts | decision | Player Movement agent | M | done |
 | T16 | **6** | Fix the final list of Ted's lamp-room lines to record | decision | Dialogue agent | S | done |
@@ -119,13 +119,6 @@ Inventory every prop in the lighthouse (basement, ground floor, L1, L2, lamp roo
 
 - **Why 8:** The interior is built in code from primitives; the creator wants real FAL props. The list has to come first so the credits are spent once.
 - **Evidence:** Creator, 30 Oct 2026: we need to list out the remaining props in the lighthouse that have been greyboxed so we can generate FAL replacements for them; scripts/world/interior/
-
-### T46 [8/10] Remove the random orbs of light in the lighthouse stairwell  (open)
-
-There are floating orbs of light in the stairwell of the lighthouse. Find where they come from (stair or landing lamps built in scripts/world/interior/stairs or lighting code, emissive spheres, OmniLight head meshes, or fog volumes), remove them, and keep the stairwell lit by the intended sources only. Check the light count stays within max_dynamic_lights 18 and run test_rain_shelter.gd, test_interior_anchors.gd and test_sightlines.gd.
-
-- **Why 8:** A visible bug in a place the player passes through on every run.
-- **Evidence:** Creator, 30 Oct 2026: there are random orbs of light in the stairwell of the lighthouse, we need to remove those
 
 ### T47 [8/10] Fix the clipping in the stairwell where the external mesh comes through  (open)
 
@@ -180,21 +173,6 @@ Read the whole slice's dialogue (data/dialogue/dialogue_opening.json, every spea
 - **Blocked by:** Creator sign-off; best after the Tuesday dialogue session.
 - **Depends on:** T50 (still open: T50)
 - **Needs the creator** (cannot be done by the agent alone)
-
-### T56 [7/10] Toggle the controls list with C  (open)
-
-Add a 'Toggle controls (C)' prompt to the controls list (T55, scripts/ui/guidance_hud.gd, data/world/controls.json). Pressing C shrinks the controls view to a single small line, 'Controls (C)', and pressing it again opens the full list. Add a 'toggle_controls' action to the input map (project.godot, physical key C) so the key shows in the list itself ('C  Hide controls'), remember the choice for the rest of the session (and across a restart), keep it working while paused and at the helm, and replace the 45-second dimming with this (or keep the dim only while open: ask). Check C does not clash with another binding or with typing in the title and settings screens. Extend tools/test_guidance_hud.gd (the shrink, the second press, the key name from the input map, the choice surviving a restart) and QA_SCENARIOS.md S19.
-
-- **Why 7:** The creator wants the controls out of the way once learned; a small, cheap follow-up to T55.
-- **Evidence:** Creator, 30 Oct 2026: put a 'toggle controls (c)' prompt. if the player hits c it shrinks the control view to just 'controls (c)'; scripts/ui/guidance_hud.gd
-- **Depends on:** T55 (all closed)
-
-### T58 [7/10] Remove the automatic lighting of the lighthouse when the player steps close to it  (open)
-
-When the player walks close to the lighthouse exterior, its lighting changes automatically (a proximity effect). Remove it: the lighthouse should be lit by the phase lighting (lighting_rig.gd, data/world/lighting_spec.json, the beacon only when the burner is fitted) and not by the player's distance. Find the source (an Area3D or a distance check in scripts/world/lighting_rig.gd, lighthouse exterior lights, the toon look or an exterior light that switches on near the player), remove or disable it without changing the phase lighting, keep the light count within max_dynamic_lights 18, and check with screenshots from far and near (tools/shot_hud.gd style) and tests/test_lighting*.gd, test_toon.gd, test_slice_playthrough.gd.
-
-- **Why 7:** A visible pop that breaks the mood and the beacon moment; the creator asked for it to go.
-- **Evidence:** Creator, 30 Oct 2026: remove the auto lighting of the lighthouse when you step close to it; scripts/world/lighting_rig.gd
 
 ### T42 [6/10] Generate the buoy models for the sea hazards  (open)
 
@@ -475,6 +453,14 @@ At SHIP_FAIL Ted delivers fail dialogue wherever the player is (creator, 26 Oct 
 - **Depends on:** T07 (all closed)
 - **Result (done):** Written, picked and wired 29-30 Oct 2026 (TED_F_01, TED_F_03).
 
+### T46 [8/10] Remove the random orbs of light in the lighthouse stairwell  (done)
+
+There are floating orbs of light in the stairwell of the lighthouse. Find where they come from (stair or landing lamps built in scripts/world/interior/stairs or lighting code, emissive spheres, OmniLight head meshes, or fog volumes), remove them, and keep the stairwell lit by the intended sources only. Check the light count stays within max_dynamic_lights 18 and run test_rain_shelter.gd, test_interior_anchors.gd and test_sightlines.gd.
+
+- **Why 8:** A visible bug in a place the player passes through on every run.
+- **Evidence:** Creator, 30 Oct 2026: there are random orbs of light in the stairwell of the lighthouse, we need to remove those
+- **Result (done):** 31 Oct 2026: the orbs were the additive halos of the eight bare Spiral lights (no fixture) and of wall lamps (the real light hangs half a metre out from the bulb). room_light_cards.gd now gives a halo only to a light with its own glass or bulb, centred on it. test_room_lights.gd checks it.
+
 ### T54 [8/10] Goal tracker in the upper right of the screen  (done)
 
 Keep a goal tracker in the upper right corner of the screen so the player always knows what to do next. One short current objective (for example 'Shovel coal into the boiler', 'Open the island gate', 'Go up to the lamp room', 'Board the launch', 'Collect the replacement burner from the Saltgate', 'Fit the burner into the arc lamp'), driven by GameState: the phase and the story events in order (ARRIVAL_AND_COAL through RESOLUTION, see QA_SCENARIOS.md), with the objective text and the event that completes it in a data file (data/world/goals.json) so it can be retuned without code. A CanvasLayer HUD in the corner in the game's style guide (readable on the dark storm, a small heading, one line, a short tick or fade when a goal is done, no clutter), hidden on the title, the outcome screens and while paused if the pause overlay already shows it. Sub-steps where a phase has several jobs (coal then boiler then door). The hidden deadline clock must stay hidden: the tracker never shows time. Needs a test (every phase has a goal, goals advance with the events, restart resets it) and an entry in QA_SCENARIOS.md. Check it does not cover the interaction prompt or the subtitles, and works at 16:9 and narrower widths.
@@ -559,6 +545,23 @@ Ted is the rigged test character (Assets/Characters/ted.glb: walking, running an
 - **Blocked by:** Creator generates or approves the models; credits.
 - **Needs the creator** (cannot be done by the agent alone)
 - **Result (done):** 30 Oct 2026: Ted, Arthur and Daniel are Meshy models on the shared Mixamo skeleton with jaw bones (tools/add_jaw_bone.py), clips wired in npc.gd and tested (test_ted_anim, test_arthur_anim, test_daniel_anim). Daniel has no idle clip yet; the seated clips use a small plank on the boats; the models have not been seen in the running level.
+
+### T56 [7/10] Toggle the controls list with C  (done)
+
+Add a 'Toggle controls (C)' prompt to the controls list (T55, scripts/ui/guidance_hud.gd, data/world/controls.json). Pressing C shrinks the controls view to a single small line, 'Controls (C)', and pressing it again opens the full list. Add a 'toggle_controls' action to the input map (project.godot, physical key C) so the key shows in the list itself ('C  Hide controls'), remember the choice for the rest of the session (and across a restart), keep it working while paused and at the helm, and replace the 45-second dimming with this (or keep the dim only while open: ask). Check C does not clash with another binding or with typing in the title and settings screens. Extend tools/test_guidance_hud.gd (the shrink, the second press, the key name from the input map, the choice surviving a restart) and QA_SCENARIOS.md S19.
+
+- **Why 7:** The creator wants the controls out of the way once learned; a small, cheap follow-up to T55.
+- **Evidence:** Creator, 30 Oct 2026: put a 'toggle controls (c)' prompt. if the player hits c it shrinks the control view to just 'controls (c)'; scripts/ui/guidance_hud.gd
+- **Depends on:** T55 (all closed)
+- **Result (done):** 31 Oct 2026: C (new toggle_controls input action) shrinks the controls list to 'Controls (C)' and opens it again; kept across a restart; the list says 'C Hide controls'. test_guidance_hud.gd.
+
+### T58 [7/10] Remove the automatic lighting of the lighthouse when the player steps close to it  (done)
+
+When the player walks close to the lighthouse exterior, its lighting changes automatically (a proximity effect). Remove it: the lighthouse should be lit by the phase lighting (lighting_rig.gd, data/world/lighting_spec.json, the beacon only when the burner is fitted) and not by the player's distance. Find the source (an Area3D or a distance check in scripts/world/lighting_rig.gd, lighthouse exterior lights, the toon look or an exterior light that switches on near the player), remove or disable it without changing the phase lighting, keep the light count within max_dynamic_lights 18, and check with screenshots from far and near (tools/shot_hud.gd style) and tests/test_lighting*.gd, test_toon.gd, test_slice_playthrough.gd.
+
+- **Why 7:** A visible pop that breaks the mood and the beacon moment; the creator asked for it to go.
+- **Evidence:** Creator, 30 Oct 2026: remove the auto lighting of the lighthouse when you step close to it; scripts/world/lighting_rig.gd
+- **Result (done):** 31 Oct 2026: interior_lights.gd only turns the interior lights on while the player is inside the building (or on the upper floors); from outside, the hall lights used to fade up near the door and wash the front wall and steps orange. test_interior_lights.gd now asserts no interior light outside; test_room_lights.gd stands the player on a real floor.
 
 ### T14 [6/10] Placeholder audio: wind, rain, machinery, buoy bell, foghorn, ship impact, mix by phase  (done)
 

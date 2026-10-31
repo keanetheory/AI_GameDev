@@ -180,6 +180,19 @@ func _quad(parent: Node, nm: String, size: Vector2, mat: Material) -> MeshInstan
 	return mi
 
 
+## The lamp fixture's bulb for a light: the glass or bulb sphere the room scripts name after it ("X_Light" has "X_Glass" or "X_Bulb"), or
+## null for a bare light with no fixture (the stair and hall lights placed in Level.tscn).
+func _bulb(l: OmniLight3D) -> Node3D:
+	var parent := l.get_parent()
+	if parent == null:
+		return null
+	for tail in ["_Glass", "_Bulb"]:
+		var n := parent.get_node_or_null(String(l.name).replace("_Light", tail))
+		if n is Node3D and n != l:
+			return n as Node3D
+	return null
+
+
 func _add_lamp(space: PhysicsDirectSpaceState3D, l: OmniLight3D) -> void:
 	var pos := l.global_position
 	var fy := _floor_below(space, pos)
@@ -202,10 +215,15 @@ func _add_lamp(space: PhysicsDirectSpaceState3D, l: OmniLight3D) -> void:
 		mi.set_instance_shader_parameter("tint", col)
 		mi.set_instance_shader_parameter("alpha", 0.3)
 		pools[l] = mi
+	# The halo belongs on a bulb, never in the air: a real light hangs half a metre out from its wall lamp, and a bare light has no fixture
+	# at all (the eight Spiral lights on the stairs), so a halo on either floated as a glowing orb in the stairwell (creator, 31 Oct 2026, T46).
+	var bulb := _bulb(l)
+	if bulb == null:
+		return
 	var h := Node3D.new()
 	h.name = "Halo_" + String(l.name)
 	add_child(h)
-	h.global_position = pos
+	h.global_position = bulb.global_position
 	var hm := _quad(h, "Quad", Vector2(0.75, 0.75), _halo_mat)
 	hm.set_instance_shader_parameter("tint", col)
 	hm.set_instance_shader_parameter("alpha", 0.5)

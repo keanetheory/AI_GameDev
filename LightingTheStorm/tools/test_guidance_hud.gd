@@ -129,6 +129,22 @@ func _run() -> void:
 		for r in hud.controls_rows(m):
 			named = named and r["keys"] != "?" and r["keys"] != ""
 	_check(named, "every control has a key name")
+	# C hides the list down to "Controls (C)" and brings it back; the choice outlives the level
+	_check(_row(foot, "Hide controls") == "C" and _row(helm, "Hide controls") == "C", "the list itself says C hides the controls (the key read from the input map)")
+	var Hud := load("res://scripts/ui/guidance_hud.gd") as GDScript
+	_check(Hud.controls_open and h2._ctl_grid.visible and not h2._ctl_collapsed.visible, "the controls start open")
+	var press := InputEventAction.new()
+	press.action = "toggle_controls"
+	press.pressed = true
+	h2._unhandled_input(press)
+	_check(not Hud.controls_open and not h2._ctl_grid.visible and h2._ctl_collapsed.visible and h2._ctl_collapsed.text == "Controls (C)" and h2._ctl_panel.size.y < 50.0, "pressing C shrinks the list to just \"%s\" (%.0f px tall)" % [h2._ctl_collapsed.text, h2._ctl_panel.size.y])
+	var h3: CanvasLayer = Hud.new()
+	root.add_child(h3)
+	h3.setup(sn, _lv)
+	_check(h3._ctl_collapsed.visible and not h3._ctl_grid.visible, "a restart (a new HUD) keeps it collapsed")
+	h2._unhandled_input(press)
+	_check(Hud.controls_open and h2._ctl_grid.visible and not h2._ctl_collapsed.visible, "pressing C again opens the full list")
+	h3.queue_free()
 	hud._set_mode("AT_HELM")
 	_check(hud.mode == "AT_HELM" and hud._ctl_grid.get_child_count() == helm.size() * 2, "the list switches to the helm rows")
 	hud._set_mode("ON_FOOT")

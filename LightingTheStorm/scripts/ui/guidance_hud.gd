@@ -7,6 +7,8 @@
 #   - Controls: the keys for what the player is doing now (ON_FOOT, or AT_HELM while seated in the launch), from
 #     data/world/controls.json, with the key names read from the real input map so they cannot drift from the bindings. It stays at
 #     full strength for the first dim_after_s seconds and after the mode changes, then settles back to dim_alpha.
+#   - C (the toggle_controls action) shrinks the list to a single small "Controls (C)" line and opens it again; the choice is kept for
+#     the rest of the session and across a restart (the static below outlives the level).
 #   - Both hide when the attempt resolves (the Failed screen and the win card take over the screen) and while the title is up.
 # Look: the style guide's silver and amber on a dark translucent panel, small type.
 extends CanvasLayer
@@ -20,6 +22,7 @@ const TICK := Color(0.62, 0.78, 0.6)
 var goals: Array = []
 var goal_spec: Dictionary = {}
 var controls_spec: Dictionary = {}
+static var controls_open := true  # kept across a restart: the script, not the level, holds it
 var shown_goal := -1             # index of the goal on screen (-1 before the first frame)
 var mode := ""                   # ON_FOOT or AT_HELM
 
@@ -30,6 +33,7 @@ var _goal_label: Label
 var _ctl_panel: PanelContainer
 var _ctl_grid: GridContainer
 var _ctl_heading: Label
+var _ctl_collapsed: Label
 var _flash_left := 0.0
 var _t := 0.0
 var _bright_left := 0.0
@@ -45,7 +49,28 @@ func setup(gs: Node, _level: Node) -> void:
 	goals = goal_spec.get("goals", [])
 	_build()
 	_set_mode(_current_mode())
+	_apply_open()
 	_show_goal(active_index())
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("toggle_controls") and not event.is_echo():
+		toggle_controls()
+		get_viewport().set_input_as_handled()
+
+
+func toggle_controls() -> void:
+	controls_open = not controls_open
+	_apply_open()
+
+
+## The full list, or just "Controls (C)".
+func _apply_open() -> void:
+	_ctl_heading.visible = controls_open
+	_ctl_grid.visible = controls_open
+	_ctl_collapsed.visible = not controls_open
+	_ctl_collapsed.text = "%s (%s)" % [String(controls_spec.get("collapsed_label", "Controls")), key_name("toggle_controls")]
+	_ctl_panel.reset_size()
 
 
 func _read(path: String) -> Dictionary:
@@ -241,4 +266,8 @@ func _build() -> void:
 	_ctl_grid.add_theme_constant_override("h_separation", 12)
 	_ctl_grid.add_theme_constant_override("v_separation", 2)
 	(c[1] as VBoxContainer).add_child(_ctl_grid)
+	_ctl_collapsed = Label.new()
+	_ctl_collapsed.add_theme_color_override("font_color", SILVER)
+	_ctl_collapsed.add_theme_font_size_override("font_size", 14)
+	(c[1] as VBoxContainer).add_child(_ctl_collapsed)
 	_corner(_ctl_panel, true)

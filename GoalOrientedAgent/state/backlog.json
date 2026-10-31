@@ -1660,8 +1660,11 @@
       "agent_can_execute": true,
       "blocked_by": "",
       "depends_on": [],
-      "status": "open",
-      "result": null
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "31 Oct 2026: the orbs were the additive halos of the eight bare Spiral lights (no fixture) and of wall lamps (the real light hangs half a metre out from the bulb). room_light_cards.gd now gives a halo only to a light with its own glass or bulb, centred on it. test_room_lights.gd checks it."
+      }
     },
     {
       "id": "T47",
@@ -1870,8 +1873,11 @@
       "depends_on": [
         "T55"
       ],
-      "status": "open",
-      "result": null
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "31 Oct 2026: C (new toggle_controls input action) shrinks the controls list to 'Controls (C)' and opens it again; kept across a restart; the list says 'C Hide controls'. test_guidance_hud.gd."
+      }
     },
     {
       "id": "T57",
@@ -1911,8 +1917,11 @@
       "agent_can_execute": true,
       "blocked_by": "",
       "depends_on": [],
-      "status": "open",
-      "result": null
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "31 Oct 2026: interior_lights.gd only turns the interior lights on while the player is inside the building (or on the upper floors); from outside, the hall lights used to fade up near the door and wash the front wall and steps orange. test_interior_lights.gd now asserts no interior light outside; test_room_lights.gd stands the player on a real floor."
+      }
     },
     {
       "id": "T59",
@@ -2331,6 +2340,24 @@
       "task_id": "T59",
       "event": "added",
       "note": "Creator, 30 Oct 2026"
+    },
+    {
+      "time": "2026-10-31T09:39:06",
+      "task_id": "T56",
+      "event": "done",
+      "note": "31 Oct 2026: C (new toggle_controls input action) shrinks the controls"
+    },
+    {
+      "time": "2026-10-31T09:39:06",
+      "task_id": "T58",
+      "event": "done",
+      "note": "31 Oct 2026: interior_lights.gd only turns the interior lights on whil"
+    },
+    {
+      "time": "2026-10-31T09:39:06",
+      "task_id": "T46",
+      "event": "done",
+      "note": "31 Oct 2026: the orbs were the additive halos of the eight bare Spiral"
     }
   ]
 }

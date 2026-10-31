@@ -51,7 +51,22 @@ func _physics_process(_d: float) -> bool:
 			_rig = get_first_node_in_group("lighting_rig")
 			_ok(_rc.built, "light cards built: %d pools, %d halos, %d window pools" % [_rc.pools.size(), _rc.halos.size(), _rc.window_pools.size()])
 			var n: int = _mgr._lights.size()
-			_ok(_rc.halos.size() == n and _rc.pools.size() >= int(n * 0.55), "every interior lamp has a halo and most have a floor pool (a lamp hung over the stairwell hole has none: the pool would float over the hole) (%d lamps)" % n)
+			_ok(_rc.pools.size() >= int(n * 0.55), "most interior lamps have a floor pool (a lamp hung over the stairwell hole has none: the pool would float over the hole) (%d lamps)" % n)
+			# T46: a halo sits on a lamp's own bulb. A bare light with no fixture (the Spiral lights on the stairs) has none, and none hangs in the air
+			var floating := 0
+			var bare_with_halo := 0
+			for hl in _rc.halos:
+				var bulb: Node3D = _rc._bulb(hl)
+				if bulb == null:
+					bare_with_halo += 1
+				elif bulb.global_position.distance_to((_rc.halos[hl] as Node3D).global_position) > 0.05:
+					floating += 1
+			_ok(_rc.halos.size() >= 5 and floating == 0 and bare_with_halo == 0, "every halo sits on its lamp's bulb: %d halos, %d floating, %d on a bare light" % [_rc.halos.size(), floating, bare_with_halo])
+			var spiral_halos := 0
+			for hl2 in _rc.halos:
+				if String((hl2 as Node).name).begins_with("Spiral"):
+					spiral_halos += 1
+			_ok(spiral_halos == 0, "the stair lights (Spiral1 to 8) have no halo, so no orb floats in the stairwell")
 			_ok(_rc.window_pools.size() == 9, "all 9 windows have window light (%d)" % _rc.window_pools.size())
 			var own := _count_lights(_rc)
 			_ok(own == 0, "the cards add no Light3D nodes (%d)" % own)
@@ -78,7 +93,8 @@ func _physics_process(_d: float) -> bool:
 				elif String(l.name).begins_with("L1_WashLamp"):
 					wash_c = l.light_color
 			_ok(boiler_c.r > 0.9 and boiler_c.b < 0.3 and wash_c.b > boiler_c.b + 0.4, "room colours: boiler %s, wash room %s" % [boiler_c, wash_c])
-			(_lv.get_node("Player") as Node3D).global_position = Vector3(5.2, 16.0, -9.0)
+			# stand on a real floor inside the building (the interior lights only come on for a player inside; (5.2, 16, -9) has no floor and the player fell outside)
+			(_lv.get_node("Player") as Node3D).global_position = (_lv.get_node("InteriorAnchors").anchors["l1_ring"] as Node3D).global_position + Vector3(0, 0.05, 0)
 			_wait = 70
 			_step = 3
 		3:

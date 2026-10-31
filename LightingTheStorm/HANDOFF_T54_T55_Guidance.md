@@ -27,6 +27,10 @@ godot --path . --resolution 1280x720 --script res://tools/shot_hud.gd -- out.png
 - The controls list is built from the input map (key names follow the player's keyboard layout), so a rebound key changes it. On foot: WASD move, mouse look, Shift sprint, Space jump, E interact, J journal, P pause, Esc free the mouse. At the helm (the player seated in the launch): A / D steer, E cast off, Q step ashore, J, P. The debug keys are not listed. It is at full strength for 45 s, dims to half, and comes back for 6 s whenever the mode changes.
 - A render of the real level at 1280 x 720 shows the tracker upper right, the controls lower right, the subtitles centred clear of both and the "Journal updated" note under the tracker.
 
+## 4b. Follow-up (31 Oct 2026, T56)
+
+C (the new `toggle_controls` input action, physical key C) shrinks the controls list to one small "Controls (C)" line and opens it again. The list itself now ends with "C  Hide controls". The choice is a static on the script, so it survives a restart. Tested in `test_guidance_hud.gd`.
+
 ## 5. Not verified
 
 - Not played: legibility over the bright sky and the dark interior, the pace of the goals, and whether the wording reads right in Ted's world.

@@ -3,6 +3,9 @@
 # 2 shadow casters (data/world/lighting_spec.json), and all 15 were live with shadows. This keeps them all in the scene
 # but turns on only the few nearest the player: at most MAX_LIVE are lit at once, and only the nearest MAX_SHADOWS cast
 # shadows. Lights fade in and out so nothing pops. Put it on the LighthouseInteriorLights node.
+# They only come on while the player is INSIDE the building (GameState.player_inside_building): from outside, the hall lights
+# used to fade up as the player walked to the door and wash the front wall and the steps orange (creator, 31 Oct 2026, T58).
+# A level without GameState (a test's stand-in) keeps the old distance-only rule.
 extends Node3D
 
 const MAX_LIVE := 6          # of the 8-light scene budget, leaving 2 for the beacon and the player's own light
@@ -43,10 +46,11 @@ func _process(delta: float) -> void:
 	var order: Array[OmniLight3D] = _lights.duplicate()
 	order.sort_custom(func(a: OmniLight3D, b: OmniLight3D) -> bool: return a.global_position.distance_squared_to(pos) < b.global_position.distance_squared_to(pos))
 	var live := 0
+	var inside := _player_inside()
 	for i in order.size():
 		var l := order[i]
 		var want := 0.0
-		if live < MAX_LIVE and l.global_position.distance_to(pos) < l.omni_range + RANGE_EXTRA:
+		if inside and live < MAX_LIVE and l.global_position.distance_to(pos) < l.omni_range + RANGE_EXTRA:
 			want = 1.0
 			live += 1
 		_level[l] = move_toward(_level[l], want, fade_per_s * delta)
@@ -55,6 +59,20 @@ func _process(delta: float) -> void:
 		l.light_energy = _base[l] * _level[l] * wob
 		l.visible = _level[l] > 0.01
 		l.shadow_enabled = want > 0.0 and live <= MAX_SHADOWS
+
+
+func _player_inside() -> bool:
+	var gs := get_node_or_null("/root/GameState")
+	if gs == null or not gs.has_method("player_inside_building") or gs.get("_level_root") == null:
+		return true
+	if gs.player_inside_building():
+		return true
+	# the upper floors of the house (the keeper's quarters, the hut) lie outside the ground-floor footprint GameState tests
+	var p := get_tree().get_first_node_in_group("player") as Node3D
+	if p == null:
+		return false
+	var d := Vector2(p.global_position.x - global_position.x, p.global_position.z - global_position.z).length()
+	return p.global_position.y > global_position.y + 2.4 and d < 14.0
 
 
 ## For tests: how many interior lights are lit, and how many of those cast shadows.
