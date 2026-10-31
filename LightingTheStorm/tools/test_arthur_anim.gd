@@ -1,6 +1,6 @@
 # test_arthur_anim.gd - run: Godot --headless --path . --script res://tools/test_arthur_anim.gd
-# Arthur's Meshy rig (Assets/Characters/arthur.glb, 30 Oct 2026): Idle_3 standing, Walking walking, Talk_with_Right_Hand_Open while one
-# of his own lines plays, Chair_Sit_Idle_M on a seat (on a plank, put away when he stands), a jaw that opens while he speaks, 1.78 m tall.
+# Arthur's FAL mesh on the Meshy rig (Assets/Characters/arthur.glb, 31 Oct 2026): Idle_3 (Ted's) standing (also while he speaks: no talking
+# clip in his download), Walking walking, Chair_Sit_Idle_M on a seat (on a plank, put away when he stands), a jaw that opens while he speaks, 1.78 m tall.
 extends SceneTree
 
 var _arthur: Node3D
@@ -36,12 +36,12 @@ func _process(_d: float) -> bool:
 	if _f == 4:
 		var a: AnimationPlayer = _arthur._anim
 		_check(a != null, "Arthur has an AnimationPlayer (his own model, not a capsule)")
-		for c in ["Idle_3", "Walking", "Talk_with_Right_Hand_Open", "Chair_Sit_Idle_M"]:
+		for c in ["Idle_3", "Walking", "Chair_Sit_Idle_M"]:
 			_check(a.has_animation(c) and a.get_animation(c).loop_mode == Animation.LOOP_LINEAR, "%s is there and loops" % c)
 		_check(a.current_animation == "Idle_3", "standing, he plays Idle_3 (%s)" % a.current_animation)
 		var dlg := root.get_node("Dialogue")
 		dlg.line_started.emit("ARTHUR_X", "ARTHUR", "", "")
-		_check(a.current_animation == "Talk_with_Right_Hand_Open", "his own line plays the talking clip (%s)" % a.current_animation)
+		_check(a.current_animation == "Idle_3", "his own line keeps him in Idle_3 (no talking clip) (%s)" % a.current_animation)
 		dlg.line_finished.emit("ARTHUR_X")
 		_arthur.sit(_seat, Vector3.ZERO)
 		_check(a.current_animation == "Chair_Sit_Idle_M", "on a seat he plays the sit clip (%s)" % a.current_animation)

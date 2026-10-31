@@ -2,19 +2,19 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b3lhwlc0hwm3d"
-path="res://.godot/imported/daniel_texture_0_metallic_roughness.png-11cf5c13d7511510d36a97a38277ed61.ctex"
+uid="uid://vk6fsaivj611"
+path="res://.godot/imported/arthur_texture_20250901.png-be289beda205f5b9f3168ef24d932be2.ctex"
 metadata={
 "vram_texture": false
 }
 generator_parameters={
-"md5": "cee321ec0d80e8a51e2bc1a88b9dd785"
+"md5": "7ff422a01bde616aa7515a9b1c51540f"
 }
 
 [deps]
 
-source_file="res://Assets/Characters/daniel_texture_0_metallic_roughness.png"
-dest_files=["res://.godot/imported/daniel_texture_0_metallic_roughness.png-11cf5c13d7511510d36a97a38277ed61.ctex"]
+source_file="res://Assets/Characters/arthur_texture_20250901.png"
+dest_files=["res://.godot/imported/arthur_texture_20250901.png-be289beda205f5b9f3168ef24d932be2.ctex"]
 
 [params]
 

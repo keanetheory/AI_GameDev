@@ -2,19 +2,19 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5128ixxycby1"
-path="res://.godot/imported/ted_texture_0_metallic_roughness.png-5dc8a7a82c06c8f366737c1fac705353.ctex"
+uid="uid://c1uh0ti4em54y"
+path="res://.godot/imported/ted_texture_20250901.png-f0e714c396d983272e47053151bf8a7b.ctex"
 metadata={
 "vram_texture": false
 }
 generator_parameters={
-"md5": "b912ac211686371314db9de10d978e7d"
+"md5": "79a46d099a3ca0f773129d1ff08fbe6e"
 }
 
 [deps]
 
-source_file="res://Assets/Characters/ted_texture_0_metallic_roughness.png"
-dest_files=["res://.godot/imported/ted_texture_0_metallic_roughness.png-5dc8a7a82c06c8f366737c1fac705353.ctex"]
+source_file="res://Assets/Characters/ted_texture_20250901.png"
+dest_files=["res://.godot/imported/ted_texture_20250901.png-f0e714c396d983272e47053151bf8a7b.ctex"]
 
 [params]
 

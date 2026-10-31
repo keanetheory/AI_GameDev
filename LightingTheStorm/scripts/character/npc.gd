@@ -18,18 +18,19 @@ signal released                 # left a seat
 enum State { IDLE, WALKING, WAITING, FOLLOWING, SEATED }
 
 const LOOKS := {
-	# Arthur is the Meshy "Dockside Outlaw" (30 Oct 2026), same Mixamo rig and jaw bone as Ted: Walking, Idle_3, Talk_with_Right_Hand_Open
-	# while his own line plays, and Chair_Sit_Idle_M on the launch's and the rowboat's seats, held at its halfway point (sit_hold_frac): later in
-	# the clip he leans back and his body goes through the boat (creator, 30 Oct 2026).
-	"ARTHUR": {"model": "res://Assets/Characters/arthur.glb", "height": 1.78, "radius": 0.32, "speed": 1.45, "walk_clip": "Walking", "idle_clip": "Idle_3", "talk_clip": "Talk_with_Right_Hand_Open", "sit_clip": "Chair_Sit_Idle_M", "sit_hold_frac": 0.5, "model_yaw_deg": 180.0, "jaw": true},
-	# Daniel is the Meshy "The Red-Capped Wayfarer" (30 Oct 2026), same Mixamo rig and jaw bone: Walking, Talk_with_Hands_Open while his own
-	# line plays and Sit_Cross_Legged on the rowboat's seat. His download has no standing idle, so he stands in a frozen pose (pose_clip)
-	# until an idle is added in Meshy.
-	"DANIEL": {"model": "res://Assets/Characters/daniel.glb", "height": 1.66, "radius": 0.28, "speed": 1.55, "walk_clip": "Walking", "pose_clip": "Talk_with_Hands_Open", "talk_clip": "Talk_with_Hands_Open", "sit_clip": "Sit_Cross_Legged", "bench_m": 0.42, "model_yaw_deg": 180.0, "jaw": true},
-	# Ted is the rigged character (the Meshy "Ironclad Mariner", 30 Oct 2026): his own model, Walking while he walks, Idle_3 (looping)
-	# when he stands, and Stand_Talking_Angry (looping) while one of his lines is playing. The Meshy rig faces +Z, so the model is turned
+	# Arthur is a FAL Hunyuan v3 mesh rigged in Meshy (31 Oct 2026), same Mixamo rig and jaw bone as Ted: Walking, Idle_3 (Ted's, copied
+	# in by tools/copy_clips.py: his own Idle_03 is a stretch with his hands at his head), and Chair_Sit_Idle_M on the launch's and the
+	# rowboat's seats, held at its halfway point (sit_hold_frac): later in the clip he leans back and his body goes through the boat
+	# (creator, 30 Oct 2026). His download has no talking clip, so he stays in Idle_3 while his jaw moves.
+	"ARTHUR": {"model": "res://Assets/Characters/arthur.glb", "height": 1.78, "radius": 0.32, "speed": 1.45, "walk_clip": "Walking", "idle_clip": "Idle_3", "sit_clip": "Chair_Sit_Idle_M", "sit_hold_frac": 0.5, "model_yaw_deg": 180.0, "jaw": true},
+	# Daniel is a FAL Hunyuan v3 mesh rigged in Meshy (31 Oct 2026), same Mixamo rig and jaw bone: Walking, Talk_Passionately while his own
+	# line plays, Sit_Cross_Legged on the rowboat's seat, and Idle_3 standing (Ted's, copied in by tools/copy_clips.py: his download has
+	# no standing idle).
+	"DANIEL": {"model": "res://Assets/Characters/daniel.glb", "height": 1.66, "radius": 0.28, "speed": 1.55, "walk_clip": "Walking", "idle_clip": "Idle_3", "talk_clip": "Talk_Passionately", "sit_clip": "Sit_Cross_Legged", "bench_m": 0.42, "model_yaw_deg": 180.0, "jaw": true},
+	# Ted is a FAL Hunyuan v3 mesh rigged in Meshy (31 Oct 2026): his own model, Walking while he walks and Idle_3 (looping) when he stands.
+	# His download has no talking clip, so he stays in Idle_3 while his jaw moves. The Meshy rig faces +Z, so the model is turned
 	# 180 degrees about Y to face -Z like everything else.
-	"TED": {"model": "res://Assets/Characters/ted.glb", "height": 1.83, "radius": 0.3, "speed": 1.15, "walk_clip": "Walking", "idle_clip": "Idle_3", "talk_clip": "Stand_Talking_Angry", "model_yaw_deg": 180.0, "jaw": true},
+	"TED": {"model": "res://Assets/Characters/ted.glb", "height": 1.83, "radius": 0.3, "speed": 1.15, "walk_clip": "Walking", "idle_clip": "Idle_3", "model_yaw_deg": 180.0, "jaw": true},
 }
 
 @export var who := "ARTHUR"

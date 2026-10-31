@@ -2,19 +2,19 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://u3gdwudum2yw"
-path="res://.godot/imported/daniel_texture_0.png-98addc10021268358718772d324102f6.ctex"
+uid="uid://jo8q1wo82j8b"
+path="res://.godot/imported/daniel_texture_20250901.png-06a76ee485ccc8af66948f33d84b4b8b.ctex"
 metadata={
 "vram_texture": false
 }
 generator_parameters={
-"md5": "a6f939d32758506d724ec16860087807"
+"md5": "d39b86ad27dcdb6c2fb68849a0937fa3"
 }
 
 [deps]
 
-source_file="res://Assets/Characters/daniel_texture_0.png"
-dest_files=["res://.godot/imported/daniel_texture_0.png-98addc10021268358718772d324102f6.ctex"]
+source_file="res://Assets/Characters/daniel_texture_20250901.png"
+dest_files=["res://.godot/imported/daniel_texture_20250901.png-06a76ee485ccc8af66948f33d84b4b8b.ctex"]
 
 [params]
 
