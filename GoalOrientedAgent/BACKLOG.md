@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-11-01 19:31 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-11-01 19:33 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -10,7 +10,7 @@ _Generated 2026-11-01 19:31 by the Goal-Oriented Agent. Do not edit by hand; the
 
 | ID | Status | Requirement | Source | Evidence |
 |---|---|---|---|---|
-| R01 | MET | Slice starts with the player outside the lighthouse; Ted opens the door ('You're the new guy, then') and the player enters (GAME_STARTED, LIGHTHOUSE_ENTERED). | Exec Summary, Story and gameplay sequence step 1; Technical Strategy Gate 1 and state contract | 1 Nov 2026 re-grade: Built: Ted behind the door, the knock with E, Ted's greeting, the door opens, LIGHTHOUSE_ENTERED (data/world/intro_sequence.json, tools/test_intro_sequence.gd). Covered by tools/test_slice_playthrough.gd (headless golden path). tools/test_title_settings.gd still expects GAME_STARTED at level load; it now fires with the knock, so that check is stale. |
+| R01 | MET | Slice starts with the player outside the lighthouse; Ted opens the door ('You're the new guy, then') and the player enters (GAME_STARTED, LIGHTHOUSE_ENTERED). | Exec Summary, Story and gameplay sequence step 1; Technical Strategy Gate 1 and state contract | 1 Nov 2026 re-grade: Built: Ted behind the door, the knock with E, Ted's greeting, the door opens, LIGHTHOUSE_ENTERED (data/world/intro_sequence.json, tools/test_intro_sequence.gd). Covered by tools/test_slice_playthrough.gd (headless golden path). |
 | R02 | MET | Player feeds the boiler with coal in the basement (first hands-on job); steam comes up and the dynamo runs (BOILER_FED). | Exec Summary step 1 and Decisions log (Repairs); Technical Strategy 'Repairs, shelter and gate' | 1 Nov 2026 re-grade: Boiler coal job in the basement, BOARDING of steam and dynamo (scripts/interaction, tools/test_coal_job.gd); BOILER_FED is in the playthrough's 25 events. |
 | R03 | MET | Ted at the window shows the sailors' rowboat moored at the dock; the player opens the island gate; Arthur and Daniel walk in on a scripted path and Daniel stays in the basement. The rowboat is visibly distinct from the engine boat. | Exec Summary step 2 and 'Two boats'; Technical Strategy shelter and gate sequence | 1 Nov 2026 re-grade: Window moment, moored rowboat, island gate and the sailors' scripted walk-in; Daniel stays in the basement (tools/test_sailors_sequence.gd, test_island_gate.gd, test_npc.gd). |
 | R04 | MET | Beacon diagnosis only after the sailors are in: the dynamo runs, the beacon stays dark, Ted takes the player to the lantern room, opens the arc lamp and finds the burner broken (BEACON_STILL_DARK, LAMP_ROOM_ENTERED, BURNER_DIAGNOSED). | Exec Summary step 3; Technical Strategy state contract | 1 Nov 2026 re-grade: Lantern-room diagnosis after the sailors are in: BEACON_STILL_DARK, LAMP_ROOM_ENTERED, BURNER_DIAGNOSED (tools/test_diagnosis_sequence.gd); Ted opens the arc lamp. |

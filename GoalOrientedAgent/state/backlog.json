@@ -7,7 +7,7 @@
       "text": "Slice starts with the player outside the lighthouse; Ted opens the door ('You're the new guy, then') and the player enters (GAME_STARTED, LIGHTHOUSE_ENTERED).",
       "source": "Exec Summary, Story and gameplay sequence step 1; Technical Strategy Gate 1 and state contract",
       "status": "met",
-      "evidence": "1 Nov 2026 re-grade: Built: Ted behind the door, the knock with E, Ted's greeting, the door opens, LIGHTHOUSE_ENTERED (data/world/intro_sequence.json, tools/test_intro_sequence.gd). Covered by tools/test_slice_playthrough.gd (headless golden path). tools/test_title_settings.gd still expects GAME_STARTED at level load; it now fires with the knock, so that check is stale."
+      "evidence": "1 Nov 2026 re-grade: Built: Ted behind the door, the knock with E, Ted's greeting, the door opens, LIGHTHOUSE_ENTERED (data/world/intro_sequence.json, tools/test_intro_sequence.gd). Covered by tools/test_slice_playthrough.gd (headless golden path)."
     },
     {
       "id": "R02",
