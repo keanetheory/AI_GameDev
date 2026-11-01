@@ -362,10 +362,10 @@ transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.07, 4.4, 539.6)
 script = ExtResource("40")
 
 [node name="SaltgateHutSteps" type="Node3D" parent="."]
-editor_description = "T49: stone steps from the quay deck (3.1 m) up to the pier head and the hut (4.4 m), built like the harbour stairs on the island (full width, parapets both sides, 0.17 m rises, 0.28 m treads). The flight climbs to a top landing (4.6 m) laid over the pier head's kerb, one step down onto the pier head in front of the hut."
+editor_description = "T49: stone steps from the quay deck (3.1 m) up to the pier head and the hut (4.4 m), built like the harbour stairs on the island (full width, parapets both sides, 0.17 m rises, 0.28 m treads). Plain flight, no parapets, ending flush with the pier head top (4.4 m); it starts 1.1 m further up the quay than the first version so the bollard has room (creator, 1 Nov)."
 script = ExtResource("9")
-points = PackedVector3Array(-0.9, 3.1, 540, -0.3, 3.1, 540, 2.2, 4.6, 540, 2.75, 4.6, 540)
-walls = PackedInt32Array(0, 3, 3)
+points = PackedVector3Array(0.2, 3.1, 540, 2.4, 4.4, 540, 2.75, 4.4, 540)
+walls = PackedInt32Array(0, 0)
 base_y = 2.4
 stone = Color(0.14, 0.12, 0.1, 1)
 
