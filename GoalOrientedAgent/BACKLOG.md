@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-10-31 09:39 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-11-01 10:26 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -36,7 +36,6 @@ _Generated 2026-10-31 09:39 by the Goal-Oriented Agent. Do not edit by hand; the
 
 | ID | Score | Task | Category | Owner role | Effort | Status |
 |---|---|---|---|---|---|---|
-| T44 | **8** | Polish the passenger ship: light it properly | scene | Lighting agent with the creator | M | open |
 | T45 | **8** | List the greyboxed lighthouse props and plan their FAL replacements | asset | Asset agent | M | open |
 | T47 | **8** | Fix the clipping in the stairwell where the external mesh comes through | scene | Level Layout agent | M | open |
 | T50 | **8** | Generate the dialogue lines and their timings; onboard the music and its cues (Tuesday) | dialogue | Creator with the Dialogue and Audio agents | L | open |
@@ -71,6 +70,7 @@ _Generated 2026-10-31 09:39 by the Goal-Oriented Agent. Do not edit by hand; the
 | T09 | **8** | Decide the fail reason line, deliverer and audio-only fail alternative | decision | Canon and Review Orchestrator | S | done |
 | T10 | **8** | Integrate the crossing crew's hazard forecast: data file, loader, placed buoys/debris, Arthur calls | code | Hazard Forecast agent | M | done |
 | T37 | **8** | Ted's fail dialogue at SHIP_FAIL: write, record and wire it | dialogue | Dialogue agent | S | done |
+| T44 | **8** | Polish the passenger ship: light it properly | scene | Lighting agent with the creator | M | done |
 | T46 | **8** | Remove the random orbs of light in the lighthouse stairwell | scene | Level Layout agent | S | done |
 | T54 | **8** | Goal tracker in the upper right of the screen | code | Gameplay / UI agent | M | done |
 | T55 | **8** | On-screen controls in the lower right of the screen | code | Gameplay / UI agent | S | done |
@@ -105,13 +105,6 @@ _Generated 2026-10-31 09:39 by the Goal-Oriented Agent. Do not edit by hand; the
 | 5 | 27 | T23 | Bake mainland/cliff carving and collision to cut level load time | - | ready |
 
 ## Task detail
-
-### T44 [8/10] Polish the passenger ship: light it properly  (open)
-
-The passenger ship (the Lantern Queen, scripts/world/passenger_ship.gd) shows its lights as blobs floating outside the hull, which look bad. Light the ship so it reads clearly at night in a realistic way: lit portholes and windows (emissive, with some flicker or variation), a lit bridge and deck lamps, the masthead and navigation lights (red, green, white) mounted on the structure at the right places, a soft light spill on the hull and water close by, and nothing floating off the hull. It must read from the lamp room and from the launch at range (R19: warm lamplight against the blue-grey storm), stay inside the Lighting budget (max_dynamic_lights 18) and keep the crash on the rock readable. Use emissive materials and a few small lights, not one blob per window. Run test_ship_route.gd and test_outcome_screen.gd after.
-
-- **Why 8:** The creator says the ship lights look awful; the ship is the player's goal and the final image of both endings.
-- **Evidence:** Creator, 30 Oct 2026: polish the passenger ship, right now the lights are just blobs outside the ship and they look awful; scripts/world/passenger_ship.gd
 
 ### T45 [8/10] List the greyboxed lighthouse props and plan their FAL replacements  (open)
 
@@ -452,6 +445,14 @@ At SHIP_FAIL Ted delivers fail dialogue wherever the player is (creator, 26 Oct 
 - **Blocked by:** Lines can be written now; wiring is tested once T07 fires SHIP_FAIL.
 - **Depends on:** T07 (all closed)
 - **Result (done):** Written, picked and wired 29-30 Oct 2026 (TED_F_01, TED_F_03).
+
+### T44 [8/10] Polish the passenger ship: light it properly  (done)
+
+The passenger ship (the Lantern Queen, scripts/world/passenger_ship.gd) shows its lights as blobs floating outside the hull, which look bad. Light the ship so it reads clearly at night in a realistic way: lit portholes and windows (emissive, with some flicker or variation), a lit bridge and deck lamps, the masthead and navigation lights (red, green, white) mounted on the structure at the right places, a soft light spill on the hull and water close by, and nothing floating off the hull. It must read from the lamp room and from the launch at range (R19: warm lamplight against the blue-grey storm), stay inside the Lighting budget (max_dynamic_lights 18) and keep the crash on the rock readable. Use emissive materials and a few small lights, not one blob per window. Run test_ship_route.gd and test_outcome_screen.gd after.
+
+- **Why 8:** The creator says the ship lights look awful; the ship is the player's goal and the final image of both endings.
+- **Evidence:** Creator, 30 Oct 2026: polish the passenger ship, right now the lights are just blobs outside the ship and they look awful; scripts/world/passenger_ship.gd
+- **Result (done):** 1 Nov 2026: the sphere blobs are gone. passenger_ship.gd lays 188 lit windows flat on the model's own hull and superstructure (rays cast at the mesh at load, about 0.25 s): two porthole rows, the promenade and upper tier on both sides, and the forward face, bridge and after face so she shows lit windows bow-on. Panes are additive and grow in their own plane at range so the decks run together at 500 m. The white masthead lights sit on the fore and aft mast tops, the red and green sidelights in the bridge-wing lanterns, the white stern light on the stern rail, each visible only in its real sector; the two globe lanterns fore and aft are lit as deck lamps; every lamp has a rain-haze glow that grows with distance. Two warm OmniLights spill on the hull and water only within 160 m of the camera (Lighting budget). The crash fades them all with a flicker. Data in ship_route.json lights; test_ship_route, test_ship_deadline, test_outcome_screen, test_lampposts and test_slice_playthrough pass; renders checked from the lamp room, the launch at 560 m, bow-on, side-on, beacon relit and the crash.
 
 ### T46 [8/10] Remove the random orbs of light in the lighthouse stairwell  (done)
 

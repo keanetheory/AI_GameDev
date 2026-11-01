@@ -1621,8 +1621,11 @@
       "agent_can_execute": true,
       "blocked_by": "",
       "depends_on": [],
-      "status": "open",
-      "result": null
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "1 Nov 2026: the sphere blobs are gone. passenger_ship.gd lays 188 lit windows flat on the model's own hull and superstructure (rays cast at the mesh at load, about 0.25 s): two porthole rows, the promenade and upper tier on both sides, and the forward face, bridge and after face so she shows lit windows bow-on. Panes are additive and grow in their own plane at range so the decks run together at 500 m. The white masthead lights sit on the fore and aft mast tops, the red and green sidelights in the bridge-wing lanterns, the white stern light on the stern rail, each visible only in its real sector; the two globe lanterns fore and aft are lit as deck lamps; every lamp has a rain-haze glow that grows with distance. Two warm OmniLights spill on the hull and water only within 160 m of the camera (Lighting budget). The crash fades them all with a flicker. Data in ship_route.json lights; test_ship_route, test_ship_deadline, test_outcome_screen, test_lampposts and test_slice_playthrough pass; renders checked from the lamp room, the launch at 560 m, bow-on, side-on, beacon relit and the crash."
+      }
     },
     {
       "id": "T45",
@@ -2358,6 +2361,12 @@
       "task_id": "T46",
       "event": "done",
       "note": "31 Oct 2026: the orbs were the additive halos of the eight bare Spiral"
+    },
+    {
+      "time": "2026-11-01T10:26:26",
+      "task_id": "T44",
+      "event": "done",
+      "note": "ship lit: windows on the hull, nav lights on their mounts, spill near"
     }
   ]
 }
