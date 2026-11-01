@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-11-01 10:26 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-11-01 10:59 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -37,7 +37,6 @@ _Generated 2026-11-01 10:26 by the Goal-Oriented Agent. Do not edit by hand; the
 | ID | Score | Task | Category | Owner role | Effort | Status |
 |---|---|---|---|---|---|---|
 | T45 | **8** | List the greyboxed lighthouse props and plan their FAL replacements | asset | Asset agent | M | open |
-| T47 | **8** | Fix the clipping in the stairwell where the external mesh comes through | scene | Level Layout agent | M | open |
 | T50 | **8** | Generate the dialogue lines and their timings; onboard the music and its cues (Tuesday) | dialogue | Creator with the Dialogue and Audio agents | L | open |
 | T53 | **8** | Create the playtest QA agents and a web deployment agent for itch.io (Tuesday evening) | code | Creator with the GOA / GER framework | L | open |
 | T48 | **7** | Rebuild the L2 room: remove the stick in the bathroom and replace its props with FAL models | scene | Lighthouse Interior Creator with the creator | L | open |
@@ -72,6 +71,7 @@ _Generated 2026-11-01 10:26 by the Goal-Oriented Agent. Do not edit by hand; the
 | T37 | **8** | Ted's fail dialogue at SHIP_FAIL: write, record and wire it | dialogue | Dialogue agent | S | done |
 | T44 | **8** | Polish the passenger ship: light it properly | scene | Lighting agent with the creator | M | done |
 | T46 | **8** | Remove the random orbs of light in the lighthouse stairwell | scene | Level Layout agent | S | done |
+| T47 | **8** | Fix the clipping in the stairwell where the external mesh comes through | scene | Level Layout agent | M | done |
 | T54 | **8** | Goal tracker in the upper right of the screen | code | Gameplay / UI agent | M | done |
 | T55 | **8** | On-screen controls in the lower right of the screen | code | Gameplay / UI agent | S | done |
 | T11 | **7** | Put Arthur aboard and add the arrival 'go go go' beat on the lighthouse dock | code | Gameplay / Systems agent | M | done |
@@ -112,13 +112,6 @@ Inventory every prop in the lighthouse (basement, ground floor, L1, L2, lamp roo
 
 - **Why 8:** The interior is built in code from primitives; the creator wants real FAL props. The list has to come first so the credits are spent once.
 - **Evidence:** Creator, 30 Oct 2026: we need to list out the remaining props in the lighthouse that have been greyboxed so we can generate FAL replacements for them; scripts/world/interior/
-
-### T47 [8/10] Fix the clipping in the stairwell where the external mesh comes through  (open)
-
-Parts of the external lighthouse mesh come through the walls of the stairwell. Find which exterior pieces (lighthouse_exterior_v3.glb or the island and cliff meshes) intersect the stair shaft, and fix it by moving or hiding the outer mesh behind the shaft, adding an interior liner or cutting the exterior mesh. Keep the collider bake in step (tools/test_collider_bake.gd already fails on G_outer_west_window_infill, which may be the same fault) and check with test_interior_anchors.gd and a few screenshots from each stair landing.
-
-- **Why 8:** A visible bug; likely related to the failing collider-bake test.
-- **Evidence:** Creator, 30 Oct 2026: there are still clippings in the stairwell where the external mesh is coming through; tools/test_collider_bake.gd
 
 ### T50 [8/10] Generate the dialogue lines and their timings; onboard the music and its cues (Tuesday)  (open)
 
@@ -461,6 +454,14 @@ There are floating orbs of light in the stairwell of the lighthouse. Find where 
 - **Why 8:** A visible bug in a place the player passes through on every run.
 - **Evidence:** Creator, 30 Oct 2026: there are random orbs of light in the stairwell of the lighthouse, we need to remove those
 - **Result (done):** 31 Oct 2026: the orbs were the additive halos of the eight bare Spiral lights (no fixture) and of wall lamps (the real light hangs half a metre out from the bulb). room_light_cards.gd now gives a halo only to a light with its own glass or bulb, centred on it. test_room_lights.gd checks it.
+
+### T47 [8/10] Fix the clipping in the stairwell where the external mesh comes through  (done)
+
+Parts of the external lighthouse mesh come through the walls of the stairwell. Find which exterior pieces (lighthouse_exterior_v3.glb or the island and cliff meshes) intersect the stair shaft, and fix it by moving or hiding the outer mesh behind the shaft, adding an interior liner or cutting the exterior mesh. Keep the collider bake in step (tools/test_collider_bake.gd already fails on G_outer_west_window_infill, which may be the same fault) and check with test_interior_anchors.gd and a few screenshots from each stair landing.
+
+- **Why 8:** A visible bug; likely related to the failing collider-bake test.
+- **Evidence:** Creator, 30 Oct 2026: there are still clippings in the stairwell where the external mesh is coming through; tools/test_collider_bake.gd
+- **Result (done):** 1 Nov 2026: root cause was exterior_clip.gd looking for the scan's 'convert' node directly under the Lighthouse; since the v4 exterior swap it sits one level down (lighthouse_exterior_v4/convert), so the clip silently did nothing and the old inner wall pieces showed through the stairwell. It now finds the node, warns if it cannot, and also removes triangles that only partly stand in front of the lining (corners, edge middles or centre) when none of them reaches within 0.7 m of the real outer wall: 242 strays out (was 0). A probe of every mesh against the lining finds no exterior triangle inside it any more; before/after renders from eight stairwell positions show the dark rock shards and tan slivers gone, and the outside of the tower and the first-floor room unchanged. test_collider_bake's G_outer_west_window_infill failure was a separate fault: interior_rooms.gd adds that mesh after the build; it and the clipped exterior are now tagged (added_after_build, clipped_after_build) and the test skips added meshes and compares clipped ones by vertex count and collision. test_collider_bake, test_interior_anchors, test_sightlines, test_rain_shelter, test_room_lights, test_slice_playthrough, test_npc, test_toon_look pass.
 
 ### T54 [8/10] Goal tracker in the upper right of the screen  (done)
 

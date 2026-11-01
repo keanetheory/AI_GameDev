@@ -5,9 +5,13 @@
 # roof are never inside the volumes (the lining stands in front of the wall, the ceiling below the roof), so removing the strays loses nothing the outside shows.
 # Volumes: the tower's lining (radius from the lining itself, tower_shell.gd wall_radius, less a margin) from the ground-floor ring to the lamp room floor, and the first
 # floor between its lining planes under the old ceiling (rooms_tower.gd _ceiling's two slopes, less a margin). Runs once, when the interior is built.
+# In the tower a triangle that only partly stands inside the lining is a stray too when none of it reaches out to the real wall (all of it within TOWER_REACH
+# of the lining): those are the old inner wall pieces whose corners showed through the stairwell (T47, 1 Nov 2026; the outer wall is 0.7 m and more out).
 extends Node
 
 const MARGIN := 0.06
+const TOWER_REACH := 0.7
+const STRAY_DEPTH := 0.0       # any corner (or edge middle) in front of the lining: a sliver flush with it still shows through at a grazing angle
 const TOWER := Vector2(3.5, 3.6)
 const HOUSE_O := Vector2(-3.494, 8.874)      # the house frame in the Lighthouse frame (interior_rooms.gd DOOR_SILL, YAW)
 const YAW := 0.4457
@@ -18,8 +22,11 @@ var examined := 0
 
 ## `lh` the Lighthouse node, `frame` the house frame, `shell` the tower shell (wall_radius), `l1` the first floor's height.
 func apply(lh: Node3D, frame: Node3D, shell, l1: float) -> void:
-	var cv := lh.get_node_or_null("convert")
+	# the scan's "convert" node: directly under the Lighthouse for v3, one level down (lighthouse_exterior_v4/convert) for the repaired v4. It looked only
+	# directly under, so since the v4 swap nothing was clipped (T47, 1 Nov 2026)
+	var cv := lh.find_child("convert", true, false)
 	if cv == null:
+		push_warning("exterior_clip: no 'convert' node under the Lighthouse: nothing clipped")
 		return
 	for mi in cv.find_children("*", "MeshInstance3D", true, false):
 		var m := mi as MeshInstance3D
@@ -42,6 +49,16 @@ func apply(lh: Node3D, frame: Node3D, shell, l1: float) -> void:
 					removed += 1
 					changed = true
 					continue
+				var da := _tower_depth(a, shell)
+				var db := _tower_depth(b, shell)
+				var dc := _tower_depth(c, shell)
+				# a flat triangle across the curved lining can dip inside between corners that are all outside it: test the edges' middles and the centre too
+				var deepest := maxf(maxf(da, maxf(db, dc)), maxf(maxf(_tower_depth((a + b) * 0.5, shell), _tower_depth((b + c) * 0.5, shell)),
+						maxf(_tower_depth((c + a) * 0.5, shell), _tower_depth((a + b + c) / 3.0, shell))))
+				if deepest > STRAY_DEPTH and minf(da, minf(db, dc)) > -TOWER_REACH:
+					removed += 1      # pokes into the stairwell and reaches nowhere near the outer wall
+					changed = true
+					continue
 				keep.append(idx[t])
 				keep.append(idx[t + 1])
 				keep.append(idx[t + 2])
@@ -50,7 +67,16 @@ func apply(lh: Node3D, frame: Node3D, shell, l1: float) -> void:
 			out_mesh.surface_set_material(out_mesh.get_surface_count() - 1, m.mesh.surface_get_material(s))
 		if changed:
 			m.mesh = out_mesh
+			m.set_meta("clipped_after_build", true)      # tools/test_collider_bake.gd compares its collision, not its triangles
 	print("exterior_clip: %d of %d exterior triangles stood inside the rooms and were taken out" % [removed, examined])
+
+
+## How far p stands inside the tower's lining (negative: outside it), or -INF above or below the lining.
+func _tower_depth(p: Vector3, shell) -> float:
+	if p.y <= 0.97 or p.y >= 17.9:
+		return -INF
+	var d := Vector2(p.x - TOWER.x, p.z - TOWER.y)
+	return float(shell.wall_radius(p.y, fposmod(rad_to_deg(atan2(d.y, d.x)), 360.0))) - d.length()
 
 
 func _inside(p: Vector3, frame: Node3D, shell, l1: float) -> bool:
