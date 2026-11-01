@@ -1741,10 +1741,10 @@
       "agent_can_execute": false,
       "blocked_by": "FAL credits; creator approves the hut concept.",
       "depends_on": [],
-      "status": "open",
+      "status": "done",
       "result": {
-        "outcome": "partial",
-        "summary": "1 Nov 2026: the walk-in hut stands on the Saltgate pier head (scripts/world/saltgate_hut.gd, Level.tscn SaltgateHut), open front facing the landing, trimesh collision, one warm lamp inside; eight stone steps (SaltgateHutSteps, stone_stairs.gd) climb from the landing boardwalk (3.1 m) to it (4.4 m). Walkable floor inside about 1.7 m deep before the workbench. The burner is still where it was (just outside the hut's corner): the creator walks it and says where it goes."
+        "outcome": "done",
+        "summary": "1 Nov 2026, after the creator's walk-through: the stone pier head ('big brown box') is carved out of the Saltgate quay (Level.tscn Saltgate carve_oriented: the block, its south strip above deck height, and a mooring post that stood in the hut's doorway) and the steps are gone. Under the block was open water, so the hut stands at dock level (3.1 m) with its open front on the edge of the landing strip and its back over the water on nine timber piles; a plank deck under it (and 0.95 m out under the strip's slit planks) makes the floor solid, since the generated model only half has one. The rain is kept out by a RainShelter volume for its interior. The burner sits on the workbench where the creator marked it (4.38, 4.0, 539.8), 3.2 m from the landing. test_burner_pickup now approaches from the hut's open front and checks that facing the burner the boat leaves E to it (the burner is inside the boat's 10 m board radius). The lamppost now stands on its own."
       }
     },
     {

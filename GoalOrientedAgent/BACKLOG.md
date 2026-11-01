@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-11-01 13:29 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-11-01 14:04 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -38,7 +38,6 @@ _Generated 2026-11-01 13:29 by the Goal-Oriented Agent. Do not edit by hand; the
 |---|---|---|---|---|---|---|
 | T50 | **8** | Generate the dialogue lines and their timings; onboard the music and its cues (Tuesday) | dialogue | Creator with the Dialogue and Audio agents | L | open |
 | T53 | **8** | Create the playtest QA agents and a web deployment agent for itch.io (Tuesday evening) | code | Creator with the GOA / GER framework | L | open |
-| T49 | **7** | Regenerate the Saltgate burner pickup area and replace the landing with a walk-in hut | scene | Saltgate Creator with the creator | L | open |
 | T52 | **7** | Review all dialogue for snark and humour | dialogue | Creator with the Dialogue agent | M | open |
 | T51 | **6** | Decide where the characters look during specific lines (the Arthur and Ted opening) | dialogue | Creator with the Dialogue agent | M | open |
 | T59 | **6** | Sort out the plain wall tiling at the back of the lighthouse | scene | Lighthouse Finisher with the creator | M | open |
@@ -79,6 +78,7 @@ _Generated 2026-11-01 13:29 by the Goal-Oriented Agent. Do not edit by hand; the
 | T39 | **7** | Generate the open arc lamp model | asset | Creator with the Asset agent | M | done |
 | T41 | **7** | Generate updated models for Ted, Arthur and Daniel | asset | Creator with the Asset agent | L | done |
 | T48 | **7** | Rebuild the L2 room: remove the stick in the bathroom and replace its props with FAL models | scene | Lighthouse Interior Creator with the creator | L | done |
+| T49 | **7** | Regenerate the Saltgate burner pickup area and replace the landing with a walk-in hut | scene | Saltgate Creator with the creator | L | done |
 | T56 | **7** | Toggle the controls list with C | code | Gameplay / UI agent | S | done |
 | T58 | **7** | Remove the automatic lighting of the lighthouse when the player steps close to it | scene | Lighting agent | S | done |
 | T14 | **6** | Placeholder audio: wind, rain, machinery, buoy bell, foghorn, ship impact, mix by phase | audio | Sound agent | M | done |
@@ -123,16 +123,6 @@ Tuesday 3 Nov evening: build (1) playtest QA agents that play the slice (the sce
 - **Evidence:** Creator, 30 Oct 2026: for Tuesday evening I'll then need to generate playtest QA agents, and a web deployment agent to handle this entire game so I can launch it on itch.io; QA_SCENARIOS.md
 - **Blocked by:** Tuesday 3 Nov evening; needs the creator's approval of the agent briefs.
 - **Needs the creator** (cannot be done by the agent alone)
-
-### T49 [7/10] Regenerate the Saltgate burner pickup area and replace the landing with a walk-in hut  (open)
-
-Regenerate the part of Saltgate where the player picks up the replacement burner. Replace the landing with a hut that looks like a garage or equipment area the player can walk into, with the replacement burner inside (pickup, carry and return invariants stay: tools/test_burner_pickup.gd, test_carry.gd, the boat docks at DOCK_PORT). Use the Saltgate Creator and the Asset agent (FAL, check-only first, credits ask first); keep the Saltgate minimal and dark and eerie (lore), the lamppost and the boat berth where they are or move them with the hut, and keep the walk to the hut short.
-
-- **Why 7:** The creator wants the pickup to be a place, not a landing; it is the middle beat of the slice.
-- **Evidence:** Creator, 30 Oct 2026: regenerate the part of Saltgate where the player picks up the replacement burner, and replace the landing with a hut that looks like a garage or equipment area that the player can walk into
-- **Blocked by:** FAL credits; creator approves the hut concept.
-- **Needs the creator** (cannot be done by the agent alone)
-- **Result (partial):** 1 Nov 2026: the walk-in hut stands on the Saltgate pier head (scripts/world/saltgate_hut.gd, Level.tscn SaltgateHut), open front facing the landing, trimesh collision, one warm lamp inside; eight stone steps (SaltgateHutSteps, stone_stairs.gd) climb from the landing boardwalk (3.1 m) to it (4.4 m). Walkable floor inside about 1.7 m deep before the workbench. The burner is still where it was (just outside the hut's corner): the creator walks it and says where it goes.
 
 ### T52 [7/10] Review all dialogue for snark and humour  (open)
 
@@ -532,6 +522,16 @@ The L2 room (control and diagnostics level) needs a lot of work. First fix the r
 - **Depends on:** T45 (all closed)
 - **Needs the creator** (cannot be done by the agent alone)
 - **Result (done):** 1 Nov 2026 (the creator: 'L2 bathroom' is the first-floor bathroom). The 'stick' was the greybox towel rail sticking out across the wash-room doorway, now hidden (the FAL washstand has its own towel bar). Root cause of much of the room's mess: interior_culling.gd re-showed every hidden greybox piece when it showed a level again, so the box bath sat under the FAL tub and the old boxes came back inside every generated prop after a floor change; it now leaves hidden meshes alone (test_interior_culling checks it). The window light pool lay on the bath (0.58 m up); room_light_cards.gd now looks past furniture tops to the floor. The room's props were already replaced in T45.
+
+### T49 [7/10] Regenerate the Saltgate burner pickup area and replace the landing with a walk-in hut  (done)
+
+Regenerate the part of Saltgate where the player picks up the replacement burner. Replace the landing with a hut that looks like a garage or equipment area the player can walk into, with the replacement burner inside (pickup, carry and return invariants stay: tools/test_burner_pickup.gd, test_carry.gd, the boat docks at DOCK_PORT). Use the Saltgate Creator and the Asset agent (FAL, check-only first, credits ask first); keep the Saltgate minimal and dark and eerie (lore), the lamppost and the boat berth where they are or move them with the hut, and keep the walk to the hut short.
+
+- **Why 7:** The creator wants the pickup to be a place, not a landing; it is the middle beat of the slice.
+- **Evidence:** Creator, 30 Oct 2026: regenerate the part of Saltgate where the player picks up the replacement burner, and replace the landing with a hut that looks like a garage or equipment area that the player can walk into
+- **Blocked by:** FAL credits; creator approves the hut concept.
+- **Needs the creator** (cannot be done by the agent alone)
+- **Result (done):** 1 Nov 2026, after the creator's walk-through: the stone pier head ('big brown box') is carved out of the Saltgate quay (Level.tscn Saltgate carve_oriented: the block, its south strip above deck height, and a mooring post that stood in the hut's doorway) and the steps are gone. Under the block was open water, so the hut stands at dock level (3.1 m) with its open front on the edge of the landing strip and its back over the water on nine timber piles; a plank deck under it (and 0.95 m out under the strip's slit planks) makes the floor solid, since the generated model only half has one. The rain is kept out by a RainShelter volume for its interior. The burner sits on the workbench where the creator marked it (4.38, 4.0, 539.8), 3.2 m from the landing. test_burner_pickup now approaches from the hut's open front and checks that facing the burner the boat leaves E to it (the burner is inside the boat's 10 m board radius). The lamppost now stands on its own.
 
 ### T56 [7/10] Toggle the controls list with C  (done)
 

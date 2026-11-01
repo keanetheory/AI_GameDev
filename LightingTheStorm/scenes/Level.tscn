@@ -350,23 +350,16 @@ berth_yaw_deg = 90.0
 landing = Vector3(1.5, 3.12, 538.5)
 
 [node name="BurnerPickup" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4, 4.43, 541.4)
+editor_description = "The replacement burner on the Saltgate hut's workbench, towards the back, where the creator marked it (1 Nov 2026)."
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.38, 4.0, 539.8)
 script = ExtResource("11")
 
 [node name="Model" parent="BurnerPickup" instance=ExtResource("12")]
 
 [node name="SaltgateHut" type="Node3D" parent="."]
-editor_description = "T49: the walk-in equipment hut on the Saltgate pier head, open front facing the landing (west). The burner stays where it was until the creator picks its spot. scripts/world/saltgate_hut.gd"
-transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.07, 4.4, 539.6)
+editor_description = "T49: the walk-in equipment hut at dock level (3.1 m), its open front on the edge of the landing strip (west), its back over the water where the stone pier head stood (carved out of Saltgate: carve_oriented), on timber piles. The burner sits on its workbench (creator, 1 Nov 2026). scripts/world/saltgate_hut.gd"
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.08, 3.1, 539.2)
 script = ExtResource("40")
-
-[node name="SaltgateHutSteps" type="Node3D" parent="."]
-editor_description = "T49: stone steps from the landing boardwalk (3.1 m) up to the pier head and the hut (4.4 m), north of the boat's landing point."
-script = ExtResource("9")
-points = PackedVector3Array(0.3, 3.1, 540, 0.8, 3.1, 540, 3.3, 4.42, 540)
-width = 1.4
-walls = PackedInt32Array(0, 3)
-base_y = 2.4
 
 [node name="Boat" type="Node3D" parent="."]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -27, 0.15, 18.2)
@@ -385,6 +378,7 @@ press_path = PackedVector3Array()
 transform = Transform3D(0.839563, 0, 0.543262, 0, 1, 0, -0.543262, 0, 0.839563, 15, -1.6, 549.855)
 script = ExtResource("1")
 model_path = "res://Assets/Models/saltgate/saltgate_quay.glb"
+carve_oriented = Array[Transform3D]([Transform3D(4.8695, 0, -3.341, 0, 7.4, 0, 3.1509, 0, 5.1633, -2.3541, 3.3, -14.125), Transform3D(4.0719, 0, -0.2445, 0, 7.4, 0, 2.6348, 0, 0.3778, -4.5456, 3.3, -11.6125), Transform3D(4.9114, 0, -0.4889, 0, 2.4500, 0, 3.1781, 0, 0.7556, -0.4181, 6.3750, -17.0709), Transform3D(0.8815, 0, -0.6791, 0, 2.4200, 0, 0.5704, 0, 1.0495, -4.9135, 5.9900, -15.1857)])
 carve_lines = PackedVector3Array()
 carve_line_half_widths = PackedFloat32Array()
 press_path = PackedVector3Array()
