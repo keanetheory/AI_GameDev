@@ -1,0 +1,20 @@
+{
+  "submission": {
+    "asset_id": "lhi_instrument_cabinet",
+    "category": "prop",
+    "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+    "prompt": "Tall iron instrument cabinet for a lighthouse control room, riveted panel with round brass dials, a knife switch, red and green glass indicator lamps, a small hinged door below, chipped green-grey paint, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+    "source_image": null,
+    "view_images": {},
+    "notes": "T45 (1 Nov 2026), priority 1. Replaces L2_Cabinet and its dials, lamps and switch on the tower's L2 landing (control and diagnostics): 1.25 m wide x 1.9 m tall x 0.8 m deep. Passed on every climb to the lamp room. The greybox stays hidden with its collision (hero_props.gd). Downscale the 4096 texture to 2048 on import, then tools/decimate_props.gd."
+  },
+  "request_id": "01a196dd-c82e-7590-b392-f5e88d2b9fdc",
+  "seed": null,
+  "model_url": "https://v3b.fal.media/files/b/0ab0b6ab/tm16v9yY114YHN7d61NHF_model.glb",
+  "textured": true,
+  "request": {
+    "prompt": "Tall iron instrument cabinet for a lighthouse control room, riveted panel with round brass dials, a knife switch, red and green glass indicator lamps, a small hinged door below, chipped green-grey paint, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "generate_type": "Normal"
+  }
+}

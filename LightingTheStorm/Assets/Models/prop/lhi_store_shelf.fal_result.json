@@ -1,0 +1,20 @@
+{
+  "submission": {
+    "asset_id": "lhi_store_shelf",
+    "category": "prop",
+    "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+    "prompt": "Plain wooden storeroom shelving, three shelves holding paint tins, lamp-oil cans, jars and folded sacking, rough sawn timber uprights, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+    "source_image": null,
+    "view_images": {},
+    "notes": "T45 (1 Nov 2026), priority 2. Replaces Store_ShelfBoard (3), Store_ShelfPost (2), Store_Tin (6), and the L1 hall shelf: 1.0 x 1.9 x 1.25 m. Downscale the 4096 texture to 2048 on import, then tools/decimate_props.gd."
+  },
+  "request_id": "01a196e1-e2c9-7942-980f-5fbc31a9e6fe",
+  "seed": null,
+  "model_url": "https://v3b.fal.media/files/b/0ab0b6ca/sl6GSykp6jbpnkgeEaxyv_model.glb",
+  "textured": true,
+  "request": {
+    "prompt": "Plain wooden storeroom shelving, three shelves holding paint tins, lamp-oil cans, jars and folded sacking, rough sawn timber uprights, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "generate_type": "Normal"
+  }
+}

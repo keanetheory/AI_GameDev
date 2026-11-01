@@ -1,0 +1,8 @@
+{
+  "asset_id": "lhi_nightstand",
+  "category": "prop",
+  "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+  "prompt": "Small oak bedside cabinet with one drawer and a cupboard door, an iron candlestick and a book on top, scuffed, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+  "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+  "notes": "T45 (1 Nov 2026), priority 2. Replaces L1_Nightstand: 0.67 x 0.55 x 0.67 m. Downscale the 4096 texture to 2048 on import, then tools/decimate_props.gd."
+}
