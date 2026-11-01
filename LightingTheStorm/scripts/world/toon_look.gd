@@ -33,9 +33,9 @@ const OUTLINE_SHADER := preload("res://scripts/world/toon_outline.gdshader")
 ## Nodes whose meshes are scanned, relative to this node's parent.
 @export var scan_paths: Array[NodePath] = [NodePath("InteriorRooms"), NodePath("LighthouseInterior")]
 ## Outdoor nodes that get the same toon shading but no amber fill, and keep the distance fog (Island Creator ISL-13, creator 2026-10-27: the
-## island and dock should have the lighthouse's toon feel).
+## island and dock should have the lighthouse's toon feel). The Saltgate's hut steps are built like the harbour stairs and shaded like them (creator, 1 Nov 2026).
 @export var exterior_paths: Array[NodePath] = [NodePath("Island"), NodePath("RockPatchSE"), NodePath("RockPatchSE2"), NodePath("RockPatchNE"),
-		NodePath("Harbour"), NodePath("HarbourStairs"), NodePath("IslandGate"), NodePath("Lampposts")]
+		NodePath("Harbour"), NodePath("HarbourStairs"), NodePath("IslandGate"), NodePath("Lampposts"), NodePath("SaltgateHutSteps")]
 ## The island's ink region (world space): a second cylinder, cut off just above the sea so the waves are not outlined.
 @export var island_mask_centre := Vector3(-10.0, 8.0, 5.0)
 @export var island_mask_radius := 48.0

@@ -1,6 +1,6 @@
 # carry_manager.gd - the Carry autoload (backlog T29): the player's hands.
 # One item at a time, held in view in front of the camera. The creator's rule (Decisions to be made, A18): the item
-# cannot be put down anywhere except a CarrySocket (the boat's cargo slot, and the lamp socket for T32), so there is
+# cannot be put down anywhere except a CarrySocket (the lamp socket, T32; the boat's cargo slot went on 1 Nov 2026), so there is
 # no drop key and nothing here releases an item into the world.
 #
 # An item is any Node3D (the burner's model). The first hold remembers its rest transform and how it is held in

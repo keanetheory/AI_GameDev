@@ -3,9 +3,10 @@
 #   1. The launch sails in from open water and auto-docks in DOCK_PORT on its own.
 #   2. Tied up, it must not drift under the player.
 #   3. Q (the "disembark" action) steps ashore: the view must move smoothly (no per-frame jump, no turn, no dip),
-#      and the player must land standing on the quay deck.
-#   4. Walk to the burner, E picks it up (BURNER_PICKED_UP).
-#   5. Walk back to the boat's board radius.
+#      and the player must land standing on the quay deck, a short hop from the boat (half the old 8.3 m leap: creator, 1 Nov 2026).
+#   4. Walk along the deck and up the stone steps into the hut on the pier head; E picks the burner up off the workbench
+#      (BURNER_PICKED_UP).
+#   5. Walk back down the steps to the landing, within the boat's board radius.
 #   6. The port-to-cliff joint: from the west boardwalk's end along the quay deck, up the timber link ramp onto the
 #      cliff walkway, and back down.
 # Every walk fails on a stall, a step higher than the player's step-up, a drop off an edge, or falling through.
@@ -17,6 +18,10 @@ const MAX_CAM_STEP := 0.45     # metres the camera may move in one physics frame
 const MAX_DROP := 0.45         # largest fall off an edge allowed on a walk (anything more is a floating step)
 const STALL_S := 1.5           # seconds without 0.3 m of progress towards the next waypoint = stuck
 const ARRIVE := 0.6            # flat distance that counts as reaching a waypoint
+const MAX_HOP := 5.0           # flat metres from the seat to the landing (it was 8.3 until the creator halved it, 1 Nov 2026)
+# the deck from the landing strip round to the foot of the hut's steps, up them and into the hut (and back the other way)
+const TO_HUT: Array[Vector3] = [Vector3(2.6, 0, 536.15), Vector3(1.5, 0, 536.6), Vector3(-0.8, 0, 538.6), Vector3(-0.8, 0, 540.0),
+		Vector3(2.5, 0, 540.0), Vector3(4.3, 0, 540.2)]
 
 var _lv: Node3D
 var _boat: Node3D
@@ -41,6 +46,7 @@ var _cam_min_y := INF
 var _yaw0 := 0.0
 var _yaw_max := 0.0
 var _seat_y := 0.0
+var _seat := Vector3.ZERO
 # walking
 var _wps: Array[Vector3] = []
 var _wp := 0
@@ -104,6 +110,7 @@ func _physics_process(delta: float) -> bool:
 				_check(_drift < 0.05, "the docked boat holds its berth (slid %.3f m in 1.5 s)" % _drift)
 				_cam_prev = _cam.global_position
 				_seat_y = _player.global_position.y
+				_seat = _player.global_position
 				_yaw0 = _player.rotation.y
 				Input.action_press("disembark")   # Q
 				_next()
@@ -126,10 +133,10 @@ func _physics_process(delta: float) -> bool:
 				var floor_y := _floor_y(_player.global_position)
 				_check(absf(_player.global_position.y - floor_y) < 0.08, "feet on the deck, not floating or sunk (feet %.2f, deck %.2f)" % [_player.global_position.y, floor_y])
 				_check(_drift < 0.05, "the boat did not move under the player while stepping ashore (%.3f m)" % _drift)
+				_check(_flat(_seat, land) < MAX_HOP, "a short hop ashore (%.1f m from the seat, limit %.1f)" % [_flat(_seat, land), MAX_HOP])
 				print("  arrival: docked after %.1f s; seat y %.2f -> deck y %.2f; largest camera move %.2f m/frame; turn %.2f deg"
 					% [_dock_t, _seat_y, _player.global_position.y, _cam_max_step, _yaw_max])
-				var b := _burner.global_position
-				_begin_walk("landing to the burner", [Vector3(1.4, 0.0, b.z)])
+				_begin_walk("landing up the steps to the burner in the hut", TO_HUT)
 				_next()
 		4:
 			var r := _walk()
@@ -140,14 +147,18 @@ func _physics_process(delta: float) -> bool:
 				_wait = 4
 				_next()
 		5:
-			_check(_im == null or _im._label.text == "[E] Pick up the burner", "the burner is offered from the deck ('%s')" % (_im._label.text if _im else ""))
+			_check(_im == null or _im._label.text == "[E] Pick up the burner", "the burner is offered in the hut ('%s')" % (_im._label.text if _im else ""))
 			Input.action_press("interact")
 			_wait = 3
 			_next()
 		6:
 			_check(_burner.held, "E picked the burner up")
 			_check(_gs == null or _gs.fired.has("BURNER_PICKED_UP"), "GameState got BURNER_PICKED_UP")
-			_begin_walk("burner back to the boat", [Vector3(1.5, 0, 538.5)])
+			var back: Array[Vector3] = TO_HUT.duplicate()
+			back.reverse()
+			back.remove_at(0)
+			back.append(_zone("DOCK_PORT").landing)
+			_begin_walk("hut back down the steps to the landing", back)
 			_next()
 		7:
 			var r := _walk()

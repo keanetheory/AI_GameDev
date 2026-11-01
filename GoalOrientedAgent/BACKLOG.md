@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-11-01 14:04 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-11-01 15:20 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -531,7 +531,7 @@ Regenerate the part of Saltgate where the player picks up the replacement burner
 - **Evidence:** Creator, 30 Oct 2026: regenerate the part of Saltgate where the player picks up the replacement burner, and replace the landing with a hut that looks like a garage or equipment area that the player can walk into
 - **Blocked by:** FAL credits; creator approves the hut concept.
 - **Needs the creator** (cannot be done by the agent alone)
-- **Result (done):** 1 Nov 2026, after the creator's walk-through: the stone pier head ('big brown box') is carved out of the Saltgate quay (Level.tscn Saltgate carve_oriented: the block, its south strip above deck height, and a mooring post that stood in the hut's doorway) and the steps are gone. Under the block was open water, so the hut stands at dock level (3.1 m) with its open front on the edge of the landing strip and its back over the water on nine timber piles; a plank deck under it (and 0.95 m out under the strip's slit planks) makes the floor solid, since the generated model only half has one. The rain is kept out by a RainShelter volume for its interior. The burner sits on the workbench where the creator marked it (4.38, 4.0, 539.8), 3.2 m from the landing. test_burner_pickup now approaches from the hut's open front and checks that facing the burner the boat leaves E to it (the burner is inside the boat's 10 m board radius). The lamppost now stands on its own.
+- **Result (done):** 1 Nov 2026, second pass (creator: the dock-level hut was taking too long for a set piece that is not a major plot device): back to the stone. The pier head stays, the hut stands on top of it (as 3c34872) and the 19c5aa7 carve, piles and plank deck are gone. The stone steps up to it are rebuilt like the island's harbour stairs (stone_stairs.gd, full 1.8 m width, parapets both sides, 0.17 m rises on 0.28 m treads, toon shaded like them via toon_look.gd) in a dark stone that matches the pier head; the flight climbs to a top landing over the pier head's kerb, one step down to the hut. The burner sits on the hut's workbench (5.4, 5.31, 540.2). The step ashore is halved: DOCK_PORT's landing is now on the quay's south strip, 4.7 m from the seat (was 8.3 m), still on Saltgate. The boat's cargo slot is gone, so the burner cannot be put down between the hut and the lamp; Arthur waits aboard as before. The hut keeps its rain shelter volume. Tests: test_disembark walks landing -> steps -> hut -> back; test_carry checks there is nowhere to put the burner down, the boat included.
 
 ### T56 [7/10] Toggle the controls list with C  (done)
 

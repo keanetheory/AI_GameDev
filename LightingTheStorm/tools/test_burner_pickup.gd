@@ -51,7 +51,7 @@ func _physics_process(_delta: float) -> bool:
 			_check(_gs.fired.has("SALTGATE_REACHED"), "SALTGATE_REACHED on docking at the quays")
 			var land: Vector3 = _zone("DOCK_PORT").landing
 			var flat := Vector2(_burner.global_position.x - land.x, _burner.global_position.z - land.z).length()
-			_check(flat > 1.5 and flat < 4.0, "the burner is a few steps from the landing (%.1f m)" % flat)
+			_check(flat > 1.5 and flat < 6.0, "the burner is a short walk from the landing (%.1f m)" % flat)
 			# the burner sits on the hut's workbench, inside the boat's (generous) board radius: one E must still not do both, which the boat
 			# guarantees by leaving E to the Interaction autoload whenever it is offering something (checked below, facing the burner)
 			# walk up to it: stand in front of the hut's workbench (between it and the open front, on the floor), facing it, looking a little down
