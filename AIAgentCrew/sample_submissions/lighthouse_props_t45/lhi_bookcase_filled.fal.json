@@ -1,0 +1,8 @@
+{
+  "asset_id": "lhi_bookcase_filled",
+  "category": "prop",
+  "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+  "prompt": "Tall oak bookcase full of lighthouse logbooks, cloth-bound ledgers, rolled sea charts and a few loose papers, four shelves, open front, scuffed corners, books leaning and stacked unevenly, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+  "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+  "notes": "T45 (1 Nov 2026), priority 1. Replaces the office shelves and 81 box books (Office_Shelf*, Office_ShelfSide*, Office_Book*): 1.9 m wide x 1.75 m tall x 0.35 m deep. One model replaces 87 meshes. The greybox stays hidden with its collision (hero_props.gd). Downscale the 4096 texture to 2048 on import, then tools/decimate_props.gd."
+}

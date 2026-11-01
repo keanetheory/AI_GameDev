@@ -1644,8 +1644,11 @@
       "agent_can_execute": true,
       "blocked_by": "",
       "depends_on": [],
-      "status": "open",
-      "result": null
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "1 Nov 2026: LightingTheStorm/LIGHTHOUSE_GREYBOX_PROPS.md lists every primitive prop left in the lighthouse (from a dump of all 1,290 interior meshes: 916 primitives, mostly architecture that stays) as 30 proposed FAL models in three priorities plus nine free reuses of existing models. Priority 1 (6 models, $2.25, inside the $2.55 left of the $7.80 cap): wall sconce, filled bookcase, switchboard, workbench with vice, instrument cabinet, water cistern; their submissions are in AIAgentCrew/sample_submissions/lighthouse_props_t45 and pass main_asset.py --check-only 6/6. Priorities 1+2 need $5.70 more than the cap. Nothing sent to FAL: waiting on the creator's spend approval. Also asks whether T48's 'L2 bathroom' is the first-floor (code L1) bathroom."
+      }
     },
     {
       "id": "T46",
@@ -2376,6 +2379,12 @@
       "task_id": "T47",
       "event": "done",
       "note": "exterior clip found the v4 mesh again; strays crossing the lining removed; collider test fixed"
+    },
+    {
+      "time": "2026-11-01T11:03:47",
+      "task_id": "T45",
+      "event": "done",
+      "note": "greybox prop list and FAL plan written; P1 submissions checked; spend awaits approval"
     }
   ]
 }
