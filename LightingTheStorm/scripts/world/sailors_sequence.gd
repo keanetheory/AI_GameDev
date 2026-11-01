@@ -57,6 +57,8 @@ func setup(gs: Node, level: Node) -> void:
 	spec = d
 	_gate = get_tree().get_first_node_in_group("gate")
 	gs.event_emitted.connect(_on_event)
+	if bool(spec.get("daniel_sits_in_basement", false)):
+		_place_daniel_chair()
 
 
 func _on_event(id: String, _phase: int) -> void:
@@ -183,22 +185,65 @@ func _on_walk_done(route_name: String) -> void:
 		"sailors_dock_to_hall":
 			_gs.emit_event("SAILORS_INSIDE")
 		"daniel_dock_to_basement":
-			if bool(spec.get("daniel_sits_in_basement", false)):
-				_daniel_sits_down()
 			_gs.emit_event("DANIEL_IN_BASEMENT")
 			stage = Stage.DONE
+			if _chair_seat:
+				var path := PackedVector3Array([daniel.global_position])
+				for p in spec.get("daniel_chair_path", []):
+					path.append(Vector3(float(p[0]), float(p[1]), float(p[2])))
+				path.append(_chair_seat.global_position)
+				daniel.walk(path, "daniel_to_chair")
+		"daniel_to_chair":
+			_daniel_sits_down()
 
 
-## Daniel's resting place is sat in the basement (creator, 30 Oct 2026), but only once there is a chair for him: on a plank he levitated and
-## faced the coal. Off until the chair (backlog T43) is placed in front of the boiler; then "daniel_sits_in_basement" turns it on and the seat
-## marker goes on the chair: a marker on the floor where he stands, facing the way he was walking, and the sit clip.
-func _daniel_sits_down() -> void:
+## Daniel's resting place is sat in the basement, facing the boiler (creator, 30 Oct 2026). On a stand-in plank he levitated at the end of
+## his walk, inside the coal bin. Now (T43) a generated chair stands in front of the boiler ("daniel_chair" in the spec: off the player's
+## line from the coal to the boiler), turned to face it, its seat at his sitting height (bench_m). From the end of his route (where
+## DANIEL_IN_BASEMENT fires, as before) he walks out of the bin and round the lobby barrel ("daniel_chair_path") to the chair and sits on
+## it, with no plank. "daniel_sits_in_basement" switches it on.
+const DANIEL_CHAIR := "res://Assets/Models/prop/lhi_daniel_chair.glb"
+const CHAIR_HEIGHT := 0.9        # the generated chair's seat is just under half its height: 0.9 m puts it at Daniel's 0.42 m
+
+var _chair_seat: Node3D          # the seat marker on the chair: Daniel sits here, facing its -z
+
+
+func _place_daniel_chair() -> void:
+	var at: Array = spec["daniel_chair"]
 	var seat := Node3D.new()
 	seat.name = "DanielSeat"
 	_level.add_child(seat)
-	seat.global_position = daniel.global_position
-	seat.rotation.y = daniel.global_rotation.y
-	daniel.sit(seat, Vector3.ZERO)
+	seat.global_position = Vector3(float(at[0]), float(at[1]), float(at[2]))
+	var boiler := _level.find_child("B_Boiler", true, false) as Node3D
+	var to := (boiler.global_position - seat.global_position) if boiler else Vector3.FORWARD
+	seat.rotation.y = atan2(-to.x, -to.z)                      # -z toward the boiler
+	_chair_seat = seat
+	var ps := load(DANIEL_CHAIR) as PackedScene
+	if ps == null:
+		return
+	var chair := ps.instantiate() as Node3D
+	chair.name = "DanielChair"
+	var box := AABB()
+	var first := true
+	for n in chair.find_children("*", "MeshInstance3D", true, false):
+		var t := Transform3D.IDENTITY                           # the import's scale and pivot sit on the nodes above the mesh
+		var p: Node = n
+		while p != null and p != chair:
+			t = (p as Node3D).transform * t
+			p = p.get_parent()
+		var b := t * (n as MeshInstance3D).mesh.get_aabb()
+		box = b if first else box.merge(b)
+		first = false
+	var s := CHAIR_HEIGHT / maxf(box.size.y, 0.01)
+	chair.scale = Vector3.ONE * s
+	chair.rotation.y = PI                                       # the model's front is +z; Daniel faces the seat's -z
+	chair.position = Vector3(box.get_center().x * s, -box.position.y * s, box.get_center().z * s + 0.05)      # centred under him, a touch behind
+	seat.add_child(chair)
+
+
+func _daniel_sits_down() -> void:
+	if _chair_seat:
+		daniel.sit(_chair_seat, Vector3.ZERO, false)
 
 
 ## Both sailors are at the gate (or still walking up to it) and the gate is open: on through it.

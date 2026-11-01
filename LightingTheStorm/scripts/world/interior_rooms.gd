@@ -85,6 +85,7 @@ func _ready() -> void:
 	trim.build(kit, frame)
 	hero_props = HeroProps.new()
 	hero_props.build(frame)
+	hero_props.build_in_place(self)
 	roof_liner = Node3D.new()
 	roof_liner.set_script(RoofLiner)
 	roof_liner.name = "RoofLiner"

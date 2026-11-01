@@ -68,7 +68,7 @@ func _physics_process(_d: float) -> bool:
 		1:
 			_ok(_ic.inside, "camera in the hall counts as inside the house")
 			_ok(_visible_count(2) == 0, "on the ground floor the first floor is hidden")
-			_ok(_visible_count(1) > 100 and _visible_count(0) > 100, "on the ground floor the ground floor and the basement are drawn")
+			_ok(_visible_count(1) > 50 and _visible_count(0) > 50, "on the ground floor the ground floor and the basement are drawn (%d, %d; culled is 0. 50, not 100, since the T45 props replaced dozens of greybox pieces each: the bookcase alone hid 87)" % [_visible_count(1), _visible_count(0)])
 			_at(1.0, 14.8 + 1.6, 4.0)         # first floor, mess
 			_step = 2
 		2:

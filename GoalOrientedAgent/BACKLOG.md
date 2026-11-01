@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-11-01 11:03 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-11-01 12:57 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -41,8 +41,6 @@ _Generated 2026-11-01 11:03 by the Goal-Oriented Agent. Do not edit by hand; the
 | T48 | **7** | Rebuild the L2 room: remove the stick in the bathroom and replace its props with FAL models | scene | Lighthouse Interior Creator with the creator | L | open |
 | T49 | **7** | Regenerate the Saltgate burner pickup area and replace the landing with a walk-in hut | scene | Saltgate Creator with the creator | L | open |
 | T52 | **7** | Review all dialogue for snark and humour | dialogue | Creator with the Dialogue agent | M | open |
-| T42 | **6** | Generate the buoy models for the sea hazards | asset | Creator with the Asset agent | M | open |
-| T43 | **6** | Generate a chair for Daniel in front of the boiler | asset | Creator with the Asset agent | S | open |
 | T51 | **6** | Decide where the characters look during specific lines (the Arthur and Ted opening) | dialogue | Creator with the Dialogue agent | M | open |
 | T59 | **6** | Sort out the plain wall tiling at the back of the lighthouse | scene | Lighthouse Finisher with the creator | M | open |
 | T19 | **5** | Set a placeholder deadline length and write the crossing-penalty values | decision | Production Orchestrator | S | open |
@@ -89,6 +87,8 @@ _Generated 2026-11-01 11:03 by the Goal-Oriented Agent. Do not edit by hand; the
 | T17 | **6** | Tune and record the Gate 0 steering go/no-go (speed, route length, time per crossing) | test | Boat / Physics agent | M | deferred |
 | T36 | **6** | Add lightposts at the Saltgate and at the lighthouse island's dock | scene | Level Layout agent | M | done |
 | T40 | **6** | Open lamp in the diagnosis; the fitted burner disappears and the lamp closes with light emanating | code | Gameplay / Systems agent | M | done |
+| T42 | **6** | Generate the buoy models for the sea hazards | asset | Creator with the Asset agent | M | done |
+| T43 | **6** | Generate a chair for Daniel in front of the boiler | asset | Creator with the Asset agent | S | done |
 | T20 | **5** | QA scenario list and automated state-transition checks for the Gate 1 slice | test | QA agent | M | done |
 | T25 | **5** | Repair tools/test_boat.gd for the two-berth harbour and make it fail on timeout | test | Boat / Physics agent | S | done |
 | T34 | **5** | Resolve the discoveries content (B2) on Friday 23 October 2026 | decision | Canon and Review Orchestrator | S | done |
@@ -133,6 +133,7 @@ The L2 room (control and diagnostics level) needs a lot of work. First fix the r
 - **Blocked by:** FAL credits; creator approves the prop list.
 - **Depends on:** T45 (all closed)
 - **Needs the creator** (cannot be done by the agent alone)
+- **Result (partial):** 1 Nov 2026: T45 replaced the tower L2 landing's props (instrument cabinet, locker, side table, barometer, two sconces) and the first floor's (washstand, counter, radio desk, nightstand, benches, clocks, shelves, pendant lamps) with FAL models. Still open: the stick through the bathroom, and which room the creator means by 'L2 bathroom'.
 
 ### T49 [7/10] Regenerate the Saltgate burner pickup area and replace the landing with a walk-in hut  (open)
 
@@ -142,6 +143,7 @@ Regenerate the part of Saltgate where the player picks up the replacement burner
 - **Evidence:** Creator, 30 Oct 2026: regenerate the part of Saltgate where the player picks up the replacement burner, and replace the landing with a hut that looks like a garage or equipment area that the player can walk into
 - **Blocked by:** FAL credits; creator approves the hut concept.
 - **Needs the creator** (cannot be done by the agent alone)
+- **Result (partial):** 1 Nov 2026: the hut model is generated (slt_equipment_hut: open-fronted, hollow, workbench at the back; 37k tris, 2048 texture). Not placed: the burner sits on a raised stone pier head 1.3 m above the boardwalk where the player lands, so a walk-in hut needs a creator decision: on the pier head with steps up (stone_stairs.gd), or on the boardwalk beside the landing with the burner on the hut's bench.
 
 ### T52 [7/10] Review all dialogue for snark and humour  (open)
 
@@ -151,24 +153,6 @@ Read the whole slice's dialogue (data/dialogue/dialogue_opening.json, every spea
 - **Evidence:** Creator, 30 Oct 2026: I then want to review all of the dialogue to make sure it's snarky and funny enough.
 - **Blocked by:** Creator sign-off; best after the Tuesday dialogue session.
 - **Depends on:** T50 (still open: T50)
-- **Needs the creator** (cannot be done by the agent alone)
-
-### T42 [6/10] Generate the buoy models for the sea hazards  (open)
-
-The buoy hazards in the crossing (scripts/world/crossing_hazards.gd, _buoy) are built from primitives: a red body with a blinking light. Generate proper buoy models (at least the red channel buoy the forecast names; ideally a second variant, e.g. a green or striped one, and a bell buoy since the audio mixer has a bell) in the same style as the other sea props, with a base that sits on the waterline, a mast or cage for the blinking lamp, and a collision size that matches data/world/boat_spec.json and crossing_sequence.json (the buoy radius_m). Import with tools/import_scale_pivot.gd (add a buoy category or per-file height), downscale the texture to 2048, then swap the model into _buoy and keep the blinking light and near-miss radius. Run main_asset.py --check-only before any FAL submission (credits: ask first).
-
-- **Why 6:** The hazards are the sea's main readable obstacle on the return; primitive buoys look like placeholders next to the generated rocks and ship. Not higher because it does not block the slice.
-- **Evidence:** Creator, 30 Oct 2026: additional backlog item is to generate assets for the buoys in the sea; scripts/world/crossing_hazards.gd
-- **Blocked by:** Creator generates or approves the models; credits.
-- **Needs the creator** (cannot be done by the agent alone)
-
-### T43 [6/10] Generate a chair for Daniel in front of the boiler  (open)
-
-Daniel's resting place is sat in the basement, in front of the boiler, facing it (the player has finished shovelling coal by then). On the stand-in plank he levitated and faced the coal, so the sit-down is switched off (sailors_sequence.json daniel_sits_in_basement false). Generate a chair model (Meshy or FAL, same look as the lighthouse props, about 0.42 m seat height for the Sit_Cross_Legged clip), import it, place it in front of the boiler with the walk ending at it and Daniel's seat marker on it, then turn daniel_sits_in_basement on and check he does not clip. Check the chair against tools/probe_seat_heights.gd.
-
-- **Why 6:** The creator wants Daniel seated for the rest of the game; the plank looked wrong. Not higher because the slice runs with him standing.
-- **Evidence:** Creator, 30 Oct 2026: Daniel sits on a levitating plank facing the coal, it's better for us to generate a chair for him to sit on in front of the boiler; scripts/world/sailors_sequence.gd _daniel_sits_down
-- **Blocked by:** Creator generates the chair; credits.
 - **Needs the creator** (cannot be done by the agent alone)
 
 ### T51 [6/10] Decide where the characters look during specific lines (the Arthur and Ted opening)  (open)
@@ -624,6 +608,26 @@ Once the open arc lamp model exists: show the open lamp from the start until the
 - **Blocked by:** Task: generate the open arc lamp model.
 - **Depends on:** T39 (all closed)
 - **Result (done):** 30 Oct 2026: lantern.gd adds LampModelOpen beside LampModel; lamp_beacon.gd shows the closed lamp first, the open one from BURNER_DIAGNOSED, and closes it 1.2 s after BURNER_FITTED as the lamp lights. test_lamp_fit.gd checks all four states.
+
+### T42 [6/10] Generate the buoy models for the sea hazards  (done)
+
+The buoy hazards in the crossing (scripts/world/crossing_hazards.gd, _buoy) are built from primitives: a red body with a blinking light. Generate proper buoy models (at least the red channel buoy the forecast names; ideally a second variant, e.g. a green or striped one, and a bell buoy since the audio mixer has a bell) in the same style as the other sea props, with a base that sits on the waterline, a mast or cage for the blinking lamp, and a collision size that matches data/world/boat_spec.json and crossing_sequence.json (the buoy radius_m). Import with tools/import_scale_pivot.gd (add a buoy category or per-file height), downscale the texture to 2048, then swap the model into _buoy and keep the blinking light and near-miss radius. Run main_asset.py --check-only before any FAL submission (credits: ask first).
+
+- **Why 6:** The hazards are the sea's main readable obstacle on the return; primitive buoys look like placeholders next to the generated rocks and ship. Not higher because it does not block the slice.
+- **Evidence:** Creator, 30 Oct 2026: additional backlog item is to generate assets for the buoys in the sea; scripts/world/crossing_hazards.gd
+- **Blocked by:** Creator generates or approves the models; credits.
+- **Needs the creator** (cannot be done by the agent alone)
+- **Result (done):** 1 Nov 2026: FAL red channel buoy and bell buoy (lhi_buoy_red, lhi_bell_buoy) replace the primitive buoys in crossing_hazards.gd, taking turns by hazard id, sized to the 1 m collision radius, float sunk 0.45 m, the red lamp in the cage / on the frame (crossing_sequence.json hazards.buoy.models). lhi_buoy_green is generated but unused: a green buoy would contradict the forecast's 'red buoy light' cue (candidate for marking the safe lane). Note: blink_s is set on each buoy but nothing blinks the lamp yet. test_crossing_sequence passes.
+
+### T43 [6/10] Generate a chair for Daniel in front of the boiler  (done)
+
+Daniel's resting place is sat in the basement, in front of the boiler, facing it (the player has finished shovelling coal by then). On the stand-in plank he levitated and faced the coal, so the sit-down is switched off (sailors_sequence.json daniel_sits_in_basement false). Generate a chair model (Meshy or FAL, same look as the lighthouse props, about 0.42 m seat height for the Sit_Cross_Legged clip), import it, place it in front of the boiler with the walk ending at it and Daniel's seat marker on it, then turn daniel_sits_in_basement on and check he does not clip. Check the chair against tools/probe_seat_heights.gd.
+
+- **Why 6:** The creator wants Daniel seated for the rest of the game; the plank looked wrong. Not higher because the slice runs with him standing.
+- **Evidence:** Creator, 30 Oct 2026: Daniel sits on a levitating plank facing the coal, it's better for us to generate a chair for him to sit on in front of the boiler; scripts/world/sailors_sequence.gd _daniel_sits_down
+- **Blocked by:** Creator generates the chair; credits.
+- **Needs the creator** (cannot be done by the agent alone)
+- **Result (done):** 1 Nov 2026: FAL chair (lhi_daniel_chair) stands in the basement 1.6 m in front of the boiler, facing it, seat at Daniel's 0.42 m (sailors_sequence.json daniel_chair, daniel_sits_in_basement on). His baked route ended inside the coal bin, so after DANIEL_IN_BASEMENT (timing unchanged) he walks daniel_chair_path out of the bin and round the lobby barrel (legs checked clear by ray) and sits with no plank (npc.sit bench=false). test_sailors_sequence updated and passing; render shows him seated facing the fire.
 
 ### T20 [5/10] QA scenario list and automated state-transition checks for the Gate 1 slice  (done)
 

@@ -1581,8 +1581,11 @@
       "agent_can_execute": false,
       "blocked_by": "Creator generates or approves the models; credits.",
       "depends_on": [],
-      "status": "open",
-      "result": null
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "1 Nov 2026: FAL red channel buoy and bell buoy (lhi_buoy_red, lhi_bell_buoy) replace the primitive buoys in crossing_hazards.gd, taking turns by hazard id, sized to the 1 m collision radius, float sunk 0.45 m, the red lamp in the cage / on the frame (crossing_sequence.json hazards.buoy.models). lhi_buoy_green is generated but unused: a green buoy would contradict the forecast's 'red buoy light' cue (candidate for marking the safe lane). Note: blink_s is set on each buoy but nothing blinks the lamp yet. test_crossing_sequence passes."
+      }
     },
     {
       "id": "T43",
@@ -1601,8 +1604,11 @@
       "agent_can_execute": false,
       "blocked_by": "Creator generates the chair; credits.",
       "depends_on": [],
-      "status": "open",
-      "result": null
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "1 Nov 2026: FAL chair (lhi_daniel_chair) stands in the basement 1.6 m in front of the boiler, facing it, seat at Daniel's 0.42 m (sailors_sequence.json daniel_chair, daniel_sits_in_basement on). His baked route ended inside the coal bin, so after DANIEL_IN_BASEMENT (timing unchanged) he walks daniel_chair_path out of the bin and round the lobby barrel (legs checked clear by ray) and sits with no plank (npc.sit bench=false). test_sailors_sequence updated and passing; render shows him seated facing the fire."
+      }
     },
     {
       "id": "T44",
@@ -1714,7 +1720,10 @@
         "T45"
       ],
       "status": "open",
-      "result": null
+      "result": {
+        "outcome": "partial",
+        "summary": "1 Nov 2026: T45 replaced the tower L2 landing's props (instrument cabinet, locker, side table, barometer, two sconces) and the first floor's (washstand, counter, radio desk, nightstand, benches, clocks, shelves, pendant lamps) with FAL models. Still open: the stick through the bathroom, and which room the creator means by 'L2 bathroom'."
+      }
     },
     {
       "id": "T49",
@@ -1733,7 +1742,10 @@
       "blocked_by": "FAL credits; creator approves the hut concept.",
       "depends_on": [],
       "status": "open",
-      "result": null
+      "result": {
+        "outcome": "partial",
+        "summary": "1 Nov 2026: the hut model is generated (slt_equipment_hut: open-fronted, hollow, workbench at the back; 37k tris, 2048 texture). Not placed: the burner sits on a raised stone pier head 1.3 m above the boardwalk where the player lands, so a walk-in hut needs a creator decision: on the pier head with steps up (stone_stairs.gd), or on the boardwalk beside the landing with the burner on the hut's bench."
+      }
     },
     {
       "id": "T50",
@@ -2385,6 +2397,18 @@
       "task_id": "T45",
       "event": "done",
       "note": "greybox prop list and FAL plan written; P1 submissions checked; spend awaits approval"
+    },
+    {
+      "time": "2026-11-01T12:57:13",
+      "task_id": "T42",
+      "event": "done",
+      "note": "1 Nov 2026: FAL red channel buoy and bell buoy (lhi_buoy_red, lhi_bell_buoy) rep"
+    },
+    {
+      "time": "2026-11-01T12:57:13",
+      "task_id": "T43",
+      "event": "done",
+      "note": "1 Nov 2026: FAL chair (lhi_daniel_chair) stands in the basement 1.6 m in front o"
     }
   ]
 }

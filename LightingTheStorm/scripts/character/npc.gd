@@ -252,8 +252,9 @@ func follow(target: Node3D, gap := 2.0, speed := 1.7) -> void:
 	state = State.FOLLOWING
 
 
-## Sit at a seat: become a child of the seat node (a boat's seat, say) so the character rides along.
-func sit(seat: Node3D, offset := Vector3.ZERO) -> void:
+## Sit at a seat: become a child of the seat node (a boat's seat, say) so the character rides along. `bench` false when the seat is a
+## real chair (Daniel's, T43): no stand-in plank under him.
+func sit(seat: Node3D, offset := Vector3.ZERO, bench := true) -> void:
 	if state != State.SEATED:
 		_seat_parent = get_parent()
 	state = State.SEATED
@@ -262,7 +263,7 @@ func sit(seat: Node3D, offset := Vector3.ZERO) -> void:
 	position = offset
 	rotation = Vector3.ZERO
 	_stand()
-	_set_bench(true)
+	_set_bench(bench)
 
 
 func release_seat() -> void:

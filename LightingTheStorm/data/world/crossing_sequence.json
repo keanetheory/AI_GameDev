@@ -29,7 +29,12 @@
     "buoy": {
       "radius_m": 1.0,
       "height_m": 2.4,
-      "light_blink_s": 1.6
+      "light_blink_s": 1.6,
+      "models": [
+        {"model": "res://Assets/Models/prop/lhi_buoy_red.glb", "sink_m": 0.45, "lamp_at": 0.86},
+        {"model": "res://Assets/Models/prop/lhi_bell_buoy.glb", "sink_m": 0.45, "lamp_at": 0.97}
+      ],
+      "models_note": "T42 (1 Nov 2026): the generated red channel buoy and bell buoy take turns by hazard id; both keep the red lamp the forecast names (red buoy light and clanging bell). lhi_buoy_green is generated but unused: it would contradict the red-light cue (a candidate to mark the safe lane)."
     },
     "debris": {
       "planks": 3,
