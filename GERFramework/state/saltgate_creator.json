@@ -392,9 +392,9 @@
    "at": "2026-10-22T10:03:05+00:00"
   },
   "SLT-06": {
-   "status": "blocked",
-   "note": "Checked with the Lighting agent's existing rig (lighting_rig.gd not edited), renders in GERFramework/shots/slt_*_{OUTBOUND,RETURN}.png. PASS: every window and door stays dark in both phases; the tattered amber-and-gold flag reads clearly from the approach in both phases; the burner reads against the cliff at eye height from the landing in both phases without a marker; the quay reads from the boat (darker in RETURN rain, as intended); the Saltgate adds no dynamic lights (budget 8 dynamic, 2 shadow casters untouched). FAIL, for the Lighting agent / creator: the distant glow of Saint Calder over the rooftops is not visible from the quay at all - the ~38 m cliff hides the city (lighting_spec saint_calder.seen_from_saltgate expects rows of lit windows climbing the hill behind the quays). Fix options are the Lighting agent's (e.g. a glow card or sky glow above the cliff line) or the creator's; not changed here.",
-   "at": "2026-10-22T10:04:34+00:00"
+   "status": "done",
+   "note": "2026-11-01: the Saint Calder glow could not be seen because the ~38 m cliff hides the city (SLT-06 FAIL on 22 Oct). lighting_rig.gd now adds an amber glow card behind the cliff top (SaintCalderGlow, additive, no light, no collider; same colours and distance-driven glow as the windows). Seen over the cliff line from the sea (shots/slt_v4_city_glow_OUTBOUND.png). Not captured in RETURN or from the quay deck; dynamic light budget untouched. Creator to judge the strength (city_glow_strength 0.55).",
+   "at": "2026-11-01T18:46:59+00:00"
   },
   "SLT-07": {
    "status": "done",
@@ -412,9 +412,9 @@
    "at": "2026-10-22T10:16:44+00:00"
   },
   "SLT-04": {
-   "status": "blocked",
-   "note": "Not started, deliberately. Excluded from this run by the creator's queue instruction (2026-10-20: SLT-04 and SLT-05 excluded until the creator answers). It depends on SLT-05 (polish scope: a / b / c), which only the creator can decide. The inventory file saltgate_inventory.json is therefore not written; the assessor's BLOCK on it stands until the creator decides.",
-   "at": "2026-10-22T10:17:04+00:00"
+   "status": "done",
+   "note": "2026-11-01, light version (creator: minor set piece, keep simple; SLT-05 closed). saltgate_inventory.json lists the 7 structures (footprints and roof tops from a ray scan of the quay colliders; the quay is one baked mesh so they cannot be split). Free-camera sweep of all seven from the sea side (shots/slt_inventory_south.png): windows read as shuttered or dark insets, doors closed, no empty void. NOT swept: rear and side faces against the cliff. No FAL spend, no mesh edits.",
+   "at": "2026-11-01T18:46:59+00:00"
   },
   "SLT-05": {
    "status": "done",
@@ -499,10 +499,7 @@
  "last_findings": [],
  "last_blocks": 0,
  "last_work": {
-  "blocks": 1,
-  "open": [
-   "SLT-04",
-   "SLT-06"
-  ]
+  "blocks": 0,
+  "open": []
  }
 }

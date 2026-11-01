@@ -1,0 +1,90 @@
+{
+ "source": "Ray scan of the quay colliders on a 1 m grid (cells higher than 5.2 m), world coordinates, 2026-11-01. The quay is one baked 249k-triangle mesh in three instances (Saltgate, SaltgateWest, SaltgateEast), so structures cannot be split from it; the bounds are footprints (x_min, z_min, x_max, z_max) and roof top y.",
+ "structures": [
+  {
+   "id": "main_A",
+   "what": "SaltgateHut (T49 FAL hut on the pier head, not part of the quay mesh)",
+   "footprint_xz": [
+    3.7,
+    538.3,
+    6.7,
+    540.3
+   ],
+   "roof_top_y": 7.4,
+   "instance": "Saltgate"
+  },
+  {
+   "id": "main_B",
+   "what": "stone cottage, red tile roof, shuttered windows (south front)",
+   "footprint_xz": [
+    11.7,
+    538.3,
+    16.7,
+    546.3
+   ],
+   "roof_top_y": 9.1,
+   "instance": "Saltgate"
+  },
+  {
+   "id": "main_C",
+   "what": "stone cottage beside the stairs",
+   "footprint_xz": [
+    -1.3,
+    543.3,
+    3.7,
+    550.3
+   ],
+   "roof_top_y": 8.4,
+   "instance": "Saltgate"
+  },
+  {
+   "id": "main_D",
+   "what": "larger stone warehouse with a timber gantry",
+   "footprint_xz": [
+    25.7,
+    545.3,
+    38.7,
+    553.3
+   ],
+   "roof_top_y": 8.2,
+   "instance": "Saltgate"
+  },
+  {
+   "id": "west_A",
+   "what": "stone cottage, west quay",
+   "footprint_xz": [
+    -84.6,
+    528.3,
+    -76.6,
+    536.3
+   ],
+   "roof_top_y": 8.6,
+   "instance": "SaltgateWest"
+  },
+  {
+   "id": "west_B",
+   "what": "stone warehouse, west quay",
+   "footprint_xz": [
+    -72.6,
+    536.3,
+    -64.6,
+    545.3
+   ],
+   "roof_top_y": 9.0,
+   "instance": "SaltgateWest"
+  },
+  {
+   "id": "east_A",
+   "what": "stone cottage with a crane post, east quay",
+   "footprint_xz": [
+    101.3,
+    530.0,
+    108.3,
+    536.0
+   ],
+   "roof_top_y": 8.6,
+   "instance": "SaltgateEast"
+  }
+ ],
+ "sweep_2026_11_01": "Free-camera renders of all seven from the sea side at about 12 m (GERFramework/shots/slt_inventory_south.png): windows read as shuttered or dark insets and doors as closed; no empty void seen. Rear and side faces against the cliff were not rendered."
+}
