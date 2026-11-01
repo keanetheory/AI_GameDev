@@ -6,148 +6,148 @@
       "id": "R01",
       "text": "Slice starts with the player outside the lighthouse; Ted opens the door ('You're the new guy, then') and the player enters (GAME_STARTED, LIGHTHOUSE_ENTERED).",
       "source": "Exec Summary, Story and gameplay sequence step 1; Technical Strategy Gate 1 and state contract",
-      "status": "unmet",
-      "evidence": "LightingTheStorm/scenes/Level.tscn has no door, no Ted node and no trigger areas; the Lighthouse node is only the exterior glb (lighthouse_exterior_v3.glb). Assets/Characters/ted.glb exists but is not instanced in Level.tscn. 'things to work on next.md' item 7 confirms. 19 Oct 2026: the main door is now in the level and opens with E (scripts/world/door.gd); a greybox interior (v3) is walkable behind it. Ted is not yet placed at the door."
+      "status": "met",
+      "evidence": "1 Nov 2026 re-grade: Built: Ted behind the door, the knock with E, Ted's greeting, the door opens, LIGHTHOUSE_ENTERED (data/world/intro_sequence.json, tools/test_intro_sequence.gd). Covered by tools/test_slice_playthrough.gd (headless golden path). tools/test_title_settings.gd still expects GAME_STARTED at level load; it now fires with the knock, so that check is stale."
     },
     {
       "id": "R02",
       "text": "Player feeds the boiler with coal in the basement (first hands-on job); steam comes up and the dynamo runs (BOILER_FED).",
       "source": "Exec Summary step 1 and Decisions log (Repairs); Technical Strategy 'Repairs, shelter and gate'",
-      "status": "unmet",
-      "evidence": "No boiler, basement or interaction code in LightingTheStorm/scripts or Level.tscn. The 'interact' action exists in project.godot but only boat.gd reads it; the Lighthouse has no interior."
+      "status": "met",
+      "evidence": "1 Nov 2026 re-grade: Boiler coal job in the basement, BOARDING of steam and dynamo (scripts/interaction, tools/test_coal_job.gd); BOILER_FED is in the playthrough's 25 events."
     },
     {
       "id": "R03",
       "text": "Ted at the window shows the sailors' rowboat moored at the dock; the player opens the island gate; Arthur and Daniel walk in on a scripted path and Daniel stays in the basement. The rowboat is visibly distinct from the engine boat.",
       "source": "Exec Summary step 2 and 'Two boats'; Technical Strategy shelter and gate sequence",
-      "status": "unmet",
-      "evidence": "Assets/Island/environment/1-gate.glb exists as a model, but there is no gate interaction, no rowboat model (Assets/Models/boat has only boat_launch.glb), and no Arthur/Daniel models or NPC scripts."
+      "status": "met",
+      "evidence": "1 Nov 2026 re-grade: Window moment, moored rowboat, island gate and the sailors' scripted walk-in; Daniel stays in the basement (tools/test_sailors_sequence.gd, test_island_gate.gd, test_npc.gd)."
     },
     {
       "id": "R04",
       "text": "Beacon diagnosis only after the sailors are in: the dynamo runs, the beacon stays dark, Ted takes the player to the lantern room, opens the arc lamp and finds the burner broken (BEACON_STILL_DARK, LAMP_ROOM_ENTERED, BURNER_DIAGNOSED).",
       "source": "Exec Summary step 3; Technical Strategy state contract",
-      "status": "unmet",
-      "evidence": "No lantern room or lamp in the scene. data/dialogue/dialogue_opening.json has the lines (TED_S3_00 on BEACON_STILL_DARK etc.), but nothing fires these events."
+      "status": "met",
+      "evidence": "1 Nov 2026 re-grade: Lantern-room diagnosis after the sailors are in: BEACON_STILL_DARK, LAMP_ROOM_ENTERED, BURNER_DIAGNOSED (tools/test_diagnosis_sequence.gd); Ted opens the arc lamp."
     },
     {
       "id": "R05",
       "text": "Boarding: player meets Arthur at the engine boat; at the boarding threshold Ted names the ship and the ship appears on the horizon; no deadline yet.",
       "source": "Exec Summary step 4; Pillar 3; Technical Strategy deadline rules",
-      "status": "partial",
-      "evidence": "boat.gd lets the player board with E and cast off (board(), cast_off()), but there is no Arthur aboard, no BOARDING_THRESHOLD/SHIP_SIGHTED event and no ship object anywhere in Level.tscn."
+      "status": "met",
+      "evidence": "1 Nov 2026 re-grade: Arthur walks to the launch and boards; BOARDING_THRESHOLD and SHIP_SIGHTED fire; the ship appears on the horizon (tools/test_boarding_sequence.gd, T11)."
     },
     {
       "id": "R06",
       "text": "Boat: one steering axis, one fixed speed, no throttle, automatic docking at the Saltgate quays and the lighthouse jetty, and recovery to a safe point on a hit.",
       "source": "Technical Strategy 'Boat and weather simulation'; Exec Summary Outcome checks",
       "status": "met",
-      "evidence": "LightingTheStorm/scripts/world/boat.gd (fixed speed, Input.get_axis steer, _dock(), _recover() with trail); dock_zone.gd; Level.tscn DockZoneLighthouse/South and DockZonePort; spec in data/world/boat_spec.json. Not play-verified (no editor). Note Level.tscn overrides speed=10.0 vs spec 3.0."
+      "evidence": "1 Nov 2026 re-grade: Unchanged: fixed speed, one steering axis, auto-docking, recovery (boat.gd, dock_zone.gd, tools/test_boat.gd, test_disembark.gd). The Saltgate landing, berth and steps changed in T49; disembark passes 8 of 8."
     },
     {
       "id": "R07",
       "text": "Hazards (rocks, reefs, buoys, debris) are readable, with a shared hazard forecast and a single safe-route signal that Arthur's calls read from.",
       "source": "Technical Strategy boat/weather section; AI Agent Strategy (Hazard Forecast); Exec Summary Pillar 4",
-      "status": "partial",
-      "evidence": "Level.tscn has SeaStack1-11, cliffs and headlands as static hazards (layer 2). No buoys or debris. AIAgentCrew/output/return_crossing.json and AIAgentCrew/godot/crossing_loader.gd exist but there is no LightingTheStorm/data/return_crossing.json and nothing in the game uses the loader (grep for 'return_crossing' in LightingTheStorm: no matches)."
+      "status": "met",
+      "evidence": "1 Nov 2026 re-grade: Hazard forecast data and loader are wired (T10): buoys and debris placed on the sea, Arthur's calls and near misses, shared safe-route signal (tools/test_wave_crossings.gd, test_crossing_sequence.gd, data/world/return_crossing.json). Not play-verified by a person."
     },
     {
       "id": "R08",
       "text": "Outbound crossing to the Saltgate quays and return crossing to the lighthouse are playable end to end, with harder return hazards.",
       "source": "Exec Summary steps 5 and 7; Technical Strategy Gate 1 and week 3",
-      "status": "partial",
-      "evidence": "The geometry exists: DockZoneLighthouse at about z=18, DockZonePort at z=527, Saltgate quay models. The boat can sail between them. No separate return hazard density or route-position difficulty, and the full slice cannot be completed because the surrounding beats are missing. 19 Oct 2026: tools/test_boat.gd now sails both crossings headless at 10 m/s and docks at each end (outbound 69 s, return 81 s, 0 hits on its weave route); no separate return hazard density yet."
+      "status": "met",
+      "evidence": "1 Nov 2026 re-grade: Outbound and return crossings both run end to end in the playthrough; the return carries the hazard forecast and a 5 s collision penalty (crossing_sequence.json). Tuning needs a human playtest."
     },
     {
       "id": "R09",
       "text": "Player finds and picks up the replacement burner at the Saltgate; it is carried aboard and can never be permanently lost (BURNER_PICKED_UP).",
       "source": "Exec Summary step 6; Technical Strategy invariants and failure policy",
       "status": "met",
-      "evidence": "scripts/world/burner_pickup.gd + BurnerPickup in Level.tscn: E picks the burner up on the Saltgate landing, it is held in view (parented to the camera, so a hazard recovery cannot lose it, and there is no drop), and BURNER_PICKED_UP gates RETURN_DEPARTED. tools/test_burner_pickup.gd passes headless. Play-tested by the creator on 19 Oct 2026: works."
+      "evidence": "1 Nov 2026 re-grade: Burner now sits on the Saltgate hut's workbench (creator, 1 Nov); carried in the hands, no place to put it down, never lost (tools/test_burner_pickup.gd, test_carry.gd)."
     },
     {
       "id": "R10",
       "text": "The only timer is a hidden numeric ship deadline that starts once on RETURN_DEPARTED (burner aboard), is inactive before then, stops in menus, and has a debug time scale and event log.",
       "source": "Exec Summary Fail-state contract; Technical Strategy 'Repairs, shelter and gate, and final pressure' and Invariants; Pillar 2",
-      "status": "unmet",
-      "evidence": "GameState provides the event log and RETURN_DEPARTED event, but there is still no numeric deadline, ship or time scale (T07). The old note 'no game state autoload exists' no longer holds."
+      "status": "met",
+      "evidence": "1 Nov 2026 re-grade: Hidden ship deadline on RETURN_DEPARTED, ship placeholder, 3:30 placeholder length, debug time scale, P pause and event log (scripts/core/ship_deadline.gd, tools/test_ship_deadline.gd)."
     },
     {
       "id": "R11",
       "text": "Storm split: sound, rain, lightning, wind and ship lights follow elapsed deadline time; hazard density and visibility follow phase and route position only.",
       "source": "Exec Summary decisions log (Storm escalation); Technical Strategy weather channels; Pillar 2",
       "status": "partial",
-      "evidence": "lighting_rig.gd has phases ISLAND/OUTBOUND/RETURN/BEACON_RELIT driven by boat departed signals, with F5-F8 debug jumps. There is no elapsed-time driver and no hazard-density channel; BEACON_RELIT has no trigger."
+      "evidence": "1 Nov 2026 re-grade: Lighting and audio phases follow elapsed deadline time (audio_spec.json, ship_deadline.gd); hazard density follows route position via the forecast. The split has not been verified by ear or eye in play."
     },
     {
       "id": "R12",
       "text": "Final repair: player climbs to the lamp, Ted waits there, and the player fits the burner to the beacon (final hands-on job); Arthur says 'go go go, don't wait for me' on arrival.",
       "source": "Exec Summary step 7-8; Technical Strategy 'Repairs'",
-      "status": "unmet",
-      "evidence": "No lamp, no burner-fit interaction, no arrival trigger on the lighthouse dock zone. Arrival line exists only as crew data (AIAgentCrew/output/return_crossing.json)."
+      "status": "met",
+      "evidence": "1 Nov 2026 re-grade: Final repair: burner carried to the lamp and fitted (BURNER_FITTED, BEACON_RELIT); Arthur's 'go go go' on arrival (tools/test_lamp_fit.gd; playthrough)."
     },
     {
       "id": "R13",
       "text": "Win and fail outcomes resolve exactly once per attempt: win = ship sails safely into port; fail = foghorn, ship runs aground, silence, 'Failed' title screen with a reason line. The lamp room has a clear sightline; no cutaway camera.",
       "source": "Exec Summary Fail-state contract; Technical Strategy fail-state presentation; Pillar 4",
-      "status": "unmet",
-      "evidence": "No ship, no outcome code, no title/fail screen, no audio nodes (grep for AudioStreamPlayer in LightingTheStorm *.gd/*.tscn: none). The lighthouse has no lamp room."
+      "status": "met",
+      "evidence": "1 Nov 2026 re-grade: Win and fail resolve once per attempt: foghorn, grounding, silence, Failed card with a reason, win card (tools/test_outcome_screen.gd; playthrough covers WIN and a FAIL then restart)."
     },
     {
       "id": "R14",
       "text": "After a fail the player can restart the slice from its start.",
       "source": "Exec Summary Retry model and Outcome checks; Technical Strategy Gate 1 acceptance",
-      "status": "partial",
-      "evidence": "GameState.restart() resets the attempt state, resets Dialogue (now also dropping a stale line) and calls reload_current_scene(). F9 triggers it. The state reset is covered by the headless test, but the scene reload was not run and there is no fail screen to call it yet."
+      "status": "met",
+      "evidence": "1 Nov 2026 re-grade: Enter or Space on the outcome card restarts the slice with a clean attempt (tools/test_outcome_screen.gd, test_slice_playthrough.gd fail-then-restart)."
     },
     {
       "id": "R15",
       "text": "Explicit phase state machine (ARRIVAL_AND_COAL through RESOLUTION) with stable event IDs; every transition has a single owner; audio, UI and dialogue respond to events and never drive progression.",
       "source": "Technical Strategy 'Core state contract'; AI Agent Strategy rule 4",
-      "status": "partial",
-      "evidence": "GameState autoload has the Phase enum in Technical Strategy order, emit_event with stable IDs (canon.py OPENING_EVENTS plus four proposed), one-shot rules and an event log. Headless test_game_state.gd passes. Still partial: nothing in the level reports most opening events yet (no door, boiler, gate or lantern-room triggers), and the four new IDs and phase boundaries await the creator."
+      "status": "met",
+      "evidence": "1 Nov 2026 re-grade: GameState phase machine with stable event IDs; the playthrough sees all 25 story events once each, in order, with phases advancing one at a time."
     },
     {
       "id": "R16",
       "text": "Guidance comes from Ted and Arthur by voice/subtitle and a handwritten objective journal, with no markers or visible timer; apprentice never speaks; spoken navigation cues have subtitles with speaker attribution.",
       "source": "Pillar 3; Technical Strategy 'Presentation and accessibility'; Exec Summary Cast",
       "status": "partial",
-      "evidence": "dialogue_loader.gd emits line_started/journal_entry_added with subtitle text and speaker, but there is no subtitle or journal UI and no audio playback ('the game does not play line audio yet', things to work on next.md item 4). No timer or markers exist, which satisfies the negative rule by absence."
+      "evidence": "1 Nov 2026 re-grade: Subtitles with speaker, goal tracker, controls panel and journal key exist (tools/test_subtitles.gd, test_guidance_hud.gd); no markers or timer. Journal contents are still open (T57) and no voice audio is recorded (T18, T50)."
     },
     {
       "id": "R17",
       "text": "The slice is playable on keyboard and mouse (creator, 19 October 2026: no controller in this iteration).",
       "source": "Technical Strategy Gate 1 acceptance; Decisions to be made B14 (open: is controller needed for the prototype?)",
       "status": "met",
-      "evidence": "Creator decision 19 October 2026 removed controller support from this iteration. project.godot binds steer, interact and disembark to keys and player.gd uses mouse look; boat prompts show keyboard keys. Not play-verified."
+      "evidence": "1 Nov 2026 re-grade: Keyboard and mouse only (creator, 19 Oct). Controls panel shows the keys; C toggles it."
     },
     {
       "id": "R18",
       "text": "Placeholder audio: layered wind and rain, machinery, buoy bells, foghorn, ship impact; states mixed by phase; no shock stingers.",
       "source": "Exec Summary 'Cast and atmosphere'; Technical Strategy presentation; AI Agent Strategy (Sound)",
-      "status": "unmet",
-      "evidence": "No AudioStreamPlayer in scenes or scripts; no audio files under LightingTheStorm/Assets."
+      "status": "partial",
+      "evidence": "1 Nov 2026 re-grade: Placeholder audio exists and is mixed by phase (Assets/Audio/placeholder, audio_mixer, tools/test_audio_mixer.gd). The sounds are synthesised stand-ins that nobody has heard; creator review is set for Tuesday 3 Nov (T50)."
     },
     {
       "id": "R19",
       "text": "Warm lamplight against blue-grey storm light; the beam is a navigational anchor from the sea; beacon and hazards stay legible in every phase; greybox art is acceptable.",
       "source": "Exec Summary 'Cast and atmosphere'; AI Agent Strategy (Lighting)",
       "status": "partial",
-      "evidence": "lighting_rig.gd (532 lines) builds sky, rain, lightning and lit windows per phase from data/world/lighting_spec.json. No working beacon beam because there is no lamp; 'things to work on next.md' item 2 reports the walkway as nearly black; legibility of hazards in each phase not verified in-engine."
+      "evidence": "1 Nov 2026 re-grade: Warm lamplight against blue-grey storm light, the lamp beacon and the Saint Calder glow card over the Saltgate cliff (SLT-06, 1 Nov). Not verified in play in every phase; the Saltgate renders were OUTBOUND only."
     },
     {
       "id": "R20",
       "text": "Scope and hard rules are respected: first-person only, no combat/jump scares/visible timer/markers, one lighthouse + one sea + the Saltgate, no waves, no branching, no added significant Saltgate detail.",
       "source": "Exec Summary scope rule; AI Agent Strategy working rules 3 and 7",
       "status": "partial",
-      "evidence": "No violating features found in scripts. A debug label 'Lighting: <phase>' (lighting_rig.gd _build_label) and F5-F8 phase hotkeys are on-screen debug UI that must not ship. Mainland.gd builds a large generated mainland with about 2,600 trees and a walkway, which is beyond a 'minimal' Saltgate; not verified against the creator's intent."
+      "evidence": "1 Nov 2026 re-grade: Debug label and F5-F11 keys are gated off in a release export or with --no-debug-ui (scripts/core/debug_flags.gd, tools/test_debug_flags.gd). The generated mainland is larger than a minimal Saltgate; the creator accepted the Saltgate polish scope (SLT-05 closed)."
     },
     {
       "id": "R21",
       "text": "Each agent task ends with a HANDOFF.md; game data uses JSON/.tres with stable IDs; the project documents engine version and conventions.",
       "source": "AI Agent Strategy 'Handoff format'; Technical Strategy 'Engine and project shape'",
       "status": "partial",
-      "evidence": "AIAgentCrew produces HANDOFF.md/REPORT.md and JSON data (world_output/, output/). LightingTheStorm/readme.md is empty (0 B). project.godot pins 4.3 Forward Plus. The game folder has no task HANDOFF.md files; the crew's boat_spec/lighting_spec are copied into data/world but only lighting_spec is consumed."
+      "evidence": "1 Nov 2026 re-grade: HANDOFF_*.md files exist per task and data lives in JSON with stable IDs; readme.md now documents the engine, baking and autoloads. Some task handoffs are still missing (T44-T49 and the GER work are recorded in the state files)."
     }
   ],
   "tasks": [
@@ -1007,7 +1007,7 @@
       "title": "Bake mainland/cliff carving and collision to cut level load time",
       "priority": 3,
       "category": "code",
-      "summary": "mainland.gd and collider_builder.gd carve about 22,000 triangles, build trees and collision at every load (about 10 s headless). Bake the carved meshes, height table and collision as resources and keep builders editor-only.",
+      "summary": "mainland.gd and collider_builder.gd carve about 22,000 triangles, build trees and collision at every load (about 10 s headless). Bake the carved meshes, height table and collision as resources and keep builders editor-only. 1 Nov 2026 update: collider baking is done (tools/bake_colliders.gd, Assets/Baked/colliders, readme 'Baked colliders'); what remains is the mainland's tree and carve building at load.",
       "why_this_score": "Quality of life for testing and builds, not a gate requirement, so 3.",
       "evidence": [
         "things to work on next.md item 3",
@@ -1021,7 +1021,10 @@
       "agent_can_execute": false,
       "blocked_by": "Needs the Godot editor to bake and verify.",
       "status": "open",
-      "result": null,
+      "result": {
+        "outcome": "partial",
+        "summary": "Colliders are baked; mainland trees and carving still build at load."
+      },
       "build_wave": 5,
       "depends_on": [],
       "build_order": 27
@@ -1475,7 +1478,7 @@
       "title": "Texture the lighthouse exterior's plain patches (back-west corner panels, fills under the back windows)",
       "priority": 4,
       "category": "art",
-      "summary": "repair_exterior.py closes the scan's missing back-west corner of the first floor with two flat panels and fills some holes (the tan triangles under the back windows) with one texel of wall colour. They read as flat, untextured patches, most visibly from behind the house (GERFramework/shots/lh_out_corner.png, lh_out_back.png). Give them coursed stone or render that matches the scan: a tiling stone material on the panels, or let the run-time masonry shader (exterior_wall_detail) course them. A copy of the neighbouring wall's UVs was tried on 27 Oct 2026 and came out as a collage of texture islands.",
+      "summary": "repair_exterior.py closes the scan's missing back-west corner of the first floor with two flat panels and fills some holes (the tan triangles under the back windows) with one texel of wall colour. They read as flat, untextured patches, most visibly from behind the house (GERFramework/shots/lh_out_corner.png, lh_out_back.png). Give them coursed stone or render that matches the scan: a tiling stone material on the panels, or let the run-time masonry shader (exterior_wall_detail) course them. A copy of the neighbouring wall's UVs was tried on 27 Oct 2026 and came out as a collage of texture islands. Overlaps T59 (plain wall tiling at the back of the lighthouse): do both as one pass.",
       "why_this_score": "Cosmetic: both assessors list it as REVISE, not BLOCK (interior 9/10, exterior 7/10, 27 Oct 2026). Not higher because it does not face the sea approach or affect play.",
       "evidence": [
         "Creator, 27 Oct 2026: add the plain patches to the backlog",
@@ -2415,6 +2418,12 @@
       "task_id": "T49",
       "event": "done",
       "note": "1 Nov 2026, second pass (creator: the dock-level hut was taking too long for a s"
+    },
+    {
+      "time": "2026-11-01T19:00:00",
+      "task_id": "-",
+      "event": "requirements_regrade",
+      "note": "All 21 requirements re-graded against the code and the headless suite; T23 re-scoped, T38 linked to T59."
     }
   ]
 }
