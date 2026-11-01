@@ -7,6 +7,9 @@
 extends Node3D
 
 @export_file("*.glb") var model_path := "res://Assets/Models/prop/slt_equipment_hut.glb"
+## A welded, collapsed copy of the model (about 2.5k triangles, same frame) used only for collision. The model itself is 37k triangles, and a
+## capsule walking about inside a 37k-triangle concave trimesh took 60 to 190 ms per physics step, so the game froze for up to 0.7 s.
+@export_file("*.glb") var collision_model_path := "res://Assets/Models/prop/slt_equipment_hut_col.glb"
 ## Across the open front, metres.
 @export var width_m := 3.4
 ## The generated textures are paler than the Saltgate's dark palette (as hero_props.gd TINT).
@@ -36,6 +39,7 @@ func _ready() -> void:
 	model.rotation.y = PI                       # the model's open front is its +z; the node's front is -z
 	model.position = Vector3(box.get_center().x * s, -box.position.y * s, box.get_center().z * s)
 	add_child(model)
+	_add_collision()
 	var lamp := OmniLight3D.new()
 	lamp.name = "HutLamp"
 	lamp.light_color = Color(1.0, 0.72, 0.42)
@@ -53,6 +57,26 @@ func _ready() -> void:
 				var d := mat.duplicate() as StandardMaterial3D
 				d.albedo_color = d.albedo_color * tint
 				m.set_surface_override_material(i, d)
+
+
+## Walls, floor, roof and the bench from the low-poly copy, laid over the visible model (same turn, scaled and moved so its bounds
+## match the model's in the world), layer 1.
+func _add_collision() -> void:
+	var ps := load(collision_model_path) as PackedScene
+	if ps == null:
+		push_warning("saltgate_hut: %s did not load; the hut has no collision" % collision_model_path)
+		return
+	var col := ps.instantiate() as Node3D
+	col.name = "Collision"
+	col.rotation.y = PI
+	add_child(col)
+	var want := _world_bounds(model)
+	var have := _world_bounds(col)
+	col.scale = Vector3(want.size.x / maxf(have.size.x, 0.001), want.size.y / maxf(have.size.y, 0.001), want.size.z / maxf(have.size.z, 0.001))
+	have = _world_bounds(col)
+	col.global_position += want.position - have.position
+	for mi in col.find_children("*", "MeshInstance3D", true, false):
+		var m := mi as MeshInstance3D
 		m.create_trimesh_collision()
 		for c in m.get_children():
 			if c is StaticBody3D:
@@ -61,6 +85,18 @@ func _ready() -> void:
 					var cs := (sh as CollisionShape3D).shape as ConcavePolygonShape3D
 					if cs:
 						cs.backface_collision = true
+		m.visible = false
+
+
+func _world_bounds(root: Node3D) -> AABB:
+	var box := AABB()
+	var first := true
+	for n in root.find_children("*", "MeshInstance3D", true, false):
+		var mi := n as MeshInstance3D
+		var b := mi.global_transform * mi.mesh.get_aabb()
+		box = b if first else box.merge(b)
+		first = false
+	return box
 
 
 func _bounds(root: Node3D) -> AABB:
