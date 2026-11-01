@@ -51,23 +51,28 @@ func _physics_process(_delta: float) -> bool:
 			_check(_gs.fired.has("SALTGATE_REACHED"), "SALTGATE_REACHED on docking at the quays")
 			var land: Vector3 = _zone("DOCK_PORT").landing
 			var flat := Vector2(_burner.global_position.x - land.x, _burner.global_position.z - land.z).length()
-			_check(flat > 1.5 and flat < 4.0, "the burner is a few steps from the landing (%.1f m)" % flat)
-			var to_boat := Vector2(_burner.global_position.x - _boat.global_position.x, _burner.global_position.z - _boat.global_position.z).length()
-			_check(to_boat > _boat.board_radius, "the burner is outside the boat's board radius, so one E cannot do both (%.1f m)" % to_boat)
-			# walk up to it: stand 1.5 m away, facing it, looking a little down
-			var from := _burner.global_position + Vector3(1.5, 0.0, 0.0)
+			_check(flat > 1.5 and flat < 6.0, "the burner is a short walk from the landing (%.1f m)" % flat)
+			# the burner sits on the hut's workbench, inside the boat's (generous) board radius: one E must still not do both, which the boat
+			# guarantees by leaving E to the Interaction autoload whenever it is offering something (checked below, facing the burner)
+			# walk up to it: stand in front of the hut's workbench (between it and the open front, on the floor), facing it, looking a little down
+			var hut := _lv.get_node_or_null("SaltgateHut") as Node3D
+			var toward_door := (-hut.global_transform.basis.z) if hut else Vector3(1, 0, 0)
+			var from := _burner.global_position + toward_door * 1.0
+			from.y = hut.global_position.y if hut else _burner.global_position.y
 			_player.global_position = from
 			_player.look_at(Vector3(_burner.global_position.x, from.y, _burner.global_position.z), Vector3.UP)
 			_player.get_node("Head").rotation.x = deg_to_rad(-25.0)
 			_next(5)
 		2:
 			_check(root.get_node("Interaction")._label.text == "[E] Pick up the burner", "prompt shows next to the burner ('%s')" % root.get_node("Interaction")._label.text)
+			_check(_boat._interaction_busy(), "facing the burner, the boat leaves E to it (no boarding prompt or boarding on the same key)")
 			Input.action_press("interact")
 			_next(3)
 		3:
 			var cam: Camera3D = _player.get_node("Head/Camera3D")
 			var model: Node3D = cam.get_node_or_null("Model")
 			_check(_burner.held, "E picked the burner up")
+			_check(not _boat.driving, "and the same E did not board the boat")
 			_check(model != null, "the burner model now rides on the camera")
 			_check(_gs.burner_aboard and _gs.fired.has("BURNER_PICKED_UP"), "GameState got BURNER_PICKED_UP")
 			_check(root.get_node("Interaction")._label.text == "", "the pickup prompt is gone")

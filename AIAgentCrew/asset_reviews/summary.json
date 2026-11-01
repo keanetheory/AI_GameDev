@@ -1,12 +1,12 @@
 [
   {
-    "asset_id": "passenger_ship",
-    "category": "boat",
+    "asset_id": "arthur_fal_v3",
+    "category": "character_texture",
     "verdict": "APPROVE",
     "findings": [],
     "image_metrics": {
-      "mean_saturation": 0.286,
-      "mean_brightness": 0.238,
+      "mean_saturation": 0.068,
+      "mean_brightness": 0.416,
       "neon_fraction": 0.0,
       "near_palette_fraction": 1.0
     }

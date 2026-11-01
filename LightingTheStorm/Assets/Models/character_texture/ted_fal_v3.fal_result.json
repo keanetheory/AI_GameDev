@@ -1,0 +1,23 @@
+{
+  "submission": {
+    "asset_id": "ted_fal_v3",
+    "category": "character_texture",
+    "fal_model": "fal-ai/hunyuan3d-v3/image-to-3d",
+    "prompt": "Ted, grizzled lighthouse master in his late 60s, T-pose for rigging, grey short hair and beard, long navy oilskin coat with brass buttons over a heavy cream wool jumper, leather belt and strap, dark trousers, heavy black oily buckled boots, single character on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of navy #1F2A44 and black #0E0E10, mid-1800s coastal attire",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "source_image": "../../../ConceptArt/characters/newted/prepared/ted_front.png",
+    "view_images": {
+      "front": "../../../ConceptArt/characters/newted/prepared/ted_front.png",
+      "back": "../../../ConceptArt/characters/newted/prepared/ted_back.png"
+    },
+    "notes": "Test against the Meshy Ted (Ironclad Mariner). Views from ConceptArt/characters/newted, cropped to the figure, scaled to the same height and baseline, flat grey background (prepared/). The side view is left out: it shows the coat closed and belted over the top, the front shows it open with the belt underneath. Rig afterwards with fal-ai/meshy/rigging."
+  },
+  "request_id": "01a19151-0f5a-79c1-b6a3-058ee93379b7",
+  "seed": null,
+  "model_url": "https://v3b.fal.media/files/b/0ab0924b/y6DU6sDKH0rc6pqgcrNt9_model.glb",
+  "textured": true,
+  "request": {
+    "generate_type": "Normal",
+    "face_count": 60000
+  }
+}

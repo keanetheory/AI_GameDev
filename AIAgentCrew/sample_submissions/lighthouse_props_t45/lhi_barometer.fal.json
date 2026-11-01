@@ -1,0 +1,8 @@
+{
+  "asset_id": "lhi_barometer",
+  "category": "prop",
+  "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+  "prompt": "Round brass aneroid barometer for a lighthouse wall, white dial marked stormy rain change fair, a set needle and a mounting plate, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+  "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+  "notes": "T45 (1 Nov 2026), priority 2. Replaces L2_Barometer + face on the tower's control landing: 0.4 m across, wall-mounted. Downscale the 4096 texture to 2048 on import, then tools/decimate_props.gd."
+}

@@ -45,8 +45,9 @@ func _process(_d: float) -> bool:
 				live.set(p["name"], n.get(p["name"]))
 		live.transform = n.global_transform
 		holder.add_child(live)
-		var a := _signature(n)
-		var b := _signature(live)
+		var reduced := {}
+		var a := _signature(n, reduced)
+		var b := _signature(live, reduced)
 		for mesh in a:         # by name: other scripts remove some meshes after the build (interior_rooms.gd drops the v3 stairs)
 			if a[mesh] != b.get(mesh):
 				_fail("%s/%s (%s) differs from a live build:\n  baked %s\n  live  %s" % [n.get_path(), mesh, from_bake, a[mesh], b.get(mesh)])
@@ -59,16 +60,23 @@ func _process(_d: float) -> bool:
 
 
 # Mesh path (in the model) -> the vertex and index counts of every surface and a sum of the kept triangles' corners, then
-# its collision.
-func _signature(n: Node) -> Dictionary:
+# its collision. Other scripts change some meshes after the build: a mesh they add (meta added_after_build, the ground
+# window's infill) is left out, and one whose stray triangles exterior_clip.gd takes out (meta clipped_after_build) is
+# compared by its vertex count and collision only; `reduced` carries those paths over to the live copy's signature.
+func _signature(n: Node, reduced: Dictionary) -> Dictionary:
 	var out := {}
 	var model: Node = n.get_child(0)
 	for node in model.find_children("*", "MeshInstance3D", true, false):
 		var mi := node as MeshInstance3D
 		if not mi.visible and String(mi.name).ends_with(n.marker_suffix):
 			continue
+		if mi.has_meta("added_after_build"):
+			continue
+		var key := String(model.get_path_to(mi))
+		if mi.has_meta("clipped_after_build"):
+			reduced[key] = true
 		var m := []
-		out[String(model.get_path_to(mi))] = m
+		out[key] = m
 		var am := mi.mesh as ArrayMesh
 		if am:
 			for s in am.get_surface_count():
@@ -79,7 +87,10 @@ func _signature(n: Node) -> Dictionary:
 				if idx != null:
 					for i in idx:
 						sum += v[i]
-				m.append([v.size(), idx.size() if idx != null else -1, sum.snapped(Vector3.ONE * 0.01)])
+				if reduced.has(key):
+					m.append([v.size(), "clipped"])
+				else:
+					m.append([v.size(), idx.size() if idx != null else -1, sum.snapped(Vector3.ONE * 0.01)])
 		for body in mi.get_children():
 			if body is StaticBody3D:
 				m.append(["layer", body.collision_layer])

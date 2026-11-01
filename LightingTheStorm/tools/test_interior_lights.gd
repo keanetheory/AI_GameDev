@@ -12,7 +12,7 @@ var _spot := 0
 var _wait := 0
 var _fails := 0
 # name, world position
-var _spots := [["outside the door", Vector3(-2.0, 10.7, 4.0)], ["entry hall", Vector3(0.6, 10.8, -1.5)], ["boiler room", Vector3(-1.0, 7.8, -3.6)],
+var _spots := [["outside the door", Vector3(-2.0, 10.7, 4.0)], ["on the front step", Vector3(2.15, 10.6, 1.9)], ["entry hall", Vector3(0.6, 10.8, -1.5)], ["boiler room", Vector3(-1.0, 7.8, -3.6)],
 	["stairs, low", Vector3(7.0, 14.0, -3.0)], ["stairs, high", Vector3(7.5, 24.0, -4.0)], ["lamp room", Vector3(8.5, 28.6, -4.9)], ["far out on the island", Vector3(-40.0, 2.0, 30.0)]]
 
 
@@ -44,8 +44,10 @@ func _physics_process(_d: float) -> bool:
 	var sh: int = _lights.shadow_count()
 	var name: String = _spots[_spot][0]
 	_ok(live <= 6 and sh <= 2, "%s: %d interior lights lit (max 6), %d with shadows (max 2)" % [name, live, sh])
-	if name != "far out on the island" and name != "outside the door":
+	if name != "far out on the island" and name != "outside the door" and name != "on the front step":
 		_ok(live >= 1, "%s: at least one light is on where the player is" % name)
+	else:
+		_ok(live == 0, "%s: no interior light comes on for a player outside, so the front wall is not washed orange (T58)" % name)
 	_spot += 1
 	_wait = 0
 	if _spot >= _spots.size():

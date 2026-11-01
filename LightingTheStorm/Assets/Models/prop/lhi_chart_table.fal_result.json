@@ -1,0 +1,20 @@
+{
+  "submission": {
+    "asset_id": "lhi_chart_table",
+    "category": "prop",
+    "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+    "prompt": "Lighthouse chart table, sloped oak top with a raised lip holding a pinned sea chart, brass dividers and a parallel ruler on it, sturdy turned legs with a stretcher, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+    "source_image": null,
+    "view_images": {},
+    "notes": "T45 (1 Nov 2026), priority 2. Replaces Office_ChartTable + legs, and L1_ChartTable: 1.15 x 0.86 x 1.05 m. Downscale the 4096 texture to 2048 on import, then tools/decimate_props.gd."
+  },
+  "request_id": "01a196df-afa9-7c63-964a-ebb15d08136e",
+  "seed": null,
+  "model_url": "https://v3b.fal.media/files/b/0ab0b6ba/bxrX6BKHJnKBDqP29vl0J_model.glb",
+  "textured": true,
+  "request": {
+    "prompt": "Lighthouse chart table, sloped oak top with a raised lip holding a pinned sea chart, brass dividers and a parallel ruler on it, sturdy turned legs with a stretcher, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "generate_type": "Normal"
+  }
+}

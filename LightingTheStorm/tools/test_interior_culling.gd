@@ -54,7 +54,7 @@ func _physics_process(_d: float) -> bool:
 			var b: int = _ic.levels[0].size()
 			var g: int = _ic.levels[1].size()
 			var l1: int = _ic.levels[2].size()
-			_ok(b > 100 and g > 100 and l1 > 100, "meshes per level: basement %d, ground %d, first floor %d" % [b, g, l1])
+			_ok(b > 50 and g > 50 and l1 > 50, "meshes per level: basement %d, ground %d, first floor %d" % [b, g, l1])
 			var tower_hit := false
 			for lvl in _ic.levels:
 				for m in _ic.levels[lvl]:
@@ -68,7 +68,7 @@ func _physics_process(_d: float) -> bool:
 		1:
 			_ok(_ic.inside, "camera in the hall counts as inside the house")
 			_ok(_visible_count(2) == 0, "on the ground floor the first floor is hidden")
-			_ok(_visible_count(1) > 100 and _visible_count(0) > 100, "on the ground floor the ground floor and the basement are drawn")
+			_ok(_visible_count(1) > 50 and _visible_count(0) > 50, "on the ground floor the ground floor and the basement are drawn (%d, %d; culled is 0. 50, not 100, since the T45 props replaced dozens of greybox pieces each, which are no longer on a level: the bookcase alone hid 87)" % [_visible_count(1), _visible_count(0)])
 			_at(1.0, 14.8 + 1.6, 4.0)         # first floor, mess
 			_step = 2
 		2:
@@ -78,7 +78,7 @@ func _physics_process(_d: float) -> bool:
 			_ok(fl != null and fl.visible and _ic.levels[2].has(fl), "on the first floor its floor slab is on the first-floor level and drawn")
 			var gc := _lv.get_node("InteriorRooms").frame.find_child("G_Ceiling", true, false) as Node3D
 			_ok(gc != null and _ic.levels[1].has(gc), "the ground-floor ceiling stays on the ground-floor level")
-			_ok(_ic.culled_meshes > 300, "meshes hidden up there: %d" % _ic.culled_meshes)
+			_ok(_ic.culled_meshes > 150, "meshes hidden up there: %d" % _ic.culled_meshes)
 			_at(1.0, 8.6, 4.0)                # basement
 			_step = 3
 		3:
@@ -87,7 +87,15 @@ func _physics_process(_d: float) -> bool:
 			_step = 4
 		4:
 			_ok(not _ic.inside, "outside the house is not inside")
-			_ok(_visible_count(0) > 100 and _visible_count(1) > 100 and _visible_count(2) > 100, "outside, every level is drawn")
+			_ok(_visible_count(0) > 50 and _visible_count(1) > 50 and _visible_count(2) > 50, "outside, every level is drawn")
+			# the greybox a generated prop replaced stays hidden however often the levels are shown again (the box bath and the towel rail came back)
+			var fr := _lv.get_node("InteriorRooms").frame as Node3D
+			var back := []
+			for nm in ["L1_Tub", "L1_TubInside", "L1_TowelRail", "Office_ChartTable", "B_Switchboard"]:
+				var n := fr.find_child(nm, true, false) as Node3D
+				if n == null or n.visible:
+					back.append(nm)
+			_ok(back.is_empty(), "replaced greybox stays hidden after the levels are culled and shown again %s" % str(back))
 			print("\n%s" % ("ALL PASSED" if _fails == 0 else "%d FAILED" % _fails))
 			quit(1 if _fails > 0 else 0)
 	return false

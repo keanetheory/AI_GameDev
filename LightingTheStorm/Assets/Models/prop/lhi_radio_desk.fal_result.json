@@ -1,0 +1,20 @@
+{
+  "submission": {
+    "asset_id": "lhi_radio_desk",
+    "category": "prop",
+    "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+    "prompt": "Victorian wireless operator's oak desk, a wooden cabinet of round brass dials and switches on the back of the desk top, a brass morse key and a pad of paper in front, one drawer, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+    "source_image": null,
+    "view_images": {},
+    "notes": "T45 (1 Nov 2026), priority 2. Replaces L1_RadioDesk, L1_RadioDial (3), L1_RadioKey (the telegraph set on it is already FAL): 1.75 x 1.05 x 1.2 m. Downscale the 4096 texture to 2048 on import, then tools/decimate_props.gd. Re-rolled 1 Nov 2026: the first result missed the boots / dials (kept as prop/source/*_v1.glb)."
+  },
+  "request_id": "01a196f8-16ce-7d20-ad6f-8ec7b9c7203f",
+  "seed": null,
+  "model_url": "https://v3b.fal.media/files/b/0ab0b75c/7zjPhuAr8oIwkSQJnEhMx_model.glb",
+  "textured": true,
+  "request": {
+    "prompt": "Victorian wireless operator's oak desk, a wooden cabinet of round brass dials and switches on the back of the desk top, a brass morse key and a pad of paper in front, one drawer, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "generate_type": "Normal"
+  }
+}

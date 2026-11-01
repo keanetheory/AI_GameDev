@@ -9,3 +9,11 @@ LightingTheStorm/Assets/Characters/source/meshy_dockside_outlaw_all_animations.g
 LightingTheStorm/Assets/Characters/source/arthur_4k_texture.glb
 LightingTheStorm/Assets/Characters/source/meshy_red_capped_wayfarer_all_animations.glb
 LightingTheStorm/Assets/Characters/source/daniel_4k_texture.glb
+LightingTheStorm/Assets/Characters/source/meshy_ted_fal_all_animations.glb
+LightingTheStorm/Assets/Characters/source/meshy_arthur_fal_all_animations.glb
+LightingTheStorm/Assets/Characters/source/meshy_daniel_fal_all_animations.glb
+LightingTheStorm/Assets/Characters/source/ted_4k_texture.glb
+LightingTheStorm/Assets/Characters/source/arthur_dockside_4k_texture.glb
+LightingTheStorm/Assets/Characters/source/daniel_wayfarer_4k_texture.glb
+# FAL character test meshes (31 Oct 2026): backed up in C:/bkupConceptArt/FAL_3D_Models/character_texture
+LightingTheStorm/Assets/Models/character_texture/*.glb

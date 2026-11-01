@@ -85,6 +85,7 @@ func _ready() -> void:
 	trim.build(kit, frame)
 	hero_props = HeroProps.new()
 	hero_props.build(frame)
+	hero_props.build_in_place(self)
 	roof_liner = Node3D.new()
 	roof_liner.set_script(RoofLiner)
 	roof_liner.name = "RoofLiner"
@@ -152,6 +153,7 @@ func _close_ground_window(gb: Node) -> void:
 	var s := (y1 - y0) / lb.size.y
 	var fill := lin.duplicate() as MeshInstance3D
 	fill.name = "G_outer_west_window_infill"
+	fill.set_meta("added_after_build", true)      # not part of the collider bake (tools/test_collider_bake.gd skips it)
 	lin.get_parent().add_child(fill)
 	# squash the lintel's copy in world y onto [y0, y1]: y' = y0 + (y - y1) * s
 	fill.global_transform = Transform3D(Basis.from_scale(Vector3(1.0, s, 1.0)), Vector3(0.0, y0 - y1 * s, 0.0)) * lin.global_transform

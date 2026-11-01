@@ -1,0 +1,20 @@
+{
+  "submission": {
+    "asset_id": "lhi_parts_shelf",
+    "category": "prop",
+    "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+    "prompt": "Open iron-and-timber shelving unit full of lighthouse spare parts, spare lamp burners, brass fittings, glass chimneys, tins of oil and bolts in wooden trays, three shelves, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+    "source_image": null,
+    "view_images": {},
+    "notes": "T45 (1 Nov 2026), priority 2. Replaces B_PartsShelf (3), B_PartsPost (2), B_Part (8) in the basement: 1.05 x 2.0 x 0.85 m. Downscale the 4096 texture to 2048 on import, then tools/decimate_props.gd."
+  },
+  "request_id": "01a196e1-1d95-7d13-a1f0-0f7ea1321f80",
+  "seed": null,
+  "model_url": "https://v3b.fal.media/files/b/0ab0b6c5/jIU791grprXleRNmsXWXt_model.glb",
+  "textured": true,
+  "request": {
+    "prompt": "Open iron-and-timber shelving unit full of lighthouse spare parts, spare lamp burners, brass fittings, glass chimneys, tins of oil and bolts in wooden trays, three shelves, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "generate_type": "Normal"
+  }
+}

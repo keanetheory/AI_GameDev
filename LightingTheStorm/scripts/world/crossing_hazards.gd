@@ -46,6 +46,25 @@ static func _mat(col: Color, rough := 0.9, emit := 0.0) -> StandardMaterial3D:
 	return m
 
 
+## A model's bounds in its own frame (it is not in the tree yet).
+static func _model_bounds(root: Node3D) -> AABB:
+	var box := AABB()
+	var first := true
+	for n in root.find_children("*", "MeshInstance3D", true, false):
+		var mi := n as MeshInstance3D
+		if mi.mesh == null:
+			continue
+		var t := Transform3D.IDENTITY
+		var p: Node = mi
+		while p != null and p != root:
+			t = (p as Node3D).transform * t
+			p = p.get_parent()
+		var b := t * mi.mesh.get_aabb()
+		box = b if first else box.merge(b)
+		first = false
+	return box
+
+
 static func _shape(body: StaticBody3D, shape: Shape3D, at: Vector3) -> void:
 	var cs := CollisionShape3D.new()
 	cs.shape = shape
@@ -104,25 +123,45 @@ static func _reef(body: StaticBody3D, reef: Dictionary, rock: Dictionary) -> voi
 		_rock(body, rr, (i - (n - 1) * 0.5) * sp, 1.0)
 
 
+## The generated buoy models (T42) take turns by hazard id (b["models"]): each is sized so its float is the collision radius across, sunk
+## to `sink_m`, with the blinking lamp at `lamp_at` of its height (in the red buoy's cage, on top of the bell buoy's frame). The plain red
+## cylinder stays as the fallback if a model is missing.
 static func _buoy(body: StaticBody3D, b: Dictionary) -> void:
 	var r: float = float(b["radius_m"])
 	var hgt: float = float(b["height_m"])
-	var hull := MeshInstance3D.new()
-	var cyl := CylinderMesh.new()
-	cyl.top_radius = r * 0.55
-	cyl.bottom_radius = r
-	cyl.height = hgt
-	hull.mesh = cyl
-	hull.position = Vector3(0, hgt * 0.5 - 0.3, 0)
-	hull.material_override = _mat(Color(0.62, 0.08, 0.06), 0.7)
-	body.add_child(hull)
+	var lamp_y := hgt - 0.1
+	var models: Array = b.get("models", [])
+	var placed := false
+	if not models.is_empty():
+		var m: Dictionary = models[absi(hash(String(body.name))) % models.size()]
+		var ps := load(String(m["model"])) as PackedScene
+		if ps:
+			var inst := ps.instantiate() as Node3D
+			var box := _model_bounds(inst)
+			var s := 2.0 * r / maxf(maxf(box.size.x, box.size.z), 0.01)
+			inst.scale = Vector3.ONE * s
+			inst.position = Vector3(-box.get_center().x * s, -float(m["sink_m"]) - box.position.y * s, -box.get_center().z * s)
+			inst.name = "Model"
+			body.add_child(inst)
+			lamp_y = -float(m["sink_m"]) + box.size.y * s * float(m["lamp_at"])
+			placed = true
+	if not placed:
+		var hull := MeshInstance3D.new()
+		var cyl := CylinderMesh.new()
+		cyl.top_radius = r * 0.55
+		cyl.bottom_radius = r
+		cyl.height = hgt
+		hull.mesh = cyl
+		hull.position = Vector3(0, hgt * 0.5 - 0.3, 0)
+		hull.material_override = _mat(Color(0.62, 0.08, 0.06), 0.7)
+		body.add_child(hull)
 	var lamp := MeshInstance3D.new()
 	lamp.name = "Lamp"
 	var sph := SphereMesh.new()
-	sph.radius = 0.3
-	sph.height = 0.6
+	sph.radius = 0.22 if placed else 0.3
+	sph.height = sph.radius * 2.0
 	lamp.mesh = sph
-	lamp.position = Vector3(0, hgt - 0.1, 0)
+	lamp.position = Vector3(0, lamp_y, 0)
 	var lm := _mat(Color(1.0, 0.15, 0.1), 0.4, 6.0)
 	lm.disable_fog = true
 	lamp.material_override = lm

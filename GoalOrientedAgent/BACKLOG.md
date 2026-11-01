@@ -1,54 +1,48 @@
 # Backlog
 
-_Generated 2026-10-30 18:23 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-11-01 19:33 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
-**Goal progress:** 38% (3 met, 10 partial, 8 unmet of 21 requirements)
+**Goal progress:** 86% (15 met, 6 partial, 0 unmet of 21 requirements)
 
 ## Requirements
 
 | ID | Status | Requirement | Source | Evidence |
 |---|---|---|---|---|
-| R01 | UNMET | Slice starts with the player outside the lighthouse; Ted opens the door ('You're the new guy, then') and the player enters (GAME_STARTED, LIGHTHOUSE_ENTERED). | Exec Summary, Story and gameplay sequence step 1; Technical Strategy Gate 1 and state contract | LightingTheStorm/scenes/Level.tscn has no door, no Ted node and no trigger areas; the Lighthouse node is only the exterior glb (lighthouse_exterior_v3.glb). Assets/Characters/ted.glb exists but is not instanced in Level.tscn. 'things to work on next.md' item 7 confirms. 19 Oct 2026: the main door is now in the level and opens with E (scripts/world/door.gd); a greybox interior (v3) is walkable behind it. Ted is not yet placed at the door. |
-| R02 | UNMET | Player feeds the boiler with coal in the basement (first hands-on job); steam comes up and the dynamo runs (BOILER_FED). | Exec Summary step 1 and Decisions log (Repairs); Technical Strategy 'Repairs, shelter and gate' | No boiler, basement or interaction code in LightingTheStorm/scripts or Level.tscn. The 'interact' action exists in project.godot but only boat.gd reads it; the Lighthouse has no interior. |
-| R03 | UNMET | Ted at the window shows the sailors' rowboat moored at the dock; the player opens the island gate; Arthur and Daniel walk in on a scripted path and Daniel stays in the basement. The rowboat is visibly distinct from the engine boat. | Exec Summary step 2 and 'Two boats'; Technical Strategy shelter and gate sequence | Assets/Island/environment/1-gate.glb exists as a model, but there is no gate interaction, no rowboat model (Assets/Models/boat has only boat_launch.glb), and no Arthur/Daniel models or NPC scripts. |
-| R04 | UNMET | Beacon diagnosis only after the sailors are in: the dynamo runs, the beacon stays dark, Ted takes the player to the lantern room, opens the arc lamp and finds the burner broken (BEACON_STILL_DARK, LAMP_ROOM_ENTERED, BURNER_DIAGNOSED). | Exec Summary step 3; Technical Strategy state contract | No lantern room or lamp in the scene. data/dialogue/dialogue_opening.json has the lines (TED_S3_00 on BEACON_STILL_DARK etc.), but nothing fires these events. |
-| R05 | PARTIAL | Boarding: player meets Arthur at the engine boat; at the boarding threshold Ted names the ship and the ship appears on the horizon; no deadline yet. | Exec Summary step 4; Pillar 3; Technical Strategy deadline rules | boat.gd lets the player board with E and cast off (board(), cast_off()), but there is no Arthur aboard, no BOARDING_THRESHOLD/SHIP_SIGHTED event and no ship object anywhere in Level.tscn. |
-| R06 | MET | Boat: one steering axis, one fixed speed, no throttle, automatic docking at the Saltgate quays and the lighthouse jetty, and recovery to a safe point on a hit. | Technical Strategy 'Boat and weather simulation'; Exec Summary Outcome checks | LightingTheStorm/scripts/world/boat.gd (fixed speed, Input.get_axis steer, _dock(), _recover() with trail); dock_zone.gd; Level.tscn DockZoneLighthouse/South and DockZonePort; spec in data/world/boat_spec.json. Not play-verified (no editor). Note Level.tscn overrides speed=10.0 vs spec 3.0. |
-| R07 | PARTIAL | Hazards (rocks, reefs, buoys, debris) are readable, with a shared hazard forecast and a single safe-route signal that Arthur's calls read from. | Technical Strategy boat/weather section; AI Agent Strategy (Hazard Forecast); Exec Summary Pillar 4 | Level.tscn has SeaStack1-11, cliffs and headlands as static hazards (layer 2). No buoys or debris. AIAgentCrew/output/return_crossing.json and AIAgentCrew/godot/crossing_loader.gd exist but there is no LightingTheStorm/data/return_crossing.json and nothing in the game uses the loader (grep for 'return_crossing' in LightingTheStorm: no matches). |
-| R08 | PARTIAL | Outbound crossing to the Saltgate quays and return crossing to the lighthouse are playable end to end, with harder return hazards. | Exec Summary steps 5 and 7; Technical Strategy Gate 1 and week 3 | The geometry exists: DockZoneLighthouse at about z=18, DockZonePort at z=527, Saltgate quay models. The boat can sail between them. No separate return hazard density or route-position difficulty, and the full slice cannot be completed because the surrounding beats are missing. 19 Oct 2026: tools/test_boat.gd now sails both crossings headless at 10 m/s and docks at each end (outbound 69 s, return 81 s, 0 hits on its weave route); no separate return hazard density yet. |
-| R09 | MET | Player finds and picks up the replacement burner at the Saltgate; it is carried aboard and can never be permanently lost (BURNER_PICKED_UP). | Exec Summary step 6; Technical Strategy invariants and failure policy | scripts/world/burner_pickup.gd + BurnerPickup in Level.tscn: E picks the burner up on the Saltgate landing, it is held in view (parented to the camera, so a hazard recovery cannot lose it, and there is no drop), and BURNER_PICKED_UP gates RETURN_DEPARTED. tools/test_burner_pickup.gd passes headless. Play-tested by the creator on 19 Oct 2026: works. |
-| R10 | UNMET | The only timer is a hidden numeric ship deadline that starts once on RETURN_DEPARTED (burner aboard), is inactive before then, stops in menus, and has a debug time scale and event log. | Exec Summary Fail-state contract; Technical Strategy 'Repairs, shelter and gate, and final pressure' and Invariants; Pillar 2 | GameState provides the event log and RETURN_DEPARTED event, but there is still no numeric deadline, ship or time scale (T07). The old note 'no game state autoload exists' no longer holds. |
-| R11 | PARTIAL | Storm split: sound, rain, lightning, wind and ship lights follow elapsed deadline time; hazard density and visibility follow phase and route position only. | Exec Summary decisions log (Storm escalation); Technical Strategy weather channels; Pillar 2 | lighting_rig.gd has phases ISLAND/OUTBOUND/RETURN/BEACON_RELIT driven by boat departed signals, with F5-F8 debug jumps. There is no elapsed-time driver and no hazard-density channel; BEACON_RELIT has no trigger. |
-| R12 | UNMET | Final repair: player climbs to the lamp, Ted waits there, and the player fits the burner to the beacon (final hands-on job); Arthur says 'go go go, don't wait for me' on arrival. | Exec Summary step 7-8; Technical Strategy 'Repairs' | No lamp, no burner-fit interaction, no arrival trigger on the lighthouse dock zone. Arrival line exists only as crew data (AIAgentCrew/output/return_crossing.json). |
-| R13 | UNMET | Win and fail outcomes resolve exactly once per attempt: win = ship sails safely into port; fail = foghorn, ship runs aground, silence, 'Failed' title screen with a reason line. The lamp room has a clear sightline; no cutaway camera. | Exec Summary Fail-state contract; Technical Strategy fail-state presentation; Pillar 4 | No ship, no outcome code, no title/fail screen, no audio nodes (grep for AudioStreamPlayer in LightingTheStorm *.gd/*.tscn: none). The lighthouse has no lamp room. |
-| R14 | PARTIAL | After a fail the player can restart the slice from its start. | Exec Summary Retry model and Outcome checks; Technical Strategy Gate 1 acceptance | GameState.restart() resets the attempt state, resets Dialogue (now also dropping a stale line) and calls reload_current_scene(). F9 triggers it. The state reset is covered by the headless test, but the scene reload was not run and there is no fail screen to call it yet. |
-| R15 | PARTIAL | Explicit phase state machine (ARRIVAL_AND_COAL through RESOLUTION) with stable event IDs; every transition has a single owner; audio, UI and dialogue respond to events and never drive progression. | Technical Strategy 'Core state contract'; AI Agent Strategy rule 4 | GameState autoload has the Phase enum in Technical Strategy order, emit_event with stable IDs (canon.py OPENING_EVENTS plus four proposed), one-shot rules and an event log. Headless test_game_state.gd passes. Still partial: nothing in the level reports most opening events yet (no door, boiler, gate or lantern-room triggers), and the four new IDs and phase boundaries await the creator. |
-| R16 | PARTIAL | Guidance comes from Ted and Arthur by voice/subtitle and a handwritten objective journal, with no markers or visible timer; apprentice never speaks; spoken navigation cues have subtitles with speaker attribution. | Pillar 3; Technical Strategy 'Presentation and accessibility'; Exec Summary Cast | dialogue_loader.gd emits line_started/journal_entry_added with subtitle text and speaker, but there is no subtitle or journal UI and no audio playback ('the game does not play line audio yet', things to work on next.md item 4). No timer or markers exist, which satisfies the negative rule by absence. |
-| R17 | MET | The slice is playable on keyboard and mouse (creator, 19 October 2026: no controller in this iteration). | Technical Strategy Gate 1 acceptance; Decisions to be made B14 (open: is controller needed for the prototype?) | Creator decision 19 October 2026 removed controller support from this iteration. project.godot binds steer, interact and disembark to keys and player.gd uses mouse look; boat prompts show keyboard keys. Not play-verified. |
-| R18 | UNMET | Placeholder audio: layered wind and rain, machinery, buoy bells, foghorn, ship impact; states mixed by phase; no shock stingers. | Exec Summary 'Cast and atmosphere'; Technical Strategy presentation; AI Agent Strategy (Sound) | No AudioStreamPlayer in scenes or scripts; no audio files under LightingTheStorm/Assets. |
-| R19 | PARTIAL | Warm lamplight against blue-grey storm light; the beam is a navigational anchor from the sea; beacon and hazards stay legible in every phase; greybox art is acceptable. | Exec Summary 'Cast and atmosphere'; AI Agent Strategy (Lighting) | lighting_rig.gd (532 lines) builds sky, rain, lightning and lit windows per phase from data/world/lighting_spec.json. No working beacon beam because there is no lamp; 'things to work on next.md' item 2 reports the walkway as nearly black; legibility of hazards in each phase not verified in-engine. |
-| R20 | PARTIAL | Scope and hard rules are respected: first-person only, no combat/jump scares/visible timer/markers, one lighthouse + one sea + the Saltgate, no waves, no branching, no added significant Saltgate detail. | Exec Summary scope rule; AI Agent Strategy working rules 3 and 7 | No violating features found in scripts. A debug label 'Lighting: <phase>' (lighting_rig.gd _build_label) and F5-F8 phase hotkeys are on-screen debug UI that must not ship. Mainland.gd builds a large generated mainland with about 2,600 trees and a walkway, which is beyond a 'minimal' Saltgate; not verified against the creator's intent. |
-| R21 | PARTIAL | Each agent task ends with a HANDOFF.md; game data uses JSON/.tres with stable IDs; the project documents engine version and conventions. | AI Agent Strategy 'Handoff format'; Technical Strategy 'Engine and project shape' | AIAgentCrew produces HANDOFF.md/REPORT.md and JSON data (world_output/, output/). LightingTheStorm/readme.md is empty (0 B). project.godot pins 4.3 Forward Plus. The game folder has no task HANDOFF.md files; the crew's boat_spec/lighting_spec are copied into data/world but only lighting_spec is consumed. |
+| R01 | MET | Slice starts with the player outside the lighthouse; Ted opens the door ('You're the new guy, then') and the player enters (GAME_STARTED, LIGHTHOUSE_ENTERED). | Exec Summary, Story and gameplay sequence step 1; Technical Strategy Gate 1 and state contract | 1 Nov 2026 re-grade: Built: Ted behind the door, the knock with E, Ted's greeting, the door opens, LIGHTHOUSE_ENTERED (data/world/intro_sequence.json, tools/test_intro_sequence.gd). Covered by tools/test_slice_playthrough.gd (headless golden path). |
+| R02 | MET | Player feeds the boiler with coal in the basement (first hands-on job); steam comes up and the dynamo runs (BOILER_FED). | Exec Summary step 1 and Decisions log (Repairs); Technical Strategy 'Repairs, shelter and gate' | 1 Nov 2026 re-grade: Boiler coal job in the basement, BOARDING of steam and dynamo (scripts/interaction, tools/test_coal_job.gd); BOILER_FED is in the playthrough's 25 events. |
+| R03 | MET | Ted at the window shows the sailors' rowboat moored at the dock; the player opens the island gate; Arthur and Daniel walk in on a scripted path and Daniel stays in the basement. The rowboat is visibly distinct from the engine boat. | Exec Summary step 2 and 'Two boats'; Technical Strategy shelter and gate sequence | 1 Nov 2026 re-grade: Window moment, moored rowboat, island gate and the sailors' scripted walk-in; Daniel stays in the basement (tools/test_sailors_sequence.gd, test_island_gate.gd, test_npc.gd). |
+| R04 | MET | Beacon diagnosis only after the sailors are in: the dynamo runs, the beacon stays dark, Ted takes the player to the lantern room, opens the arc lamp and finds the burner broken (BEACON_STILL_DARK, LAMP_ROOM_ENTERED, BURNER_DIAGNOSED). | Exec Summary step 3; Technical Strategy state contract | 1 Nov 2026 re-grade: Lantern-room diagnosis after the sailors are in: BEACON_STILL_DARK, LAMP_ROOM_ENTERED, BURNER_DIAGNOSED (tools/test_diagnosis_sequence.gd); Ted opens the arc lamp. |
+| R05 | MET | Boarding: player meets Arthur at the engine boat; at the boarding threshold Ted names the ship and the ship appears on the horizon; no deadline yet. | Exec Summary step 4; Pillar 3; Technical Strategy deadline rules | 1 Nov 2026 re-grade: Arthur walks to the launch and boards; BOARDING_THRESHOLD and SHIP_SIGHTED fire; the ship appears on the horizon (tools/test_boarding_sequence.gd, T11). |
+| R06 | MET | Boat: one steering axis, one fixed speed, no throttle, automatic docking at the Saltgate quays and the lighthouse jetty, and recovery to a safe point on a hit. | Technical Strategy 'Boat and weather simulation'; Exec Summary Outcome checks | 1 Nov 2026 re-grade: Unchanged: fixed speed, one steering axis, auto-docking, recovery (boat.gd, dock_zone.gd, tools/test_boat.gd, test_disembark.gd). The Saltgate landing, berth and steps changed in T49; disembark passes 8 of 8. |
+| R07 | MET | Hazards (rocks, reefs, buoys, debris) are readable, with a shared hazard forecast and a single safe-route signal that Arthur's calls read from. | Technical Strategy boat/weather section; AI Agent Strategy (Hazard Forecast); Exec Summary Pillar 4 | 1 Nov 2026 re-grade: Hazard forecast data and loader are wired (T10): buoys and debris placed on the sea, Arthur's calls and near misses, shared safe-route signal (tools/test_wave_crossings.gd, test_crossing_sequence.gd, data/world/return_crossing.json). Not play-verified by a person. |
+| R08 | MET | Outbound crossing to the Saltgate quays and return crossing to the lighthouse are playable end to end, with harder return hazards. | Exec Summary steps 5 and 7; Technical Strategy Gate 1 and week 3 | 1 Nov 2026 re-grade: Outbound and return crossings both run end to end in the playthrough; the return carries the hazard forecast and a 5 s collision penalty (crossing_sequence.json). Tuning needs a human playtest. |
+| R09 | MET | Player finds and picks up the replacement burner at the Saltgate; it is carried aboard and can never be permanently lost (BURNER_PICKED_UP). | Exec Summary step 6; Technical Strategy invariants and failure policy | 1 Nov 2026 re-grade: Burner now sits on the Saltgate hut's workbench (creator, 1 Nov); carried in the hands, no place to put it down, never lost (tools/test_burner_pickup.gd, test_carry.gd). |
+| R10 | MET | The only timer is a hidden numeric ship deadline that starts once on RETURN_DEPARTED (burner aboard), is inactive before then, stops in menus, and has a debug time scale and event log. | Exec Summary Fail-state contract; Technical Strategy 'Repairs, shelter and gate, and final pressure' and Invariants; Pillar 2 | 1 Nov 2026 re-grade: Hidden ship deadline on RETURN_DEPARTED, ship placeholder, 3:30 placeholder length, debug time scale, P pause and event log (scripts/core/ship_deadline.gd, tools/test_ship_deadline.gd). |
+| R11 | PARTIAL | Storm split: sound, rain, lightning, wind and ship lights follow elapsed deadline time; hazard density and visibility follow phase and route position only. | Exec Summary decisions log (Storm escalation); Technical Strategy weather channels; Pillar 2 | 1 Nov 2026 re-grade: Lighting and audio phases follow elapsed deadline time (audio_spec.json, ship_deadline.gd); hazard density follows route position via the forecast. The split has not been verified by ear or eye in play. |
+| R12 | MET | Final repair: player climbs to the lamp, Ted waits there, and the player fits the burner to the beacon (final hands-on job); Arthur says 'go go go, don't wait for me' on arrival. | Exec Summary step 7-8; Technical Strategy 'Repairs' | 1 Nov 2026 re-grade: Final repair: burner carried to the lamp and fitted (BURNER_FITTED, BEACON_RELIT); Arthur's 'go go go' on arrival (tools/test_lamp_fit.gd; playthrough). |
+| R13 | MET | Win and fail outcomes resolve exactly once per attempt: win = ship sails safely into port; fail = foghorn, ship runs aground, silence, 'Failed' title screen with a reason line. The lamp room has a clear sightline; no cutaway camera. | Exec Summary Fail-state contract; Technical Strategy fail-state presentation; Pillar 4 | 1 Nov 2026 re-grade: Win and fail resolve once per attempt: foghorn, grounding, silence, Failed card with a reason, win card (tools/test_outcome_screen.gd; playthrough covers WIN and a FAIL then restart). |
+| R14 | MET | After a fail the player can restart the slice from its start. | Exec Summary Retry model and Outcome checks; Technical Strategy Gate 1 acceptance | 1 Nov 2026 re-grade: Enter or Space on the outcome card restarts the slice with a clean attempt (tools/test_outcome_screen.gd, test_slice_playthrough.gd fail-then-restart). |
+| R15 | MET | Explicit phase state machine (ARRIVAL_AND_COAL through RESOLUTION) with stable event IDs; every transition has a single owner; audio, UI and dialogue respond to events and never drive progression. | Technical Strategy 'Core state contract'; AI Agent Strategy rule 4 | 1 Nov 2026 re-grade: GameState phase machine with stable event IDs; the playthrough sees all 25 story events once each, in order, with phases advancing one at a time. |
+| R16 | PARTIAL | Guidance comes from Ted and Arthur by voice/subtitle and a handwritten objective journal, with no markers or visible timer; apprentice never speaks; spoken navigation cues have subtitles with speaker attribution. | Pillar 3; Technical Strategy 'Presentation and accessibility'; Exec Summary Cast | 1 Nov 2026 re-grade: Subtitles with speaker, goal tracker, controls panel and journal key exist (tools/test_subtitles.gd, test_guidance_hud.gd); no markers or timer. Journal contents are still open (T57) and no voice audio is recorded (T18, T50). |
+| R17 | MET | The slice is playable on keyboard and mouse (creator, 19 October 2026: no controller in this iteration). | Technical Strategy Gate 1 acceptance; Decisions to be made B14 (open: is controller needed for the prototype?) | 1 Nov 2026 re-grade: Keyboard and mouse only (creator, 19 Oct). Controls panel shows the keys; C toggles it. |
+| R18 | PARTIAL | Placeholder audio: layered wind and rain, machinery, buoy bells, foghorn, ship impact; states mixed by phase; no shock stingers. | Exec Summary 'Cast and atmosphere'; Technical Strategy presentation; AI Agent Strategy (Sound) | 1 Nov 2026 re-grade: Placeholder audio exists and is mixed by phase (Assets/Audio/placeholder, audio_mixer, tools/test_audio_mixer.gd). The sounds are synthesised stand-ins that nobody has heard; creator review is set for Tuesday 3 Nov (T50). |
+| R19 | PARTIAL | Warm lamplight against blue-grey storm light; the beam is a navigational anchor from the sea; beacon and hazards stay legible in every phase; greybox art is acceptable. | Exec Summary 'Cast and atmosphere'; AI Agent Strategy (Lighting) | 1 Nov 2026 re-grade: Warm lamplight against blue-grey storm light, the lamp beacon and the Saint Calder glow card over the Saltgate cliff (SLT-06, 1 Nov). Not verified in play in every phase; the Saltgate renders were OUTBOUND only. |
+| R20 | PARTIAL | Scope and hard rules are respected: first-person only, no combat/jump scares/visible timer/markers, one lighthouse + one sea + the Saltgate, no waves, no branching, no added significant Saltgate detail. | Exec Summary scope rule; AI Agent Strategy working rules 3 and 7 | 1 Nov 2026 re-grade: Debug label and F5-F11 keys are gated off in a release export or with --no-debug-ui (scripts/core/debug_flags.gd, tools/test_debug_flags.gd). The generated mainland is larger than a minimal Saltgate; the creator accepted the Saltgate polish scope (SLT-05 closed). |
+| R21 | PARTIAL | Each agent task ends with a HANDOFF.md; game data uses JSON/.tres with stable IDs; the project documents engine version and conventions. | AI Agent Strategy 'Handoff format'; Technical Strategy 'Engine and project shape' | 1 Nov 2026 re-grade: HANDOFF_*.md files exist per task and data lives in JSON with stable IDs; readme.md now documents the engine, baking and autoloads. Some task handoffs are still missing (T44-T49 and the GER work are recorded in the state files). |
 
 ## Tasks (open first, highest score first)
 
 | ID | Score | Task | Category | Owner role | Effort | Status |
 |---|---|---|---|---|---|---|
-| T44 | **8** | Polish the passenger ship: light it properly | scene | Lighting agent with the creator | M | open |
-| T45 | **8** | List the greyboxed lighthouse props and plan their FAL replacements | asset | Asset agent | M | open |
-| T46 | **8** | Remove the random orbs of light in the lighthouse stairwell | scene | Level Layout agent | S | open |
-| T47 | **8** | Fix the clipping in the stairwell where the external mesh comes through | scene | Level Layout agent | M | open |
 | T50 | **8** | Generate the dialogue lines and their timings; onboard the music and its cues (Tuesday) | dialogue | Creator with the Dialogue and Audio agents | L | open |
 | T53 | **8** | Create the playtest QA agents and a web deployment agent for itch.io (Tuesday evening) | code | Creator with the GOA / GER framework | L | open |
-| T48 | **7** | Rebuild the L2 room: remove the stick in the bathroom and replace its props with FAL models | scene | Lighthouse Interior Creator with the creator | L | open |
-| T49 | **7** | Regenerate the Saltgate burner pickup area and replace the landing with a walk-in hut | scene | Saltgate Creator with the creator | L | open |
 | T52 | **7** | Review all dialogue for snark and humour | dialogue | Creator with the Dialogue agent | M | open |
-| T42 | **6** | Generate the buoy models for the sea hazards | asset | Creator with the Asset agent | M | open |
-| T43 | **6** | Generate a chair for Daniel in front of the boiler | asset | Creator with the Asset agent | S | open |
 | T51 | **6** | Decide where the characters look during specific lines (the Arthur and Ted opening) | dialogue | Creator with the Dialogue agent | M | open |
+| T59 | **6** | Sort out the plain wall tiling at the back of the lighthouse | scene | Lighthouse Finisher with the creator | M | open |
 | T19 | **5** | Set a placeholder deadline length and write the crossing-penalty values | decision | Production Orchestrator | S | open |
+| T57 | **5** | Think about the pieces for the journal | decision | Creator with the Dialogue agent | M | open |
 | T18 | **4** | Review the rewritten opening lines and re-record the six changed voice lines | dialogue | Dialogue agent | M | open |
 | T38 | **4** | Texture the lighthouse exterior's plain patches (back-west corner panels, fills under the back windows) | art | Lighthouse Finisher Agent | S | open |
 | T23 | **3** | Bake mainland/cliff carving and collision to cut level load time | code | Level Layout agent | L | open |
@@ -70,6 +64,12 @@ _Generated 2026-10-30 18:23 by the Goal-Oriented Agent. Do not edit by hand; the
 | T09 | **8** | Decide the fail reason line, deliverer and audio-only fail alternative | decision | Canon and Review Orchestrator | S | done |
 | T10 | **8** | Integrate the crossing crew's hazard forecast: data file, loader, placed buoys/debris, Arthur calls | code | Hazard Forecast agent | M | done |
 | T37 | **8** | Ted's fail dialogue at SHIP_FAIL: write, record and wire it | dialogue | Dialogue agent | S | done |
+| T44 | **8** | Polish the passenger ship: light it properly | scene | Lighting agent with the creator | M | done |
+| T45 | **8** | List the greyboxed lighthouse props and plan their FAL replacements | asset | Asset agent | M | done |
+| T46 | **8** | Remove the random orbs of light in the lighthouse stairwell | scene | Level Layout agent | S | done |
+| T47 | **8** | Fix the clipping in the stairwell where the external mesh comes through | scene | Level Layout agent | M | done |
+| T54 | **8** | Goal tracker in the upper right of the screen | code | Gameplay / UI agent | M | done |
+| T55 | **8** | On-screen controls in the lower right of the screen | code | Gameplay / UI agent | S | done |
 | T11 | **7** | Put Arthur aboard and add the arrival 'go go go' beat on the lighthouse dock | code | Gameplay / Systems agent | M | done |
 | T12 | **7** | Subtitle and journal UI fed by the DialogueLoader signals | code | Dialogue agent | M | done |
 | T13 | **7** | Drive perceptual storm cues from elapsed deadline time and trigger BEACON_RELIT | code | Lighting agent | M | done |
@@ -77,12 +77,18 @@ _Generated 2026-10-30 18:23 by the Goal-Oriented Agent. Do not edit by hand; the
 | T35 | **7** | Review how findable the lighthouse is on the return now the eclipse darkens the world | decision | Lighting agent | S | done |
 | T39 | **7** | Generate the open arc lamp model | asset | Creator with the Asset agent | M | done |
 | T41 | **7** | Generate updated models for Ted, Arthur and Daniel | asset | Creator with the Asset agent | L | done |
+| T48 | **7** | Rebuild the L2 room: remove the stick in the bathroom and replace its props with FAL models | scene | Lighthouse Interior Creator with the creator | L | done |
+| T49 | **7** | Regenerate the Saltgate burner pickup area and replace the landing with a walk-in hut | scene | Saltgate Creator with the creator | L | done |
+| T56 | **7** | Toggle the controls list with C | code | Gameplay / UI agent | S | done |
+| T58 | **7** | Remove the automatic lighting of the lighthouse when the player steps close to it | scene | Lighting agent | S | done |
 | T14 | **6** | Placeholder audio: wind, rain, machinery, buoy bell, foghorn, ship impact, mix by phase | audio | Sound agent | M | done |
 | T15 | **6** | Decide whether the prototype needs controller support, then add bindings and prompts | decision | Player Movement agent | M | done |
 | T16 | **6** | Fix the final list of Ted's lamp-room lines to record | decision | Dialogue agent | S | done |
 | T17 | **6** | Tune and record the Gate 0 steering go/no-go (speed, route length, time per crossing) | test | Boat / Physics agent | M | deferred |
 | T36 | **6** | Add lightposts at the Saltgate and at the lighthouse island's dock | scene | Level Layout agent | M | done |
 | T40 | **6** | Open lamp in the diagnosis; the fitted burner disappears and the lamp closes with light emanating | code | Gameplay / Systems agent | M | done |
+| T42 | **6** | Generate the buoy models for the sea hazards | asset | Creator with the Asset agent | M | done |
+| T43 | **6** | Generate a chair for Daniel in front of the boiler | asset | Creator with the Asset agent | S | done |
 | T20 | **5** | QA scenario list and automated state-transition checks for the Gate 1 slice | test | QA agent | M | done |
 | T25 | **5** | Repair tools/test_boat.gd for the two-berth harbour and make it fail on timeout | test | Boat / Physics agent | S | done |
 | T34 | **5** | Resolve the discoveries content (B2) on Friday 23 October 2026 | decision | Canon and Review Orchestrator | S | done |
@@ -99,34 +105,6 @@ _Generated 2026-10-30 18:23 by the Goal-Oriented Agent. Do not edit by hand; the
 | 5 | 27 | T23 | Bake mainland/cliff carving and collision to cut level load time | - | ready |
 
 ## Task detail
-
-### T44 [8/10] Polish the passenger ship: light it properly  (open)
-
-The passenger ship (the Lantern Queen, scripts/world/passenger_ship.gd) shows its lights as blobs floating outside the hull, which look bad. Light the ship so it reads clearly at night in a realistic way: lit portholes and windows (emissive, with some flicker or variation), a lit bridge and deck lamps, the masthead and navigation lights (red, green, white) mounted on the structure at the right places, a soft light spill on the hull and water close by, and nothing floating off the hull. It must read from the lamp room and from the launch at range (R19: warm lamplight against the blue-grey storm), stay inside the Lighting budget (max_dynamic_lights 18) and keep the crash on the rock readable. Use emissive materials and a few small lights, not one blob per window. Run test_ship_route.gd and test_outcome_screen.gd after.
-
-- **Why 8:** The creator says the ship lights look awful; the ship is the player's goal and the final image of both endings.
-- **Evidence:** Creator, 30 Oct 2026: polish the passenger ship, right now the lights are just blobs outside the ship and they look awful; scripts/world/passenger_ship.gd
-
-### T45 [8/10] List the greyboxed lighthouse props and plan their FAL replacements  (open)
-
-Inventory every prop in the lighthouse (basement, ground floor, L1, L2, lamp room, hut) that is still a primitive greybox (boxes, cylinders, planes built in scripts/world/interior/*.gd) rather than a generated model, with its room, size, role (decor, interactable, collider) and priority. Output a table the creator can approve (a doc in LightingTheStorm), then the Lighthouse Finisher / Asset agents submit the replacements through main_asset.py --check-only first (FAL credits: ask first, cap in the memory file lighthouse-finisher-approval).
-
-- **Why 8:** The interior is built in code from primitives; the creator wants real FAL props. The list has to come first so the credits are spent once.
-- **Evidence:** Creator, 30 Oct 2026: we need to list out the remaining props in the lighthouse that have been greyboxed so we can generate FAL replacements for them; scripts/world/interior/
-
-### T46 [8/10] Remove the random orbs of light in the lighthouse stairwell  (open)
-
-There are floating orbs of light in the stairwell of the lighthouse. Find where they come from (stair or landing lamps built in scripts/world/interior/stairs or lighting code, emissive spheres, OmniLight head meshes, or fog volumes), remove them, and keep the stairwell lit by the intended sources only. Check the light count stays within max_dynamic_lights 18 and run test_rain_shelter.gd, test_interior_anchors.gd and test_sightlines.gd.
-
-- **Why 8:** A visible bug in a place the player passes through on every run.
-- **Evidence:** Creator, 30 Oct 2026: there are random orbs of light in the stairwell of the lighthouse, we need to remove those
-
-### T47 [8/10] Fix the clipping in the stairwell where the external mesh comes through  (open)
-
-Parts of the external lighthouse mesh come through the walls of the stairwell. Find which exterior pieces (lighthouse_exterior_v3.glb or the island and cliff meshes) intersect the stair shaft, and fix it by moving or hiding the outer mesh behind the shaft, adding an interior liner or cutting the exterior mesh. Keep the collider bake in step (tools/test_collider_bake.gd already fails on G_outer_west_window_infill, which may be the same fault) and check with test_interior_anchors.gd and a few screenshots from each stair landing.
-
-- **Why 8:** A visible bug; likely related to the failing collider-bake test.
-- **Evidence:** Creator, 30 Oct 2026: there are still clippings in the stairwell where the external mesh is coming through; tools/test_collider_bake.gd
 
 ### T50 [8/10] Generate the dialogue lines and their timings; onboard the music and its cues (Tuesday)  (open)
 
@@ -146,25 +124,6 @@ Tuesday 3 Nov evening: build (1) playtest QA agents that play the slice (the sce
 - **Blocked by:** Tuesday 3 Nov evening; needs the creator's approval of the agent briefs.
 - **Needs the creator** (cannot be done by the agent alone)
 
-### T48 [7/10] Rebuild the L2 room: remove the stick in the bathroom and replace its props with FAL models  (open)
-
-The L2 room (control and diagnostics level) needs a lot of work. First fix the random stick that cuts through the bathroom. Then list every prop on L2, generate FAL replacements for all of them (same process as the greybox list item), place them to the Interior Plan V4 blueprint and check readability and walk routes (test_interior_anchors.gd, test_npc.gd baked routes may need a rebake with tools/bake_npc_paths.gd).
-
-- **Why 7:** The creator calls L2 the weakest room; props are all greyboxed.
-- **Evidence:** Creator, 30 Oct 2026: the L2 room still needs a lot of work, the bathroom in the L2 has a random stick cutting through it and we need to generate FAL replacements for all of the props in that level
-- **Blocked by:** FAL credits; creator approves the prop list.
-- **Depends on:** T45 (still open: T45)
-- **Needs the creator** (cannot be done by the agent alone)
-
-### T49 [7/10] Regenerate the Saltgate burner pickup area and replace the landing with a walk-in hut  (open)
-
-Regenerate the part of Saltgate where the player picks up the replacement burner. Replace the landing with a hut that looks like a garage or equipment area the player can walk into, with the replacement burner inside (pickup, carry and return invariants stay: tools/test_burner_pickup.gd, test_carry.gd, the boat docks at DOCK_PORT). Use the Saltgate Creator and the Asset agent (FAL, check-only first, credits ask first); keep the Saltgate minimal and dark and eerie (lore), the lamppost and the boat berth where they are or move them with the hut, and keep the walk to the hut short.
-
-- **Why 7:** The creator wants the pickup to be a place, not a landing; it is the middle beat of the slice.
-- **Evidence:** Creator, 30 Oct 2026: regenerate the part of Saltgate where the player picks up the replacement burner, and replace the landing with a hut that looks like a garage or equipment area that the player can walk into
-- **Blocked by:** FAL credits; creator approves the hut concept.
-- **Needs the creator** (cannot be done by the agent alone)
-
 ### T52 [7/10] Review all dialogue for snark and humour  (open)
 
 Read the whole slice's dialogue (data/dialogue/dialogue_opening.json, every speaker) with the creator and make it snarkier and funnier where it is flat, keeping canon (canon.py), the style guide, the inside-only rule for Ted, the timings (previous item) and the line ids the tests rely on (rewrite text, not ids, or update the tests). Run the Style Generator and Refiner agents for a first pass if useful, then the creator signs off line by line.
@@ -175,24 +134,6 @@ Read the whole slice's dialogue (data/dialogue/dialogue_opening.json, every spea
 - **Depends on:** T50 (still open: T50)
 - **Needs the creator** (cannot be done by the agent alone)
 
-### T42 [6/10] Generate the buoy models for the sea hazards  (open)
-
-The buoy hazards in the crossing (scripts/world/crossing_hazards.gd, _buoy) are built from primitives: a red body with a blinking light. Generate proper buoy models (at least the red channel buoy the forecast names; ideally a second variant, e.g. a green or striped one, and a bell buoy since the audio mixer has a bell) in the same style as the other sea props, with a base that sits on the waterline, a mast or cage for the blinking lamp, and a collision size that matches data/world/boat_spec.json and crossing_sequence.json (the buoy radius_m). Import with tools/import_scale_pivot.gd (add a buoy category or per-file height), downscale the texture to 2048, then swap the model into _buoy and keep the blinking light and near-miss radius. Run main_asset.py --check-only before any FAL submission (credits: ask first).
-
-- **Why 6:** The hazards are the sea's main readable obstacle on the return; primitive buoys look like placeholders next to the generated rocks and ship. Not higher because it does not block the slice.
-- **Evidence:** Creator, 30 Oct 2026: additional backlog item is to generate assets for the buoys in the sea; scripts/world/crossing_hazards.gd
-- **Blocked by:** Creator generates or approves the models; credits.
-- **Needs the creator** (cannot be done by the agent alone)
-
-### T43 [6/10] Generate a chair for Daniel in front of the boiler  (open)
-
-Daniel's resting place is sat in the basement, in front of the boiler, facing it (the player has finished shovelling coal by then). On the stand-in plank he levitated and faced the coal, so the sit-down is switched off (sailors_sequence.json daniel_sits_in_basement false). Generate a chair model (Meshy or FAL, same look as the lighthouse props, about 0.42 m seat height for the Sit_Cross_Legged clip), import it, place it in front of the boiler with the walk ending at it and Daniel's seat marker on it, then turn daniel_sits_in_basement on and check he does not clip. Check the chair against tools/probe_seat_heights.gd.
-
-- **Why 6:** The creator wants Daniel seated for the rest of the game; the plank looked wrong. Not higher because the slice runs with him standing.
-- **Evidence:** Creator, 30 Oct 2026: Daniel sits on a levitating plank facing the coal, it's better for us to generate a chair for him to sit on in front of the boiler; scripts/world/sailors_sequence.gd _daniel_sits_down
-- **Blocked by:** Creator generates the chair; credits.
-- **Needs the creator** (cannot be done by the agent alone)
-
 ### T51 [6/10] Decide where the characters look during specific lines (the Arthur and Ted opening)  (open)
 
 Talk through, line by line, where each character looks when they speak or listen: for example Arthur and Ted's brief conversation at the start (the knock and the door, who faces whom), Ted telling the player to shovel, the diagnosis in the lamp room, Arthur at the helm. Then build it: a gaze or facing target per line in the dialogue data (a character id, the player, a point or a prop), applied by npc.gd as a head turn (a head-bone look-at) or a body turn, with a fallback to the player. Needs the new rigs (Ted, Arthur, Daniel are Mixamo-rigged with Head and Neck bones).
@@ -201,6 +142,15 @@ Talk through, line by line, where each character looks when they speak or listen
 - **Evidence:** Creator, 30 Oct 2026: we also need to talk through where the characters look for specific parts of their dialogue, like Arthur and Ted having their brief conversation at the start; scripts/character/npc.gd
 - **Blocked by:** Needs the creator walk-through of each beat first.
 - **Depends on:** T50 (still open: T50)
+- **Needs the creator** (cannot be done by the agent alone)
+
+### T59 [6/10] Sort out the plain wall tiling at the back of the lighthouse  (open)
+
+The back of the lighthouse (the side away from the dock) shows plain, repeating wall tiling: the exterior texture is a flat tile there. Fix it so it reads as the same weathered stone as the rest: look at the back wall in screenshots from the cliff path and the lamp room windows, then either re-texture with the exterior's own UVs and a blended stone (T38 covers the plain patches on the exterior; this is the back wall in particular), add detail (stones, stains, windows, a drainpipe, ivy, the ladder), or regenerate the back section through FAL (check-only first, credits: ask). Keep the collider bake in step (tools/bake_colliders and test_collider_bake.gd) and run the toon look tests.
+
+- **Why 6:** A visible flat patch on a wall the player sees from the path and the boat; related to T38.
+- **Evidence:** Creator, 30 Oct 2026: sort out the plain wall tiling at the back of the lighthouse; T38
+- **Blocked by:** May need FAL credits (ask first).
 - **Needs the creator** (cannot be done by the agent alone)
 
 ### T19 [5/10] Set a placeholder deadline length and write the crossing-penalty values  (open)
@@ -214,6 +164,15 @@ The deadline length and exact collision costs are deliberately undecided until t
 - **Needs the creator** (cannot be done by the agent alone)
 - **Result (partial):** Return collision penalty set to 5 s (31 Oct 2026); outbound penalty and the final deadline length still open.
 
+### T57 [5/10] Think about the pieces for the journal  (open)
+
+Decide what the player's journal (J, scripts/ui/subtitle_ui.gd and the 'journal' array in data/dialogue/dialogue_opening.json) should hold for Gate 1. Today it is a handwritten-style panel that records journal entries triggered by story events, with no other pieces. Talk through with the creator what belongs in it: the entries Isaac writes as the story moves (one per beat, in his voice, snarky like the dialogue), the goal history, the boat and lighthouse notes, a sketch or map, what Ted and Arthur said that matters, the warnings (the rocks, the ship), and found objects such as the poster and the wall whisper. Then list the pieces (text entries, drawings, pinned items), their triggers (the story events), their wording, and the art needed (paper, handwriting font, sketches: any generated assets need credits and a licence note), and write it up as a proposal for sign-off. Build comes after (a follow-up task).
+
+- **Why 5:** The journal exists but is nearly empty; the creator wants it designed before more is built on it.
+- **Evidence:** Creator, 30 Oct 2026: think about pieces for the journal; scripts/ui/subtitle_ui.gd; data/dialogue/dialogue_opening.json
+- **Blocked by:** A conversation with the creator; best after the Tuesday dialogue session.
+- **Needs the creator** (cannot be done by the agent alone)
+
 ### T18 [4/10] Review the rewritten opening lines and re-record the six changed voice lines  (open)
 
 Run TED_S1_01, S1_09, S1_10, S1_11, S3_02, ARTHUR_S3_04 and the new TED_S3_00 through Dialogue and Canon review and the creator's sign-off, record the outcome in DIALOGUE_OPENING_CREATOR_PICKS.md, then regenerate audio (dry run first). Add the playback hook to the game later. Add Ted's fail reason line (canon.py FAIL_REASON_LINE) to the recording list.
@@ -225,19 +184,20 @@ Run TED_S1_01, S1_09, S1_10, S1_11, S3_02, ARTHUR_S3_04 and the new TED_S3_00 th
 
 ### T38 [4/10] Texture the lighthouse exterior's plain patches (back-west corner panels, fills under the back windows)  (open)
 
-repair_exterior.py closes the scan's missing back-west corner of the first floor with two flat panels and fills some holes (the tan triangles under the back windows) with one texel of wall colour. They read as flat, untextured patches, most visibly from behind the house (GERFramework/shots/lh_out_corner.png, lh_out_back.png). Give them coursed stone or render that matches the scan: a tiling stone material on the panels, or let the run-time masonry shader (exterior_wall_detail) course them. A copy of the neighbouring wall's UVs was tried on 27 Oct 2026 and came out as a collage of texture islands.
+repair_exterior.py closes the scan's missing back-west corner of the first floor with two flat panels and fills some holes (the tan triangles under the back windows) with one texel of wall colour. They read as flat, untextured patches, most visibly from behind the house (GERFramework/shots/lh_out_corner.png, lh_out_back.png). Give them coursed stone or render that matches the scan: a tiling stone material on the panels, or let the run-time masonry shader (exterior_wall_detail) course them. A copy of the neighbouring wall's UVs was tried on 27 Oct 2026 and came out as a collage of texture islands. Overlaps T59 (plain wall tiling at the back of the lighthouse): do both as one pass.
 
 - **Why 4:** Cosmetic: both assessors list it as REVISE, not BLOCK (interior 9/10, exterior 7/10, 27 Oct 2026). Not higher because it does not face the sea approach or affect play.
 - **Evidence:** Creator, 27 Oct 2026: add the plain patches to the backlog; GERFramework/reports/lighthouse_finisher_work.md pass 12; LightingTheStorm/Assets/Models/lighthouse/repair/repair_exterior.py add_corner_panels
 
 ### T23 [3/10] Bake mainland/cliff carving and collision to cut level load time  (open)
 
-mainland.gd and collider_builder.gd carve about 22,000 triangles, build trees and collision at every load (about 10 s headless). Bake the carved meshes, height table and collision as resources and keep builders editor-only.
+mainland.gd and collider_builder.gd carve about 22,000 triangles, build trees and collision at every load (about 10 s headless). Bake the carved meshes, height table and collision as resources and keep builders editor-only. 1 Nov 2026 update: collider baking is done (tools/bake_colliders.gd, Assets/Baked/colliders, readme 'Baked colliders'); what remains is the mainland's tree and carve building at load.
 
 - **Why 3:** Quality of life for testing and builds, not a gate requirement, so 3.
 - **Evidence:** things to work on next.md item 3; scripts/world/mainland.gd _ready()
 - **Blocked by:** Needs the Godot editor to bake and verify.
 - **Needs the creator** (cannot be done by the agent alone)
+- **Result (partial):** Colliders are baked; mainland trees and carving still build at load.
 
 ### T01 [10/10] Create the central GameState autoload: phase machine, event bus, restart  (done)
 
@@ -436,6 +396,54 @@ At SHIP_FAIL Ted delivers fail dialogue wherever the player is (creator, 26 Oct 
 - **Depends on:** T07 (all closed)
 - **Result (done):** Written, picked and wired 29-30 Oct 2026 (TED_F_01, TED_F_03).
 
+### T44 [8/10] Polish the passenger ship: light it properly  (done)
+
+The passenger ship (the Lantern Queen, scripts/world/passenger_ship.gd) shows its lights as blobs floating outside the hull, which look bad. Light the ship so it reads clearly at night in a realistic way: lit portholes and windows (emissive, with some flicker or variation), a lit bridge and deck lamps, the masthead and navigation lights (red, green, white) mounted on the structure at the right places, a soft light spill on the hull and water close by, and nothing floating off the hull. It must read from the lamp room and from the launch at range (R19: warm lamplight against the blue-grey storm), stay inside the Lighting budget (max_dynamic_lights 18) and keep the crash on the rock readable. Use emissive materials and a few small lights, not one blob per window. Run test_ship_route.gd and test_outcome_screen.gd after.
+
+- **Why 8:** The creator says the ship lights look awful; the ship is the player's goal and the final image of both endings.
+- **Evidence:** Creator, 30 Oct 2026: polish the passenger ship, right now the lights are just blobs outside the ship and they look awful; scripts/world/passenger_ship.gd
+- **Result (done):** 1 Nov 2026: the sphere blobs are gone. passenger_ship.gd lays 188 lit windows flat on the model's own hull and superstructure (rays cast at the mesh at load, about 0.25 s): two porthole rows, the promenade and upper tier on both sides, and the forward face, bridge and after face so she shows lit windows bow-on. Panes are additive and grow in their own plane at range so the decks run together at 500 m. The white masthead lights sit on the fore and aft mast tops, the red and green sidelights in the bridge-wing lanterns, the white stern light on the stern rail, each visible only in its real sector; the two globe lanterns fore and aft are lit as deck lamps; every lamp has a rain-haze glow that grows with distance. Two warm OmniLights spill on the hull and water only within 160 m of the camera (Lighting budget). The crash fades them all with a flicker. Data in ship_route.json lights; test_ship_route, test_ship_deadline, test_outcome_screen, test_lampposts and test_slice_playthrough pass; renders checked from the lamp room, the launch at 560 m, bow-on, side-on, beacon relit and the crash.
+
+### T45 [8/10] List the greyboxed lighthouse props and plan their FAL replacements  (done)
+
+Inventory every prop in the lighthouse (basement, ground floor, L1, L2, lamp room, hut) that is still a primitive greybox (boxes, cylinders, planes built in scripts/world/interior/*.gd) rather than a generated model, with its room, size, role (decor, interactable, collider) and priority. Output a table the creator can approve (a doc in LightingTheStorm), then the Lighthouse Finisher / Asset agents submit the replacements through main_asset.py --check-only first (FAL credits: ask first, cap in the memory file lighthouse-finisher-approval).
+
+- **Why 8:** The interior is built in code from primitives; the creator wants real FAL props. The list has to come first so the credits are spent once.
+- **Evidence:** Creator, 30 Oct 2026: we need to list out the remaining props in the lighthouse that have been greyboxed so we can generate FAL replacements for them; scripts/world/interior/
+- **Result (done):** 1 Nov 2026: LightingTheStorm/LIGHTHOUSE_GREYBOX_PROPS.md lists every primitive prop left in the lighthouse (from a dump of all 1,290 interior meshes: 916 primitives, mostly architecture that stays) as 30 proposed FAL models in three priorities plus nine free reuses of existing models. Priority 1 (6 models, $2.25, inside the $2.55 left of the $7.80 cap): wall sconce, filled bookcase, switchboard, workbench with vice, instrument cabinet, water cistern; their submissions are in AIAgentCrew/sample_submissions/lighthouse_props_t45 and pass main_asset.py --check-only 6/6. Priorities 1+2 need $5.70 more than the cap. Nothing sent to FAL: waiting on the creator's spend approval. Also asks whether T48's 'L2 bathroom' is the first-floor (code L1) bathroom.
+
+### T46 [8/10] Remove the random orbs of light in the lighthouse stairwell  (done)
+
+There are floating orbs of light in the stairwell of the lighthouse. Find where they come from (stair or landing lamps built in scripts/world/interior/stairs or lighting code, emissive spheres, OmniLight head meshes, or fog volumes), remove them, and keep the stairwell lit by the intended sources only. Check the light count stays within max_dynamic_lights 18 and run test_rain_shelter.gd, test_interior_anchors.gd and test_sightlines.gd.
+
+- **Why 8:** A visible bug in a place the player passes through on every run.
+- **Evidence:** Creator, 30 Oct 2026: there are random orbs of light in the stairwell of the lighthouse, we need to remove those
+- **Result (done):** 31 Oct 2026: the orbs were the additive halos of the eight bare Spiral lights (no fixture) and of wall lamps (the real light hangs half a metre out from the bulb). room_light_cards.gd now gives a halo only to a light with its own glass or bulb, centred on it. test_room_lights.gd checks it.
+
+### T47 [8/10] Fix the clipping in the stairwell where the external mesh comes through  (done)
+
+Parts of the external lighthouse mesh come through the walls of the stairwell. Find which exterior pieces (lighthouse_exterior_v3.glb or the island and cliff meshes) intersect the stair shaft, and fix it by moving or hiding the outer mesh behind the shaft, adding an interior liner or cutting the exterior mesh. Keep the collider bake in step (tools/test_collider_bake.gd already fails on G_outer_west_window_infill, which may be the same fault) and check with test_interior_anchors.gd and a few screenshots from each stair landing.
+
+- **Why 8:** A visible bug; likely related to the failing collider-bake test.
+- **Evidence:** Creator, 30 Oct 2026: there are still clippings in the stairwell where the external mesh is coming through; tools/test_collider_bake.gd
+- **Result (done):** 1 Nov 2026: root cause was exterior_clip.gd looking for the scan's 'convert' node directly under the Lighthouse; since the v4 exterior swap it sits one level down (lighthouse_exterior_v4/convert), so the clip silently did nothing and the old inner wall pieces showed through the stairwell. It now finds the node, warns if it cannot, and also removes triangles that only partly stand in front of the lining (corners, edge middles or centre) when none of them reaches within 0.7 m of the real outer wall: 242 strays out (was 0). A probe of every mesh against the lining finds no exterior triangle inside it any more; before/after renders from eight stairwell positions show the dark rock shards and tan slivers gone, and the outside of the tower and the first-floor room unchanged. test_collider_bake's G_outer_west_window_infill failure was a separate fault: interior_rooms.gd adds that mesh after the build; it and the clipped exterior are now tagged (added_after_build, clipped_after_build) and the test skips added meshes and compares clipped ones by vertex count and collision. test_collider_bake, test_interior_anchors, test_sightlines, test_rain_shelter, test_room_lights, test_slice_playthrough, test_npc, test_toon_look pass.
+
+### T54 [8/10] Goal tracker in the upper right of the screen  (done)
+
+Keep a goal tracker in the upper right corner of the screen so the player always knows what to do next. One short current objective (for example 'Shovel coal into the boiler', 'Open the island gate', 'Go up to the lamp room', 'Board the launch', 'Collect the replacement burner from the Saltgate', 'Fit the burner into the arc lamp'), driven by GameState: the phase and the story events in order (ARRIVAL_AND_COAL through RESOLUTION, see QA_SCENARIOS.md), with the objective text and the event that completes it in a data file (data/world/goals.json) so it can be retuned without code. A CanvasLayer HUD in the corner in the game's style guide (readable on the dark storm, a small heading, one line, a short tick or fade when a goal is done, no clutter), hidden on the title, the outcome screens and while paused if the pause overlay already shows it. Sub-steps where a phase has several jobs (coal then boiler then door). The hidden deadline clock must stay hidden: the tracker never shows time. Needs a test (every phase has a goal, goals advance with the events, restart resets it) and an entry in QA_SCENARIOS.md. Check it does not cover the interaction prompt or the subtitles, and works at 16:9 and narrower widths.
+
+- **Why 8:** The slice has no markers by design, but a first-time player has no way to know what to do next; the creator asked for a goal tracker.
+- **Evidence:** Creator, 30 Oct 2026: in the upper right hand side of the screen keep a goal tracker so the player knows what to do; scripts/core/game_state.gd
+- **Result (done):** 30 Oct 2026: scripts/ui/guidance_hud.gd (created by GameState) shows one goal from data/world/goals.json in the upper right, 19 goals in story order, advancing on the story events with a tick, hidden when the attempt resolves, never any time. test_guidance_hud.gd. See LightingTheStorm/HANDOFF_T54_T55_Guidance.md. Not played; wording is a draft for the Tuesday dialogue review.
+
+### T55 [8/10] On-screen controls in the lower right of the screen  (done)
+
+Display the controls in the bottom right corner of the screen: move, look, interact (E), the boat controls while driving the launch, disembark (Q), pause (P), and anything else the slice uses. Read the real input map (project.godot) so the list cannot drift from the bindings, and show the keys that matter for what the player is doing now (on foot, carrying the burner, at the helm), with the less used ones (F9 restart, F10 debug dump, Page Up and Page Down deadline scaling) left out of the player-facing list or behind a debug flag. A CanvasLayer HUD in the style guide, small and unobtrusive, perhaps fading down after the first minutes and returning on H or while paused; mouse and keyboard glyphs as text. Needs a test (every bound action shown has a key name, the list follows the player's mode) and an entry in QA_SCENARIOS.md. Check it does not overlap the interaction prompt, the subtitles or the goal tracker (the item above, upper right).
+
+- **Why 8:** Players need the controls on screen, and the creator asked for them in the bottom right.
+- **Evidence:** Creator, 30 Oct 2026: in the bottom right hand side of the screen, display the controls; project.godot (input map)
+- **Result (done):** 30 Oct 2026: the same HUD shows the controls in the lower right, built from the input map for ON_FOOT and AT_HELM (data/world/controls.json), debug keys left out, dimming after 45 s and brightening on a mode change. The subtitle width and the journal note moved so nothing overlaps. test_guidance_hud.gd.
+
 ### T11 [7/10] Put Arthur aboard and add the arrival 'go go go' beat on the lighthouse dock  (done)
 
 Seat Arthur on the engine boat as the only companion, fire BOARDING_THRESHOLD (Ted introduces the ship) and the SALTGATE_REACHED and arrival events from dock-zone arrival. Plays his line on return arrival, then he leaves the player to climb.
@@ -505,6 +513,44 @@ Ted is the rigged test character (Assets/Characters/ted.glb: walking, running an
 - **Needs the creator** (cannot be done by the agent alone)
 - **Result (done):** 30 Oct 2026: Ted, Arthur and Daniel are Meshy models on the shared Mixamo skeleton with jaw bones (tools/add_jaw_bone.py), clips wired in npc.gd and tested (test_ted_anim, test_arthur_anim, test_daniel_anim). Daniel has no idle clip yet; the seated clips use a small plank on the boats; the models have not been seen in the running level.
 
+### T48 [7/10] Rebuild the L2 room: remove the stick in the bathroom and replace its props with FAL models  (done)
+
+The L2 room (control and diagnostics level) needs a lot of work. First fix the random stick that cuts through the bathroom. Then list every prop on L2, generate FAL replacements for all of them (same process as the greybox list item), place them to the Interior Plan V4 blueprint and check readability and walk routes (test_interior_anchors.gd, test_npc.gd baked routes may need a rebake with tools/bake_npc_paths.gd).
+
+- **Why 7:** The creator calls L2 the weakest room; props are all greyboxed.
+- **Evidence:** Creator, 30 Oct 2026: the L2 room still needs a lot of work, the bathroom in the L2 has a random stick cutting through it and we need to generate FAL replacements for all of the props in that level
+- **Blocked by:** FAL credits; creator approves the prop list.
+- **Depends on:** T45 (all closed)
+- **Needs the creator** (cannot be done by the agent alone)
+- **Result (done):** 1 Nov 2026 (the creator: 'L2 bathroom' is the first-floor bathroom). The 'stick' was the greybox towel rail sticking out across the wash-room doorway, now hidden (the FAL washstand has its own towel bar). Root cause of much of the room's mess: interior_culling.gd re-showed every hidden greybox piece when it showed a level again, so the box bath sat under the FAL tub and the old boxes came back inside every generated prop after a floor change; it now leaves hidden meshes alone (test_interior_culling checks it). The window light pool lay on the bath (0.58 m up); room_light_cards.gd now looks past furniture tops to the floor. The room's props were already replaced in T45.
+
+### T49 [7/10] Regenerate the Saltgate burner pickup area and replace the landing with a walk-in hut  (done)
+
+Regenerate the part of Saltgate where the player picks up the replacement burner. Replace the landing with a hut that looks like a garage or equipment area the player can walk into, with the replacement burner inside (pickup, carry and return invariants stay: tools/test_burner_pickup.gd, test_carry.gd, the boat docks at DOCK_PORT). Use the Saltgate Creator and the Asset agent (FAL, check-only first, credits ask first); keep the Saltgate minimal and dark and eerie (lore), the lamppost and the boat berth where they are or move them with the hut, and keep the walk to the hut short.
+
+- **Why 7:** The creator wants the pickup to be a place, not a landing; it is the middle beat of the slice.
+- **Evidence:** Creator, 30 Oct 2026: regenerate the part of Saltgate where the player picks up the replacement burner, and replace the landing with a hut that looks like a garage or equipment area that the player can walk into
+- **Blocked by:** FAL credits; creator approves the hut concept.
+- **Needs the creator** (cannot be done by the agent alone)
+- **Result (done):** 1 Nov 2026, second pass (creator: the dock-level hut was taking too long for a set piece that is not a major plot device): back to the stone. The pier head stays, the hut stands on top of it (as 3c34872) and the 19c5aa7 carve, piles and plank deck are gone. The stone steps up to it are rebuilt like the island's harbour stairs (stone_stairs.gd, full 1.8 m width, parapets both sides, 0.17 m rises on 0.28 m treads, toon shaded like them via toon_look.gd) in a dark stone that matches the pier head; the flight climbs to a top landing over the pier head's kerb, one step down to the hut. The burner sits on the hut's workbench (5.4, 5.31, 540.2). The step ashore is halved: DOCK_PORT's landing is now on the quay's south strip, 4.7 m from the seat (was 8.3 m), still on Saltgate. The boat's cargo slot is gone, so the burner cannot be put down between the hut and the lamp; Arthur waits aboard as before. The hut keeps its rain shelter volume. Tests: test_disembark walks landing -> steps -> hut -> back; test_carry checks there is nowhere to put the burner down, the boat included.
+
+### T56 [7/10] Toggle the controls list with C  (done)
+
+Add a 'Toggle controls (C)' prompt to the controls list (T55, scripts/ui/guidance_hud.gd, data/world/controls.json). Pressing C shrinks the controls view to a single small line, 'Controls (C)', and pressing it again opens the full list. Add a 'toggle_controls' action to the input map (project.godot, physical key C) so the key shows in the list itself ('C  Hide controls'), remember the choice for the rest of the session (and across a restart), keep it working while paused and at the helm, and replace the 45-second dimming with this (or keep the dim only while open: ask). Check C does not clash with another binding or with typing in the title and settings screens. Extend tools/test_guidance_hud.gd (the shrink, the second press, the key name from the input map, the choice surviving a restart) and QA_SCENARIOS.md S19.
+
+- **Why 7:** The creator wants the controls out of the way once learned; a small, cheap follow-up to T55.
+- **Evidence:** Creator, 30 Oct 2026: put a 'toggle controls (c)' prompt. if the player hits c it shrinks the control view to just 'controls (c)'; scripts/ui/guidance_hud.gd
+- **Depends on:** T55 (all closed)
+- **Result (done):** 31 Oct 2026: C (new toggle_controls input action) shrinks the controls list to 'Controls (C)' and opens it again; kept across a restart; the list says 'C Hide controls'. test_guidance_hud.gd.
+
+### T58 [7/10] Remove the automatic lighting of the lighthouse when the player steps close to it  (done)
+
+When the player walks close to the lighthouse exterior, its lighting changes automatically (a proximity effect). Remove it: the lighthouse should be lit by the phase lighting (lighting_rig.gd, data/world/lighting_spec.json, the beacon only when the burner is fitted) and not by the player's distance. Find the source (an Area3D or a distance check in scripts/world/lighting_rig.gd, lighthouse exterior lights, the toon look or an exterior light that switches on near the player), remove or disable it without changing the phase lighting, keep the light count within max_dynamic_lights 18, and check with screenshots from far and near (tools/shot_hud.gd style) and tests/test_lighting*.gd, test_toon.gd, test_slice_playthrough.gd.
+
+- **Why 7:** A visible pop that breaks the mood and the beacon moment; the creator asked for it to go.
+- **Evidence:** Creator, 30 Oct 2026: remove the auto lighting of the lighthouse when you step close to it; scripts/world/lighting_rig.gd
+- **Result (done):** 31 Oct 2026: interior_lights.gd only turns the interior lights on while the player is inside the building (or on the upper floors); from outside, the hall lights used to fade up near the door and wash the front wall and steps orange. test_interior_lights.gd now asserts no interior light outside; test_room_lights.gd stands the player on a real floor.
+
 ### T14 [6/10] Placeholder audio: wind, rain, machinery, buoy bell, foghorn, ship impact, mix by phase  (done)
 
 Add placeholder audio buses and AudioStreamPlayers for wind, rain, boiler/dynamo, buoy bells, foghorn and impact, mixed by phase and with Arthur's calls kept audible. Record source and licence per file and wire the six re-recorded voice lines later.
@@ -563,6 +609,26 @@ Once the open arc lamp model exists: show the open lamp from the start until the
 - **Blocked by:** Task: generate the open arc lamp model.
 - **Depends on:** T39 (all closed)
 - **Result (done):** 30 Oct 2026: lantern.gd adds LampModelOpen beside LampModel; lamp_beacon.gd shows the closed lamp first, the open one from BURNER_DIAGNOSED, and closes it 1.2 s after BURNER_FITTED as the lamp lights. test_lamp_fit.gd checks all four states.
+
+### T42 [6/10] Generate the buoy models for the sea hazards  (done)
+
+The buoy hazards in the crossing (scripts/world/crossing_hazards.gd, _buoy) are built from primitives: a red body with a blinking light. Generate proper buoy models (at least the red channel buoy the forecast names; ideally a second variant, e.g. a green or striped one, and a bell buoy since the audio mixer has a bell) in the same style as the other sea props, with a base that sits on the waterline, a mast or cage for the blinking lamp, and a collision size that matches data/world/boat_spec.json and crossing_sequence.json (the buoy radius_m). Import with tools/import_scale_pivot.gd (add a buoy category or per-file height), downscale the texture to 2048, then swap the model into _buoy and keep the blinking light and near-miss radius. Run main_asset.py --check-only before any FAL submission (credits: ask first).
+
+- **Why 6:** The hazards are the sea's main readable obstacle on the return; primitive buoys look like placeholders next to the generated rocks and ship. Not higher because it does not block the slice.
+- **Evidence:** Creator, 30 Oct 2026: additional backlog item is to generate assets for the buoys in the sea; scripts/world/crossing_hazards.gd
+- **Blocked by:** Creator generates or approves the models; credits.
+- **Needs the creator** (cannot be done by the agent alone)
+- **Result (done):** 1 Nov 2026: FAL red channel buoy and bell buoy (lhi_buoy_red, lhi_bell_buoy) replace the primitive buoys in crossing_hazards.gd, taking turns by hazard id, sized to the 1 m collision radius, float sunk 0.45 m, the red lamp in the cage / on the frame (crossing_sequence.json hazards.buoy.models). lhi_buoy_green is generated but unused: a green buoy would contradict the forecast's 'red buoy light' cue (candidate for marking the safe lane). Note: blink_s is set on each buoy but nothing blinks the lamp yet. test_crossing_sequence passes.
+
+### T43 [6/10] Generate a chair for Daniel in front of the boiler  (done)
+
+Daniel's resting place is sat in the basement, in front of the boiler, facing it (the player has finished shovelling coal by then). On the stand-in plank he levitated and faced the coal, so the sit-down is switched off (sailors_sequence.json daniel_sits_in_basement false). Generate a chair model (Meshy or FAL, same look as the lighthouse props, about 0.42 m seat height for the Sit_Cross_Legged clip), import it, place it in front of the boiler with the walk ending at it and Daniel's seat marker on it, then turn daniel_sits_in_basement on and check he does not clip. Check the chair against tools/probe_seat_heights.gd.
+
+- **Why 6:** The creator wants Daniel seated for the rest of the game; the plank looked wrong. Not higher because the slice runs with him standing.
+- **Evidence:** Creator, 30 Oct 2026: Daniel sits on a levitating plank facing the coal, it's better for us to generate a chair for him to sit on in front of the boiler; scripts/world/sailors_sequence.gd _daniel_sits_down
+- **Blocked by:** Creator generates the chair; credits.
+- **Needs the creator** (cannot be done by the agent alone)
+- **Result (done):** 1 Nov 2026: FAL chair (lhi_daniel_chair) stands in the basement 1.6 m in front of the boiler, facing it, seat at Daniel's 0.42 m (sailors_sequence.json daniel_chair, daniel_sits_in_basement on). His baked route ended inside the coal bin, so after DANIEL_IN_BASEMENT (timing unchanged) he walks daniel_chair_path out of the bin and round the lobby barrel (legs checked clear by ray) and sits with no plank (npc.sit bench=false). test_sailors_sequence updated and passing; render shows him seated facing the fire.
 
 ### T20 [5/10] QA scenario list and automated state-transition checks for the Gate 1 slice  (done)
 

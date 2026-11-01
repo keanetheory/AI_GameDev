@@ -1,0 +1,56 @@
+{
+  "request_id": "01a19153-c1d4-73d1-8487-e73312199092",
+  "request": {
+    "model_url": "https://v3b.fal.media/files/b/0ab0924b/y6DU6sDKH0rc6pqgcrNt9_model.glb",
+    "height_meters": 1.83,
+    "enable_animation": true,
+    "animation_action_id": 0
+  },
+  "rig_task_id": "01a19154-5271-758d-9c53-9a483cb7fa99",
+  "saved": {
+    "ted_fal_v3_rigged.glb": "https://v3b.fal.media/files/b/0ab09265/BH2yqCiBBjZ8nvVJfxffb_rigged_character.glb",
+    "ted_fal_v3_anim.glb": "https://v3b.fal.media/files/b/0ab0926c/aJO-U9VCQeKCA6KPDhsne_animation.glb",
+    "ted_fal_v3_walking_glb.glb": "https://v3b.fal.media/files/b/0ab09265/v9Hn3ID3U31H9Nb9WDDkd_walking.glb",
+    "ted_fal_v3_walking_armature_glb.glb": "https://v3b.fal.media/files/b/0ab09260/mL5qReWHviKNQoMJ0cODf_walking_armature.glb",
+    "ted_fal_v3_running_glb.glb": "https://v3b.fal.media/files/b/0ab09263/drC6m6dpDEcmB4IEayOX4_running.glb",
+    "ted_fal_v3_running_armature_glb.glb": "https://v3b.fal.media/files/b/0ab09260/f4cQU6DPl5fD5DU_4p4tI_running_armature.glb"
+  },
+  "basic_animations": {
+    "walking_glb": {
+      "url": "https://v3b.fal.media/files/b/0ab09265/v9Hn3ID3U31H9Nb9WDDkd_walking.glb",
+      "content_type": "model/gltf-binary",
+      "file_name": "walking.glb",
+      "file_size": 18505296
+    },
+    "walking_fbx": {
+      "url": "https://v3b.fal.media/files/b/0ab09263/v0KNRnvUlZevQUymRaeLO_walking.fbx",
+      "content_type": "application/vnd.autodesk.fbx",
+      "file_name": "walking.fbx",
+      "file_size": 17906524
+    },
+    "walking_armature_glb": {
+      "url": "https://v3b.fal.media/files/b/0ab09260/mL5qReWHviKNQoMJ0cODf_walking_armature.glb",
+      "content_type": "model/gltf-binary",
+      "file_name": "walking_armature.glb",
+      "file_size": 90100
+    },
+    "running_glb": {
+      "url": "https://v3b.fal.media/files/b/0ab09263/drC6m6dpDEcmB4IEayOX4_running.glb",
+      "content_type": "model/gltf-binary",
+      "file_name": "running.glb",
+      "file_size": 18494668
+    },
+    "running_fbx": {
+      "url": "https://v3b.fal.media/files/b/0ab09264/9GWWL29tPsX3aEeJysErd_running.fbx",
+      "content_type": "application/vnd.autodesk.fbx",
+      "file_name": "running.fbx",
+      "file_size": 17889404
+    },
+    "running_armature_glb": {
+      "url": "https://v3b.fal.media/files/b/0ab09260/f4cQU6DPl5fD5DU_4p4tI_running_armature.glb",
+      "content_type": "model/gltf-binary",
+      "file_name": "running_armature.glb",
+      "file_size": 79464
+    }
+  }
+}

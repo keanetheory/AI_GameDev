@@ -78,3 +78,7 @@ AI agent oversight
 Stretch goals (resolved)
 
 20. Wave hazards. Resolved 29 October 2026: waves are part of the initial release (see A32).
+
+On-screen guidance (resolved)
+
+21. Goal tracker and controls. Resolved 30 October 2026 (A35): a one-line goal tracker in the upper right of the screen tells the player what to do next, and a controls list in the lower right shows the keys for what they are doing. Both are plain text in the corners, not markers in the world, and neither ever shows time: the ship deadline stays hidden. This sits alongside Pillar 3 (guidance still comes from Ted and Arthur in the world; the tracker only repeats the current job). Open for the creator: whether the controls should fade after the first minute (built: they dim to half strength after 45 seconds and brighten when the player gets in the boat).

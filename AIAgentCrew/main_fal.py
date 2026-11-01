@@ -124,7 +124,7 @@ def main() -> int:
     glb.raise_for_status()
     out_file.write_bytes(glb.content)
     (out_dir / f"{sub.asset_id}.fal_result.json").write_text(
-        json.dumps({"submission": sub.model_dump(), "request_id": job["request_id"], "seed": result.get("seed"),
+        json.dumps({"submission": sub.model_dump(), "request_id": job["request_id"], "seed": result.get("seed"), "model_url": mesh["url"],
                     "textured": args.textured, "request": {k: v for k, v in payload.items() if not k.endswith("_url")}}, indent=2), encoding="utf-8")
     print(f"[fal] saved {out_file} ({len(glb.content) // 1024} KB), seed {result.get('seed')}")
     return 0

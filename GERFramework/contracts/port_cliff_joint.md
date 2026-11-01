@@ -1,5 +1,32 @@
 # Port-to-cliff joint contract
 
+**Version 4, 2026-11-01 (post-T49, light joint built; supersedes the v3 statements about the plinth, landing and burner).** v3 and v2 follow unchanged below it for the record.
+
+## State after T49 (commit 049c3e1)
+
+- **Pier head and hut:** the stone pier head is back; `SaltgateHut` stands on it (5.07, 4.4, 539.6) with its rain shelter. The dock-level carve, piles and plank deck were reverted by the creator (minor set piece, keep simple).
+- **Steps:** `SaltgateHutSteps` climb from the quay deck (3.1) to a top landing (4.6) over the pier head kerb. This supersedes v3's "there are no stone steps at the Saltgate".
+- **Landing and berth:** `DockZonePort.landing` is (3.6, 3.05, 535.6) on the quay's south strip; the berth stays at z 531.5.
+- **Burner:** on the hut's workbench (5.4, 5.31, 540.2). Creator accepted "inside the Saltgate hut" as its location, 2026-11-01. The reason it is stored there is still TBD in the lore.
+- **Unchanged and re-tested 2026-11-01:** `BoardwalkLink` (x 4.85), the boardwalk ends, the walkway, the cliff modules. `test_disembark`, `test_cliffwalk` (both legs reach the top), `test_walkway_continuity`, `test_cliff_clean` and `test_path_walk` all pass.
+
+## The light joint (Cliffside side, built)
+
+`scripts/world/cliff_dressing.gd` now lays a **rock apron** along the cliff foot for x -105 to 120 (the quay's span): big stones against the cliff, thinning to small stones toward open water, filling the 2 to 6 m of water between the quay's edge and the cliff foot. The band is at most 6.5 m wide and stays south of z 556.8, so the boardwalks and the timber link, which cross it above the water, are not touched.
+
+- Looks only: no colliders, so no test or walk route changes.
+- Uses the same stone mesh and cliff rock material as the existing rubble.
+- Seen from the quay deck (`GERFramework/shots/slt_v4_a.png`): the dark boulders close the gap between the deck rail and the cliff face.
+- **Not done, on purpose:** no re-carving of the quay, no new structures, no change to the quay mesh. The quay still stands on its own piles; the apron hides the joint rather than merging the meshes.
+
+## Agreement
+
+1. The apron is the Cliffside side of the joint. The Saltgate side is unchanged since v3 apart from T49 (above).
+2. Rule 7 stays: a change to the boardwalk or link ends, the walkway, or the apron's x/z limits needs the other agent's review.
+3. A fuller joint (re-carving the quay into the rock) is not planned. Offer it only if the creator asks.
+
+---
+
 **Version 3, 2026-10-22 (Saltgate side added; awaiting the Cliffside agent's review of the changes listed under "Saltgate changes, 2026-10-22").** Version 2 follows unchanged below it.
 
 ## Saltgate answers, from measurement (2026-10-22)

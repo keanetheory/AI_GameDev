@@ -50,6 +50,10 @@ void fragment() {
 ## Where the windows read at glow_at_lighthouse and at glow_at_saltgate.
 @export var lighthouse_point := Vector3(5, 10, -8.5)
 @export var saltgate_point := Vector3(15, 3, 550)
+## The amber glow card behind the Saltgate cliff top (see _build_city_glow): where its centre is, how big it is and how bright.
+@export var city_glow_centre := Vector3(15, 54, 605)
+@export var city_glow_size := Vector2(420, 48)
+@export var city_glow_strength := 0.55
 ## The spec's lightning energy is for the flash on its own; scaled down so the tonemapper keeps hazards dark.
 @export var lightning_scale := 0.35
 @export var window_count := 600
@@ -94,6 +98,7 @@ var _splash: GPUParticles3D
 var _rain_floor: GPUParticlesCollisionHeightField3D
 var _windows: MultiMeshInstance3D
 var _window_mat: ShaderMaterial
+var _city_glow_mat: ShaderMaterial
 var _label: Label
 var _label_t := 0.0
 var _from: Dictionary = {}
@@ -591,12 +596,30 @@ func _follow_camera() -> void:
 			var d_far := lighthouse_point.distance_to(city.global_position)
 			var d_near := saltgate_point.distance_to(city.global_position)
 			var t := clampf(inverse_lerp(d_far, d_near, cam.global_position.distance_to(city.global_position)), 0.0, 1.0)
-			_window_mat.set_shader_parameter("glow", lerpf(float(sc["glow_at_lighthouse"]), float(sc["glow_at_saltgate"]), t))
+			var g := lerpf(float(sc["glow_at_lighthouse"]), float(sc["glow_at_saltgate"]), t)
+			_window_mat.set_shader_parameter("glow", g)
+			if _city_glow_mat:
+				_city_glow_mat.set_shader_parameter("glow", g)
 
 
 # ---------------- Saint Calder's windows ----------------
 
 ## Scatters lit windows over the city's walls that face the sea (and so the player).
+const CITY_GLOW_SHADER := """
+shader_type spatial;
+render_mode unshaded, blend_add, depth_draw_never, cull_disabled, fog_disabled;
+uniform vec4 tint : source_color = vec4(0.75, 0.48, 0.12, 1.0);
+uniform float glow = 0.7;
+uniform float strength = 0.55;
+void fragment() {
+	float up = clamp(UV.y, 0.0, 1.0);                          // UV.y is 0 at the top of the card, 1 at the bottom
+	float fade = pow(up, 2.2) * smoothstep(0.0, 0.18, UV.x) * smoothstep(1.0, 0.82, UV.x);
+	float patch = 0.8 + 0.2 * sin(UV.x * 37.0) * sin(UV.x * 11.0 + 1.3);
+	ALBEDO = tint.rgb * fade * patch * glow * strength;
+}
+"""
+
+
 func _build_windows() -> void:
 	var city := get_node_or_null(saint_calder) as Node3D
 	if city == null or not _spec["saint_calder"]["window_lights"]:
@@ -669,6 +692,29 @@ func _build_windows() -> void:
 	_windows.top_level = true
 	add_child(_windows)
 	_windows.global_transform = Transform3D.IDENTITY
+	_build_city_glow(colours)
+
+
+## From the sea and the quay the Saltgate cliff (about 38 m) hides the whole city, so the lit windows are never seen (SLT-06, 22 Oct).
+## A wide, faint amber glow card stands behind the cliff top: its lower edge is hidden by the cliff and the rest fades up into the
+## sky, the way lamplight from a hill town shows over a ridge. Same colours and glow as the windows; no light, no collider.
+func _build_city_glow(colours: Array) -> void:
+	var card := MeshInstance3D.new()
+	card.name = "SaintCalderGlow"
+	var quad := QuadMesh.new()
+	quad.size = Vector2(city_glow_size.x, city_glow_size.y)
+	card.mesh = quad
+	_city_glow_mat = ShaderMaterial.new()
+	var sh := Shader.new()
+	sh.code = CITY_GLOW_SHADER
+	_city_glow_mat.shader = sh
+	_city_glow_mat.set_shader_parameter("tint", Color.html(colours[0]).lerp(Color.html(colours[colours.size() - 1]), 0.4))
+	_city_glow_mat.set_shader_parameter("strength", city_glow_strength)
+	card.material_override = _city_glow_mat
+	card.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	card.top_level = true
+	add_child(card)
+	card.global_position = city_glow_centre
 
 
 func _build_label() -> void:

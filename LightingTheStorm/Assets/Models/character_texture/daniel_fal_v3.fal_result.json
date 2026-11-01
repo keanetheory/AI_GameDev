@@ -1,0 +1,23 @@
+{
+  "submission": {
+    "asset_id": "daniel_fal_v3",
+    "category": "character_texture",
+    "fal_model": "fal-ai/hunyuan3d-v3/image-to-3d",
+    "prompt": "Daniel, young local, T-pose for rigging, dark brown hair under a red flat cap, grey scarf, red wool work jacket with brass buttons over a dark waistcoat, leather belt, cross strap with a satchel at the right hip, baggy brown trousers, heavy oily leather boots with turned cuffs, single character on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of oxblood red #7A2620 and black #0E0E10, mid-1800s coastal attire",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters",
+    "source_image": "../../../ConceptArt/characters/daniel/prepared/daniel_front.png",
+    "view_images": {
+      "front": "../../../ConceptArt/characters/daniel/prepared/daniel_front.png",
+      "back": "../../../ConceptArt/characters/daniel/prepared/daniel_back.png"
+    },
+    "notes": "New concept (ConceptArt/characters/daniel, 30 Oct): front PM-7, back PM-2, side PM-8. Front and back only, as Ted. The back view was drawn mirrored (satchel, pouch and strap on the wrong side against the front and side views), so prepared/daniel_back.png is flipped horizontally."
+  },
+  "request_id": "01a1916b-9647-7ca3-8c7a-153d5fb798e4",
+  "seed": null,
+  "model_url": "https://v3b.fal.media/files/b/0ab092f7/taX0TCmYSdfKswUgcauqM_model.glb",
+  "textured": true,
+  "request": {
+    "generate_type": "Normal",
+    "face_count": 60000
+  }
+}

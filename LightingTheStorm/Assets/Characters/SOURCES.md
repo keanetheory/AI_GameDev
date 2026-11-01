@@ -1,10 +1,40 @@
 # Character models: source and licence
 
-- **Daniel (`daniel.glb`, 30 Oct 2026):** Meshy "The Red-Capped Wayfarer" (file `Meshy_AI_the_red_capped_wayfar_All_Animations.glb`), the same Mixamo skeleton. 51,346 triangles, textures 4096 down to 2048 (`source/daniel_4k_texture.glb`), 1.66 m. Clips in the file: `Walking`, `Running`, `Talk_with_Hands_Open`, `Talk_with_Left_Hand_Raised`, `Sit_Cross_Legged`. **There is no standing idle**, so `npc.gd` holds the first frame of `Talk_with_Hands_Open` as his standing pose; add an idle in Meshy and re-download to replace it (set `idle_clip` in his look). `Sit_Cross_Legged` is a seat-sit with the ankles crossed, so he gets a plank at 0.42 m (`bench_m`). The jaw: `tools/add_jaw_bone.py --hinge_up 0.16 --hinge_front 0.1 --mouth 0.22 --chin -0.14 --fwd0 0.15 --fwd1 0.3` (he is beardless with a small chin, so his face front sits closer to the head origin). At the 18 degree maximum a small dark gap shows at the throat under the scarf. Credit Meshy AI and "The Red-Capped Wayfarer" (CC BY 4.0 assumed, confirm). Originals: `source/meshy_red_capped_wayfarer_all_animations.glb` and `C:\bkupConceptArt\FAL_3D_Models\Characters\`.
+All three characters (31 Oct 2026) are FAL Hunyuan3D v3 meshes made from the creator's own concept art, rigged on the Meshy website
+with its Mixamo-named skeleton, then given a jaw bone and a 2048 texture here. See `LightingTheStorm/HANDOFF_Characters_FAL.md`.
 
-- **Arthur (`arthur.glb`, 30 Oct 2026):** Meshy "The Dockside Outlaw" (file `Meshy_AI_The_Dockside_Outlaw_All_Animations.glb`), the same Mixamo skeleton as Ted plus a few hair and hat bones. 50,959 triangles, textures downscaled from 4096 to 2048 (the 4k version is `source/arthur_4k_texture.glb`), scaled to 1.78 m by `tools/import_scale_pivot.gd` (`TARGET_HEIGHT_BY_FILE_M`). Clips in the file: `Idle_3`, `Idle_03`, `Idle_02`, `Walking`, `Walking_Woman`, `Running`, `Talk_with_Right_Hand_Open`, `Chair_Sit_Idle_M`. `npc.gd` uses `Idle_3`, `Walking`, `Talk_with_Right_Hand_Open` and `Chair_Sit_Idle_M`, turns the model 180 degrees (it faces +Z) and gives it a jaw. The jaw was added with `tools/add_jaw_bone.py --hinge_up 0.34 --hinge_front 0.27 --mouth 0.33 --chin -0.08` (measured on his rest pose; Ted's defaults do not fit him). Seated, he sits on a small plank (`npc.gd` `_set_bench`) because the sit clip assumes a chair about half a metre high and the boat models have no thwart. Credit Meshy AI and "The Dockside Outlaw" (CC BY 4.0 assumed, confirm on the Meshy page). Originals: `source/meshy_dockside_outlaw_all_animations.glb` and `C:\bkupConceptArt\FAL_3D_Models\Characters\`.
+How each one was made:
 
-- **Ted (`ted.glb`, 30 Oct 2026):** Meshy "Ironclad Mariner" (file `Meshy_AI_Ironclad_Mariner_All_Animations.glb`), rigged with Meshy's Mixamo-named skeleton (66 bones, fingers, no jaw bone) and textured at 2048. 51,111 triangles. Clips: `Idle_3`, `Walking`, `Running`, `Stand_Talking_Angry`, `Talk_Passionately`. The model faces +Z, so `npc.gd` turns it 180 degrees (`model_yaw_deg`).
-- **Licence:** the same Meshy terms as the lamppost models (CC BY 4.0 assumed, confirm on the Meshy page): credit Meshy AI and the title "Ironclad Mariner" in the game's credits.
-- **Originals:** `source/meshy_ironclad_mariner_all_animations.glb` (git-ignored) and `C:\bkupConceptArt\FAL_3D_Models\Characters\`. The earlier rigged Ted (with a jaw bone, `jaw_lipsync.gd`) is `source/ted_old_rig.glb`.
-- **Jaw (added offline, 30 Oct 2026):** `tools/add_jaw_bone.py` (Blender, `blender -b -P tools/add_jaw_bone.py -- <in.glb> <out.glb>`) adds a `mixamorig:Jaw` bone (Godot imports it as `mixamorig_Jaw`) and weights the lower face and beard to it by position, keeping every clip. `ted.glb` is that output, made from `source/meshy_ironclad_mariner_all_animations.glb`. `jaw_lipsync.gd` drives it (opens up to 18 degrees from the voice, or flaps while his line is shown); `npc.gd` attaches it when a look has `"jaw": true`. The face is a flat texture with no mouth gap, so the effect is the lower face and beard swinging open. For Arthur and Daniel, run the same script on their Meshy download (same Mixamo skeleton); override `--hinge_up`, `--hinge_front`, `--mouth`, `--chin` (fractions of the head length) if a head differs, and check with `--test-pose` and `tools/shot_ted.gd`.
+1. Concept views (`ConceptArt/characters/newted`, `arthur`, `daniel`), front and back cropped to the same height and baseline on a
+   flat grey (`prepared/`). Side views are left out (Ted's showed the coat closed; front and back are enough for Hunyuan).
+2. `AIAgentCrew/main_asset.py <submission> --check-only`, then `AIAgentCrew/main_fal.py <submission> --go --textured --face-count 60000`
+   (submissions in `AIAgentCrew/sample_submissions/characters/`, about $0.68 each). Output: `Assets/Models/character_texture/<name>_fal_v3.glb`.
+3. Rigged and animated on the Meshy website; the download is `source/meshy_<name>_fal_all_animations.glb`.
+4. `blender -b -P tools/add_jaw_bone.py -- <download> <out.glb> <jaw settings below> --test-pose`
+5. Arthur and Daniel only: `blender -b -P tools/copy_clips.py -- <ted with jaw>.glb <out.glb> <out_idle.glb> Idle_3` (Ted's idle).
+6. Copy to `Assets/Characters/<name>.glb`, then `python tools/downscale_glb_texture.py Assets/Characters/<name>.glb` (keeps the 4k
+   copy as `source/<name>_4k_texture.glb`). Godot extracts the texture as `<name>_texture_20250901.png`.
+
+- **Ted (`ted.glb`):** 60,080 triangles, 66 bones with fingers plus the jaw, 1.83 m. Clips: `Idle_3`, `Walking`, `Running`. No
+  talking clip, so he idles while his jaw moves (add one in Meshy and set `talk_clip` in `npc.gd` to use it). Jaw:
+  `--hinge_up 0.3 --hinge_front 0.2 --mouth 0.17 --chin -0.09 --fwd0 0.3 --fwd1 0.44` (the beard drops with it).
+- **Arthur (`arthur.glb`):** 60,080 triangles, Mixamo body bones without fingers plus Meshy's extra `Bone_0xx` bones (rope and pouch),
+  1.78 m. Clips: `Idle_3` (copied from Ted), `Idle_03` (his own: a stretch with his hands at his head, not used), `Walking`, `Running`,
+  `Chair_Sit_Idle_M`. No talking clip. Jaw: `--hinge_up 0.2 --hinge_front 0.3 --mouth 0.04 --chin -0.27 --fwd0 0.36 --fwd1 0.5`.
+- **Daniel (`daniel.glb`):** 60,080 triangles, body bones without fingers plus two extra (satchel), 1.66 m. Clips: `Idle_3` (copied
+  from Ted), `Walking`, `Running`, `Talk_Passionately`, `Sit_Cross_Legged`. Jaw: `--hinge_up 0.15 --hinge_front 0.25 --mouth -0.01
+  --chin -0.21 --fwd0 0.3 --fwd1 0.45` (beardless, so the movement is small).
+- **Jaw settings** are fractions of the head length from the Head bone, measured from each face's profile (nose, mouth line, chin);
+  the tool's defaults fit none of these heads. `jaw_lipsync.gd` drives the bone (opens up to 18 degrees, about 13 in the tests).
+- **Licence:** the meshes come from FAL (Hunyuan3D v3) from our own concept art, and the rig and clips from Meshy. Confirm both
+  services' commercial terms before release; the earlier Meshy community-model credits ("Ironclad Mariner", "The Dockside Outlaw",
+  "The Red-Capped Wayfarer") no longer apply to the models in use.
+- **Originals** (git-ignored): `source/meshy_*_fal_all_animations.glb` and `source/*_4k_texture.glb`, backed up to
+  `C:\bkupConceptArt\FAL_3D_Models\Characters\`. The FAL test meshes are in `C:\bkupConceptArt\FAL_3D_Models\character_texture\`.
+
+## Earlier models (30 Oct 2026, replaced)
+
+Meshy community models on the same Mixamo skeleton: Ted "Ironclad Mariner" (`source/meshy_ironclad_mariner_all_animations.glb`),
+Arthur "The Dockside Outlaw" (`source/meshy_dockside_outlaw_all_animations.glb`, 4k copy `source/arthur_dockside_4k_texture.glb`),
+Daniel "The Red-Capped Wayfarer" (`source/meshy_red_capped_wayfarer_all_animations.glb`, 4k copy `source/daniel_wayfarer_4k_texture.glb`).
+They are in git history (commit 6ce14b1 and before) and in the backup folder. The rigged Ted before those is `source/ted_old_rig.glb`.

@@ -367,9 +367,9 @@
  ],
  "records": {
   "SLT-02": {
-   "status": "in_progress",
-   "note": "Joint agreed against contract v2 and written up as v3 (GERFramework/contracts/port_cliff_joint.md): the three open Saltgate questions answered from measurement (no stone steps exist or are needed: quay deck y 3.1 is level with the walkway's quay end; quay instances clear of the x 30-46 taper by ray probe; quay stays in the main cove). Built on the Saltgate side: BoardwalkLink moved off two quay piles that stood up through it (walk now 0 drops, largest step 0.08 m); landing and berth moved (see SLT-01). test_cliffwalk.gd (Cliffside file) waypoints moved to the new ramp line. NOT done: the quay still stands on piles in open water 2-3 m in front of the walkway ledge and cliff foot, so it does not yet 'grow out of the cliff'; proposed as joint work with the Cliffside agent's CLF-15 cove base dressing. Waiting on the Cliffside agent's review of the v3 changes. No visible instance boundary: the three quay copies do not touch (boardwalks link them), but identical huts repeat (SLT-04/05).",
-   "at": "2026-10-22T10:05:52+00:00"
+   "status": "done",
+   "note": "Closed 2026-11-01 with the light joint: contract v4 and the Cliffside rock apron hide the water gap between quay and cliff foot (shots/slt_v4_a.png). Creator chose the light version; the quay is not re-carved. Needs the creator's look from the boat and the quay.",
+   "at": "2026-11-01T16:43:40+00:00"
   },
   "SLT-03": {
    "status": "done",
@@ -392,14 +392,14 @@
    "at": "2026-10-22T10:03:05+00:00"
   },
   "SLT-06": {
-   "status": "blocked",
-   "note": "Checked with the Lighting agent's existing rig (lighting_rig.gd not edited), renders in GERFramework/shots/slt_*_{OUTBOUND,RETURN}.png. PASS: every window and door stays dark in both phases; the tattered amber-and-gold flag reads clearly from the approach in both phases; the burner reads against the cliff at eye height from the landing in both phases without a marker; the quay reads from the boat (darker in RETURN rain, as intended); the Saltgate adds no dynamic lights (budget 8 dynamic, 2 shadow casters untouched). FAIL, for the Lighting agent / creator: the distant glow of Saint Calder over the rooftops is not visible from the quay at all - the ~38 m cliff hides the city (lighting_spec saint_calder.seen_from_saltgate expects rows of lit windows climbing the hill behind the quays). Fix options are the Lighting agent's (e.g. a glow card or sky glow above the cliff line) or the creator's; not changed here.",
-   "at": "2026-10-22T10:04:34+00:00"
+   "status": "done",
+   "note": "2026-11-01: the Saint Calder glow could not be seen because the ~38 m cliff hides the city (SLT-06 FAIL on 22 Oct). lighting_rig.gd now adds an amber glow card behind the cliff top (SaintCalderGlow, additive, no light, no collider; same colours and distance-driven glow as the windows). Seen over the cliff line from the sea (shots/slt_v4_city_glow_OUTBOUND.png). Not captured in RETURN or from the quay deck; dynamic light budget untouched. Creator to judge the strength (city_glow_strength 0.55).",
+   "at": "2026-11-01T18:46:59+00:00"
   },
   "SLT-07": {
    "status": "done",
-   "note": "BurnerPickup moved 1.1 m along the same walled stone yard, from (4.5, 4.4, 540.5) to (3.4, 4.43, 541.4), so it can be reached from the timber deck where the player now lands (it was 2.7 m from the nearest deck spot, beyond the 2.5 m reach). Still 3.5 m from the landing (test_burner_pickup wants 1.5 to 4) and 10.3 m from the berth (outside the boat's 10 m board radius, per the readme rule). test_disembark walks landing -> burner and E picks it up (BURNER_PICKED_UP) in 8 of 8 runs. Readable at eye height against the cliff in OUTBOUND and RETURN (slt_landing_*.png). No set dressing added and no story invented: the location stays a placeholder (lore: storage location TBD) for the creator to lock.",
-   "at": "2026-10-22T10:04:35+00:00"
+   "note": "Creator accepted 2026-11-01: the replacement burner's location is now inside the Saltgate hut, on its workbench (T49, 19c5aa7). Supersedes the 22 Oct placeholder on the stone yard. Still a placeholder for lore (storage reason TBD), no story invented. Level.tscn BurnerPickup node still carries the old transform, so the hut script/test place it; verify.",
+   "at": "2026-11-01T15:11:28+00:00"
   },
   "SLT-11": {
    "status": "done",
@@ -412,9 +412,14 @@
    "at": "2026-10-22T10:16:44+00:00"
   },
   "SLT-04": {
-   "status": "blocked",
-   "note": "Not started, deliberately. Excluded from this run by the creator's queue instruction (2026-10-20: SLT-04 and SLT-05 excluded until the creator answers). It depends on SLT-05 (polish scope: a / b / c), which only the creator can decide. The inventory file saltgate_inventory.json is therefore not written; the assessor's BLOCK on it stands until the creator decides.",
-   "at": "2026-10-22T10:17:04+00:00"
+   "status": "done",
+   "note": "2026-11-01, light version (creator: minor set piece, keep simple; SLT-05 closed). saltgate_inventory.json lists the 7 structures (footprints and roof tops from a ray scan of the quay colliders; the quay is one baked mesh so they cannot be split). Free-camera sweep of all seven from the sea side (shots/slt_inventory_south.png): windows read as shuttered or dark insets, doors closed, no empty void. NOT swept: rear and side faces against the cliff. No FAL spend, no mesh edits.",
+   "at": "2026-11-01T18:46:59+00:00"
+  },
+  "SLT-05": {
+   "status": "done",
+   "note": "Closed by the creator 2026-11-01: scope was settled in the T49 session, which regenerated a FAL hut asset (saltgate hut, walkable, at dock level). Option (b) in effect for the hut.",
+   "at": "2026-11-01T15:11:28+00:00"
   }
  },
  "history": [
@@ -494,11 +499,7 @@
  "last_findings": [],
  "last_blocks": 0,
  "last_work": {
-  "blocks": 1,
-  "open": [
-   "SLT-02",
-   "SLT-04",
-   "SLT-06"
-  ]
+  "blocks": 0,
+  "open": []
  }
 }

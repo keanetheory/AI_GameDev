@@ -14,7 +14,7 @@ The old premise "the ship sits across the launch's route south" is gone: the sta
 New:
 - `data/world/ship_route.json`: deadline length (210 s placeholder), the ship's lane (approach, commit distance, safe lane), the grounding rock, the crash and the placeholder lights. Everything is tunable here.
 - `scripts/world/ship_route.gd`: path maths (no nodes).
-- `scripts/world/passenger_ship.gd`: the ship (model, lit windows and navigation lights, movement, crash). Signals `impact`, `passed`.
+- `scripts/world/passenger_ship.gd`: the ship (model, lit windows, navigation lights, lanterns and spill (T44), movement, crash). Signals `impact`, `passed`.
 - `scripts/core/ship_deadline.gd`: the clock, the P key, the debug time scale, the event log; owns the ship.
 - `tools/test_ship_route.gd` (T31) and `tools/test_ship_deadline.gd` (T07); `tools/probe_ship_route.gd` prints the island, rock and ship bounds used to lay the lane out.
 
@@ -36,7 +36,7 @@ In the game (debug builds): P pauses and resumes (clock and ship freeze). Page U
 
 How other systems use it: read `GameState.deadline_progress()` (0..1, -1 before the clock); connect `GameState.deadline().ship.impact` to time the foghorn, the crash audio and Ted's `TED_F_01` (T08); `ship.passed` marks the ship safe in port.
 
-The lane (revised 29 Oct 2026 after the creator's first play): the ship appears once the boiler is fed (`BOILER_FED`; also on `LAMP_ROOM_ENTERED`, `BURNER_DIAGNOSED`, `BOARDING_THRESHOLD`, `SHIP_SIGHTED` or `BOAT_CAST_OFF`, whichever comes first) out to the **north-east** at (700, -250), so it is in view from the lamp room when Ted names it and sits to the right of the player on the return crossing. It holds there with its lights on. On `RETURN_DEPARTED` it comes in towards the island's east side at about 3.1 m/s, turns at (132, 28) and runs straight onto the grounding rock (`SeaStack1`, 24, 125). At the deadline (progress 1) it has 43 m to go and can no longer turn; about 13.6 s later it strikes the rock and rides up, lists, sinks and its lights die. If the burner is fitted first the clock freezes and the ship keeps to the lane as far as (132, 28), then steers (8 deg/s, at 3x speed) through (112, 190) and on to Saint Calder, passing the rock on its east side; `SHIP_WIN` follows 4.5 s after the fit (lamp_socket.gd). Its lights grow with distance so a ship 700 m out still reads as lit windows and a masthead.
+The lane (revised 29 Oct 2026 after the creator's first play): the ship appears once the boiler is fed (`BOILER_FED`; also on `LAMP_ROOM_ENTERED`, `BURNER_DIAGNOSED`, `BOARDING_THRESHOLD`, `SHIP_SIGHTED` or `BOAT_CAST_OFF`, whichever comes first) out to the **north-east** at (700, -250), so it is in view from the lamp room when Ted names it and sits to the right of the player on the return crossing. It holds there with its lights on. On `RETURN_DEPARTED` it comes in towards the island's east side at about 3.1 m/s, turns at (132, 28) and runs straight onto the grounding rock (`SeaStack1`, 24, 125). At the deadline (progress 1) it has 43 m to go and can no longer turn; about 13.6 s later it strikes the rock and rides up, lists, sinks and its lights die. If the burner is fitted first the clock freezes and the ship keeps to the lane as far as (132, 28), then steers (8 deg/s, at 3x speed) through (112, 190) and on to Saint Calder, passing the rock on its east side; `SHIP_WIN` follows 4.5 s after the fit (lamp_socket.gd). Its lights were reworked in T44 (1 Nov 2026, below).
 
 ## 4. Observed behaviour
 
@@ -49,7 +49,7 @@ The lane (revised 29 Oct 2026 after the creator's first play): the ship appears 
 ## 5. Not verified
 
 - Feel: whether 3 min 30 s with a ship at 4.4 m/s reads as urgent; whether the ship is easy enough to spot from the boat on the return crossing. Needs a play.
-- The ship's lights at the real horizon (900 m): they are fog-proof emissive spheres (no OmniLights, to keep the dynamic-light budget), checked only in stills at about 130 m.
+- The ship's lights at the real horizon (900 m): checked in stills at 150 m (lamp room) and 560 m (sea level), not yet at 900 m.
 - Windows are placeholder discs on a grid, not placed against the model's real window rows.
 - The break-up is a list-and-sink, not a split hull; the real break-up needs art (T08).
 - Paused state has no on-screen cue (no UI by design); the mouse is released while paused.
@@ -73,3 +73,14 @@ PROPOSED, none yet accepted:
 - **The ship's lane.** East side of the island, so the lamp room, the dock and the return crossing all see it. Acceptable?
 - **Deadline length and ship speed** are placeholders (210 s, 4.4 m/s); the final values come from playtests (B4).
 - **Grounding time.** After the deadline the ship needs 13.6 s to strike (the commit distance, 60 m). T08 can time the foghorn, `TED_F_01` and the Failed screen on it, or the distance can be shortened.
+
+## T44 update (1 Nov 2026): the ship lit properly
+
+The floating sphere lights are gone. `passenger_ship.gd` now builds, from the `lights` block of `ship_route.json`:
+
+- **Windows:** 188 small emissive panes laid flat on the model's own hull and superstructure. At load it casts rays at the mesh (about 0.25 s) for each row: two porthole rows in the black hull, the promenade and upper tier on both sides, and the superstructure's forward face, bridge and after face (so she shows lit windows bow-on). Panes that would sit on a post or lifeboat, or in a gap, are dropped, and some cabins are dark. Additive, fog-proof, and each pane grows in its own plane with distance (`grow_per_m`, `grow_max`) so the decks run together at range.
+- **Navigation lights and lanterns:** white masthead lights on the fore (28.4 m) and aft (30.9 m) mast tops, red and green sidelights in the bridge-wing lanterns, a white stern light, and the two globe lanterns fore and aft lit as deck lamps. Each shows only in its real sector (masthead 225 deg ahead, sidelights 112.5 deg each side, stern 135 deg astern) and has a soft glow that grows with distance (`halo_per_m`, up to `halo_max_m`).
+- **Spill:** two warm OmniLights just off the hull, live only while the camera is within 160 m (the launch near the crash), so they stay inside `max_dynamic_lights`.
+- **Crash:** one `power` shader parameter fades every window and lamp with a flicker over `lights_out_s`; the spill fades with them.
+
+Renders checked: side-on at 80 m, bow-on at 70 m, the lamp room at 150 m, sea level at 560 m, beacon relit, and the crash at 2, 12 and 30 s. Tests: test_ship_route, test_ship_deadline, test_outcome_screen, test_lampposts, test_slice_playthrough all OK.

@@ -3,8 +3,8 @@
 # the view, through boarding, the return crossing and beyond; it cannot be put down (only the lamp fit, T32, takes
 # it). Picking it up reports BURNER_PICKED_UP to GameState, which lets casting off from DOCK_PORT start RETURN.
 # The hands are the Carry autoload (scripts/interaction/carry_manager.gd); the burner can only be put down in a
-# CarrySocket (the boat's cargo slot, then the lamp). The boat keeps its own E (board, cast off), so this sits
-# outside the boat's board_radius.
+# CarrySocket, and the only one is the lamp (the boat's cargo slot was taken out, creator 1 Nov 2026). The boat keeps its own E
+# (board, cast off) and leaves it to this whenever the burner is offered.
 # It is an Interactable (scripts/interaction/): the Interaction autoload owns the prompt, the reach and facing test
 # and the E key; this script only says what E does.
 extends "res://scripts/interaction/interactable.gd"

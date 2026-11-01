@@ -1,5 +1,5 @@
 # test_daniel_anim.gd - run: Godot --headless --path . --script res://tools/test_daniel_anim.gd
-# Daniel's Meshy rig (Assets/Characters/daniel.glb, 30 Oct 2026): Walking walking, a frozen standing pose (no idle clip in his download), Talk_with_Hands_Open while one
+# Daniel's FAL mesh on the Meshy rig (Assets/Characters/daniel.glb, 31 Oct 2026): Walking walking, Idle_3 standing (Ted's, copied in: no idle in his download), Talk_Passionately while one
 # of his own lines plays, Sit_Cross_Legged on a seat (on a plank, put away when he stands), a jaw that opens while he speaks, 1.66 m tall.
 extends SceneTree
 
@@ -36,12 +36,12 @@ func _process(_d: float) -> bool:
 	if _f == 4:
 		var a: AnimationPlayer = _daniel._anim
 		_check(a != null, "Daniel has an AnimationPlayer (his own model, not a capsule)")
-		for c in ["Walking", "Talk_with_Hands_Open", "Sit_Cross_Legged"]:
+		for c in ["Idle_3", "Walking", "Talk_Passionately", "Sit_Cross_Legged"]:
 			_check(a.has_animation(c) and a.get_animation(c).loop_mode == Animation.LOOP_LINEAR, "%s is there and loops" % c)
-		_check(not a.is_playing(), "standing, he holds a still pose (no idle clip) (%s)" % a.current_animation)
+		_check(a.current_animation == "Idle_3" and a.is_playing(), "standing, he plays Idle_3 (%s)" % a.current_animation)
 		var dlg := root.get_node("Dialogue")
 		dlg.line_started.emit("DANIEL_X", "DANIEL", "", "")
-		_check(a.current_animation == "Talk_with_Hands_Open", "his own line plays the talking clip (%s)" % a.current_animation)
+		_check(a.current_animation == "Talk_Passionately", "his own line plays the talking clip (%s)" % a.current_animation)
 		dlg.line_finished.emit("DANIEL_X")
 		_daniel.sit(_seat, Vector3.ZERO)
 		_check(a.current_animation == "Sit_Cross_Legged", "on a seat he plays the sit clip (%s)" % a.current_animation)
@@ -50,7 +50,7 @@ func _process(_d: float) -> bool:
 		_check(a.current_animation == "Sit_Cross_Legged", "he keeps sitting while he talks")
 		dlg.line_finished.emit("DANIEL_Y")
 		_daniel.release_seat()
-		_check(not a.is_playing(), "standing again, he holds the still pose (%s)" % a.current_animation)
+		_check(a.current_animation == "Idle_3", "standing again, he plays Idle_3 (%s)" % a.current_animation)
 		_daniel.walk(PackedVector3Array([Vector3(3, 0, 0), Vector3(3, 0, -5)]))
 		_daniel._update_anim()
 		_check(a.current_animation == "Walking", "walking, he plays Walking (%s)" % a.current_animation)

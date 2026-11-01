@@ -1,9 +1,9 @@
-# carry_socket.gd - the only places a carried item can be put down (backlog T29): the boat's cargo slot, and the
-# lamp socket (T32). It is an Interactable, so the Interaction autoload offers it and shows its prompt:
+# carry_socket.gd - the only places a carried item can be put down (backlog T29): the lamp socket (T32). The boat's cargo
+# slot was one until the creator took it out (1 Nov 2026: the burner is never put down between the hut and the lamp).
+# It is an Interactable, so the Interaction autoload offers it and shows its prompt:
 #   holding something it accepts, and empty     -> "[E] Put the burner down"
 #   holding nothing, and it holds an item       -> "[E] Pick up the burner"   (unless allow_take is off)
-# The item is parented to this node, so a socket that is a child of the boat's rig carries the item with the boat,
-# through waves and hazard recoveries.
+# The item is parented to this node, so a socket on something that moves carries the item with it.
 #
 # For a socket that keeps what it is given for good (the lamp), set allow_take = false and listen to `placed`.
 extends "res://scripts/interaction/interactable.gd"

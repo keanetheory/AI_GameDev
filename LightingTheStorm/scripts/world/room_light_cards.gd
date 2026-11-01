@@ -112,11 +112,25 @@ func _recolour(l: OmniLight3D) -> void:
 			return
 
 
+const FURNITURE_M := 1.2         # a surface with another this close below it is a furniture top, not the floor
+
 func _floor_below(space: PhysicsDirectSpaceState3D, p: Vector3, reach := 5.0) -> float:
 	var q := PhysicsRayQueryParameters3D.create(p + Vector3(0, 0.05, 0), p - Vector3(0, reach, 0))
 	q.collision_mask = 1
 	var r := space.intersect_ray(q)
-	return NAN if r.is_empty() else (r["position"] as Vector3).y
+	if r.is_empty():
+		return NAN
+	var y := (r["position"] as Vector3).y
+	# a furniture top is not the floor: with another surface within FURNITURE_M below, go on down (the wash-room window's pool lay on
+	# the bath, 0.58 m up: creator, 1 Nov 2026). Floors are a storey apart, so a real floor never has one that close beneath it.
+	for i in 3:
+		var below := PhysicsRayQueryParameters3D.create(Vector3(p.x, y - 0.02, p.z), Vector3(p.x, y - FURNITURE_M, p.z))
+		below.collision_mask = 1
+		var r2 := space.intersect_ray(below)
+		if r2.is_empty() or (r2["normal"] as Vector3).y < 0.5:
+			break                                               # nothing close below, or only the underside of this same slab
+		y = (r2["position"] as Vector3).y
+	return y
 
 
 ## Keeps a floor pool of radius `rad` centred at `c` (world) inside the room it is in: the house levels by their wall planes, the tower by its
@@ -180,6 +194,19 @@ func _quad(parent: Node, nm: String, size: Vector2, mat: Material) -> MeshInstan
 	return mi
 
 
+## The lamp fixture's bulb for a light: the glass or bulb sphere the room scripts name after it ("X_Light" has "X_Glass" or "X_Bulb"), or
+## null for a bare light with no fixture (the stair and hall lights placed in Level.tscn).
+func _bulb(l: OmniLight3D) -> Node3D:
+	var parent := l.get_parent()
+	if parent == null:
+		return null
+	for tail in ["_Glass", "_Bulb"]:
+		var n := parent.get_node_or_null(String(l.name).replace("_Light", tail))
+		if n is Node3D and n != l:
+			return n as Node3D
+	return null
+
+
 func _add_lamp(space: PhysicsDirectSpaceState3D, l: OmniLight3D) -> void:
 	var pos := l.global_position
 	var fy := _floor_below(space, pos)
@@ -202,10 +229,15 @@ func _add_lamp(space: PhysicsDirectSpaceState3D, l: OmniLight3D) -> void:
 		mi.set_instance_shader_parameter("tint", col)
 		mi.set_instance_shader_parameter("alpha", 0.3)
 		pools[l] = mi
+	# The halo belongs on a bulb, never in the air: a real light hangs half a metre out from its wall lamp, and a bare light has no fixture
+	# at all (the eight Spiral lights on the stairs), so a halo on either floated as a glowing orb in the stairwell (creator, 31 Oct 2026, T46).
+	var bulb := _bulb(l)
+	if bulb == null:
+		return
 	var h := Node3D.new()
 	h.name = "Halo_" + String(l.name)
 	add_child(h)
-	h.global_position = pos
+	h.global_position = bulb.global_position
 	var hm := _quad(h, "Quad", Vector2(0.75, 0.75), _halo_mat)
 	hm.set_instance_shader_parameter("tint", col)
 	hm.set_instance_shader_parameter("alpha", 0.5)

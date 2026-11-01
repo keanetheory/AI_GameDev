@@ -43,19 +43,47 @@
     "note": "Placeholder grounding: the ship rides up on the rock, lists, sinks slowly and its lights die. A real break-up needs art (T08)."
   },
   "lights": {
-    "note": "Placeholder lit windows and navigation lights (emissive, fog-proof so they read at the horizon). Local ship frame: bow is -Z, keel at y 0.",
-    "window_rows_y": [12.0, 16.0],
-    "window_radius_m": 0.7,
-    "scale_per_m": 0.0025,
-    "scale_max": 3.5,
-    "scale_note": "Each light grows with its distance from the camera (1 + distance x scale_per_m, capped) so the lit windows still read as a ship at 700 m.",
-    "mast_radius_m": 2.2,
-    "nav_radius_m": 1.8,
-    "window_z": [-34.0, 34.0],
-    "window_step_m": 5.0,
-    "window_half_beam_m": 12.6,
-    "masthead": [0.0, 31.0, -8.0],
-    "port_red": [-12.6, 21.0, -30.0],
-    "starboard_green": [12.6, 21.0, -30.0]
+    "note": "T44 (1 Nov 2026): the ship is lit the way a liner is at night, with nothing floating off the hull. Lit windows are small emissive panes laid flat on the model's own hull and superstructure (found by casting rays at the mesh), the navigation lights and deck lanterns sit on the real lantern posts and mast tops, and two small warm lights spill onto the hull and the water only when the camera is close. Everything is emissive and fog-proof so the ship reads at the horizon. Local ship frame: bow is -Z, starboard +X, keel at y 0 (the waterline is about y 2.4).",
+    "windows": {
+      "rows": [
+        {"y": 8.3, "z": [-40.0, 42.0], "step_m": 1.9, "size_m": [0.36, 0.36], "round": true, "lit_fraction": 0.45, "min_out_m": 5.0},
+        {"y": 9.8, "z": [-42.0, 44.0], "step_m": 1.6, "size_m": [0.4, 0.4], "round": true, "lit_fraction": 0.7, "min_out_m": 5.0},
+        {"y": 14.2, "z": [-27.0, 38.0], "step_m": 2.0, "size_m": [1.0, 1.2], "round": false, "lit_fraction": 0.85, "min_out_m": 6.0},
+        {"y": 17.2, "z": [-22.0, 34.0], "step_m": 2.2, "size_m": [0.9, 1.0], "round": false, "lit_fraction": 0.75, "min_out_m": 5.0},
+        {"y": 18.0, "face": "bow", "x": [-9.0, 9.0], "step_m": 1.6, "size_m": [0.9, 1.0], "round": false, "lit_fraction": 0.8, "min_out_m": 15.0},
+        {"y": 20.3, "face": "bow", "x": [-7.0, 7.0], "step_m": 1.3, "size_m": [0.9, 0.8], "round": false, "lit_fraction": 0.95, "min_out_m": 15.0},
+        {"y": 16.6, "face": "stern", "x": [-9.0, 9.0], "step_m": 1.8, "size_m": [0.9, 1.1], "round": false, "lit_fraction": 0.8, "min_out_m": 20.0},
+        {"y": 19.5, "face": "stern", "x": [-7.0, 7.0], "step_m": 1.8, "size_m": [0.9, 1.0], "round": false, "lit_fraction": 0.7, "min_out_m": 20.0}
+      ],
+      "rows_note": "Rows of lit windows: portholes in the black hull (8.3 and 9.8, where the texture has its porthole dots), the promenade deck (14.2) and the upper tier (17.2) on both sides, and the superstructure's forward face and bridge (18.0, 20.3) and after face (16.6, 19.5), so a ship seen bow-on still shows lit windows. Each window sits where a ray from outside meets an upright wall (rail tops and decks are looked past); it is dropped where the wall is set back past min_out_m (metres out from the centreline, or from midships for an end row), where it juts out from its neighbours by more than max_jump_m (lifeboats, posts), or where lit_fraction says that cabin is dark.",
+      "max_jump_m": 0.9,
+      "colours": ["#ffb050", "#ff9f3c", "#ffc879", "#ffd89e", "#f08c35"],
+      "brightness": 1.5,
+      "flicker_fraction": 0.06,
+      "grow_per_m": 0.005,
+      "grow_max": [3.2, 2.0],
+      "grow_note": "Far away each pane grows in its own plane (wider more than taller) so at 700 m the windows run together into lit decks instead of vanishing; they stay flat on the hull, never balls of light."
+    },
+    "lamps": [
+      {"id": "masthead_fore", "pos": [0.0, 27.9, -20.8], "colour": "#fff4dc", "sector": "masthead", "core_m": 0.32, "halo_m": 2.4},
+      {"id": "masthead_aft", "pos": [0.0, 30.3, 20.1], "colour": "#fff4dc", "sector": "masthead", "core_m": 0.32, "halo_m": 2.4},
+      {"id": "sidelight_port", "pos": [-11.9, 17.6, -20.5], "colour": "#ff2a1c", "sector": "port", "core_m": 0.3, "halo_m": 2.2},
+      {"id": "sidelight_starboard", "pos": [11.9, 17.6, -20.5], "colour": "#2bff5a", "sector": "starboard", "core_m": 0.3, "halo_m": 2.2},
+      {"id": "stern", "pos": [0.0, 13.8, 48.6], "colour": "#fff4dc", "sector": "stern", "core_m": 0.28, "halo_m": 1.8},
+      {"id": "lantern_bow", "pos": [0.0, 22.8, -32.6], "colour": "#ffd38a", "sector": "all", "core_m": 0.6, "halo_m": 2.0},
+      {"id": "lantern_stern", "pos": [0.0, 22.4, 32.5], "colour": "#ffd38a", "sector": "all", "core_m": 0.6, "halo_m": 2.0}
+    ],
+    "lamps_note": "Mounted on the model: the white masthead lights on the fore (28.4 m) and aft (30.9 m) mast tops, the red and green sidelights in the bridge-wing lanterns, the white stern light on the stern rail, and the two ornamental globe lanterns fore and aft lit as deck lamps. Each shows only in its sector as on a real ship (masthead 225 deg ahead, sidelights 112.5 deg each side, stern 135 deg astern), so the lights also tell the player which way she is heading.",
+    "halo_per_m": 0.022,
+    "halo_max_m": 16.0,
+    "halo_note": "Each lamp has a soft glow (rain haze) that grows with distance (distance x halo_per_m, from halo_m up to halo_max_m) so it keeps a few pixels at the horizon.",
+    "spill": {
+      "positions": [[-18.0, 9.0, -4.0], [18.0, 9.0, -4.0]],
+      "colour": "#ffb866",
+      "energy": 2.5,
+      "range_m": 40.0,
+      "live_within_m": 160.0,
+      "note": "Two warm OmniLights just off the hull, for the light the windows throw on the hull plating and the water. They are only switched on while the camera is within live_within_m (the launch near the crash), when the interior lights are off, so they stay inside the Lighting budget (max_dynamic_lights 18)."
+    }
   }
 }

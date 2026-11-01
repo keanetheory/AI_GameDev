@@ -56,7 +56,7 @@ func _physics_process(_d: float) -> bool:
 			_next(8)
 		4:
 			_check(current_scene != null and current_scene.name == "Level", "any key starts the game (the Level scene, as it is now)")
-			_check(root.get_node("GameState").fired.has("GAME_STARTED"), "the game starts when the level loads (GAME_STARTED)")
+			_check(not root.get_node("GameState").fired.has("GAME_STARTED"), "the level loads without GAME_STARTED: it fires when Ted opens the door (intro_sequence.gd), not at load")
 			_load("res://scenes/Title.tscn")
 			_next(30)
 		5:

@@ -1,119 +1,381 @@
 {
-  "cap": 7.8,
-  "price_each": 0.375,
-  "spent": 5.25,
-  "models": [
-    {
-      "id": "lhi_oak_barrel",
-      "ok": true,
-      "seconds": 70,
-      "charged": 0.375,
-      "tail": "saved lhi_oak_barrel.glb (33123 KB)",
-      "err": ""
-    },
-    {
-      "id": "lhi_keeper_desk",
-      "ok": true,
-      "seconds": 141,
-      "charged": 0.375,
-      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_keeper_desk.glb (33905 KB), seed None",
-      "err": ""
-    },
-    {
-      "id": "lhi_keeper_chair",
-      "ok": true,
-      "seconds": 119,
-      "charged": 0.375,
-      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_keeper_chair.glb (25622 KB), seed None",
-      "err": ""
-    },
-    {
-      "id": "lhi_keeper_bed",
-      "ok": true,
-      "seconds": 141,
-      "charged": 0.375,
-      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_keeper_bed.glb (32693 KB), seed None",
-      "err": ""
-    },
-    {
-      "id": "lhi_wardrobe",
-      "ok": true,
-      "seconds": 130,
-      "charged": 0.375,
-      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_wardrobe.glb (32011 KB), seed None",
-      "err": ""
-    },
-    {
-      "id": "lhi_sea_chest",
-      "ok": true,
-      "seconds": 157,
-      "charged": 0.375,
-      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_sea_chest.glb (35309 KB), seed None",
-      "err": ""
-    },
-    {
-      "id": "lhi_cast_iron_stove",
-      "ok": true,
-      "seconds": 130,
-      "charged": 0.375,
-      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_cast_iron_stove.glb (31160 KB), seed None",
-      "err": ""
-    },
-    {
-      "id": "lhi_iron_bathtub",
-      "ok": true,
-      "seconds": 131,
-      "charged": 0.375,
-      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_iron_bathtub.glb (31166 KB), seed None",
-      "err": ""
-    },
-    {
-      "id": "lhi_wooden_crate",
-      "ok": true,
-      "seconds": 191,
-      "charged": 0.375,
-      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_wooden_crate.glb (36664 KB), seed None",
-      "err": ""
-    },
-    {
-      "id": "lhi_oilskin_coat",
-      "ok": true,
-      "seconds": 130,
-      "charged": 0.375,
-      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_oilskin_coat.glb (28265 KB), seed None",
-      "err": ""
-    },
-    {
-      "id": "lhi_kitchen_table",
-      "ok": true,
-      "seconds": 143,
-      "charged": 0.375,
-      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_kitchen_table.glb (31380 KB), seed None",
-      "err": ""
-    },
-    {
-      "id": "lhi_telegraph_set",
-      "ok": true,
-      "seconds": 163,
-      "charged": 0.375,
-      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_telegraph_set.glb (35814 KB), seed None",
-      "err": ""
-    },
-    {
-      "id": "lhi_oil_lamp",
-      "ok": true,
-      "seconds": 119,
-      "charged": 0.375,
-      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_oil_lamp.glb (40261 KB), seed None",
-      "err": ""
-    },
-    {
-      "id": "lhi_filing_cabinet",
-      "ok": true,
-      "seconds": 141,
-      "charged": 0.375,
-      "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_filing_cabinet.glb (31655 KB), seed None",
-      "err": ""
-    }
-  ]
+ "cap": 19.425,
+ "price_each": 0.375,
+ "spent": 16.125,
+ "models": [
+  {
+   "id": "lhi_oak_barrel",
+   "ok": true,
+   "seconds": 70,
+   "charged": 0.375,
+   "tail": "saved lhi_oak_barrel.glb (33123 KB)",
+   "err": ""
+  },
+  {
+   "id": "lhi_keeper_desk",
+   "ok": true,
+   "seconds": 141,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_keeper_desk.glb (33905 KB), seed None",
+   "err": ""
+  },
+  {
+   "id": "lhi_keeper_chair",
+   "ok": true,
+   "seconds": 119,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_keeper_chair.glb (25622 KB), seed None",
+   "err": ""
+  },
+  {
+   "id": "lhi_keeper_bed",
+   "ok": true,
+   "seconds": 141,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_keeper_bed.glb (32693 KB), seed None",
+   "err": ""
+  },
+  {
+   "id": "lhi_wardrobe",
+   "ok": true,
+   "seconds": 130,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_wardrobe.glb (32011 KB), seed None",
+   "err": ""
+  },
+  {
+   "id": "lhi_sea_chest",
+   "ok": true,
+   "seconds": 157,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_sea_chest.glb (35309 KB), seed None",
+   "err": ""
+  },
+  {
+   "id": "lhi_cast_iron_stove",
+   "ok": true,
+   "seconds": 130,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_cast_iron_stove.glb (31160 KB), seed None",
+   "err": ""
+  },
+  {
+   "id": "lhi_iron_bathtub",
+   "ok": true,
+   "seconds": 131,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_iron_bathtub.glb (31166 KB), seed None",
+   "err": ""
+  },
+  {
+   "id": "lhi_wooden_crate",
+   "ok": true,
+   "seconds": 191,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_wooden_crate.glb (36664 KB), seed None",
+   "err": ""
+  },
+  {
+   "id": "lhi_oilskin_coat",
+   "ok": true,
+   "seconds": 130,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_oilskin_coat.glb (28265 KB), seed None",
+   "err": ""
+  },
+  {
+   "id": "lhi_kitchen_table",
+   "ok": true,
+   "seconds": 143,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_kitchen_table.glb (31380 KB), seed None",
+   "err": ""
+  },
+  {
+   "id": "lhi_telegraph_set",
+   "ok": true,
+   "seconds": 163,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_telegraph_set.glb (35814 KB), seed None",
+   "err": ""
+  },
+  {
+   "id": "lhi_oil_lamp",
+   "ok": true,
+   "seconds": 119,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_oil_lamp.glb (40261 KB), seed None",
+   "err": ""
+  },
+  {
+   "id": "lhi_filing_cabinet",
+   "ok": true,
+   "seconds": 141,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_filing_cabinet.glb (31655 KB), seed None",
+   "err": ""
+  },
+  {
+   "id": "lhi_switchboard",
+   "ok": true,
+   "seconds": 120,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_switchboard.glb (32445 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_bookcase_filled",
+   "ok": true,
+   "seconds": 158,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_bookcase_filled.glb (32156 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_wall_sconce",
+   "ok": true,
+   "seconds": 159,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_wall_sconce.glb (30355 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_workbench_vice",
+   "ok": true,
+   "seconds": 141,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_workbench_vice.glb (33200 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_instrument_cabinet",
+   "ok": true,
+   "seconds": 124,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_instrument_cabinet.glb (31280 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_water_cistern",
+   "ok": true,
+   "seconds": 136,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_water_cistern.glb (32059 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_pendant_lamp",
+   "ok": true,
+   "seconds": 114,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_pendant_lamp.glb (31447 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_tool_wall",
+   "ok": true,
+   "seconds": 131,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_tool_wall.glb (33738 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_chart_table",
+   "ok": true,
+   "seconds": 148,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_chart_table.glb (33962 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_parts_shelf",
+   "ok": true,
+   "seconds": 163,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_parts_shelf.glb (36521 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_steel_locker",
+   "ok": true,
+   "seconds": 147,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_steel_locker.glb (33582 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_store_shelf",
+   "ok": true,
+   "seconds": 163,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_store_shelf.glb (32034 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_boot_bench",
+   "ok": true,
+   "seconds": 114,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_boot_bench.glb (29651 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_umbrella_stand",
+   "ok": true,
+   "seconds": 119,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_umbrella_stand.glb (20572 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_notice_board",
+   "ok": true,
+   "seconds": 157,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_notice_board.glb (34182 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_washstand",
+   "ok": true,
+   "seconds": 141,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_washstand.glb (30118 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_kitchen_counter",
+   "ok": true,
+   "seconds": 141,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_kitchen_counter.glb (32770 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_radio_desk",
+   "ok": true,
+   "seconds": 135,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_radio_desk.glb (33688 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_mess_bench",
+   "ok": true,
+   "seconds": 110,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_mess_bench.glb (28377 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_nightstand",
+   "ok": true,
+   "seconds": 125,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_nightstand.glb (33049 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_wall_clock",
+   "ok": true,
+   "seconds": 113,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_wall_clock.glb (30029 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_barometer",
+   "ok": true,
+   "seconds": 158,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_barometer.glb (32134 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_buoy_red",
+   "ok": true,
+   "seconds": 152,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_buoy_red.glb (32888 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_buoy_green",
+   "ok": true,
+   "seconds": 119,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_buoy_green.glb (29180 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_bell_buoy",
+   "ok": true,
+   "seconds": 147,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_bell_buoy.glb (33746 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_daniel_chair",
+   "ok": true,
+   "seconds": 141,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_daniel_chair.glb (32331 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "slt_equipment_hut",
+   "ok": true,
+   "seconds": 218,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\slt_equipment_hut.glb (39867 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_boot_bench",
+   "ok": true,
+   "seconds": 115,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_boot_bench.glb (31317 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_radio_desk",
+   "ok": true,
+   "seconds": 171,
+   "charged": 0.375,
+   "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_radio_desk.glb (33809 KB), seed None",
+   "err": "",
+   "batch": "T45 + backlog props, 1 Nov 2026"
+  }
+ ],
+ "cap_note": "Raised 1 Nov 2026: the creator approved all P1, P2 and backlog props (27 x $0.375) plus ~$1.50 of re-rolls; FAL balance $16.98."
 }

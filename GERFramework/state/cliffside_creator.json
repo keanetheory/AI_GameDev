@@ -579,9 +579,9 @@
    "at": "2026-10-20T16:36:53+00:00"
   },
   "CLF-06": {
-   "status": "in_progress",
-   "note": "Contract v2 on file; the Saltgate agent has not built anything. Ledge start now matches the boardwalk deck (2.75 -> 3.0 over 6 m) and the quay front edge as before",
-   "at": "2026-10-20T18:19:23+00:00"
+   "status": "done",
+   "note": "Contract v4 (2026-11-01) rewritten from the post-T49 state. Light joint built: a visual-only rock apron in cliff_dressing.gd along the cliff foot for x -105..120, between the quay edge and the cliff foot, clear of the boardwalks and link. All walk and seam tests pass. Creator chose the light version (minor set piece). The quay still stands on its own piles; a fuller merge is not planned.",
+   "at": "2026-11-01T16:43:40+00:00"
   },
   "CLF-07": {
    "status": "done",
@@ -846,8 +846,6 @@
  "last_blocks": 0,
  "last_work": {
   "blocks": 0,
-  "open": [
-   "CLF-06"
-  ]
+  "open": []
  }
 }

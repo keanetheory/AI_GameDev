@@ -20,8 +20,11 @@
     "daniel_back_m": 3.8,
     "note": "Where the sailors stand on the stairs below the gate, metres back along their route from the gate."
   },
-  "daniel_sits_in_basement": false,
-  "daniel_sits_note": "Creator, 30 Oct 2026: Daniel's resting place is sat in front of the boiler, on a generated chair (backlog T43). Until that chair is placed he stands where his walk ends; set true once the chair is in, with the walk ending at the chair.",
+  "daniel_sits_in_basement": true,
+  "daniel_chair": [-0.7, 7.61, -3.3],
+  "daniel_chair_path": [[3.88, 7.61, -2.62], [3.88, 7.61, -2.37], [3.63, 7.61, -2.12], [3.13, 7.61, -2.12], [0.8, 7.61, -3.7]],
+  "daniel_chair_note": "T43 (1 Nov 2026): Daniel's chair, 1.6 m in front of the boiler and facing it, about 1.1 m off the player's line from the coal to the boiler. daniel_chair_path takes him from the end of daniel_dock_to_basement back out of the coal bin along his route and round the south side of the lobby barrel (legs checked clear by ray at 0.3 and 1.0 m).",
+  "daniel_sits_note": "Creator, 30 Oct 2026: Daniel's resting place is sat in front of the boiler, on a generated chair (backlog T43). On since 1 Nov 2026 (T43): the generated chair stands where his walk ends, facing the boiler.",
   "after_gate_open": {
     "arthur_delay_s": 0.8,
     "daniel_delay_s": 3.5

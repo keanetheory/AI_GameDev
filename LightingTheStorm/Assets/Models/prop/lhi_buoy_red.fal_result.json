@@ -1,0 +1,20 @@
+{
+  "submission": {
+    "asset_id": "lhi_buoy_red",
+    "category": "prop",
+    "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+    "prompt": "Red channel marker buoy, a squat steel float with a tall open lattice cage on top holding a lamp, rust streaks and sea growth at the waterline, a mooring ring underneath, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+    "source_image": null,
+    "view_images": {},
+    "notes": "Backlog prop (1 Nov 2026). T42: the red channel buoy the crossing forecast names (scripts/world/crossing_hazards.gd _buoy). The base must sit on the waterline; the lamp sits in the cage (the blinking light stays). Size to the buoy radius_m in boat_spec.json / crossing_sequence.json. Downscale the 4096 texture to 2048 on import, then tools/decimate_props.gd."
+  },
+  "request_id": "01a196ea-143f-7b02-b127-cfd3a7b3f8e3",
+  "seed": null,
+  "model_url": "https://v3b.fal.media/files/b/0ab0b6ff/-FUImX75icMP2GS0yuMzl_model.glb",
+  "textured": true,
+  "request": {
+    "prompt": "Red channel marker buoy, a squat steel float with a tall open lattice cage on top holding a lamp, rust streaks and sea growth at the waterline, a mooring ring underneath, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "generate_type": "Normal"
+  }
+}
