@@ -112,11 +112,25 @@ func _recolour(l: OmniLight3D) -> void:
 			return
 
 
+const FURNITURE_M := 1.2         # a surface with another this close below it is a furniture top, not the floor
+
 func _floor_below(space: PhysicsDirectSpaceState3D, p: Vector3, reach := 5.0) -> float:
 	var q := PhysicsRayQueryParameters3D.create(p + Vector3(0, 0.05, 0), p - Vector3(0, reach, 0))
 	q.collision_mask = 1
 	var r := space.intersect_ray(q)
-	return NAN if r.is_empty() else (r["position"] as Vector3).y
+	if r.is_empty():
+		return NAN
+	var y := (r["position"] as Vector3).y
+	# a furniture top is not the floor: with another surface within FURNITURE_M below, go on down (the wash-room window's pool lay on
+	# the bath, 0.58 m up: creator, 1 Nov 2026). Floors are a storey apart, so a real floor never has one that close beneath it.
+	for i in 3:
+		var below := PhysicsRayQueryParameters3D.create(Vector3(p.x, y - 0.02, p.z), Vector3(p.x, y - FURNITURE_M, p.z))
+		below.collision_mask = 1
+		var r2 := space.intersect_ray(below)
+		if r2.is_empty() or (r2["normal"] as Vector3).y < 0.5:
+			break                                               # nothing close below, or only the underside of this same slab
+		y = (r2["position"] as Vector3).y
+	return y
 
 
 ## Keeps a floor pool of radius `rad` centred at `c` (world) inside the room it is in: the house levels by their wall planes, the tower by its

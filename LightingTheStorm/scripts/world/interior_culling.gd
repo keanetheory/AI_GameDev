@@ -45,6 +45,10 @@ func _build() -> void:
 	_frame = rooms.frame
 	for n in rooms.find_children("*", "GeometryInstance3D", true, false):
 		var g := n as GeometryInstance3D
+		if not g.visible:
+			# already hidden by its owner (a greybox piece a generated prop replaces, hero_props.gd): culling shows a level by setting visible on
+			# every member, which brought the old box bath back under the iron tub and the towel rail into the wash-room doorway (1 Nov 2026)
+			continue
 		var c := g.global_position
 		if g is MeshInstance3D and (g as MeshInstance3D).mesh:
 			c = g.global_transform * (g as MeshInstance3D).mesh.get_aabb().get_center()

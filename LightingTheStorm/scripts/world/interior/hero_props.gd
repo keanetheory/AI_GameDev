@@ -61,7 +61,7 @@ const IN_PLACE := [
 	["lobby_barrel", "lhi_oak_barrel", ["B_LobbyBarrel"], "+x", {}],
 	# ground floor
 	["bookcase", "lhi_bookcase_filled", ["Office_Shelf*", "Office_ShelfSide*", "Office_Book*"], "+x", {"y0": GF, "h": 2.25}],      # the greybox shelves hang from 1.47 m: the bookcase stands on the floor
-	["chart_table", "lhi_chart_table", ["Office_ChartTable", "Office_ChartLeg*"], "-x", {}],
+	["chart_table", "lhi_chart_table", ["Office_ChartTable", "Office_ChartLeg*"], "+z", {}],      # long side along the greybox (x), so it faces +z
 	["clock_office", "lhi_wall_clock", ["Office_Clock", "Office_ClockFace"], "+z", {}],
 	["notice_board", "lhi_notice_board", ["G_NoticeBoard"], "+x", {}],
 	["umbrella_stand", "lhi_umbrella_stand", ["G_UmbrellaStand", "G_Umbrella*"], "-x", {}],
@@ -102,6 +102,9 @@ const LAMPS := [
 	["L1_HallLamp", "pendant", ["_Cap"]], ["L1_HallLamp2", "pendant", ["_Cap"]], ["L1_HallLamp3", "pendant", ["_Cap"]],
 	["L1_MessLamp", "pendant", ["_Cap", "Cord"]], ["L1_QuartersLamp", "pendant", ["_Cap"]], ["L1_WashLamp", "pendant", ["_Cap"]],
 ]
+## Greybox that is simply taken away (collision stays): the wash room's towel rail and towel stuck out across its doorway (the "stick cutting
+## through the bathroom", creator, 30 Oct / 1 Nov 2026), and the new washstand carries its own towel bar.
+const HIDE_ONLY := ["L1_TowelRail", "L1_Towel"]
 const GLASS_GROW := 1.12         # the old glass sphere stands just proud of the model's globe, so its glow shows through
 
 var placed := {}                 # entry id -> the Node3D holder
@@ -130,6 +133,11 @@ func build_in_place(rooms: Node3D) -> void:
 		_place_in(nodes, e)
 	for l in LAMPS:
 		_place_lamp(rooms, l)
+	for nm in HIDE_ONLY:
+		var n := rooms.find_child(nm, true, false) as Node3D
+		if n:
+			n.visible = false
+			hidden += 1
 
 
 func _place_lamp(rooms: Node3D, l: Array) -> void:

@@ -1719,10 +1719,10 @@
       "depends_on": [
         "T45"
       ],
-      "status": "open",
+      "status": "done",
       "result": {
-        "outcome": "partial",
-        "summary": "1 Nov 2026: T45 replaced the tower L2 landing's props (instrument cabinet, locker, side table, barometer, two sconces) and the first floor's (washstand, counter, radio desk, nightstand, benches, clocks, shelves, pendant lamps) with FAL models. Still open: the stick through the bathroom, and which room the creator means by 'L2 bathroom'."
+        "outcome": "done",
+        "summary": "1 Nov 2026 (the creator: 'L2 bathroom' is the first-floor bathroom). The 'stick' was the greybox towel rail sticking out across the wash-room doorway, now hidden (the FAL washstand has its own towel bar). Root cause of much of the room's mess: interior_culling.gd re-showed every hidden greybox piece when it showed a level again, so the box bath sat under the FAL tub and the old boxes came back inside every generated prop after a floor change; it now leaves hidden meshes alone (test_interior_culling checks it). The window light pool lay on the bath (0.58 m up); room_light_cards.gd now looks past furniture tops to the floor. The room's props were already replaced in T45."
       }
     },
     {
@@ -1744,7 +1744,7 @@
       "status": "open",
       "result": {
         "outcome": "partial",
-        "summary": "1 Nov 2026: the hut model is generated (slt_equipment_hut: open-fronted, hollow, workbench at the back; 37k tris, 2048 texture). Not placed: the burner sits on a raised stone pier head 1.3 m above the boardwalk where the player lands, so a walk-in hut needs a creator decision: on the pier head with steps up (stone_stairs.gd), or on the boardwalk beside the landing with the burner on the hut's bench."
+        "summary": "1 Nov 2026: the walk-in hut stands on the Saltgate pier head (scripts/world/saltgate_hut.gd, Level.tscn SaltgateHut), open front facing the landing, trimesh collision, one warm lamp inside; eight stone steps (SaltgateHutSteps, stone_stairs.gd) climb from the landing boardwalk (3.1 m) to it (4.4 m). Walkable floor inside about 1.7 m deep before the workbench. The burner is still where it was (just outside the hut's corner): the creator walks it and says where it goes."
       }
     },
     {
