@@ -13,6 +13,12 @@ const STACK_MODEL := "res://Assets/Models/sea_rocks/sea_stack.glb"
 
 ## Keep the quay, the docks and the piers clear.
 const CLEAR_X := Vector2(-100.0, 125.0)
+## Along the quay the loose rubble stays out, but a low rock apron fills the strip of open water between the quay's edge and
+## the cliff foot, so the port reads as sitting in the rock (port_cliff_joint.md v4). Looks only: no colliders, and it stays
+## south of z APRON_Z_MIN so the boardwalks and the timber link, which cross it above the water, are untouched.
+const APRON_X := Vector2(-105.0, 120.0)
+const APRON_Z_MIN := 556.8
+const APRON_BAND := 6.5
 @export var rubble_per_point := 6
 @export var seed_value := 3
 @export var water_level := 0.5
@@ -61,6 +67,8 @@ func _build_rubble(foot: Dictionary, rng: RandomNumberGenerator) -> void:
 	for i in xs.size():
 		var x: float = xs[i]
 		if x > CLEAR_X.x and x < CLEAR_X.y:
+			if x > APRON_X.x and x < APRON_X.y and absf(float(zs[i]) - float(zs[maxi(i - 1, 0)])) < 3.0:
+				_apron_point(x, float(zs[i]), rng, xf, cols)
 			continue
 		for k in rubble_per_point:
 			var s := lerpf(0.5, 2.6, pow(rng.randf(), 2.2))          # many small stones, a few boulders
@@ -83,6 +91,22 @@ func _build_rubble(foot: Dictionary, rng: RandomNumberGenerator) -> void:
 	mmi.material_override = main._rock_material() if main and main.has_method("_rock_material") else null
 	add_child(mmi)
 	print("cliff_dressing: %d stones of rubble along the cliff foot" % xf.size())
+
+
+## Stones packed along the cliff foot out to the quay: big ones against the rock, small ones thinning out toward the water.
+func _apron_point(x: float, foot_z: float, rng: RandomNumberGenerator, xf: Array[Transform3D], cols: Array[Color]) -> void:
+	var z_far := maxf(foot_z - APRON_BAND, APRON_Z_MIN)
+	if foot_z - z_far < 1.0:
+		return
+	for k in 4:
+		var t := pow(rng.randf(), 1.6)               # 0 at the cliff foot, 1 at the open-water edge
+		var s := lerpf(2.4, 0.9, t) * rng.randf_range(0.8, 1.2)
+		var pz := lerpf(foot_z - 0.3, z_far, t)
+		var py := water_level - 0.2 * s + lerpf(0.9, 0.0, t) * rng.randf_range(0.3, 1.0)
+		var basis := Basis(Vector3.UP, rng.randf() * TAU) * Basis(Vector3.RIGHT, rng.randf_range(-0.3, 0.3)) * Basis.from_scale(Vector3(s * rng.randf_range(0.9, 1.4), s * rng.randf_range(0.6, 1.0), s * rng.randf_range(0.9, 1.4)))
+		xf.append(Transform3D(basis, Vector3(x + rng.randf_range(-1.0, 1.0), py, pz)))
+		var v := rng.randf_range(0.7, 1.05)
+		cols.append(Color(v, v, v))
 
 
 ## One angular, lumpy stone: an octahedron split twice and pushed about by noise, flat shaded.
