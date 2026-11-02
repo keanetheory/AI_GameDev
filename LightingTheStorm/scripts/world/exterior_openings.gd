@@ -59,6 +59,8 @@ func _build() -> void:
 	var repaired: bool = lh.get("_repaired") == true      # the repaired exterior (v4) has no holes: no masonry plates over them, no facade panels
 	if rooms != null and rooms.get("frame") != null and OS.get_environment("LHF_NO_PATCH") != "1" and not repaired:
 		_house_walls(rooms.frame, lh, space, wall_stone, wins)
+	if rooms != null and rooms.get("frame") != null and OS.get_environment("LHF_NO_PATCH") != "1" and repaired:
+		_lining_skin(rooms.frame, wall_stone)
 	for w in wins:
 		if w["kind"] == "tower":
 			_tower_window(lh, space, w, stone)
@@ -310,6 +312,48 @@ func _house_walls(frame: Node3D, lh: Node, space: PhysicsDirectSpaceState3D, sto
 			mi.mesh = st.commit()
 			mi.material_override = stone
 			frame.add_child(mi)
+
+
+## The first floor's plaster lining is built at fixed planes (rooms_tower.gd), and at the front-west corner the scanned wall stands a little inside
+## them, so the lining's corner and the floor's edge showed outside, glowing with the interior's fill light while the wall round them was in shade
+## (creator, 2 Nov 2026). Each lining box gets a thin skin of the exterior's stone on its outward face, lit by the scene like the wall: where the
+## real wall stands in front of the lining the skin is hidden inside it; where the lining pokes out, it reads as wall.
+const SKIN_OUT := {"L1_LiningWest": [Vector3(-1, 0, 0)], "L1_LiningFront": [Vector3(0, 0, 1)], "L1_LiningBack": [Vector3(0, 0, -1)],
+	"L1_Floor": [Vector3(-1, 0, 0), Vector3(0, 0, 1), Vector3(0, 0, -1)]}      # the slab's edges stood out at the same corner
+const SKIN_GAP := 0.03                         # off the lining's face
+const SKIN_EXTEND := 0.1                       # past each end, so the skins close round the corners
+const SKIN_DROP := 0.4                         # below the lining, over the edge of the first floor's slab
+var skin_boxes := 0
+
+
+func _lining_skin(frame: Node3D, stone: Material) -> void:
+	var holder := Node3D.new()
+	holder.name = "L1_LiningSkin"
+	frame.add_child(holder)
+	for n in frame.find_children("L1_*", "MeshInstance3D", true, false):
+		var mi := n as MeshInstance3D
+		var bm := mi.mesh as BoxMesh
+		if bm == null:
+			continue
+		var outs := []
+		for key in SKIN_OUT:
+			if String(mi.name).begins_with(key):
+				outs = SKIN_OUT[key]
+		var c: Vector3 = frame.to_local(mi.global_position)
+		var sz := bm.size
+		var drop := 0.0 if String(mi.name) == "L1_Floor" else SKIN_DROP
+		for out in outs:
+			var skin := BoxMesh.new()
+			var along_x: bool = out.x == 0.0       # the front and back skins run along u, the west skin along v
+			skin.size = Vector3(sz.x + SKIN_EXTEND * 2.0 if along_x else 0.02, sz.y + drop, 0.02 if along_x else sz.z + SKIN_EXTEND * 2.0)
+			var face: float = (sz.z if along_x else sz.x) * 0.5 + SKIN_GAP
+			var s := MeshInstance3D.new()
+			s.name = "%s_Skin%d" % [mi.name, skin_boxes]
+			s.mesh = skin
+			s.material_override = stone
+			s.position = c + out * face + Vector3.DOWN * (drop * 0.5)
+			holder.add_child(s)
+			skin_boxes += 1
 
 
 ## The interior's reveal boxes for a tower window are a fixed 0.8 m deep, and on a thinner wall they stick out past the real outer face

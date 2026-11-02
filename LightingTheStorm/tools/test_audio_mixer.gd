@@ -84,10 +84,10 @@ func _run() -> void:
 	var wind_start: float = mx.levels["wind"]
 	_check(wind_start > wind_island, "the return is windier than the island (%.1f vs %.1f dB)" % [wind_start, wind_island])
 	var dl: Node = gs.deadline()
-	dl._process(105.0)
+	dl._process(90.0)
 	mx.advance(10.0, true)
 	var wind_mid: float = mx.levels["wind"]
-	dl._process(100.0)      # 205 of 210 s: just short of the deadline
+	dl._process(85.0)       # 175 of 180 s: just short of the deadline
 	mx.advance(10.0, true)
 	var wind_end: float = mx.levels["wind"]
 	_check(wind_start < wind_mid and wind_mid < wind_end, "on the return the storm follows the deadline clock (%.1f, %.1f, %.1f dB)" % [wind_start, wind_mid, wind_end])

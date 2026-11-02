@@ -38,5 +38,5 @@ Phase order the machine must follow, one step at a time: ARRIVAL_AND_COAL, SHELT
 
 - IDLE_STEP_1 (the coal nudges) and the idle nudge wording.
 - Real steering by a person along the safe lane (the full-slice test puts the boat on the route; the sweep tests prove the lane is clear).
-- Deadline length (3:30 is a placeholder) and the outbound collision penalty (T19); the return penalty is 5 s.
+- Deadline length (3:00 placeholder, T19, 2 Nov 2026) and the return collision penalty (10 s); outbound collisions cost nothing. Confirm both in play (T60).
 - Voice: nothing is recorded; the line list to record is in `data/dialogue/dialogue_opening.json`.

@@ -4,6 +4,9 @@
 // joints and a bevel, a tint for each block, a small bump from the joints, dirty drip streaks and a damp, greener base. Stone only:
 // the mask follows the texture's brightness, so the dark timber frames and the door stay as painted. The detail fades out between
 // near_start and near_end metres, so nothing shimmers at distance.
+// The repair's patches (repair_exterior.py: the fills under the back windows and the back-west corner panels) map every vertex to ONE texel,
+// so they read as flat card. They are found by their UVs not changing across the face, and get plain stone with masonry at every
+// distance, like the opening kit's built stone (T38, T59).
 shader_type spatial;
 render_mode cull_disabled, specular_disabled;
 
@@ -19,6 +22,7 @@ uniform float bump : hint_range(0.0, 2.0) = 0.8;
 uniform float surface_roughness : hint_range(0.0, 1.0) = 1.0;   // toon_look.gd lowers this so the toon step is crisp
 uniform bool flat_albedo = false;                // the opening kit's stone: a plain colour instead of the baked atlas
 uniform vec3 flat_col : source_color = vec3(0.62, 0.57, 0.48);
+uniform vec3 patch_col : source_color = vec3(0.45, 0.34, 0.27);   // matched to the back wall as it renders under the storm light
 uniform float course_h = 0.32;
 uniform float block_w = 0.64;
 
@@ -40,9 +44,15 @@ void fragment() {
 	float dist = length(VERTEX);
 	float near = (1.0 - smoothstep(near_start, near_end, dist)) * strength;
 	// close up, the baked texture shows its pixel blocks: read a blurrier mip there, and let the masonry supply the detail
-	vec3 base = flat_albedo ? flat_col : textureLod(albedo_tex, UV, near * 1.6).rgb * albedo_color.rgb;
+	// a one-texel patch: the UV is the same over the whole face (a real face moves at least ~1e-5 per pixel even right up against it)
+	// Only near-vertical patches are wall: the roof's filled holes and the eaves' soffits keep their texel (tile, timber). The fills' vertex
+	// normals are bent by their neighbours, so this uses the face's own normal.
+	vec3 face_n = normalize(cross(dFdx(wpos), dFdy(wpos)));
+	bool patched = !flat_albedo && fwidth(UV.x) + fwidth(UV.y) < 2e-6 && abs(face_n.y) < 0.5;
+	bool built = flat_albedo || patched;
+	vec3 base = flat_albedo ? flat_col : (patched ? patch_col : textureLod(albedo_tex, UV, near * 1.6).rgb * albedo_color.rgb);
 	float luma = dot(base, vec3(0.299, 0.587, 0.114));
-	float stone = flat_albedo ? 1.0 : smoothstep(0.28, 0.46, luma);   // dark timber and the door are not stone
+	float stone = built ? 1.0 : smoothstep(0.28, 0.46, luma);   // dark timber and the door are not stone
 
 	// where on the wall are we, in metres: round the tower, along a house wall, or across a roof
 	vec2 rel = wpos.xz - tower_centre;
@@ -76,13 +86,19 @@ void fragment() {
 	float damp = smoothstep(ground_y + 2.6, ground_y + 0.3, wpos.y);
 
 	vec3 col = base;
-	if (flat_albedo) {
+	if (built) {
 		// built stone has no baked weathering of its own: blotch it the way the baked wall is (large soft patches of lighter and darker, and a
 		// dirtier band along the top and bottom of each panel), so a patch does not read as a clean cut-out in the old wall
 		float blot = vn(q * 0.55 + vec2(3.1, 7.7)) * 0.6 + vn(q * 1.7) * 0.4;
-		base *= 0.72 + 0.56 * blot;
+		col *= 0.72 + 0.56 * blot;
+		if (patched) {
+			// the old wall around a patch is stained: darker and greener low down, sooty streaks from the eaves
+			float soot = vn(vec2(q.x * 1.3, q.y * 0.12) + vec2(5.3, 1.9));
+			col *= mix(1.0, 0.7, smoothstep(0.45, 0.8, soot));
+			col *= 0.85 + 0.15 * vn(q * 6.0);
+		}
 	}
-	float k = (flat_albedo ? 1.0 : near) * stone;
+	float k = (built ? 1.0 : near) * stone;
 	col *= mix(1.0, 0.82 + 0.34 * rnd, k);
 	col = mix(col, col * 0.42, joint * k * 0.9);
 	col = mix(col, col * 0.68, drip * k * 0.55);
@@ -94,6 +110,12 @@ void fragment() {
 	// centimetres, and the result is kept within 35 degrees of the surface normal so no joint ever turns black.
 	float rel_m = height * 0.03 * bump * k;
 	vec3 N = NORMAL;
+	if (patched) {
+		// the patches' vertex normals can point into the house (the front-left corner lit up as if it faced the moon behind the house):
+		// light them with the face's own normal, turned toward the viewer, so they shade like the wall they sit in
+		N = normalize(cross(dFdx(VERTEX), dFdy(VERTEX)));
+		if (dot(N, -VERTEX) < 0.0) { N = -N; }
+	}
 	vec3 dpdx = dFdx(VERTEX);
 	vec3 dpdy = dFdy(VERTEX);
 	vec3 r1 = cross(dpdy, N);

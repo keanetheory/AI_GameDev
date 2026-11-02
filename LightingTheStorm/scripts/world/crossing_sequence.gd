@@ -10,7 +10,7 @@
 #       it fires Arthur's calls (ARTHUR_RET_01 ... as dialogue lines) ahead of each segment and reports the segment and its safe lane;
 #   passing close to a sea stack or a hazard without touching it is a near miss (outbound it also fires OUTBOUND_NEAR_MISS); Arthur's
 #       line gets more frantic each time, in three levels (ARTHUR_NEAR_1..3), and so does his line after a collision (ARTHUR_HIT_1..3);
-#   a collision on the return throws the boat back and rocks it (boat.gd hard_bounce) and costs 5 s of deadline;
+#   a collision on the return throws the boat back and rocks it (boat.gd hard_bounce) and costs 10 s of deadline;
 #   every time auto-docking starts Arthur says DOCKING_DIALOGUE; at the lighthouse after a rough return he admonishes instead, in three
 #       levels, before the "go go go".
 extends Node
