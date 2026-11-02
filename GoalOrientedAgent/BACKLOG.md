@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-11-02 17:58 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-11-02 18:05 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -157,10 +157,10 @@ Talk through, line by line, where each character looks when they speak or listen
 
 ### T69 [6/10] Replace the remaining greybox props with FAL models (15 prepared)  (open)
 
-Inventory and prep done 2 Nov 2026 (LightingTheStorm/FAL_GREYBOX_PROPS.md): 15 text-to-3d submissions in AIAgentCrew/sample_submissions/lighthouse_props_greybox2/ pass main_asset.py --check-only. Ranked by visibility: pressure gauge rim, coal bin front, wall grille, valve wheel, burner cloth, fire hose coil, barograph, water can, rope coil, ledger, pot shelf, wall shelf with books, tin mug, wall mirror, linen stack ($0.375 each, run with --go --textured). Recommended: ranks 1-12 ($4.50) keeping $1.60 for re-rolls; free fixes: reuse the coat model for the four oilskins and the pendant lamp for the store bulb, hide the linen and the tub tap. Then install (hero_props.gd placements; keep the gauge face/needle, BrokenBurnerCloth node, grille zones and the switchboard green lamp working), downscale to 2048, decimate, credits. Sea debris (crossing_hazards.gd) not prepared: needs a top-up.
+Inventory and prep done 2 Nov 2026 (LightingTheStorm/FAL_GREYBOX_PROPS.md): 15 text-to-3d submissions in AIAgentCrew/sample_submissions/lighthouse_props_greybox2/ pass main_asset.py --check-only. Ranked by visibility: pressure gauge rim, coal bin front, wall grille, valve wheel, burner cloth, fire hose coil, barograph, water can, rope coil, ledger, pot shelf, wall shelf with books, tin mug, wall mirror, linen stack ($0.375 each, run with --go --textured). Recommended: ranks 1-12 ($4.50) keeping $1.60 for re-rolls; free fixes: reuse the coat model for the four oilskins and the pendant lamp for the store bulb, hide the linen and the tub tap. Then install (hero_props.gd placements; keep the gauge face/needle, BrokenBurnerCloth node, grille zones and the switchboard green lamp working), downscale to 2048, decimate, credits. Sea debris stays as built (creator, 2 Nov 2026). Pages and posters added for budgeting (creator, 2 Nov 2026): Storm Log, radio log, tide table, keeper's rules, calendar, barometer note, two charts, notices, optional photo/signs, and the 4 Flighted posters; ideogram/v2 at $0.08 an image, $0.80-$1.44 (about $1.90 with lettering re-rolls), packed into one texture atlas so they add one material. See FAL_GREYBOX_PROPS.md section 2b.
 
 - **Why 6:** The creator spotted greyboxes in the basement on 2 Nov; the remaining ones sit on the basement route and in the rooms the player walks through.
-- **Evidence:** Creator, 2 Nov 2026: you've added greyboxes in, list them and prep them for a FAL run, make sure you cover the other props as well; LightingTheStorm/FAL_GREYBOX_PROPS.md
+- **Evidence:** Creator, 2 Nov 2026: you've added greyboxes in, list them and prep them for a FAL run, make sure you cover the other props as well; LightingTheStorm/FAL_GREYBOX_PROPS.md; Creator, 2 Nov 2026: I will want to regenerate the pages that are scattered across the lighthouse (posters such as 'Storm Log' etc) so add them to the list for budgeting
 - **Blocked by:** Creator decisions: which ranks to spend on (balance $6.10; Lighthouse Finisher cap has $3.30 left), the material limit (already 126 of 120, T63) and the triangle limit (884k of 900k); a screenshot of the switchboard, tool rack and barrel, which are already FAL models.
 - **Depends on:** T63 (still open: T63)
 - **Needs the creator** (cannot be done by the agent alone)

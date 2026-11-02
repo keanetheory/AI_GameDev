@@ -111,7 +111,7 @@ Lamp-room and tower structure that is left out: floor, kerb, mullions, glass, tr
 - Front door (`door.gd`): planks, straps, studs and ring handle, already dressed (LHF-12). It is a door and interactive. KEEP.
 - `interior_props.gd` (the window barrier), `opening_kit.gd`, `exterior_openings.gd`, `wall_patch.gd`: structure. KEEP.
 - On the island and the docks there are no primitive props. The gate, lampposts, rowboat, Saltgate hut and buoys are all models.
-- At sea, outside the lighthouse: `crossing_hazards.gd:178` `_debris` builds floating timber from plain boxes, and the buoy has a fallback cylinder used only if its model fails. The debris is a FAL candidate but needs a top-up (see below).
+- At sea, outside the lighthouse: `crossing_hazards.gd:178` `_debris` builds floating timber from plain boxes, and the buoy has a fallback cylinder used only if its model fails. **Creator, 2 Nov 2026: the debris is fine as it is; it stays as built and is not on the list.**
 
 **Counts.** Basement: 22 prop rows. 13 are already FAL; 5 are still greybox (4 need a new model, 1 is a free reuse); 4 are keeps. Elsewhere: 15 greybox prop rows still drawn from primitives (G4, G5, G8, G9, L1-L6, T1-T4, T7). Of those, 11 need a new model, 1 is a free reuse (G9) and 3 can just be hidden or skipped (L4, L5, L6). About 60 other prop groups are already FAL.
 
@@ -142,10 +142,49 @@ Balance **$6.10**, enough for 16 models with nothing left for re-rolls. The T45 
 - **Ranks 1-9 (priority 1 and 2), $3.375:** basement route, lamp room and tower climb. This leaves $2.725, enough for about 7 re-rolls. Added triangles at the targets come to about 14,600, inside today's 15,953 headroom.
 - **All 15, $5.625:** fits the balance but leaves room for one re-roll only, and goes about 6-7k triangles over the 900k limit.
 - **Recommended within $6.10:** ranks 1-12 ($4.50). Hide `L1_Linen_*` and `L1_TubTap` for free instead of generating rank 15, and skip ranks 13-14 or leave them for later. That keeps $1.60 for 4 re-rolls.
-- **Needs a top-up** (no submission written yet): sea debris timber (`crossing_hazards.gd` `_debris`), an iron firebox surround (not advised, see B20), any re-rolls beyond the margin above. Each is $0.375.
+- **Needs a top-up** (no submission written yet): an iron firebox surround (not advised, see B20) and any re-rolls beyond the margin above. Each is $0.375. (The sea debris was dropped by the creator, 2 Nov 2026: it stays as built.)
 - **Spend cap:** the Lighthouse Finisher ledger (`GERFramework/reports/lighthouse_finisher_fal_ledger.json`) has cap $19.425 and $16.125 spent, so **$3.30 is left under the cap, which covers 8 models.** Ranks 1-9 need the cap raised to at least $19.50, and all 15 to $21.75.
 
 Free work with no FAL spend: B1 oilskins (`lhi_oilskin_coat`), G9 store bulb (`lhi_pendant_lamp`), and hiding L4 and L6.
+
+
+## 2b. Pages and posters to regenerate (creator, 2 Nov 2026)
+
+"I will want to regenerate the pages that are scattered across the lighthouse (posters such as 'Storm Log' etc) so add them to the list for budgeting."
+
+Today every page is a flat sheet (`K.sheet` in `kit.gd`) in plain paper colour with its words drawn as engine text, and the four Flighted posters are letterpress textures made by a script (`tools/make_flighted_posters.py`, LHF-09). These are images, not 3D models. On FAL the cheapest fit is an image model: `ideogram/v2` is good at lettering and cost **$0.08 an image** on this account (22 Oct, the poster artwork). The canon wording below is what each page must say; check the spelling on every result, as image models still slip on text.
+
+| # | Node | Where | Size (m) | Says now | Notes |
+|---|---|---|---|---|---|
+| P1 | `Office_ChartPin` | office wall | 0.9 x 0.55 | STORM LOG | a ruled log sheet, hand-entered columns |
+| P2 | `L1_RadioLog` | L1 radio corner | 0.45 x 0.35 | NO SIGNAL / STORM LOG | the radio operator's log |
+| P3 | `G_Tidetable` | hall notice board | 0.34 x 0.5 | TIDES AND THE MOON, entered by hand, signed T. | |
+| P4 | `L1_Rules` | L1 mess wall | 0.5 x 0.65 | KEEPER'S RULES 1. THE LAMP NEVER GOES DARK. 2. LOG THE HOUR. 3. KEEP THE BOILER FED. | |
+| P5 | `L1_Calendar` | L1 mess wall | 0.32 x 0.42 | OCT, the moon full the 22nd | |
+| P6 | `L1_Barometer_Note` | L1 hall | 0.36 x 0.28 | GLASS FALLING | |
+| P7 | `Office_Chart` | office chart table (flat) | 0.85 x 0.6 | BRACKEN ISLE to SALTGATE | a sea chart of the Gullwater |
+| P8 | `L1_Chart` | L1 chart table (flat) | 0.5 x 0.9 | GULLWATER | a second chart |
+| P9 | `L1_Photo` | L1 quarters wall | 0.22 x 0.3 | T. | an old photograph, not a page; optional |
+| P10 | `G_Notice_0-3` | hall notice board | 0.2 x 0.28 (x4) | blank | 2 images (notices, a bill), each used twice |
+| P11 | `Store_Sign` | store doorway | 0.5 x 0.18 | STORE | painted sign; optional, the engine text may be enough |
+| P12 | `B_GaugePlate` | basement gauge | 0.34 x 0.1 | STEAM | brass plate; optional, may come with the gauge model |
+| P13 | `Poster_Storms`, `Poster_Moon`, `Poster_Seasons`, `Poster_Seasons_B` | hall | 0.72 x 1.0 (x4) | the Flighted posters (`poster_storms_a/b`, `poster_seasons_a/b`) | 4 images; the canon slogans stay; POSTER_EXAMINED is unchanged |
+
+**Cost.** Pages P1-P8 and the two notice images: 10 images, **$0.80**. Add P9-P12 (4 more): **$1.12**. Add the 4 posters: **$1.44** for all 18. Allow about a third again for re-rolls on lettering: about **$1.90** for everything.
+
+**Materials.** Each page with its own texture is one more material, and the lighthouse is already over its limit (126 of 120). Generate the pages one by one, then pack them into **one texture atlas** (one material for every page) so the pages cost +1 material, not +18.
+
+**Install.** `K.sheet` takes a material; give the page sheets the atlas material with per-sheet UVs and drop the engine text. The posters keep `poster.gd` (POSTER_EXAMINED) and swap only the texture.
+
+### Budget with the pages
+
+| Plan | 3D props | Pages | Total | Left of $6.10 |
+|---|---|---|---|---|
+| Ranks 1-9 + pages P1-P8 and notices | $3.375 | $0.80 | $4.175 | $1.925 (5 prop re-rolls, or a mix) |
+| Ranks 1-9 + all pages and posters | $3.375 | $1.44 | $4.815 | $1.285 (3 prop re-rolls, or 16 image re-rolls) |
+| Ranks 1-12 + all pages and posters | $4.50 | $1.44 | $5.94 | $0.16 (no room for re-rolls) |
+
+The Lighthouse Finisher cap ($19.425, $16.125 spent) would need raising to about $20.95 for the second plan.
 
 ## 3. Submission files
 
@@ -218,4 +257,4 @@ The IN_PLACE fitter (`hero_props._place_in`) handles wall props. The two flat fl
 3. **Triangles:** 15,953 headroom. Ranks 1-9 fit at the targets above; ranks 10-15 need `MAX_TRIS` raised by about 10k or heavier decimation elsewhere.
 4. **The switchboard, tool rack and lobby barrel are already FAL.** If they still read as greyboxes to you, please send a screenshot. Re-rolling them is $0.375 each, and decimating less costs nothing.
 5. **Cheap fixes instead of models:** hide `L1_Linen_*` and `L1_TubTap`, and reuse the oilskin coat and pendant lamp. All free. OK to do these in the install session?
-6. **Firebox surround and sea debris:** leave them as built (recommended for the firebox), or top up for the debris?
+6. **Firebox surround:** leave it as built (recommended). The sea debris stays as built (creator, 2 Nov 2026).
