@@ -6,7 +6,7 @@ _Started 2 Nov 2026 from the FAL dashboard export (`fal-ai-usage-2026-10-03T00_0
 
 **$33.90** across 14 daily line items, 12 Oct – 1 Nov 2026. Nothing was charged on 2 Nov up to 08:05 UTC, when the export was taken.
 
-**Paid in: $40.00. Balance: $6.10** (creator, 2 Nov 2026, from the FAL dashboard). $40.00 − $33.90 = $6.10, so the usage export and the balance agree to the cent: every dollar paid in is accounted for, and nothing was spent outside this export.
+**Paid in: $40.00. Balance: $6.10** on 2 Nov morning; **$1.60** after the evening run below. (creator, 2 Nov 2026, from the FAL dashboard). $40.00 − $33.90 = $6.10, so the usage export and the balance agree to the cent: every dollar paid in is accounted for, and nothing was spent outside this export.
 
 | Model | Spend | Share |
 |---|---:|---:|
@@ -40,6 +40,14 @@ Hunyuan3D v3 bills $0.015 per unit. A text-to-3d model is 25 units ($0.375). Ima
 | 1 Nov | hunyuan3d-v3/text-to-3d | $10.875 | 725 units (29 models) | T45 props (P1 + P2 + backlog), T42 buoys, T43 chair, T49 hut: 27 generated + 2 re-rolls (fca8f2e) |
 
 By week: 12–18 Oct $8.60; 19–25 Oct $8.78; 26 Oct – 1 Nov $16.52.
+
+## After the export (2 Nov 2026 evening)
+
+| Date | Model | Amount | Units | What it paid for |
+|---|---|---:|---|---|
+| 2 Nov | hunyuan3d-v3/text-to-3d | $4.50 | 300 units (12 models) | T69 greybox props pass 2, ranks 1-12: pressure gauge, coal bin front, wall grille, valve wheel, burner cloth, fire hose coil, barograph, water can, rope coil, ledger book, pot shelf, wall shelf with books (creator approved; ledger updated) |
+
+Total spent to date **$38.40**; balance **$1.60** (to confirm on the dashboard). The lighthouse pages and posters cost nothing on FAL: the creator made them with ChatGPT.
 
 ## Against the repo's own record
 

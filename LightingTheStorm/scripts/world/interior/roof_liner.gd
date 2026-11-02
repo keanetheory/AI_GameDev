@@ -76,9 +76,7 @@ func _build_later() -> void:
 	var mi := MeshInstance3D.new()
 	mi.name = "L1_CeilingLiner"
 	mi.mesh = mesh
-	var m := (material as StandardMaterial3D).duplicate() as StandardMaterial3D
-	m.cull_mode = BaseMaterial3D.CULL_DISABLED
-	mi.material_override = m
+	mi.material_override = material         # double-sided already (interior_rooms.gd passes kit.ds("plaster_dark"))
 	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	frame.add_child(mi)
 	built = true

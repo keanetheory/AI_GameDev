@@ -34,13 +34,22 @@ var _scales: Array = [1.0]
 var _mouse_before := Input.MOUSE_MODE_VISIBLE
 
 
+## The deadline for the difficulty chosen on the title screen (GameSettings.difficulty), else the spec's length_s.
+static func deadline_length(route_spec: Dictionary) -> float:
+	var d: Dictionary = route_spec["deadline"]
+	var by: Dictionary = d.get("difficulty_length_s", {})
+	var gs_settings := (Engine.get_main_loop() as SceneTree).root.get_node_or_null("GameSettings")
+	var pick := String(gs_settings.difficulty) if gs_settings else ""
+	return float(by.get(pick, d["length_s"]))
+
+
 func setup(gs: Node, level: Node) -> void:
 	_gs = gs
 	spec = Route.load_spec()
 	if spec.is_empty():
 		push_error("ship_deadline: no route data, the deadline will not run")
 		return
-	length_s = float(spec["deadline"]["length_s"])
+	length_s = deadline_length(spec)
 	_scales = spec["deadline"]["debug_time_scales"]
 	for a in OS.get_cmdline_user_args():
 		if String(a).begins_with("--deadline-scale="):

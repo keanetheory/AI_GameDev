@@ -1,0 +1,188 @@
+{
+ "note": "Built by tools/build_page_atlas.py from the creator's generated pages (2 Nov 2026). uv: [x, y, w, h] in 0..1 of the atlas; aspect: width / height of the page.",
+ "texture": "res://Assets/Textures/interior/pages_atlas.png",
+ "pages": {
+  "chart_gullwater": {
+   "uv": [
+    0.001953125,
+    0.001953125,
+    0.251953125,
+    0.453125
+   ],
+   "aspect": 0.5556,
+   "px": [
+    516,
+    928
+   ],
+   "source": "ChatGPT Image Nov 2, 2026, 06_55_20 PM-8.png"
+  },
+  "keepers_rules": {
+   "uv": [
+    0.2578125,
+    0.001953125,
+    0.251953125,
+    0.3359375
+   ],
+   "aspect": 0.75,
+   "px": [
+    516,
+    688
+   ],
+   "source": "ChatGPT Image Nov 2, 2026, 06_55_15 PM-4.png"
+  },
+  "chart_saltgate": {
+   "uv": [
+    0.513671875,
+    0.001953125,
+    0.4287109375,
+    0.28564453125
+   ],
+   "aspect": 1.5,
+   "px": [
+    878,
+    585
+   ],
+   "source": "ChatGPT Image Nov 2, 2026, 06_55_18 PM-7.png"
+  },
+  "storm_log": {
+   "uv": [
+    0.001953125,
+    0.458984375,
+    0.45361328125,
+    0.28369140625
+   ],
+   "aspect": 1.5988,
+   "px": [
+    929,
+    581
+   ],
+   "source": "ChatGPT Image Nov 2, 2026, 06_55_12 PM-1.png"
+  },
+  "tide_table": {
+   "uv": [
+    0.45947265625,
+    0.458984375,
+    0.17138671875,
+    0.2568359375
+   ],
+   "aspect": 0.6667,
+   "px": [
+    351,
+    526
+   ],
+   "source": "ChatGPT Image Nov 2, 2026, 06_55_14 PM-3.png"
+  },
+  "calendar": {
+   "uv": [
+    0.634765625,
+    0.458984375,
+    0.1611328125,
+    0.21484375
+   ],
+   "aspect": 0.75,
+   "px": [
+    330,
+    440
+   ],
+   "source": "ChatGPT Image Nov 2, 2026, 06_55_16 PM-5.png"
+  },
+  "radio_log": {
+   "uv": [
+    0.001953125,
+    0.74658203125,
+    0.2265625,
+    0.17578125
+   ],
+   "aspect": 1.2857,
+   "px": [
+    464,
+    360
+   ],
+   "source": "ChatGPT Image Nov 2, 2026, 06_55_13 PM-2.png"
+  },
+  "photo_t": {
+   "uv": [
+    0.232421875,
+    0.74658203125,
+    0.11083984375,
+    0.15478515625
+   ],
+   "aspect": 0.7158,
+   "px": [
+    227,
+    317
+   ],
+   "source": "page_photo_t.png"
+  },
+  "barometer_note": {
+   "uv": [
+    0.34716796875,
+    0.74658203125,
+    0.18115234375,
+    0.140625
+   ],
+   "aspect": 1.2857,
+   "px": [
+    371,
+    288
+   ],
+   "source": "ChatGPT Image Nov 2, 2026, 06_55_18 PM-6.png"
+  },
+  "notice": {
+   "uv": [
+    0.5322265625,
+    0.74658203125,
+    0.1005859375,
+    0.140625
+   ],
+   "aspect": 0.7143,
+   "px": [
+    206,
+    288
+   ],
+   "source": "ChatGPT Image Nov 2, 2026, 06_55_20 PM-9.png"
+  },
+  "sailings": {
+   "uv": [
+    0.63671875,
+    0.74658203125,
+    0.1005859375,
+    0.140625
+   ],
+   "aspect": 0.7143,
+   "px": [
+    206,
+    288
+   ],
+   "source": "ChatGPT Image Nov 2, 2026, 06_55_22 PM-10.png"
+  },
+  "sign_store": {
+   "uv": [
+    0.7412109375,
+    0.74658203125,
+    0.251953125,
+    0.1044921875
+   ],
+   "aspect": 2.4009,
+   "px": [
+    516,
+    214
+   ],
+   "source": "sign_store.png"
+  },
+  "plate_steam": {
+   "uv": [
+    0.001953125,
+    0.92626953125,
+    0.17138671875,
+    0.04931640625
+   ],
+   "aspect": 3.4667,
+   "px": [
+    351,
+    101
+   ],
+   "source": "plate_steam.png"
+  }
+ }
+}

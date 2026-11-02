@@ -29,6 +29,10 @@ How others see them:
 - **Slogans:**
   - "They bring the storms."
   - "They change the seasons."
+  - "Stormtime is coming."
+  - "They will visit."
+  - "Don't get caught talking." (a warning as much as a slogan: speaking of them is dangerous)
+- **In the lighthouse hall** (creator, 2 Nov 2026): four posters, reading STORMTIME IS COMING, DON'T GET CAUGHT TALKING, THEY CHANGE THE SEASONS and THEY WILL VISIT. "They bring the storms" is still said and believed, but no poster in the lighthouse carries it.
 - **Tone:** reverent, but also somewhat fearful.
 - **Colours:** always black, silver (the moon), and navy.
 - **Print quality:** crude but clear.
@@ -36,5 +40,5 @@ How others see them:
 ## Emblem & Visual Identity
 - **palette:** ["#0E0E10", "#B9BEC4", "#1F2A44"]
 - **poster_prompt:** "Crude 1800s letterpress propaganda poster, a dark sphere eclipsing a silver moon above stylised waves, reverent yet ominous, heavy serif lettering reading THEY BRING THE STORMS, black, silver and navy ink only, misregistered print, weathered and peeling paper, gritty dark cel-shaded style, heavy ink outlines"
-- **poster_prompt_alt:** same as above, with the lettering reading THEY CHANGE THE SEASONS
+- **poster_prompt_alt:** same as above, with the lettering reading THEY CHANGE THE SEASONS, STORMTIME IS COMING, THEY WILL VISIT or DON'T GET CAUGHT TALKING
 - **negative_prompt:** "colour outside black, silver and navy; modern graphic design; clean vector look; photoreal"

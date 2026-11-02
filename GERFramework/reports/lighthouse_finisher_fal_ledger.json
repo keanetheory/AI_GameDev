@@ -1,7 +1,7 @@
 {
- "cap": 19.425,
+ "cap": 20.625,
  "price_each": 0.375,
- "spent": 16.125,
+ "spent": 20.625,
  "models": [
   {
    "id": "lhi_oak_barrel",
@@ -375,7 +375,115 @@
    "tail": "[fal] saved C:\\GameDev\\AI_GameDev\\LightingTheStorm\\Assets\\Models\\prop\\lhi_radio_desk.glb (33809 KB), seed None",
    "err": "",
    "batch": "T45 + backlog props, 1 Nov 2026"
+  },
+  {
+   "id": "lhi_pressure_gauge",
+   "ok": true,
+   "seconds": null,
+   "charged": 0.375,
+   "tail": "[fal] saved ...\\lhi_pressure_gauge.glb (32560 KB), seed None",
+   "err": "",
+   "batch": "T69 greybox props pass 2, ranks 1-12, 2 Nov 2026"
+  },
+  {
+   "id": "lhi_coal_bin_front",
+   "ok": true,
+   "seconds": null,
+   "charged": 0.375,
+   "tail": "[fal] saved ...\\lhi_coal_bin_front.glb (29474 KB), seed None",
+   "err": "",
+   "batch": "T69 greybox props pass 2, ranks 1-12, 2 Nov 2026"
+  },
+  {
+   "id": "lhi_wall_grille",
+   "ok": true,
+   "seconds": null,
+   "charged": 0.375,
+   "tail": "[fal] saved ...\\lhi_wall_grille.glb (27777 KB), seed None",
+   "err": "",
+   "batch": "T69 greybox props pass 2, ranks 1-12, 2 Nov 2026"
+  },
+  {
+   "id": "lhi_valve_wheel",
+   "ok": true,
+   "seconds": null,
+   "charged": 0.375,
+   "tail": "[fal] saved ...\\lhi_valve_wheel.glb (28178 KB), seed None",
+   "err": "",
+   "batch": "T69 greybox props pass 2, ranks 1-12, 2 Nov 2026"
+  },
+  {
+   "id": "lhi_burner_cloth",
+   "ok": true,
+   "seconds": null,
+   "charged": 0.375,
+   "tail": "[fal] saved ...\\lhi_burner_cloth.glb (29756 KB), seed None",
+   "err": "",
+   "batch": "T69 greybox props pass 2, ranks 1-12, 2 Nov 2026"
+  },
+  {
+   "id": "lhi_fire_hose_coil",
+   "ok": true,
+   "seconds": null,
+   "charged": 0.375,
+   "tail": "[fal] saved ...\\lhi_fire_hose_coil.glb (21667 KB), seed None",
+   "err": "",
+   "batch": "T69 greybox props pass 2, ranks 1-12, 2 Nov 2026"
+  },
+  {
+   "id": "lhi_barograph",
+   "ok": true,
+   "seconds": null,
+   "charged": 0.375,
+   "tail": "[fal] saved ...\\lhi_barograph.glb (32043 KB), seed None",
+   "err": "",
+   "batch": "T69 greybox props pass 2, ranks 1-12, 2 Nov 2026"
+  },
+  {
+   "id": "lhi_water_can",
+   "ok": true,
+   "seconds": null,
+   "charged": 0.375,
+   "tail": "[fal] saved ...\\lhi_water_can.glb (35581 KB), seed None",
+   "err": "",
+   "batch": "T69 greybox props pass 2, ranks 1-12, 2 Nov 2026"
+  },
+  {
+   "id": "lhi_rope_coil",
+   "ok": true,
+   "seconds": null,
+   "charged": 0.375,
+   "tail": "[fal] saved ...\\lhi_rope_coil.glb (37305 KB), seed None",
+   "err": "",
+   "batch": "T69 greybox props pass 2, ranks 1-12, 2 Nov 2026"
+  },
+  {
+   "id": "lhi_ledger_book",
+   "ok": true,
+   "seconds": null,
+   "charged": 0.375,
+   "tail": "[fal] saved ...\\lhi_ledger_book.glb (29144 KB), seed None",
+   "err": "",
+   "batch": "T69 greybox props pass 2, ranks 1-12, 2 Nov 2026"
+  },
+  {
+   "id": "lhi_pot_shelf",
+   "ok": true,
+   "seconds": null,
+   "charged": 0.375,
+   "tail": "[fal] saved ...\\lhi_pot_shelf.glb (34558 KB), seed None",
+   "err": "",
+   "batch": "T69 greybox props pass 2, ranks 1-12, 2 Nov 2026"
+  },
+  {
+   "id": "lhi_wall_shelf_books",
+   "ok": true,
+   "seconds": null,
+   "charged": 0.375,
+   "tail": "[fal] saved ...\\lhi_wall_shelf_books.glb (31799 KB), seed None",
+   "err": "",
+   "batch": "T69 greybox props pass 2, ranks 1-12, 2 Nov 2026"
   }
  ],
- "cap_note": "Raised 1 Nov 2026: the creator approved all P1, P2 and backlog props (27 x $0.375) plus ~$1.50 of re-rolls; FAL balance $16.98."
+ "cap_note": "Raised 2 Nov 2026: the creator approved ranks 1-12 of the greybox props pass 2 (T69, 12 x $0.375 = $4.50); FAL balance after the run $1.60. Earlier: Raised 1 Nov 2026: the creator approved all P1, P2 and backlog props (27 x $0.375) plus ~$1.50 of re-rolls; FAL balance $16.98."
 }

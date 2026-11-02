@@ -44,6 +44,9 @@ The lighthouse master on Bracken Isle and the player's boss. A grizzled local in
   - "What are you looking at, you a new money toff?? Get off your arse and sort out the light!"  
 - **voice_casting_notes:** gravelly older male, coastal accent
 
+## In His Own Hand
+Ted's notes on the lighthouse papers (creator, 2 Nov 2026): he signs the tide table "entered by hand, between drinks - Ted.", writes "New guy starts. Wonderful." and "Keep an eye on Daniel" on the October calendar, and keeps a fourth Keeper's Rule nobody explains: "Watch them come and go." An old photograph marked "T." shows him younger, in front of a lighthouse.
+
 ## Abilities
 | Ability | System | Effect | Cost | Limit |
 |---|---|---|---|---|

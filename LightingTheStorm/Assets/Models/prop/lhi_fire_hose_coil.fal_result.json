@@ -1,0 +1,20 @@
+{
+  "submission": {
+    "asset_id": "lhi_fire_hose_coil",
+    "category": "prop",
+    "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+    "prompt": "Coiled canvas fire hose lying flat on a floor, flat grey canvas hose wound in a tight spiral, brass coupling and nozzle on the outside end, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+    "source_image": null,
+    "view_images": {},
+    "notes": "Greybox pass 2 (2 Nov 2026), priority 2. Replaces L1_Hose on the tower's L1 ring (0.6 m across, 0.12 m tall), passed on every climb to the lamp room. Downscale the 4096 texture to 2048 on import, then tools/decimate_props.gd."
+  },
+  "request_id": "01a19dbc-bac7-7841-83b0-224cb6972fa5",
+  "seed": null,
+  "model_url": "https://v3b.fal.media/files/b/0ab0e3b7/3cT2wRv0_zg3pLpwNvbUl_model.glb",
+  "textured": true,
+  "request": {
+    "prompt": "Coiled canvas fire hose lying flat on a floor, flat grey canvas hose wound in a tight spiral, brass coupling and nozzle on the outside end, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "generate_type": "Normal"
+  }
+}

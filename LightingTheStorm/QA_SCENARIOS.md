@@ -26,6 +26,7 @@ Phase order the machine must follow, one step at a time: ARRIVAL_AND_COAL, SHELT
 | S11 | Hazards on the sea from the start, outbound and return | 15 hazards placed at level load; the safe lane is clear with margin; near misses (within 2.5 m) and collisions get more frantic in three levels; outbound collisions recover as before, return collisions throw the boat back 3 m, rock it hard and charge 10 s (T19, 2 Nov 2026) | `test_crossing_sequence.gd` | Steering feel at 10 m/s; hazard readability at night in rain |
 | S12 | Auto-docking | DOCKING_DIALOGUE at both docks every time; at the lighthouse after return collisions the admonishment (1, 2 to 3, 4 or more hits), before "go go go" | `test_crossing_sequence.gd`, `test_slice_playthrough.gd` | The docking take-over (the player's jump ashore) |
 | S13 | The burner can never be permanently lost | It is carried in the hands, rides the boat, can only be put in the boat's slot or the lamp socket; fitting is final | `test_carry.gd`, `test_burner_pickup.gd`, `test_lamp_fit.gd` | |
+| S18 | Difficulty on the title screen | Easy, Medium and Hard under the prompt; Left / Right (or the d-pad) and clicks change it without starting the game; saved with the settings; the hidden deadline is 3:00, 2:30 or 2:00 | `test_difficulty.gd`, `test_title_settings.gd` | Whether Hard is winnable by a first-time player; whether the labels need a hint |
 | S14 | Pause (P) and the debug aids | P freezes the clock and the ship and releases the mouse; Page Up and Page Down scale the deadline; F9 restarts; F10 dumps the event and deadline logs | `test_ship_deadline.gd`, `test_debug_flags.gd` | Pausing between jobs on the return (the exploit question, B6) |
 | S15 | Restart after a fail or a win | A new attempt: level reloaded, state cleared, door shut and knockable, deadline -1, hazards back, buses at full level | `test_slice_playthrough.gd -- fail`, `test_game_state.gd` | |
 | S16 | Waves on and off | Easy outbound, hectic return, never out-pushes the steering; waves off behaves calm | `test_wave_crossings.gd` | Whether the return reads as "hectic" without being unfair |
@@ -38,5 +39,5 @@ Phase order the machine must follow, one step at a time: ARRIVAL_AND_COAL, SHELT
 
 - IDLE_STEP_1 (the coal nudges) and the idle nudge wording.
 - Real steering by a person along the safe lane (the full-slice test puts the boat on the route; the sweep tests prove the lane is clear).
-- Deadline length (3:00 placeholder, T19, 2 Nov 2026) and the return collision penalty (10 s); outbound collisions cost nothing. Confirm both in play (T60).
+- Deadline length by difficulty, chosen on the title screen (creator, 2 Nov 2026, T60): Easy 3:00, Medium 2:30, Hard 2:00; the return collision penalty stays 10 s; outbound collisions cost nothing. Whether Medium and Hard can still be won with a collision or two.
 - Voice: nothing is recorded; the line list to record is in `data/dialogue/dialogue_opening.json`.

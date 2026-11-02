@@ -110,6 +110,7 @@ godot --headless --path . --script res://tools/test_npc.gd            # the caps
 godot --headless --path . --script res://tools/test_sailors_sequence.gd # the rowboat, the gate and the sailors' walk-in
 godot --headless --path . --script res://tools/test_diagnosis_sequence.gd # Ted, the lamp-room diagnosis and the briefing
 godot --headless --path . --script res://tools/test_step1_idle.gd # Ted's step 1 nudges (IDLE_STEP_1) from the knock to BOILER_FED
+godot --headless --path . --script res://tools/test_difficulty.gd # title-screen difficulty: Easy 3:00, Medium 2:30, Hard 2:00 deadline
 godot --headless --path . --script res://tools/test_intro_sequence.gd # the knock, Ted's greeting and walk, Ted's lines only inside
 godot --headless --path . --script res://tools/test_boarding_sequence.gd # Arthur walks to the launch, boards, steps ashore
 godot --headless --path . --script res://tools/test_crossing_sequence.gd # the return forecast hazards, safe lane and Arthur calls
@@ -120,6 +121,10 @@ godot --headless --path . --script res://tools/test_collider_bake.gd  # the coll
 ```
 
 A headless run proves logic. It cannot judge feel, looks, lighting or sightlines, so every change still needs a play-through in the editor. The Output panel will print `Parameter "m" is null` from the level's meshes in headless runs; that is the dummy renderer and is expected.
+
+## Watching the characters walk
+
+`godot --path . --script res://tools/route_viewer.gd` (needs a window) opens the real level and walks Ted, Arthur and Daniel along their baked routes (`data/world/npc_paths.json`, made by `tools/bake_npc_paths.gd`) one at a time, at the speed the game uses, with every route drawn as a line. Keys 1-7 pick a route; R replays; Space pauses; `[` `]` change the playback speed; C switches the camera (follow, overhead, free: right mouse to look, WASD/Q/E to move); V shows the lines through walls; L hides them; P saves a screenshot. Add `-- route=<name> snap=<seconds> out=<folder>` to walk one route on its own and save a screenshot every few seconds. After changing a route, re-bake and run `tools/test_npc.gd`.
 
 ## Working with the agents
 

@@ -13,6 +13,9 @@ const FLOOR_LAYER := 1
 
 var root: Node3D                  # the house frame
 var mats := {}
+var _ds_cache := {}                # source material id -> its one double-sided copy (ds())
+var _pages: Dictionary = {}        # data/world/pages_atlas.json "pages", loaded on the first page()
+var _page_mat: StandardMaterial3D  # the one material every page shares (the atlas)
 var count := 0                    # nodes made, for the tests' budget
 var lights: Array[OmniLight3D] = []   # every light made, so the interior's light manager can take them over
 
@@ -345,6 +348,54 @@ func _m(m) -> Material:
 	if m is Material:
 		return m
 	return mats.get(String(m), mats["plaster"])
+
+
+## A paper page from the creator's generated set (2 Nov 2026): a sheet like sheet(), w metres wide, its height from the image's own
+## shape, showing `slot`'s rectangle of the page atlas (tools/build_page_atlas.py, data/world/pages_atlas.json). Every page shares one
+## material, so the whole set costs the lighthouse one material. The wording is in the image (canon: reg_bracken_isle.md).
+func page(parent: Node3D, nm: String, c: Vector3, normal: Vector3, w: float, slot: String) -> MeshInstance3D:
+	if _pages.is_empty():
+		var f := FileAccess.open("res://data/world/pages_atlas.json", FileAccess.READ)
+		var d: Variant = JSON.parse_string(f.get_as_text()) if f else null
+		if d is Dictionary:
+			_pages = d["pages"]
+			_page_mat = StandardMaterial3D.new()
+			_page_mat.albedo_texture = load(String(d["texture"])) as Texture2D
+			_page_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR      # torn edges and cut corners
+			_page_mat.alpha_scissor_threshold = 0.5
+			_page_mat.roughness = 1.0
+			_page_mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+	if not _pages.has(slot):
+		push_warning("kit.page: no page '%s' in the atlas" % slot)
+		return sheet(parent, nm, c, normal, w, w, "paper_old")
+	var pg: Dictionary = _pages[slot]
+	var mi := sheet(parent, nm, c, normal, w, w / float(pg["aspect"]), _page_mat)
+	var r: Array = pg["uv"]
+	var arrays := (mi.mesh as QuadMesh).get_mesh_arrays()
+	var uvs: PackedVector2Array = arrays[Mesh.ARRAY_TEX_UV]
+	for i in uvs.size():
+		uvs[i] = Vector2(float(r[0]) + uvs[i].x * float(r[2]), float(r[1]) + uvs[i].y * float(r[3]))
+	arrays[Mesh.ARRAY_TEX_UV] = uvs
+	var am := ArrayMesh.new()
+	am.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	mi.mesh = am
+	return mi
+
+
+## A double-sided copy of a kit material (by name or the material itself). One copy per source material for the whole interior:
+## each builder used to make its own, and every copy is one more material for the renderer (T63, 2 Nov 2026).
+func ds(m) -> Material:
+	var src := _m(m) as StandardMaterial3D
+	if src == null:
+		return _m(m)
+	if src.cull_mode == BaseMaterial3D.CULL_DISABLED:
+		return src
+	var key := src.get_instance_id()
+	if not _ds_cache.has(key):
+		var d := src.duplicate() as StandardMaterial3D
+		d.cull_mode = BaseMaterial3D.CULL_DISABLED
+		_ds_cache[key] = d
+	return _ds_cache[key]
 
 
 func colour(c: Color, rough := 0.9, metal := 0.0, emit := 0.0) -> StandardMaterial3D:

@@ -1,0 +1,8 @@
+{
+  "asset_id": "lhi_pressure_gauge",
+  "category": "prop",
+  "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+  "prompt": "Large round boiler pressure gauge for a lighthouse steam boiler, heavy brass bezel with screw lugs, a plain cream dial face with black tick marks and no needle, mounted on a short iron pipe stem with a small cock, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+  "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+  "notes": "Greybox pass 2 (2 Nov 2026), priority 1. Replaces B_GaugeRim (the brass rim disc, 0.4 m diameter) of B_BoilerGauge on the basement west wall above the boiler. B_GaugeFace and its Needle stay visible in front of the model: boiler_gauge.gd turns the needle and coal_job.gd drives it. Seen up close during the coal job. Downscale the 4096 texture to 2048 on import, then tools/decimate_props.gd."
+}

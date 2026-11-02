@@ -21,7 +21,6 @@ var K
 var anchors := {}        # house frame (u, y, v)
 var anchors_lh := {}     # lighthouse frame (x, y, z)
 var refs := {}
-var _mat_cache := {}
 var _lh: Node3D
 
 
@@ -127,7 +126,7 @@ func _l1_house(P: Node3D) -> void:
 	K.box(P, "L1_Wardrobe", -0.95, -0.3, 6.3, 7.6, Y, Y + 1.95, "wood_dark", true)
 	K.box(P, "L1_WardrobeDoorGap", -0.32, -0.3, 6.93, 6.97, Y + 0.1, Y + 1.85, "black", false)
 	K.box(P, "L1_BedRug", -2.0, -0.7, 4.0, 6.6, Y, Y + 0.02, "rug", false)
-	K.sheet(P, "L1_Photo", Vector3(-2.97, Y + 1.45, 4.3), Vector3(1, 0, 0), 0.22, 0.3, "paper_old", "T.", 28, Color(0.14, 0.1, 0.07))
+	K.page(P, "L1_Photo", Vector3(-2.97, Y + 1.45, 4.3), Vector3(1, 0, 0), 0.22, "photo_t")
 
 	# --- radio and chart room (u -0.2..1.5, v 2.65..5.6)
 	K.box(P, "L1_RadioDesk", 0.95, 1.45, 3.0, 4.7, Y, Y + 0.78, "wood", true)
@@ -140,10 +139,10 @@ func _l1_house(P: Node3D) -> void:
 		var cu := 0.35 if k % 2 == 0 else 0.76
 		var cv := 3.5 if k < 2 else 3.91
 		K.box(P, "L1_RadioChairLeg_%d" % k, cu, cu + 0.05, cv, cv + 0.05, Y, Y + 0.38, "wood_dark", false)
-	K.sheet(P, "L1_RadioLog", Vector3(1.43, Y + 1.5, 3.8), Vector3(-1, 0, 0), 0.45, 0.35, "paper_old", "NO SIGNAL\nSTORM LOG", 26, Color(0.14, 0.1, 0.07))
+	K.page(P, "L1_RadioLog", Vector3(1.43, Y + 1.5, 3.8), Vector3(-1, 0, 0), 0.45, "radio_log")
 	K.light(P, "L1_RadioGlow", Vector3(0.9, Y + 1.2, 3.9), Color(0.7, 0.85, 0.6), 0.5, 3.2, 0.2)
 	K.box(P, "L1_ChartTable", -0.1, 0.5, 4.3, 5.4, Y, Y + 0.85, "wood_dark", true)
-	K.sheet(P, "L1_Chart", Vector3(0.2, Y + 0.857, 4.85), Vector3(0, 1, 0), 0.5, 0.9, "paper_old", "GULLWATER", 30, Color(0.14, 0.1, 0.07))
+	K.page(P, "L1_Chart", Vector3(0.2, Y + 0.857, 4.85), Vector3(0, 1, 0), 0.5, "chart_gullwater")
 
 	# --- wash room (u -0.2..1.5, v 5.65..9.0)
 	_lamp(P, "L1_WashLamp", Vector3(0.6, Y + 1.9, 7.2), 1.0)
@@ -197,18 +196,9 @@ func _l1_house(P: Node3D) -> void:
 	K.box(P, "L1_DoorRevealHead", 5.38, 5.95, 0.84, 2.36, Y + 2.12, Y + 2.24, "plaster", false)
 	K.box(P, "L1_RugMess", 2.2, 4.2, 4.4, 6.9, Y, Y + 0.015, "rug", false)
 	K.box(P, "L1_RugRadio", -0.1, 0.9, 3.0, 4.2, Y, Y + 0.015, "rug", false)
-	K.sheet(P, "L1_Rules", Vector3(2.0, Y + 1.5, 2.5), Vector3(0, 0, -1), 0.5, 0.65, "paper_old", "KEEPER'S RULES
-
-1. THE LAMP
-   NEVER GOES DARK.
-2. LOG THE HOUR.
-3. KEEP THE
-   BOILER FED.", 24, Color(0.12, 0.09, 0.07))
-	K.sheet(P, "L1_Calendar", Vector3(1.44, Y + 1.5, 6.0), Vector3(1, 0, 0), 0.32, 0.42, "paper", "OCT
-the moon
-full
-the 22nd", 26, Color(0.1, 0.1, 0.14))
-	K.sheet(P, "L1_Barometer_Note", Vector3(-0.55, Y + 1.55, 2.64), Vector3(0, 0, 1), 0.36, 0.28, "paper_old", "GLASS FALLING", 26, Color(0.12, 0.09, 0.07))
+	K.page(P, "L1_Rules", Vector3(2.0, Y + 1.5, 2.5), Vector3(0, 0, -1), 0.5, "keepers_rules")
+	K.page(P, "L1_Calendar", Vector3(1.55, Y + 1.5, 6.0), Vector3(1, 0, 0), 0.32, "calendar")      # on the face of L1_W2_a (u 1.45..1.55); at 1.44 it was inside the wall
+	K.page(P, "L1_Barometer_Note", Vector3(-0.55, Y + 1.55, 2.64), Vector3(0, 0, 1), 0.36, "barometer_note")
 	K.disc(P, "L1_MessClock", Vector3(5.38, Y + 1.7, 4.2), Vector3(-1, 0, 0), 0.17, 0.04, "brass")
 	K.disc(P, "L1_MessClockFace", Vector3(5.36, Y + 1.7, 4.2), Vector3(-1, 0, 0), 0.14, 0.03, "gauge_face")
 	for hk in 4:
@@ -346,9 +336,7 @@ func _tilt_slab(P: Node3D, nm: String, u0: float, u1: float, a: Vector2, b: Vect
 	mi.mesh = bm
 	# double-sided: at the tower doorway the front slope is only 1.5 to 2.3 m up, the player's eyes are inside the slab, and a one-sided slab showed the sky through
 	# itself (creator, 2026-10-26: "the hole at the doorway on L2, you can peek out to the sky")
-	var dm := (K.mats["plaster"] as StandardMaterial3D).duplicate() as StandardMaterial3D
-	dm.cull_mode = BaseMaterial3D.CULL_DISABLED
-	mi.material_override = dm
+	mi.material_override = K.ds("plaster")
 	var x := Vector3(1, 0, 0)
 	var y := Vector3(0, dv, dy) / ln
 	var z := Vector3(0, -dy, dv) / ln
@@ -428,9 +416,7 @@ func _wall_to_ceiling(P: Node3D, nm: String, u0: float, u1: float, v0: float, v1
 	var mi := MeshInstance3D.new()
 	mi.name = nm
 	mi.mesh = st.commit()
-	var m2 := (K.mats["plaster"] as StandardMaterial3D).duplicate() as StandardMaterial3D
-	m2.cull_mode = BaseMaterial3D.CULL_DISABLED
-	mi.material_override = m2
+	mi.material_override = K.ds("plaster")
 	P.add_child(mi)
 	mi.create_trimesh_collision()
 	K.count += 1
@@ -555,11 +541,7 @@ func _m(name: String) -> Material:
 
 
 func _ds(name: String) -> Material:
-	if not _mat_cache.has(name):
-		var m: StandardMaterial3D = (K.mats[name] as StandardMaterial3D).duplicate()
-		m.cull_mode = BaseMaterial3D.CULL_DISABLED
-		_mat_cache[name] = m
-	return _mat_cache[name]
+	return K.ds(name)          # shared with every other builder (kit.gd ds())
 
 
 ## An arc of floor (or rail wall): an annulus sector from bearing a0 to a1 (degrees, increasing), r0..r1, y0..y1. One mesh

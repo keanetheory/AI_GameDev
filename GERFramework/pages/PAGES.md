@@ -1,5 +1,7 @@
 # Lighthouse pages for an image generator
 
+**Done 2 Nov 2026:** the creator generated every page and poster (ChatGPT image generation) with new wording in places, and chose to use them all as they are. The wording now in the game, and in canon, is in `Docs/Lore Build/regions/reg_bracken_isle.md` ("The keeper's papers") and `factions/fac_flighted.md` (slogans). The table below is the original brief.
+
 Each page has a flat reference picture (the layout and wording now in the game), a prompt in the style guide's language, and a size. The generated image replaces the placeholder text sheet: keep the aspect ratio and the wording. Colours: black #0E0E10, silver #B9BEC4, navy #1F2A44 for the Flighted; the rest aged paper.
 
 | Page | Where | Size (m) | Reference | Wording |
@@ -15,8 +17,17 @@ Each page has a flat reference picture (the layout and wording now in the game),
 | Photograph (`L1_Photo`) | first floor | 0.22 x 0.30 | `L1_Photo.png` | T. |
 | Radio log (`L1_RadioLog`) | first floor | 0.45 x 0.35 | `L1_RadioLog.png` | NO SIGNAL / STORM LOG |
 | Chart (`L1_Chart`) | first floor | 0.50 x 0.90 | `L1_Chart.png` | GULLWATER |
-| Keeper's rules (`L1_Rules`) | first floor | 0.50 x 0.65 | `L1_Rules.png` | KEEPER'S RULES /  / 1. THE LAMP /    NEVER GOES DARK. / 2. LOG THE HOUR. / 3. KEEP THE /    BOILER FED. |
-| Calendar page (`L1_Calendar`) | first floor | 0.32 x 0.42 | `L1_Calendar.png` | OCT / the moon / full / the 22nd |
+| Keeper's rules (`L1_Rules`) | first floor | 0.50 x 0.65 | `L1_Rules.png` | KEEPER'S RULES
+ / 
+ / 1. THE LAMP
+ /    NEVER GOES DARK.
+ / 2. LOG THE HOUR.
+ / 3. KEEP THE
+ /    BOILER FED. |
+| Calendar page (`L1_Calendar`) | first floor | 0.32 x 0.42 | `L1_Calendar.png` | OCT
+ / the moon
+ / full
+ / the 22nd |
 | Barometer note (`L1_Barometer_Note`) | first floor | 0.36 x 0.28 | `L1_Barometer_Note.png` | GLASS FALLING |
 
 ## Prompts

@@ -1,6 +1,6 @@
 {
  "assessor": "cliffside_assessor",
- "ingested_utc": "2026-10-20T14:20:40+00:00",
+ "ingested_utc": "2026-11-02T19:03:07+00:00",
  "keywords": [
   "cliff",
   "cliffside",
@@ -21,7 +21,7 @@
   "slate",
   "collision"
  ],
- "files_read": 51,
+ "files_read": 52,
  "sources": {
   "Docs/Lore Build/characters/chr_arthur.md": {
    "sha": "f49a202f55c6926b",
@@ -87,13 +87,14 @@
    ]
   },
   "Docs/Lore Build/characters/chr_ted.md": {
-   "sha": "52869f7701378edb",
+   "sha": "c4cd84ed47b28be5",
    "headings": [
     "Ted",
     "Summary",
     "Appearance",
     "Costume & Equipment",
     "Voice",
+    "In His Own Hand",
     "Abilities",
     "Weaknesses",
     "History",
@@ -785,6 +786,48 @@
     }
    ]
   },
+  "Docs/Lore Build/dialogue/DIALOGUE_LAMP_ROOM_AND_FAIL_PROPOSALS.md": {
+   "sha": "c9b0023dc4fc4816",
+   "headings": [
+    "Ted's lamp-room and fail lines: proposals for the creator to pick (T16, T37) and the T18 review",
+    "Creator picks (29 Oct 2026)",
+    "T16: the lamp-room list to voice",
+    "T37: Ted at SHIP_FAIL",
+    "T18: review of the rewritten opening lines",
+    "Ted names the ship (BURNER_DIAGNOSED, moved 29 Oct from BOARDING_THRESHOLD) (drafted 29 Oct 2026; creator picked `TED_S3_05`, added to the game data, 47 lines)"
+   ],
+   "domain_hits": 7,
+   "hits": [
+    {
+     "line": 15,
+     "text": "| `RETURN_ARRIVED` | `TED_S4_01` | \"Up here, Isaac! Bring the burner. Mind the stairs, and don't you dare drop it!\" | Shouted down the stairwell, hoarse, urgent |"
+    },
+    {
+     "line": 21,
+     "text": "| `SHIP_WIN` | `TED_S5_01` | \"There's the light, and she's turning clear of the rocks. Hrmph. Not bad, Isaac. Not bad.\" | Gruff, a cough over real relief |"
+    },
+    {
+     "line": 22,
+     "text": "| `SHIP_WIN` | `TED_S5_02` | \"She sees us! Look at her go, clear of the rocks. You did it, you money toff.\" | Cracked, half-laughing |"
+    },
+    {
+     "line": 32,
+     "text": "| 1 (pick one) | `TED_F_01` | \"No. No, turn! Turn, you fool, the rocks! Oh, no.\" | Shouted, then a breaking whisper |"
+    },
+    {
+     "line": 45,
+     "text": "- **Saltgate, not \"outpost\":** the new text says Saltgate everywhere. The recorded audio still says \"outpost\" and \"landing\"."
+    },
+    {
+     "line": 56,
+     "text": "| `TED_S3_05` | \"A passenger ship? Now? It's not in the log! Without the beacon she'll find the rocks. Go, Isaac!\" | Shocked, then barking |"
+    },
+    {
+     "line": 57,
+     "text": "| `TED_S3_06` | \"That's a passenger ship out there, and she's heading for my rocks. No beacon, no hope. Go!\" | Grim, urgent, coughing |"
+    }
+   ]
+  },
   "Docs/Lore Build/dialogue/DIALOGUE_OPENING_CREATOR_PICKS.md": {
    "sha": "54bb5321d8f0479d",
    "headings": [
@@ -1021,7 +1064,7 @@
    "hits": []
   },
   "Docs/Lore Build/factions/fac_flighted.md": {
-   "sha": "ee221ac086abf3ed",
+   "sha": "548dcf8202a5e6e1",
    "headings": [
     "The Flighted",
     "Goal",
@@ -1139,7 +1182,7 @@
    ]
   },
   "Docs/Lore Build/regions/reg_bracken_isle.md": {
-   "sha": "d80eac57cca47fb9",
+   "sha": "b25edb9d87a24865",
    "headings": [
     "Bracken Isle",
     "Geography & Climate (and why)",
@@ -1152,7 +1195,7 @@
     "Ambient Audio Direction",
     "Asset Prompts"
    ],
-   "domain_hits": 12,
+   "domain_hits": 13,
    "hits": [
     {
      "line": 6,
@@ -1183,23 +1226,27 @@
      "text": "- **The gate:** a lockable gate on the path to keep intruders out. After feeding the boiler, the player opens it for Arthur and Daniel. What it was originally built to keep out is TBD."
     },
     {
-     "line": 49,
-     "text": "- **key_materials:** [rough stone, lime mortar, wet black rock, salt-rotted timber, iron railings, brass fittings]"
-    },
-    {
-     "line": 54,
-     "text": "- **flora:** [wind-bent flowering trees, sparse scrub, bracken (proposed)]"
+     "line": 41,
+     "text": "- **Two sea charts:** \"Bracken Isle to Saltgate\", and \"Gullwater\", an older chart that names the island **Gullwater Island**, as old charts and some mariners still do."
     },
     {
      "line": 58,
+     "text": "- **key_materials:** [rough stone, lime mortar, wet black rock, salt-rotted timber, iron railings, brass fittings]"
+    },
+    {
+     "line": 63,
+     "text": "- **flora:** [wind-bent flowering trees, sparse scrub, bracken (proposed)]"
+    },
+    {
+     "line": 67,
      "text": "- **Outside:** howling wind, surf crashing on the rocks, flags snapping."
     },
     {
-     "line": 62,
+     "line": 71,
      "text": "- **environment_concept:** \"A small windswept rocky island at night under a moonless sky, a battered stone and mortar lighthouse on its high point, a single narrow path from a small timber dock winding between jagged black rocks, an iron gate across the path, a few wind-bent trees, tattered amber and gold flags, sea spray, gritty dark cel-shaded style, heavy ink outlines, flat hard-edged shadows, "
     },
     {
-     "line": 64,
+     "line": 73,
      "text": "- **engine_room_concept:** \"Cramped 1800s lighthouse engine room, coal-fired boiler, small steam engine driving a dynamo, coal heap and shovel, pipes, gauges, steam leaks, soot-blackened stone, warm firebox glow, gritty dark cel-shaded style, heavy ink outlines\""
     }
    ]
@@ -1235,7 +1282,7 @@
    ]
   },
   "Docs/Lore Build/regions/reg_gullwater.md": {
-   "sha": "85d78bafe6cdf05a",
+   "sha": "11cc16603a74dec7",
    "headings": [
     "The Gullwater",
     "Geography & Climate (and why)",
@@ -1252,11 +1299,11 @@
      "text": "- The sea between Bracken Isle and the Saltgate. The crossing takes about 10 minutes by steam launch (roughly 1\u20132 km)."
     },
     {
-     "line": 22,
+     "line": 24,
      "text": "- **Outbound:** the first crossing, to the Saltgate quays for the burner. Currents sway the boat and the rain sets in; uneasy rather than calm."
     },
     {
-     "line": 27,
+     "line": 29,
      "text": "- The Saltgate ahead"
     }
    ]
@@ -1334,7 +1381,7 @@
    ]
   },
   "Docs/Lore Build/systems/sys_eclipse.md": {
-   "sha": "9e2b46a049fd7449",
+   "sha": "ba1b0c81b212ca7b",
    "headings": [
     "The Eclipse",
     "How It Works (input \u2192 effect)",
@@ -1372,9 +1419,10 @@
    ]
   },
   "Docs/Lore Build/world/changelog.md": {
-   "sha": "664e8caff8d74804",
+   "sha": "96282be01fa7761b",
    "headings": [
     "Changelog",
+    "2026-10-20: Waves and tides approved by the creator",
     "2026-10-16: Story beats fixed by the creator",
     "Story beats (canon, in order)",
     "Contradictions resolved",
@@ -1389,27 +1437,27 @@
    "domain_hits": 6,
    "hits": [
     {
-     "line": 13,
+     "line": 20,
      "text": "3. **Shelter and gate:** Arthur and Daniel moor their rowboat at the dock; the player opens the island gate (on the path from the dock to the lighthouse) to let them in. Daniel stays in the basement."
     },
     {
-     "line": 15,
+     "line": 22,
      "text": "5. **Outbound:** the player takes the steam launch across the Gullwater with Arthur and retrieves the replacement burner from the Saltgate quays."
     },
     {
-     "line": 22,
+     "line": 29,
      "text": "- **\"Abandoned outpost\":** retired. The destination is always the Saltgate (its quays), Saint Calder's abandoned harbour."
     },
     {
-     "line": 31,
+     "line": 38,
      "text": "- chr_player, chr_ted, chr_arthur, chr_daniel, reg_bracken_isle, reg_saltgate, reg_gullwater and sys_steam_power updated to match (\"lamp head\" becomes \"burner\")."
     },
     {
-     "line": 36,
+     "line": 43,
      "text": "- **\"Abandoned outpost\" vs. \"a port at the edge of the city\":** resolved as option B. The Saltgate is the city's own harbour, abandoned as a dead district on the city's edge."
     },
     {
-     "line": 49,
+     "line": 56,
      "text": "| Harbour | The Saltgate |"
     }
    ]
@@ -1564,10 +1612,11 @@
    ]
   },
   "Docs/Lore Build/world/style_guide.md": {
-   "sha": "b2ab2879f76f0061",
+   "sha": "67175f3e5bd7064a",
    "headings": [
     "Style Guide",
     "Global Art Direction",
+    "In-Engine Cel Look (Godot)",
     "Colour Meanings",
     "Culture Quick Reference",
     "UI Direction",
@@ -1578,7 +1627,7 @@
    "domain_hits": 1,
    "hits": [
     {
-     "line": 38,
+     "line": 46,
      "text": "| Sea slate | #2C3A40 | The Gullwater |"
     }
    ]
@@ -1667,7 +1716,7 @@
    ]
   },
   "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md": {
-   "sha": "600d837004860171",
+   "sha": "4d4ca56f2629394d",
    "headings": [
     "Lighting the Storm \u2014 AI Agent Strategy",
     "Change log (post-review amendments, 1 October 2026)",
@@ -1693,11 +1742,11 @@
     },
     {
      "line": 24,
-     "text": "7. Do not build anything marked Proposed, deferred, or on the cut list (waves, route branching, further repairs beyond feeding the boiler and fitting the burner) without the creator\u2019s go-ahead. Do not add significant detail to the Saltgate until the creator considers the prototype complete."
+     "text": "7. Do not build anything marked Proposed, deferred, or on the cut list (route branching, further repairs beyond feeding the boiler and fitting the burner) without the creator\u2019s go-ahead. Do not add significant detail to the Saltgate until the creator considers the prototype complete."
     },
     {
      "line": 47,
-     "text": "|Boat/Physics    |Steering spike, hazard collisions, boat reaction, docking, recovery, tunable parameters. Wave fields only as a later stretch task.|Hazard forecast API, one steering axis, recovery event, dock zones.|Creator plays Gate 0; readable, enjoyable steering.|"
+     "text": "|Boat/Physics    |Steering spike, hazard collisions, boat reaction, docking, recovery, tunable parameters. Waves are owned by the Wave Creator Agent and drive the boat only through the water push hook.|Hazard forecast API, one steering axis, recovery event, dock zones.|Creator plays Gate 0; readable, enjoyable steering.|"
     },
     {
      "line": 49,
@@ -1721,7 +1770,7 @@
     },
     {
      "line": 105,
-     "text": "> **Task:** Implement the Gate 0 boat steering spike in the selected engine. **Inputs:** Technical Strategy boat section, greybox sea scene, approved event IDs. **Owned output:** boat scene/controller and tuning resource, plus a short README. **Constraints:** one fixed speed with no throttle, one steering axis, placed rock, buoy and debris hazards, no wave forces (waves are a later stretch task), "
+     "text": "> **Task:** Implement the Gate 0 boat steering spike in the selected engine. **Inputs:** Technical Strategy boat section, greybox sea scene, approved event IDs. **Owned output:** boat scene/controller and tuning resource, plus a short README. **Constraints:** one fixed speed with no throttle, one steering axis, placed rock, buoy and debris hazards, no wave forces in this spike (waves are a separat"
     },
     {
      "line": 109,
@@ -1734,7 +1783,7 @@
    ]
   },
   "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md": {
-   "sha": "0101a697b0eefacf",
+   "sha": "c187db4029d938f7",
    "headings": [
     "Lighting the Storm \u2014 Executive Summary",
     "Pitch and player promise",
@@ -1746,11 +1795,11 @@
     "Outcome checks",
     "Decisions log (review, 1 October 2026)"
    ],
-   "domain_hits": 24,
+   "domain_hits": 27,
    "hits": [
     {
      "line": 9,
-     "text": "- Deadline timer now starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate let the player get a feel for the boat. The ship is introduced at the boarding threshold."
+     "text": "- Deadline timer now starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate let the player get a feel for the boat. The ship is introduced in the lamp room, in view, right after the burner is found broken (Decisions A34)."
     },
     {
      "line": 11,
@@ -1786,7 +1835,7 @@
     },
     {
      "line": 44,
-     "text": "|3. Beacon diagnosis   |The dynamo runs but the beacon stays dark. Follow Ted up to the lantern room, where he opens the arc lamp.                               |Ted finds the burner broken and says a new one is needed: a spare must be fetched from the Saltgate quays, with Arthur.|"
+     "text": "|3. Beacon diagnosis   |The dynamo runs but the beacon stays dark. Follow Ted up to the lantern room, where he opens the arc lamp.                               |Ted finds the burner broken and says a new one is needed: a spare must be fetched from the Saltgate quays, with Arthur. Then, still in the lamp room, he spots the unplanned passenger ship and names it; the ship is in view from the lamp ro"
     },
     {
      "line": 46,
@@ -1794,11 +1843,19 @@
     },
     {
      "line": 50,
-     "text": "|9. Outcome            |Watch the ship from the lamp room.                                                                                                    |Win: the ship sails safely past the rocks and into port; Ted reacts. Fail: the ship runs aground on the island; Ted reacts (see Fail-state contract).|"
+     "text": "|9. Outcome            |Watch the ship from the lamp room.                                                                                                    |Win: the ship sails safely past the rocks and into port; Ted reacts. Fail: the ship crashes on the rock next to the island; Ted reacts (see Fail-state contract).|"
     },
     {
      "line": 52,
      "text": "Until the player has picked up the burner and the boat sets off on the return crossing, there is no ship deadline: lighthouse exploration, the outbound crossing and the Saltgate are all untimed. From then on, the same ship deadline keeps running through the return crossing and the final repair; there is no separate timer. The approaching ship and changing weather communicate urgency without a nume"
+    },
+    {
+     "line": 58,
+     "text": "The deadline only runs from the start of the return crossing, so there is no fail state before then and the outbound crossing is practice. There are three fail states, depending on where the player is when the deadline expires. In every case the sequence is: the foghorn sounds, the ship crashes on the rock next to the island, silence, and then a \u201cFailed\u201d title screen."
+    },
+    {
+     "line": 62,
+     "text": "|On the return crossing (burner aboard) |The ship crashes on the rock next to the island in the world; the player hears the horn and the crash and sees it if the island is in view. No cutaway camera, and the game does not wait. Then silence and the \u201cFailed\u201d title screen.|"
     },
     {
      "line": 63,
@@ -1806,7 +1863,7 @@
     },
     {
      "line": 64,
-     "text": "|Elsewhere in the lighthouse (stairs) |Audio only, as on the crossing, unless a window sightline exists.                                                    |"
+     "text": "|Elsewhere in the lighthouse |The player hears the crash. Looking out of a window shows the ship crashing on the rock. On the stairs with no window they see nothing.|"
     },
     {
      "line": 79,
@@ -1818,7 +1875,7 @@
     },
     {
      "line": 87,
-     "text": "Wave hazards are a stretch goal for both the prototype and the full game. The crossings must work without them: the challenge comes from steering past rocks, reefs, buoys, and debris in a worsening storm, and the sea surface can move for atmosphere without affecting the boat. Waves that push or roll the boat are added only after steering has passed its go/no-go test and only if the schedule has ro"
+     "text": "Waves are part of the initial release (creator, 29 October 2026; Decisions A32). The sea has a state from 0 to 5: the first crossing is easy (1 to 2) and the return is hectic (3 to 5), with both docks sheltered. Waves push the boat only through one hook and never by more than A/D steering can cancel, and they are switchable off, so the crossings must still work without them: the challenge comes fr"
     },
     {
      "line": 89,
@@ -1829,27 +1886,23 @@
      "text": "Out of first-prototype scope: further lighthouse repairs beyond feeding the boiler and fitting the burner, full Saltgate exploration, optional discoveries, final art, route branching on the return crossing, and a finished Steam release flow. These remain in the full-game brief or on the cut list."
     },
     {
-     "line": 99,
-     "text": "4. Saltgate optional discoveries beyond the light set."
+     "line": 98,
+     "text": "3. Saltgate optional discoveries beyond the light set."
     },
     {
-     "line": 106,
+     "line": 105,
      "text": "- The boat has one steering control, one fixed speed, clear feedback for near misses and collisions, and a recoverable error state."
     },
     {
-     "line": 123,
+     "line": 122,
      "text": "|Folk-horror discoveries          |Core discoveries in the lighthouse and island, before boarding, tied to why the beacon failed; lighter set at the Saltgate. No significant Saltgate detail until the prototype is complete.|"
-    },
-    {
-     "line": 134,
-     "text": "|Story beats (16 October 2026)    |Arrival outside (Ted opens the door) \u2192 coal into the boiler \u2192 sailors moor at the dock, player opens the island gate, Daniel stays in the basement \u2192 beacon still dark, Ted finds the burner broken in the lantern room \u2192 outbound to the Saltgate quays with Arthur \u2192 storm escalates on the return \u2192 fit the burner before the ship runs aground. The part is \u201cthe burner\u201d;"
     }
    ]
   },
   "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md": {
-   "sha": "72f7360d8d23d124",
+   "sha": "26cc1dda5ed15265",
    "headings": [],
-   "domain_hits": 15,
+   "domain_hits": 16,
    "hits": [
     {
      "line": 10,
@@ -1857,11 +1910,11 @@
     },
     {
      "line": 12,
-     "text": "6. Clock start. The deadline starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate give the player a feel for the boat. The ship is introduced by Ted at the boarding threshold."
+     "text": "6. Clock start. The deadline starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate give the player a feel for the boat. The ship is introduced by Ted in the lamp room (see A34)."
     },
     {
      "line": 16,
-     "text": "10. Fail presentation. The foghorn, the ship runs aground on the island, silence, then a \u201cFailed\u201d title screen with a short reason line. There are three fail states, all after the return crossing begins: on the return crossing it is audio only; in the lamp room the ship is seen and the audio still sounds; on the stairs it is audio only unless a window sightline exists."
+     "text": "10. Fail presentation. The foghorn, the ship crashes on the rock next to the island, silence, then a \u201cFailed\u201d title screen with a short reason line. There are three fail states, all after the return crossing begins; what the player perceives depends on where they are (updated by A30: the crash is seen from the windows, the lamp room and the crossing when the island is in view, and only heard on th"
     },
     {
      "line": 22,
@@ -1873,7 +1926,7 @@
     },
     {
      "line": 26,
-     "text": "20. Fail reason line (19 October 2026). Voiced by Ted and shown as a subtitle: \u201cAll is lost for those on board...the storm takes more lives. What were you doing, you money toff!\u201d The visual is the passenger ship crashing and breaking up on one of the rocks right next to the island. (Was: B3; resolves B8 for the lamp room and the crossing.)"
+     "text": "20. Fail reason line (19 October 2026, reworded 29 October 2026). Voiced by Ted and shown as a subtitle: \u201cThat ship...we didn\u2019t get the burner out in time...those poor souls on board...we\u2019ve failed...FAILED!!\u201d delivered sorrowful and upset. It follows Ted\u2019s crash line as the ship strikes (\u201cNo. No, turn! Turn, you fool, the rocks! Oh, no.\u201d). The visual is the passenger ship crashing and breaking up"
     },
     {
      "line": 28,
@@ -1884,32 +1937,36 @@
      "text": "26. The stairs case (19 October 2026). If the player is on the stairs when the deadline runs out, they see nothing; the passenger ship crash plays out regardless of whether it is seen. (Resolves the rest of B7 and B8.)"
     },
     {
-     "line": 39,
-     "text": "2. Discoveries content. To be resolved by the creator on Friday 23 October 2026. Decide which discoveries live in the lighthouse and island and which stay at the Saltgate, and how each ties to why the beacon failed. The Saltgate is untimed and gets no significant added detail until the prototype is considered complete; ideas for more folk-horror, canon clues and documentation are parked in Dreams "
+     "line": 33,
+     "text": "27. Discoveries content (23 October 2026). The core discoveries (about four to six) live in the lighthouse and on the island, in the untimed opening before boarding; the Saltgate keeps a light set of one or two. Each ties to why the beacon failed through a human cause that is never explained: clues show the burner was neglected or tampered with by people (keepers, and the people hiding in the wall"
     },
     {
-     "line": 44,
-     "text": "4. Deadline length. Set from measured playtests so a first-time player who follows cues has room for some mistakes. To be reviewed once the boat crossing back from the Saltgate has been tested; no value is set until then."
+     "line": 36,
+     "text": "30. The crash plays out in the world (26 October 2026). The fail is not audio only. At SHIP_FAIL the passenger ship really crashes and breaks up on the rock next to the island, and the game does not wait for the player or cut away. Wherever the player is, they hear it. If they are in the lighthouse they hear the crash, and if they look out of a window or out from the lamp room they can see the shi"
     },
     {
-     "line": 48,
-     "text": "8. Accessibility for audio-only fail cues. Resolved 19 October 2026: Ted\u2019s reason line is subtitled, the visual is the ship breaking up on the rock (see A20), and on the stairs the player sees nothing while the crash plays out (see A26)."
+     "line": 52,
+     "text": "4. Deadline length. Set from measured playtests so a first-time player who follows cues has room for some mistakes. To be reviewed once the boat crossing back from the Saltgate has been tested. Placeholder set 26 October 2026: 3 minutes 30 seconds (see A28); the final value is still open."
     },
     {
-     "line": 49,
+     "line": 56,
+     "text": "8. Accessibility for audio-only fail cues. Resolved 19 October 2026: Ted\u2019s reason line is subtitled, the visual is the ship breaking up on the rock (see A20), and on the stairs the player sees nothing while the crash plays out (see A26). Updated 26 October 2026: the fail is not audio only; the crash is visible from the windows, the lamp room and the crossing (see A30)."
+    },
+    {
+     "line": 57,
      "text": "9. Outbound crossing penalties. With no deadline before the return crossing, collisions on the outbound crossing cost no deadline time. Decide what they cost instead (for example a slowdown or recovery only) so the outbound crossing still teaches the player. Deferred by the creator: to be decided later, as part of the penalty review."
     },
     {
-     "line": 53,
+     "line": 61,
      "text": "10. Docking and recovery. Proposed: docking at the Saltgate quays and the lighthouse jetty is automatic; leaving the playable corridor triggers a recovery to the last safe point at a time cost. Confirm, and define dock zones and safe points."
     },
     {
-     "line": 54,
+     "line": 62,
      "text": "11. Crossing failure policy details. Proposed: a collision adds water, slows the boat or causes a brief capsize and recovery, costing deadline time; the burner can never be permanently lost. Rules are loose for Gate 1; write down exact costs and limits for the full game."
     },
     {
-     "line": 63,
-     "text": "17. Full-game estimate and cut list. Complete after Gate 1 using measured data. Provisional cut order: wave hazards; return-crossing route branching; repairs beyond feeding the boiler and fitting the burner; Saltgate optional discoveries beyond the light set."
+     "line": 71,
+     "text": "17. Full-game estimate and cut list. Complete after Gate 1 using measured data. Provisional cut order: return-crossing route branching; repairs beyond feeding the boiler and fitting the burner; Saltgate optional discoveries beyond the light set."
     }
    ]
   },
@@ -1975,7 +2032,7 @@
    ]
   },
   "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md": {
-   "sha": "a5123e30bdbad0c1",
+   "sha": "208acb6154c1d176",
    "headings": [
     "Lighting the Storm \u2014 Technical Strategy",
     "Change log (post-review amendments)",
@@ -1988,7 +2045,7 @@
     "Presentation and accessibility",
     "Validation and integration"
    ],
-   "domain_hits": 23,
+   "domain_hits": 24,
    "hits": [
     {
      "line": 15,
@@ -2052,7 +2109,7 @@
     },
     {
      "line": 70,
-     "text": "Prototype failure policy: a collision with a rock or debris (or a broadside wave hit, if waves are built) adds water, slows the boat or causes a brief capsize-and-recovery at a nearby safe point; these events consume deadline time once the clock is running (on the outbound crossing they cost no deadline time). On return, cargo mishandling delays progress and creates a clear recovery interaction. P"
+     "text": "Prototype failure policy: a collision with a rock or debris (or a broadside wave hit) adds water, slows the boat or causes a brief capsize-and-recovery at a nearby safe point; these events consume deadline time once the clock is running (on the outbound crossing they cost no deadline time). On return, cargo mishandling delays progress and creates a clear recovery interaction. Proposed: keep the bu"
     },
     {
      "line": 82,
@@ -2060,11 +2117,15 @@
     },
     {
      "line": 86,
-     "text": "For the deadline, store a numeric internal time but display only the passenger ship\u2019s position/lights and weather cues. It is the only timer in the game; the final repair runs on the same deadline. The ship first appears at the boarding threshold. It holds at its starting lights until the clock starts. Rules: start on the return-departure event, when the burner is aboard and the boat starts moving"
+     "text": "For the deadline, store a numeric internal time but display only the passenger ship\u2019s position/lights and weather cues. It is the only timer in the game; the final repair runs on the same deadline. The ship first appears once the boiler is fed, out to the north-east beyond the island, so it is in view from the lamp room when Ted names it (creator, 29 October 2026). It holds at its starting lights "
     },
     {
      "line": 88,
-     "text": "Fail-state presentation. On expiry, resolve FAIL once. The sequence is: foghorn, the ship runs aground on the island, silence, then a \u201cFailed\u201d title screen showing a short reason line. The reason line (creator, 19 October 2026) is voiced by Ted and shown as a subtitle: \u201cAll is lost for those on board...the storm takes more lives. What were you doing, you money toff!\u201d The visual is the passenger sh"
+     "text": "Fail-state presentation. On expiry, resolve FAIL once. The sequence is: foghorn, the ship crashes on the rock next to the island, silence, then a \u201cFailed\u201d title screen showing a short reason line. Ted first says his crash line (\u201cNo. No, turn! Turn, you fool, the rocks! Oh, no.\u201d), then the reason line (creator, reworded 29 October 2026), voiced by Ted and shown as a subtitle: \u201cThat ship...we didn\u2019t"
+    },
+    {
+     "line": 89,
+     "text": "\u2022 On the return crossing (burner aboard): the ship crashes on the rock in the world; the player hears the horn and the crash and sees it if the island is in view (no cutaway camera, the game does not wait), then silence and the \u201cFailed\u201d title screen. The fail is not audio only (creator, 26 October 2026)."
     },
     {
      "line": 90,
@@ -2072,15 +2133,15 @@
     },
     {
      "line": 91,
-     "text": "\u2022 On the stairs: the player sees nothing. The crash plays out whether or not it is seen, and the player only hears it (creator, 19 October 2026)."
+     "text": "\u2022 Elsewhere in the lighthouse: the player hears the crash, and looking out of any window shows the ship crashing on the rock (creator, 26 October 2026). On the stairs: the player sees nothing. The crash plays out whether or not it is seen, and the player only hears it (creator, 19 October 2026)."
     },
     {
      "line": 92,
-     "text": "Ted reacts from the lamp room by voice. If the burner is fitted first, the win state shows the ship sailing safely past the rocks and into port, again from the lamp room. Gate 1 fail returns to the start of the slice; the final retry and save model is a Gate 2 decision. Set the duration from measured playtests so a first-time player who follows cues has room for some mistakes. The deadline length "
+     "text": "At SHIP_FAIL Ted delivers his fail dialogue wherever the player is (creator, 26 October 2026; dialogue task T37). Ted reacts from the lamp room by voice. If the burner is fitted first, the win state shows the ship sailing safely past the rocks and into port, again from the lamp room. Gate 1 fail returns to the start of the slice; the final retry and save model is a Gate 2 decision. Set the duratio"
     },
     {
      "line": 105,
-     "text": "The largest production risk remains boat feel; keeping waves as a stretch goal removes the hardest part of that risk from the critical path. The second is scope creep across repairs, cinematics, and environmental detail, and week 5 loading. Gate 0 and the ten-minute slice should decide whether the full game is feasible before those costs grow."
+     "text": "The largest production risk remains boat feel; keeping waves behind an on/off setting keeps the hardest part of that risk off the critical path. The second is scope creep across repairs, cinematics, and environmental detail, and week 5 loading. Gate 0 and the ten-minute slice should decide whether the full game is feasible before those costs grow."
     }
    ]
   },
@@ -2163,6 +2224,10 @@
    "text": "*assist hint:* Steer left and right to keep clear of rocks. The boat's speed is fixed. Head for the outpost."
   },
   {
+   "src": "Docs/Lore Build/dialogue/DIALOGUE_LAMP_ROOM_AND_FAIL_PROPOSALS.md:15",
+   "text": "| `RETURN_ARRIVED` | `TED_S4_01` | \"Up here, Isaac! Bring the burner. Mind the stairs, and don't you dare drop it!\" | Shouted down the stairwell, hoarse, urgent |"
+  },
+  {
    "src": "Docs/Lore Build/dialogue/DIALOGUE_OPENING_CREATOR_PICKS.md:7",
    "text": "**Story-beat revision, 2026-10-16.** The creator then fixed the story order (`AIAgentCrew/canon.py` `STORY_BEATS`): the player starts outside and Ted opens the door; after a beat, coal; then the sailors; only then does Ted find the burner broken; then the Saltgate crossing. `AIAgentCrew/story_beats.py` applies that to these picks without changing any line ID:"
   },
@@ -2179,7 +2244,7 @@
    "text": "| The dock | Small jetty | The only safe landing, facing the Saltgate | n/a | Home berth of the steam launch. Arthur and Daniel moor their rowboat here. |"
   },
   {
-   "src": "Docs/Lore Build/world/changelog.md:22",
+   "src": "Docs/Lore Build/world/changelog.md:29",
    "text": "- **\"Abandoned outpost\":** retired. The destination is always the Saltgate (its quays), Saint Calder's abandoned harbour."
   },
   {
@@ -2188,15 +2253,15 @@
   },
   {
    "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:24",
-   "text": "7. Do not build anything marked Proposed, deferred, or on the cut list (waves, route branching, further repairs beyond feeding the boiler and fitting the burner) without the creator\u2019s go-ahead. Do not add significant detail to the Saltgate until the creator considers the prototype complete."
+   "text": "7. Do not build anything marked Proposed, deferred, or on the cut list (route branching, further repairs beyond feeding the boiler and fitting the burner) without the creator\u2019s go-ahead. Do not add significant detail to the Saltgate until the creator considers the prototype complete."
   },
   {
    "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:47",
-   "text": "|Boat/Physics    |Steering spike, hazard collisions, boat reaction, docking, recovery, tunable parameters. Wave fields only as a later stretch task.|Hazard forecast API, one steering axis, recovery event, dock zones.|Creator plays Gate 0; readable, enjoyable steering.|"
+   "text": "|Boat/Physics    |Steering spike, hazard collisions, boat reaction, docking, recovery, tunable parameters. Waves are owned by the Wave Creator Agent and drive the boat only through the water push hook.|Hazard forecast API, one steering axis, recovery event, dock zones.|Creator plays Gate 0; readable, enjoyable steering.|"
   },
   {
    "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:105",
-   "text": "> **Task:** Implement the Gate 0 boat steering spike in the selected engine. **Inputs:** Technical Strategy boat section, greybox sea scene, approved event IDs. **Owned output:** boat scene/controller and tuning resource, plus a short README. **Constraints:** one fixed speed with no throttle, one steering axis, placed rock, buoy and debris hazards, no wave forces (waves are a later stretch task), "
+   "text": "> **Task:** Implement the Gate 0 boat steering spike in the selected engine. **Inputs:** Technical Strategy boat section, greybox sea scene, approved event IDs. **Owned output:** boat scene/controller and tuning resource, plus a short README. **Constraints:** one fixed speed with no throttle, one steering axis, placed rock, buoy and debris hazards, no wave forces in this spike (waves are a separat"
   },
   {
    "src": "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md:109",
@@ -2204,7 +2269,7 @@
   },
   {
    "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:9",
-   "text": "- Deadline timer now starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate let the player get a feel for the boat. The ship is introduced at the boarding threshold."
+   "text": "- Deadline timer now starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate let the player get a feel for the boat. The ship is introduced in the lamp room, in view, right after the burner is found broken (Decisions A34)."
   },
   {
    "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:18",
@@ -2224,31 +2289,35 @@
   },
   {
    "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:44",
-   "text": "|3. Beacon diagnosis   |The dynamo runs but the beacon stays dark. Follow Ted up to the lantern room, where he opens the arc lamp.                               |Ted finds the burner broken and says a new one is needed: a spare must be fetched from the Saltgate quays, with Arthur.|"
+   "text": "|3. Beacon diagnosis   |The dynamo runs but the beacon stays dark. Follow Ted up to the lantern room, where he opens the arc lamp.                               |Ted finds the burner broken and says a new one is needed: a spare must be fetched from the Saltgate quays, with Arthur. Then, still in the lamp room, he spots the unplanned passenger ship and names it; the ship is in view from the lamp ro"
   },
   {
-   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:64",
-   "text": "|Elsewhere in the lighthouse (stairs) |Audio only, as on the crossing, unless a window sightline exists.                                                    |"
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:58",
+   "text": "The deadline only runs from the start of the return crossing, so there is no fail state before then and the outbound crossing is practice. There are three fail states, depending on where the player is when the deadline expires. In every case the sequence is: the foghorn sounds, the ship crashes on the rock next to the island, silence, and then a \u201cFailed\u201d title screen."
   },
   {
    "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:87",
-   "text": "Wave hazards are a stretch goal for both the prototype and the full game. The crossings must work without them: the challenge comes from steering past rocks, reefs, buoys, and debris in a worsening storm, and the sea surface can move for atmosphere without affecting the boat. Waves that push or roll the boat are added only after steering has passed its go/no-go test and only if the schedule has ro"
+   "text": "Waves are part of the initial release (creator, 29 October 2026; Decisions A32). The sea has a state from 0 to 5: the first crossing is easy (1 to 2) and the return is hectic (3 to 5), with both docks sheltered. Waves push the boat only through one hook and never by more than A/D steering can cancel, and they are switchable off, so the crossings must still work without them: the challenge comes fr"
   },
   {
    "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:89",
    "text": "First playable prototype (Gate 1), about 10 minutes: arriving outside the lighthouse as Ted opens the door, shovelling coal into the boiler, Ted seeing the rowboat moored at the dock from the window, opening the island gate, Ted finding the burner broken in the lantern room, meeting Arthur at the engine boat, an outbound crossing to the Saltgate quays, burner pickup, a return crossing to the light"
   },
   {
-   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:106",
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:105",
    "text": "- The boat has one steering control, one fixed speed, clear feedback for near misses and collisions, and a recoverable error state."
   },
   {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md:130",
+   "text": "|Fail presentation                |Horn, the ship crashes on the rock next to the island and the game does not wait, silence, \u201cFailed\u201d title screen. Three fail states, all after the return crossing begins; the crash is seen from the windows, the lamp room and the crossing when the island is in view, and only heard on the stairs with no window.|"
+  },
+  {
    "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:12",
-   "text": "6. Clock start. The deadline starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate give the player a feel for the boat. The ship is introduced by Ted at the boarding threshold."
+   "text": "6. Clock start. The deadline starts when the player, with the burner aboard, begins the return crossing to the lighthouse (not on boarding). There is no fail state before then, so the outbound crossing and the Saltgate give the player a feel for the boat. The ship is introduced by Ted in the lamp room (see A34)."
   },
   {
    "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:16",
-   "text": "10. Fail presentation. The foghorn, the ship runs aground on the island, silence, then a \u201cFailed\u201d title screen with a short reason line. There are three fail states, all after the return crossing begins: on the return crossing it is audio only; in the lamp room the ship is seen and the audio still sounds; on the stairs it is audio only unless a window sightline exists."
+   "text": "10. Fail presentation. The foghorn, the ship crashes on the rock next to the island, silence, then a \u201cFailed\u201d title screen with a short reason line. There are three fail states, all after the return crossing begins; what the player perceives depends on where they are (updated by A30: the crash is seen from the windows, the lamp room and the crossing when the island is in view, and only heard on th"
   },
   {
    "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:22",
@@ -2259,15 +2328,23 @@
    "text": "18. The burner (19 October 2026). The broken and replacement burners follow the concept sheets in ConceptArt/burner. The replacement sits on the ground at the Saltgate dock, close to where the player disembarks. The player picks it up with his hands and carries it in his hands on the boat back to the island. He cannot put it down anywhere except the boat and the lamp. The prop is generated as a FA"
   },
   {
-   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:48",
-   "text": "8. Accessibility for audio-only fail cues. Resolved 19 October 2026: Ted\u2019s reason line is subtitled, the visual is the ship breaking up on the rock (see A20), and on the stairs the player sees nothing while the crash plays out (see A26)."
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:33",
+   "text": "27. Discoveries content (23 October 2026). The core discoveries (about four to six) live in the lighthouse and on the island, in the untimed opening before boarding; the Saltgate keeps a light set of one or two. Each ties to why the beacon failed through a human cause that is never explained: clues show the burner was neglected or tampered with by people (keepers, and the people hiding in the wall"
   },
   {
-   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:49",
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:36",
+   "text": "30. The crash plays out in the world (26 October 2026). The fail is not audio only. At SHIP_FAIL the passenger ship really crashes and breaks up on the rock next to the island, and the game does not wait for the player or cut away. Wherever the player is, they hear it. If they are in the lighthouse they hear the crash, and if they look out of a window or out from the lamp room they can see the shi"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:56",
+   "text": "8. Accessibility for audio-only fail cues. Resolved 19 October 2026: Ted\u2019s reason line is subtitled, the visual is the ship breaking up on the rock (see A20), and on the stairs the player sees nothing while the crash plays out (see A26). Updated 26 October 2026: the fail is not audio only; the crash is visible from the windows, the lamp room and the crossing (see A30)."
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:57",
    "text": "9. Outbound crossing penalties. With no deadline before the return crossing, collisions on the outbound crossing cost no deadline time. Decide what they cost instead (for example a slowdown or recovery only) so the outbound crossing still teaches the player. Deferred by the creator: to be decided later, as part of the penalty review."
   },
   {
-   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:54",
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:62",
    "text": "11. Crossing failure policy details. Proposed: a collision adds water, slows the boat or causes a brief capsize and recovery, costing deadline time; the burner can never be permanently lost. Rules are loose for Gate 1; write down exact costs and limits for the full game."
   },
   {
@@ -2316,7 +2393,7 @@
   },
   {
    "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:70",
-   "text": "Prototype failure policy: a collision with a rock or debris (or a broadside wave hit, if waves are built) adds water, slows the boat or causes a brief capsize-and-recovery at a nearby safe point; these events consume deadline time once the clock is running (on the outbound crossing they cost no deadline time). On return, cargo mishandling delays progress and creates a clear recovery interaction. P"
+   "text": "Prototype failure policy: a collision with a rock or debris (or a broadside wave hit) adds water, slows the boat or causes a brief capsize-and-recovery at a nearby safe point; these events consume deadline time once the clock is running (on the outbound crossing they cost no deadline time). On return, cargo mishandling delays progress and creates a clear recovery interaction. Proposed: keep the bu"
   },
   {
    "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:82",
@@ -2324,19 +2401,19 @@
   },
   {
    "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:86",
-   "text": "For the deadline, store a numeric internal time but display only the passenger ship\u2019s position/lights and weather cues. It is the only timer in the game; the final repair runs on the same deadline. The ship first appears at the boarding threshold. It holds at its starting lights until the clock starts. Rules: start on the return-departure event, when the burner is aboard and the boat starts moving"
+   "text": "For the deadline, store a numeric internal time but display only the passenger ship\u2019s position/lights and weather cues. It is the only timer in the game; the final repair runs on the same deadline. The ship first appears once the boiler is fed, out to the north-east beyond the island, so it is in view from the lamp room when Ted names it (creator, 29 October 2026). It holds at its starting lights "
   },
   {
    "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:88",
-   "text": "Fail-state presentation. On expiry, resolve FAIL once. The sequence is: foghorn, the ship runs aground on the island, silence, then a \u201cFailed\u201d title screen showing a short reason line. The reason line (creator, 19 October 2026) is voiced by Ted and shown as a subtitle: \u201cAll is lost for those on board...the storm takes more lives. What were you doing, you money toff!\u201d The visual is the passenger sh"
+   "text": "Fail-state presentation. On expiry, resolve FAIL once. The sequence is: foghorn, the ship crashes on the rock next to the island, silence, then a \u201cFailed\u201d title screen showing a short reason line. Ted first says his crash line (\u201cNo. No, turn! Turn, you fool, the rocks! Oh, no.\u201d), then the reason line (creator, reworded 29 October 2026), voiced by Ted and shown as a subtitle: \u201cThat ship...we didn\u2019t"
+  },
+  {
+   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:89",
+   "text": "\u2022 On the return crossing (burner aboard): the ship crashes on the rock in the world; the player hears the horn and the crash and sees it if the island is in view (no cutaway camera, the game does not wait), then silence and the \u201cFailed\u201d title screen. The fail is not audio only (creator, 26 October 2026)."
   },
   {
    "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:91",
-   "text": "\u2022 On the stairs: the player sees nothing. The crash plays out whether or not it is seen, and the player only hears it (creator, 19 October 2026)."
-  },
-  {
-   "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:105",
-   "text": "The largest production risk remains boat feel; keeping waves as a stretch goal removes the hardest part of that risk from the critical path. The second is scope creep across repairs, cinematics, and environmental detail, and week 5 loading. Gate 0 and the ten-minute slice should decide whether the full game is feasible before those costs grow."
+   "text": "\u2022 Elsewhere in the lighthouse: the player hears the crash, and looking out of any window shows the ship crashing on the rock (creator, 26 October 2026). On the stairs: the player sees nothing. The crash plays out whether or not it is seen, and the player only hears it (creator, 19 October 2026)."
   },
   {
    "src": "Docs/GDD/Final_GDD_Post_Review/What's Changed (Concise).md:17",
@@ -2369,12 +2446,12 @@
    "text": "- Prevailing wind direction: TBD. It should match the lean of Bracken Isle's trees."
   },
   {
-   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:49",
+   "src": "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md:57",
    "text": "9. Outbound crossing penalties. With no deadline before the return crossing, collisions on the outbound crossing cost no deadline time. Decide what they cost instead (for example a slowdown or recovery only) so the outbound crossing still teaches the player. Deferred by the creator: to be decided later, as part of the penalty review."
   },
   {
    "src": "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md:92",
-   "text": "Ted reacts from the lamp room by voice. If the burner is fitted first, the win state shows the ship sailing safely past the rocks and into port, again from the lamp room. Gate 1 fail returns to the start of the slice; the final retry and save model is a Gate 2 decision. Set the duration from measured playtests so a first-time player who follows cues has room for some mistakes. The deadline length "
+   "text": "At SHIP_FAIL Ted delivers his fail dialogue wherever the player is (creator, 26 October 2026; dialogue task T37). Ted reacts from the lamp room by voice. If the burner is fitted first, the win state shows the ship sailing safely past the rocks and into port, again from the lamp room. Gate 1 fail returns to the start of the slice; the final retry and save model is a Gate 2 decision. Set the duratio"
   }
  ],
  "most_relevant": [
@@ -2384,11 +2461,11 @@
   ],
   [
    "Docs/GDD/Final_GDD_Post_Review/Exec Summary.md",
-   24
+   27
   ],
   [
    "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md",
-   23
+   24
   ],
   [
    "Docs/Lore Build/dialogue/archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING.md",
@@ -2403,11 +2480,11 @@
    17
   ],
   [
-   "Docs/Lore Build/world/geography.md",
-   15
+   "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md",
+   16
   ],
   [
-   "Docs/GDD/Final_GDD_Post_Review/Supporting_Documentation/Decisions to be made.md",
+   "Docs/Lore Build/world/geography.md",
    15
   ],
   [
@@ -2416,7 +2493,7 @@
   ],
   [
    "Docs/Lore Build/regions/reg_bracken_isle.md",
-   12
+   13
   ],
   [
    "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md",

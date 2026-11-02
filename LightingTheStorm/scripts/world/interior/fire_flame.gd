@@ -13,20 +13,26 @@ const SHADER := """
 shader_type spatial;
 render_mode unshaded, cull_disabled, depth_draw_opaque;
 uniform float level : hint_range(0.0, 1.0) = 0.0;
-uniform float seed = 0.0;
 uniform float speed = 1.0;
 uniform vec3 core_col : source_color = vec3(1.0, 0.86, 0.45);
 uniform vec3 mid_col : source_color = vec3(1.0, 0.5, 0.1);
 uniform vec3 edge_col : source_color = vec3(0.72, 0.16, 0.04);
+varying float seed;       // per card, from where the card stands, so the three cards share one material (T63)
+varying float pace;
 float h(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float vn(vec2 p) {
 	vec2 i = floor(p); vec2 f = fract(p); f = f * f * (3.0 - 2.0 * f);
 	return mix(mix(h(i), h(i + vec2(1.0, 0.0)), f.x), mix(h(i + vec2(0.0, 1.0)), h(i + vec2(1.0, 1.0)), f.x), f.y);
 }
+void vertex() {
+	float r = fract(sin(dot(MODEL_MATRIX[3].xyz, vec3(12.9898, 78.233, 37.719))) * 43758.5453);
+	seed = r * 11.0;
+	pace = 0.85 + 0.4 * r;
+}
 void fragment() {
 	float y = 1.0 - UV.y;                       // 0 at the coals, 1 at the tip
 	float dx = abs(UV.x - 0.5) * 2.0;
-	float t = TIME * speed;
+	float t = TIME * speed * pace;
 	float n = vn(vec2(UV.x * 3.5 + seed, y * 2.6 - t * 2.1)) * 0.65 + vn(vec2(UV.x * 8.0 - seed, y * 5.5 - t * 3.6)) * 0.35;
 	float height = mix(0.28, 1.0, level);
 	float yy = y / height;
@@ -57,6 +63,9 @@ func _ready() -> void:
 	_rng.seed = 77
 	var sh := Shader.new()
 	sh.code = SHADER
+	var m := ShaderMaterial.new()          # one material for all three cards; each varies by its own position (T63)
+	m.shader = sh
+	_mats.append(m)
 	for i in 3:
 		var q := QuadMesh.new()
 		q.size = Vector2(WIDTH * (1.0 - 0.14 * i), MAX_H)
@@ -64,14 +73,9 @@ func _ready() -> void:
 		mi.name = "Flame%d" % i
 		mi.mesh = q
 		mi.position = Vector3(0.0, MAX_H * 0.5, -0.12 + 0.12 * i)
-		var m := ShaderMaterial.new()
-		m.shader = sh
-		m.set_shader_parameter("seed", 3.7 * i)
-		m.set_shader_parameter("speed", 0.85 + 0.2 * i)
 		mi.material_override = m
 		mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		add_child(mi)
-		_mats.append(m)
 	_lump_mat = StandardMaterial3D.new()
 	_lump_mat.albedo_color = Color(0.05, 0.035, 0.03)
 	_lump_mat.emission_enabled = true

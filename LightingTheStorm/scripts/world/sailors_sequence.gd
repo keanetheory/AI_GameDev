@@ -178,11 +178,23 @@ func _leg_split(route: PackedVector3Array, back_m: float) -> Dictionary:
 	return {"first": first, "rest": rest}
 
 
+## Inside, Arthur turns to look down the hallway, into the house, away from the front door (creator, 2 Nov 2026: he ended facing
+## the wall). Static so tools/route_viewer.gd shows the same.
+static func face_down_hall(who: Node3D, level: Node) -> void:
+	var door := level.get_node_or_null("LighthouseDoor") as Node3D
+	if who == null or door == null:
+		return
+	var inward := -door.global_transform.basis.z
+	inward.y = 0.0
+	who.face(who.global_position + inward.normalized() * 4.0)
+
+
 func _on_walk_done(route_name: String) -> void:
 	match route_name:
 		"to_gate":
 			_try_enter()
 		"sailors_dock_to_hall":
+			face_down_hall(arthur, _level)
 			_gs.emit_event("SAILORS_INSIDE")
 		"daniel_dock_to_basement":
 			_gs.emit_event("DANIEL_IN_BASEMENT")

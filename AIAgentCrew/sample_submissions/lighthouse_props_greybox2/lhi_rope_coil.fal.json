@@ -1,0 +1,8 @@
+{
+  "asset_id": "lhi_rope_coil",
+  "category": "prop",
+  "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+  "prompt": "Coil of thick hemp mooring rope lying flat on a floor, frayed tarred end tucked over the top, salt-stained, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+  "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+  "notes": "Greybox pass 2 (2 Nov 2026), priority 2. Replaces Store_Rope in the ground-floor store (0.56 m across, 0.2 m tall) and L2_Rope on the L2 landing (0.36 m across, 0.14 m tall). One model, two uses. Downscale the 4096 texture to 2048 on import, then tools/decimate_props.gd."
+}

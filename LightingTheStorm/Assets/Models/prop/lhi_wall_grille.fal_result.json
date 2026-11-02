@@ -1,0 +1,20 @@
+{
+  "submission": {
+    "asset_id": "lhi_wall_grille",
+    "category": "prop",
+    "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+    "prompt": "Rusted cast iron wall grille for a damp cellar wall, five vertical bars in a riveted rectangular frame, flaking paint, dark gap behind the bars, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+    "source_image": null,
+    "view_images": {},
+    "notes": "Greybox pass 2 (2 Nov 2026), priority 1. Replaces the bars (_Bar0-4) of the five wall voids: B_WallVoid_West, B_WallVoid_Front, B_WallVoid_East (0.6 x 0.8 m, basement) and G_WallVoid_West, G_WallVoid_East (0.5 x 0.7 m, hall). The black _Hole box, the LHI_WallVoid_* markers and the Zone_*_WallVoid_* triggers stay (test_coal_job.gd). Downscale the 4096 texture to 2048 on import, then tools/decimate_props.gd."
+  },
+  "request_id": "01a19db6-6d3f-7772-b13c-09c56225caab",
+  "seed": null,
+  "model_url": "https://v3b.fal.media/files/b/0ab0e38a/ZftPweqWjcbpU87soaQ-v_model.glb",
+  "textured": true,
+  "request": {
+    "prompt": "Rusted cast iron wall grille for a damp cellar wall, five vertical bars in a riveted rectangular frame, flaking paint, dark gap behind the bars, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "generate_type": "Normal"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "asset_id": "lhi_barograph",
+  "category": "prop",
+  "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+  "prompt": "Victorian barograph in a small glazed oak case, brass drum with a paper chart, ink pen arm, a stack of brass aneroid capsules inside, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+  "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+  "notes": "Greybox pass 2 (2 Nov 2026), priority 2. Replaces L2_Barograph on the L2 instrument table (0.45 x 0.2 x 0.18 m), next to the barometer. Passed on every climb. Downscale the 4096 texture to 2048 on import, then tools/decimate_props.gd."
+}

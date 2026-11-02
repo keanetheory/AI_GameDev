@@ -1,0 +1,20 @@
+{
+  "submission": {
+    "asset_id": "lhi_pot_shelf",
+    "category": "prop",
+    "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+    "prompt": "Two-tier wooden kitchen wall shelf with iron brackets, holding cast iron and copper cooking pots and a kettle, soot on the underside, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+    "source_image": null,
+    "view_images": {},
+    "notes": "Greybox pass 2 (2 Nov 2026), priority 3. Replaces L1_KitchenShelf_0-1 and L1_Pot_0-5 in the first-floor mess (1.7 m long x 0.6 m tall x 0.3 m deep, on the wall). Downscale the 4096 texture to 2048 on import, then tools/decimate_props.gd."
+  },
+  "request_id": "01a19dc8-7e0f-7173-80fe-7caae6cf1588",
+  "seed": null,
+  "model_url": "https://v3b.fal.media/files/b/0ab0e401/oCqpkWZF1UgZ-SXUtdnoM_model.glb",
+  "textured": true,
+  "request": {
+    "prompt": "Two-tier wooden kitchen wall shelf with iron brackets, holding cast iron and copper cooking pots and a kettle, soot on the underside, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "generate_type": "Normal"
+  }
+}
