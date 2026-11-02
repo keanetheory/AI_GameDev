@@ -133,7 +133,7 @@
       "text": "Warm lamplight against blue-grey storm light; the beam is a navigational anchor from the sea; beacon and hazards stay legible in every phase; greybox art is acceptable.",
       "source": "Exec Summary 'Cast and atmosphere'; AI Agent Strategy (Lighting)",
       "status": "partial",
-      "evidence": "1 Nov 2026 re-grade: Warm lamplight against blue-grey storm light, the lamp beacon and the Saint Calder glow card over the Saltgate cliff (SLT-06, 1 Nov). Not verified in play in every phase; the Saltgate renders were OUTBOUND only."
+      "evidence": "2 Nov 2026: island stills in all four phases (ISL-04): matte rock, shadows, fog legibility pass; the beacon now spills onto the rocks and its light sweeps the sea; play check still to do. 1 Nov 2026 re-grade: Warm lamplight against blue-grey storm light, the lamp beacon and the Saint Calder glow card over the Saltgate cliff (SLT-06, 1 Nov). Not verified in play in every phase; the Saltgate renders were OUTBOUND only."
     },
     {
       "id": "R20",
@@ -2115,6 +2115,73 @@
       "depends_on": [],
       "status": "open",
       "result": null
+    },
+    {
+      "id": "T66",
+      "title": "Island finish: lighting in every phase, concept comparison, distant detail (ISL-04/06/09); beacon spill and lamp-room glass",
+      "priority": 7,
+      "category": "code",
+      "summary": "Finish the Island Creator's open objectives (creator, 2 Nov 2026) and act on the creator's answers to the findings.",
+      "why_this_score": "The creator asked to finish the island agent; the beacon must stay legible and the island cheap at distance.",
+      "evidence": [
+        "Creator, 2 Nov 2026: start ISL-04 and ISL-06 and ISL-09 to finish off the island agent",
+        "GERFramework/reports/island_lighting_check.md",
+        "GERFramework/reports/island_concept_comparison.md",
+        "GERFramework/reports/island_lod.md"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Island Creator with the Lighting agent",
+      "effort": "M",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "depends_on": [],
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "2 Nov 2026 (1bd4f43). ISL-04: island lit correctly in all four phases (tools/shot_phase.gd, tools/test_island_lighting.gd); creator's answers: a Spill spot onto the rocks (lands on rock in 35 of 36 headings), the beam a soft camera-facing strip (the old cone's mouth drew a hard disc that hid the clouds), beam and its light dipped 5 deg so the light sweeps the sea 100-400 m out, lamp-room glass 14% opaque from inside / 65% outside. ISL-06: 14 differences listed; size (~90 m), no trees and the west-facing jetties accepted. ISL-09: island LODs kept through the carve, visibility ranges on 704 small pieces (island_lod.gd); draw calls at 530 m 1,768 -> 680, island load 0.94 -> 0.80 s. Lighting agent offline check passes."
+      }
+    },
+    {
+      "id": "T67",
+      "title": "Basement smoke, basement ceiling flicker, Arthur hurries to the launch, Ted opens the lamp after his line, goal text",
+      "priority": 6,
+      "category": "code",
+      "summary": "Creator requests worked in a parallel session on 2 Nov 2026.",
+      "why_this_score": "Polish the creator asked for on the boiler/engine room and the step 3-4 flow.",
+      "evidence": [
+        "9f367db"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Lighthouse / Gameplay",
+      "effort": "S",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "depends_on": [],
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "2 Nov 2026 (9f367db, other session): faint cel-banded smoke from the boiler firebox (orange) and the steam engine exhaust (grey) driven by the coal job (machine_smoke.gd), the model's solid plume carved away; the basement ceiling flicker fixed (spiral_down.gd stair-floor ring no longer coincides with the greybox floors); Arthur walks to the launch at twice his pace with the walk clip sped to match; Ted opens the lamp after his first lamp-room line (diagnosis_sequence.json open_after_line_s); goals: 'Check on the lamp with Ted' before the rowboat, 'Take the boat to Saltgate with Arthur'. Tests reviewed by this session: diagnosis, boarding, guidance HUD, coal job, NPC, playthrough, interior lights/budget, title settings pass."
+      }
+    },
+    {
+      "id": "T68",
+      "title": "Lighting and lighthouse follow-ups from the island checks",
+      "priority": 4,
+      "category": "code",
+      "summary": "From ISL-04 and ISL-09 (2 Nov 2026): (1) F8 is both the rig's BEACON_RELIT jump and ToonLook's toggle, so the toon toggle never fires in debug builds; move ToonLook to another key. (2) State in lighting_spec whether the moon counts toward max_shadow_casters (if it does, the lamp room is at 3 of 2). (3) AIAgentCrew/world_output/lighting_spec.json is behind the game's (16 vs 18 lights, no note): copy the game spec back. (4) Spec LIGHT_BEACON says energy 8 / range 400 m; the game's beam spot is 14 / 400 m: reconcile. (5) Lamp room is the biggest cost at sea distance (288 draws, ~253k primitives at 530 m): LODs on the lens/lamp model past ~100 m. (6) 74 window surrounds cost 150 draws at 530 m: a 200 m range with fade or merge each kit. (7) The tower's glowing lamp glass is cut at 34 m by interior_culling.gd; decide whether it should glow from the sea.",
+      "why_this_score": "None breaks play; they tidy debug keys, the spec record and distant frame cost.",
+      "evidence": [
+        "GERFramework/reports/island_lighting_check.md F3-F5",
+        "GERFramework/reports/island_lod.md findings"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Lighting agent / Lighthouse Finisher",
+      "effort": "S",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "depends_on": [],
+      "status": "open",
+      "result": null
     }
   ],
   "history": [
@@ -2639,6 +2706,12 @@
       "task_id": "T64",
       "event": "done",
       "note": "Step 1 idle nudges wired (intro_sequence.gd) and tested."
+    },
+    {
+      "time": "2026-11-02T21:00:00",
+      "task_id": "-",
+      "event": "status_update",
+      "note": "End of 2 Nov: T66 island finish (1bd4f43) and T67 smoke/flicker/Arthur/Ted/goals (9f367db) done; T68 lighting follow-ups added. FAL reconciled: $40 in, $33.90 spent, $6.10 left."
     }
   ]
 }

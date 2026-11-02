@@ -518,8 +518,8 @@
   },
   "LHF-01": {
    "status": "in_progress",
-   "note": "2026-11-02: exterior before/after shots (back wall, back-west corner, front-west corner) taken with the new tools/shot_cam.gd for T38/T59; the creator approved the back wall and the front-west corner. Earlier: 9/9 baseline tests green; boiler/hall baseline shots taken; stair shots unusable; per-room tri counts not done",
-   "at": "2026-11-02T10:39:25+00:00"
+   "note": "2 Nov 2026 evening: beacon before/after stills (cone vs soft strip, spill on the rocks, lamp-room glass 65% -> 14% from inside) taken with tools/shot_phase.gd (scratch, not committed); lamp-room/window LOD and the F8 key clash logged as backlog T68.",
+   "at": "2026-11-02T17:08:32+00:00"
   },
   "LHF-02": {
    "status": "done",
@@ -588,8 +588,8 @@
   },
   "LHF-16": {
    "status": "in_progress",
-   "note": "2026-11-02: green on Monday2ndWork (cce7612): test_openings, test_interior_culling, test_interior_lights, test_room_lights, test_toon_look, test_hero_props, test_interior_budget, test_slice_playthrough, test_title_settings (exit crash fixed: early-unload coroutines in exterior_openings/interior_culling; toon outline leak fixed), plus the 25 tests the handoff run covered. Lighthouse materials at 120/120 in audit_lighthouse: no headroom for the next prop.",
-   "at": "2026-11-02T10:39:25+00:00"
+   "note": "2 Nov 2026 evening: after the beacon/glass changes (1bd4f43) and the basement smoke and ceiling flicker fix (9f367db), lamp_fit, interior_lights, interior_budget, interior_culling, toon_look, diagnosis, boarding, coal_job, title_settings and slice_playthrough all pass. Materials still near the 120 limit (T63).",
+   "at": "2026-11-02T17:08:32+00:00"
   },
   "LHF-18": {
    "status": "in_progress",
