@@ -132,8 +132,8 @@
       "id": "R19",
       "text": "Warm lamplight against blue-grey storm light; the beam is a navigational anchor from the sea; beacon and hazards stay legible in every phase; greybox art is acceptable.",
       "source": "Exec Summary 'Cast and atmosphere'; AI Agent Strategy (Lighting)",
-      "status": "partial",
-      "evidence": "2 Nov 2026: island stills in all four phases (ISL-04): matte rock, shadows, fog legibility pass; the beacon now spills onto the rocks and its light sweeps the sea; play check still to do. 1 Nov 2026 re-grade: Warm lamplight against blue-grey storm light, the lamp beacon and the Saint Calder glow card over the Saltgate cliff (SLT-06, 1 Nov). Not verified in play in every phase; the Saltgate renders were OUTBOUND only."
+      "status": "met",
+      "evidence": "2 Nov 2026: creator confirmed in play: the beam (soft strip, spill on the rocks, light on the sea), the lamp-room glass and the island at distance look good; stills in all four phases (ISL-04). 2 Nov 2026: island stills in all four phases (ISL-04): matte rock, shadows, fog legibility pass; the beacon now spills onto the rocks and its light sweeps the sea; play check still to do. 1 Nov 2026 re-grade: Warm lamplight against blue-grey storm light, the lamp beacon and the Saint Calder glow card over the Saltgate cliff (SLT-06, 1 Nov). Not verified in play in every phase; the Saltgate renders were OUTBOUND only."
     },
     {
       "id": "R20",
@@ -1818,7 +1818,7 @@
       "status": "done",
       "result": {
         "outcome": "done",
-        "summary": "2 Nov 2026 (a5b5ea6, other session): line-by-line pass with the creator, who asked for absurd humour and edited steps 3 and 4 directly. Ted, Arthur and Daniel rewritten (ids kept); new lines TED_S1_04b, S1_05b, S1_I4-I6, S2_04b, S2_I4; sailors idle tiers 3 -> 4. Kept as they were: the fail lines (TED_F_01, F_03, kept serious) and the win line TED_S5_02 (the creator picked neither option). S3_00's ending ('old girl glowing') was the agent's guess; check it at the next read-through. The step 1 idle nudges are not wired yet (T64)."
+        "summary": "2 Nov 2026 (a5b5ea6, other session): line-by-line pass with the creator, who asked for absurd humour and edited steps 3 and 4 directly. Ted, Arthur and Daniel rewritten (ids kept); new lines TED_S1_04b, S1_05b, S1_I4-I6, S2_04b, S2_I4; sailors idle tiers 3 -> 4. Kept as they were: the fail lines (TED_F_01, F_03, kept serious) and the win line TED_S5_02 (the creator picked neither option). S3_00's ending ('old girl glowing') was the agent's guess; check it at the next read-through. The step 1 idle nudges are not wired yet (T64). Creator, 2 Nov: the dialogue looks good (S3_00's ending and the unchanged win line accepted)."
       }
     },
     {
@@ -2002,9 +2002,13 @@
       "depends_on": [
         "T19"
       ],
-      "status": "open",
+      "status": "done",
       "build_wave": 4,
-      "build_order": 18
+      "build_order": 18,
+      "result": {
+        "outcome": "done",
+        "summary": "2 Nov 2026: after playing, the creator chose difficulty levels on the title screen instead of one length: Easy 3:00, Medium 2:30, Hard 2:00 (data/world/ship_route.json deadline.difficulty_length_s; GameSettings.difficulty, saved in user://settings.cfg; title_screen.gd: Easy / Medium / Hard under the prompt, Left/Right or clicks change it without starting). Return collisions stay 10 s. New tools/test_difficulty.gd passes; title, deadline, audio mixer, crossing, outcome, playthrough and guidance tests pass. Test-script runs always start on Easy so saved settings cannot change the tests."
+      }
     },
     {
       "id": "T61",
@@ -2054,9 +2058,9 @@
     {
       "id": "T63",
       "title": "Free material headroom in the lighthouse (audit at 120 of 120)",
-      "priority": 4,
+      "priority": 5,
       "category": "code",
-      "summary": "tools/audit_lighthouse.gd reports the lighthouse at exactly its 120-material budget after the T45 props, so the next prop or fixture fails the audit. Share materials between props that use the same look (the FAL props each bring their own), or raise the budget with a measured reason. Keep test_interior_budget and audit_lighthouse green.",
+      "summary": "tools/audit_lighthouse.gd reports the lighthouse at exactly its 120-material budget after the T45 props, so the next prop or fixture fails the audit. Share materials between props that use the same look (the FAL props each bring their own), or raise the budget with a measured reason. Keep test_interior_budget and audit_lighthouse green. 2 Nov 2026 evening: audit_lighthouse.gd -- check reads 126 materials (the basement smoke cards added 6); every greybox replacement (T69) adds more, so raise the limit (about 140 for all 15) or merge materials first.",
       "why_this_score": "Not broken today, but it blocks the next addition to the lighthouse.",
       "evidence": [
         "HANDOFF_T42_T43_T45_FALProps.md, 2 Nov 2026: materials 120/120"
@@ -2138,7 +2142,7 @@
       "status": "done",
       "result": {
         "outcome": "done",
-        "summary": "2 Nov 2026 (1bd4f43). ISL-04: island lit correctly in all four phases (tools/shot_phase.gd, tools/test_island_lighting.gd); creator's answers: a Spill spot onto the rocks (lands on rock in 35 of 36 headings), the beam a soft camera-facing strip (the old cone's mouth drew a hard disc that hid the clouds), beam and its light dipped 5 deg so the light sweeps the sea 100-400 m out, lamp-room glass 14% opaque from inside / 65% outside. ISL-06: 14 differences listed; size (~90 m), no trees and the west-facing jetties accepted. ISL-09: island LODs kept through the carve, visibility ranges on 704 small pieces (island_lod.gd); draw calls at 530 m 1,768 -> 680, island load 0.94 -> 0.80 s. Lighting agent offline check passes."
+        "summary": "2 Nov 2026 (1bd4f43). ISL-04: island lit correctly in all four phases (tools/shot_phase.gd, tools/test_island_lighting.gd); creator's answers: a Spill spot onto the rocks (lands on rock in 35 of 36 headings), the beam a soft camera-facing strip (the old cone's mouth drew a hard disc that hid the clouds), beam and its light dipped 5 deg so the light sweeps the sea 100-400 m out, lamp-room glass 14% opaque from inside / 65% outside. ISL-06: 14 differences listed; size (~90 m), no trees and the west-facing jetties accepted. ISL-09: island LODs kept through the carve, visibility ranges on 704 small pieces (island_lod.gd); draw calls at 530 m 1,768 -> 680, island load 0.94 -> 0.80 s. Lighting agent offline check passes. Creator confirmed in play, 2 Nov: the beam, the lamp-room glass and the island at distance look good."
       }
     },
     {
@@ -2160,7 +2164,7 @@
       "status": "done",
       "result": {
         "outcome": "done",
-        "summary": "2 Nov 2026 (9f367db, other session): faint cel-banded smoke from the boiler firebox (orange) and the steam engine exhaust (grey) driven by the coal job (machine_smoke.gd), the model's solid plume carved away; the basement ceiling flicker fixed (spiral_down.gd stair-floor ring no longer coincides with the greybox floors); Arthur walks to the launch at twice his pace with the walk clip sped to match; Ted opens the lamp after his first lamp-room line (diagnosis_sequence.json open_after_line_s); goals: 'Check on the lamp with Ted' before the rowboat, 'Take the boat to Saltgate with Arthur'. Tests reviewed by this session: diagnosis, boarding, guidance HUD, coal job, NPC, playthrough, interior lights/budget, title settings pass."
+        "summary": "2 Nov 2026 (9f367db, other session): faint cel-banded smoke from the boiler firebox (orange) and the steam engine exhaust (grey) driven by the coal job (machine_smoke.gd), the model's solid plume carved away; the basement ceiling flicker fixed (spiral_down.gd stair-floor ring no longer coincides with the greybox floors); Arthur walks to the launch at twice his pace with the walk clip sped to match; Ted opens the lamp after his first lamp-room line (diagnosis_sequence.json open_after_line_s); goals: 'Check on the lamp with Ted' before the rowboat, 'Take the boat to Saltgate with Arthur'. Tests reviewed by this session: diagnosis, boarding, guidance HUD, coal job, NPC, playthrough, interior lights/budget, title settings pass. Creator confirmed in play, 2 Nov: the smoke looks good and the ceiling no longer flickers."
       }
     },
     {
@@ -2180,6 +2184,28 @@
       "agent_can_execute": true,
       "blocked_by": "",
       "depends_on": [],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T69",
+      "title": "Replace the remaining greybox props with FAL models (15 prepared)",
+      "priority": 6,
+      "category": "asset",
+      "summary": "Inventory and prep done 2 Nov 2026 (LightingTheStorm/FAL_GREYBOX_PROPS.md): 15 text-to-3d submissions in AIAgentCrew/sample_submissions/lighthouse_props_greybox2/ pass main_asset.py --check-only. Ranked by visibility: pressure gauge rim, coal bin front, wall grille, valve wheel, burner cloth, fire hose coil, barograph, water can, rope coil, ledger, pot shelf, wall shelf with books, tin mug, wall mirror, linen stack ($0.375 each, run with --go --textured). Recommended: ranks 1-12 ($4.50) keeping $1.60 for re-rolls; free fixes: reuse the coat model for the four oilskins and the pendant lamp for the store bulb, hide the linen and the tub tap. Then install (hero_props.gd placements; keep the gauge face/needle, BrokenBurnerCloth node, grille zones and the switchboard green lamp working), downscale to 2048, decimate, credits. Sea debris (crossing_hazards.gd) not prepared: needs a top-up.",
+      "why_this_score": "The creator spotted greyboxes in the basement on 2 Nov; the remaining ones sit on the basement route and in the rooms the player walks through.",
+      "evidence": [
+        "Creator, 2 Nov 2026: you've added greyboxes in, list them and prep them for a FAL run, make sure you cover the other props as well",
+        "LightingTheStorm/FAL_GREYBOX_PROPS.md"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Creator with the Asset agent",
+      "effort": "M",
+      "agent_can_execute": false,
+      "blocked_by": "Creator decisions: which ranks to spend on (balance $6.10; Lighthouse Finisher cap has $3.30 left), the material limit (already 126 of 120, T63) and the triangle limit (884k of 900k); a screenshot of the switchboard, tool rack and barrel, which are already FAL models.",
+      "depends_on": [
+        "T63"
+      ],
       "status": "open",
       "result": null
     }
@@ -2712,6 +2738,18 @@
       "task_id": "-",
       "event": "status_update",
       "note": "End of 2 Nov: T66 island finish (1bd4f43) and T67 smoke/flicker/Arthur/Ted/goals (9f367db) done; T68 lighting follow-ups added. FAL reconciled: $40 in, $33.90 spent, $6.10 left."
+    },
+    {
+      "time": "2026-11-02T22:00:00",
+      "task_id": "T60",
+      "event": "done",
+      "note": "Difficulty levels on the title screen (Easy 3:00, Medium 2:30, Hard 2:00). Creator play-check: beam, glass, island, smoke, ceiling and dialogue confirmed; R19 met."
+    },
+    {
+      "time": "2026-11-02T22:30:00",
+      "task_id": "T69",
+      "event": "added",
+      "note": "Greybox props inventoried and 15 FAL submissions prepared (check-only pass, nothing spent)."
     }
   ]
 }

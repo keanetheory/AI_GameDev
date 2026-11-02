@@ -4,7 +4,9 @@
   "note": "The passenger ship's lane and the hidden deadline. All x,z in world metres on the sea plane (the lighthouse is at 5, -8.5; the island fills about -45..45 on both axes; the player's boat runs south from the dock at -27, 18 to the Saltgate at 6, 531). Retune here, then run tools/test_ship_route.gd.",
   "deadline": {
     "length_s": 180.0,
-    "length_note": "PLACEHOLDER: 3 min for Gate 1 testing (creator, 2 Nov 2026, T19; was 3 min 30 s from 26 Oct, Decisions A28). To be confirmed in play (T60); the final value comes from playtests (B4).",
+    "length_note": "The Easy length and the fallback (creator, 2 Nov 2026, T19; was 3 min 30 s from 26 Oct, Decisions A28). After the play check (T60) the creator chose difficulty levels instead of one length: see difficulty_length_s.",
+    "difficulty_length_s": {"easy": 180.0, "medium": 150.0, "hard": 120.0},
+    "difficulty_note": "Chosen on the title screen (GameSettings.difficulty; creator, 2 Nov 2026, T60): Easy 3:00, Medium 2:30, Hard 2:00. length_s is the fallback when no difficulty applies.",
     "debug_time_scales": [0.25, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0]
   },
   "ship": {

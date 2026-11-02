@@ -7,6 +7,9 @@
 #   dialogue_volume    0 .. 1: the "Dialogue" audio bus (every spoken line). Both buses are made here if the project has none;
 #                      new audio should be routed to them (AudioStreamPlayer.bus = "Music" / "Dialogue").
 #   subtitles_enabled  the Subtitles autoload hides the spoken-line subtitles when this is off. The journal is unaffected.
+#   difficulty         "easy" | "medium" | "hard", chosen on the title screen: the length of the hidden ship deadline
+#                      (data/world/ship_route.json deadline.difficulty_length_s; creator, 2 Nov 2026: 3:00, 2:30, 2:00).
+#                      A tool-script run (--script, the headless tests) always starts on easy, whatever the player saved.
 extends Node
 
 signal changed
@@ -16,6 +19,7 @@ const BUS_MUSIC := "Music"
 const BUS_DIALOGUE := "Dialogue"
 const BRIGHTNESS_MIN := 0.6
 const BRIGHTNESS_MAX := 1.6
+const DIFFICULTIES := ["easy", "medium", "hard"]
 const SHADER := "
 shader_type canvas_item;
 render_mode unshaded;
@@ -33,6 +37,7 @@ var brightness := 1.0
 var music_volume := 0.8
 var dialogue_volume := 1.0
 var subtitles_enabled := true
+var difficulty := "easy"
 
 var _layer: CanvasLayer
 var _rect: ColorRect
@@ -55,6 +60,9 @@ func load_settings() -> void:
 	music_volume = clampf(float(cf.get_value("audio", "music_volume", music_volume)), 0.0, 1.0)
 	dialogue_volume = clampf(float(cf.get_value("audio", "dialogue_volume", dialogue_volume)), 0.0, 1.0)
 	subtitles_enabled = bool(cf.get_value("accessibility", "subtitles", subtitles_enabled))
+	if not OS.get_cmdline_args().has("--script"):
+		var d := String(cf.get_value("gameplay", "difficulty", difficulty))
+		difficulty = d if DIFFICULTIES.has(d) else "easy"
 
 
 func save_settings() -> void:
@@ -63,6 +71,7 @@ func save_settings() -> void:
 	cf.set_value("audio", "music_volume", music_volume)
 	cf.set_value("audio", "dialogue_volume", dialogue_volume)
 	cf.set_value("accessibility", "subtitles", subtitles_enabled)
+	cf.set_value("gameplay", "difficulty", difficulty)
 	cf.save(PATH)
 
 
@@ -84,6 +93,12 @@ func set_dialogue_volume(v: float) -> void:
 func set_subtitles_enabled(on: bool) -> void:
 	subtitles_enabled = on
 	apply()
+
+
+func set_difficulty(d: String) -> void:
+	if DIFFICULTIES.has(d):
+		difficulty = d
+		apply()
 
 
 ## Push the values to the screen, the audio buses and everything listening, then save.
