@@ -2022,6 +2022,48 @@
       "status": "open",
       "build_wave": 4,
       "build_order": 19
+    },
+    {
+      "id": "T62",
+      "title": "Credits and licences list for the itch.io page; confirm FAL's terms for generated models",
+      "priority": 7,
+      "category": "decision",
+      "summary": "Collect every external asset into one credits list for the itch.io page and the in-game credits: Meshy models (CC BY 4.0, confirmed by the creator 2 Nov 2026: the lampposts 'Verdigris Beacon', the 'Open Arc Lamp', and the character rigging and clips), placeholder audio (CC0, Assets/Audio/placeholder/SOURCES.md), fonts, the ElevenLabs voices, and the FAL Hunyuan3D v3 outputs (props, characters, island, Saltgate hut). Confirm FAL's and Tencent Hunyuan3D's terms for commercial use of generated output and record them in Game Audit/. Sources: Assets/Models/*/SOURCES.md, Assets/Characters/SOURCES.md.",
+      "why_this_score": "CC BY requires attribution, and the launch on itch.io (T53) needs the list; unknown FAL terms are a release risk.",
+      "evidence": [
+        "Creator, 2 Nov 2026: meshy licenses are CC by 4.0",
+        "HANDOFF_T42_T43_T45_FALProps.md section 6",
+        "Game Audit/README.md"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Creator with the web deployment agent",
+      "effort": "S",
+      "agent_can_execute": false,
+      "blocked_by": "FAL's terms need the creator to confirm (account terms).",
+      "depends_on": [],
+      "status": "open",
+      "build_wave": 4,
+      "build_order": 20
+    },
+    {
+      "id": "T63",
+      "title": "Free material headroom in the lighthouse (audit at 120 of 120)",
+      "priority": 4,
+      "category": "code",
+      "summary": "tools/audit_lighthouse.gd reports the lighthouse at exactly its 120-material budget after the T45 props, so the next prop or fixture fails the audit. Share materials between props that use the same look (the FAL props each bring their own), or raise the budget with a measured reason. Keep test_interior_budget and audit_lighthouse green.",
+      "why_this_score": "Not broken today, but it blocks the next addition to the lighthouse.",
+      "evidence": [
+        "HANDOFF_T42_T43_T45_FALProps.md, 2 Nov 2026: materials 120/120"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Lighthouse Finisher Agent",
+      "effort": "S",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "depends_on": [],
+      "status": "open",
+      "build_wave": 4,
+      "build_order": 21
     }
   ],
   "history": [
@@ -2528,6 +2570,12 @@
       "task_id": "-",
       "event": "requirement_note",
       "note": "R21 met: eight handoff notes written."
+    },
+    {
+      "time": "2026-11-02T18:00:00",
+      "task_id": "-",
+      "event": "status_update",
+      "note": "Branch Monday2ndWork pushed (eba7a35, 5bd14e0, cce7612). T62 (credits/licences) and T63 (material headroom) added from the handoff run. GER state updated (ISL-12, LHF-01/16/18, CLF-04)."
     }
   ]
 }

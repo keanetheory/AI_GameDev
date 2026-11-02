@@ -518,8 +518,8 @@
   },
   "LHF-01": {
    "status": "in_progress",
-   "note": "9/9 baseline tests green; boiler/hall baseline shots taken; stair shots unusable; per-room tri counts not done",
-   "at": "2026-10-24T17:06:33+00:00"
+   "note": "2026-11-02: exterior before/after shots (back wall, back-west corner, front-west corner) taken with the new tools/shot_cam.gd for T38/T59; the creator approved the back wall and the front-west corner. Earlier: 9/9 baseline tests green; boiler/hall baseline shots taken; stair shots unusable; per-room tri counts not done",
+   "at": "2026-11-02T10:39:25+00:00"
   },
   "LHF-02": {
    "status": "done",
@@ -585,6 +585,16 @@
    "status": "done",
    "note": "Creator feedback 15/15 addressed 2026-10-25 (status table in feedback report); 18/18 tests + audit gate pass",
    "at": "2026-10-25T11:35:27+00:00"
+  },
+  "LHF-16": {
+   "status": "in_progress",
+   "note": "2026-11-02: green on Monday2ndWork (cce7612): test_openings, test_interior_culling, test_interior_lights, test_room_lights, test_toon_look, test_hero_props, test_interior_budget, test_slice_playthrough, test_title_settings (exit crash fixed: early-unload coroutines in exterior_openings/interior_culling; toon outline leak fixed), plus the 25 tests the handoff run covered. Lighthouse materials at 120/120 in audit_lighthouse: no headroom for the next prop.",
+   "at": "2026-11-02T10:39:25+00:00"
+  },
+  "LHF-18": {
+   "status": "in_progress",
+   "note": "2026-11-02: handoffs written for T39/T40 (open lamp), T42/T43/T45 (FAL props), T46/T47 (stairwell), T48/T49 (bathroom, Saltgate hut) and T19/T38/T59 (wall patches); prop licences in Assets/Models/prop/SOURCES.md (Meshy open lamp CC BY 4.0; FAL terms to confirm). Changelog and fallbacks not yet written.",
+   "at": "2026-11-02T10:39:25+00:00"
   }
  },
  "history": [

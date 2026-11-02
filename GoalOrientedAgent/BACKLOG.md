@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-11-02 10:17 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-11-02 10:39 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -39,11 +39,13 @@ _Generated 2026-11-02 10:17 by the Goal-Oriented Agent. Do not edit by hand; the
 | T50 | **8** | Generate the dialogue lines and their timings; onboard the music and its cues (Tuesday) | dialogue | Creator with the Dialogue and Audio agents | L | open |
 | T53 | **8** | Create the playtest QA agents and a web deployment agent for itch.io (Tuesday evening) | code | Creator with the GOA / GER framework | L | open |
 | T52 | **7** | Review all dialogue for snark and humour | dialogue | Creator with the Dialogue agent | M | open |
+| T62 | **7** | Credits and licences list for the itch.io page; confirm FAL's terms for generated models | decision | Creator with the web deployment agent | S | open |
 | T51 | **6** | Decide where the characters look during specific lines (the Arthur and Ted opening) | dialogue | Creator with the Dialogue agent | M | open |
 | T60 | **6** | Test and confirm the 3-minute deadline and the 10 s return-collision cost in play | test | Creator with the QA agents | S | open |
 | T57 | **5** | Think about the pieces for the journal | decision | Creator with the Dialogue agent | M | open |
 | T18 | **4** | Review the rewritten opening lines and re-record the six changed voice lines | dialogue | Dialogue agent | M | open |
 | T61 | **4** | Cut the level's load time: the interior build (~2.5 s) and the ~3 s of deferred work before the first physics step | code | Level Layout agent | L | open |
+| T63 | **4** | Free material headroom in the lighthouse (audit at 120 of 120) | code | Lighthouse Finisher Agent | S | open |
 | T01 | **10** | Create the central GameState autoload: phase machine, event bus, restart | code | Gameplay / Systems agent | M | done |
 | T02 | **10** | Greybox lighthouse interior route: door, hall, basement, tower stairs, lantern room | scene | Level Layout agent | L | done |
 | T06 | **10** | Saltgate burner pickup: place the burner by the landing, pick it up, carry it aboard | code | Gameplay / Systems agent | M | done |
@@ -104,6 +106,8 @@ _Generated 2026-11-02 10:17 by the Goal-Oriented Agent. Do not edit by hand; the
 |---|---|---|---|---|---|
 | 4 | 18 | T60 | Test and confirm the 3-minute deadline and the 10 s return-collision cost in play | T19 | ready |
 | 4 | 19 | T61 | Cut the level's load time: the interior build (~2.5 s) and the ~3 s of deferred work before the first physics step | T23 | ready |
+| 4 | 20 | T62 | Credits and licences list for the itch.io page; confirm FAL's terms for generated models | - | ready |
+| 4 | 21 | T63 | Free material headroom in the lighthouse (audit at 120 of 120) | - | ready |
 | 5 | 25 | T18 | Review the rewritten opening lines and re-record the six changed voice lines | - | ready |
 
 ## Task detail
@@ -134,6 +138,15 @@ Read the whole slice's dialogue (data/dialogue/dialogue_opening.json, every spea
 - **Evidence:** Creator, 30 Oct 2026: I then want to review all of the dialogue to make sure it's snarky and funny enough.
 - **Blocked by:** Creator sign-off; best after the Tuesday dialogue session.
 - **Depends on:** T50 (still open: T50)
+- **Needs the creator** (cannot be done by the agent alone)
+
+### T62 [7/10] Credits and licences list for the itch.io page; confirm FAL's terms for generated models  (open)
+
+Collect every external asset into one credits list for the itch.io page and the in-game credits: Meshy models (CC BY 4.0, confirmed by the creator 2 Nov 2026: the lampposts 'Verdigris Beacon', the 'Open Arc Lamp', and the character rigging and clips), placeholder audio (CC0, Assets/Audio/placeholder/SOURCES.md), fonts, the ElevenLabs voices, and the FAL Hunyuan3D v3 outputs (props, characters, island, Saltgate hut). Confirm FAL's and Tencent Hunyuan3D's terms for commercial use of generated output and record them in Game Audit/. Sources: Assets/Models/*/SOURCES.md, Assets/Characters/SOURCES.md.
+
+- **Why 7:** CC BY requires attribution, and the launch on itch.io (T53) needs the list; unknown FAL terms are a release risk.
+- **Evidence:** Creator, 2 Nov 2026: meshy licenses are CC by 4.0; HANDOFF_T42_T43_T45_FALProps.md section 6; Game Audit/README.md
+- **Blocked by:** FAL's terms need the creator to confirm (account terms).
 - **Needs the creator** (cannot be done by the agent alone)
 
 ### T51 [6/10] Decide where the characters look during specific lines (the Arthur and Ted opening)  (open)
@@ -181,6 +194,13 @@ Measured 2 Nov 2026 with tools/profile_ready.gd: about 7 s to the first frame (h
 - **Why 4:** Quality of life and web-build load time, not a gate requirement.
 - **Evidence:** tools/profile_ready.gd, 2 Nov 2026: frame 1 7148 ms, _ready 4094 ms, after _ready 3053 ms; T23 result
 - **Depends on:** T23 (all closed)
+
+### T63 [4/10] Free material headroom in the lighthouse (audit at 120 of 120)  (open)
+
+tools/audit_lighthouse.gd reports the lighthouse at exactly its 120-material budget after the T45 props, so the next prop or fixture fails the audit. Share materials between props that use the same look (the FAL props each bring their own), or raise the budget with a measured reason. Keep test_interior_budget and audit_lighthouse green.
+
+- **Why 4:** Not broken today, but it blocks the next addition to the lighthouse.
+- **Evidence:** HANDOFF_T42_T43_T45_FALProps.md, 2 Nov 2026: materials 120/120
 
 ### T01 [10/10] Create the central GameState autoload: phase machine, event bus, restart  (done)
 
