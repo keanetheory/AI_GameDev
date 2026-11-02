@@ -41,7 +41,7 @@
   "idle": {
     "first_nudge_s": 40.0,
     "next_nudge_s": 25.0,
-    "tiers": 3,
+    "tiers": 4,
     "note": "If the gate stays shut, IDLE_STEP_2 nudges Ted's ladder (hint, sharper, explicit)."
   },
   "walk_speed_scale": 1.0
