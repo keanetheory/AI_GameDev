@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-11-02 10:39 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-11-02 13:10 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -25,7 +25,7 @@ _Generated 2026-11-02 10:39 by the Goal-Oriented Agent. Do not edit by hand; the
 | R13 | MET | Win and fail outcomes resolve exactly once per attempt: win = ship sails safely into port; fail = foghorn, ship runs aground, silence, 'Failed' title screen with a reason line. The lamp room has a clear sightline; no cutaway camera. | Exec Summary Fail-state contract; Technical Strategy fail-state presentation; Pillar 4 | 1 Nov 2026 re-grade: Win and fail resolve once per attempt: foghorn, grounding, silence, Failed card with a reason, win card (tools/test_outcome_screen.gd; playthrough covers WIN and a FAIL then restart). |
 | R14 | MET | After a fail the player can restart the slice from its start. | Exec Summary Retry model and Outcome checks; Technical Strategy Gate 1 acceptance | 1 Nov 2026 re-grade: Enter or Space on the outcome card restarts the slice with a clean attempt (tools/test_outcome_screen.gd, test_slice_playthrough.gd fail-then-restart). |
 | R15 | MET | Explicit phase state machine (ARRIVAL_AND_COAL through RESOLUTION) with stable event IDs; every transition has a single owner; audio, UI and dialogue respond to events and never drive progression. | Technical Strategy 'Core state contract'; AI Agent Strategy rule 4 | 1 Nov 2026 re-grade: GameState phase machine with stable event IDs; the playthrough sees all 25 story events once each, in order, with phases advancing one at a time. |
-| R16 | PARTIAL | Guidance comes from Ted and Arthur by voice/subtitle and a handwritten objective journal, with no markers or visible timer; apprentice never speaks; spoken navigation cues have subtitles with speaker attribution. | Pillar 3; Technical Strategy 'Presentation and accessibility'; Exec Summary Cast | 1 Nov 2026 re-grade: Subtitles with speaker, goal tracker, controls panel and journal key exist (tools/test_subtitles.gd, test_guidance_hud.gd); no markers or timer. Journal contents are still open (T57) and no voice audio is recorded (T18, T50). |
+| R16 | PARTIAL | Guidance comes from Ted and Arthur by voice/subtitle and a handwritten objective journal, with no markers or visible timer; apprentice never speaks; spoken navigation cues have subtitles with speaker attribution. | Pillar 3; Technical Strategy 'Presentation and accessibility'; Exec Summary Cast | 2 Nov 2026: every line rewritten for absurd humour and timed with the creator (a5b5ea6); the step 1 idle nudges are written but not hooked up (T64). 1 Nov 2026 re-grade: Subtitles with speaker, goal tracker, controls panel and journal key exist (tools/test_subtitles.gd, test_guidance_hud.gd); no markers or timer. Journal contents are still open (T57) and no voice audio is recorded (T18, T50). |
 | R17 | MET | The slice is playable on keyboard and mouse (creator, 19 October 2026: no controller in this iteration). | Technical Strategy Gate 1 acceptance; Decisions to be made B14 (open: is controller needed for the prototype?) | 1 Nov 2026 re-grade: Keyboard and mouse only (creator, 19 Oct). Controls panel shows the keys; C toggles it. |
 | R18 | PARTIAL | Placeholder audio: layered wind and rain, machinery, buoy bells, foghorn, ship impact; states mixed by phase; no shock stingers. | Exec Summary 'Cast and atmosphere'; Technical Strategy presentation; AI Agent Strategy (Sound) | 1 Nov 2026 re-grade: Placeholder audio exists and is mixed by phase (Assets/Audio/placeholder, audio_mixer, tools/test_audio_mixer.gd). The sounds are synthesised stand-ins that nobody has heard; creator review is set for Tuesday 3 Nov (T50). |
 | R19 | PARTIAL | Warm lamplight against blue-grey storm light; the beam is a navigational anchor from the sea; beacon and hazards stay legible in every phase; greybox art is acceptable. | Exec Summary 'Cast and atmosphere'; AI Agent Strategy (Lighting) | 1 Nov 2026 re-grade: Warm lamplight against blue-grey storm light, the lamp beacon and the Saint Calder glow card over the Saltgate cliff (SLT-06, 1 Nov). Not verified in play in every phase; the Saltgate renders were OUTBOUND only. |
@@ -38,14 +38,15 @@ _Generated 2026-11-02 10:39 by the Goal-Oriented Agent. Do not edit by hand; the
 |---|---|---|---|---|---|---|
 | T50 | **8** | Generate the dialogue lines and their timings; onboard the music and its cues (Tuesday) | dialogue | Creator with the Dialogue and Audio agents | L | open |
 | T53 | **8** | Create the playtest QA agents and a web deployment agent for itch.io (Tuesday evening) | code | Creator with the GOA / GER framework | L | open |
-| T52 | **7** | Review all dialogue for snark and humour | dialogue | Creator with the Dialogue agent | M | open |
 | T62 | **7** | Credits and licences list for the itch.io page; confirm FAL's terms for generated models | decision | Creator with the web deployment agent | S | open |
 | T51 | **6** | Decide where the characters look during specific lines (the Arthur and Ted opening) | dialogue | Creator with the Dialogue agent | M | open |
 | T60 | **6** | Test and confirm the 3-minute deadline and the 10 s return-collision cost in play | test | Creator with the QA agents | S | open |
 | T57 | **5** | Think about the pieces for the journal | decision | Creator with the Dialogue agent | M | open |
+| T64 | **5** | Wire the step 1 idle nudges (IDLE_STEP_1, Ted's TED_S1_I1-I6) | code | Code agent | S | open |
 | T18 | **4** | Review the rewritten opening lines and re-record the six changed voice lines | dialogue | Dialogue agent | M | open |
 | T61 | **4** | Cut the level's load time: the interior build (~2.5 s) and the ~3 s of deferred work before the first physics step | code | Level Layout agent | L | open |
 | T63 | **4** | Free material headroom in the lighthouse (audit at 120 of 120) | code | Lighthouse Finisher Agent | S | open |
+| T65 | **3** | Tidy the loose ends the R21 handoff run found | code | Code agent | S | open |
 | T01 | **10** | Create the central GameState autoload: phase machine, event bus, restart | code | Gameplay / Systems agent | M | done |
 | T02 | **10** | Greybox lighthouse interior route: door, hall, basement, tower stairs, lantern room | scene | Level Layout agent | L | done |
 | T06 | **10** | Saltgate burner pickup: place the burner by the landing, pick it up, carry it aboard | code | Gameplay / Systems agent | M | done |
@@ -79,6 +80,7 @@ _Generated 2026-11-02 10:39 by the Goal-Oriented Agent. Do not edit by hand; the
 | T41 | **7** | Generate updated models for Ted, Arthur and Daniel | asset | Creator with the Asset agent | L | done |
 | T48 | **7** | Rebuild the L2 room: remove the stick in the bathroom and replace its props with FAL models | scene | Lighthouse Interior Creator with the creator | L | done |
 | T49 | **7** | Regenerate the Saltgate burner pickup area and replace the landing with a walk-in hut | scene | Saltgate Creator with the creator | L | done |
+| T52 | **7** | Review all dialogue for snark and humour | dialogue | Creator with the Dialogue agent | M | done |
 | T56 | **7** | Toggle the controls list with C | code | Gameplay / UI agent | S | done |
 | T58 | **7** | Remove the automatic lighting of the lighthouse when the player steps close to it | scene | Lighting agent | S | done |
 | T14 | **6** | Placeholder audio: wind, rain, machinery, buoy bell, foghorn, ship impact, mix by phase | audio | Sound agent | M | done |
@@ -118,8 +120,9 @@ Tuesday 3 Nov: with the creator, finalise every dialogue line (data/dialogue/dia
 
 - **Why 8:** The scheduled Tuesday review; dialogue timing and music are what make the slice feel finished.
 - **Evidence:** Creator, 30 Oct 2026: we then need to work on generating the dialogue lines, and their timings - that's the reminder on tuesday, along with onboarding the musical pieces and when they fire.
-- **Blocked by:** Tuesday 3 Nov, with the creator; the music pieces.
+- **Blocked by:** The music pieces from the creator (Tuesday 3 Nov). The dialogue lines and timings are done.
 - **Needs the creator** (cannot be done by the agent alone)
+- **Result (partial):** 2 Nov 2026 (a5b5ea6, with the creator, other session): every line in all five steps rewritten and timed. Timing review applied to the game's own rule (max(1.4 s, 0.38 s x words) plus pause_before, same-trigger lines queue): S1_10 and S3_02 trimmed, S2_04 split (new TED_S2_04b), crossing calls shortened (RET_01/02/05, NEAR_2, HIT_1, HIT_3), S1_04b pause 3.0 -> 1.5 s, S1_05b 4.0 -> 2.5 s; SHIP_FAIL pacing and the S1_09 pause left alone. Playthrough, audio mixer, dialogue, crossing and sequence tests pass. Still open: the music pieces and when each fires (data/world/audio_spec.json, scripts/core/audio_mixer.gd); once voice is recorded, line length should come from the audio, with seconds_per_word as the fallback.
 
 ### T53 [8/10] Create the playtest QA agents and a web deployment agent for itch.io (Tuesday evening)  (open)
 
@@ -128,16 +131,6 @@ Tuesday 3 Nov evening: build (1) playtest QA agents that play the slice (the sce
 - **Why 8:** The creator's plan for Tuesday evening; the launch is on itch.io.
 - **Evidence:** Creator, 30 Oct 2026: for Tuesday evening I'll then need to generate playtest QA agents, and a web deployment agent to handle this entire game so I can launch it on itch.io; QA_SCENARIOS.md
 - **Blocked by:** Tuesday 3 Nov evening; needs the creator's approval of the agent briefs.
-- **Needs the creator** (cannot be done by the agent alone)
-
-### T52 [7/10] Review all dialogue for snark and humour  (open)
-
-Read the whole slice's dialogue (data/dialogue/dialogue_opening.json, every speaker) with the creator and make it snarkier and funnier where it is flat, keeping canon (canon.py), the style guide, the inside-only rule for Ted, the timings (previous item) and the line ids the tests rely on (rewrite text, not ids, or update the tests). Run the Style Generator and Refiner agents for a first pass if useful, then the creator signs off line by line.
-
-- **Why 7:** The creator wants the tone to be snarky and funny; the lines are the main personality of the slice.
-- **Evidence:** Creator, 30 Oct 2026: I then want to review all of the dialogue to make sure it's snarky and funny enough.
-- **Blocked by:** Creator sign-off; best after the Tuesday dialogue session.
-- **Depends on:** T50 (still open: T50)
 - **Needs the creator** (cannot be done by the agent alone)
 
 ### T62 [7/10] Credits and licences list for the itch.io page; confirm FAL's terms for generated models  (open)
@@ -155,8 +148,8 @@ Talk through, line by line, where each character looks when they speak or listen
 
 - **Why 6:** The characters currently stand still and face their route; eye lines make the dialogue read as conversation.
 - **Evidence:** Creator, 30 Oct 2026: we also need to talk through where the characters look for specific parts of their dialogue, like Arthur and Ted having their brief conversation at the start; scripts/character/npc.gd
-- **Blocked by:** Needs the creator walk-through of each beat first.
-- **Depends on:** T50 (still open: T50)
+- **Blocked by:** Needs the creator walk-through of each beat. The lines are final as of a5b5ea6, so this can start.
+- **Depends on:** T52 (all closed)
 - **Needs the creator** (cannot be done by the agent alone)
 
 ### T60 [6/10] Test and confirm the 3-minute deadline and the 10 s return-collision cost in play  (open)
@@ -175,14 +168,22 @@ Decide what the player's journal (J, scripts/ui/subtitle_ui.gd and the 'journal'
 
 - **Why 5:** The journal exists but is nearly empty; the creator wants it designed before more is built on it.
 - **Evidence:** Creator, 30 Oct 2026: think about pieces for the journal; scripts/ui/subtitle_ui.gd; data/dialogue/dialogue_opening.json
-- **Blocked by:** A conversation with the creator; best after the Tuesday dialogue session.
+- **Blocked by:** A conversation with the creator. The dialogue pass is done (a5b5ea6), so the journal can match its voice.
 - **Needs the creator** (cannot be done by the agent alone)
+
+### T64 [5/10] Wire the step 1 idle nudges (IDLE_STEP_1, Ted's TED_S1_I1-I6)  (open)
+
+The six step 1 idle lines exist in data/dialogue/dialogue_opening.json, but nothing calls GameState.idle('IDLE_STEP_1'): only IDLE_STEP_2 (sailors_sequence.gd) and IDLE_STEP_3 (diagnosis_sequence.gd) are wired. Add the same ladder to the coal job (scripts/world/interior/coal_job.gd or a small step 1 sequence): first nudge after a stall from the knock until the boiler is fed, reset on progress (entering the house, the engine room, each shovel), tiers 6 to match the lines. Add a headless test like the step 2 one and run test_slice_playthrough.gd.
+
+- **Why 5:** A stalled player on step 1 gets no help; the lines are written, only the hook is missing.
+- **Evidence:** Other session, 2 Nov 2026: step 1 idle isn't wired in the code; scripts/world/sailors_sequence.gd (the IDLE_STEP_2 pattern); scripts/world/interior/coal_job.gd
+- **Depends on:** T52 (all closed)
 
 ### T18 [4/10] Review the rewritten opening lines and re-record the six changed voice lines  (open)
 
-Run TED_S1_01, S1_09, S1_10, S1_11, S3_02, ARTHUR_S3_04 and the new TED_S3_00 through Dialogue and Canon review and the creator's sign-off, record the outcome in DIALOGUE_OPENING_CREATOR_PICKS.md, then regenerate audio (dry run first). Add the playback hook to the game later. Add Ted's fail reason line (canon.py FAIL_REASON_LINE) to the recording list.
+Run TED_S1_01, S1_09, S1_10, S1_11, S3_02, ARTHUR_S3_04 and the new TED_S3_00 through Dialogue and Canon review and the creator's sign-off, record the outcome in DIALOGUE_OPENING_CREATOR_PICKS.md, then regenerate audio (dry run first). Add the playback hook to the game later. Add Ted's fail reason line (canon.py FAIL_REASON_LINE) to the recording list. 2 Nov 2026: the T50/T52 pass (a5b5ea6) rewrote nearly every line and added 9 new ones, so the recording list is now most of the script, not six lines. Price it against the ElevenLabs credits before regenerating.
 
-- **Why 4:** The game does not play audio yet, so nothing breaks today. It must be done before voice is hooked up, so 4.
+- **Why 4:** The game does not play audio yet, so nothing breaks today. It must be done before voice is hooked up, so 4. The list grew on 2 Nov; the score is unchanged because audio playback is still not hooked up.
 - **Evidence:** things to work on next.md items 4 and 5; AIAgentCrew/voice_output_picked_live/elevenlabs/lines
 - **Blocked by:** Creator sign-off on voice and lore; ElevenLabs credits for regeneration.
 - **Needs the creator** (cannot be done by the agent alone)
@@ -201,6 +202,13 @@ tools/audit_lighthouse.gd reports the lighthouse at exactly its 120-material bud
 
 - **Why 4:** Not broken today, but it blocks the next addition to the lighthouse.
 - **Evidence:** HANDOFF_T42_T43_T45_FALProps.md, 2 Nov 2026: materials 120/120
+
+### T65 [3/10] Tidy the loose ends the R21 handoff run found  (open)
+
+Small fixes from the eight 2 Nov handoff notes: (1) QA_SCENARIOS.md S13 still mentions the boat's cargo slot, which T49 removed; (2) check T49's result text against the built steps; (3) the Saltgate hut collider comment says 4.5k triangles where the mesh is 2.5k; (4) the buoy lamps do not blink (decide: add a blink or drop it from the notes); (5) no tests cover the exterior wall shader patches or the lining skins (exterior_wall_detail.gdshader, exterior_openings.gd _lining_skin); (6) about 1,940 harmless headless 'Parameter "m" is null' errors flood the test logs; find the source so real errors stand out.
+
+- **Why 3:** None of these breaks play; they keep the docs honest and the test logs readable.
+- **Evidence:** LightingTheStorm/HANDOFF_*.md (5bd14e0)
 
 ### T01 [10/10] Create the central GameState autoload: phase machine, event bus, restart  (done)
 
@@ -536,6 +544,17 @@ Regenerate the part of Saltgate where the player picks up the replacement burner
 - **Blocked by:** FAL credits; creator approves the hut concept.
 - **Needs the creator** (cannot be done by the agent alone)
 - **Result (done):** 1 Nov 2026, second pass (creator: the dock-level hut was taking too long for a set piece that is not a major plot device): back to the stone. The pier head stays, the hut stands on top of it (as 3c34872) and the 19c5aa7 carve, piles and plank deck are gone. The stone steps up to it are rebuilt like the island's harbour stairs (stone_stairs.gd, full 1.8 m width, parapets both sides, 0.17 m rises on 0.28 m treads, toon shaded like them via toon_look.gd) in a dark stone that matches the pier head; the flight climbs to a top landing over the pier head's kerb, one step down to the hut. The burner sits on the hut's workbench (5.4, 5.31, 540.2). The step ashore is halved: DOCK_PORT's landing is now on the quay's south strip, 4.7 m from the seat (was 8.3 m), still on Saltgate. The boat's cargo slot is gone, so the burner cannot be put down between the hut and the lamp; Arthur waits aboard as before. The hut keeps its rain shelter volume. Tests: test_disembark walks landing -> steps -> hut -> back; test_carry checks there is nowhere to put the burner down, the boat included.
+
+### T52 [7/10] Review all dialogue for snark and humour  (done)
+
+Read the whole slice's dialogue (data/dialogue/dialogue_opening.json, every speaker) with the creator and make it snarkier and funnier where it is flat, keeping canon (canon.py), the style guide, the inside-only rule for Ted, the timings (previous item) and the line ids the tests rely on (rewrite text, not ids, or update the tests). Run the Style Generator and Refiner agents for a first pass if useful, then the creator signs off line by line.
+
+- **Why 7:** The creator wants the tone to be snarky and funny; the lines are the main personality of the slice.
+- **Evidence:** Creator, 30 Oct 2026: I then want to review all of the dialogue to make sure it's snarky and funny enough.
+- **Blocked by:** Creator sign-off; best after the Tuesday dialogue session.
+- **Depends on:** T50 (still open: T50)
+- **Needs the creator** (cannot be done by the agent alone)
+- **Result (done):** 2 Nov 2026 (a5b5ea6, other session): line-by-line pass with the creator, who asked for absurd humour and edited steps 3 and 4 directly. Ted, Arthur and Daniel rewritten (ids kept); new lines TED_S1_04b, S1_05b, S1_I4-I6, S2_04b, S2_I4; sailors idle tiers 3 -> 4. Kept as they were: the fail lines (TED_F_01, F_03, kept serious) and the win line TED_S5_02 (the creator picked neither option). S3_00's ending ('old girl glowing') was the agent's guess; check it at the next read-through. The step 1 idle nudges are not wired yet (T64).
 
 ### T56 [7/10] Toggle the controls list with C  (done)
 

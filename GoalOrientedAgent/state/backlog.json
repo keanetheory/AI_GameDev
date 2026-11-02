@@ -112,7 +112,7 @@
       "text": "Guidance comes from Ted and Arthur by voice/subtitle and a handwritten objective journal, with no markers or visible timer; apprentice never speaks; spoken navigation cues have subtitles with speaker attribution.",
       "source": "Pillar 3; Technical Strategy 'Presentation and accessibility'; Exec Summary Cast",
       "status": "partial",
-      "evidence": "1 Nov 2026 re-grade: Subtitles with speaker, goal tracker, controls panel and journal key exist (tools/test_subtitles.gd, test_guidance_hud.gd); no markers or timer. Journal contents are still open (T57) and no voice audio is recorded (T18, T50)."
+      "evidence": "2 Nov 2026: every line rewritten for absurd humour and timed with the creator (a5b5ea6); the step 1 idle nudges are written but not hooked up (T64). 1 Nov 2026 re-grade: Subtitles with speaker, goal tracker, controls panel and journal key exist (tools/test_subtitles.gd, test_guidance_hud.gd); no markers or timer. Journal contents are still open (T57) and no voice audio is recorded (T18, T50)."
     },
     {
       "id": "R17",
@@ -827,8 +827,8 @@
       "title": "Review the rewritten opening lines and re-record the six changed voice lines",
       "priority": 4,
       "category": "dialogue",
-      "summary": "Run TED_S1_01, S1_09, S1_10, S1_11, S3_02, ARTHUR_S3_04 and the new TED_S3_00 through Dialogue and Canon review and the creator's sign-off, record the outcome in DIALOGUE_OPENING_CREATOR_PICKS.md, then regenerate audio (dry run first). Add the playback hook to the game later. Add Ted's fail reason line (canon.py FAIL_REASON_LINE) to the recording list.",
-      "why_this_score": "The game does not play audio yet, so nothing breaks today. It must be done before voice is hooked up, so 4.",
+      "summary": "Run TED_S1_01, S1_09, S1_10, S1_11, S3_02, ARTHUR_S3_04 and the new TED_S3_00 through Dialogue and Canon review and the creator's sign-off, record the outcome in DIALOGUE_OPENING_CREATOR_PICKS.md, then regenerate audio (dry run first). Add the playback hook to the game later. Add Ted's fail reason line (canon.py FAIL_REASON_LINE) to the recording list. 2 Nov 2026: the T50/T52 pass (a5b5ea6) rewrote nearly every line and added 9 new ones, so the recording list is now most of the script, not six lines. Price it against the ElevenLabs credits before regenerating.",
+      "why_this_score": "The game does not play audio yet, so nothing breaks today. It must be done before voice is hooked up, so 4. The list grew on 2 Nov; the score is unchanged because audio playback is still not hooked up.",
       "evidence": [
         "things to work on next.md items 4 and 5",
         "AIAgentCrew/voice_output_picked_live/elevenlabs/lines"
@@ -1767,10 +1767,13 @@
       "owner_role": "Creator with the Dialogue and Audio agents",
       "effort": "L",
       "agent_can_execute": false,
-      "blocked_by": "Tuesday 3 Nov, with the creator; the music pieces.",
+      "blocked_by": "The music pieces from the creator (Tuesday 3 Nov). The dialogue lines and timings are done.",
       "depends_on": [],
       "status": "open",
-      "result": null
+      "result": {
+        "outcome": "partial",
+        "summary": "2 Nov 2026 (a5b5ea6, with the creator, other session): every line in all five steps rewritten and timed. Timing review applied to the game's own rule (max(1.4 s, 0.38 s x words) plus pause_before, same-trigger lines queue): S1_10 and S3_02 trimmed, S2_04 split (new TED_S2_04b), crossing calls shortened (RET_01/02/05, NEAR_2, HIT_1, HIT_3), S1_04b pause 3.0 -> 1.5 s, S1_05b 4.0 -> 2.5 s; SHIP_FAIL pacing and the S1_09 pause left alone. Playthrough, audio mixer, dialogue, crossing and sequence tests pass. Still open: the music pieces and when each fires (data/world/audio_spec.json, scripts/core/audio_mixer.gd); once voice is recorded, line length should come from the audio, with seconds_per_word as the fallback."
+      }
     },
     {
       "id": "T51",
@@ -1787,9 +1790,9 @@
       "owner_role": "Creator with the Dialogue agent",
       "effort": "M",
       "agent_can_execute": false,
-      "blocked_by": "Needs the creator walk-through of each beat first.",
+      "blocked_by": "Needs the creator walk-through of each beat. The lines are final as of a5b5ea6, so this can start.",
       "depends_on": [
-        "T50"
+        "T52"
       ],
       "status": "open",
       "result": null
@@ -1812,8 +1815,11 @@
       "depends_on": [
         "T50"
       ],
-      "status": "open",
-      "result": null
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "2 Nov 2026 (a5b5ea6, other session): line-by-line pass with the creator, who asked for absurd humour and edited steps 3 and 4 directly. Ted, Arthur and Daniel rewritten (ids kept); new lines TED_S1_04b, S1_05b, S1_I4-I6, S2_04b, S2_I4; sailors idle tiers 3 -> 4. Kept as they were: the fail lines (TED_F_01, F_03, kept serious) and the win line TED_S5_02 (the creator picked neither option). S3_00's ending ('old girl glowing') was the agent's guess; check it at the next read-through. The step 1 idle nudges are not wired yet (T64)."
+      }
     },
     {
       "id": "T53",
@@ -1922,7 +1928,7 @@
       "owner_role": "Creator with the Dialogue agent",
       "effort": "M",
       "agent_can_execute": false,
-      "blocked_by": "A conversation with the creator; best after the Tuesday dialogue session.",
+      "blocked_by": "A conversation with the creator. The dialogue pass is done (a5b5ea6), so the journal can match its voice.",
       "depends_on": [],
       "status": "open",
       "result": null
@@ -2064,6 +2070,48 @@
       "status": "open",
       "build_wave": 4,
       "build_order": 21
+    },
+    {
+      "id": "T64",
+      "title": "Wire the step 1 idle nudges (IDLE_STEP_1, Ted's TED_S1_I1-I6)",
+      "priority": 5,
+      "category": "code",
+      "summary": "The six step 1 idle lines exist in data/dialogue/dialogue_opening.json, but nothing calls GameState.idle('IDLE_STEP_1'): only IDLE_STEP_2 (sailors_sequence.gd) and IDLE_STEP_3 (diagnosis_sequence.gd) are wired. Add the same ladder to the coal job (scripts/world/interior/coal_job.gd or a small step 1 sequence): first nudge after a stall from the knock until the boiler is fed, reset on progress (entering the house, the engine room, each shovel), tiers 6 to match the lines. Add a headless test like the step 2 one and run test_slice_playthrough.gd.",
+      "why_this_score": "A stalled player on step 1 gets no help; the lines are written, only the hook is missing.",
+      "evidence": [
+        "Other session, 2 Nov 2026: step 1 idle isn't wired in the code",
+        "scripts/world/sailors_sequence.gd (the IDLE_STEP_2 pattern)",
+        "scripts/world/interior/coal_job.gd"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Code agent",
+      "effort": "S",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "depends_on": [
+        "T52"
+      ],
+      "status": "open",
+      "result": null
+    },
+    {
+      "id": "T65",
+      "title": "Tidy the loose ends the R21 handoff run found",
+      "priority": 3,
+      "category": "code",
+      "summary": "Small fixes from the eight 2 Nov handoff notes: (1) QA_SCENARIOS.md S13 still mentions the boat's cargo slot, which T49 removed; (2) check T49's result text against the built steps; (3) the Saltgate hut collider comment says 4.5k triangles where the mesh is 2.5k; (4) the buoy lamps do not blink (decide: add a blink or drop it from the notes); (5) no tests cover the exterior wall shader patches or the lining skins (exterior_wall_detail.gdshader, exterior_openings.gd _lining_skin); (6) about 1,940 harmless headless 'Parameter \"m\" is null' errors flood the test logs; find the source so real errors stand out.",
+      "why_this_score": "None of these breaks play; they keep the docs honest and the test logs readable.",
+      "evidence": [
+        "LightingTheStorm/HANDOFF_*.md (5bd14e0)"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Code agent",
+      "effort": "S",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "depends_on": [],
+      "status": "open",
+      "result": null
     }
   ],
   "history": [
@@ -2576,6 +2624,12 @@
       "task_id": "-",
       "event": "status_update",
       "note": "Branch Monday2ndWork pushed (eba7a35, 5bd14e0, cce7612). T62 (credits/licences) and T63 (material headroom) added from the handoff run. GER state updated (ISL-12, LHF-01/16/18, CLF-04)."
+    },
+    {
+      "time": "2026-11-02T19:00:00",
+      "task_id": "-",
+      "event": "status_update",
+      "note": "Other session's dialogue work folded in (a5b5ea6): T52 done, T50 partial (music cues remain), T18 list grown, T51/T57 unblocked. T64 (step 1 idle nudges) and T65 (handoff loose ends) added."
     }
   ]
 }
