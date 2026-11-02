@@ -22,15 +22,15 @@ const LOOKS := {
 	# in by tools/copy_clips.py: his own Idle_03 is a stretch with his hands at his head), and Chair_Sit_Idle_M on the launch's and the
 	# rowboat's seats, held at its halfway point (sit_hold_frac): later in the clip he leans back and his body goes through the boat
 	# (creator, 30 Oct 2026). His download has no talking clip, so he stays in Idle_3 while his jaw moves.
-	"ARTHUR": {"model": "res://Assets/Characters/arthur.glb", "height": 1.78, "radius": 0.32, "speed": 1.45, "walk_clip": "Walking", "idle_clip": "Idle_3", "sit_clip": "Chair_Sit_Idle_M", "sit_hold_frac": 0.5, "model_yaw_deg": 180.0, "jaw": true},
+	"ARTHUR": {"model": "res://Assets/Characters/arthur.glb", "height": 1.78, "radius": 0.32, "speed": 1.45, "walk_clip": "Walking", "run_clip": "Running", "idle_clip": "Idle_3", "sit_clip": "Chair_Sit_Idle_M", "sit_hold_frac": 0.5, "model_yaw_deg": 180.0, "jaw": true},
 	# Daniel is a FAL Hunyuan v3 mesh rigged in Meshy (31 Oct 2026), same Mixamo rig and jaw bone: Walking, Talk_Passionately while his own
 	# line plays, Sit_Cross_Legged on the rowboat's seat, and Idle_3 standing (Ted's, copied in by tools/copy_clips.py: his download has
 	# no standing idle).
-	"DANIEL": {"model": "res://Assets/Characters/daniel.glb", "height": 1.66, "radius": 0.28, "speed": 1.55, "walk_clip": "Walking", "idle_clip": "Idle_3", "talk_clip": "Talk_Passionately", "sit_clip": "Sit_Cross_Legged", "bench_m": 0.42, "model_yaw_deg": 180.0, "jaw": true},
+	"DANIEL": {"model": "res://Assets/Characters/daniel.glb", "height": 1.66, "radius": 0.28, "speed": 1.55, "walk_clip": "Walking", "run_clip": "Running", "idle_clip": "Idle_3", "talk_clip": "Talk_Passionately", "sit_clip": "Sit_Cross_Legged", "bench_m": 0.42, "model_yaw_deg": 180.0, "jaw": true},
 	# Ted is a FAL Hunyuan v3 mesh rigged in Meshy (31 Oct 2026): his own model, Walking while he walks and Idle_3 (looping) when he stands.
 	# His download has no talking clip, so he stays in Idle_3 while his jaw moves. The Meshy rig faces +Z, so the model is turned
 	# 180 degrees about Y to face -Z like everything else.
-	"TED": {"model": "res://Assets/Characters/ted.glb", "height": 1.83, "radius": 0.3, "speed": 1.15, "walk_clip": "Walking", "idle_clip": "Idle_3", "model_yaw_deg": 180.0, "jaw": true},
+	"TED": {"model": "res://Assets/Characters/ted.glb", "height": 1.83, "radius": 0.3, "speed": 1.15, "walk_clip": "Walking", "run_clip": "Running", "idle_clip": "Idle_3", "model_yaw_deg": 180.0, "jaw": true},
 }
 
 @export var who := "ARTHUR"
@@ -51,6 +51,9 @@ var _look: Dictionary = {}
 var _anim: AnimationPlayer
 var _walking_anim := false
 var _gait := 1.0                # walk clip speed: walk_speed over his normal pace, so a hurry looks like a jog, not a glide
+var _running := false           # walk_speed at RUN_AT x his pace or more: the run clip (creator, 2 Nov 2026: Arthur runs to the launch)
+const RUN_AT := 1.6             # a pace this many times his normal walk or more is a run
+const RUN_CLIP_MPS := 3.0       # the speed the Meshy run clip's feet move at, so the clip is played to match the ground
 var _talking := false
 var _sit_held := false          # the sit clip has reached its hold point and is paused there
 
@@ -113,7 +116,7 @@ func _build_model() -> void:
 	var aps := m.find_children("*", "AnimationPlayer", true, false)
 	if not aps.is_empty():
 		_anim = aps[0]
-		for k in ["walk_clip", "idle_clip", "talk_clip", "sit_clip"]:
+		for k in ["walk_clip", "run_clip", "idle_clip", "talk_clip", "sit_clip"]:
 			if _look.has(k) and _anim.has_animation(String(_look[k])):
 				_anim.get_animation(String(_look[k])).loop_mode = Animation.LOOP_LINEAR
 		if _look.get("jaw", false):
@@ -205,7 +208,10 @@ func _update_anim() -> void:
 	var walking := state == State.WALKING or state == State.FOLLOWING
 	if walking and not _walking_anim:
 		_walking_anim = true
-		_anim.play(String(_look["walk_clip"]), -1.0, _gait)
+		if _running and _anim.has_animation(String(_look.get("run_clip", ""))):
+			_anim.play(String(_look["run_clip"]), -1.0, clampf(walk_speed / RUN_CLIP_MPS, 0.7, 1.4))
+		else:
+			_anim.play(String(_look["walk_clip"]), -1.0, _gait)
 	elif not walking and _walking_anim:
 		_stand()
 
@@ -220,6 +226,10 @@ func walk(points: PackedVector3Array, name_of_route := "", speed := -1.0) -> voi
 	if speed > 0.0:
 		walk_speed = speed
 	_gait = maxf(walk_speed / float(_look["speed"]), 1.0)
+	var run := _gait >= RUN_AT
+	if run != _running:
+		_running = run
+		_walking_anim = false          # switch between the walk and the run clip on the next update
 	state = State.WALKING if points.size() > 0 else State.IDLE
 	if points.size() == 1:
 		_step_to(points[0], 1000.0)

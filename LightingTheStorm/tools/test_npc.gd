@@ -171,3 +171,23 @@ func _walk_tests(to_hall: PackedVector3Array, to_base: PackedVector3Array) -> vo
 	_check(sitter.global_position.distance_to(seat.global_position + Vector3(0.9, 0.0, 0.8)) < 0.01, "a seated walker rides along when the seat moves")
 	sitter.release_seat()
 	_check(sitter.get_parent() == _lv and sitter.state == Npc.State.IDLE and sitter.global_position.distance_to(seat.global_position + Vector3(0.9, 0.0, 0.8)) < 0.01, "release_seat() puts the walker back in the level where they sat")
+	# a hurried walk (Arthur to the launch, 2x his pace) plays the run clip; his normal pace plays the walk (creator, 2 Nov 2026)
+	var runner := Npc.spawn(_lv, "ARTHUR", Vector3(0, 30, 0))
+	runner._process(0.0)
+	runner.walk(PackedVector3Array([Vector3(0, 30, 0), Vector3(20, 30, 0)]), "run_test", 2.9)
+	runner._process(0.05)
+	var ap: AnimationPlayer = runner._anim
+	_check(ap != null and ap.current_animation == "Running", "at 2x his pace he runs (%s)" % (ap.current_animation if ap else "no player"))
+	runner.walk(PackedVector3Array([runner.global_position, Vector3(40, 30, 0)]), "walk_test", 1.45)
+	runner._process(0.05)
+	_check(ap != null and ap.current_animation == "Walking", "at his own pace he walks again (%s)" % (ap.current_animation if ap else "no player"))
+	# the routes are smooth: no sharp turns between neighbouring steps on Ted's climb or Arthur's run (creator, 2 Nov 2026)
+	for rn in ["ted_to_lamp", "hall_to_launch_berth"]:
+		var pts := Routes.route(rn)
+		var worst := 0.0
+		for i in range(2, pts.size()):
+			var d1 := Vector2(pts[i - 1].x - pts[i - 2].x, pts[i - 1].z - pts[i - 2].z)
+			var d2 := Vector2(pts[i].x - pts[i - 1].x, pts[i].z - pts[i - 1].z)
+			if d1.length() > 0.05 and d2.length() > 0.05:
+				worst = maxf(worst, rad_to_deg(absf(d1.angle_to(d2))))
+		_check(worst < 60.0, "%s has no sharp corners (sharpest step-to-step turn %.0f deg)" % [rn, worst])

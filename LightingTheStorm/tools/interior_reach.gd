@@ -138,6 +138,110 @@ func path_to(spot: Dictionary) -> Array[Vector3]:
 	return out
 
 
+## A route from the flood's start to `spot` down the MIDDLE of halls and stairs (creator, 2 Nov 2026: path_to's cell-by-cell route
+## zigzags and turns at right angles). Every reached spot gets a clearance (steps to the nearest spot at the edge of the reached floor);
+## a cheapest-path search over all 8 neighbours then pays more the nearer a step is to an edge, so the route keeps to the centre line.
+## Smooth the result afterwards (bake_npc_paths.gd).
+func centre_path_to(spot: Dictionary, weight := 6.0) -> Array[Vector3]:
+	var dirs := [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1), Vector2i(1, 1), Vector2i(1, -1), Vector2i(-1, 1), Vector2i(-1, -1)]
+	var nbrs := {}
+	var start := ""
+	for key in seen:
+		if seen[key] == "":
+			start = key
+		var parts: PackedStringArray = key.split(",")
+		var ix := int(parts[0])
+		var iz := int(parts[1])
+		var y: float = floors["%d,%d" % [ix, iz]][int(parts[2])]
+		var list := []
+		for d in dirs:
+			var col: Array = floors.get("%d,%d" % [ix + d.x, iz + d.y], [])
+			for k in col.size():
+				var nk := "%d,%d,%d" % [ix + d.x, iz + d.y, k]
+				if seen.has(nk) and absf(float(col[k]) - y) <= STEP:
+					list.append([nk, 1.4142 if d.x != 0 and d.y != 0 else 1.0])
+		nbrs[key] = list
+	# clearance: breadth-first out from the edge spots (fewer than 8 reached neighbours)
+	var clear := {}
+	var q := []
+	for key in nbrs:
+		if nbrs[key].size() < 8:
+			clear[key] = 0
+			q.append(key)
+	var h := 0
+	while h < q.size():
+		var key: String = q[h]
+		h += 1
+		for e in nbrs[key]:
+			if not clear.has(e[0]):
+				clear[e[0]] = clear[key] + 1
+				q.append(e[0])
+	# cheapest path (Dijkstra with a binary heap of [cost, key])
+	var goal: String = spot["key"]
+	var dist := {start: 0.0}
+	var prev := {}
+	var heap := [[0.0, start]]
+	while not heap.is_empty():
+		var top: Array = heap[0]
+		var last: Array = heap.pop_back()
+		if not heap.is_empty():
+			heap[0] = last
+			_sift_down(heap, 0)
+		var key: String = top[1]
+		if top[0] > dist.get(key, INF):
+			continue
+		if key == goal:
+			break
+		for e in nbrs[key]:
+			var c := float(clear.get(e[0], 0))
+			var nd: float = top[0] + float(e[1]) * (1.0 + weight / ((1.0 + c) * (1.0 + c)))
+			if nd < dist.get(e[0], INF):
+				dist[e[0]] = nd
+				prev[e[0]] = key
+				heap.append([nd, e[0]])
+				_sift_up(heap, heap.size() - 1)
+	var out: Array[Vector3] = []
+	if not dist.has(goal):
+		return path_to(spot)
+	var k: String = goal
+	while true:
+		var parts := k.split(",")
+		out.push_front(_spot(int(parts[0]), int(parts[1]), int(parts[2]))["pos"])
+		if k == start:
+			break
+		k = prev[k]
+	return out
+
+
+func _sift_up(heap: Array, i: int) -> void:
+	while i > 0:
+		var p := (i - 1) / 2
+		if heap[p][0] <= heap[i][0]:
+			return
+		var t = heap[p]
+		heap[p] = heap[i]
+		heap[i] = t
+		i = p
+
+
+func _sift_down(heap: Array, i: int) -> void:
+	var n := heap.size()
+	while true:
+		var l := 2 * i + 1
+		var r := l + 1
+		var m := i
+		if l < n and heap[l][0] < heap[m][0]:
+			m = l
+		if r < n and heap[r][0] < heap[m][0]:
+			m = r
+		if m == i:
+			return
+		var t = heap[m]
+		heap[m] = heap[i]
+		heap[i] = t
+		i = m
+
+
 ## x/z of a grid cell's centre (world), as a Vector2 (x, z).
 func cell_centre(ix: int, iz: int) -> Vector2:
 	return Vector2(LIGHTHOUSE.x + LOCAL_MIN.x + (ix + 0.5) * CELL, LIGHTHOUSE.z + LOCAL_MIN.z + (iz + 0.5) * CELL)

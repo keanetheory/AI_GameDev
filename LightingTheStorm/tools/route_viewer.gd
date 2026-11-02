@@ -1,5 +1,5 @@
 # route_viewer.gd - run (needs a window): Godot --path . --script res://tools/route_viewer.gd [-- route=<name>] [-- out=<folder>]
-# With snap=<seconds> (and route=) it walks that route on its own, saves a screenshot every <seconds> into out= and quits on arrival.
+# With snap=<seconds> (and route=, cam=follow|overhead) it walks that route on its own, saves a screenshot every <seconds> into out= and quits on arrival.
 # Watch Ted, Arthur and Daniel walk their baked routes (data/world/npc_paths.json, tools/bake_npc_paths.gd) one at a time, in the real
 # level, so the creator can say what to change. Every route is drawn as a coloured line with its waypoints; the chosen one is bright.
 #   1-7        choose a route and walk it (the character and the speed are the ones the game uses)
@@ -14,6 +14,7 @@ extends SceneTree
 
 const Npc := preload("res://scripts/character/npc.gd")
 const Routes := preload("res://scripts/character/npc_routes.gd")
+const Sailors := preload("res://scripts/world/sailors_sequence.gd")
 
 ## route -> [character, speed m/s (-1 = his normal pace), what it is in the game]
 const CAST := {
@@ -52,12 +53,16 @@ var _start_route := ""
 var _snap := 0.0
 var _snap_t := 0.0
 var _snaps := 0
+var _done_wait := 0.0
 
 
 func _initialize() -> void:
 	for a in OS.get_cmdline_user_args():
 		if a.begins_with("route="):
 			_start_route = a.trim_prefix("route=")
+		elif a.begins_with("cam="):
+			_cam_mode = ["follow", "overhead", "free"].find(a.trim_prefix("cam="))
+			_cam_mode = maxi(_cam_mode, 0)
 		elif a.begins_with("snap="):
 			_snap = float(a.trim_prefix("snap="))
 		elif a.begins_with("out="):
@@ -156,7 +161,10 @@ func _play(n: String) -> void:
 	var pts := Routes.route(n)
 	_npc = Npc.spawn(_lv, String(c[0]), pts[0])
 	_npc.walk(pts, n, float(c[1]))
+	if n == "sailors_dock_to_hall":
+		_npc.arrived.connect(func(_r): Sailors.face_down_hall(_npc, _lv))     # as the game does when he gets inside
 	_t = 0.0
+	_done_wait = 0.0
 	_walked = 0.0
 	_last_pos = pts[0]
 	for k in _lines:
@@ -187,7 +195,9 @@ func _process(delta: float) -> bool:
 		pl.global_position = _cam.global_position - Vector3(0, 1.6, 0)
 	if _snap > 0.0:
 		_snap_t += real
-		var done: bool = _npc.state != _npc.State.WALKING
+		if _npc.state != _npc.State.WALKING:
+			_done_wait += real
+		var done: bool = _done_wait > 1.0       # a moment after arriving, so the last frame shows where he ends up facing
 		if _snap_t >= _snap or done:
 			_snap_t = 0.0
 			_snaps += 1

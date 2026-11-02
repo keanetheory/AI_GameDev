@@ -2211,6 +2211,28 @@
       "depends_on": [],
       "status": "open",
       "result": null
+    },
+    {
+      "id": "T70",
+      "title": "Refine Ted's, Arthur's and Daniel's walking routes (creator's notes)",
+      "priority": 6,
+      "category": "code",
+      "summary": "Creator, 2 Nov 2026, after watching the routes in tools/route_viewer.gd.",
+      "why_this_score": "How the characters move is seen all through the opening.",
+      "evidence": [
+        "tools/route_viewer.gd"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Code agent with the creator",
+      "effort": "M",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "depends_on": [],
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "2 Nov 2026: (1) Ted (and the sailors' indoor legs) walk down the middle of halls and stairs: interior_reach.gd centre_path_to() prefers cells far from walls, bake_npc_paths.gd smooths the result into curves (Ted's climb 66 -> 57 m, sharpest step turn 14 deg). (2) The sailors walked through a plateau boulder between the gate and the lighthouse (x -11.5..-9.5, z 6.5..8.5: its collision does not stop the walker, worth checking for the player too); the line now passes south of it, corners are rounded, with a 3 m arc in front of the door, a knee-height check on the plateau. (3) Arthur turns to face down the hall when he gets inside (sailors_sequence.gd face_down_hall). (4) After the briefing Arthur uses the Running clip (npc.gd: 1.6x pace or more plays run_clip) along curved lines (sharpest turn 33 deg). test_npc checks the run clip and smoothness; sailors, diagnosis, boarding, intro, animation and playthrough tests pass."
+      }
     }
   ],
   "history": [
@@ -2765,6 +2787,12 @@
       "task_id": "T69",
       "event": "note",
       "note": "Lighthouse pages and posters installed from the creator's generated images; canon updated (new Flighted slogans, Keeper's Rule 4, Ted's notes, Gullwater Island on old charts); calendar moved out of the wall."
+    },
+    {
+      "time": "2026-11-02T23:59:00",
+      "task_id": "T70",
+      "event": "done",
+      "note": "Walking routes smoothed and centred; boulder avoided; Arthur faces the hall and runs to the launch."
     }
   ]
 }

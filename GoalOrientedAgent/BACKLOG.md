@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-11-02 19:13 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-11-02 19:53 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -94,6 +94,7 @@ _Generated 2026-11-02 19:13 by the Goal-Oriented Agent. Do not edit by hand; the
 | T59 | **6** | Sort out the plain wall tiling at the back of the lighthouse | scene | Lighthouse Finisher with the creator | M | done |
 | T60 | **6** | Test and confirm the 3-minute deadline and the 10 s return-collision cost in play | test | Creator with the QA agents | S | done |
 | T67 | **6** | Basement smoke, basement ceiling flicker, Arthur hurries to the launch, Ted opens the lamp after his line, goal text | code | Lighthouse / Gameplay | S | done |
+| T70 | **6** | Refine Ted's, Arthur's and Daniel's walking routes (creator's notes) | code | Code agent with the creator | M | done |
 | T19 | **5** | Set a placeholder deadline length and write the crossing-penalty values | decision | Production Orchestrator | S | done |
 | T20 | **5** | QA scenario list and automated state-transition checks for the Gate 1 slice | test | QA agent | M | done |
 | T25 | **5** | Repair tools/test_boat.gd for the two-berth harbour and make it fail on timeout | test | Boat / Physics agent | S | done |
@@ -681,6 +682,14 @@ Creator requests worked in a parallel session on 2 Nov 2026.
 - **Why 6:** Polish the creator asked for on the boiler/engine room and the step 3-4 flow.
 - **Evidence:** 9f367db
 - **Result (done):** 2 Nov 2026 (9f367db, other session): faint cel-banded smoke from the boiler firebox (orange) and the steam engine exhaust (grey) driven by the coal job (machine_smoke.gd), the model's solid plume carved away; the basement ceiling flicker fixed (spiral_down.gd stair-floor ring no longer coincides with the greybox floors); Arthur walks to the launch at twice his pace with the walk clip sped to match; Ted opens the lamp after his first lamp-room line (diagnosis_sequence.json open_after_line_s); goals: 'Check on the lamp with Ted' before the rowboat, 'Take the boat to Saltgate with Arthur'. Tests reviewed by this session: diagnosis, boarding, guidance HUD, coal job, NPC, playthrough, interior lights/budget, title settings pass. Creator confirmed in play, 2 Nov: the smoke looks good and the ceiling no longer flickers.
+
+### T70 [6/10] Refine Ted's, Arthur's and Daniel's walking routes (creator's notes)  (done)
+
+Creator, 2 Nov 2026, after watching the routes in tools/route_viewer.gd.
+
+- **Why 6:** How the characters move is seen all through the opening.
+- **Evidence:** tools/route_viewer.gd
+- **Result (done):** 2 Nov 2026: (1) Ted (and the sailors' indoor legs) walk down the middle of halls and stairs: interior_reach.gd centre_path_to() prefers cells far from walls, bake_npc_paths.gd smooths the result into curves (Ted's climb 66 -> 57 m, sharpest step turn 14 deg). (2) The sailors walked through a plateau boulder between the gate and the lighthouse (x -11.5..-9.5, z 6.5..8.5: its collision does not stop the walker, worth checking for the player too); the line now passes south of it, corners are rounded, with a 3 m arc in front of the door, a knee-height check on the plateau. (3) Arthur turns to face down the hall when he gets inside (sailors_sequence.gd face_down_hall). (4) After the briefing Arthur uses the Running clip (npc.gd: 1.6x pace or more plays run_clip) along curved lines (sharpest turn 33 deg). test_npc checks the run clip and smoothness; sailors, diagnosis, boarding, intro, animation and playthrough tests pass.
 
 ### T19 [5/10] Set a placeholder deadline length and write the crossing-penalty values  (done)
 
