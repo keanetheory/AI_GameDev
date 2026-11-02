@@ -1,4 +1,7 @@
-"""Draws the Flighted posters (Lighthouse Finisher Agent, LHF-09) as 2048-safe PNGs with an alpha edge.
+"""SUPERSEDED 2 Nov 2026: the four posters are now the creator's generated images (tools/build_page_atlas.py copies them in; new
+slogans in Docs/Lore Build/factions/fac_flighted.md). Running this script would overwrite them with the old letterpress set.
+
+Draws the Flighted posters (Lighthouse Finisher Agent, LHF-09) as 2048-safe PNGs with an alpha edge.
 Canon (Docs/Lore Build/factions/fac_flighted.md): crude letterpress propaganda, black, silver and navy ink only, a dark sphere
 eclipsing a silver moon above stylised waves, misregistered print, weathered and peeling paper; slogans THEY BRING THE STORMS
 and THEY CHANGE THE SEASONS (nothing else). Two layouts of each slogan so no two posters on a wall are identical.

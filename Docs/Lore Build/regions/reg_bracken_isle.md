@@ -30,6 +30,15 @@ status: draft
 - **The engine room:** a coal-fired boiler drives a steam engine and dynamo, which power the beacon's electric arc lamp. The player's first task, once Ted has let him in, is to shovel coal here. Daniel stays down here once the sailors are in.
 - **The lantern room:** home of the beacon. The burner in its arc lamp is broken from the start, but nobody knows until the dynamo is running and the beacon stays dark; Ted then brings the player up here and finds it.
 - **The halls:** whispering and random bangs come from people hiding in the walls. Littered documents and posters praise the moon cycle and the Flighted.
+- **The keeper's papers** (creator, 2 Nov 2026; the page textures in the lighthouse):
+  - **Keeper's Rules** on the first floor: "1. The lamp never goes dark. 2. Log the hour. 3. Keep the boiler fed. 4. Watch them come and go." The fourth rule is the odd one out: who "they" are is left open (a hint at the Flighted).
+  - **The storm log** (office) runs Oct 12-13: north-west gale, glass falling, heavy swell. **The radio log** (first floor) goes from faint, broken signals on Oct 14 to "NO SIGNAL" every hour through Oct 15.
+  - **The October calendar** marks the full moon on the 22nd; in Ted's hand down the side, "New guy starts. Wonderful.", and at the foot, "Keep an eye on Daniel".
+  - **The tide table** is "entered by hand, between drinks - Ted."
+  - **A torn note:** "Don't let the barometer drop".
+  - **The hall board:** a NOTICE "BY ORDER" (the rest unreadable) and a sailings timetable headed "SAILINGS - talk to Arthur".
+  - **An old photograph** of a grizzled keeper in front of a lighthouse, marked "T.".
+  - **Two sea charts:** "Bracken Isle to Saltgate", and "Gullwater", an older chart that names the island **Gullwater Island**, as old charts and some mariners still do.
 - **The flags:** tattered amber-and-gold flags of Saint Calder, a neglected royal standard.
 
 ## Resources & Trade

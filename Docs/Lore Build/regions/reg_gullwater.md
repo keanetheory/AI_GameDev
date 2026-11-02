@@ -18,6 +18,8 @@ status: draft
 - A submerged reef rings Bracken Isle.
 - Tides are aggressive in eclipse season.
 
+- **Old name for the island:** older charts call Bracken Isle "Gullwater Island" after the strait; the chart in the lighthouse (creator, 2 Nov 2026) still does.
+
 ## The Crossing (gameplay)
 - **Outbound:** the first crossing, to the Saltgate quays for the burner. Currents sway the boat and the rain sets in; uneasy rather than calm.
 - **Return:** the storm escalates: darker skies, heavier rain, lightning between the clouds, stronger current and wind. Arthur guides the player through it.

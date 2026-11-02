@@ -41,7 +41,7 @@ TBD.
 - **security:** TBD
 - **medicine:** TBD
 - **travel:** dangerous seas in eclipse season, so the lighthouse is critical
-- **religion:** reverence mixed with fear. The Flighted's propaganda says "They bring the storms" and "They change the seasons."
+- **religion:** reverence mixed with fear. The Flighted's propaganda says "They bring the storms", "They change the seasons", "Stormtime is coming" and "They will visit", and warns "Don't get caught talking."
 
 ## Gameplay Translation
 | Ability | Input/Resource | Effect | Cost | Cooldown/Limit |

@@ -99,8 +99,8 @@ func _ground(P: Node3D) -> void:
 	for i in doc_n.size():
 		var d: Array = doc_n[i]
 		var dv: float = d[0]
-		K.sheet(P, "G_Notice_%d" % i, Vector3(-2.04, GF + d[1] + 0.35, dv), Vector3(1, 0, 0), 0.2, 0.28, "paper_old")
-	K.sheet(P, "G_Tidetable", Vector3(-2.04, GF + 1.85, 2.5), Vector3(1, 0, 0), 0.34, 0.5, "paper", "TIDES AND\nTHE MOON\n\nentered by hand,\nsigned T.", 26, Color(0.1, 0.1, 0.12))
+		K.page(P, "G_Notice_%d" % i, Vector3(-2.04, GF + d[1] + 0.35, dv), Vector3(1, 0, 0), 0.2, "notice" if i % 2 == 0 else "sailings")
+	K.page(P, "G_Tidetable", Vector3(-2.04, GF + 1.85, 2.5), Vector3(1, 0, 0), 0.34, "tide_table")
 
 	# --- keeper's office (u -2.15..1.0, v 3.35..6.7): west of the stairs
 	_office(P)
@@ -157,12 +157,12 @@ func _office(P: Node3D) -> void:
 	for ci in 2:
 		var cu2 := -0.15 if ci == 0 else 0.62
 		K.box(P, "Office_ChartLeg_%d" % ci, cu2, cu2 + 0.1, 4.6, 5.2, GF, GF + 0.8, "wood_dark", false)
-	K.sheet(P, "Office_Chart", Vector3(0.27, GF + 0.867, 4.9), Vector3(0, 1, 0), 0.85, 0.6, "paper_old", "BRACKEN ISLE\nto SALTGATE\n  ~ ~ ~", 34, Color(0.14, 0.1, 0.07))
+	K.page(P, "Office_Chart", Vector3(0.27, GF + 0.867, 4.9), Vector3(0, 1, 0), 0.85, "chart_saltgate")
 	# a rug and a wall clock
 	K.box(P, "Office_Rug", -1.5, 0.2, 4.4, 5.6, GF, GF + 0.02, "rug", false)
 	K.disc(P, "Office_Clock", Vector3(-0.2, GF + 2.2, 6.62), Vector3(0, 0, 1), 0.2, 0.05, "brass")
 	K.disc(P, "Office_ClockFace", Vector3(-0.2, GF + 2.2, 6.59), Vector3(0, 0, 1), 0.16, 0.03, "gauge_face")
-	K.sheet(P, "Office_ChartPin", Vector3(-1.0, GF + 1.5, 6.64), Vector3(0, 0, -1), 0.9, 0.55, "paper_old", "STORM LOG", 30, Color(0.15, 0.1, 0.07))
+	K.page(P, "Office_ChartPin", Vector3(-1.0, GF + 1.5, 6.64), Vector3(0, 0, -1), 0.9, "storm_log")
 
 
 func _storage(P: Node3D) -> void:
@@ -192,7 +192,7 @@ func _storage(P: Node3D) -> void:
 	K.pole(P, "Store_Hanging_Light", 4.7, 4.5, CEIL - 0.45, CEIL, 0.01, "iron_dark", false)
 	K.sphere(P, "Store_Bulb", Vector3(4.7, CEIL - 0.5, 4.5), 0.07, "glow_warm")
 	K.light(P, "Store_Light", Vector3(4.7, CEIL - 0.55, 4.5), Color(1.0, 0.78, 0.5), 1.0, 4.0)
-	K.sheet(P, "Store_Sign", Vector3(4.6, GF + 2.55, 3.22), Vector3(0, 0, -1), 0.5, 0.18, "paper_old", "STORE", 40, Color(0.1, 0.07, 0.05))
+	K.page(P, "Store_Sign", Vector3(4.6, GF + 2.55, 3.22), Vector3(0, 0, -1), 0.5, "sign_store")
 
 
 func _stair_rails(P: Node3D) -> void:
@@ -339,7 +339,7 @@ func _basement(P: Node3D) -> void:
 	needle.position = KP(0.04, 0.0, 0.0)
 	gauge.add_child(needle)
 	K.box(needle, "NeedleBar", -0.008, 0.008, -0.008, 0.008, 0.0, 0.14, "lamp_red", false)
-	K.sheet(P, "B_GaugePlate", Vector3(-2.19, B1 + 1.48, 4.2), Vector3(1, 0, 0), 0.34, 0.1, "paper_old", "STEAM", 30, Color(0.12, 0.09, 0.07))
+	K.page(P, "B_GaugePlate", Vector3(-2.19, B1 + 1.48, 4.2), Vector3(1, 0, 0), 0.34, "plate_steam")
 	refs["gauge"] = gauge
 	gauge.set_level(0.0)
 	# steam main: boiler -> along the back wall -> down the east wall -> the engine
