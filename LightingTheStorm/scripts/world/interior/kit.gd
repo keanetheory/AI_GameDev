@@ -13,6 +13,7 @@ const FLOOR_LAYER := 1
 
 var root: Node3D                  # the house frame
 var mats := {}
+var _ds_cache := {}                # source material id -> its one double-sided copy (ds())
 var count := 0                    # nodes made, for the tests' budget
 var lights: Array[OmniLight3D] = []   # every light made, so the interior's light manager can take them over
 
@@ -345,6 +346,22 @@ func _m(m) -> Material:
 	if m is Material:
 		return m
 	return mats.get(String(m), mats["plaster"])
+
+
+## A double-sided copy of a kit material (by name or the material itself). One copy per source material for the whole interior:
+## each builder used to make its own, and every copy is one more material for the renderer (T63, 2 Nov 2026).
+func ds(m) -> Material:
+	var src := _m(m) as StandardMaterial3D
+	if src == null:
+		return _m(m)
+	if src.cull_mode == BaseMaterial3D.CULL_DISABLED:
+		return src
+	var key := src.get_instance_id()
+	if not _ds_cache.has(key):
+		var d := src.duplicate() as StandardMaterial3D
+		d.cull_mode = BaseMaterial3D.CULL_DISABLED
+		_ds_cache[key] = d
+	return _ds_cache[key]
 
 
 func colour(c: Color, rough := 0.9, metal := 0.0, emit := 0.0) -> StandardMaterial3D:

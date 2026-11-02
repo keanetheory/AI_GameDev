@@ -21,7 +21,6 @@ var K
 var anchors := {}        # house frame (u, y, v)
 var anchors_lh := {}     # lighthouse frame (x, y, z)
 var refs := {}
-var _mat_cache := {}
 var _lh: Node3D
 
 
@@ -346,9 +345,7 @@ func _tilt_slab(P: Node3D, nm: String, u0: float, u1: float, a: Vector2, b: Vect
 	mi.mesh = bm
 	# double-sided: at the tower doorway the front slope is only 1.5 to 2.3 m up, the player's eyes are inside the slab, and a one-sided slab showed the sky through
 	# itself (creator, 2026-10-26: "the hole at the doorway on L2, you can peek out to the sky")
-	var dm := (K.mats["plaster"] as StandardMaterial3D).duplicate() as StandardMaterial3D
-	dm.cull_mode = BaseMaterial3D.CULL_DISABLED
-	mi.material_override = dm
+	mi.material_override = K.ds("plaster")
 	var x := Vector3(1, 0, 0)
 	var y := Vector3(0, dv, dy) / ln
 	var z := Vector3(0, -dy, dv) / ln
@@ -428,9 +425,7 @@ func _wall_to_ceiling(P: Node3D, nm: String, u0: float, u1: float, v0: float, v1
 	var mi := MeshInstance3D.new()
 	mi.name = nm
 	mi.mesh = st.commit()
-	var m2 := (K.mats["plaster"] as StandardMaterial3D).duplicate() as StandardMaterial3D
-	m2.cull_mode = BaseMaterial3D.CULL_DISABLED
-	mi.material_override = m2
+	mi.material_override = K.ds("plaster")
 	P.add_child(mi)
 	mi.create_trimesh_collision()
 	K.count += 1
@@ -555,11 +550,7 @@ func _m(name: String) -> Material:
 
 
 func _ds(name: String) -> Material:
-	if not _mat_cache.has(name):
-		var m: StandardMaterial3D = (K.mats[name] as StandardMaterial3D).duplicate()
-		m.cull_mode = BaseMaterial3D.CULL_DISABLED
-		_mat_cache[name] = m
-	return _mat_cache[name]
+	return K.ds(name)          # shared with every other builder (kit.gd ds())
 
 
 ## An arc of floor (or rail wall): an annulus sector from bearing a0 to a1 (degrees, increasing), r0..r1, y0..y1. One mesh

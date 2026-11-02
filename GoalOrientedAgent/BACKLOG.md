@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-11-02 18:05 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-11-02 18:33 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -42,7 +42,6 @@ _Generated 2026-11-02 18:05 by the Goal-Oriented Agent. Do not edit by hand; the
 | T51 | **6** | Decide where the characters look during specific lines (the Arthur and Ted opening) | dialogue | Creator with the Dialogue agent | M | open |
 | T69 | **6** | Replace the remaining greybox props with FAL models (15 prepared) | asset | Creator with the Asset agent | M | open |
 | T57 | **5** | Think about the pieces for the journal | decision | Creator with the Dialogue agent | M | open |
-| T63 | **5** | Free material headroom in the lighthouse (audit at 120 of 120) | code | Lighthouse Finisher Agent | S | open |
 | T18 | **4** | Review the rewritten opening lines and re-record the six changed voice lines | dialogue | Dialogue agent | M | open |
 | T61 | **4** | Cut the level's load time: the interior build (~2.5 s) and the ~3 s of deferred work before the first physics step | code | Level Layout agent | L | open |
 | T68 | **4** | Lighting and lighthouse follow-ups from the island checks | code | Lighting agent / Lighthouse Finisher | S | open |
@@ -99,6 +98,7 @@ _Generated 2026-11-02 18:05 by the Goal-Oriented Agent. Do not edit by hand; the
 | T20 | **5** | QA scenario list and automated state-transition checks for the Gate 1 slice | test | QA agent | M | done |
 | T25 | **5** | Repair tools/test_boat.gd for the two-berth harbour and make it fail on timeout | test | Boat / Physics agent | S | done |
 | T34 | **5** | Resolve the discoveries content (B2) on Friday 23 October 2026 | decision | Canon and Review Orchestrator | S | done |
+| T63 | **5** | Free material headroom in the lighthouse (audit at 120 of 120) | code | Lighthouse Finisher Agent | S | done |
 | T64 | **5** | Wire the step 1 idle nudges (IDLE_STEP_1, Ted's TED_S1_I1-I6) | code | Code agent | S | done |
 | T22 | **4** | Write LightingTheStorm/readme.md and per-task HANDOFF.md template; reconcile doc gaps | doc | Production Orchestrator | S | done |
 | T38 | **4** | Texture the lighthouse exterior's plain patches (back-west corner panels, fills under the back windows) | art | Lighthouse Finisher Agent | S | done |
@@ -112,7 +112,6 @@ _Generated 2026-11-02 18:05 by the Goal-Oriented Agent. Do not edit by hand; the
 |---|---|---|---|---|---|
 | 4 | 19 | T61 | Cut the level's load time: the interior build (~2.5 s) and the ~3 s of deferred work before the first physics step | T23 | ready |
 | 4 | 20 | T62 | Credits and licences list for the itch.io page; confirm FAL's terms for generated models | - | ready |
-| 4 | 21 | T63 | Free material headroom in the lighthouse (audit at 120 of 120) | - | ready |
 | 5 | 25 | T18 | Review the rewritten opening lines and re-record the six changed voice lines | - | ready |
 
 ## Task detail
@@ -157,12 +156,11 @@ Talk through, line by line, where each character looks when they speak or listen
 
 ### T69 [6/10] Replace the remaining greybox props with FAL models (15 prepared)  (open)
 
-Inventory and prep done 2 Nov 2026 (LightingTheStorm/FAL_GREYBOX_PROPS.md): 15 text-to-3d submissions in AIAgentCrew/sample_submissions/lighthouse_props_greybox2/ pass main_asset.py --check-only. Ranked by visibility: pressure gauge rim, coal bin front, wall grille, valve wheel, burner cloth, fire hose coil, barograph, water can, rope coil, ledger, pot shelf, wall shelf with books, tin mug, wall mirror, linen stack ($0.375 each, run with --go --textured). Recommended: ranks 1-12 ($4.50) keeping $1.60 for re-rolls; free fixes: reuse the coat model for the four oilskins and the pendant lamp for the store bulb, hide the linen and the tub tap. Then install (hero_props.gd placements; keep the gauge face/needle, BrokenBurnerCloth node, grille zones and the switchboard green lamp working), downscale to 2048, decimate, credits. Sea debris stays as built (creator, 2 Nov 2026). Pages and posters added for budgeting (creator, 2 Nov 2026): Storm Log, radio log, tide table, keeper's rules, calendar, barometer note, two charts, notices, optional photo/signs, and the 4 Flighted posters; ideogram/v2 at $0.08 an image, $0.80-$1.44 (about $1.90 with lettering re-rolls), packed into one texture atlas so they add one material. See FAL_GREYBOX_PROPS.md section 2b.
+Inventory and prep done 2 Nov 2026 (LightingTheStorm/FAL_GREYBOX_PROPS.md): 15 text-to-3d submissions in AIAgentCrew/sample_submissions/lighthouse_props_greybox2/ pass main_asset.py --check-only. Ranked by visibility: pressure gauge rim, coal bin front, wall grille, valve wheel, burner cloth, fire hose coil, barograph, water can, rope coil, ledger, pot shelf, wall shelf with books, tin mug, wall mirror, linen stack ($0.375 each, run with --go --textured). Recommended: ranks 1-12 ($4.50) keeping $1.60 for re-rolls; free fixes: reuse the coat model for the four oilskins and the pendant lamp for the store bulb, hide the linen and the tub tap. Then install (hero_props.gd placements; keep the gauge face/needle, BrokenBurnerCloth node, grille zones and the switchboard green lamp working), downscale to 2048, decimate, credits. Sea debris stays as built (creator, 2 Nov 2026). Pages and posters added for budgeting (creator, 2 Nov 2026): Storm Log, radio log, tide table, keeper's rules, calendar, barometer note, two charts, notices, optional photo/signs, and the 4 Flighted posters; ideogram/v2 at $0.08 an image, $0.80-$1.44 (about $1.90 with lettering re-rolls), packed into one texture atlas so they add one material. See FAL_GREYBOX_PROPS.md section 2b. Materials after T63: 105 of 120, enough for all 15 props (+15) and the pages and posters packed into one texture (+1, -3 posters) without raising the limit (about 118).
 
 - **Why 6:** The creator spotted greyboxes in the basement on 2 Nov; the remaining ones sit on the basement route and in the rooms the player walks through.
 - **Evidence:** Creator, 2 Nov 2026: you've added greyboxes in, list them and prep them for a FAL run, make sure you cover the other props as well; LightingTheStorm/FAL_GREYBOX_PROPS.md; Creator, 2 Nov 2026: I will want to regenerate the pages that are scattered across the lighthouse (posters such as 'Storm Log' etc) so add them to the list for budgeting
-- **Blocked by:** Creator decisions: which ranks to spend on (balance $6.10; Lighthouse Finisher cap has $3.30 left), the material limit (already 126 of 120, T63) and the triangle limit (884k of 900k); a screenshot of the switchboard, tool rack and barrel, which are already FAL models.
-- **Depends on:** T63 (still open: T63)
+- **Blocked by:** Creator decisions: which ranks to spend on (balance $6.10; Lighthouse Finisher cap has $3.30 left), the triangle limit (884k of 900k); a screenshot of the switchboard, tool rack and barrel, which are already FAL models.
 - **Needs the creator** (cannot be done by the agent alone)
 
 ### T57 [5/10] Think about the pieces for the journal  (open)
@@ -173,13 +171,6 @@ Decide what the player's journal (J, scripts/ui/subtitle_ui.gd and the 'journal'
 - **Evidence:** Creator, 30 Oct 2026: think about pieces for the journal; scripts/ui/subtitle_ui.gd; data/dialogue/dialogue_opening.json
 - **Blocked by:** A conversation with the creator. The dialogue pass is done (a5b5ea6), so the journal can match its voice.
 - **Needs the creator** (cannot be done by the agent alone)
-
-### T63 [5/10] Free material headroom in the lighthouse (audit at 120 of 120)  (open)
-
-tools/audit_lighthouse.gd reports the lighthouse at exactly its 120-material budget after the T45 props, so the next prop or fixture fails the audit. Share materials between props that use the same look (the FAL props each bring their own), or raise the budget with a measured reason. Keep test_interior_budget and audit_lighthouse green. 2 Nov 2026 evening: audit_lighthouse.gd -- check reads 126 materials (the basement smoke cards added 6); every greybox replacement (T69) adds more, so raise the limit (about 140 for all 15) or merge materials first.
-
-- **Why 5:** Not broken today, but it blocks the next addition to the lighthouse.
-- **Evidence:** HANDOFF_T42_T43_T45_FALProps.md, 2 Nov 2026: materials 120/120
 
 ### T18 [4/10] Review the rewritten opening lines and re-record the six changed voice lines  (open)
 
@@ -729,6 +720,14 @@ Decide which discoveries live in the lighthouse and island and which stay at the
 - **Blocked by:** Creator decision, due Friday 23 October 2026.
 - **Needs the creator** (cannot be done by the agent alone)
 - **Result (done):** Creator decided 23 Oct 2026 (Decisions A27): core discoveries (about 4-6) in the lighthouse and island, before boarding; Saltgate keeps 1-2. Each ties to the beacon failure through an unexplained human cause (neglect or tampering by people in the walls); no supernatural confirmation and the Flighted are not named as the cause. Individual items are picked in the Gate 2 narrative pass.
+
+### T63 [5/10] Free material headroom in the lighthouse (audit at 120 of 120)  (done)
+
+tools/audit_lighthouse.gd reports the lighthouse at exactly its 120-material budget after the T45 props, so the next prop or fixture fails the audit. Share materials between props that use the same look (the FAL props each bring their own), or raise the budget with a measured reason. Keep test_interior_budget and audit_lighthouse green. 2 Nov 2026 evening: audit_lighthouse.gd -- check reads 126 materials (the basement smoke cards added 6); every greybox replacement (T69) adds more, so raise the limit (about 140 for all 15) or merge materials first.
+
+- **Why 5:** Not broken today, but it blocks the next addition to the lighthouse.
+- **Evidence:** HANDOFF_T42_T43_T45_FALProps.md, 2 Nov 2026: materials 120/120
+- **Result (done):** 2 Nov 2026: lighthouse materials 126 -> 105 (limit 120, so 15 headroom) with no change to the look. (1) Five builders each made their own double-sided copy of the same kit material (rooms_tower _ds and two plaster slabs, trim gables, roof liner, the greybox reskin): kit.gd ds() now keeps one copy per source material for the whole interior (-15). (2) The basement fire's three cards and each smoke machine's three wisps share one material, each card varying by its own position instead of a per-card seed (-6). Triangles unchanged (884,047 of 900,000). Fire and smoke checked in a windowed still. Tests: audit_lighthouse check, interior lights, toon look, coal job, hero props, culling, lamp fit, room lights, playthrough, title, difficulty pass. test_interior_budget's build-time check (2.5 s) failed both with and without this change (3.7-8 s) while the Godot editor was open on the machine: rerun it with the editor closed. Next saving if needed: pack the pages and the 4 Flighted posters into one texture (-3 + the new pages as 1).
 
 ### T64 [5/10] Wire the step 1 idle nudges (IDLE_STEP_1, Ted's TED_S1_I1-I6)  (done)
 

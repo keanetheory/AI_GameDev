@@ -90,7 +90,7 @@ func _ready() -> void:
 	roof_liner.set_script(RoofLiner)
 	roof_liner.name = "RoofLiner"
 	add_child(roof_liner)
-	roof_liner.build(frame, kit.mats["plaster_dark"])
+	roof_liner.build(frame, kit.ds("plaster_dark"))
 	var mgr := get_parent().get_node_or_null("LighthouseInteriorLights")
 	if mgr and mgr.has_method("adopt"):
 		for l in kit.lights:
@@ -117,7 +117,6 @@ func _prepare_greybox() -> void:
 	if gb == null:
 		push_warning("interior_rooms: LighthouseInterior not found")
 		return
-	var cache := {}
 	for node in gb.find_children("*", "MeshInstance3D", true, false):
 		var mi := node as MeshInstance3D
 		var nm := String(mi.name)
@@ -130,11 +129,7 @@ func _prepare_greybox() -> void:
 		for rule in RESKIN:
 			if nm.contains(rule[0]):
 				var key: String = rule[1]
-				if not cache.has(key):
-					var m: StandardMaterial3D = (kit.mats[key] as StandardMaterial3D).duplicate()
-					m.cull_mode = BaseMaterial3D.CULL_DISABLED
-					cache[key] = m
-				mi.material_override = cache[key]
+				mi.material_override = kit.ds(key)
 				break
 	_close_ground_window(gb)
 

@@ -183,9 +183,7 @@ func _gables() -> void:
 		var mi := MeshInstance3D.new()
 		mi.name = "L1_Gable_%s" % ("W" if u < 0.0 else "E")
 		mi.mesh = st.commit()
-		var m := (K.mats["plaster"] as StandardMaterial3D).duplicate() as StandardMaterial3D
-		m.cull_mode = BaseMaterial3D.CULL_DISABLED
-		mi.material_override = m
+		mi.material_override = K.ds("plaster")
 		mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		group.add_child(mi)
 		built += 1

@@ -2071,9 +2071,13 @@
       "agent_can_execute": true,
       "blocked_by": "",
       "depends_on": [],
-      "status": "open",
+      "status": "done",
       "build_wave": 4,
-      "build_order": 21
+      "build_order": 21,
+      "result": {
+        "outcome": "done",
+        "summary": "2 Nov 2026: lighthouse materials 126 -> 105 (limit 120, so 15 headroom) with no change to the look. (1) Five builders each made their own double-sided copy of the same kit material (rooms_tower _ds and two plaster slabs, trim gables, roof liner, the greybox reskin): kit.gd ds() now keeps one copy per source material for the whole interior (-15). (2) The basement fire's three cards and each smoke machine's three wisps share one material, each card varying by its own position instead of a per-card seed (-6). Triangles unchanged (884,047 of 900,000). Fire and smoke checked in a windowed still. Tests: audit_lighthouse check, interior lights, toon look, coal job, hero props, culling, lamp fit, room lights, playthrough, title, difficulty pass. test_interior_budget's build-time check (2.5 s) failed both with and without this change (3.7-8 s) while the Godot editor was open on the machine: rerun it with the editor closed. Next saving if needed: pack the pages and the 4 Flighted posters into one texture (-3 + the new pages as 1)."
+      }
     },
     {
       "id": "T64",
@@ -2192,7 +2196,7 @@
       "title": "Replace the remaining greybox props with FAL models (15 prepared)",
       "priority": 6,
       "category": "asset",
-      "summary": "Inventory and prep done 2 Nov 2026 (LightingTheStorm/FAL_GREYBOX_PROPS.md): 15 text-to-3d submissions in AIAgentCrew/sample_submissions/lighthouse_props_greybox2/ pass main_asset.py --check-only. Ranked by visibility: pressure gauge rim, coal bin front, wall grille, valve wheel, burner cloth, fire hose coil, barograph, water can, rope coil, ledger, pot shelf, wall shelf with books, tin mug, wall mirror, linen stack ($0.375 each, run with --go --textured). Recommended: ranks 1-12 ($4.50) keeping $1.60 for re-rolls; free fixes: reuse the coat model for the four oilskins and the pendant lamp for the store bulb, hide the linen and the tub tap. Then install (hero_props.gd placements; keep the gauge face/needle, BrokenBurnerCloth node, grille zones and the switchboard green lamp working), downscale to 2048, decimate, credits. Sea debris stays as built (creator, 2 Nov 2026). Pages and posters added for budgeting (creator, 2 Nov 2026): Storm Log, radio log, tide table, keeper's rules, calendar, barometer note, two charts, notices, optional photo/signs, and the 4 Flighted posters; ideogram/v2 at $0.08 an image, $0.80-$1.44 (about $1.90 with lettering re-rolls), packed into one texture atlas so they add one material. See FAL_GREYBOX_PROPS.md section 2b.",
+      "summary": "Inventory and prep done 2 Nov 2026 (LightingTheStorm/FAL_GREYBOX_PROPS.md): 15 text-to-3d submissions in AIAgentCrew/sample_submissions/lighthouse_props_greybox2/ pass main_asset.py --check-only. Ranked by visibility: pressure gauge rim, coal bin front, wall grille, valve wheel, burner cloth, fire hose coil, barograph, water can, rope coil, ledger, pot shelf, wall shelf with books, tin mug, wall mirror, linen stack ($0.375 each, run with --go --textured). Recommended: ranks 1-12 ($4.50) keeping $1.60 for re-rolls; free fixes: reuse the coat model for the four oilskins and the pendant lamp for the store bulb, hide the linen and the tub tap. Then install (hero_props.gd placements; keep the gauge face/needle, BrokenBurnerCloth node, grille zones and the switchboard green lamp working), downscale to 2048, decimate, credits. Sea debris stays as built (creator, 2 Nov 2026). Pages and posters added for budgeting (creator, 2 Nov 2026): Storm Log, radio log, tide table, keeper's rules, calendar, barometer note, two charts, notices, optional photo/signs, and the 4 Flighted posters; ideogram/v2 at $0.08 an image, $0.80-$1.44 (about $1.90 with lettering re-rolls), packed into one texture atlas so they add one material. See FAL_GREYBOX_PROPS.md section 2b. Materials after T63: 105 of 120, enough for all 15 props (+15) and the pages and posters packed into one texture (+1, -3 posters) without raising the limit (about 118).",
       "why_this_score": "The creator spotted greyboxes in the basement on 2 Nov; the remaining ones sit on the basement route and in the rooms the player walks through.",
       "evidence": [
         "Creator, 2 Nov 2026: you've added greyboxes in, list them and prep them for a FAL run, make sure you cover the other props as well",
@@ -2203,10 +2207,8 @@
       "owner_role": "Creator with the Asset agent",
       "effort": "M",
       "agent_can_execute": false,
-      "blocked_by": "Creator decisions: which ranks to spend on (balance $6.10; Lighthouse Finisher cap has $3.30 left), the material limit (already 126 of 120, T63) and the triangle limit (884k of 900k); a screenshot of the switchboard, tool rack and barrel, which are already FAL models.",
-      "depends_on": [
-        "T63"
-      ],
+      "blocked_by": "Creator decisions: which ranks to spend on (balance $6.10; Lighthouse Finisher cap has $3.30 left), the triangle limit (884k of 900k); a screenshot of the switchboard, tool rack and barrel, which are already FAL models.",
+      "depends_on": [],
       "status": "open",
       "result": null
     }
@@ -2751,6 +2753,12 @@
       "task_id": "T69",
       "event": "added",
       "note": "Greybox props inventoried and 15 FAL submissions prepared (check-only pass, nothing spent)."
+    },
+    {
+      "time": "2026-11-02T23:00:00",
+      "task_id": "T63",
+      "event": "done",
+      "note": "Materials 126 -> 105: one shared double-sided copy per kit material, shared fire/smoke materials."
     }
   ]
 }
