@@ -22,7 +22,7 @@ const LOOKS := {
 	# in by tools/copy_clips.py: his own Idle_03 is a stretch with his hands at his head), and Chair_Sit_Idle_M on the launch's and the
 	# rowboat's seats, held at its halfway point (sit_hold_frac): later in the clip he leans back and his body goes through the boat
 	# (creator, 30 Oct 2026). His download has no talking clip, so he stays in Idle_3 while his jaw moves.
-	"ARTHUR": {"model": "res://Assets/Characters/arthur.glb", "height": 1.78, "radius": 0.32, "speed": 1.45, "walk_clip": "Walking", "run_clip": "Running", "idle_clip": "Idle_3", "sit_clip": "Chair_Sit_Idle_M", "sit_hold_frac": 0.5, "model_yaw_deg": 180.0, "jaw": true},
+	"ARTHUR": {"model": "res://Assets/Characters/arthur.glb", "height": 1.78, "radius": 0.32, "speed": 1.45, "walk_clip": "Walking", "run_clip": "Running", "idle_clip": "Idle_3", "sit_clip": "Chair_Sit_Idle_M", "sit_hold_frac": 0.5, "model_yaw_deg": 180.0, "jaw": true, "ease_bones": {"mixamorig_LeftUpLeg": 0.72, "mixamorig_RightUpLeg": 0.72, "mixamorig_LeftLeg": 0.8, "mixamorig_RightLeg": 0.8, "mixamorig_LeftFoot": 0.6, "mixamorig_LeftToeBase": 0.6}},
 	# Daniel is a FAL Hunyuan v3 mesh rigged in Meshy (31 Oct 2026), same Mixamo rig and jaw bone: Walking, Talk_Passionately while his own
 	# line plays, Sit_Cross_Legged on the rowboat's seat, and Idle_3 standing (Ted's, copied in by tools/copy_clips.py: his download has
 	# no standing idle).
@@ -104,6 +104,38 @@ func _build_body() -> void:
 	add_child(nose)
 
 
+## Arthur's left boot is skinned badly at the ankle: when the trailing foot points down, the boot stretches out at an odd angle
+## (creator, 2 Nov 2026; his right foot and Ted's walk on his rig do the same motion without it). `ease_bones` turns those bones only
+## part of the way from their rest pose in the walk and run clips (1 = as animated, 0 = held at rest). The clips are shared by every
+## copy of the model, so it is done once per clip.
+func _ease_bones(model: Node3D) -> void:
+	var ease: Dictionary = _look.get("ease_bones", {})
+	var skels := model.find_children("*", "Skeleton3D", true, false)
+	if ease.is_empty() or skels.is_empty() or _anim == null:
+		return
+	var skel := skels[0] as Skeleton3D
+	for k in ["walk_clip", "run_clip"]:
+		if not _look.has(k) or not _anim.has_animation(String(_look[k])):
+			continue
+		var a := _anim.get_animation(String(_look[k]))
+		if a.has_meta("eased_bones"):
+			continue
+		a.set_meta("eased_bones", true)
+		for t in a.get_track_count():
+			if a.track_get_type(t) != Animation.TYPE_ROTATION_3D:
+				continue
+			var bone := String(a.track_get_path(t).get_concatenated_subnames())
+			if not ease.has(bone):
+				continue
+			var idx := skel.find_bone(bone)
+			if idx < 0:
+				continue
+			var rest := skel.get_bone_rest(idx).basis.get_rotation_quaternion()
+			for i in a.track_get_key_count(t):
+				var q: Quaternion = a.track_get_key_value(t, i)
+				a.track_set_key_value(t, i, rest.slerp(q, float(ease[bone])))
+
+
 func _build_model() -> void:
 	var ps := load(String(_look["model"])) as PackedScene
 	if ps == null:
@@ -119,6 +151,7 @@ func _build_model() -> void:
 		for k in ["walk_clip", "run_clip", "idle_clip", "talk_clip", "sit_clip"]:
 			if _look.has(k) and _anim.has_animation(String(_look[k])):
 				_anim.get_animation(String(_look[k])).loop_mode = Animation.LOOP_LINEAR
+		_ease_bones(m)
 		if _look.get("jaw", false):
 			# the jaw bone (tools/add_jaw_bone.py) opens from the voice, or flaps while this character's line is "spoken"
 			var jaw := Node.new()
