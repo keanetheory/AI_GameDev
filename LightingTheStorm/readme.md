@@ -59,6 +59,13 @@ godot --headless --path . --script res://tools/bake_colliders.gd      # rewrites
 godot --headless --path . --script res://tools/test_collider_bake.gd  # every node has a bake, and it matches a live build
 ```
 
+The mainland's plateau is built on a table of cliff-top heights measured from the cliff meshes; that walk over every cliff triangle is baked the same way (T23, about 0.37 s a load). `Assets/Baked/mainland_tops.json` is keyed by the cliff meshes and their placement; after changing a cliff, re-run:
+
+```bash
+godot --headless --path . --script res://tools/bake_mainland_tops.gd   # rewrites Assets/Baked/mainland_tops.json
+godot --headless --path . --script res://tools/test_mainland_tops.gd   # the bake was used at load and matches a live measure
+```
+
 `tools/profile_ready.gd` shows where the level's load time goes, node by node.
 
 ### The four autoloads

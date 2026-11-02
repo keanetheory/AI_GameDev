@@ -146,8 +146,8 @@
       "id": "R21",
       "text": "Each agent task ends with a HANDOFF.md; game data uses JSON/.tres with stable IDs; the project documents engine version and conventions.",
       "source": "AI Agent Strategy 'Handoff format'; Technical Strategy 'Engine and project shape'",
-      "status": "partial",
-      "evidence": "1 Nov 2026 re-grade: HANDOFF_*.md files exist per task and data lives in JSON with stable IDs; readme.md now documents the engine, baking and autoloads. Some task handoffs are still missing (T44-T49 and the GER work are recorded in the state files)."
+      "status": "met",
+      "evidence": "2 Nov 2026: handoff notes written for every completed task group that lacked one (T20/T32, T39/T40, T42/T43/T45, T44, T46/T47, T48/T49, T56/T58, T19/T38/T59), each from HANDOFF_TEMPLATE.md with test runs; data lives in JSON with stable IDs; readme.md documents the engine, baking (colliders, mainland tops) and autoloads."
     }
   ],
   "tasks": [
@@ -1020,10 +1020,10 @@
       "effort": "L",
       "agent_can_execute": false,
       "blocked_by": "Needs the Godot editor to bake and verify.",
-      "status": "open",
+      "status": "done",
       "result": {
-        "outcome": "partial",
-        "summary": "Colliders are baked; mainland trees and carving still build at load."
+        "outcome": "done",
+        "summary": "2 Nov 2026: profiled first (tools/profile_ready.gd). The task's premise was out of date: the mainland's trees take 14 ms and its roads 58 ms; 372 ms of its 0.47 s was _measure_tops walking every cliff triangle. That table is now baked (Assets/Baked/mainland_tops.json, keyed by the cliff meshes and placement; tools/bake_mainland_tops.gd; tools/test_mainland_tops.gd passes, baked = live to 0.0000 m); Mainland now ~0.10 s. Saves ~0.4 s of a ~7 s load. The rest of the load is elsewhere: InteriorRooms ~2.1-2.7 s at _ready (kit, house, shell, lantern ~0.4 s, hero props ~0.9 s of model loads, exterior clip ~0.3 s) and ~3 s of deferred work before the first physics step. See T61."
       },
       "build_wave": 5,
       "depends_on": [],
@@ -1999,6 +1999,29 @@
       "status": "open",
       "build_wave": 4,
       "build_order": 18
+    },
+    {
+      "id": "T61",
+      "title": "Cut the level's load time: the interior build (~2.5 s) and the ~3 s of deferred work before the first physics step",
+      "priority": 4,
+      "category": "code",
+      "summary": "Measured 2 Nov 2026 with tools/profile_ready.gd: about 7 s to the first frame (headless). _ready is ~4.1 s, of which InteriorRooms is ~2.1-2.7 s spread over kit setup, house, shell, lantern (~0.4 s), hero props (~0.9 s, loading the FAL prop models) and the exterior clip (~0.3 s). Then ~3 s of deferred work runs before the first physics step (exterior openings' rays, culling, light cards, roof liner, toon scan). Find the biggest deferred item first, then consider baking the interior shell and the exterior clip as resources (like the collider bakes) and loading the props in a background thread. Matters for the itch.io web build (T53), where a web load is slower than desktop.",
+      "why_this_score": "Quality of life and web-build load time, not a gate requirement.",
+      "evidence": [
+        "tools/profile_ready.gd, 2 Nov 2026: frame 1 7148 ms, _ready 4094 ms, after _ready 3053 ms",
+        "T23 result"
+      ],
+      "requirement_ids": [],
+      "owner_role": "Level Layout agent",
+      "effort": "L",
+      "agent_can_execute": true,
+      "blocked_by": "",
+      "depends_on": [
+        "T23"
+      ],
+      "status": "open",
+      "build_wave": 4,
+      "build_order": 19
     }
   ],
   "history": [
@@ -2493,6 +2516,18 @@
       "task_id": "T38,T59",
       "event": "done",
       "note": "Creator: good for now."
+    },
+    {
+      "time": "2026-11-02T16:00:00",
+      "task_id": "T23",
+      "event": "done",
+      "note": "Mainland cliff-top table baked (~0.37 s saved); profile shows the rest of the load is the interior and deferred work; T61 added."
+    },
+    {
+      "time": "2026-11-02T16:00:00",
+      "task_id": "-",
+      "event": "requirement_note",
+      "note": "R21 met: eight handoff notes written."
     }
   ]
 }

@@ -1,10 +1,10 @@
 # Backlog
 
-_Generated 2026-11-02 10:03 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-11-02 10:17 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
-**Goal progress:** 86% (15 met, 6 partial, 0 unmet of 21 requirements)
+**Goal progress:** 88% (16 met, 5 partial, 0 unmet of 21 requirements)
 
 ## Requirements
 
@@ -30,7 +30,7 @@ _Generated 2026-11-02 10:03 by the Goal-Oriented Agent. Do not edit by hand; the
 | R18 | PARTIAL | Placeholder audio: layered wind and rain, machinery, buoy bells, foghorn, ship impact; states mixed by phase; no shock stingers. | Exec Summary 'Cast and atmosphere'; Technical Strategy presentation; AI Agent Strategy (Sound) | 1 Nov 2026 re-grade: Placeholder audio exists and is mixed by phase (Assets/Audio/placeholder, audio_mixer, tools/test_audio_mixer.gd). The sounds are synthesised stand-ins that nobody has heard; creator review is set for Tuesday 3 Nov (T50). |
 | R19 | PARTIAL | Warm lamplight against blue-grey storm light; the beam is a navigational anchor from the sea; beacon and hazards stay legible in every phase; greybox art is acceptable. | Exec Summary 'Cast and atmosphere'; AI Agent Strategy (Lighting) | 1 Nov 2026 re-grade: Warm lamplight against blue-grey storm light, the lamp beacon and the Saint Calder glow card over the Saltgate cliff (SLT-06, 1 Nov). Not verified in play in every phase; the Saltgate renders were OUTBOUND only. |
 | R20 | PARTIAL | Scope and hard rules are respected: first-person only, no combat/jump scares/visible timer/markers, one lighthouse + one sea + the Saltgate, no waves, no branching, no added significant Saltgate detail. | Exec Summary scope rule; AI Agent Strategy working rules 3 and 7 | 1 Nov 2026 re-grade: Debug label and F5-F11 keys are gated off in a release export or with --no-debug-ui (scripts/core/debug_flags.gd, tools/test_debug_flags.gd). The generated mainland is larger than a minimal Saltgate; the creator accepted the Saltgate polish scope (SLT-05 closed). |
-| R21 | PARTIAL | Each agent task ends with a HANDOFF.md; game data uses JSON/.tres with stable IDs; the project documents engine version and conventions. | AI Agent Strategy 'Handoff format'; Technical Strategy 'Engine and project shape' | 1 Nov 2026 re-grade: HANDOFF_*.md files exist per task and data lives in JSON with stable IDs; readme.md now documents the engine, baking and autoloads. Some task handoffs are still missing (T44-T49 and the GER work are recorded in the state files). |
+| R21 | MET | Each agent task ends with a HANDOFF.md; game data uses JSON/.tres with stable IDs; the project documents engine version and conventions. | AI Agent Strategy 'Handoff format'; Technical Strategy 'Engine and project shape' | 2 Nov 2026: handoff notes written for every completed task group that lacked one (T20/T32, T39/T40, T42/T43/T45, T44, T46/T47, T48/T49, T56/T58, T19/T38/T59), each from HANDOFF_TEMPLATE.md with test runs; data lives in JSON with stable IDs; readme.md documents the engine, baking (colliders, mainland tops) and autoloads. |
 
 ## Tasks (open first, highest score first)
 
@@ -43,7 +43,7 @@ _Generated 2026-11-02 10:03 by the Goal-Oriented Agent. Do not edit by hand; the
 | T60 | **6** | Test and confirm the 3-minute deadline and the 10 s return-collision cost in play | test | Creator with the QA agents | S | open |
 | T57 | **5** | Think about the pieces for the journal | decision | Creator with the Dialogue agent | M | open |
 | T18 | **4** | Review the rewritten opening lines and re-record the six changed voice lines | dialogue | Dialogue agent | M | open |
-| T23 | **3** | Bake mainland/cliff carving and collision to cut level load time | code | Level Layout agent | L | open |
+| T61 | **4** | Cut the level's load time: the interior build (~2.5 s) and the ~3 s of deferred work before the first physics step | code | Level Layout agent | L | open |
 | T01 | **10** | Create the central GameState autoload: phase machine, event bus, restart | code | Gameplay / Systems agent | M | done |
 | T02 | **10** | Greybox lighthouse interior route: door, hall, basement, tower stairs, lantern room | scene | Level Layout agent | L | done |
 | T06 | **10** | Saltgate burner pickup: place the burner by the landing, pick it up, carry it aboard | code | Gameplay / Systems agent | M | done |
@@ -95,6 +95,7 @@ _Generated 2026-11-02 10:03 by the Goal-Oriented Agent. Do not edit by hand; the
 | T22 | **4** | Write LightingTheStorm/readme.md and per-task HANDOFF.md template; reconcile doc gaps | doc | Production Orchestrator | S | done |
 | T38 | **4** | Texture the lighthouse exterior's plain patches (back-west corner panels, fills under the back windows) | art | Lighthouse Finisher Agent | S | done |
 | T21 | **3** | Strip or gate debug UI (lighting label, F5-F8 phase jumps) behind a debug flag | code | Lighting agent | S | done |
+| T23 | **3** | Bake mainland/cliff carving and collision to cut level load time | code | Level Layout agent | L | done |
 | T24 | **2** | Fix walkway rock-wall teeth and brighten the dark walkway | scene | Asset agent | M | deferred |
 
 ## Build order (dependencies first; see `GOA Dependency Order.md`)
@@ -102,8 +103,8 @@ _Generated 2026-11-02 10:03 by the Goal-Oriented Agent. Do not edit by hand; the
 | Wave | Order | ID | Task | Depends on | Waiting on |
 |---|---|---|---|---|---|
 | 4 | 18 | T60 | Test and confirm the 3-minute deadline and the 10 s return-collision cost in play | T19 | ready |
+| 4 | 19 | T61 | Cut the level's load time: the interior build (~2.5 s) and the ~3 s of deferred work before the first physics step | T23 | ready |
 | 5 | 25 | T18 | Review the rewritten opening lines and re-record the six changed voice lines | - | ready |
-| 5 | 27 | T23 | Bake mainland/cliff carving and collision to cut level load time | - | ready |
 
 ## Task detail
 
@@ -173,15 +174,13 @@ Run TED_S1_01, S1_09, S1_10, S1_11, S3_02, ARTHUR_S3_04 and the new TED_S3_00 th
 - **Blocked by:** Creator sign-off on voice and lore; ElevenLabs credits for regeneration.
 - **Needs the creator** (cannot be done by the agent alone)
 
-### T23 [3/10] Bake mainland/cliff carving and collision to cut level load time  (open)
+### T61 [4/10] Cut the level's load time: the interior build (~2.5 s) and the ~3 s of deferred work before the first physics step  (open)
 
-mainland.gd and collider_builder.gd carve about 22,000 triangles, build trees and collision at every load (about 10 s headless). Bake the carved meshes, height table and collision as resources and keep builders editor-only. 1 Nov 2026 update: collider baking is done (tools/bake_colliders.gd, Assets/Baked/colliders, readme 'Baked colliders'); what remains is the mainland's tree and carve building at load.
+Measured 2 Nov 2026 with tools/profile_ready.gd: about 7 s to the first frame (headless). _ready is ~4.1 s, of which InteriorRooms is ~2.1-2.7 s spread over kit setup, house, shell, lantern (~0.4 s), hero props (~0.9 s, loading the FAL prop models) and the exterior clip (~0.3 s). Then ~3 s of deferred work runs before the first physics step (exterior openings' rays, culling, light cards, roof liner, toon scan). Find the biggest deferred item first, then consider baking the interior shell and the exterior clip as resources (like the collider bakes) and loading the props in a background thread. Matters for the itch.io web build (T53), where a web load is slower than desktop.
 
-- **Why 3:** Quality of life for testing and builds, not a gate requirement, so 3.
-- **Evidence:** things to work on next.md item 3; scripts/world/mainland.gd _ready()
-- **Blocked by:** Needs the Godot editor to bake and verify.
-- **Needs the creator** (cannot be done by the agent alone)
-- **Result (partial):** Colliders are baked; mainland trees and carving still build at load.
+- **Why 4:** Quality of life and web-build load time, not a gate requirement.
+- **Evidence:** tools/profile_ready.gd, 2 Nov 2026: frame 1 7148 ms, _ready 4094 ms, after _ready 3053 ms; T23 result
+- **Depends on:** T23 (all closed)
 
 ### T01 [10/10] Create the central GameState autoload: phase machine, event bus, restart  (done)
 
@@ -688,6 +687,16 @@ lighting_rig.gd shows an on-screen 'Lighting: <phase>' label and lets F5-F8 jump
 - **Why 3:** Minor polish and a possible pillar-3 irritation. Not needed for the slice to run, so 3.
 - **Evidence:** scripts/world/lighting_rig.gd _build_label and F5-F8 handling
 - **Result (done):** The lighting phase label and the F5-F8 keys, and GameState's F9-F11 keys, now follow one flag (scripts/core/debug_flags.gd): on in a debug build, always off in a release export, and switchable off in a debug build with the user argument --no-debug-ui. The label is no longer built when the aids are off.
+
+### T23 [3/10] Bake mainland/cliff carving and collision to cut level load time  (done)
+
+mainland.gd and collider_builder.gd carve about 22,000 triangles, build trees and collision at every load (about 10 s headless). Bake the carved meshes, height table and collision as resources and keep builders editor-only. 1 Nov 2026 update: collider baking is done (tools/bake_colliders.gd, Assets/Baked/colliders, readme 'Baked colliders'); what remains is the mainland's tree and carve building at load.
+
+- **Why 3:** Quality of life for testing and builds, not a gate requirement, so 3.
+- **Evidence:** things to work on next.md item 3; scripts/world/mainland.gd _ready()
+- **Blocked by:** Needs the Godot editor to bake and verify.
+- **Needs the creator** (cannot be done by the agent alone)
+- **Result (done):** 2 Nov 2026: profiled first (tools/profile_ready.gd). The task's premise was out of date: the mainland's trees take 14 ms and its roads 58 ms; 372 ms of its 0.47 s was _measure_tops walking every cliff triangle. That table is now baked (Assets/Baked/mainland_tops.json, keyed by the cliff meshes and placement; tools/bake_mainland_tops.gd; tools/test_mainland_tops.gd passes, baked = live to 0.0000 m); Mainland now ~0.10 s. Saves ~0.4 s of a ~7 s load. The rest of the load is elsewhere: InteriorRooms ~2.1-2.7 s at _ready (kit, house, shell, lantern ~0.4 s, hero props ~0.9 s of model loads, exterior clip ~0.3 s) and ~3 s of deferred work before the first physics step. See T61.
 
 ### T24 [2/10] Fix walkway rock-wall teeth and brighten the dark walkway  (deferred)
 
