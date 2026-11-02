@@ -50,6 +50,7 @@ var _body: MeshInstance3D
 var _look: Dictionary = {}
 var _anim: AnimationPlayer
 var _walking_anim := false
+var _gait := 1.0                # walk clip speed: walk_speed over his normal pace, so a hurry looks like a jog, not a glide
 var _talking := false
 var _sit_held := false          # the sit clip has reached its hold point and is paused there
 
@@ -204,7 +205,7 @@ func _update_anim() -> void:
 	var walking := state == State.WALKING or state == State.FOLLOWING
 	if walking and not _walking_anim:
 		_walking_anim = true
-		_anim.play(String(_look["walk_clip"]))
+		_anim.play(String(_look["walk_clip"]), -1.0, _gait)
 	elif not walking and _walking_anim:
 		_stand()
 
@@ -218,6 +219,7 @@ func walk(points: PackedVector3Array, name_of_route := "", speed := -1.0) -> voi
 	route_index = 0
 	if speed > 0.0:
 		walk_speed = speed
+	_gait = maxf(walk_speed / float(_look["speed"]), 1.0)
 	state = State.WALKING if points.size() > 0 else State.IDLE
 	if points.size() == 1:
 		_step_to(points[0], 1000.0)

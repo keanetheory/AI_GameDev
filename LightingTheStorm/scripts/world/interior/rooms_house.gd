@@ -12,6 +12,7 @@ const Job := preload("res://scripts/world/interior/coal_job.gd")
 const Pile := preload("res://scripts/world/interior/coal_pile.gd")
 const Hatch := preload("res://scripts/world/interior/firebox_hatch.gd")
 const Flame := preload("res://scripts/world/interior/fire_flame.gd")
+const Smoke := preload("res://scripts/world/interior/machine_smoke.gd")
 const Zone := preload("res://scripts/world/interior/zone_trigger.gd")
 
 const GF := 0.97
@@ -323,6 +324,9 @@ func _basement(P: Node3D) -> void:
 	flame.position = K.p(-1.22, B1 + 0.24, 5.55)
 	flame.rotation_degrees.y = 90.0          # the card's front (+z) faces +u, the player's side
 	P.add_child(flame)
+	# a thin orange wisp curls out over the lintel of the firebox, above the flames (which stay as they are)
+	var boiler_smoke = Smoke.make(P, "B_BoilerSmoke", K.p(-0.9, B1 + 1.12, 5.55), "orange", 0.75, 0.4)
+	boiler_smoke.rotation_degrees.y = 90.0
 	refs["fire_light"] = K.light(P, "B_FireLight", Vector3(-0.45, B1 + 0.9, 5.55), Color(1.0, 0.5, 0.2), 2.0, 5.5, 0.1)
 	# the pressure gauge the coal job drives: a big dial on the wall above the coal-side corner of the boiler (the model's own
 	# gauge is a still picture)
@@ -368,9 +372,12 @@ func _basement(P: Node3D) -> void:
 	K.pole(P, "B_LobbyBarrel", 0.2, 3.4, B1, B1 + 0.85, 0.28, "wood", true)
 	K.box(P, "B_ToolRack", -2.1, -2.0, 2.6, 3.4, B1 + 0.9, B1 + 1.9, "wood_dark", false)
 	# --- engine room (u 3.6..5.55, v 2.5..6.7): the generated steam engine with its dynamo and flywheel (lhi_steam_engine.glb),
-	# long axis along v. The flywheel is part of the model, so it no longer turns.
-	K.model(P, "B_SteamEngine", "res://Assets/Models/prop/lhi_steam_engine.glb", Vector3(4.55, B1, 4.9), 0.0, 2.2, Vector3(1.35, 1.3, 2.0))
+	# long axis along v. The flywheel is part of the model, so it no longer turns. The model's solid cream exhaust plume above the pipe is
+	# carved away (the carve box is the model's raw z -0.9..-0.68, z being height); the engine_smoke wisp below replaces it.
+	K.model(P, "B_SteamEngine", "res://Assets/Models/prop/lhi_steam_engine.glb", Vector3(4.55, B1, 4.9), 0.0, 2.2, Vector3(1.35, 1.3, 2.0), AABB(Vector3(-0.3, -0.5, -0.9), Vector3(0.6, 1.1, 0.22)))
 	var flywheel = null
+	# the engine's exhaust funnel: a faint white-grey wisp once the engine runs (coal_job.gd)
+	var engine_smoke = Smoke.make(P, "B_EngineSmoke", Vector3(4.69, B1 + 1.77, -4.42), "grey", 0.75, 0.35)
 	# the switchboard on the east wall before the engine
 	K.box(P, "B_Switchboard", 5.4, 5.55, 2.6, 3.4, B1 + 1.0, B1 + 2.1, "wood_dark", false)
 	for i in 3:
@@ -410,6 +417,8 @@ func _basement(P: Node3D) -> void:
 	job.fire_flame = flame
 	flame.bind_light(refs["fire_light"])
 	job.flywheel = flywheel
+	job.boiler_smoke = boiler_smoke
+	job.engine_smoke = engine_smoke
 	job.green_lamp = green_lamp
 	job._ready()
 	var pile := Node3D.new()

@@ -86,7 +86,10 @@ func _run() -> void:
 	_check(gs.fired.has("LAMP_ROOM_ENTERED"), "the player reaching the lamp room fires LAMP_ROOM_ENTERED")
 	_check(not gs.fired.has("BURNER_DIAGNOSED"), "Ted takes a few seconds over the lamp")
 	_step(seq, 5.2)
-	_check(gs.fired.has("BURNER_DIAGNOSED") and broken.visible, "then BURNER_DIAGNOSED fires and the cracked burner lies on the floor")
+	_check(not gs.fired.has("BURNER_DIAGNOSED") and not broken.visible, "the lamp stays shut while Ted is still on his first line")
+	root.get_node("/root/Dialogue").line_finished.emit("TED_S1_10")
+	_step(seq, 0.8)
+	_check(gs.fired.has("BURNER_DIAGNOSED") and broken.visible, "then, once that line is done, BURNER_DIAGNOSED fires and the cracked burner lies on the floor")
 	_check(not gs.fired.has("BURNER_BRIEFING"), "the briefing waits until the player is back in the hall")
 
 	var hall: Vector3 = seq._hall_spot
