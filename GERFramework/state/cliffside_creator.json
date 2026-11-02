@@ -570,8 +570,8 @@
   },
   "CLF-04": {
    "status": "done",
-   "note": "Creator accepted the 2.5 s cliffside load (2026-10-20); meshes 26 -> 10.6 MB, 2048 textures. Baking not required",
-   "at": "2026-10-20T16:53:50+00:00"
+   "note": "2026-11-02: the mainland's cliff-top measure (0.37 s a load) is now baked (Assets/Baked/mainland_tops.json); Mainland 0.10 s. Earlier: Creator accepted the 2.5 s cliffside load (2026-10-20); meshes 26 -> 10.6 MB, 2048 textures. Baking not required",
+   "at": "2026-11-02T10:39:25+00:00"
   },
   "CLF-05": {
    "status": "done",

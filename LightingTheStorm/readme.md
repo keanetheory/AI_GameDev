@@ -59,6 +59,13 @@ godot --headless --path . --script res://tools/bake_colliders.gd      # rewrites
 godot --headless --path . --script res://tools/test_collider_bake.gd  # every node has a bake, and it matches a live build
 ```
 
+The mainland's plateau is built on a table of cliff-top heights measured from the cliff meshes; that walk over every cliff triangle is baked the same way (T23, about 0.37 s a load). `Assets/Baked/mainland_tops.json` is keyed by the cliff meshes and their placement; after changing a cliff, re-run:
+
+```bash
+godot --headless --path . --script res://tools/bake_mainland_tops.gd   # rewrites Assets/Baked/mainland_tops.json
+godot --headless --path . --script res://tools/test_mainland_tops.gd   # the bake was used at load and matches a live measure
+```
+
 `tools/profile_ready.gd` shows where the level's load time goes, node by node.
 
 ### The four autoloads
@@ -102,6 +109,7 @@ godot --headless --path . --script res://tools/test_outcome_screen.gd # the Fail
 godot --headless --path . --script res://tools/test_npc.gd            # the capsule sailors and their baked routes
 godot --headless --path . --script res://tools/test_sailors_sequence.gd # the rowboat, the gate and the sailors' walk-in
 godot --headless --path . --script res://tools/test_diagnosis_sequence.gd # Ted, the lamp-room diagnosis and the briefing
+godot --headless --path . --script res://tools/test_step1_idle.gd # Ted's step 1 nudges (IDLE_STEP_1) from the knock to BOILER_FED
 godot --headless --path . --script res://tools/test_intro_sequence.gd # the knock, Ted's greeting and walk, Ted's lines only inside
 godot --headless --path . --script res://tools/test_boarding_sequence.gd # Arthur walks to the launch, boards, steps ashore
 godot --headless --path . --script res://tools/test_crossing_sequence.gd # the return forecast hazards, safe lane and Arthur calls

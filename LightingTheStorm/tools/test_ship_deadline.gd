@@ -51,7 +51,7 @@ func _run() -> void:
 	if dl == null:
 		quit(1)
 		return
-	_check(dl.length_s == 210.0, "placeholder deadline length is 3 min 30 s (%.0f s)" % dl.length_s)
+	_check(dl.length_s == 180.0, "placeholder deadline length is 3 min (%.0f s)" % dl.length_s)
 	_check(not dl.ship.visible and gs.deadline_progress() == -1.0, "before the boiler is fed: the ship is hidden and the clock reads -1")
 	gs.emit_event("BOILER_FED")
 	_check(dl.ship.visible and dl.ship.mode == dl.ship.Mode.HOLD, "once the boiler is fed the unplanned ship appears at the horizon and holds (it is there to see from the lamp room)")
@@ -62,7 +62,7 @@ func _run() -> void:
 	gs.emit_event("BURNER_PICKED_UP")
 	gs.emit_event("RETURN_DEPARTED")
 	_check(dl.state == dl.State.RUNNING and is_equal_approx(gs.deadline_progress(), 0.0), "RETURN_DEPARTED starts the clock at 0")
-	dl._process(105.0)
+	dl._process(dl.length_s * 0.5)
 	_check(absf(gs.deadline_progress() - 0.5) < 0.001, "half the length gives progress 0.5 (%.3f)" % gs.deadline_progress())
 	_check(absf(dl.ship.travelled() - 0.5 * dl.ship.commit_s()) < 0.5, "the ship is half way to the commit point (%.0f of %.0f m)" % [dl.ship.travelled(), dl.ship.commit_s()])
 
@@ -88,7 +88,7 @@ func _run() -> void:
 	dl.time_scale = 1.0
 	var e3: float = dl.elapsed
 	dl.add_penalty(8.0, "test")
-	_check(absf(dl.elapsed - (e3 + 8.0)) < 0.001, "add_penalty() adds time (T19 will set the values)")
+	_check(absf(dl.elapsed - (e3 + 8.0)) < 0.001, "add_penalty() adds time (T19 values: return collisions cost 10 s)")
 
 	# expiry: exactly one SHIP_FAIL, the ship commits, then crashes
 	var impacts := [0]

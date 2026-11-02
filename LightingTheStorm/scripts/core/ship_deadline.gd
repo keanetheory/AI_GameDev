@@ -23,7 +23,7 @@ enum State { WAITING, RUNNING, FROZEN, EXPIRED }
 
 var state: int = State.WAITING
 var elapsed := 0.0                 # deadline seconds used (scaled by time_scale)
-var length_s := 210.0
+var length_s := 180.0
 var time_scale := 1.0
 var ship: Node3D
 var log: Array = []                # {t_msec, kind, elapsed, note}

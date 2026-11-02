@@ -14,5 +14,11 @@
     "db": 2.0
   },
   "start_after_open_s": 0.5,
+  "idle_step1": {
+    "first_nudge_s": 45.0,
+    "next_nudge_s": 30.0,
+    "tiers": 6,
+    "note": "From GAME_STARTED until BOILER_FED: a stall of first_nudge_s with no progress (in the door, the engine room, the first and half loads) calls IDLE_STEP_1, then every next_nudge_s, up to Ted's six tiers. Progress restarts the wait but not the ladder, so no line repeats (T64, 2 Nov 2026)."
+  },
   "reply_note": "Seconds after the knock before Ted opens the door; start_after_open_s is the beat between the door opening and his greeting (GAME_STARTED)."
 }

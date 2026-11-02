@@ -252,7 +252,7 @@ func _run() -> void:
 	var hits_before: int = seq.return_hits
 	boat._sail(1.0 / 60.0)
 	_check(seq.return_hits == hits_before + 1, "driving into a rock on the return is a collision")
-	_check(is_equal_approx(dl.elapsed - elapsed0, 5.0), "which costs 5 s on the deadline (%.1f s)" % (dl.elapsed - elapsed0))
+	_check(is_equal_approx(dl.elapsed - elapsed0, 10.0), "which costs 10 s on the deadline (%.1f s)" % (dl.elapsed - elapsed0))
 	_check(seq.dialogue_log.has("ARTHUR_HIT_1"), "and Arthur's first collision line plays")
 	_check(boat._rock_t >= 0.0 and boat._bounce_t >= 0.0, "the hull rocks and is being thrown back")
 	var max_step := 0.0

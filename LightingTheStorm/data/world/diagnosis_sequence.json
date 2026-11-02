@@ -12,8 +12,9 @@
     "note": "Beside the arc lamp, off the player's route to the burner seat (tools/probe_ted_spot.gd), next to where the broken burner lies. Ted appears when he calls the player up."
   },
   "lamp_room": {"centre": [8.5, -4.9], "radius_m": 3.3, "y_band": [27.0, 33.0]},
-  "open_delay_s": 5.0,
-  "open_note": "Seconds after the player reaches the lamp room before Ted has the burner out and says it is cracked (BURNER_DIAGNOSED). Ted's first line, 'Arc lamp's in the middle. Let's open her up...', fills the time.",
+  "open_delay_s": 25.0,
+  "open_after_line_s": 0.6,
+  "open_note": "Ted opens the lamp and takes the burner out (BURNER_DIAGNOSED) open_after_line_s after his first line, 'Arc lamp's in the middle. Let's open her up...', has finished, so nothing opens while he is still speaking. open_delay_s is only the fallback if that line never finishes.",
   "hall": {"radius_m": 3.2, "y_band": [10.0, 12.0], "note": "The briefing fires when the player is back in the hall near Arthur (the end of his baked walk-in) after the diagnosis."},
   "idle_step3": {"first_nudge_s": 60.0, "next_nudge_s": 30.0, "tiers": 3, "note": "After the briefing, if the player has not cast off, IDLE_STEP_3 nudges (Arthur's ladder: hint, sharper, explicit)."}
 }

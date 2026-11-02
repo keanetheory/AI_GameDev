@@ -518,8 +518,8 @@
   },
   "LHF-01": {
    "status": "in_progress",
-   "note": "9/9 baseline tests green; boiler/hall baseline shots taken; stair shots unusable; per-room tri counts not done",
-   "at": "2026-10-24T17:06:33+00:00"
+   "note": "2 Nov 2026 evening: beacon before/after stills (cone vs soft strip, spill on the rocks, lamp-room glass 65% -> 14% from inside) taken with tools/shot_phase.gd (scratch, not committed); lamp-room/window LOD and the F8 key clash logged as backlog T68.",
+   "at": "2026-11-02T17:08:32+00:00"
   },
   "LHF-02": {
    "status": "done",
@@ -585,6 +585,16 @@
    "status": "done",
    "note": "Creator feedback 15/15 addressed 2026-10-25 (status table in feedback report); 18/18 tests + audit gate pass",
    "at": "2026-10-25T11:35:27+00:00"
+  },
+  "LHF-16": {
+   "status": "in_progress",
+   "note": "2 Nov 2026 evening: after the beacon/glass changes (1bd4f43) and the basement smoke and ceiling flicker fix (9f367db), lamp_fit, interior_lights, interior_budget, interior_culling, toon_look, diagnosis, boarding, coal_job, title_settings and slice_playthrough all pass. Materials still near the 120 limit (T63).",
+   "at": "2026-11-02T17:08:32+00:00"
+  },
+  "LHF-18": {
+   "status": "in_progress",
+   "note": "2026-11-02: handoffs written for T39/T40 (open lamp), T42/T43/T45 (FAL props), T46/T47 (stairwell), T48/T49 (bathroom, Saltgate hut) and T19/T38/T59 (wall patches); prop licences in Assets/Models/prop/SOURCES.md (Meshy open lamp CC BY 4.0; FAL terms to confirm). Changelog and fallbacks not yet written.",
+   "at": "2026-11-02T10:39:25+00:00"
   }
  },
  "history": [

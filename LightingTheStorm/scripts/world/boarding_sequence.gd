@@ -82,6 +82,9 @@ func _process(delta: float) -> void:
 			_gs.emit_event("BOARDING_THRESHOLD")
 
 
+var _normal_speed := 1.45
+
+
 func _leave_for_the_launch() -> void:
 	var sailors: Node = _gs.sailors()
 	arthur = sailors.arthur if sailors != null else null
@@ -90,11 +93,14 @@ func _leave_for_the_launch() -> void:
 		arthur = Npc.spawn(_level, "ARTHUR", route[0])
 	stage = Stage.WALKING
 	arthur.arrived.connect(_on_arrived)
-	arthur.walk(route, "to_launch")
+	# the replacement burner is waiting: he hurries, at launch_walk_speed_scale times his normal pace (creator, 2 Nov 2026)
+	_normal_speed = arthur.walk_speed
+	arthur.walk(route, "to_launch", _normal_speed * float(spec.get("launch_walk_speed_scale", 1.0)))
 
 
 func _on_arrived(route_name: String) -> void:
 	if route_name == "to_launch":
+		arthur.walk_speed = _normal_speed
 		_board()
 
 

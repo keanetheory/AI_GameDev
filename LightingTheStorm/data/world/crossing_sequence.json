@@ -61,13 +61,13 @@
   ],
   "end_note": "The forecast's 600 m ends here, 35 m south of the island's rim at the harbour mouth, so no hazard lands on the island or in the harbour; the boat's own docking takes it the rest of the way (RETURN_ARRIVED).",
   "return_collision": {
-    "penalty_s": 5.0,
+    "penalty_s": 10.0,
     "bounce_m": 3.0,
     "bounce_s": 0.9,
     "rock_deg": 38.0,
     "rock_s": 2.6,
     "stun_s": 0.8,
-    "note": "A collision on the return (creator, 31 Oct 2026): the boat is thrown back 3 m from what it hit over 0.9 s (11 m was too far) and rocks very hard for about 2.5 s (38 degrees of roll at the start), instead of being put back at the last clear spot, and the deadline is charged 5 s. Outbound collisions keep the old recovery and cost nothing."
+    "note": "A collision on the return (creator, 31 Oct 2026): the boat is thrown back 3 m from what it hit over 0.9 s (11 m was too far) and rocks very hard for about 2.5 s (38 degrees of roll at the start), instead of being put back at the last clear spot, and the deadline is charged 10 s (creator, 2 Nov 2026, T19; was 5 s). Outbound collisions keep the old recovery and cost nothing."
   },
   "docking": {
     "tier_hits": [

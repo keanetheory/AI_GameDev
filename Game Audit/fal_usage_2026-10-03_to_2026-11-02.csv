@@ -1,0 +1,15 @@
+date,app_id,amount,quantity,unit,unit_price,gross_amount,net_amount,discount_percent,is_surge
+2026-10-12,fal-ai/nano-banana-2/edit,0.08,1,images,0.08,0.08,0.08,0,false
+2026-10-15,fal-ai/hunyuan3d/v2/multi-view,0.64,4,generations,0.16,0.64,0.64,0,false
+2026-10-15,fal-ai/hunyuan3d-v3/image-to-3d,7.275,485,units,0.015,7.275,7.275,0,false
+2026-10-15,fal-ai/nano-banana-2/edit,0.08,1,images,0.08,0.08,0.08,0,false
+2026-10-16,fal-ai/hunyuan3d-v3/image-to-3d,0.525,35,units,0.015,0.525,0.525,0,false
+2026-10-19,fal-ai/hunyuan3d-v3/image-to-3d,1.575,105,units,0.015,1.575,1.575,0,false
+2026-10-22,fal-ai/hunyuan3d-v3/text-to-3d,1.875,125,units,0.015,1.875,1.875,0,false
+2026-10-22,fal-ai/ideogram/v2,0.08,1,images,0.08,0.08,0.08,0,false
+2026-10-24,fal-ai/hunyuan3d-v3/text-to-3d,5.25,350,units,0.015,5.25,5.25,0,false
+2026-10-26,fal-ai/hunyuan3d-v3/text-to-3d,0.375,25,units,0.015,0.375,0.375,0,false
+2026-10-26,fal-ai/hunyuan3d-v3/image-to-3d,1.575,105,units,0.015,1.575,1.575,0,false
+2026-10-31,fal-ai/meshy/rigging,0.32,0.4,generations,0.8,0.32,0.32,0,false
+2026-10-31,fal-ai/hunyuan3d-v3/image-to-3d,3.375,225,units,0.015,3.375,3.375,0,false
+2026-11-01,fal-ai/hunyuan3d-v3/text-to-3d,10.875,725,units,0.015,10.875,10.875,0,false

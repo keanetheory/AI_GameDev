@@ -3,6 +3,7 @@
 #   the player knocks (E on the door shows "Knock") -> the knock sounds -> Ted opens the door -> GAME_STARTED, Ted's greeting ("Hrmph.
 #   You're the new guy, then ... In.") with the door open (creator, 31 Oct 2026) -> the player steps in (LIGHTHOUSE_ENTERED, Ted: "Boiler's cold ... Shovel coal, Isaac.")
 #   and Ted walks up the tower to the lamp room while he says it, where he waits (the diagnosis finds him there).
+# Step 1 stalls (no progress for idle_step1.first_nudge_s between GAME_STARTED and BOILER_FED) climb Ted's IDLE_STEP_1 ladder.
 # If the level has no front door (a test scene) nothing is held and GameState starts the game as before. Ted is the rigged character
 # (npc.gd "TED"). All timings are in data/world/intro_sequence.json.
 extends Node
@@ -23,6 +24,8 @@ var _start_in := -1.0
 var _open_in := -1.0
 var _knock_player: AudioStreamPlayer3D
 var _walked := false
+var _idle_in := -1.0
+var _idle_count := 0
 
 
 func setup(gs: Node, level: Node) -> void:
@@ -30,8 +33,6 @@ func setup(gs: Node, level: Node) -> void:
 	_level = level
 	door = level.get_node_or_null("LighthouseDoor")
 	_anchors = level.get_node_or_null("InteriorAnchors")
-	if Engine.has_meta("skip_intro") or door == null or _anchors == null or not door.has_signal("knocked"):
-		return       # (tests that need an ordinary front door set the "skip_intro" meta first)
 	var f := FileAccess.open(SPEC_PATH, FileAccess.READ)
 	if f == null:
 		push_error("intro_sequence: cannot read %s" % SPEC_PATH)
@@ -40,10 +41,12 @@ func setup(gs: Node, level: Node) -> void:
 	if not d is Dictionary:
 		return
 	spec = d
+	gs.event_emitted.connect(_on_event)     # the step 1 nudges run with or without the knock
+	if Engine.has_meta("skip_intro") or door == null or _anchors == null or not door.has_signal("knocked"):
+		return       # (tests that need an ordinary front door set the "skip_intro" meta first)
 	holds_start = true
 	door.knock_mode = true
 	door.knocked.connect(_on_knock)
-	gs.event_emitted.connect(_on_event)
 	var st := load(String(spec["knock"]["sound"])) as AudioStream
 	if st:
 		_knock_player = AudioStreamPlayer3D.new()
@@ -58,6 +61,14 @@ func setup(gs: Node, level: Node) -> void:
 
 func _process(delta: float) -> void:
 	if spec.is_empty():
+		return
+	if _idle_in >= 0.0:
+		_idle_in -= delta
+		if _idle_in < 0.0:
+			_idle_count += 1
+			_gs.idle("IDLE_STEP_1")
+			_idle_in = float(spec["idle_step1"]["next_nudge_s"]) if _idle_count < int(spec["idle_step1"]["tiers"]) else -2.0
+	if not holds_start:
 		return
 	if ted == null and _anchors.anchors.has("ted_greeting"):
 		_spawn_ted()
@@ -92,6 +103,16 @@ func _on_knock() -> void:
 
 
 func _on_event(id: String, _phase: int) -> void:
+	match id:
+		"GAME_STARTED":
+			_idle_in = float(spec["idle_step1"]["first_nudge_s"])
+			_idle_count = 0
+		"LIGHTHOUSE_ENTERED", "ENGINE_ROOM_ENTERED", "COAL_LOADED_FIRST", "COAL_LOADED_HALF":
+			if _idle_in >= 0.0:
+				_idle_in = float(spec["idle_step1"]["first_nudge_s"])   # progress: wait afresh, but keep the tier
+		"BOILER_FED":
+			_idle_in = -1.0
+			_gs.reset_idle("IDLE_STEP_1")
 	if id == "LIGHTHOUSE_ENTERED" and not _walked and ted != null:
 		_walked = true
 		var route := Routes.route("ted_to_lamp")

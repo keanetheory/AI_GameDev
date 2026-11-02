@@ -22,6 +22,8 @@ var fire_light: OmniLight3D
 var fire_glow: MeshInstance3D
 var fire_flame: Node3D          # fire_flame.gd: the living fire; it flickers and drives fire_light itself
 var flywheel: Node3D
+var boiler_smoke: Node3D        # machine_smoke.gd: a faint orange wisp from the firebox, thickening with the fire
+var engine_smoke: Node3D        # machine_smoke.gd: a faint white-grey wisp from the exhaust once the engine runs
 var green_lamp: MeshInstance3D
 var shovel_template: Dictionary = {}
 
@@ -132,6 +134,10 @@ func _apply() -> void:
 		var m := fire_glow.material_override as StandardMaterial3D
 		if m:
 			m.emission_energy_multiplier = 0.8 + 1.6 * f
+	if boiler_smoke:
+		boiler_smoke.set_level(0.6 + 0.4 * f)
+	if engine_smoke:
+		engine_smoke.set_level(1.0 if running else 0.4)
 	if green_lamp:
 		green_lamp.visible = true
 		var lm := green_lamp.material_override as StandardMaterial3D

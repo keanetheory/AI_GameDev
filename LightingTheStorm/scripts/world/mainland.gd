@@ -38,6 +38,7 @@ const FOREST_ROAD := [Vector2(-196, 573.5), Vector2(-203, 579), Vector2(-206, 58
 
 var _noise := FastNoiseLite.new()
 var _tops_real: Array[float] = []     # cliff-top height measured from the actual cliff meshes (see _measure_tops)
+var tops_from_bake := false           # true when _tops_real came from TOPS_BAKE instead of walking the cliff meshes
 var _road_xz: Array[Vector2] = []     # forest road samples, for keeping trees off it
 
 
@@ -47,13 +48,61 @@ func _ready() -> void:
 	_noise.seed = 7
 	_noise.frequency = 0.011
 	_noise.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH
-	_measure_tops()
+	if not _load_tops():
+		_measure_tops()
 	_build_terrain()
 	_build_roads()
 	_build_trees()
 
 
 # ---------- ground ----------
+
+## Walking every cliff triangle for the top heights was most of this node's load time (about 0.37 s of 0.47 s, T23). tools/bake_mainland_tops.gd
+## saves the result here with a key made from the cliff meshes (path, bounds, sizes, placement); while the key matches, a load reads the table.
+## Change a cliff (cliff_layout.json, a .glb) and the key stops matching: the tops are measured live as before and the log says so; re-run the bake.
+const TOPS_BAKE := "res://Assets/Baked/mainland_tops.json"
+
+
+func tops_key() -> String:
+	var cliffs := get_parent().get_node_or_null("Cliffs") if get_parent() else null
+	if cliffs == null:
+		return ""
+	var parts := [1, TOPS_X0, TOPS.size()]
+	for node in cliffs.get_children():
+		for mi in node.find_children("*", "MeshInstance3D", true, false):
+			var m := mi as MeshInstance3D
+			if m.mesh == null:
+				continue
+			var sig := [String(cliffs.get_path_to(m)), m.global_transform, m.mesh.get_aabb()]
+			var am := m.mesh as ArrayMesh
+			if am:
+				for i in am.get_surface_count():
+					sig.append(am.surface_get_array_len(i))
+			parts.append(sig)
+	return var_to_str(parts).md5_text()
+
+
+func _load_tops() -> bool:
+	if not FileAccess.file_exists(TOPS_BAKE):
+		return false
+	var d = JSON.parse_string(FileAccess.get_file_as_string(TOPS_BAKE))
+	if not (d is Dictionary) or d.get("key", "") != tops_key() or (d.get("tops", []) as Array).size() != TOPS.size():
+		print("mainland: no bake for the cliff tops (the cliffs changed), measuring live; run tools/bake_mainland_tops.gd")
+		return false
+	_tops_real.clear()
+	for v in d["tops"]:
+		_tops_real.append(float(v))
+	tops_from_bake = true
+	return true
+
+
+## The bake tool: measure live and save the table with its key.
+func bake_tops() -> void:
+	_measure_tops()
+	var f := FileAccess.open(TOPS_BAKE, FileAccess.WRITE)
+	f.store_string(JSON.stringify({"key": tops_key(), "tops": _tops_real}, " "))
+	f.close()
+
 
 ## Measures the top surface of the cliff pieces at z = 590, every 10 m, straight from their meshes (before
 ## the walkway is cut). The baked TOPS table came from the solid collision hull, which stands a little

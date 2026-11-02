@@ -5,7 +5,7 @@
 #   SAILORS_INSIDE + DANIEL_IN_BASEMENT -> a few seconds later BEACON_STILL_DARK (Ted, now in the lamp room, calls the player up: "Dynamo's
 #       running and still no light ... Lantern room, Isaac. With me."); Ted, who walked up earlier, is at his spot beside the arc lamp;
 #   the player reaches the lamp room -> LAMP_ROOM_ENTERED (Ted: "Arc lamp's in the middle. Let's open her up ...");
-#   a few seconds later -> BURNER_DIAGNOSED: the cracked burner Ted has taken out appears on the floor beside him ("Cracked clean
+#   once Ted has finished that line -> BURNER_DIAGNOSED: the cracked burner Ted has taken out appears on the floor beside him ("Cracked clean
 #       through. The burner's finished ..."), then he names the ship, which is in view out of the lamp-room windows;
 #   the player comes back down to the hall where Arthur waits -> BURNER_BRIEFING (Ted: "No burner, no beacon. There's a spare at the
 #       Saltgate ... Go with Arthur"), and if they then dawdle IDLE_STEP_3 nudges until the boat casts off;
@@ -51,6 +51,16 @@ func setup(gs: Node, level: Node) -> void:
 			n.visible = false
 			_broken.append(n)
 	gs.event_emitted.connect(_on_event)
+	var dlg := get_node_or_null("/root/Dialogue")
+	if dlg:
+		dlg.line_finished.connect(_on_line_finished)
+
+
+## Ted opens the lamp only once his first line ("Arc lamp's in the middle ...") has been said, not while he is still speaking it;
+## open_delay_s is the fallback if that line never finishes (creator, 2 Nov 2026).
+func _on_line_finished(line_id: String) -> void:
+	if line_id == "TED_S1_10" and _open_in > 0.0:
+		_open_in = minf(_open_in, float(spec["open_after_line_s"]))
 
 
 func _on_event(id: String, _phase: int) -> void:
