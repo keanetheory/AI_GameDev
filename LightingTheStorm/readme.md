@@ -122,6 +122,10 @@ godot --headless --path . --script res://tools/test_collider_bake.gd  # the coll
 
 A headless run proves logic. It cannot judge feel, looks, lighting or sightlines, so every change still needs a play-through in the editor. The Output panel will print `Parameter "m" is null` from the level's meshes in headless runs; that is the dummy renderer and is expected.
 
+## Watching the characters walk
+
+`godot --path . --script res://tools/route_viewer.gd` (needs a window) opens the real level and walks Ted, Arthur and Daniel along their baked routes (`data/world/npc_paths.json`, made by `tools/bake_npc_paths.gd`) one at a time, at the speed the game uses, with every route drawn as a line. Keys 1-7 pick a route; R replays; Space pauses; `[` `]` change the playback speed; C switches the camera (follow, overhead, free: right mouse to look, WASD/Q/E to move); V shows the lines through walls; L hides them; P saves a screenshot. Add `-- route=<name> snap=<seconds> out=<folder>` to walk one route on its own and save a screenshot every few seconds. After changing a route, re-bake and run `tools/test_npc.gd`.
+
 ## Working with the agents
 
 - `../GoalOrientedAgent/` keeps the backlog (`BACKLOG.md`), the build order (`GOA Dependency Order.md`) and the log of agent runs (`DEVLOG.md`, `Agent-only runs.md`).
