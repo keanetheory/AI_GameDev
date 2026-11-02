@@ -34,13 +34,25 @@ var wall_stone: Material                   # masonry for patches and the facade:
 var facade: Node3D                          # the front facade round the main door
 
 
+var _frames_to_wait := 2
+
+
+# Waits two physics frames (the colliders exist by then) through a signal connected to this node's own method, not an await on the
+# tree: a level freed within its first two physics frames (test_title_settings starts the game and goes back to the title) left this
+# coroutine suspended on a dead node, and the process crashed at exit (code 139). Godot drops the connection when the node is freed.
 func _ready() -> void:
-	_build.call_deferred()
+	get_tree().physics_frame.connect(_on_physics_frame)
+
+
+func _on_physics_frame() -> void:
+	_frames_to_wait -= 1
+	if _frames_to_wait > 0:
+		return
+	get_tree().physics_frame.disconnect(_on_physics_frame)
+	_build()
 
 
 func _build() -> void:
-	await get_tree().physics_frame
-	await get_tree().physics_frame
 	var lh := get_node_or_null(lighthouse_path) as Node3D
 	var rooms := get_node_or_null(rooms_path)
 	var det := get_node_or_null(wall_detail_path)

@@ -157,10 +157,20 @@ func _process(_d: float) -> void:
 		_cam = cam
 		if _outline.get_parent():
 			_outline.get_parent().remove_child(_outline)
-		if _cam:
-			_cam.add_child(_outline)
+		# with no camera it waits under this node, never parentless: an orphaned outline outlived the level and crashed the exit
+		(_cam if _cam else self).add_child(_outline)
 	if _outline:
 		_outline.visible = enabled and _camera_near()
+
+
+## The outline lives under the camera, not under this node, so it is freed here with the look (when the level goes, the camera
+## may already have gone, taking the outline with it).
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE and is_instance_valid(_outline):
+		if _outline.is_inside_tree():
+			_outline.queue_free()
+		else:
+			_outline.free()
 
 
 func _unhandled_input(event: InputEvent) -> void:

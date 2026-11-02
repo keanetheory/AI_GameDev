@@ -26,8 +26,8 @@ How each one was made:
   --chin -0.21 --fwd0 0.3 --fwd1 0.45` (beardless, so the movement is small).
 - **Jaw settings** are fractions of the head length from the Head bone, measured from each face's profile (nose, mouth line, chin);
   the tool's defaults fit none of these heads. `jaw_lipsync.gd` drives the bone (opens up to 18 degrees, about 13 in the tests).
-- **Licence:** the meshes come from FAL (Hunyuan3D v3) from our own concept art, and the rig and clips from Meshy. Confirm both
-  services' commercial terms before release; the earlier Meshy community-model credits ("Ironclad Mariner", "The Dockside Outlaw",
+- **Licence:** the meshes come from FAL (Hunyuan3D v3) from our own concept art; confirm FAL's commercial terms before release.
+  The rig and clips come from Meshy, CC BY 4.0 (creator, 2 Nov 2026): credit Meshy AI for the rigging and animation; the earlier Meshy community-model credits ("Ironclad Mariner", "The Dockside Outlaw",
   "The Red-Capped Wayfarer") no longer apply to the models in use.
 - **Originals** (git-ignored): `source/meshy_*_fal_all_animations.glb` and `source/*_4k_texture.glb`, backed up to
   `C:\bkupConceptArt\FAL_3D_Models\Characters\`. The FAL test meshes are in `C:\bkupConceptArt\FAL_3D_Models\character_texture\`.
