@@ -37,7 +37,8 @@ func _physics_process(_d: float) -> bool:
 	var ok: bool = hp.skipped.is_empty()
 	print(("PASS  " if ok else "FAIL  ") + "every hero prop's model loaded (skipped: %s)" % [hp.skipped])
 	fails += int(not ok)
-	var want: int = hp.ENTRIES.size() + hp.IN_PLACE.size() + hp.LAMPS.size()     # furniture, props placed in the room nodes (T45), lamp fixtures (T45)
+	# furniture, props placed in the room nodes (T45, T69), lamp fixtures (T45, T69), and the T69 valves, boiler gauge and burner cloth
+	var want: int = hp.ENTRIES.size() + hp.IN_PLACE.size() + hp.LAMPS.size() + hp.VALVES.size() + 2
 	var n_ok: bool = hp.placed.size() == want
 	print(("PASS  " if n_ok else "FAIL  ") + "%d of %d placed, %d greybox nodes hidden" % [hp.placed.size(), want, hp.hidden])
 	fails += int(not n_ok)

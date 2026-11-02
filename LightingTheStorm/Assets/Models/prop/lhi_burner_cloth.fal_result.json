@@ -1,0 +1,20 @@
+{
+  "submission": {
+    "asset_id": "lhi_burner_cloth",
+    "category": "prop",
+    "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+    "prompt": "Oily canvas rag spread flat on a floor, creased and folded at one corner, black grease stains and scorch marks, frayed edges, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+    "source_image": null,
+    "view_images": {},
+    "notes": "Greybox pass 2 (2 Nov 2026), priority 1. Replaces BrokenBurnerCloth (a canvas disc 1.0 m across, 2 cm thick) under the broken burner on the lamp-room floor. diagnosis_sequence.gd hides it until Ted takes the burner out and shows it by name, so the model must be a child of that node (or take its name). Seen in the diagnosis scene. Downscale the 4096 texture to 2048 on import, then tools/decimate_props.gd."
+  },
+  "request_id": "01a19dba-d28c-70c3-bc2c-7fc331543890",
+  "seed": null,
+  "model_url": "https://v3b.fal.media/files/b/0ab0e3a6/p7Tmr3y8-pE8cVCWbMteO_model.glb",
+  "textured": true,
+  "request": {
+    "prompt": "Oily canvas rag spread flat on a floor, creased and folded at one corner, black grease stains and scorch marks, frayed edges, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "generate_type": "Normal"
+  }
+}

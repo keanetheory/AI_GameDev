@@ -1,0 +1,20 @@
+{
+  "submission": {
+    "asset_id": "lhi_valve_wheel",
+    "category": "prop",
+    "fal_model": "fal-ai/hunyuan3d-v3/text-to-3d",
+    "prompt": "Cast iron steam valve with a spoked handwheel on a short threaded stem and a flanged valve body, chipped black paint, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "negative_prompt": "modern clothing, cars, plastic, neon, smartphones, modern electrical fixtures, bright saturated colours, smooth photoreal rendering, clean glossy surfaces, anime style, text artefacts, real artist names, franchise characters, people, hands",
+    "source_image": null,
+    "view_images": {},
+    "notes": "Greybox pass 2 (2 Nov 2026), priority 1. Replaces B_ValveWheel_0-2 with B_ValveStem_0-2 on the basement steam main (wheel 0.2 m across, overhead) and B_ValveWheel_Eng on the engine feed (0.22 m). One model, four uses. Decimate small: about 800 triangles. Downscale the 4096 texture to 2048 on import, then tools/decimate_props.gd."
+  },
+  "request_id": "01a19db8-9517-7412-a0a4-3d0f8b5f3c05",
+  "seed": null,
+  "model_url": "https://v3b.fal.media/files/b/0ab0e39a/7IJ0aZRPj28URIr0ELu7j_model.glb",
+  "textured": true,
+  "request": {
+    "prompt": "Cast iron steam valve with a spoked handwheel on a short threaded stem and a flanged valve body, chipped black paint, single object on a neutral background, gritty dark cel-shaded, heavy ink outlines, flat cel shading with hard-edged shadow shapes, grimy hand-painted textures, muted, desaturated palette of stone grey #6B6B66 and slate #2C3A40, weathered mid-1800s",
+    "generate_type": "Normal"
+  }
+}

@@ -2,10 +2,17 @@
 
 Written at the end of Monday 2 November. Branch **`Monday2ndEvening`** (pushed to origin, no PR yet). `main` has everything up to PR #23.
 
-## Still running when these notes were written
+## The 12 FAL props are installed (T69, committed late on 2 Nov)
 
-- **The 12 FAL props are being installed by an agent** (T69): backups, texture downscale, Blender decimation, `hero_props.gd` entries, the STEAM plate moved next to the gauge, and the free fixes (reuse the oilskin coat and pendant lamp, hide the linen and the tub tap). Its changes are **not committed**. First job tomorrow: read its report and screenshots, check each prop in place, run `audit_lighthouse.gd -- check` and the tests, then commit.
-- If a prop came out unusable it was left as a greybox. Re-rolls are $0.375 each and **about $1.60 is left on FAL** (confirm on the dashboard). The creator decides re-rolls.
+All 12 are in place of their greyboxes, with the free fixes (two oilskin coats in the basement, the pendant lamp as the store bulb, the linen and tub tap hidden). Lighthouse audit: 858,296 triangles, 112 materials, 1,278 surfaces, 2,957 nodes, all inside the limits (none raised). Screenshots: the agent's contact sheet `props_contact.jpg` (session scratchpad). Check in play:
+
+- **The pressure gauge** was hidden behind the water cistern (whose model hangs low), so the gauge was raised to about 2.2 m with the STEAM plate above it: about 0.5 m over eye height. Alternative: shrink and raise the cistern instead.
+- **The coal bin front** model is a whole crate of coal squashed into the thin front: reads as a planked front with coal on top; re-roll only if it looks wrong.
+- **The wall grilles** are turned upright (bars horizontal) and shallower; a bit of the black recess shows at one edge.
+- **The rope coil** is 3,000 triangles (its fringe fell apart lower).
+- **The oilskin coat** model was re-decimated from 16.3k to 3.5k triangles (used six times now); the old one is `source/lhi_oilskin_coat_16k.glb` and in git history.
+- **Next to the engine-feed valve** (basement) a large white folded shape shows in the screenshot: identify it (smoke card? part of the engine model?).
+- **A pale slanted board on the L2 landing** next to the rope: it was there before; check.
 
 ## The day's plan (from the backlog)
 
@@ -39,7 +46,7 @@ Written at the end of Monday 2 November. Branch **`Monday2ndEvening`** (pushed t
 
 ## Open backlog (score order)
 
-T50 (8), T53 (8), T62 (7), T51 (6), T69 props install (6, in progress), T57 (5), T18 (4), T61 load time (4), T68 lighting follow-ups (4), T65 handoff loose ends (3). Goal progress 90% (17 of 21 requirements met).
+T50 (8), T53 (8), T62 (7), T51 (6), T69 props (6, installed: check in play), T57 (5), T18 (4), T61 load time (4), T68 lighting follow-ups (4), T65 handoff loose ends (3). Goal progress 90% (17 of 21 requirements met).
 
 ## FAL
 

@@ -2,19 +2,19 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cu315difsu8y8"
-path="res://.godot/imported/lhi_oilskin_coat_0.png-98061bd5d93eab4fc790fa256161a9e2.ctex"
+uid="uid://ctxx17xs12ls8"
+path="res://.godot/imported/lhi_burner_cloth_texture_20250901.jpg-04d8eb157757950a5b39d35e54680419.ctex"
 metadata={
 "vram_texture": false
 }
 generator_parameters={
-"md5": "76d0286391f1cea2ea3074114eba76c4"
+"md5": "177467034a87f0e58ea5304fc11e8f3e"
 }
 
 [deps]
 
-source_file="res://Assets/Models/prop/lhi_oilskin_coat_0.png"
-dest_files=["res://.godot/imported/lhi_oilskin_coat_0.png-98061bd5d93eab4fc790fa256161a9e2.ctex"]
+source_file="res://Assets/Models/prop/lhi_burner_cloth_texture_20250901.jpg"
+dest_files=["res://.godot/imported/lhi_burner_cloth_texture_20250901.jpg-04d8eb157757950a5b39d35e54680419.ctex"]
 
 [params]
 

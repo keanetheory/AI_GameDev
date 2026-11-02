@@ -329,8 +329,9 @@ func _basement(P: Node3D) -> void:
 	boiler_smoke.rotation_degrees.y = 90.0
 	refs["fire_light"] = K.light(P, "B_FireLight", Vector3(-0.45, B1 + 0.9, 5.55), Color(1.0, 0.5, 0.2), 2.0, 5.5, 0.1)
 	# the pressure gauge the coal job drives: a big dial on the wall above the coal-side corner of the boiler (the model's own
-	# gauge is a still picture)
-	var gauge = K.node(P, "B_BoilerGauge", Vector3(-2.2, B1 + 1.75, 4.2))
+	# gauge is a still picture). T69 (2 Nov 2026): raised over the water cistern, which hid it at B1 + 1.75, with its back on the wall
+	# (u -2.15); hero_props.gd puts the generated gauge round it and moves this face and needle out onto the model's glass.
+	var gauge = K.node(P, "B_BoilerGauge", Vector3(-2.12, B1 + 2.22, 4.2))
 	gauge.set_script(Gauge)
 	K.disc(gauge, "B_GaugeRim", Vector3(0.0, 0.0, 0.0), Vector3(1, 0, 0), 0.2, 0.06, "brass")
 	K.disc(gauge, "B_GaugeFace", Vector3(0.0, 0.0, 0.0) + Vector3(0.03, 0, 0), Vector3(1, 0, 0), 0.17, 0.03, "gauge_face")
@@ -339,7 +340,7 @@ func _basement(P: Node3D) -> void:
 	needle.position = KP(0.04, 0.0, 0.0)
 	gauge.add_child(needle)
 	K.box(needle, "NeedleBar", -0.008, 0.008, -0.008, 0.008, 0.0, 0.14, "lamp_red", false)
-	K.page(P, "B_GaugePlate", Vector3(-2.19, B1 + 1.48, 4.2), Vector3(1, 0, 0), 0.34, "plate_steam")
+	K.page(P, "B_GaugePlate", Vector3(-2.15, B1 + 2.58, 4.2), Vector3(1, 0, 0), 0.34, "plate_steam")      # over the gauge (T69)
 	refs["gauge"] = gauge
 	gauge.set_level(0.0)
 	# steam main: boiler -> along the back wall -> down the east wall -> the engine
