@@ -71,6 +71,10 @@ var _repaired := false
 ## colour, so floors, stairs and walls can be told apart; "*" is the colour for names that match no key. Replaces the
 ## model's materials (the glTF importer gives material-less meshes a plain default one), so only set it on greyboxes.
 @export var colour_by_name: Dictionary = {}
+## Give a flattened or carved mesh level-of-detail versions again (ISL-09). The import generates LODs, but the flatten and the carve
+## rebuild the mesh from its arrays and the LODs are lost, so the 185k-triangle island was drawn in full from the Saltgate. With this on,
+## LODs are generated for the rebuilt mesh (once, by tools/bake_colliders.gd; the bake stores them) and Godot picks one by distance.
+@export var keep_lods := false
 
 const ColliderBake := preload("res://scripts/world/collider_bake.gd")
 ## Where tools/bake_colliders.gd saves each node's flattening, carve and collision shapes, so a load reads them instead of
@@ -166,6 +170,8 @@ func _bake_key(root: Node, meshes: Array[MeshInstance3D]) -> String:
 			carve_boxes, carve_oriented, carve_oriented_any, carve_cylinders_any, carve_cylinders, carve_lines,
 			carve_line_half_width, carve_line_half_widths, keep_boxes, flatten_boxes, flatten_falloff, press_path,
 			press_half_width, press_falloff, marker_suffix]
+	if keep_lods:
+		parts.append("lods")         # only when on, so the other nodes' keys (and bake files) are unchanged
 	for mi in meshes:
 		var sig := [String(root.get_path_to(mi))]
 		if mi.mesh:
@@ -230,6 +236,9 @@ func _build_entry(mi: MeshInstance3D, build_shape: bool) -> Dictionary:
 			entry["normals"] = normals
 		if carves:
 			entry["indices"] = indices
+		if keep_lods:
+			entry["lods"] = _make_lods(am)
+			_apply_entry(mi, {"lods": entry["lods"]})
 	if build_shape and mi.mesh:
 		var shape: Shape3D
 		if collision_kind == 1:
@@ -245,7 +254,7 @@ func _build_entry(mi: MeshInstance3D, build_shape: bool) -> Dictionary:
 # Puts a baked flattening and carve back on the model's mesh (the shape is added by the caller).
 func _apply_entry(mi: MeshInstance3D, entry: Dictionary) -> void:
 	var src := mi.mesh as ArrayMesh
-	if src == null or not (entry.has("verts") or entry.has("indices")):
+	if src == null or not (entry.has("verts") or entry.has("indices") or entry.has("lods")):
 		return
 	var out := ArrayMesh.new()
 	for s in src.get_surface_count():
@@ -256,9 +265,36 @@ func _apply_entry(mi: MeshInstance3D, entry: Dictionary) -> void:
 				arrays[Mesh.ARRAY_NORMAL] = entry["normals"][s]
 		if entry.has("indices"):
 			arrays[Mesh.ARRAY_INDEX] = entry["indices"][s]      # as the carve left it, even when it kept nothing
-		out.add_surface_from_arrays(src.surface_get_primitive_type(s), arrays)
+		var lods: Dictionary = entry["lods"][s] if entry.has("lods") and s < entry["lods"].size() else {}
+		out.add_surface_from_arrays(src.surface_get_primitive_type(s), arrays, [], lods)
 		out.surface_set_material(s, src.surface_get_material(s))
 	mi.mesh = out
+
+
+# LODs for a rebuilt mesh, one Dictionary per surface ({lod size: index array}, what ArrayMesh.add_surface_from_arrays takes), made
+# the way the importer makes them. They index the mesh's own vertices; if the generator had to add vertices (it can split some at
+# hard normals) the LODs could not be used with the baked arrays, so that surface gets none (and says so).
+func _make_lods(am: ArrayMesh) -> Array:
+	var out := []
+	if am == null:
+		return out
+	var t0 := Time.get_ticks_msec()
+	var im := ImporterMesh.new()
+	for s in am.get_surface_count():
+		im.add_surface(am.surface_get_primitive_type(s), am.surface_get_arrays(s), [], {}, am.surface_get_material(s))
+	im.generate_lods(60.0, 180.0, [])    # merge 60 (the importer default); split 180 = never split a vertex, so the LODs index the baked arrays
+	for s in im.get_surface_count():
+		var d := {}
+		var before: int = am.surface_get_array_len(s)
+		var after: int = (im.get_surface_arrays(s)[Mesh.ARRAY_VERTEX] as PackedVector3Array).size()
+		if after != before:
+			push_warning("collider_builder: LODs for %s surface %d changed the vertex count (%d -> %d); none kept" % [name, s, before, after])
+		else:
+			for l in im.get_surface_lod_count(s):
+				d[im.get_surface_lod_size(s, l)] = im.get_surface_lod_indices(s, l)
+		out.append(d)
+	print("collider_builder: %s LODs %s (%d ms)" % [name, str(out.map(func(d): return d.values().map(func(i): return i.size() / 3))), Time.get_ticks_msec() - t0])
+	return out
 
 
 func _save_bake(bake) -> void:

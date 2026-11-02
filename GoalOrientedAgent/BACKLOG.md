@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-11-02 13:10 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-11-02 15:09 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -25,7 +25,7 @@ _Generated 2026-11-02 13:10 by the Goal-Oriented Agent. Do not edit by hand; the
 | R13 | MET | Win and fail outcomes resolve exactly once per attempt: win = ship sails safely into port; fail = foghorn, ship runs aground, silence, 'Failed' title screen with a reason line. The lamp room has a clear sightline; no cutaway camera. | Exec Summary Fail-state contract; Technical Strategy fail-state presentation; Pillar 4 | 1 Nov 2026 re-grade: Win and fail resolve once per attempt: foghorn, grounding, silence, Failed card with a reason, win card (tools/test_outcome_screen.gd; playthrough covers WIN and a FAIL then restart). |
 | R14 | MET | After a fail the player can restart the slice from its start. | Exec Summary Retry model and Outcome checks; Technical Strategy Gate 1 acceptance | 1 Nov 2026 re-grade: Enter or Space on the outcome card restarts the slice with a clean attempt (tools/test_outcome_screen.gd, test_slice_playthrough.gd fail-then-restart). |
 | R15 | MET | Explicit phase state machine (ARRIVAL_AND_COAL through RESOLUTION) with stable event IDs; every transition has a single owner; audio, UI and dialogue respond to events and never drive progression. | Technical Strategy 'Core state contract'; AI Agent Strategy rule 4 | 1 Nov 2026 re-grade: GameState phase machine with stable event IDs; the playthrough sees all 25 story events once each, in order, with phases advancing one at a time. |
-| R16 | PARTIAL | Guidance comes from Ted and Arthur by voice/subtitle and a handwritten objective journal, with no markers or visible timer; apprentice never speaks; spoken navigation cues have subtitles with speaker attribution. | Pillar 3; Technical Strategy 'Presentation and accessibility'; Exec Summary Cast | 2 Nov 2026: every line rewritten for absurd humour and timed with the creator (a5b5ea6); the step 1 idle nudges are written but not hooked up (T64). 1 Nov 2026 re-grade: Subtitles with speaker, goal tracker, controls panel and journal key exist (tools/test_subtitles.gd, test_guidance_hud.gd); no markers or timer. Journal contents are still open (T57) and no voice audio is recorded (T18, T50). |
+| R16 | PARTIAL | Guidance comes from Ted and Arthur by voice/subtitle and a handwritten objective journal, with no markers or visible timer; apprentice never speaks; spoken navigation cues have subtitles with speaker attribution. | Pillar 3; Technical Strategy 'Presentation and accessibility'; Exec Summary Cast | 2 Nov 2026: every line rewritten for absurd humour and timed with the creator (a5b5ea6); the step 1 idle nudges are hooked up and tested (T64, tools/test_step1_idle.gd). 1 Nov 2026 re-grade: Subtitles with speaker, goal tracker, controls panel and journal key exist (tools/test_subtitles.gd, test_guidance_hud.gd); no markers or timer. Journal contents are still open (T57) and no voice audio is recorded (T18, T50). |
 | R17 | MET | The slice is playable on keyboard and mouse (creator, 19 October 2026: no controller in this iteration). | Technical Strategy Gate 1 acceptance; Decisions to be made B14 (open: is controller needed for the prototype?) | 1 Nov 2026 re-grade: Keyboard and mouse only (creator, 19 Oct). Controls panel shows the keys; C toggles it. |
 | R18 | PARTIAL | Placeholder audio: layered wind and rain, machinery, buoy bells, foghorn, ship impact; states mixed by phase; no shock stingers. | Exec Summary 'Cast and atmosphere'; Technical Strategy presentation; AI Agent Strategy (Sound) | 1 Nov 2026 re-grade: Placeholder audio exists and is mixed by phase (Assets/Audio/placeholder, audio_mixer, tools/test_audio_mixer.gd). The sounds are synthesised stand-ins that nobody has heard; creator review is set for Tuesday 3 Nov (T50). |
 | R19 | PARTIAL | Warm lamplight against blue-grey storm light; the beam is a navigational anchor from the sea; beacon and hazards stay legible in every phase; greybox art is acceptable. | Exec Summary 'Cast and atmosphere'; AI Agent Strategy (Lighting) | 1 Nov 2026 re-grade: Warm lamplight against blue-grey storm light, the lamp beacon and the Saint Calder glow card over the Saltgate cliff (SLT-06, 1 Nov). Not verified in play in every phase; the Saltgate renders were OUTBOUND only. |
@@ -42,7 +42,6 @@ _Generated 2026-11-02 13:10 by the Goal-Oriented Agent. Do not edit by hand; the
 | T51 | **6** | Decide where the characters look during specific lines (the Arthur and Ted opening) | dialogue | Creator with the Dialogue agent | M | open |
 | T60 | **6** | Test and confirm the 3-minute deadline and the 10 s return-collision cost in play | test | Creator with the QA agents | S | open |
 | T57 | **5** | Think about the pieces for the journal | decision | Creator with the Dialogue agent | M | open |
-| T64 | **5** | Wire the step 1 idle nudges (IDLE_STEP_1, Ted's TED_S1_I1-I6) | code | Code agent | S | open |
 | T18 | **4** | Review the rewritten opening lines and re-record the six changed voice lines | dialogue | Dialogue agent | M | open |
 | T61 | **4** | Cut the level's load time: the interior build (~2.5 s) and the ~3 s of deferred work before the first physics step | code | Level Layout agent | L | open |
 | T63 | **4** | Free material headroom in the lighthouse (audit at 120 of 120) | code | Lighthouse Finisher Agent | S | open |
@@ -96,6 +95,7 @@ _Generated 2026-11-02 13:10 by the Goal-Oriented Agent. Do not edit by hand; the
 | T20 | **5** | QA scenario list and automated state-transition checks for the Gate 1 slice | test | QA agent | M | done |
 | T25 | **5** | Repair tools/test_boat.gd for the two-berth harbour and make it fail on timeout | test | Boat / Physics agent | S | done |
 | T34 | **5** | Resolve the discoveries content (B2) on Friday 23 October 2026 | decision | Canon and Review Orchestrator | S | done |
+| T64 | **5** | Wire the step 1 idle nudges (IDLE_STEP_1, Ted's TED_S1_I1-I6) | code | Code agent | S | done |
 | T22 | **4** | Write LightingTheStorm/readme.md and per-task HANDOFF.md template; reconcile doc gaps | doc | Production Orchestrator | S | done |
 | T38 | **4** | Texture the lighthouse exterior's plain patches (back-west corner panels, fills under the back windows) | art | Lighthouse Finisher Agent | S | done |
 | T21 | **3** | Strip or gate debug UI (lighting label, F5-F8 phase jumps) behind a debug flag | code | Lighting agent | S | done |
@@ -170,14 +170,6 @@ Decide what the player's journal (J, scripts/ui/subtitle_ui.gd and the 'journal'
 - **Evidence:** Creator, 30 Oct 2026: think about pieces for the journal; scripts/ui/subtitle_ui.gd; data/dialogue/dialogue_opening.json
 - **Blocked by:** A conversation with the creator. The dialogue pass is done (a5b5ea6), so the journal can match its voice.
 - **Needs the creator** (cannot be done by the agent alone)
-
-### T64 [5/10] Wire the step 1 idle nudges (IDLE_STEP_1, Ted's TED_S1_I1-I6)  (open)
-
-The six step 1 idle lines exist in data/dialogue/dialogue_opening.json, but nothing calls GameState.idle('IDLE_STEP_1'): only IDLE_STEP_2 (sailors_sequence.gd) and IDLE_STEP_3 (diagnosis_sequence.gd) are wired. Add the same ladder to the coal job (scripts/world/interior/coal_job.gd or a small step 1 sequence): first nudge after a stall from the knock until the boiler is fed, reset on progress (entering the house, the engine room, each shovel), tiers 6 to match the lines. Add a headless test like the step 2 one and run test_slice_playthrough.gd.
-
-- **Why 5:** A stalled player on step 1 gets no help; the lines are written, only the hook is missing.
-- **Evidence:** Other session, 2 Nov 2026: step 1 idle isn't wired in the code; scripts/world/sailors_sequence.gd (the IDLE_STEP_2 pattern); scripts/world/interior/coal_job.gd
-- **Depends on:** T52 (all closed)
 
 ### T18 [4/10] Review the rewritten opening lines and re-record the six changed voice lines  (open)
 
@@ -700,6 +692,15 @@ Decide which discoveries live in the lighthouse and island and which stay at the
 - **Blocked by:** Creator decision, due Friday 23 October 2026.
 - **Needs the creator** (cannot be done by the agent alone)
 - **Result (done):** Creator decided 23 Oct 2026 (Decisions A27): core discoveries (about 4-6) in the lighthouse and island, before boarding; Saltgate keeps 1-2. Each ties to the beacon failure through an unexplained human cause (neglect or tampering by people in the walls); no supernatural confirmation and the Flighted are not named as the cause. Individual items are picked in the Gate 2 narrative pass.
+
+### T64 [5/10] Wire the step 1 idle nudges (IDLE_STEP_1, Ted's TED_S1_I1-I6)  (done)
+
+The six step 1 idle lines exist in data/dialogue/dialogue_opening.json, but nothing calls GameState.idle('IDLE_STEP_1'): only IDLE_STEP_2 (sailors_sequence.gd) and IDLE_STEP_3 (diagnosis_sequence.gd) are wired. Add the same ladder to the coal job (scripts/world/interior/coal_job.gd or a small step 1 sequence): first nudge after a stall from the knock until the boiler is fed, reset on progress (entering the house, the engine room, each shovel), tiers 6 to match the lines. Add a headless test like the step 2 one and run test_slice_playthrough.gd.
+
+- **Why 5:** A stalled player on step 1 gets no help; the lines are written, only the hook is missing.
+- **Evidence:** Other session, 2 Nov 2026: step 1 idle isn't wired in the code; scripts/world/sailors_sequence.gd (the IDLE_STEP_2 pattern); scripts/world/interior/coal_job.gd
+- **Depends on:** T52 (all closed)
+- **Result (done):** 2 Nov 2026: the ladder lives in scripts/world/intro_sequence.gd (it owns step 1 from the knock), settings in data/world/intro_sequence.json idle_step1: first nudge after 45 s with no progress, then every 30 s, 6 tiers (TED_S1_I1-I6). Progress (LIGHTHOUSE_ENTERED, ENGINE_ROOM_ENTERED, COAL_LOADED_FIRST/HALF) restarts the wait but keeps the tier, so no line repeats; BOILER_FED ends it. It also runs when the knock is skipped (test scenes). New tools/test_step1_idle.gd (14 checks) passes; test_intro_sequence, game_state, sailors_sequence, diagnosis_sequence, subtitles, title_settings and slice_playthrough pass. QA_SCENARIOS S05 and readme updated. As in steps 2 and 3, a nudge that falls while Ted is already speaking is skipped.
 
 ### T22 [4/10] Write LightingTheStorm/readme.md and per-task HANDOFF.md template; reconcile doc gaps  (done)
 

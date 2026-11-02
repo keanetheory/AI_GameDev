@@ -112,7 +112,7 @@
       "text": "Guidance comes from Ted and Arthur by voice/subtitle and a handwritten objective journal, with no markers or visible timer; apprentice never speaks; spoken navigation cues have subtitles with speaker attribution.",
       "source": "Pillar 3; Technical Strategy 'Presentation and accessibility'; Exec Summary Cast",
       "status": "partial",
-      "evidence": "2 Nov 2026: every line rewritten for absurd humour and timed with the creator (a5b5ea6); the step 1 idle nudges are written but not hooked up (T64). 1 Nov 2026 re-grade: Subtitles with speaker, goal tracker, controls panel and journal key exist (tools/test_subtitles.gd, test_guidance_hud.gd); no markers or timer. Journal contents are still open (T57) and no voice audio is recorded (T18, T50)."
+      "evidence": "2 Nov 2026: every line rewritten for absurd humour and timed with the creator (a5b5ea6); the step 1 idle nudges are hooked up and tested (T64, tools/test_step1_idle.gd). 1 Nov 2026 re-grade: Subtitles with speaker, goal tracker, controls panel and journal key exist (tools/test_subtitles.gd, test_guidance_hud.gd); no markers or timer. Journal contents are still open (T57) and no voice audio is recorded (T18, T50)."
     },
     {
       "id": "R17",
@@ -2091,8 +2091,11 @@
       "depends_on": [
         "T52"
       ],
-      "status": "open",
-      "result": null
+      "status": "done",
+      "result": {
+        "outcome": "done",
+        "summary": "2 Nov 2026: the ladder lives in scripts/world/intro_sequence.gd (it owns step 1 from the knock), settings in data/world/intro_sequence.json idle_step1: first nudge after 45 s with no progress, then every 30 s, 6 tiers (TED_S1_I1-I6). Progress (LIGHTHOUSE_ENTERED, ENGINE_ROOM_ENTERED, COAL_LOADED_FIRST/HALF) restarts the wait but keeps the tier, so no line repeats; BOILER_FED ends it. It also runs when the knock is skipped (test scenes). New tools/test_step1_idle.gd (14 checks) passes; test_intro_sequence, game_state, sailors_sequence, diagnosis_sequence, subtitles, title_settings and slice_playthrough pass. QA_SCENARIOS S05 and readme updated. As in steps 2 and 3, a nudge that falls while Ted is already speaking is skipped."
+      }
     },
     {
       "id": "T65",
@@ -2630,6 +2633,12 @@
       "task_id": "-",
       "event": "status_update",
       "note": "Other session's dialogue work folded in (a5b5ea6): T52 done, T50 partial (music cues remain), T18 list grown, T51/T57 unblocked. T64 (step 1 idle nudges) and T65 (handoff loose ends) added."
+    },
+    {
+      "time": "2026-11-02T20:00:00",
+      "task_id": "T64",
+      "event": "done",
+      "note": "Step 1 idle nudges wired (intro_sequence.gd) and tested."
     }
   ]
 }

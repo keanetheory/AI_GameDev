@@ -6,6 +6,8 @@ _Started 2 Nov 2026 from the FAL dashboard export (`fal-ai-usage-2026-10-03T00_0
 
 **$33.90** across 14 daily line items, 12 Oct – 1 Nov 2026. Nothing was charged on 2 Nov up to 08:05 UTC, when the export was taken.
 
+**Paid in: $40.00. Balance: $6.10** (creator, 2 Nov 2026, from the FAL dashboard). $40.00 − $33.90 = $6.10, so the usage export and the balance agree to the cent: every dollar paid in is accounted for, and nothing was spent outside this export.
+
 | Model | Spend | Share |
 |---|---:|---:|
 | `hunyuan3d-v3/text-to-3d` | $18.375 | 54% |
@@ -46,13 +48,15 @@ By week: 12–18 Oct $8.60; 19–25 Oct $8.78; 26 Oct – 1 Nov $16.52.
 
 ## Open questions
 
-1. **Balance now.** On 1 Nov the balance was $16.98 after the $10 top-up. If the $10.875 prop batch came *after* that reading, about **$6.10** is left. Please check the dashboard balance.
-2. **Top-ups.** The export lists usage, not payments. To close the audit we need the total paid in (billing page). Paid in − $33.90 should equal the balance.
+1. ~~**Balance now.**~~ Closed 2 Nov: **$6.10** left (creator). The $10.875 prop batch did come after the $16.98 reading on 1 Nov.
+2. ~~**Top-ups.**~~ Closed 2 Nov: **$40.00** paid in (creator). Paid in − spent = $40.00 − $33.90 = $6.10, the balance. Reconciled.
 3. **The 15 Oct batch ($7.275, 485 units)** needs a per-model breakdown from the fal_result files and the git history.
 4. **The image edits and the ideogram image** (12, 15 and 22 Oct, $0.24 total): confirm what they were and whether they ended up in the game.
 5. **Meshy web** (lampposts, characters) was paid for outside FAL, so it is not in this CSV. Audit it separately.
 
 ## Next steps
+
+- [ ] Before any new FAL generation: the balance is $6.10, about 16 text-to-3d models at $0.375. Larger batches need a top-up (the creator decides FAL spend).
 
 - [ ] One ledger for every FAL generation (`Game Audit/fal_ledger.json`), seeded from this CSV, which every generation script appends to from now on.
 - [ ] Match each `*.fal_result.json` to a dashboard day.

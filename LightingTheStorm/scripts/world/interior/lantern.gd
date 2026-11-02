@@ -22,6 +22,7 @@ const CEIL_Y := 21.95
 const GLASS_R := 2.82
 const LAMP_Y := 19.45           # the burner seat (the anchors use this height)
 const LAMP_SCALE := 2.9         # the 0.9 m generated lamp, scaled to 2.6 m
+const BEAM_TILT_DEG := 5.0        # the beam dips this far below the horizon, so its light sweeps the sea 100-400 m out (creator, 2 Nov 2026)
 const LAMP_FACE_DEG := 215.0    # the bearing the burner bay faces: toward where the player stands (anchor lamp_stand)
 
 var socket: Node3D
@@ -63,10 +64,33 @@ func _shell(P: Node3D) -> void:
 	_arc(P, "Lamp_SillRing", GLASS_R - 0.06, GLASS_R + 0.1, 0.0, 360.0, DECK, DECK + 0.16, _ds("iron_dark"), false)
 	_arc(P, "Lamp_HeadRing", GLASS_R - 0.06, GLASS_R + 0.1, 0.0, 360.0, CEIL_Y - 0.2, CEIL_Y, _ds("iron_dark"), false)
 	# the lantern's own glass: a darker, denser pane than a window's, so from the sea the band under the roof reads as a glazed drum and the roof
-	# sits ON something (a window's pane is 30% opaque; this is 65%)
-	var lg := (_m("glass") as StandardMaterial3D).duplicate() as StandardMaterial3D
-	lg.albedo_color = Color(0.2, 0.27, 0.33, 0.65)
+	# sits ON something (a window's pane is 30% opaque; this is 65%). From inside it is much clearer (creator, 2 Nov 2026: the island was a
+	# pale wash through it, ISL-04 F2): the pane's opacity follows the eye, 65% from outside the glass ring, 14% from inside it.
+	var lg := ShaderMaterial.new()
+	lg.shader = Shader.new()
+	lg.shader.code = """shader_type spatial;
+render_mode blend_mix, cull_disabled, depth_draw_opaque, specular_disabled;     // no glints: the lamp-room lights made hot spots on the pane
+uniform vec3 tint = vec3(0.2, 0.27, 0.33);
+uniform vec2 centre;          // the tower's axis, in the pane's own (local) space
+uniform float radius = 2.8;
+uniform float alpha_out = 0.65;
+uniform float alpha_in = 0.14;
+varying float eye_r;
+void vertex() {
+	vec3 eye = (inverse(MODEL_MATRIX) * vec4(CAMERA_POSITION_WORLD, 1.0)).xyz;
+	eye_r = length(eye.xz - centre);
+}
+void fragment() {
+	float r = eye_r;
+	ALBEDO = tint;
+	ROUGHNESS = 0.1;
+	METALLIC = 0.1;
+	ALPHA = r < radius ? alpha_in : alpha_out;
+}
+"""
 	var glass := _arc(P, "Lamp_Glass", GLASS_R - 0.012, GLASS_R + 0.012, 0.0, 360.0, DECK, CEIL_Y, lg, true)
+	lg.set_shader_parameter("centre", Vector2(TOWER.x, TOWER.y))
+	lg.set_shader_parameter("radius", GLASS_R)
 	(glass.get_node("Body") as StaticBody3D).add_to_group("glass")      # solid for the player, invisible to sight tests
 	for k in 3:
 		var y := DECK + 0.9 + 0.95 * k
@@ -154,62 +178,106 @@ func _arc_lamp(P: Node3D) -> void:
 	glow.omni_range = 16.0
 	glow.visible = false
 	beacon.add_child(glow)
-	# the sweeping beam: a long cone and a spot light, turning with the lamp
+	# the sweeping beam: a long soft strip and a spot light, turning with the lamp
 	var pivot := Node3D.new()
 	pivot.name = "BeamPivot"
 	pivot.position = Vector3(0, lens_base + 0.7, 0)
 	pivot.visible = false
 	beacon.add_child(pivot)
-	var beam := MeshInstance3D.new()
-	beam.name = "Beam"
-	var cm := CylinderMesh.new()
-	cm.top_radius = 0.3
-	cm.bottom_radius = 5.0
-	cm.height = 70.0
-	cm.radial_segments = 20
-	cm.rings = 1
-	cm.cap_top = false
-	cm.cap_bottom = false
-	beam.mesh = cm
+	# The beam is a flat strip down the beam's axis that turns about that axis to face the eye (an axis-aligned billboard), not a cone:
+	# a cone's open mouth showed as a hard-edged disc whenever the beam swung toward the viewer, and its walls read as a solid rod
+	# (creator, 2 Nov 2026: "less of a straight on solid beam"). Bright at the lamp, soft at its edges, fading out toward the end,
+	# broken by slow streaks of rain and spray drifting outward; added to the picture, never writing depth.
 	var bm := ShaderMaterial.new()
 	var beam_shader := Shader.new()
-	# a soft cone: bright at the lamp, fading to nothing at the far mouth, added to the picture, never writing depth
 	beam_shader.code = """shader_type spatial;
-render_mode unshaded, blend_add, cull_disabled, depth_draw_never, fog_disabled;
+render_mode unshaded, blend_add, cull_disabled, depth_draw_never, fog_disabled, shadows_disabled, world_vertex_coords;
 uniform float strength = 0.0;
 uniform vec3 tint = vec3(1.0, 0.84, 0.5);
+uniform float beam_length = 70.0;
+uniform float r_lamp = 0.35;
+uniform float r_end = 8.0;
+varying vec2 b;          // x: 0 at the lamp .. 1 at the end; y: -1 .. 1 across
+float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+float vnoise(vec2 p) {
+	vec2 i = floor(p);
+	vec2 f = fract(p);
+	f = f * f * (3.0 - 2.0 * f);
+	return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x), mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x), f.y);
+}
+void vertex() {
+	vec3 o = MODEL_MATRIX[3].xyz;
+	vec3 ax = normalize(MODEL_MATRIX[0].xyz);                  // the node's +X is the beam's direction
+	float t = UV.x;
+	float s = UV.y * 2.0 - 1.0;
+	vec3 p = o + ax * (t * beam_length);
+	vec3 side = cross(ax, CAMERA_POSITION_WORLD - p);
+	side = length(side) > 1e-4 ? normalize(side) : vec3(0.0, 1.0, 0.0);
+	VERTEX = p + side * s * mix(r_lamp, r_end, t);
+	b = vec2(t, s);
+}
 void fragment() {
-	float along = 1.0 - UV.y;                                  // 1 at the lamp, 0 at the far mouth
-	// soft edges: bright where the cone faces the eye, fading to nothing at its silhouette (no hard capsule outline)
-	float face = pow(clamp(abs(dot(normalize(NORMAL), normalize(VIEW))), 0.0, 1.0), 1.6);
-	float fade_end = smoothstep(0.0, 0.5, along);              // the far mouth dissolves; no disc at the end
-	ALBEDO = tint * strength * pow(along, 1.3) * face * fade_end;
+	float along = clamp(1.0 - b.x, 0.0, 1.0);                  // 1 at the lamp, 0 at the end
+	float across = 1.0 - abs(b.y);
+	float soft = across * across * (3.0 - 2.0 * across);       // no hard edge to the strip
+	float fade_end = smoothstep(0.0, 0.7, along);
+	vec2 q = vec2(b.y * 2.5, b.x * 6.0 - TIME * 0.35);         // streaks along the beam, drifting outward
+	float haze = 0.5 + 0.5 * (0.65 * vnoise(q) + 0.35 * vnoise(q * 2.7 + 13.0));
+	ALBEDO = tint * strength * pow(along, 1.4) * soft * soft * fade_end * haze;
 }
 """
 	bm.shader = beam_shader
+	var strip := QuadMesh.new()
+	strip.subdivide_width = 8          # the strip turns to the eye along its length, so it needs vertices along it
+	var bounds := AABB(Vector3(-8.0, -8.0, -8.0), Vector3(86.0, 16.0, 16.0))
+	var beam := MeshInstance3D.new()
+	beam.name = "Beam"
+	beam.mesh = strip
 	beam.material_override = bm
-	beam.rotation.z = deg_to_rad(90.0)
-	beam.position = Vector3(35.0, 0, 0)
+	beam.custom_aabb = bounds
+	beam.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	beam.rotation.z = -deg_to_rad(BEAM_TILT_DEG)
 	pivot.add_child(beam)
 	# a second beam straight opposite, sharing the first one's material (so it rises, tints and fades with it): a lighthouse seen from outside lost its beam
 	# for about a third of every turn while the single beam pointed away from the viewer or behind the tower; with a twin one beam is always turned toward
 	# somebody (creator, 2026-10-26: "it goes out every 3 seconds, I want it to be continuous")
 	var beam_b := MeshInstance3D.new()
 	beam_b.name = "BeamTwin"
-	beam_b.mesh = cm
+	beam_b.mesh = strip
 	beam_b.material_override = bm
-	beam_b.rotation.z = deg_to_rad(-90.0)
-	beam_b.position = Vector3(-35.0, 0, 0)
+	beam_b.custom_aabb = bounds
+	beam_b.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	beam_b.rotation = Vector3(0.0, PI, -deg_to_rad(BEAM_TILT_DEG))
 	pivot.add_child(beam_b)
 	var spot := SpotLight3D.new()
 	spot.name = "Spot"
-	spot.rotation.y = deg_to_rad(-90.0)
-	spot.spot_range = 90.0
+	# the beam's own light: it used to point at the horizon and light nothing (ISL-04 F1); dipped with the beam it now sweeps a band
+	# of sea from about 100 m out (its lower edge) to 400 m (lighting_spec LIGHT_BEACON range), lighting the waves and the boat as it passes
+	spot.rotation = Vector3(-deg_to_rad(BEAM_TILT_DEG), deg_to_rad(-90.0), 0.0)
+	spot.spot_range = 400.0
+	spot.spot_attenuation = 0.25         # a slow falloff: at the default it was too faint to see past about 100 m
+	spot.spot_angle_attenuation = 1.5     # a soft-edged band on the water, not a hard oval
 	spot.spot_angle = 11.0
 	spot.light_color = Color(1.0, 0.84, 0.5)
 	spot.light_energy = 0.0
 	spot.shadow_enabled = false
 	pivot.add_child(spot)
+	# the spill (creator, 2 Nov 2026): the beam points at the horizon, so it never touched the island (ISL-04 F1). A short, steep
+	# spot that turns with the beam throws a pool of warm light down over the plateau and the rocks below it as it sweeps. It sits
+	# a few metres out along the beam so the gallery and the tower behind it fall outside its cone (it casts no shadow).
+	var spill := SpotLight3D.new()
+	spill.name = "Spill"
+	spill.position = Vector3(5.0, 0.0, 0.0)
+	spill.rotation = Vector3(0.0, deg_to_rad(-90.0), deg_to_rad(0.0))
+	spill.rotate_object_local(Vector3.RIGHT, deg_to_rad(-36.0))      # tipped down towards the plateau edge and the rocks 20-45 m out
+	spill.spot_range = 60.0
+	spill.spot_angle = 26.0
+	spill.spot_angle_attenuation = 2.2                               # soft rim, no hard disc on the rock
+	spill.spot_attenuation = 0.6
+	spill.light_color = Color(1.0, 0.84, 0.5)
+	spill.light_energy = 0.0
+	spill.shadow_enabled = false
+	pivot.add_child(spill)
 	# the burner socket: where E fits the burner
 	socket = Node3D.new()
 	socket.name = "LampSocket"

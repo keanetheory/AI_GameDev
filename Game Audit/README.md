@@ -4,7 +4,7 @@ Running audit of Lighting the Storm: what the game has cost, what it is built fr
 
 | File | What it covers | Status |
 |---|---|---|
-| [FAL_SPEND.md](FAL_SPEND.md) | Every FAL charge, 3 Oct – 2 Nov 2026, matched to the work it paid for | Started 2 Nov 2026 |
+| [FAL_SPEND.md](FAL_SPEND.md) | Every FAL charge, 3 Oct – 2 Nov 2026, matched to the work it paid for | Reconciled 2 Nov 2026: $40.00 paid in, $33.90 spent, $6.10 left; per-model breakdowns still open |
 | [fal_usage_2026-10-03_to_2026-11-02.csv](fal_usage_2026-10-03_to_2026-11-02.csv) | The FAL dashboard usage export, with the API key and account columns removed | Source data |
 
 ## Still to audit

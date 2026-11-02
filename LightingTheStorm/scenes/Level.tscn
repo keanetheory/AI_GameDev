@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://b601q1u1ked8s"]
+[gd_scene load_steps=38 format=3 uid="uid://b601q1u1ked8s"]
 
 [ext_resource type="Script" path="res://scripts/world/collider_builder.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/world/sea.gd" id="2"]
@@ -31,6 +31,7 @@
 [ext_resource type="Script" path="res://scripts/world/island_reactions.gd" id="30"]
 [ext_resource type="Script" path="res://scripts/world/lampposts.gd" id="31"]
 [ext_resource type="Script" path="res://scripts/world/saltgate_hut.gd" id="40"]
+[ext_resource type="Script" path="res://scripts/world/island_lod.gd" id="41"]
 
 [sub_resource type="ProceduralSkyMaterial" id="sky"]
 sky_top_color = Color(0.12, 0.15, 0.2, 1)
@@ -81,6 +82,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.2, 0)
 script = ExtResource("1")
 model_path = "res://Assets/Models/island/island_craggy.glb"
 body_layers = 3
+keep_lods = true
 carve_boxes = Array[AABB]([AABB(-40.5, 0.85, 12, 7.3, 5, 9.8), AABB(-41, 0.85, 12.4, 22.2, 12.35, 17.6), AABB(-18.8, 0.85, 22.5, 4, 12.35, 12.5), AABB(-22, 0.85, 30, 3.2, 12.35, 5), AABB(-15.5, 0.85, 23.2, 3.9, 12.35, 4.4), AABB(-19.9, 3.2, 12.2, 2.65, 12, 9)])
 carve_oriented = Array[Transform3D]([Transform3D(6.9485, 0, 2.6931, 0, 3.8, 0, -3.3179, 0, 5.64, 1.4996, 10.3, -3.5846)])
 carve_oriented_any = Array[Transform3D]([Transform3D(6.74, 0, 2.612, 0, 3.6, 0, -3.218, 0, 5.471, 1.4996, 10.2, -3.5846)])
@@ -341,6 +343,10 @@ script = ExtResource("28")
 
 [node name="Lampposts" type="Node3D" parent="."]
 script = ExtResource("31")
+
+[node name="IslandLOD" type="Node" parent="."]
+editor_description = "ISL-09: visibility ranges for the island's small pieces (gate, door, lamp posts, the tower's insides), so the island is cheap from the sea and the Saltgate; the rock, the shell, the lamp room and the beam keep none. scripts/world/island_lod.gd"
+script = ExtResource("41")
 
 [node name="DockZonePort" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.15, 531.5)

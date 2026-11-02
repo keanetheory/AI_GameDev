@@ -109,6 +109,7 @@ godot --headless --path . --script res://tools/test_outcome_screen.gd # the Fail
 godot --headless --path . --script res://tools/test_npc.gd            # the capsule sailors and their baked routes
 godot --headless --path . --script res://tools/test_sailors_sequence.gd # the rowboat, the gate and the sailors' walk-in
 godot --headless --path . --script res://tools/test_diagnosis_sequence.gd # Ted, the lamp-room diagnosis and the briefing
+godot --headless --path . --script res://tools/test_step1_idle.gd # Ted's step 1 nudges (IDLE_STEP_1) from the knock to BOILER_FED
 godot --headless --path . --script res://tools/test_intro_sequence.gd # the knock, Ted's greeting and walk, Ted's lines only inside
 godot --headless --path . --script res://tools/test_boarding_sequence.gd # Arthur walks to the launch, boards, steps ashore
 godot --headless --path . --script res://tools/test_crossing_sequence.gd # the return forecast hazards, safe lane and Arthur calls

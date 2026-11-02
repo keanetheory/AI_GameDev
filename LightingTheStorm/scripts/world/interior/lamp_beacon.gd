@@ -18,6 +18,8 @@ const DARK := 0.32
 @export var lit_colour := Color(1.0, 0.84, 0.5)
 @export var glow_light_energy := 1.0
 @export var glow_light_range := 12.0
+## The spill: the short, steep spot that turns with the beam and lights the plateau and the rocks below (creator, 2 Nov 2026).
+@export var spill_energy := 6.0
 
 ## Seconds the open lamp stays open after the burner is fitted, so the burner is seen seated before the bay closes.
 @export var close_delay_s := 1.2
@@ -31,6 +33,7 @@ var _glow: OmniLight3D
 var _beam_pivot: Node3D
 var _beam_mat: ShaderMaterial
 var _spot: SpotLight3D
+var _spill: SpotLight3D
 var _core: MeshInstance3D
 
 
@@ -39,6 +42,7 @@ func setup() -> void:
 	_glow = get_node_or_null("Glow") as OmniLight3D
 	_beam_pivot = get_node_or_null("BeamPivot") as Node3D
 	_spot = get_node_or_null("BeamPivot/Spot") as SpotLight3D
+	_spill = get_node_or_null("BeamPivot/Spill") as SpotLight3D
 	_core = get_node_or_null("Core") as MeshInstance3D
 	# the generated lamp's own materials, copied so the shared ones are untouched
 	for n in find_children("*", "MeshInstance3D", true, false):
@@ -114,8 +118,12 @@ func _apply(v: float) -> void:
 		_spot.light_color = lit_colour
 		_spot.light_energy = 14.0 * e
 		_spot.visible = e > 0.01
+	if _spill:
+		_spill.light_color = lit_colour
+		_spill.light_energy = spill_energy * e
+		_spill.visible = e > 0.01
 	if _beam_mat:
-		_beam_mat.set_shader_parameter("strength", 0.34 * e)
+		_beam_mat.set_shader_parameter("strength", 0.8 * e)       # a soft, hazed strip (the old cone was 0.34 on two walls)
 		_beam_mat.set_shader_parameter("tint", Vector3(lit_colour.r, lit_colour.g, lit_colour.b))
 	if _core:
 		_core.visible = e > 0.01
