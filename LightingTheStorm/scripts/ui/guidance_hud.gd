@@ -174,7 +174,11 @@ func _process(delta: float) -> void:
 	if _gs == null:
 		return
 	_t += delta
-	var resolved: bool = _gs.outcome != _gs.Outcome.NONE
+	# a fail clears the HUD at once; a win keeps the last goal ("go outside and watch the ship") up until the win text shows
+	var resolved: bool = _gs.outcome == _gs.Outcome.FAIL
+	if _gs.outcome == _gs.Outcome.WIN:
+		var scr: Node = _gs.outcome_screen() if _gs.has_method("outcome_screen") else null
+		resolved = scr == null or bool(scr.get("showing"))
 	_goal_panel.visible = not resolved and (shown_goal >= 0 or _flash_left > 0.0)
 	_ctl_panel.visible = not resolved
 	if resolved:

@@ -6,12 +6,17 @@
 #   - the phase picks each layer's level; on the return the storm layers follow elapsed deadline time (Decisions A2), and a
 #     frozen clock (burner fitted) keeps them where they were;
 #   - indoors (the house footprint) the wind and rain are muffled by a low-pass on the Ambience bus;
-#   - while anyone speaks the ambience and effects duck, so Arthur's calls stay audible;
+#   - while anyone speaks the boiler and the engine duck (duck.layers), so Arthur's calls stay audible; speech does not cut
+#     through the wind, the rain or the music (creator, 3 November 2026);
+#   - the music (the creator's own, looping) moves forward through its tracks on story cues, crossfading on the Music bus;
+#   - a voice line is placed by where its speaker is: quieter with distance, and muffled and echoing through a floor or an
+#     outside wall (Ted calling from the lamp room to the basement), on the Voice bus the dialogue loader plays on;
 #   - the engine only sounds while the boat is under way;
 #   - a saved ship sounds its horn once as it clears the rock;
 #   - at SHIP_FAIL: the ship's foghorn sounds (3D, from the ship), then the crash when the ship strikes, then silence, then
 #     fail_audio_finished is emitted for the Failed screen (T08). The sequence is timed on game time, so pause freezes it.
-# No audio assets are real yet: the sounds are synthesised placeholders (Assets/Audio/placeholder/SOURCES.md).
+# The sound effects are still synthesised placeholders (Assets/Audio/placeholder/SOURCES.md); the music is real
+# (Assets/Audio/music/SOURCES.md).
 extends Node
 
 const SPEC_PATH := "res://data/world/audio_spec.json"
@@ -45,6 +50,18 @@ var _impact_t := -1.0
 var _silence_t := -1.0
 var _bus_amb := -1
 var _bus_sfx := -1
+var _bus_voice := -1
+var _voice_lowpass: AudioEffectLowPassFilter
+var _voice_reverb: AudioEffectReverb
+var voice_speaker := ""               # who is speaking now ("" between lines)
+var voice_db := 0.0                   # the Voice bus level, as of the last advance()
+var voice_walled := 0.0               # 0 same space .. 1 a floor or an outside wall between speaker and player
+var _voice_snap := false              # a new line jumps straight to its placement instead of gliding from the last one
+var _bus_music := -1
+var music_track := ""                 # the track now playing (spec music.order), "" before the first
+var _music: Array = []                # two AudioStreamPlayers: the one fading in, the one fading out
+var _music_cur := 0                   # index in _music of the player now fading in
+var _music_mix := 1.0                 # 0..1 through the crossfade
 
 
 func setup(gs: Node, level: Node) -> void:
@@ -65,8 +82,14 @@ func setup(gs: Node, level: Node) -> void:
 	gs.event_emitted.connect(_on_event)
 	var dlg := get_node_or_null("/root/Dialogue")
 	if dlg:
-		dlg.line_started.connect(func(_a, _b, _c, _d2) -> void: speaking += 1)
-		dlg.line_finished.connect(func(_a) -> void: speaking = maxi(speaking - 1, 0))
+		dlg.line_started.connect(func(_a, who, _c, _d2) -> void:
+			speaking += 1
+			voice_speaker = String(who)
+			_voice_snap = true)
+		dlg.line_finished.connect(func(line_id) -> void:
+			speaking = maxi(speaking - 1, 0)
+			voice_speaker = ""
+			_music_cue("after_line", String(line_id)))
 	var dl: Node = gs.deadline()
 	if dl and dl.ship:
 		_attach_ship(dl.ship)
@@ -82,8 +105,11 @@ func _make_buses() -> void:
 			AudioServer.set_bus_send(i, "Master")
 	_bus_amb = AudioServer.get_bus_index("Ambience")
 	_bus_sfx = AudioServer.get_bus_index("SFX")
+	_bus_music = AudioServer.get_bus_index("Music")
 	AudioServer.set_bus_volume_db(_bus_amb, 0.0)    # a restart after a fail comes back from silence
 	AudioServer.set_bus_volume_db(_bus_sfx, 0.0)
+	if _bus_music >= 0:
+		AudioServer.set_bus_volume_db(_bus_music, 0.0)
 	_lowpass = null
 	for i in AudioServer.get_bus_effect_count(_bus_amb):
 		if AudioServer.get_bus_effect(_bus_amb, i) is AudioEffectLowPassFilter:
@@ -92,6 +118,47 @@ func _make_buses() -> void:
 		_lowpass = AudioEffectLowPassFilter.new()
 		_lowpass.cutoff_hz = 20500.0
 		AudioServer.add_bus_effect(_bus_amb, _lowpass)
+	_make_voice_bus()
+
+
+## The Voice bus (made by the dialogue loader, or here if this runs first): the jaw's spectrum analyser first, so it hears the
+## dry voice, then the distance low-pass and the stairwell echo. A restart finds them already there and reuses them.
+func _make_voice_bus() -> void:
+	var nm := "Voice"
+	_bus_voice = AudioServer.get_bus_index(nm)
+	if _bus_voice < 0:
+		AudioServer.add_bus()
+		_bus_voice = AudioServer.bus_count - 1
+		AudioServer.set_bus_name(_bus_voice, nm)
+		AudioServer.set_bus_send(_bus_voice, "Master")
+	_voice_lowpass = null
+	_voice_reverb = null
+	var has_analyser := false
+	for i in AudioServer.get_bus_effect_count(_bus_voice):
+		var fx := AudioServer.get_bus_effect(_bus_voice, i)
+		if fx is AudioEffectSpectrumAnalyzer:
+			has_analyser = true
+		elif fx is AudioEffectLowPassFilter:
+			_voice_lowpass = fx
+		elif fx is AudioEffectReverb:
+			_voice_reverb = fx
+	if not has_analyser:
+		AudioServer.add_bus_effect(_bus_voice, AudioEffectSpectrumAnalyzer.new(), 0)
+	if _voice_lowpass == null:
+		_voice_lowpass = AudioEffectLowPassFilter.new()
+		AudioServer.add_bus_effect(_bus_voice, _voice_lowpass)
+	if _voice_reverb == null:
+		_voice_reverb = AudioEffectReverb.new()
+		_voice_reverb.room_size = 0.7     # a stone stairwell
+		_voice_reverb.damping = 0.4
+		_voice_reverb.predelay_msec = 60.0
+		_voice_reverb.spread = 0.6
+		_voice_reverb.dry = 1.0
+		AudioServer.add_bus_effect(_bus_voice, _voice_reverb)
+	_voice_lowpass.cutoff_hz = 20500.0
+	_voice_reverb.wet = 0.0
+	voice_db = float(spec.get("voice", {}).get("base_db", 0.0))
+	AudioServer.set_bus_volume_db(_bus_voice, voice_db)
 
 
 func _stream(nm: String) -> AudioStream:
@@ -149,6 +216,53 @@ func _make_players(level: Node) -> void:
 		add_child(bp)
 		_bells.append(bp)
 		_bell_timers.append(_rng.randf_range(0.5, float(b["interval_s"][1])))
+	if spec.has("music"):
+		for i in 2:
+			var mp := AudioStreamPlayer.new()
+			mp.name = "Music%d" % i
+			mp.bus = "Music"
+			mp.volume_db = SILENT_DB
+			add_child(mp)
+			_music.append(mp)
+		_play_music(String(spec["music"]["start"]), true)
+
+
+## The music track as a looping stream (each player gets its own copy, so the loop flag never leaks between them).
+func _music_stream(track: String) -> AudioStream:
+	var path := String(spec["music"]["tracks"][track]["path"])
+	var res := load(path) as AudioStreamOggVorbis
+	if res == null:
+		push_warning("audio_mixer: %s did not load (run  godot --headless --import  after adding music)" % path)
+		return null
+	var st := res.duplicate() as AudioStreamOggVorbis
+	st.loop = true
+	return st
+
+
+## Crossfades to a track. Cues only move forward through music.order, so a late fallback never takes the music back.
+func _play_music(track: String, snap := false) -> void:
+	var order: Array = spec["music"]["order"]
+	if track == music_track or order.find(track) < order.find(music_track):
+		return
+	var st := _music_stream(track)
+	if st == null:
+		return
+	if music_track != "":
+		_music_cur = 1 - _music_cur     # the old track keeps the other player and fades out on it
+	music_track = track
+	var p: AudioStreamPlayer = _music[_music_cur]
+	p.stream = st
+	p.volume_db = SILENT_DB
+	p.play()
+	_music_mix = 1.0 if snap else 0.0
+
+
+func _music_cue(kind: String, id: String) -> void:
+	if not spec.has("music"):
+		return
+	for c in spec["music"]["cues"]:
+		if String(c.get(kind, "")) == id:
+			_play_music(String(c["play"]))
 
 
 ## The bells ring from the real buoys (crossing_sequence.gd) once they are placed; extra bells keep their placeholder spots.
@@ -189,16 +303,17 @@ func advance(delta: float, snap := false) -> void:
 	var duck_rate: float = float(spec["duck"]["attack_per_s"]) if duck_goal > duck_t else float(spec["duck"]["release_per_s"])
 	duck_t = move_toward(duck_t, duck_goal, duck_rate * delta)
 	var duck_db: float = float(spec["duck"]["ambience_db"]) * duck_t
+	var ducked: Array = spec["duck"].get("layers", ["wind", "rain", "machinery", "engine"])
 	var in_db: float = float(spec["indoor"]["ambience_db"]) * indoor_t
-	targets["wind"] = _val(row.get("wind", SILENT_DB), prog) + duck_db + in_db
-	targets["rain"] = _val(row.get("rain", SILENT_DB), prog) + duck_db + in_db
-	targets["machinery"] = _val(row.get("machinery", SILENT_DB), prog) + duck_db
+	targets["wind"] = _val(row.get("wind", SILENT_DB), prog) + (duck_db if ducked.has("wind") else 0.0) + in_db
+	targets["rain"] = _val(row.get("rain", SILENT_DB), prog) + (duck_db if ducked.has("rain") else 0.0) + in_db
+	targets["machinery"] = _val(row.get("machinery", SILENT_DB), prog) + (duck_db if ducked.has("machinery") else 0.0)
 	var under_way := true
 	if bool(spec["engine_only_when_underway"]):
 		var vel: Variant = _boat.get("velocity") if _boat != null else null
 		var drv: Variant = _boat.get("driving") if _boat != null else null
 		under_way = _boat != null and (drv == true or (vel is Vector3 and (vel as Vector3).length() > 1.0))
-	targets["engine"] = (_val(row.get("engine", SILENT_DB), prog) + duck_db) if under_way else SILENT_DB
+	targets["engine"] = (_val(row.get("engine", SILENT_DB), prog) + (duck_db if ducked.has("engine") else 0.0)) if under_way else SILENT_DB
 	var k := 1.0 if snap else 1.0 - exp(-float(spec["smoothing_per_s"]) * delta)
 	for nm in ["wind", "rain", "engine", "machinery"]:
 		levels[nm] = lerpf(float(levels[nm]), float(targets[nm]), k)
@@ -206,14 +321,71 @@ func advance(delta: float, snap := false) -> void:
 		p.set("volume_db", maxf(float(levels[nm]), SILENT_DB))
 	if _lowpass:
 		_lowpass.cutoff_hz = lerpf(20500.0, float(spec["indoor"]["lowpass_hz"]), indoor_t)
+	_step_voice(delta, snap)
+	_step_music(delta, snap)
 	_step_bells(delta)
 	_step_fail(delta)
+
+
+## The crossfade: the new track rises from silence to music.volume_db while the old one falls away, then stops.
+func _step_music(delta: float, snap: bool) -> void:
+	if _music.is_empty() or music_track == "":
+		return
+	var m: Dictionary = spec["music"]
+	_music_mix = 1.0 if snap else minf(_music_mix + delta / maxf(float(m["crossfade_s"]), 0.01), 1.0)
+	var top := float(m["volume_db"])
+	var cur: AudioStreamPlayer = _music[_music_cur]
+	var old: AudioStreamPlayer = _music[1 - _music_cur]
+	cur.volume_db = top + linear_to_db(maxf(_music_mix, 0.0001))
+	old.volume_db = top + linear_to_db(maxf(1.0 - _music_mix, 0.0001))
+	if _music_mix >= 1.0 and old.playing:
+		old.stop()
 
 
 func _val(entry: Variant, prog: float) -> float:
 	if entry is Array:
 		return lerpf(float(entry[0]), float(entry[1]), clampf(prog, 0.0, 1.0))
 	return float(entry)
+
+
+## Places the line being spoken: its speaker's distance from the player, and a floor or an outside wall between them.
+func _step_voice(delta: float, snap: bool) -> void:
+	var v: Dictionary = spec.get("voice", {})
+	if v.is_empty() or _bus_voice < 0:
+		return
+	var goal_db := float(v["base_db"]) + float(v.get("speaker_db", {}).get(voice_speaker, 0.0))
+	var goal_walled := 0.0
+	var dist_t := 0.0
+	var spk := _speaker_node(voice_speaker)
+	var player := get_tree().get_first_node_in_group("player") as Node3D
+	if spk != null and player != null:
+		var a := spk.global_position
+		var b := player.global_position
+		dist_t = clampf(inverse_lerp(float(v["near_m"]), float(v["far_m"]), a.distance_to(b)), 0.0, 1.0)
+		var in_a: bool = _gs.inside_building(a)
+		var in_b: bool = _gs.inside_building(b)
+		if in_a != in_b:
+			goal_walled = 1.0
+		elif in_a:
+			goal_walled = clampf(inverse_lerp(float(v["floor_gap_m"]), float(v["floor_full_m"]), absf(a.y - b.y)), 0.0, 1.0)
+		goal_db += float(v["far_db"]) * dist_t + float(v["wall_db"]) * goal_walled
+	var k := 1.0 if (snap or _voice_snap) else 1.0 - exp(-float(v["rate_per_s"]) * delta)
+	_voice_snap = false
+	voice_db = lerpf(voice_db, goal_db, k)
+	voice_walled = lerpf(voice_walled, goal_walled, k)
+	AudioServer.set_bus_volume_db(_bus_voice, voice_db)
+	var open_hz := lerpf(20500.0, float(v["far_cutoff_hz"]), dist_t)
+	_voice_lowpass.cutoff_hz = lerpf(open_hz, float(v["wall_cutoff_hz"]), voice_walled)
+	_voice_reverb.wet = float(v["wall_reverb_wet"]) * voice_walled
+
+
+func _speaker_node(who: String) -> Node3D:
+	if who == "":
+		return null
+	for n in get_tree().get_nodes_in_group("npc"):
+		if String(n.get("who")) == who and n is Node3D:
+			return n
+	return null
 
 
 func _step_bells(delta: float) -> void:
@@ -231,6 +403,7 @@ func _step_bells(delta: float) -> void:
 
 
 func _on_event(id: String, _phase: int) -> void:
+	_music_cue("on_event", id)
 	if id == "SHIP_FAIL" and not fail_active:
 		fail_active = true
 		_fail_t = 0.0
@@ -282,6 +455,8 @@ func _step_fail(delta: float) -> void:
 			var db := lerpf(0.0, SILENT_DB, fade)
 			AudioServer.set_bus_volume_db(_bus_amb, db)
 			AudioServer.set_bus_volume_db(_bus_sfx, db)
+			if _bus_music >= 0:
+				AudioServer.set_bus_volume_db(_bus_music, db)   # the music fades with the rest for the Failed screen
 			if not silence_done and _silence_t >= float(f["silence_fade_s"]) + float(f["silence_hold_s"]):
 				silence_done = true
 				fail_audio_finished.emit()

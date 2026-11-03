@@ -125,7 +125,7 @@ class DialogueBrief(BaseModel):
 # ---------- Dialogue agent -> OpeningDialogue ----------
 class DialogueLine(BaseModel):
     line_id: str = Field(pattern=r"^(TED|ARTHUR|DANIEL)_[A-Z0-9]+_[A-Za-z0-9]+$")
-    step: int = Field(ge=0, le=3)
+    step: int = Field(ge=0, le=5)  # the game's script now runs to step 5 (return and relight); the brief still writes 1-3
     beat: str
     speaker: SpeakerId
     kind: LineKind
@@ -145,7 +145,7 @@ class DialogueLine(BaseModel):
 
 class JournalEntry(BaseModel):
     journal_id: str = Field(pattern=r"^JRN_\d{2}$")
-    step: int = Field(ge=1, le=3)
+    step: int = Field(ge=1, le=5)
     trigger: str
     text: str
 

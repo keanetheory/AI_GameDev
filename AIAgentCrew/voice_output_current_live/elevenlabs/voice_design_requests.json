@@ -1,0 +1,29 @@
+[
+ {
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-voice/design",
+  "body": {
+   "voice_description": "A gravelly older male, coastal accent: a weathered, low-pitched voice with a dry rasp, like salt and gravel in the throat. Slow, deliberate and sardonic, with a flat deadpan delivery and long grumbling pauses. Occasional grunts, wheezes and coughs. Volume rises to a hoarse bark when he shouts, but the pitch stays deep and the voice never gets light or bright. Close-mic, indoor warmth.",
+   "text": "Hrmph. The new guy. Storm season, and they send me a money toff in shoes like that. In. Mind the gull, he's the landlord. Boiler's cold and the beacon's starving. Hasn't eaten since the Pleistocene. Engine room, Isaac. Shovel coal. Quickly. It's sulking. Cracked clean through. The burner's finished. Hrmph. We need a new one.",
+   "model_id": "eleven_ttv_v3"
+  }
+ },
+ {
+  "speaker": "ARTHUR",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-voice/design",
+  "body": {
+   "voice_description": "A wiry, old, frantic male voice with a soft West Country sea-lilt. Thin, reedy and slightly nasal, in a mid-to-high register with a rough crack when he strains. Quick and clipped, wry and friendly with a wary edge. Under pressure he turns breathless and shouts hoarsely over an engine, with fast rhythm and rising pitch. Calm moments are dry, steady and a little weary.",
+   "text": "Easy now, we mean no harm. Just cold and wet. And Daniel's been apologising to a seagull since the rowboat. Gate, please? Ted, you old rock. Thought you'd be drowned by now. Or at least moss. Keep her off the rocks, Isaac. Watch the water, not the dark. The dark's just showing off. Left! Your left! The left one!",
+   "model_id": "eleven_ttv_v3"
+  }
+ },
+ {
+  "speaker": "DANIEL",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-voice/design",
+  "body": {
+   "voice_description": "A young, enthusiastic male voice, early twenties, with a light southern English accent. Bright, smooth and boyish with a slightly breathy quality. Light-hearted chatter that wobbles into anxiety: trailing off mid-sentence, nervous laughs, forced cheer, and whispering when spooked. Fairly quick and bouncy, with no rasp or grit. Higher and softer than the older men.",
+   "text": "Down here suits me fine. Did the walls just... never mind. Warm is good. I'm going to name the boiler Gary. Did you hear that? Tell me you heard that. Pipes, right? Say pipes. Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming. Arthur says it's just weather. I'm sure Arthur's right. He's usually right. Mostly.",
+   "model_id": "eleven_ttv_v3"
+  }
+ }
+]

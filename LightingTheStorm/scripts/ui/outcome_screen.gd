@@ -3,9 +3,11 @@
 #   FAIL: waits for the fail audio (foghorn, the crash, silence: audio_mixer.gd emits fail_audio_finished), then fades in the
 #         "Failed" screen with a short reason line. The game never waits for the player before that: the ship really runs
 #         onto the rock whatever the player is doing, and Ted's lines play over it.
-#   WIN:  waits until the saved ship is past the grounding rock (passenger_ship.gd cleared_rock) plus a beat, then shows a
-#         plain end card.
-# Enter, Space or R restart the slice (Gate 1 retry model: fail, then restart); Esc on the win card goes back to the title.
+#   WIN:  waits until the saved ship is past the grounding rock (passenger_ship.gd cleared_rock) plus win_card_delay_s, then
+#         shows the win text with no dark veil, in front of the player, who can keep walking and looking round (creator,
+#         3 Nov 2026).
+# Enter, Space or R restart the slice (Gate 1 retry model: fail, then restart); Esc on the win text goes back to the title.
+# On a win only Enter and Esc act, so Space (jump) and the mouse (looking round) never restart by accident.
 # Wording and look are placeholders (data/world/outcome_screens.json).
 extends CanvasLayer
 
@@ -59,8 +61,8 @@ func setup(gs: Node, level: Node) -> void:
 			if gs.outcome == gs.Outcome.WIN and _win_wait < 0.0:
 				_win_wait = float(spec["win_card_delay_s"]))
 		_ship.passed.connect(func() -> void:
-			if gs.outcome == gs.Outcome.WIN:
-				_show("WIN"))
+			if gs.outcome == gs.Outcome.WIN and not _cleared:
+				_show("WIN"))     # only a fallback: once she has cleared the rock the win text waits its own delay
 		_ship.impact.connect(func() -> void:
 			if _mixer == null:
 				_fail_wait = float(spec["fallback_after_impact_s"]))
@@ -123,7 +125,7 @@ func _process(delta: float) -> void:
 		_t_shown += delta
 		var fade_s: float = float(spec[kind.to_lower()]["fade_s"])
 		_fade = clampf(_t_shown / fade_s, 0.0, 1.0)
-		_veil.color.a = 0.82 * _fade
+		_veil.color.a = (0.82 if _veiled() else 0.0) * _fade
 		_veil.get_node("Box").modulate.a = clampf((_t_shown - fade_s * 0.4) / (fade_s * 0.6), 0.0, 1.0)
 
 
@@ -141,9 +143,21 @@ func _show(k: String) -> void:
 	_reason.text = String(s["reason"])
 	_prompt.text = String(s["prompt"])
 	_veil.visible = true
-	_veil.mouse_filter = Control.MOUSE_FILTER_STOP
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	if _veiled():
+		_veil.mouse_filter = Control.MOUSE_FILTER_STOP
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	else:
+		# the text over the level, the mouse still captured for looking round
+		_veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var box := _veil.get_node("Box") as Control
+		box.anchor_top = float(s.get("text_height", 0.22))
+		box.anchor_bottom = box.anchor_top
 	shown.emit(k)
+
+
+## Is this outcome shown on the dark screen? The win is not (outcome_screens.json win.veil).
+func _veiled() -> bool:
+	return kind == "" or bool(spec[kind.to_lower()].get("veil", true))
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -152,13 +166,16 @@ func _unhandled_input(event: InputEvent) -> void:
 	var key := event as InputEventKey
 	var click := event as InputEventMouseButton
 	if key != null and key.pressed and not key.echo:
-		if key.keycode == KEY_ENTER or key.keycode == KEY_KP_ENTER or key.keycode == KEY_SPACE or key.keycode == KEY_R:
+		var restart_key := key.keycode == KEY_ENTER or key.keycode == KEY_KP_ENTER
+		if _veiled():
+			restart_key = restart_key or key.keycode == KEY_SPACE or key.keycode == KEY_R
+		if restart_key:
 			get_viewport().set_input_as_handled()
 			_gs.restart()
 		elif key.keycode == KEY_ESCAPE and kind == "WIN":
 			get_viewport().set_input_as_handled()
 			_gs.get_tree().paused = false
 			_gs.get_tree().change_scene_to_file(TITLE_SCENE)
-	elif click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
+	elif click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT and _veiled():
 		get_viewport().set_input_as_handled()
 		_gs.restart()

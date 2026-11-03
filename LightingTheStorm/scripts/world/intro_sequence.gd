@@ -107,7 +107,7 @@ func _on_event(id: String, _phase: int) -> void:
 		"GAME_STARTED":
 			_idle_in = float(spec["idle_step1"]["first_nudge_s"])
 			_idle_count = 0
-		"LIGHTHOUSE_ENTERED", "ENGINE_ROOM_ENTERED", "COAL_LOADED_FIRST", "COAL_LOADED_HALF":
+		"LIGHTHOUSE_ENTERED", "ENGINE_ROOM_ENTERED", "FIREBOX_APPROACHED", "COAL_LOADED_FIRST", "COAL_LOADED_HALF":
 			if _idle_in >= 0.0:
 				_idle_in = float(spec["idle_step1"]["first_nudge_s"])   # progress: wait afresh, but keep the tier
 		"BOILER_FED":

@@ -87,7 +87,8 @@ func _setup_bus() -> void:
 
 
 func _process(delta: float) -> void:
-	var target := _voice_level()
+	# every character's clip plays on the one voice bus, so only this speaker's own line may open this jaw
+	var target := _voice_level() if _speaking_text or dialogue_loader == null else 0.0
 	if target <= 0.0 and _speaking_text:
 		_flap_t += delta
 		# Two out-of-phase sines give an uneven, speech-like rhythm rather than a metronome.

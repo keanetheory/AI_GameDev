@@ -41,12 +41,13 @@ const EVENTS := [
 	"BOARDING_THRESHOLD", "SHIP_SIGHTED", "BOAT_CAST_OFF", "OUTBOUND_NEAR_MISS", "OUTBOUND_COLLISION",
 	"SALTGATE_REACHED", "BURNER_PICKED_UP", "RETURN_DEPARTED", "POSTER_EXAMINED", "WALL_WHISPER_HEARD",
 	"BASEMENT_BANG", "BASEMENT_TALK", "IDLE_STEP_1", "IDLE_STEP_2", "IDLE_STEP_3", "IDLE_SALTGATE",
-	# After the opening: canon.py LATER_EVENTS (accepted by the creator, 19 October 2026; LAMP_ROOM_REENTERED added 29 October 2026).
-	"RETURN_ARRIVED", "LAMP_ROOM_REENTERED", "BURNER_FITTED", "SHIP_WIN", "SHIP_FAIL",
+	# After the opening: canon.py LATER_EVENTS (accepted by the creator, 19 October 2026; LAMP_ROOM_REENTERED added 29 October 2026,
+	# FIREBOX_APPROACHED and BASEMENT_VISITED 3 November 2026).
+	"RETURN_ARRIVED", "LAMP_ROOM_REENTERED", "BURNER_FITTED", "SHIP_WIN", "SHIP_FAIL", "FIREBOX_APPROACHED", "BASEMENT_VISITED",
 ]
 
 # These may fire more than once per attempt. Every other event is one-shot: a repeat is logged and ignored.
-const REPEATABLE := ["OUTBOUND_NEAR_MISS", "OUTBOUND_COLLISION"]
+const REPEATABLE := ["OUTBOUND_NEAR_MISS", "OUTBOUND_COLLISION", "BASEMENT_VISITED"]
 
 # The phase an event moves the game to (forward only). Accepted by the creator on 19 October 2026; mirrored in
 # canon.py PHASE_ON_EVENT and the Technical Strategy core state contract, so change all three together.
@@ -92,6 +93,8 @@ var event_log: Array = []        # {t_msec, id, phase, attempt, note} for this a
 var fired: Dictionary = {}       # one-shot events already fired this attempt
 var burner_aboard := false       # set by BURNER_PICKED_UP
 var burner_fitted := false       # set by BURNER_FITTED
+var basement_visits := 0         # times the player has come down to Daniel (BASEMENT_VISITED)
+var _was_in_basement := false
 
 var _dialogue: Node
 var _boat: Node
@@ -224,6 +227,8 @@ func _reset_state() -> void:
 	outcome = Outcome.NONE
 	event_log.clear()
 	fired.clear()
+	basement_visits = 0
+	_was_in_basement = false
 	burner_aboard = false
 	burner_fitted = false
 	_lighting_phase = ""
@@ -397,9 +402,13 @@ const TOWER_RADIUS := 3.4
 
 func player_inside_building() -> bool:
 	var p := get_tree().get_first_node_in_group("player") as Node3D
-	if p == null or _level_root == null or not is_instance_valid(_level_root):
+	return p != null and inside_building(p.global_position)
+
+
+## The same test for any world position (audio_mixer.gd uses it for whoever is speaking).
+func inside_building(g: Vector3) -> bool:
+	if _level_root == null or not is_instance_valid(_level_root):
 		return false
-	var g := p.global_position
 	if g.y > 9.0 and Vector2(g.x - TOWER_CENTRE.x, g.z - TOWER_CENTRE.y).length() < TOWER_RADIUS:
 		return true
 	var rooms := _level_root.get_node_or_null("InteriorRooms")
@@ -414,6 +423,18 @@ func player_inside_building() -> bool:
 	return u > hu.x and u < hu.y and v > hv.x and v < hv.y
 
 
+## BASEMENT_VISITED: each time the player comes down into the basement while Daniel is there (or is already down there when he
+## arrives). Daniel says his next line on each visit, and nothing after the third (creator, 3 November 2026).
+func _process(_delta: float) -> void:
+	if _level_root == null or not is_instance_valid(_level_root) or not fired.has("DANIEL_IN_BASEMENT"):
+		return
+	var now := player_in_basement()
+	if now and not _was_in_basement:
+		basement_visits += 1
+		emit_event("BASEMENT_VISITED")
+	_was_in_basement = now
+
+
 ## What a dialogue line's `requires` field asks (see dialogue_loader.gd). Daniel only speaks when he and the player are both
 ## in the basement (creator, 30 October 2026).
 func dialogue_condition(name: String) -> bool:
@@ -422,6 +443,8 @@ func dialogue_condition(name: String) -> bool:
 			return player_inside_building()
 		"player_and_daniel_in_basement":
 			return fired.has("DANIEL_IN_BASEMENT") and player_in_basement()
+		"burner_diagnosed":   # Ted's poster line names the burner, so not before he has found it cracked (creator, 3 November 2026)
+			return fired.has("BURNER_DIAGNOSED")
 	push_warning("GameState: unknown dialogue condition '%s'" % name)
 	return true
 

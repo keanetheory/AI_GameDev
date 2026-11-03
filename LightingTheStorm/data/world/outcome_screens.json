@@ -3,7 +3,8 @@
   "owner": "Story / Fail-State agent (backlog T08)",
   "note": "Wording approved by the creator, 29 Oct 2026 (the look is still plain). The two end cards: the Failed screen follows the fail audio (foghorn, crash, silence) and shows a short reason line (Exec Summary, Fail-state contract; Decisions A20). The win card waits until the saved ship is past the rock.",
   "input_grace_s": 1.0,
-  "win_card_delay_s": 3.0,
+  "win_card_delay_s": 23.0,
+  "win_card_delay_note": "Creator, 3 Nov 2026: 20 s more after the ship clears the rock (was 3 s), so the player can watch her go.",
   "fallback_after_impact_s": 8.0,
   "fail": {
     "title": "Failed",
@@ -15,6 +16,9 @@
     "title": "The light holds",
     "reason": "You successfully lit the storm! Thank you for playing this short game, please leave a review with your thoughts!",
     "prompt": "Press Enter to play again, or Esc for the title",
-    "fade_s": 2.5
+    "fade_s": 2.5,
+    "veil": false,
+    "text_height": 0.22,
+    "veil_note": "Creator, 3 Nov 2026: no dark screen on a win. The text floats in front of the player (text_height is its centre, as a fraction of the screen from the top) and they can keep walking and looking round the level; only Enter and Esc act on it, so Space and the mouse stay for moving."
   }
 }

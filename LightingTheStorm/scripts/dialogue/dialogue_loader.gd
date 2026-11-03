@@ -15,9 +15,13 @@ signal playback_done  # emit via notify_audio_finished() when real voice audio e
 @export_file("*.json") var data_path := "res://data/dialogue/dialogue_opening.json"
 @export var assist_mode := false
 ## true: lines advance after an estimated reading time. false: wait for notify_audio_finished().
+## A line with a recorded clip (voice_dir/<line_id>.mp3) plays it and advances when it ends, whichever is set.
 @export var auto_advance := true
 @export var seconds_per_word := 0.38
 @export var min_line_seconds := 1.4
+@export_dir var voice_dir := "res://Assets/Audio/voice"
+@export var voice_bus := "Voice"     # jaw_lipsync.gd listens to this bus
+@export var voice_tail := 0.25       # a breath after the clip before the next line
 
 var data: Dictionary = {}
 var speakers: Dictionary = {}
@@ -33,6 +37,7 @@ var _held_check := 0.0
 var condition_provider: Callable = Callable()
 var _playing := false
 var _generation := 0   # bumped by reset_for_restart() so a line still being played from the old attempt is dropped
+var _voice: AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -56,6 +61,20 @@ func _ready() -> void:
 		if not _journal_by_trigger.has(jt):
 			_journal_by_trigger[jt] = []
 		_journal_by_trigger[jt].append(entry)
+	if AudioServer.get_bus_index(voice_bus) < 0:
+		AudioServer.add_bus()
+		AudioServer.set_bus_name(AudioServer.bus_count - 1, voice_bus)
+		AudioServer.set_bus_send(AudioServer.bus_count - 1, "Master")
+	_voice = AudioStreamPlayer.new()
+	_voice.name = "Voice"
+	_voice.bus = voice_bus
+	add_child(_voice)   # pausable like the loader, so the pause key holds the line mid-word
+
+
+## The recorded clip for a line, or null (the line then advances on its reading time).
+func _clip(line_id: String) -> AudioStream:
+	var path := "%s/%s.mp3" % [voice_dir, line_id]
+	return load(path) as AudioStream if ResourceLoader.exists(path) else null
 
 
 ## Report a game event (e.g. "GATE_OPENED"). Queues every matching line, picking one per group.
@@ -100,6 +119,8 @@ func reset_for_restart() -> void:
 	_held.clear()
 	_generation += 1    # a _play_queue() coroutine mid-line sees this on waking and returns without speaking
 	_playing = false
+	if _voice:
+		_voice.stop()
 
 
 func _condition_met(line: Dictionary) -> bool:
@@ -128,13 +149,31 @@ func _process(delta: float) -> void:
 	_enqueue(ready)
 
 
+## The sequence's lowest-order line not yet spoken, or null when it has said them all.
+func _next_in_sequence(candidates: Array, sq: String) -> Variant:
+	var best: Variant = null
+	for line in candidates:
+		if String(line.get("sequence", "")) != sq or _played.has(line["line_id"]):
+			continue
+		if best == null or int(line.get("order", 0)) < int(best.get("order", 0)):
+			best = line
+	return best
+
+
 func _pick_lines(candidates: Array) -> Array:
 	var chosen: Array = []
 	var group_slot := {}  # group name -> index in chosen
 	var group_pool := {}  # group name -> Array of lines
+	var seq_taken := {}   # sequence name -> true once its next line is chosen
 	for line in candidates:
 		if bool(line.get("once", true)) and _played.has(line["line_id"]):
 			continue
+		# a "sequence" (Daniel's basement visits) speaks one line per trigger, in its "order", and goes quiet when they run out
+		var sq: String = line.get("sequence", "")
+		if sq != "":
+			if seq_taken.has(sq) or _next_in_sequence(candidates, sq) != line:
+				continue
+			seq_taken[sq] = true
 		var g: String = line.get("group", "")
 		if g == "":
 			chosen.append(line)
@@ -178,10 +217,18 @@ func _play_queue() -> void:
 			await get_tree().create_timer(pause).timeout
 			if gen != _generation:
 				return   # the slice was restarted while waiting; leave _playing to the new attempt
+		var clip := _clip(line["line_id"])
+		if clip:
+			_voice.stream = clip
+			_voice.play()      # before line_started, so its listeners (jaw, mixer duck) find the voice already playing
 		line_started.emit(line["line_id"], line["speaker"], line["subtitle"], line["delivery"])
 		if assist_mode and line.has("assist_text"):
 			assist_hint.emit(int(line["step"]), line["assist_text"])
-		if auto_advance:
+		if clip:
+			# timed on the clip's length rather than `finished`, so headless runs (no audio device) still advance; the timer
+			# pauses with the tree, as the player does
+			await get_tree().create_timer(clip.get_length() + voice_tail, false).timeout
+		elif auto_advance:
 			await get_tree().create_timer(_reading_time(line)).timeout
 		else:
 			await playback_done

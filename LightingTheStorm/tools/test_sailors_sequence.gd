@@ -202,14 +202,28 @@ func _run() -> void:
 	var to := (boiler.global_position - seat.global_position) * Vector3(1, 0, 1)
 	_check((-seat.global_transform.basis.z).dot(to.normalized()) > 0.95, "he faces the boiler")
 	_check(gs.phase == gs.Phase.BEACON_DIAGNOSIS, "DANIEL_IN_BASEMENT moves the game on to BEACON_DIAGNOSIS")
-	# Daniel only speaks when he and the player are both in the basement
-	_check(not gs.player_in_basement() and not dlg._played.has("DANIEL_OPT_02") and _held_ids(dlg).has("DANIEL_OPT_02"), "the player is upstairs: Daniel's arrival line is held, not spoken")
+	# Daniel speaks once per visit the player makes to the basement, in order, and says nothing after his third (creator, 3 Nov 2026)
+	gs._process(0.0)
+	_check(not gs.player_in_basement() and gs.basement_visits == 0 and not dlg._played.has("DANIEL_OPT_02") and not _held_ids(dlg).any(func(i): return String(i).begins_with("DANIEL")), "the player is upstairs: Daniel says nothing, and nothing of his waits")
 	gs.emit_event("BASEMENT_BANG")
-	_check(_held_ids(dlg).has("DANIEL_OPT_06") and not dlg._played.has("DANIEL_OPT_06"), "and a basement bang upstairs gets no Daniel line either")
+	_check(not dlg._played.has("DANIEL_OPT_06") and not _held_ids(dlg).any(func(i): return String(i).begins_with("DANIEL")), "a basement bang gets no Daniel line any more")
+	var said := []
+	for visit in 4:
+		player.global_position = Vector3(3.65, 7.9, -4.4)         # down to the basement
+		gs._process(0.0)
+		var now := []
+		for id in ["DANIEL_OPT_02", "DANIEL_OPT_04", "DANIEL_OPT_06", "DANIEL_OPT_08"]:
+			if dlg._played.has(id) and not said.has(id):
+				now.append(id)
+		said.append_array(now)
+		gs._process(0.0)                                         # still down there: not a new visit
+		player.global_position = Vector3(0.4, 10.6, -1.9)        # back up to the hall
+		gs._process(0.0)
+		print("     visit %d: %s" % [visit + 1, now])
+	_check(gs.basement_visits == 4, "four trips down count as four visits (%d)" % gs.basement_visits)
+	_check(said == ["DANIEL_OPT_02", "DANIEL_OPT_04", "DANIEL_OPT_06"], "one line per visit, in order, and nothing on the fourth: %s" % [said])
 	player.global_position = Vector3(3.65, 7.9, -4.4)
 	_check(gs.player_in_basement(), "the player is in the basement")
-	dlg._process(0.3)
-	_check(dlg._played.has("DANIEL_OPT_02") and dlg._played.has("DANIEL_OPT_06") and dlg._held.is_empty(), "once the player is down there with Daniel, his held lines are spoken")
 	_check(not _in_basement_at(gs, Vector3(1.9, 10.6, 1.4)) and not _in_basement_at(gs, Vector3(-27.0, 1.5, 18.0)) and _in_basement_at(gs, Vector3(0.0, 7.9, -4.6)), "the basement test: the porch and the dock are not the basement; the boiler room is")
 
 	_check(_order(gs, ["BOILER_FED", "SAILORS_MOORED", "WINDOW_LOOKED", "GATE_APPROACHED", "GATE_OPENED", "SAILORS_INSIDE", "DANIEL_IN_BASEMENT"]), "the events came in the story's order")

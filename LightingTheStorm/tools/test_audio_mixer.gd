@@ -65,6 +65,18 @@ func _run() -> void:
 		_check(mx.players[nm].stream != null, "%s loads (spawned on the ship)" % nm)
 	_check(AudioServer.get_bus_index("Ambience") >= 0 and AudioServer.get_bus_index("SFX") >= 0, "the Ambience and SFX buses exist")
 
+	# the music (creator, 3 Nov 2026): Landed at Bracken Isle -> (Ted's briefing done) Get to Saltgate -> (burner) Get to Bracken Isle
+	var dlg := root.get_node("Dialogue")
+	_check(mx.music_track == "landed" and mx._music[mx._music_cur].stream != null and (mx._music[mx._music_cur].stream as AudioStreamOggVorbis).loop, "the music starts on 'Landed at Bracken Isle', looping")
+	dlg.line_finished.emit("TED_S3_01")
+	_check(mx.music_track == "landed", "another line ending does not move the music on")
+	dlg.line_finished.emit("TED_S3_02")
+	_check(mx.music_track == "saltgate", "once Ted's briefing line has ended it is 'Get to Saltgate'")
+	mx.advance(1.0)
+	_check(mx._music[1 - mx._music_cur].playing and mx._music[mx._music_cur].volume_db < float(mx.spec["music"]["volume_db"]), "the switch crossfades: both tracks sound partway through")
+	mx.advance(5.0)
+	_check(not mx._music[1 - mx._music_cur].playing and absf(mx._music[mx._music_cur].volume_db - float(mx.spec["music"]["volume_db"])) < 0.1, "after the crossfade only the new track plays, at the set level")
+
 	# phase mix
 	mx.advance(10.0, true)
 	var wind_island: float = mx.levels["wind"]
@@ -78,7 +90,11 @@ func _run() -> void:
 	boat.velocity = Vector3(0, 0, 8)
 	mx.advance(10.0, true)
 	_check(mx.levels["engine"] > -30.0, "outbound under way: the engine chugs (%.1f dB)" % mx.levels["engine"])
+	_check(mx.music_track == "saltgate", "casting off (the fallback cue) leaves 'Get to Saltgate' playing")
 	gs.emit_event("BURNER_PICKED_UP")
+	_check(mx.music_track == "bracken", "picking up the burner moves it to 'Get to Bracken Isle'")
+	dlg.line_finished.emit("TED_S3_02")
+	_check(mx.music_track == "bracken", "a late cue never takes the music back")
 	gs.emit_event("RETURN_DEPARTED")
 	mx.advance(10.0, true)
 	var wind_start: float = mx.levels["wind"]
@@ -100,13 +116,17 @@ func _run() -> void:
 	culling.inside = false
 	mx.advance(2.0)
 	var before_duck: float = mx.targets["wind"]
-	var dlg := root.get_node("Dialogue")
+	var rain_before: float = mx.targets["rain"]
+	var mach_before: float = mx.targets["machinery"]
+	var music_before: float = mx._music[mx._music_cur].volume_db
 	dlg.line_started.emit("TEST", "ARTHUR", "ARTHUR: test", "")
 	mx.advance(1.0)
-	_check(mx.targets["wind"] < before_duck - 3.0, "while someone speaks the ambience ducks (%.1f to %.1f dB)" % [before_duck, mx.targets["wind"]])
+	_check(absf(mx.targets["wind"] - before_duck) < 0.1 and absf(mx.targets["rain"] - rain_before) < 0.1, "speech does not cut through the wind and rain (creator, 3 Nov 2026)")
+	_check(absf(mx._music[mx._music_cur].volume_db - music_before) < 0.1, "nor through the music")
+	_check(mx.targets["machinery"] < mach_before - 3.0, "the boiler dips under speech (%.1f to %.1f dB)" % [mach_before, mx.targets["machinery"]])
 	dlg.line_finished.emit("TEST")
 	mx.advance(2.0)
-	_check(absf(mx.targets["wind"] - before_duck) < 0.1, "and comes back when the line ends")
+	_check(absf(mx.targets["machinery"] - mach_before) < 0.1, "and comes back when the line ends")
 
 	# the fail sequence: foghorn at SHIP_FAIL, crash, silence, then the signal
 	var finished := [0]
@@ -137,6 +157,7 @@ func _run() -> void:
 	_check(impact_seen, "the ship's impact sound is triggered when it strikes the rock")
 	_check(finished[0] == 1, "silence ends the sequence: fail_audio_finished fired once, %.1f s after the deadline" % t)
 	_check(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Ambience")) <= -79.0, "the buses are silent when the Failed screen is due")
+	_check(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music")) <= -79.0, "the music has faded out for the Failed screen")
 	_check(mx.win_horns == 0, "a failed ship sounds no win horn")
 	# a restart brings the sound back
 	gs.restart()
@@ -151,6 +172,8 @@ func _run() -> void:
 	await process_frame
 	await process_frame
 	_check(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Ambience")) > -1.0, "after a restart the buses are back at full level")
+	var mx_r: Node = gs.audio()
+	_check(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music")) > -1.0 and mx_r != null and mx_r.music_track == "landed", "and the music starts again from 'Landed at Bracken Isle'")
 	# the win path: the saved ship's horn sounds once as it clears the rock
 	var mx2: Node = gs.audio()
 	var dl2: Node = gs.deadline()
@@ -168,6 +191,8 @@ func _run() -> void:
 	for i in 600:
 		dl2.ship._process(0.1)
 	_check(mx2.win_horns == 1, "and only once as it carries on to port")
+	mx2.advance(30.0)
+	_check(mx2.music_track == "bracken" and mx2._music[mx2._music_cur].playing and AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music")) > -1.0, "on a win the music keeps playing")
 	lv2.queue_free()
 	print("RESULT: %s (%d failed)" % ["OK" if _fails == 0 else "FAILED", _fails])
 	quit(1 if _fails > 0 else 0)
