@@ -46,6 +46,22 @@ Make Bracken Isle (the rock the lighthouse sits on) complete, clean, fast to loa
 | ISL-10 | 5 | Import hygiene: textures at 2048, provenance records, import notes |  |
 | ISL-11 | 4 | Decide what to do with the legacy island meshes (8-island.glb, 8-island-collider.glb, island_plateau.glb) | yes |
 
+## itch.io Deployment Agent
+_Reviewed by itch.io Deployment Assessment Agent_
+
+Turn the slice into a Windows download on itch.io that installs and runs first time, credits every third-party asset properly, and can be rebuilt the same way for every release; prepare everything up to the upload, and upload only when the creator says so, from their own account. The web build stays parked (creator, 3 Nov 2026).
+
+| ID | Score | Objective | Needs creator |
+|---|---|---|---|
+| DEP-01 | 10 | A one-command Windows build: export, icon, smoke test and a versioned zip |  |
+| DEP-02 | 10 | Credits and licences complete for every third-party asset (T62) | yes |
+| DEP-03 | 9 | The pre-upload gate: tests green, both GPUs smoke-tested, sizes within limits, the built commit tagged |  |
+| DEP-04 | 8 | The itch.io page kit: description, controls, requirements, screenshots and a cover image |  |
+| DEP-05 | 8 | Upload with itch.io's butler tool, only on the creator's go-ahead and from their account | yes |
+| DEP-06 | 5 | The game's name and version in the exe's file details | yes |
+| DEP-07 | 4 | Propose graphics options for lower-end PCs (resolution scale, shadows, a low preset) |  |
+| DEP-08 | 2 | Keep the parked web build's notes current, and do nothing with it |  |
+
 ## Lighthouse Finisher Agent
 _Reviewed by Lighthouse - Interior Assessment Agent_
 
@@ -97,6 +113,23 @@ Know lighthouse design and interior layout, and turn the current greybox into an
 | LHI-10 | 6 | Place the crawlspace and wall voids for the whispers and bangs, as sound sources only |  |
 | LHI-18 | 6 | Art handoff: the Asset agent takes the interior's art objectives | yes |
 | LHI-11 | 5 | Compare the interior to the blueprint and the lighthouse concept art, and run the offline canon and asset checks |  |
+
+## Playtest QA Agent
+_Reviewed by Playtest QA Assessment Agent_
+
+Play the Gate 1 slice the way a player would, end to end and off the golden path, in the exported Windows build as well as the editor, and turn everything that breaks, stalls, overruns or stutters into scored backlog items with evidence, so the creator only ships a slice that has been played through properly. It reports and proposes; it does not change gameplay, art or dialogue itself.
+
+| ID | Score | Objective | Needs creator |
+|---|---|---|---|
+| QA-01 | 10 | Run every headless test and both full-slice playthroughs, and report each result with its output |  |
+| QA-02 | 10 | Bring QA_SCENARIOS.md up to date with the 3 Nov changes before playing to it |  |
+| QA-03 | 9 | Measure the frame rate and memory along the whole route in the exported build, on both GPUs |  |
+| QA-04 | 9 | Hunt softlocks, stuck characters and stuck players off the golden path |  |
+| QA-05 | 8 | Check dialogue and music timing with the recorded clips: overruns, overlaps and beats talked over |  |
+| QA-06 | 8 | Visual sweep of fixed views for black areas, missing meshes and characters clipping into walls |  |
+| QA-07 | 7 | File every new finding into the backlog, scored and with evidence, and fix nothing in gameplay |  |
+| QA-08 | 6 | A one-page playtest sheet for human testers: what to try and what to report |  |
+| QA-09 | 5 | One command that runs the whole suite and prints a summary |  |
 
 ## Saltgate Creator Agent
 _Reviewed by Saltgate Assessment Agent_
@@ -157,6 +190,11 @@ Reviews: island_creator  |  feedback to: island_creator
 
 Hold the Island Creator Agent to the lore and the GDD for Bracken Isle: no holes, no empty or unreferenced meshes, a collider that matches what the player sees, a quick load, correct lighting in every phase, and a faithful read of the island concept art. Review the plan first, then the finished work, using only the offline AI Crew and deterministic checks.
 
+### itch.io Deployment Assessment Agent
+Reviews: itch_deploy  |  feedback to: itch_deploy
+
+Hold the itch.io Deployment Agent to a release that installs and runs first time, credits every third-party asset as its licence requires, can be rebuilt the same way, and is never published without the creator's own go-ahead from their own account. Review the plan first, then the build and the release record, offline only.
+
 ### Lighthouse - Exterior Assessment Agent
 Reviews: existing work (no creator in this batch)  |  feedback to: lighthouse_interior_creator, island_creator, lighthouse_finisher
 
@@ -166,6 +204,11 @@ Assess the existing lighthouse exterior model (lighthouse_exterior_v3.glb) again
 Reviews: lighthouse_interior_creator  |  feedback to: lighthouse_interior_creator, lighthouse_finisher
 
 Hold the Lighthouse Interior Creator Agent to the Interior Plan V4 blueprint (B1 basement, G ground, L1 keeper's quarters, L2 control and diagnostics, L3 lantern room, left hut, right annex), the GDD beats (door, coal, window, lantern diagnosis, burner fit) and the exterior model's real dimensions: a walkable route, rooms that match the plan, sightlines that match GDD decisions 22 and 26, and lighting inside the budget. Offline AI Crew and deterministic checks only.
+
+### Playtest QA Assessment Agent
+Reviews: playtest_qa  |  feedback to: playtest_qa
+
+Hold the Playtest QA Agent to playing the real game, not describing it: every claim backed by a test run, a measurement or a screenshot; every finding reproducible; the GDD's pillars and the fail-state contract checked; and no gameplay changed by the QA agent itself. Review the plan first, then the reports, using only the offline checks and the game's own headless tests.
 
 ### Saltgate Assessment Agent
 Reviews: saltgate_creator  |  feedback to: saltgate_creator, cliffside_creator

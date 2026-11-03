@@ -1,0 +1,135 @@
+{
+ "id": "itch_deploy_assessor",
+ "kind": "assessor",
+ "name": "itch.io Deployment Assessment Agent",
+ "reviews": "itch_deploy",
+ "feedback_to": [
+  "itch_deploy"
+ ],
+ "mandate": "Hold the itch.io Deployment Agent to a release that installs and runs first time, credits every third-party asset as its licence requires, can be rebuilt the same way, and is never published without the creator's own go-ahead from their own account. Review the plan first, then the build and the release record, offline only.",
+ "keywords": [
+  "itch",
+  "itch.io",
+  "release",
+  "export",
+  "zip",
+  "windows",
+  "credits",
+  "licence",
+  "license",
+  "CC BY",
+  "attribution",
+  "butler",
+  "upload",
+  "system requirements",
+  "page"
+ ],
+ "rubric_focus": [
+  "Every objective is scored 1-10 with a reason it is not one point higher or lower.",
+  "Every third-party asset has a source and a licence line; CC BY assets are credited as their licence requires.",
+  "Licence terms of the creator's own accounts are confirmed by the creator, never assumed.",
+  "Nothing is uploaded, published or logged in to without the creator's explicit go-ahead; the agent never holds the creator's credentials.",
+  "The build is reproducible from one command and smoke-tested before it is packaged."
+ ],
+ "must_cover": [
+  {
+   "id": "DEP-M1",
+   "topic": "Credits and licences for every third-party asset",
+   "min_priority": 10,
+   "terms_any": [
+    "credits",
+    "licence",
+    "CC BY"
+   ],
+   "template": {
+    "id": "DEP-T1",
+    "title": "Write the credits and licence list",
+    "detail": "Every asset in the build with its source and licence.",
+    "why_score": "Required by the assessor's mandate.",
+    "acceptance": [
+     "Write the credits and licence list"
+    ],
+    "checks": [
+     {
+      "type": "file_exists",
+      "path": "Docs/Deploy/CREDITS.md"
+     }
+    ],
+    "refs": [
+     "Game Audit/README.md"
+    ],
+    "depends_on": []
+   }
+  },
+  {
+   "id": "DEP-M2",
+   "topic": "A reproducible build with a smoke test",
+   "min_priority": 9,
+   "terms_any": [
+    "one-command",
+    "smoke test",
+    "reproducible"
+   ],
+   "template": {
+    "id": "DEP-T2",
+    "title": "Make the build reproducible and smoke-tested",
+    "detail": "One command: export, icon, smoke test, zip.",
+    "why_score": "Required by the assessor's mandate.",
+    "acceptance": [
+     "Make the build reproducible and smoke-tested"
+    ],
+    "checks": [
+     {
+      "type": "file_exists",
+      "path": "LightingTheStorm/tools/build_windows.py"
+     }
+    ],
+    "refs": [
+     "requirements.md"
+    ],
+    "depends_on": []
+   }
+  },
+  {
+   "id": "DEP-M3",
+   "topic": "The upload happens only on the creator's go-ahead from their account",
+   "min_priority": 8,
+   "terms_any": [
+    "go-ahead",
+    "creator's account",
+    "from their account"
+   ],
+   "template": {
+    "id": "DEP-T3",
+    "title": "Upload only on the creator's go-ahead",
+    "detail": "Prepare the upload; the creator approves and logs in.",
+    "why_score": "Required by the assessor's mandate.",
+    "acceptance": [
+     "Upload only on the creator's go-ahead"
+    ],
+    "checks": [
+     {
+      "type": "manual",
+      "note": "the creator confirms the upload"
+     }
+    ],
+    "refs": [
+     "requirements.md"
+    ],
+    "depends_on": []
+   }
+  }
+ ],
+ "canon_gates": [],
+ "work_checks": [
+  {
+   "type": "file_exists",
+   "path": "requirements.md"
+  },
+  {
+   "type": "file_exists",
+   "path": "LightingTheStorm/tools/set_exe_icon.py"
+  }
+ ],
+ "offline_crew_consults": []
+}

@@ -303,6 +303,329 @@
       "phase": "RETURN",
       "sea_state": 3,
       "note": "Saltgate: leaving in the storm"
+    },
+    {
+      "name": "qa_hall",
+      "from": [
+        1.115,
+        12.18,
+        -2.764
+      ],
+      "to": [
+        -2.043,
+        12.18,
+        -1.255
+      ],
+      "note": "the hall, wide, interior lights on",
+      "env": {
+        "SHOT_INTERIOR": "1"
+      },
+      "qa": "QA-06 3 Nov 2026: render with tools/visual_sweep_qa.sh (applies env and the cast)"
+    },
+    {
+      "name": "qa_hall_arthur",
+      "from": [
+        1.115,
+        12.18,
+        -2.764
+      ],
+      "to": [
+        -0.37,
+        11.9,
+        -1.12
+      ],
+      "note": "the hall: Arthur at his waiting spot",
+      "env": {
+        "SHOT_INTERIOR": "1",
+        "SHOT_CAST": "ARTHUR:-0.37,10.58,-1.12"
+      },
+      "qa": "QA-06 3 Nov 2026: render with tools/visual_sweep_qa.sh (applies env and the cast)"
+    },
+    {
+      "name": "qa_office",
+      "from": [
+        1.32,
+        12.01,
+        -4.192
+      ],
+      "to": [
+        -1.794,
+        11.11,
+        -5.142
+      ],
+      "note": "the office",
+      "env": {
+        "SHOT_INTERIOR": "1"
+      },
+      "qa": "QA-06 3 Nov 2026: render with tools/visual_sweep_qa.sh (applies env and the cast)"
+    },
+    {
+      "name": "qa_store",
+      "from": [
+        2.948,
+        11.91,
+        -5.191
+      ],
+      "to": [
+        4.301,
+        11.01,
+        -5.838
+      ],
+      "note": "the store",
+      "env": {
+        "SHOT_INTERIOR": "1"
+      },
+      "qa": "QA-06 3 Nov 2026: render with tools/visual_sweep_qa.sh (applies env and the cast)"
+    },
+    {
+      "name": "qa_house_L1",
+      "from": [
+        0.233,
+        16.41,
+        -3.451
+      ],
+      "to": [
+        3.842,
+        16.41,
+        -5.175
+      ],
+      "note": "the first floor of the house",
+      "env": {
+        "SHOT_INTERIOR": "1"
+      },
+      "qa": "QA-06 3 Nov 2026: render with tools/visual_sweep_qa.sh (applies env and the cast)"
+    },
+    {
+      "name": "qa_basement_daniel",
+      "from": [
+        3.0,
+        9.15,
+        -4.6
+      ],
+      "to": [
+        4.13,
+        8.9,
+        -2.87
+      ],
+      "note": "the basement: Daniel at his spot by the boiler",
+      "env": {
+        "SHOT_INTERIOR": "1",
+        "SHOT_CAST": "DANIEL:4.13,7.61,-2.87"
+      },
+      "qa": "QA-06 3 Nov 2026: render with tools/visual_sweep_qa.sh (applies env and the cast)"
+    },
+    {
+      "name": "qa_basement_back",
+      "from": [
+        4.13,
+        9.15,
+        -2.6
+      ],
+      "to": [
+        3.0,
+        8.6,
+        -5.0
+      ],
+      "note": "the basement, looking back to the stair",
+      "env": {
+        "SHOT_INTERIOR": "1"
+      },
+      "qa": "QA-06 3 Nov 2026: render with tools/visual_sweep_qa.sh (applies env and the cast)"
+    },
+    {
+      "name": "qa_stairs_ted",
+      "from": [
+        9.3,
+        22.61,
+        -3.514
+      ],
+      "to": [
+        9.66,
+        18.9,
+        -4.16
+      ],
+      "note": "the tower stair, Ted half way up",
+      "env": {
+        "SHOT_INTERIOR": "1",
+        "SHOT_CAST": "TED:9.66,17.81,-4.16"
+      },
+      "qa": "QA-06 3 Nov 2026: render with tools/visual_sweep_qa.sh (applies env and the cast)"
+    },
+    {
+      "name": "qa_lamp_ted",
+      "from": [
+        7.15,
+        29.11,
+        -5.85
+      ],
+      "to": [
+        8.63,
+        28.9,
+        -6.87
+      ],
+      "note": "the lamp room: Ted at the lamp",
+      "env": {
+        "SHOT_INTERIOR": "1",
+        "SHOT_CAST": "TED:8.63,27.51,-6.87"
+      },
+      "qa": "QA-06 3 Nov 2026: render with tools/visual_sweep_qa.sh (applies env and the cast)"
+    },
+    {
+      "name": "qa_door_ted",
+      "from": [
+        4.093,
+        11.61,
+        5.788
+      ],
+      "to": [
+        1.506,
+        12.6,
+        0.374
+      ],
+      "note": "the front door open, Ted just inside (after the knock)",
+      "env": {
+        "SHOT_INTRO": "1"
+      },
+      "qa": "QA-06 3 Nov 2026: render with tools/visual_sweep_qa.sh (applies env and the cast)"
+    },
+    {
+      "name": "qa_dock",
+      "from": [
+        -18.0,
+        5.0,
+        22.0
+      ],
+      "to": [
+        -26.0,
+        1.5,
+        15.0
+      ],
+      "note": "the lighthouse dock and the launch",
+      "qa": "QA-06 3 Nov 2026: render with tools/visual_sweep_qa.sh (applies env and the cast)"
+    },
+    {
+      "name": "qa_dock_rowboat",
+      "from": [
+        -19.0,
+        5.0,
+        31.0
+      ],
+      "to": [
+        -27.0,
+        1.5,
+        26.3
+      ],
+      "note": "the sailors' rowboat at the south berth, Arthur and Daniel aboard",
+      "env": {
+        "SHOT_ROWBOAT": "1"
+      },
+      "qa": "QA-06 3 Nov 2026: render with tools/visual_sweep_qa.sh (applies env and the cast)"
+    },
+    {
+      "name": "qa_gate",
+      "from": [
+        -16.3,
+        10.2,
+        13.9
+      ],
+      "to": [
+        -16.3,
+        9.4,
+        9.9
+      ],
+      "note": "the island gate from the dock side",
+      "qa": "QA-06 3 Nov 2026: render with tools/visual_sweep_qa.sh (applies env and the cast)"
+    },
+    {
+      "name": "qa_gate_sailors",
+      "from": [
+        -16.3,
+        11.0,
+        6.5
+      ],
+      "to": [
+        -16.3,
+        9.6,
+        13.0
+      ],
+      "note": "the sailors coming up to the gate (Arthur just short of it, Daniel behind)",
+      "env": {
+        "SHOT_NPC": "sailors_dock_to_hall:0.48"
+      },
+      "qa": "QA-06 3 Nov 2026: render with tools/visual_sweep_qa.sh (applies env and the cast)"
+    },
+    {
+      "name": "qa_launch_arthur",
+      "from": [
+        -20.0,
+        4.5,
+        19.0
+      ],
+      "to": [
+        -26.0,
+        1.5,
+        14.7
+      ],
+      "note": "Arthur aboard the launch at the lighthouse berth",
+      "phase": "OUTBOUND",
+      "env": {
+        "SHOT_BOARD": "1"
+      },
+      "qa": "QA-06 3 Nov 2026: render with tools/visual_sweep_qa.sh (applies env and the cast)"
+    },
+    {
+      "name": "qa_saltgate_quay",
+      "from": [
+        6.0,
+        1.9,
+        531.5
+      ],
+      "to": [
+        -10.0,
+        3.0,
+        548.0
+      ],
+      "note": "the Saltgate quay where the player lands",
+      "phase": "OUTBOUND",
+      "qa": "QA-06 3 Nov 2026: render with tools/visual_sweep_qa.sh (applies env and the cast)"
+    },
+    {
+      "name": "qa_cross_out",
+      "from": [
+        -30.0,
+        3.0,
+        250.0
+      ],
+      "to": [
+        0.0,
+        6.0,
+        520.0
+      ],
+      "note": "the outbound crossing, towards the Saltgate",
+      "phase": "OUTBOUND",
+      "sea_state": 2,
+      "qa": "QA-06 3 Nov 2026: render with tools/visual_sweep_qa.sh (applies env and the cast)"
+    },
+    {
+      "name": "qa_cross_return",
+      "from": [
+        -30.0,
+        3.0,
+        320.0
+      ],
+      "to": [
+        8.0,
+        15.0,
+        -5.0
+      ],
+      "note": "the return crossing in the storm, hazards out, the ship late in the deadline",
+      "phase": "RETURN",
+      "sea_state": 4,
+      "env": {
+        "SHOT_CROSSING": "1",
+        "SHOT_SHIP": "0.8"
+      },
+      "qa": "QA-06 3 Nov 2026: render with tools/visual_sweep_qa.sh (applies env and the cast)"
     }
   ],
   "max_dark_ratio": 0.25,

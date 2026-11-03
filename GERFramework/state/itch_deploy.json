@@ -1,0 +1,249 @@
+{
+ "creator": "itch_deploy",
+ "phase": "awaiting_approval",
+ "plan_loops": 1,
+ "work_loops": 0,
+ "objectives": [
+  {
+   "id": "DEP-01",
+   "title": "A one-command Windows build: export, icon, smoke test and a versioned zip",
+   "priority": 10,
+   "why_score": "Every release must be rebuilt the same way, and today it is four manual steps in requirements.md. Not 9 because a wrong or half-built zip is the most likely release fault.",
+   "detail": "tools/build_windows.py: export with the 'Windows Desktop' preset, put the icon on with tools/set_exe_icon.py, start the exported exe and capture frames of the level (as the 3 Nov smoke test did), check the exe and pck sizes, and zip build/windows into build/LightingTheStorm_windows_<version>.zip with the game in a LightingTheStorm folder. It stops on any failure.",
+   "acceptance": [
+    "one command produces a zip that unpacks and runs",
+    "it stops with a clear message if the export, the icon or the smoke test fails"
+   ],
+   "owner": "itch.io Deployment Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/build_windows.py"
+    }
+   ],
+   "refs": [
+    "requirements.md",
+    "LightingTheStorm/tools/set_exe_icon.py"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "Playtest QA Agent"
+   ]
+  },
+  {
+   "id": "DEP-02",
+   "title": "Credits and licences complete for every third-party asset (T62)",
+   "priority": 10,
+   "why_score": "CC BY requires attribution, and unknown terms on the AI-generated assets are the main release risk. Not 9 because the game cannot be published honestly without it.",
+   "detail": "Build Docs/Deploy/CREDITS.md from the asset provenance: each Meshy model (CC BY 4.0: credit Meshy AI and the model's title), the FAL / Hunyuan3D models, the ElevenLabs voices, the ChatGPT-generated pages and posters, the music (KeaneTheory), Godot Engine (its MIT notice must ship with the game), the fonts and any other files. Say for each whether its licence requires a credit in the game as well as on the page, and add an in-game credits screen only if one does.",
+   "acceptance": [
+    "every asset in the build has a source and a licence line",
+    "the creator has confirmed the terms of their FAL, ElevenLabs and OpenAI accounts"
+   ],
+   "owner": "itch.io Deployment Agent",
+   "needs_creator": true,
+   "decision": "Confirm the commercial terms of your FAL (Hunyuan3D), ElevenLabs and OpenAI (ChatGPT images) accounts, and whether the game is free or paid on itch.io (some plans differ for commercial use). Recommendation: check each account's current terms page before the first upload and record the plan in CREDITS.md.",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "Docs/Deploy/CREDITS.md"
+    },
+    {
+     "type": "grep",
+     "path": "Docs/Deploy/CREDITS.md",
+     "pattern": "KeaneTheory",
+     "min": 1
+    }
+   ],
+   "refs": [
+    "Game Audit/README.md",
+    "LightingTheStorm/Assets/Audio/music/SOURCES.md"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "Asset agent",
+    "Sound agent",
+    "Creator"
+   ]
+  },
+  {
+   "id": "DEP-03",
+   "title": "The pre-upload gate: tests green, both GPUs smoke-tested, sizes within limits, the built commit tagged",
+   "priority": 9,
+   "why_score": "Stops a broken or untraceable build going out. Not 10 because it depends on DEP-01 and the QA suite, which carry the 10s.",
+   "detail": "A checklist the agent runs and records: the Playtest QA suite passes; the fresh zip is unpacked and played on the NVIDIA and the Intel integrated GPU; the zip and its files are within itch.io's download limit (confirm the current limit); the version number is bumped; the commit built is tagged in git (the creator pushes).",
+   "acceptance": [
+    "a dated gate record with each item ticked or failed",
+    "no upload is prepared on a failed gate"
+   ],
+   "owner": "itch.io Deployment Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "GERFramework/reports/itch_release_gate.md"
+    }
+   ],
+   "refs": [
+    "requirements.md"
+   ],
+   "depends_on": [
+    "DEP-01"
+   ],
+   "collaborates": [
+    "Playtest QA Agent"
+   ]
+  },
+  {
+   "id": "DEP-04",
+   "title": "The itch.io page kit: description, controls, requirements, screenshots and a cover image",
+   "priority": 8,
+   "why_score": "The page is the first thing a player sees. Not 9 because the game can go up with a plain page and be improved later.",
+   "detail": "Docs/Deploy/ITCH_PAGE.md: the short and the long description (in the game's voice, checked by the Style Guide agents), the controls, the system requirements from requirements.md, the SmartScreen note, content notes and tags; five screenshots and a 630x500 cover from in-game views (shoot.sh), all in Docs/Deploy/page/.",
+   "acceptance": [
+    "page text the creator has approved",
+    "five screenshots and a cover image"
+   ],
+   "owner": "itch.io Deployment Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "Docs/Deploy/ITCH_PAGE.md"
+    }
+   ],
+   "refs": [
+    "requirements.md",
+    "GERFramework/shoot.sh"
+   ],
+   "depends_on": [
+    "DEP-02"
+   ],
+   "collaborates": [
+    "Creator"
+   ]
+  },
+  {
+   "id": "DEP-05",
+   "title": "Upload with itch.io's butler tool, only on the creator's go-ahead and from their account",
+   "priority": 8,
+   "why_score": "Publishing is hard to undo and is the creator's account. Not 9 because the creator can also upload the zip by hand on the itch.io site.",
+   "detail": "Prepare the butler command (channel 'windows', the version from DEP-01) and the steps for the creator to log in to butler themselves. The agent never logs in, never holds the creator's credentials, and never runs the push without the creator's explicit go-ahead in chat.",
+   "acceptance": [
+    "the command and the steps written down",
+    "the push run only after the creator's go-ahead, or done by the creator"
+   ],
+   "owner": "itch.io Deployment Agent",
+   "needs_creator": true,
+   "decision": "Upload with butler (repeatable and keeps versions, but you log in to it once) or by hand on the itch.io website? Free or paid, and public, restricted (testers only) or a draft first? Recommendation: butler, and a restricted page first so friends can test before it goes public.",
+   "checks": [
+    {
+     "type": "manual",
+     "note": "the creator confirms the upload was done (by butler or on the itch.io site) and the page is live"
+    }
+   ],
+   "refs": [
+    "requirements.md"
+   ],
+   "depends_on": [
+    "DEP-03"
+   ],
+   "collaborates": [
+    "Creator"
+   ]
+  },
+  {
+   "id": "DEP-06",
+   "title": "The game's name and version in the exe's file details",
+   "priority": 5,
+   "why_score": "Windows shows the exe as a generic Godot program; it is cosmetic. Not 6 because nothing breaks without it.",
+   "detail": "Either install rcedit (Electron's small tool on GitHub) and point Godot at it, which also stamps the icon, or extend tools/set_exe_icon.py to write the version resource.",
+   "acceptance": [
+    "the exe's Properties show Lighting the Storm and the version"
+   ],
+   "owner": "itch.io Deployment Agent",
+   "needs_creator": true,
+   "decision": "Download rcedit (about 1 MB, from Electron's GitHub releases) or keep everything in the project's own script? Recommendation: rcedit, the tool Godot expects.",
+   "checks": [
+    {
+     "type": "manual",
+     "note": "the exe's Properties > Details show the product name and the version"
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/tools/set_exe_icon.py"
+   ],
+   "depends_on": [
+    "DEP-01"
+   ],
+   "collaborates": [
+    "Creator"
+   ]
+  },
+  {
+   "id": "DEP-07",
+   "title": "Propose graphics options for lower-end PCs (resolution scale, shadows, a low preset)",
+   "priority": 4,
+   "why_score": "Integrated graphics ran the opening at about 35 fps; a low preset could lift weak PCs to 60. Not 5 because it is game work for the Lighting and Gameplay agents; this agent only proposes it, with the QA numbers.",
+   "detail": "From QA-03's measurements, propose the options and their expected effect; the owner agents build them if the creator approves.",
+   "acceptance": [
+    "a proposal with measured numbers, handed to the owner agents"
+   ],
+   "owner": "itch.io Deployment Agent",
+   "checks": [
+    {
+     "type": "manual",
+     "note": "the proposal is in the backlog with its owner"
+    }
+   ],
+   "refs": [
+    "requirements.md"
+   ],
+   "depends_on": [
+    "DEP-03"
+   ],
+   "collaborates": [
+    "Lighting agent",
+    "Gameplay / Systems agent"
+   ]
+  },
+  {
+   "id": "DEP-08",
+   "title": "Keep the parked web build's notes current, and do nothing with it",
+   "priority": 2,
+   "why_score": "Parked by the creator on 3 Nov 2026 because the game's look suffers in the browser. Not 3 because it should not take time from the download.",
+   "detail": "requirements.md says why the web build was parked (the renderer, the 378 MB pck against the 200 MB limit, the lost WebGL context on integrated graphics, the two shaders). Update it only if the facts change; no web export work without the creator.",
+   "acceptance": [
+    "the notes in requirements.md are current"
+   ],
+   "owner": "itch.io Deployment Agent",
+   "checks": [
+    {
+     "type": "grep",
+     "path": "requirements.md",
+     "pattern": "web build is parked",
+     "min": 1
+    }
+   ],
+   "refs": [
+    "requirements.md"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "Creator"
+   ]
+  }
+ ],
+ "records": {},
+ "history": [
+  {
+   "kind": "plan_review",
+   "loop": 1,
+   "at": "2026-11-03T15:39:58+00:00",
+   "findings": [],
+   "changes": []
+  }
+ ],
+ "approval": null,
+ "knowledge_note": "knowledge up to date",
+ "last_findings": [],
+ "last_blocks": 0
+}

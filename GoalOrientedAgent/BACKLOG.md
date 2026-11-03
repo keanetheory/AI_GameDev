@@ -1,6 +1,6 @@
 # Backlog
 
-_Generated 2026-11-02 19:53 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
+_Generated 2026-11-03 17:04 by the Goal-Oriented Agent. Do not edit by hand; the source of truth is `state/backlog.json`._
 
 **Goal:** Bring LightingTheStorm to the state the GDD (Exec Summary, Technical Strategy, AI Agent Strategy) describes for the Gate 1 vertical slice, consistent with the concept art and the AI crew briefs, or document precisely what remains so work can resume later.
 
@@ -36,16 +36,32 @@ _Generated 2026-11-02 19:53 by the Goal-Oriented Agent. Do not edit by hand; the
 
 | ID | Score | Task | Category | Owner role | Effort | Status |
 |---|---|---|---|---|---|---|
+| T77 | **9** | QA: Walking off the Saltgate quay strands the player on the lighthouse island (softlock) or skips the return | code | Player Movement agent, Gameplay / Systems agent | M | open |
 | T50 | **8** | Generate the dialogue lines and their timings; onboard the music and its cues (Tuesday) | dialogue | Creator with the Dialogue and Audio agents | L | open |
 | T53 | **8** | Create the playtest QA agents and a web deployment agent for itch.io (Tuesday evening) | code | Creator with the GOA / GER framework | L | open |
+| T79 | **8** | QA: Integrated graphics below 30 fps along most of the route | code | Lighting agent and Level Layout agent; creator decides the minimum | L | open |
 | T62 | **7** | Credits and licences list for the itch.io page; confirm FAL's terms for generated models | decision | Creator with the web deployment agent | S | open |
+| T78 | **7** | QA: The boat sails through the lighthouse island and the tower | code | Gameplay / Systems agent (boat) with the Level Layout agent | S | open |
 | T51 | **6** | Decide where the characters look during specific lines (the Arthur and Ted opening) | dialogue | Creator with the Dialogue agent | M | open |
 | T69 | **6** | Replace the remaining greybox props with FAL models (15 prepared) | asset | Creator with the Asset agent | M | open |
+| T71 | **6** | QA: TED_F_03 talks over the fail silence and into the Failed screen | code | Sound agent with Story / Fail-State; creator decides | S | open |
+| T73 | **6** | QA: Arthur's return calls arrive late behind other lines | code | Gameplay / Systems agent, Sound agent | S | open |
 | T57 | **5** | Think about the pieces for the journal | decision | Creator with the Dialogue agent | M | open |
+| T72 | **5** | QA: Arthur's collision lines queue up back to back | code | Gameplay / Systems agent (crossing), Sound agent | S | open |
+| T74 | **5** | QA: No expiry on queued or held lines: lines play after their moment | code | Gameplay / Systems agent (dialogue_loader.gd) | S | open |
+| T80 | **5** | QA: Stutter standing in the moored launch at the lighthouse dock | code | Player Movement agent | S | open |
+| T82 | **5** | QA: Characters near-black at night outdoors and in the doorway at the greeting | code | Lighting agent | S | open |
 | T18 | **4** | Review the rewritten opening lines and re-record the six changed voice lines | dialogue | Dialogue agent | M | open |
 | T61 | **4** | Cut the level's load time: the interior build (~2.5 s) and the ~3 s of deferred work before the first physics step | code | Level Layout agent | L | open |
 | T68 | **4** | Lighting and lighthouse follow-ups from the island checks | code | Lighting agent / Lighthouse Finisher | S | open |
+| T75 | **4** | QA: A dialogue line can start while the game is paused | code | Gameplay / Systems agent | S | open |
+| T76 | **4** | QA: Ted's poster line is lost for good if the poster is read early | code | Gameplay / Systems agent; creator decides | S | open |
+| T85 | **4** | QA: First-sight hitches: 230 to 295 ms when the boiler is fed, a 1.1 s freeze on the Intel GPU after load | code | Lighting agent | S | open |
 | T65 | **3** | Tidy the loose ends the R21 handoff run found | code | Code agent | S | open |
+| T81 | **3** | QA: Restart after the Failed screen freezes for 4 to 6 s with no message | code | Gameplay / Systems agent (outcome screen) | S | open |
+| T83 | **3** | QA: The sailors walk through the shut island gate | code | Gameplay / Systems agent | S | open |
+| T84 | **3** | QA: Visual-check tooling: env per view, the HUD in shots, the dark limit, three views to reframe | test | QA agent (visual_check.py, shot.gd); Playtest QA agent (its views) | S | open |
+| T86 | **3** | QA: test_interior_budget's 2500 ms build check passes by 2 ms and fails under load | test | QA agent with the Level Layout agent | S | open |
 | T01 | **10** | Create the central GameState autoload: phase machine, event bus, restart | code | Gameplay / Systems agent | M | done |
 | T02 | **10** | Greybox lighthouse interior route: door, hall, basement, tower stairs, lantern room | scene | Level Layout agent | L | done |
 | T06 | **10** | Saltgate burner pickup: place the burner by the landing, pick it up, carry it aboard | code | Gameplay / Systems agent | M | done |
@@ -117,6 +133,14 @@ _Generated 2026-11-02 19:53 by the Goal-Oriented Agent. Do not edit by hand; the
 
 ## Task detail
 
+### T77 [9/10] QA: Walking off the Saltgate quay strands the player on the lighthouse island (softlock) or skips the return  (open)
+
+No sea floor at the Saltgate: walking 5 m from the landing towards the berth, the player falls to y -40 and player.gd respawns them at the level start (14, 15.5, 8), 524 m from the boat. Before the burner: stranded, the only way on is to quit. With the burner: fit it and win without RETURN_DEPARTED or the deadline. Proposal: a sea floor or water volume at the Saltgate, a respawn at the nearest landing or in the boat, and BURNER_FITTED refused before RETURN_DEPARTED. Found by the Playtest QA agent (3 Nov 2026), which proposes and does not fix.
+
+- **Why 9:** A hard softlock (no boat, no fail state, no restart key in the release build) and a sequence break to a win; not 10 only because the player has to walk off the quay edge.
+- **Evidence:** GERFramework/reports/playtest_qa_exploratory.md (T77); tools/probe_exploratory.gd -- saltgate_fall=early and =burner; scripts/player/player.gd (y < -40 respawn)
+- **Blocked by:** Thursday 5 Nov 2026 (creator, 3 Nov 2026: focus on the Playtest QA findings then)
+
 ### T50 [8/10] Generate the dialogue lines and their timings; onboard the music and its cues (Tuesday)  (open)
 
 Tuesday 3 Nov: with the creator, finalise every dialogue line (data/dialogue/dialogue_opening.json) and its timing (gaps, reply delays, the length of each beat, auto-advance lengths), then onboard the musical pieces and decide when each one fires (phase, event or deadline-driven) in data/world/audio_spec.json and scripts/core/audio_mixer.gd. Includes the sound review already scheduled for the same morning (placeholder sounds) and the voice recording plan (credits, ask first). Run test_audio_mixer.gd, test_slice_playthrough.gd and the dialogue tests after.
@@ -136,6 +160,15 @@ Tuesday 3 Nov evening: build (1) playtest QA agents that play the slice (the sce
 - **Blocked by:** Tuesday 3 Nov evening; needs the creator's approval of the agent briefs.
 - **Needs the creator** (cannot be done by the agent alone)
 
+### T79 [8/10] QA: Integrated graphics below 30 fps along most of the route  (open)
+
+Exported build, Intel Raptor Lake UHD: hall 23, basement 24, stairs 25, lamp room 19 (worst second 14), the crossings 22 to 29, the win 18 fps median; only the island outdoors reaches 30 to 34. requirements.md's minimum (about 30 fps on a recent Intel integrated GPU) does not hold. Creator: raise the minimum, or cut the interior cost (lights, shadows, 858k triangles). Found by the Playtest QA agent (3 Nov 2026), which proposes and does not fix.
+
+- **Why 8:** Sets the published minimum, and laptops without a dedicated GPU are a large share of itch.io players; not 9 because the game runs and the dedicated GPU holds the 240 fps cap.
+- **Evidence:** GERFramework/reports/playtest_qa_performance.md P1; requirements.md (the route table)
+- **Blocked by:** Thursday 5 Nov 2026 (creator, 3 Nov 2026: focus on the Playtest QA findings then)
+- **Needs the creator** (cannot be done by the agent alone)
+
 ### T62 [7/10] Credits and licences list for the itch.io page; confirm FAL's terms for generated models  (open)
 
 Collect every external asset into one credits list for the itch.io page and the in-game credits: Meshy models (CC BY 4.0, confirmed by the creator 2 Nov 2026: the lampposts 'Verdigris Beacon', the 'Open Arc Lamp', and the character rigging and clips), placeholder audio (CC0, Assets/Audio/placeholder/SOURCES.md), fonts, the ElevenLabs voices, and the FAL Hunyuan3D v3 outputs (props, characters, island, Saltgate hut). Confirm FAL's and Tencent Hunyuan3D's terms for commercial use of generated output and record them in Game Audit/. Sources: Assets/Models/*/SOURCES.md, Assets/Characters/SOURCES.md. 2 Nov 2026: add the 17 lighthouse pages and posters, generated by the creator with ChatGPT image generation (OpenAI terms allow commercial use of outputs; confirm), sources in C:/bkupConceptArt/Lighthouse_Pages_2026-11-02.
@@ -144,6 +177,14 @@ Collect every external asset into one credits list for the itch.io page and the 
 - **Evidence:** Creator, 2 Nov 2026: meshy licenses are CC by 4.0; HANDOFF_T42_T43_T45_FALProps.md section 6; Game Audit/README.md
 - **Blocked by:** FAL's terms need the creator to confirm (account terms).
 - **Needs the creator** (cannot be done by the agent alone)
+
+### T78 [7/10] QA: The boat sails through the lighthouse island and the tower  (open)
+
+Aimed at the tower from the lighthouse dock, the launch crossed the island past the tower axis (about 1.7 m) with 0 collisions for 8 s and came out on the east shore. boat.gd hazard_mask is layer 2 (rocks, cliffs, the island); the island's collision is not on it along this line. Found by the Playtest QA agent (3 Nov 2026), which proposes and does not fix.
+
+- **Why 7:** Visibly broken and a route skip on the crossings; not higher because the safe lanes do not cross the island.
+- **Evidence:** GERFramework/reports/playtest_qa_exploratory.md (T78); tools/probe_exploratory.gd -- boat_beach
+- **Blocked by:** Thursday 5 Nov 2026 (creator, 3 Nov 2026: focus on the Playtest QA findings then)
 
 ### T51 [6/10] Decide where the characters look during specific lines (the Arthur and Ted opening)  (open)
 
@@ -164,6 +205,23 @@ Inventory and prep done 2 Nov 2026 (LightingTheStorm/FAL_GREYBOX_PROPS.md): 15 t
 - **Blocked by:** Creator decisions: which ranks to spend on (balance $6.10; Lighthouse Finisher cap has $3.30 left), the triangle limit (884k of 900k); a screenshot of the switchboard, tool rack and barrel, which are already FAL models.
 - **Needs the creator** (cannot be done by the agent alone)
 
+### T71 [6/10] QA: TED_F_03 talks over the fail silence and into the Failed screen  (open)
+
+TED_F_03 (pause 9 s, clip 11.52 s) runs 15.2 to 26.9 s after SHIP_FAIL; the silence is 18.6 to 22.1 s and the Voice bus is not faded with it; the line runs about 4.8 s into the Failed screen. Options A to E in the timing report (recommended: play it on the Failed screen on purpose, or hold the screen until the voice is done). Found by the Playtest QA agent (3 Nov 2026), which proposes and does not fix.
+
+- **Why 6:** The fail contract's silence is talked over on every fail with the player inside; not higher because it only hurts the fail beat, not the run.
+- **Evidence:** GERFramework/reports/playtest_qa_timing.md F1; scripts/core/audio_mixer.gd _step_fail; data/dialogue/dialogue_opening.json TED_F_03
+- **Blocked by:** Thursday 5 Nov 2026 (creator, 3 Nov 2026: focus on the Playtest QA findings then)
+- **Needs the creator** (cannot be done by the agent alone)
+
+### T73 [6/10] QA: Arthur's return calls arrive late behind other lines  (open)
+
+One first-in-first-out queue: ARTHUR_RET_01 waited 6.8 s behind ARTHUR_S3_05 (about 65 m), RET_04 3.2 s behind a near-miss line, and every call waits for a 5 to 7 s hit line. Proposal: calls drop when stale or jump the queue; the pickup line before casting off. Found by the Playtest QA agent (3 Nov 2026), which proposes and does not fix.
+
+- **Why 6:** A navigation call after its hazard misdirects the player on the timed crossing; not higher because the safe lane is still sailable.
+- **Evidence:** GERFramework/reports/playtest_qa_timing.md F3; scripts/dialogue/dialogue_loader.gd _enqueue / _play_queue
+- **Blocked by:** Thursday 5 Nov 2026 (creator, 3 Nov 2026: focus on the Playtest QA findings then)
+
 ### T57 [5/10] Think about the pieces for the journal  (open)
 
 Decide what the player's journal (J, scripts/ui/subtitle_ui.gd and the 'journal' array in data/dialogue/dialogue_opening.json) should hold for Gate 1. Today it is a handwritten-style panel that records journal entries triggered by story events, with no other pieces. Talk through with the creator what belongs in it: the entries Isaac writes as the story moves (one per beat, in his voice, snarky like the dialogue), the goal history, the boat and lighthouse notes, a sketch or map, what Ted and Arthur said that matters, the warnings (the rocks, the ship), and found objects such as the poster and the wall whisper. Then list the pieces (text entries, drawings, pinned items), their triggers (the story events), their wording, and the art needed (paper, handwriting font, sketches: any generated assets need credits and a licence note), and write it up as a proposal for sign-off. Build comes after (a follow-up task).
@@ -172,6 +230,38 @@ Decide what the player's journal (J, scripts/ui/subtitle_ui.gd and the 'journal'
 - **Evidence:** Creator, 30 Oct 2026: think about pieces for the journal; scripts/ui/subtitle_ui.gd; data/dialogue/dialogue_opening.json
 - **Blocked by:** A conversation with the creator. The dialogue pass is done (a5b5ea6), so the journal can match its voice.
 - **Needs the creator** (cannot be done by the agent alone)
+
+### T72 [5/10] QA: Arthur's collision lines queue up back to back  (open)
+
+Every hazard hit queues ARTHUR_HIT_n (once false, no cooldown, crossing_sequence.gd _on_hit): the fail run queued 10 x ARTHUR_HIT_3 (57 s). Proposal: a cooldown like the near misses have, or drop a hit line while one is queued. Found by the Playtest QA agent (3 Nov 2026), which proposes and does not fix.
+
+- **Why 5:** Repeated hits give up to a minute of the same line; not higher because only a struggling player hears it.
+- **Evidence:** GERFramework/reports/playtest_qa_timing.md F2; scripts/world/crossing_sequence.gd _on_hit
+- **Blocked by:** Thursday 5 Nov 2026 (creator, 3 Nov 2026: focus on the Playtest QA findings then)
+
+### T74 [5/10] QA: No expiry on queued or held lines: lines play after their moment  (open)
+
+Held Ted lines are released in a burst on entering and queue behind what is playing; nothing expires. Patient run: Ted's lamp-room call 34 s late, 'Cracked clean through' 34 s after BURNER_DIAGNOSED; harness-fast ending: TED_S4_01 after the fit, TED_S5_02 27 s after SHIP_WIN; the Saltgate docking lines 10 to 11 s late. Proposal: expires_on or a maximum wait per line. Found by the Playtest QA agent (3 Nov 2026), which proposes and does not fix.
+
+- **Why 5:** Out-of-order lines ('bring the burner up' after it is fitted) read as broken; not higher because a person's walking pace usually clears the queue.
+- **Evidence:** GERFramework/reports/playtest_qa_timing.md F4, F5
+- **Blocked by:** Thursday 5 Nov 2026 (creator, 3 Nov 2026: focus on the Playtest QA findings then)
+
+### T80 [5/10] QA: Stutter standing in the moored launch at the lighthouse dock  (open)
+
+10 to 15 frames of 160 to 170 ms in 8 s on the RTX 4070 (on both laps, so not a shader compile), worst second 52 fps; the player is not on the floor inside the hull. Headless: worst physics step 12 ms in the launch against 1.3 ms in the hall, 24 ms for a body dropped into the island collision beside the berth. Found by the Playtest QA agent (3 Nov 2026), which proposes and does not fix.
+
+- **Why 5:** A visible hitch on the best GPU at a spot every player passes; not higher because it is brief and local.
+- **Evidence:** GERFramework/reports/playtest_qa_performance.md P2; tools/probe_dock_hitch.gd; tools/perf_route.gd -- static twice
+- **Blocked by:** Thursday 5 Nov 2026 (creator, 3 Nov 2026: focus on the Playtest QA findings then)
+
+### T82 [5/10] QA: Characters near-black at night outdoors and in the doorway at the greeting  (open)
+
+qa_door_ted: Ted is a near-black silhouette inside the open door; qa_launch_arthur: Arthur aboard cannot be made out; the sailors in the rowboat are dark shapes (contact sheet). Found by the Playtest QA agent (3 Nov 2026), which proposes and does not fix.
+
+- **Why 5:** Ted's greeting is the first face the player sees; not higher because the characters read well in every lit interior.
+- **Evidence:** GERFramework/reports/playtest_qa_visual.md; GERFramework/reports/playtest_qa_contact_sheet.png; GERFramework/shots/qa_door_ted.png
+- **Blocked by:** Thursday 5 Nov 2026 (creator, 3 Nov 2026: focus on the Playtest QA findings then)
 
 ### T18 [4/10] Review the rewritten opening lines and re-record the six changed voice lines  (open)
 
@@ -197,12 +287,69 @@ From ISL-04 and ISL-09 (2 Nov 2026): (1) F8 is both the rig's BEACON_RELIT jump 
 - **Why 4:** None breaks play; they tidy debug keys, the spec record and distant frame cost.
 - **Evidence:** GERFramework/reports/island_lighting_check.md F3-F5; GERFramework/reports/island_lod.md findings
 
+### T75 [4/10] QA: A dialogue line can start while the game is paused  (open)
+
+dialogue_loader.gd _play_queue: create_timer(pause) keeps counting during the pause (process_always defaults to true), so a line in its pause_before starts while paused (seen with TED_S1_01). Fix: create_timer(pause, false). Found by the Playtest QA agent (3 Nov 2026), which proposes and does not fix.
+
+- **Why 4:** Subtitle and voice under the pause; small and rare.
+- **Evidence:** GERFramework/reports/playtest_qa_exploratory.md (T75); tools/probe_exploratory.gd -- pause_beats
+- **Blocked by:** Thursday 5 Nov 2026 (creator, 3 Nov 2026: focus on the Playtest QA findings then)
+
+### T76 [4/10] QA: Ted's poster line is lost for good if the poster is read early  (open)
+
+TED_S0_13 requires burner_diagnosed and is dropped otherwise; POSTER_EXAMINED is one-shot, so a later read fires nothing. Options: make POSTER_EXAMINED repeatable, or hold the line instead of dropping it. Found by the Playtest QA agent (3 Nov 2026), which proposes and does not fix.
+
+- **Why 4:** Recorded content most players never hear; the creator decides whether it matters.
+- **Evidence:** GERFramework/reports/playtest_qa_exploratory.md (T76); tools/probe_exploratory.gd -- poster_early
+- **Blocked by:** Thursday 5 Nov 2026 (creator, 3 Nov 2026: focus on the Playtest QA findings then)
+- **Needs the creator** (cannot be done by the agent alone)
+
+### T85 [4/10] QA: First-sight hitches: 230 to 295 ms when the boiler is fed, a 1.1 s freeze on the Intel GPU after load  (open)
+
+Both GPUs: one 230 to 295 ms frame at BOILER_FED (the rowboat and the ship appear); Intel: a 1.1 s frame on the first turn at the front door, not on the second lap. Proposal: a material warm-up pass behind the title screen. Found by the Playtest QA agent (3 Nov 2026), which proposes and does not fix.
+
+- **Why 4:** One-off stutters at story moments (Godot 4.3 compiles pipelines on first use).
+- **Evidence:** GERFramework/reports/playtest_qa_performance.md P4
+- **Blocked by:** Thursday 5 Nov 2026 (creator, 3 Nov 2026: focus on the Playtest QA findings then)
+
 ### T65 [3/10] Tidy the loose ends the R21 handoff run found  (open)
 
 Small fixes from the eight 2 Nov handoff notes: (1) QA_SCENARIOS.md S13 still mentions the boat's cargo slot, which T49 removed; (2) check T49's result text against the built steps; (3) the Saltgate hut collider comment says 4.5k triangles where the mesh is 2.5k; (4) the buoy lamps do not blink (decide: add a blink or drop it from the notes); (5) no tests cover the exterior wall shader patches or the lining skins (exterior_wall_detail.gdshader, exterior_openings.gd _lining_skin); (6) about 1,940 harmless headless 'Parameter "m" is null' errors flood the test logs; find the source so real errors stand out.
 
 - **Why 3:** None of these breaks play; they keep the docs honest and the test logs readable.
 - **Evidence:** LightingTheStorm/HANDOFF_*.md (5bd14e0)
+
+### T81 [3/10] QA: Restart after the Failed screen freezes for 4 to 6 s with no message  (open)
+
+Enter on the Failed screen reloads the level in one frame of 3.8 s (NVIDIA) or 5.8 s (Intel). Proposal: show 'Loading' for a frame before reload_current_scene(). Found by the Playtest QA agent (3 Nov 2026), which proposes and does not fix.
+
+- **Why 3:** Looks like a hang; cosmetic.
+- **Evidence:** GERFramework/reports/playtest_qa_performance.md P3
+- **Blocked by:** Thursday 5 Nov 2026 (creator, 3 Nov 2026: focus on the Playtest QA findings then)
+
+### T83 [3/10] QA: The sailors walk through the shut island gate  (open)
+
+Shutting the gate 1.5 s after opening it (Arthur 1 m short of it): both walk through the closed leaf and SAILORS_INSIDE fires with the gate shut. Proposal: the gate will not close with a walker within 2 m. Found by the Playtest QA agent (3 Nov 2026), which proposes and does not fix.
+
+- **Why 3:** Visual only, no softlock; S07 already lists it for a person to check.
+- **Evidence:** GERFramework/reports/playtest_qa_exploratory.md (T83); tools/probe_exploratory.gd -- gate_close
+- **Blocked by:** Thursday 5 Nov 2026 (creator, 3 Nov 2026: focus on the Playtest QA findings then)
+
+### T84 [3/10] QA: Visual-check tooling: env per view, the HUD in shots, the dark limit, three views to reframe  (open)
+
+visual_check.py ignores a view's env (use tools/visual_sweep_qa.sh); shot.gd hides the CanvasLayers before the HUD exists, so the goal tracker, the controls list and the 'Lighting:' label are in every picture; lhi_lamp_out needs SHOT_INTERIOR; the 25% dark limit fails correct night views; qa_basement_daniel, qa_stairs_ted and qa_launch_arthur to reframe (Playtest QA). Found by the Playtest QA agent (3 Nov 2026), which proposes and does not fix.
+
+- **Why 3:** Makes the visual sweep trustworthy; no player impact.
+- **Evidence:** GERFramework/reports/playtest_qa_visual.md; GERFramework/reports/visual_check.md
+- **Blocked by:** Thursday 5 Nov 2026 (creator, 3 Nov 2026: focus on the Playtest QA findings then)
+
+### T86 [3/10] QA: test_interior_budget's 2500 ms build check passes by 2 ms and fails under load  (open)
+
+2662 ms (fail) with six tests in parallel and the editor open; 2498 ms (pass) with four. Its message 'every interior light is managed (39 of 25)' also reads wrong. Proposal: time the build alone or give it headroom; fix the count. Found by the Playtest QA agent (3 Nov 2026), which proposes and does not fix.
+
+- **Why 3:** A flaky gate check blocks a release for no game reason.
+- **Evidence:** GERFramework/reports/playtest_qa_suite.md
+- **Blocked by:** Thursday 5 Nov 2026 (creator, 3 Nov 2026: focus on the Playtest QA findings then)
 
 ### T01 [10/10] Create the central GameState autoload: phase machine, event bus, restart  (done)
 

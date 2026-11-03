@@ -1,0 +1,352 @@
+{
+ "id": "playtest_qa",
+ "kind": "creator",
+ "name": "Playtest QA Agent",
+ "assessor": "playtest_qa_assessor",
+ "mission": "Play the Gate 1 slice the way a player would, end to end and off the golden path, in the exported Windows build as well as the editor, and turn everything that breaks, stalls, overruns or stutters into scored backlog items with evidence, so the creator only ships a slice that has been played through properly. It reports and proposes; it does not change gameplay, art or dialogue itself.",
+ "collaborates_with": [
+  {
+   "agent": "QA agent",
+   "how": "the Agent Crew's QA role: the scenario list and the acceptance language"
+  },
+  {
+   "agent": "Player Movement agent",
+   "how": "owns walking, the stairs and collision; gets the stuck-player and clipping findings"
+  },
+  {
+   "agent": "Gameplay / Systems agent",
+   "how": "owns GameState, the events and the sequences; gets the softlock and ordering findings"
+  },
+  {
+   "agent": "Sound agent",
+   "how": "owns the mix and the voice clips; gets the dialogue overrun and overlap findings"
+  },
+  {
+   "agent": "Lighting agent",
+   "how": "owns the rig; gets the black-area and dark-character findings"
+  },
+  {
+   "agent": "Creator",
+   "how": "judges what only a person can (pacing, feel, wording) and approves every fix"
+  }
+ ],
+ "inputs": {
+  "scenes": [
+   "LightingTheStorm/scenes/Level.tscn",
+   "LightingTheStorm/scenes/Title.tscn"
+  ],
+  "scripts": [
+   "LightingTheStorm/tools/test_slice_playthrough.gd",
+   "LightingTheStorm/tools/visual_check.py",
+   "LightingTheStorm/scripts/core/game_state.gd",
+   "LightingTheStorm/scripts/dialogue/dialogue_loader.gd"
+  ],
+  "docs": [
+   "LightingTheStorm/QA_SCENARIOS.md",
+   "requirements.md",
+   "GoalOrientedAgent/BACKLOG.md"
+  ],
+  "gdd": [
+   "Docs/GDD/Final_GDD_Post_Review/Technical Strategy.md",
+   "Docs/GDD/Final_GDD_Post_Review/AI Agent Strategy.md"
+  ]
+ },
+ "gates_cleared": {},
+ "objectives": [
+  {
+   "id": "QA-01",
+   "title": "Run every headless test and both full-slice playthroughs, and report each result with its output",
+   "priority": 10,
+   "why_score": "The launch gate: nothing ships on a red test. Not lower because every other objective reads these results; it is the baseline.",
+   "detail": "Run every tools/test_*.gd script headless, plus test_slice_playthrough.gd and its '-- fail' run (S01, S02), with the Godot editor closed where a test needs it (test_interior_budget fails with it open). Record pass or fail, the failing checks and the run time of each test in one table. A failure is re-run once to separate a flaky test from a real fault, and both results are reported.",
+   "acceptance": [
+    "GERFramework/reports/playtest_qa_suite.md lists every test with pass or fail and the output of each failure",
+    "the two playthroughs are included"
+   ],
+   "owner": "Playtest QA Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "GERFramework/reports/playtest_qa_suite.md"
+    },
+    {
+     "type": "grep",
+     "path": "GERFramework/reports/playtest_qa_suite.md",
+     "pattern": "test_slice_playthrough",
+     "min": 2
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/tools/test_slice_playthrough.gd",
+    "LightingTheStorm/QA_SCENARIOS.md"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "QA agent",
+    "Offline AI Crew"
+   ]
+  },
+  {
+   "id": "QA-02",
+   "title": "Bring QA_SCENARIOS.md up to date with the 3 Nov changes before playing to it",
+   "priority": 10,
+   "why_score": "The scenario list is the agent's script, and playing to a stale one tests the wrong game. Not 9 because several rows are already wrong (S08, S09, S17) and the voice gap is closed.",
+   "detail": "Since the list was written: Daniel speaks one line per basement visit (BASEMENT_VISITED, three lines then silence); Ted's firebox line waits for FIREBOX_APPROACHED; the poster line is Ted's, after BURNER_DIAGNOSED; speech no longer ducks the wind, the rain or the music; voices are placed by distance and floor; every line is recorded; the music changes when TED_S3_02 ends and on BURNER_PICKED_UP; the win text shows 23 s after the rock is cleared, with no veil; the last goal is 'Go outside and watch the ship'. Update rows S08, S09, S12, S17 and S18, add rows for the music, the voice placement and the win text, and fix the Known gaps list.",
+   "acceptance": [
+    "every 3 Nov change has a row with its automated test or 'manual'",
+    "no row describes behaviour the game no longer has"
+   ],
+   "owner": "Playtest QA Agent",
+   "checks": [
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/QA_SCENARIOS.md",
+     "pattern": "BASEMENT_VISITED",
+     "min": 1
+    },
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/QA_SCENARIOS.md",
+     "pattern": "FIREBOX_APPROACHED",
+     "min": 1
+    },
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/QA_SCENARIOS.md",
+     "pattern": "nothing is recorded",
+     "max": 0
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/QA_SCENARIOS.md",
+    "LightingTheStorm/data/dialogue/dialogue_opening.json",
+    "LightingTheStorm/data/world/audio_spec.json"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "QA agent",
+    "Sound agent"
+   ]
+  },
+  {
+   "id": "QA-03",
+   "title": "Measure the frame rate and memory along the whole route in the exported build, on both GPUs",
+   "priority": 9,
+   "why_score": "requirements.md only has the opening view; the interior (858k triangles) and the storm crossing are unmeasured, and integrated graphics got 35 fps where it is lightest. Not 10 because the game runs; this sets the published requirements and does not unblock play.",
+   "detail": "From a fresh export in build/windows, put the player at fixed points: the front door, the hall, the basement, the tower stairs, the lamp room, the outbound crossing, the Saltgate quay, the return crossing in the storm (late in the deadline), and the win. Record frames per second (minimum and median), frame-time spikes over 50 ms, peak system memory and video memory, once on the NVIDIA GPU and once on the Intel integrated GPU (--gpu-index 1). Write the table into requirements.md and flag any point under 30 fps on integrated graphics.",
+   "acceptance": [
+    "a table of fps, spikes and memory at each point for both GPUs",
+    "requirements.md updated from it"
+   ],
+   "owner": "Playtest QA Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "GERFramework/reports/playtest_qa_performance.md"
+    },
+    {
+     "type": "grep",
+     "path": "requirements.md",
+     "pattern": "lamp room \\|",
+     "min": 1
+    }
+   ],
+   "refs": [
+    "requirements.md"
+   ],
+   "depends_on": [
+    "QA-01"
+   ],
+   "collaborates": [
+    "Lighting agent",
+    "Level Layout agent"
+   ]
+  },
+  {
+   "id": "QA-04",
+   "title": "Hunt softlocks, stuck characters and stuck players off the golden path",
+   "priority": 9,
+   "why_score": "A softlock ends a run with no way on, the worst bug a short game can ship. Not 10 because the golden path is already covered by tests; this is the off-path search.",
+   "detail": "Scripted exploratory runs: leave and re-enter rooms mid-line, open and shut the gate while the sailors walk, board before Arthur, carry the burner to odd places, fall off the jetty, restart mid-sequence (F9) in every phase, pause through each beat. Check that each NPC reaches its target in time on every route (Ted, Arthur, Daniel), that the player can walk out of every room and up every stair (collision sweeps along the baked routes), that the boat cannot be stranded, and that a restart after a win or a fail is clean. Every finding has steps to reproduce.",
+   "acceptance": [
+    "each run listed with its steps and result",
+    "every softlock or stuck case has steps to reproduce and a proposed owner"
+   ],
+   "owner": "Playtest QA Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "GERFramework/reports/playtest_qa_exploratory.md"
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/QA_SCENARIOS.md",
+    "LightingTheStorm/scripts/world/sailors_sequence.gd",
+    "LightingTheStorm/scripts/world/boarding_sequence.gd"
+   ],
+   "depends_on": [
+    "QA-01",
+    "QA-02"
+   ],
+   "collaborates": [
+    "Player Movement agent",
+    "Gameplay / Systems agent"
+   ]
+  },
+  {
+   "id": "QA-05",
+   "title": "Check dialogue and music timing with the recorded clips: overruns, overlaps and beats talked over",
+   "priority": 8,
+   "why_score": "The clips are real now and longer than the old reading times (about 508 s against 449 s), and one already runs past its beat (TED_F_03 plays from 15.2 to 27.1 s against the Failed screen at 22 s). Not 9 because it hurts the feel, not the run.",
+   "detail": "Play each trigger's queue with the real clip lengths and list every line that runs past the event that should end it, overlaps a line from another trigger, or is cut by a scene change; Arthur's return calls against the hazard each one warns of; the music cues against the beats; Daniel's three visits; Ted's poster gate. A timing table per step.",
+   "acceptance": [
+    "a timing table per step with every overrun and overlap",
+    "TED_F_03 against the Failed screen reported with options"
+   ],
+   "owner": "Playtest QA Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "GERFramework/reports/playtest_qa_timing.md"
+    },
+    {
+     "type": "grep",
+     "path": "GERFramework/reports/playtest_qa_timing.md",
+     "pattern": "TED_F_03",
+     "min": 1
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/data/dialogue/dialogue_opening.json",
+    "LightingTheStorm/scripts/core/audio_mixer.gd"
+   ],
+   "depends_on": [
+    "QA-02"
+   ],
+   "collaborates": [
+    "Sound agent",
+    "Dialogue agent",
+    "Story / Fail-State agent"
+   ]
+  },
+  {
+   "id": "QA-06",
+   "title": "Visual sweep of fixed views for black areas, missing meshes and characters clipping into walls",
+   "priority": 8,
+   "why_score": "Players see what tests cannot; a character in a wall or a black room reads as broken. Not 9 because visual_check.py already covers the cliff and lamp-room views; this widens it to the whole slice.",
+   "detail": "Add views to tools/visual_views.json for each room, the dock, the gate, the Saltgate and the crossings, with Ted, Arthur and Daniel at their standing spots, and run visual_check.py. Report black-area failures, missing meshes, and characters that are dark or clip into walls (known: characters darken in rooms whose lights the light budget has switched off), and give the creator a contact sheet.",
+   "acceptance": [
+    "every new view rendered and scored",
+    "a contact sheet for the creator"
+   ],
+   "owner": "Playtest QA Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "GERFramework/reports/visual_check.md"
+    },
+    {
+     "type": "grep",
+     "path": "LightingTheStorm/tools/visual_views.json",
+     "pattern": "hall",
+     "min": 1
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/tools/visual_check.py",
+    "LightingTheStorm/tools/visual_views.json",
+    "GERFramework/shoot.sh"
+   ],
+   "depends_on": [
+    "QA-01"
+   ],
+   "collaborates": [
+    "Lighting agent",
+    "Level Layout agent"
+   ]
+  },
+  {
+   "id": "QA-07",
+   "title": "File every new finding into the backlog, scored and with evidence, and fix nothing in gameplay",
+   "priority": 7,
+   "why_score": "Findings left in a report get lost; the backlog is where the creator decides. Not 8 because it is the hand-off, not the testing.",
+   "detail": "Each finding becomes a backlog item in GoalOrientedAgent (the 1-10 rubric, the evidence, the owner agent, 'QA:' in the title), linked from the reports. The agent proposes fixes but does not make them: gameplay, art, dialogue and audio changes go through their owner agents and the creator.",
+   "acceptance": [
+    "every report finding has a backlog item or is marked a duplicate",
+    "no gameplay file changed by this agent"
+   ],
+   "owner": "Playtest QA Agent",
+   "checks": [
+    {
+     "type": "grep",
+     "path": "GoalOrientedAgent/BACKLOG.md",
+     "pattern": "QA:",
+     "min": 1
+    }
+   ],
+   "refs": [
+    "GoalOrientedAgent/BACKLOG.md"
+   ],
+   "depends_on": [
+    "QA-03",
+    "QA-04",
+    "QA-05",
+    "QA-06"
+   ],
+   "collaborates": [
+    "Creator"
+   ]
+  },
+  {
+   "id": "QA-08",
+   "title": "A one-page playtest sheet for human testers: what to try and what to report",
+   "priority": 6,
+   "why_score": "Some things only a person can judge (pacing, whether a beat is understood, steering feel), and friends testing the build need a short guide. Not 7 because the creator can playtest without it.",
+   "detail": "From the Manual column of QA_SCENARIOS.md: one page with how to unpack and run the zip, what to try, the questions to answer (how long it took, where you were stuck, what you did not understand), and how to send screenshots back.",
+   "acceptance": [
+    "one page in plain language, with install steps that match requirements.md"
+   ],
+   "owner": "Playtest QA Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "GERFramework/reports/playtest_sheet.md"
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/QA_SCENARIOS.md",
+    "requirements.md"
+   ],
+   "depends_on": [
+    "QA-02"
+   ],
+   "collaborates": [
+    "Creator"
+   ]
+  },
+  {
+   "id": "QA-09",
+   "title": "One command that runs the whole suite and prints a summary",
+   "priority": 5,
+   "why_score": "Every later QA pass and the deployment agent's gate reuse it. Not 6 because the tests already run one by one.",
+   "detail": "A script (tools/run_all_tests.sh) that runs every test headless, times each one, writes the summary table QA-01 uses, and exits non-zero on any failure.",
+   "acceptance": [
+    "one command, a summary table, a non-zero exit on failure"
+   ],
+   "owner": "Playtest QA Agent",
+   "checks": [
+    {
+     "type": "file_exists",
+     "path": "LightingTheStorm/tools/run_all_tests.sh"
+    }
+   ],
+   "refs": [
+    "LightingTheStorm/tools/test_slice_playthrough.gd"
+   ],
+   "depends_on": [],
+   "collaborates": [
+    "QA agent"
+   ]
+  }
+ ]
+}
