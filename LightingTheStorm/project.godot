@@ -13,6 +13,8 @@ config_version=5
 config/name="Lighting the Storm"
 run/main_scene="res://scenes/Title.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
+config/icon="res://Assets/UI/app_icon.png"
+config/windows_native_icon="res://Assets/UI/app_icon.ico"
 
 [autoload]
 

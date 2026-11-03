@@ -17,3 +17,6 @@ LightingTheStorm/Assets/Characters/source/arthur_dockside_4k_texture.glb
 LightingTheStorm/Assets/Characters/source/daniel_wayfarer_4k_texture.glb
 # FAL character test meshes (31 Oct 2026): backed up in C:/bkupConceptArt/FAL_3D_Models/character_texture
 LightingTheStorm/Assets/Models/character_texture/*.glb
+
+# local exports (Windows and web builds, zips)
+build/

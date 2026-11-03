@@ -1,0 +1,163 @@
+{
+ "id": "playtest_qa_assessor",
+ "kind": "assessor",
+ "name": "Playtest QA Assessment Agent",
+ "reviews": "playtest_qa",
+ "feedback_to": [
+  "playtest_qa"
+ ],
+ "mandate": "Hold the Playtest QA Agent to playing the real game, not describing it: every claim backed by a test run, a measurement or a screenshot; every finding reproducible; the GDD's pillars and the fail-state contract checked; and no gameplay changed by the QA agent itself. Review the plan first, then the reports, using only the offline checks and the game's own headless tests.",
+ "keywords": [
+  "playtest",
+  "softlock",
+  "stuck",
+  "clipping",
+  "framerate",
+  "fps",
+  "frame rate",
+  "timing",
+  "overrun",
+  "deadline",
+  "restart",
+  "fail state",
+  "QA",
+  "scenario",
+  "regression",
+  "backlog"
+ ],
+ "rubric_focus": [
+  "Every objective is scored 1-10 with a reason it is not one point higher or lower.",
+  "Results are measured or run (test output, fps tables, screenshots), never asserted.",
+  "Each finding has steps to reproduce, an owner agent and a backlog item.",
+  "The QA agent proposes fixes; it never changes gameplay, art, dialogue or audio itself.",
+  "Anything only a person can judge (pacing, feel, wording) is handed to the creator, not decided."
+ ],
+ "must_cover": [
+  {
+   "id": "QA-M1",
+   "topic": "The whole automated suite and both full-slice playthroughs are run and reported",
+   "min_priority": 10,
+   "terms_any": [
+    "headless test",
+    "playthrough",
+    "every test"
+   ],
+   "template": {
+    "id": "QA-T1",
+    "title": "Run the full headless suite and both playthroughs",
+    "detail": "Run every tools/test_*.gd and test_slice_playthrough.gd with and without '-- fail'; report each result.",
+    "why_score": "Required by the assessor's mandate.",
+    "acceptance": [
+     "Run the full headless suite and both playthroughs"
+    ],
+    "checks": [
+     {
+      "type": "file_exists",
+      "path": "GERFramework/reports/playtest_qa_suite.md"
+     }
+    ],
+    "refs": [
+     "LightingTheStorm/tools/test_slice_playthrough.gd"
+    ],
+    "depends_on": []
+   }
+  },
+  {
+   "id": "QA-M2",
+   "topic": "Softlocks and stuck characters or players are searched for off the golden path",
+   "min_priority": 9,
+   "terms_any": [
+    "softlock",
+    "stuck"
+   ],
+   "template": {
+    "id": "QA-T2",
+    "title": "Search for softlocks and stuck characters",
+    "detail": "Exploratory runs off the golden path with steps to reproduce.",
+    "why_score": "Required by the assessor's mandate.",
+    "acceptance": [
+     "Search for softlocks and stuck characters"
+    ],
+    "checks": [
+     {
+      "type": "file_exists",
+      "path": "GERFramework/reports/playtest_qa_exploratory.md"
+     }
+    ],
+    "refs": [
+     "LightingTheStorm/QA_SCENARIOS.md"
+    ],
+    "depends_on": []
+   }
+  },
+  {
+   "id": "QA-M3",
+   "topic": "Frame rate and memory are measured in the exported build along the route",
+   "min_priority": 8,
+   "terms_any": [
+    "frame rate",
+    "fps"
+   ],
+   "template": {
+    "id": "QA-T3",
+    "title": "Measure frame rate and memory in the exported build",
+    "detail": "Fixed points along the route, both GPUs.",
+    "why_score": "Required by the assessor's mandate.",
+    "acceptance": [
+     "Measure frame rate and memory in the exported build"
+    ],
+    "checks": [
+     {
+      "type": "file_exists",
+      "path": "GERFramework/reports/playtest_qa_performance.md"
+     }
+    ],
+    "refs": [
+     "requirements.md"
+    ],
+    "depends_on": []
+   }
+  },
+  {
+   "id": "QA-M4",
+   "topic": "Findings go into the backlog, scored",
+   "min_priority": 7,
+   "terms_any": [
+    "backlog"
+   ],
+   "template": {
+    "id": "QA-T4",
+    "title": "File findings into the backlog",
+    "detail": "Each finding becomes a scored backlog item.",
+    "why_score": "Required by the assessor's mandate.",
+    "acceptance": [
+     "File findings into the backlog"
+    ],
+    "checks": [
+     {
+      "type": "grep",
+      "path": "GoalOrientedAgent/BACKLOG.md",
+      "pattern": "QA:",
+      "min": 1
+     }
+    ],
+    "refs": [
+     "GoalOrientedAgent/BACKLOG.md"
+    ],
+    "depends_on": []
+   }
+  }
+ ],
+ "canon_gates": [],
+ "work_checks": [
+  {
+   "type": "file_exists",
+   "path": "GERFramework/reports/playtest_qa_suite.md"
+  },
+  {
+   "type": "file_exists",
+   "path": "LightingTheStorm/QA_SCENARIOS.md"
+  }
+ ],
+ "offline_crew_consults": []
+}
