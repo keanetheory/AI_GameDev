@@ -41,8 +41,9 @@ const EVENTS := [
 	"BOARDING_THRESHOLD", "SHIP_SIGHTED", "BOAT_CAST_OFF", "OUTBOUND_NEAR_MISS", "OUTBOUND_COLLISION",
 	"SALTGATE_REACHED", "BURNER_PICKED_UP", "RETURN_DEPARTED", "POSTER_EXAMINED", "WALL_WHISPER_HEARD",
 	"BASEMENT_BANG", "BASEMENT_TALK", "IDLE_STEP_1", "IDLE_STEP_2", "IDLE_STEP_3", "IDLE_SALTGATE",
-	# After the opening: canon.py LATER_EVENTS (accepted by the creator, 19 October 2026; LAMP_ROOM_REENTERED added 29 October 2026).
-	"RETURN_ARRIVED", "LAMP_ROOM_REENTERED", "BURNER_FITTED", "SHIP_WIN", "SHIP_FAIL",
+	# After the opening: canon.py LATER_EVENTS (accepted by the creator, 19 October 2026; LAMP_ROOM_REENTERED added 29 October 2026,
+	# FIREBOX_APPROACHED 3 November 2026).
+	"RETURN_ARRIVED", "LAMP_ROOM_REENTERED", "BURNER_FITTED", "SHIP_WIN", "SHIP_FAIL", "FIREBOX_APPROACHED",
 ]
 
 # These may fire more than once per attempt. Every other event is one-shot: a repeat is logged and ignored.
@@ -397,9 +398,13 @@ const TOWER_RADIUS := 3.4
 
 func player_inside_building() -> bool:
 	var p := get_tree().get_first_node_in_group("player") as Node3D
-	if p == null or _level_root == null or not is_instance_valid(_level_root):
+	return p != null and inside_building(p.global_position)
+
+
+## The same test for any world position (audio_mixer.gd uses it for whoever is speaking).
+func inside_building(g: Vector3) -> bool:
+	if _level_root == null or not is_instance_valid(_level_root):
 		return false
-	var g := p.global_position
 	if g.y > 9.0 and Vector2(g.x - TOWER_CENTRE.x, g.z - TOWER_CENTRE.y).length() < TOWER_RADIUS:
 		return true
 	var rooms := _level_root.get_node_or_null("InteriorRooms")
@@ -422,6 +427,8 @@ func dialogue_condition(name: String) -> bool:
 			return player_inside_building()
 		"player_and_daniel_in_basement":
 			return fired.has("DANIEL_IN_BASEMENT") and player_in_basement()
+		"burner_diagnosed":   # Ted's poster line names the burner, so not before he has found it cracked (creator, 3 November 2026)
+			return fired.has("BURNER_DIAGNOSED")
 	push_warning("GameState: unknown dialogue condition '%s'" % name)
 	return true
 

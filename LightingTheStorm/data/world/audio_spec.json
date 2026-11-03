@@ -62,5 +62,19 @@
     "horn_db": 0.0,
     "note": "Creator, 29 Oct 2026: the saved ship sounds its horn once as it clears the rock (one blast, from the ship, 3D)."
   },
-  "impact_db": 6.0
+  "impact_db": 6.0,
+  "voice": {
+    "base_db": -2.5,
+    "near_m": 3.0,
+    "far_m": 30.0,
+    "far_db": -12.0,
+    "far_cutoff_hz": 5000.0,
+    "floor_gap_m": 1.8,
+    "floor_full_m": 4.0,
+    "wall_db": -6.0,
+    "wall_cutoff_hz": 1100.0,
+    "wall_reverb_wet": 0.35,
+    "rate_per_s": 3.0,
+    "note": "Voice lines (Assets/Audio/voice) on the Voice bus, placed by where the speaker is (creator, 3 Nov 2026). base_db is the default level: 75 per cent amplitude. Past near_m the voice falls by up to far_db at far_m and loses its top end towards far_cutoff_hz. A floor (height gap over floor_gap_m, full at floor_full_m) or an outside wall between speaker and player takes off wall_db more, closes the low-pass to wall_cutoff_hz and adds the stairwell echo (reverb wet up to wall_reverb_wet): Ted calling from the lamp room to the basement sounds far off. A line whose speaker has no NPC in the level plays at base_db, dry."
+  }
 }

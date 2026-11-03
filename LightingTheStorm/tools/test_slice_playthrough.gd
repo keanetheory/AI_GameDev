@@ -130,6 +130,10 @@ func _run() -> void:
 	player.global_position = z2.global_position - Vector3(0, 0.9, 0)
 	await _frames(4)
 	await _until(func() -> bool: return _fired("ENGINE_ROOM_ENTERED"), 5.0, "ENGINE_ROOM_ENTERED")
+	var z3 := _zone("FIREBOX_APPROACHED")
+	player.global_position = z3.global_position - Vector3(0, 0.9, 0)
+	await _frames(4)
+	await _until(func() -> bool: return _fired("FIREBOX_APPROACHED"), 5.0, "FIREBOX_APPROACHED (at the firebox)")
 	var job: Node = rooms.refs["coal_job"]
 	var hatch: Node = rooms.refs["firebox_hatch"]
 	var carry: Node = root.get_node("Carry")
@@ -261,7 +265,7 @@ func _run() -> void:
 	_check(dlg._played.has("DANIEL_OPT_02"), "and is spoken the moment the player is in the basement with him")
 
 	# the checks over the whole run
-	var story := ["GAME_STARTED", "LIGHTHOUSE_ENTERED", "ENGINE_ROOM_ENTERED", "COAL_LOADED_FIRST", "COAL_LOADED_HALF", "BOILER_FED", "SAILORS_MOORED", "WINDOW_LOOKED",
+	var story := ["GAME_STARTED", "LIGHTHOUSE_ENTERED", "ENGINE_ROOM_ENTERED", "FIREBOX_APPROACHED", "COAL_LOADED_FIRST", "COAL_LOADED_HALF", "BOILER_FED", "SAILORS_MOORED", "WINDOW_LOOKED",
 		"GATE_APPROACHED", "GATE_OPENED", "SAILORS_INSIDE", "DANIEL_IN_BASEMENT", "BEACON_STILL_DARK", "LAMP_ROOM_ENTERED", "BURNER_DIAGNOSED", "BURNER_BRIEFING",
 		"BOARDING_THRESHOLD", "BOAT_CAST_OFF", "SALTGATE_REACHED", "BURNER_PICKED_UP", "RETURN_DEPARTED", "RETURN_ARRIVED", "LAMP_ROOM_REENTERED", "BURNER_FITTED", "SHIP_WIN"]
 	_check(_order(story), "all %d story events happened, once each, in the story's order" % story.size())
@@ -279,8 +283,8 @@ func _run() -> void:
 	_check(not _fired("SHIP_FAIL"), "no failure along the way")
 	var missing := []
 	for trig in story + ["SHIP_SIGHTED", "ARTHUR_RET_01", "ARTHUR_RET_05", "DOCKING_DIALOGUE"]:
-		if trig == "RETURN_DEPARTED":
-			continue      # the crossing crew's calls take over from here; no line of its own
+		if trig == "RETURN_DEPARTED" or trig == "ENGINE_ROOM_ENTERED":
+			continue      # no line of their own: the crossing crew's calls take over; Ted waits for the firebox (FIREBOX_APPROACHED)
 		if not _played_trigger(dlg, trig):
 			missing.append(trig)
 	_check(missing.is_empty(), "every moment had its line spoken (nothing left unspoken: %s)" % [missing])

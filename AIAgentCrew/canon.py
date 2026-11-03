@@ -179,6 +179,7 @@ LATER_EVENTS = [
     ("BURNER_FITTED", "The burner is fitted to the beacon; the beacon is relit."),
     ("SHIP_WIN", "The ship passes the rocks safely into port. Resolves once per attempt."),
     ("SHIP_FAIL", "The deadline runs out; the ship breaks up on the rock next to the island. Resolves once per attempt."),
+    ("FIREBOX_APPROACHED", "The player comes within reach of the boiler's firebox in the engine room; Ted's 'That's the firebox' line plays (creator, 3 November 2026). ENGINE_ROOM_ENTERED fires at the foot of the stairs, too early for it."),
 ]
 
 # The phase each event starts (forward only). Mirrors PHASE_ON_EVENT in scripts/core/game_state.gd.

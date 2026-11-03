@@ -1,0 +1,11 @@
+[
+ {
+  "speaker": "TED",
+  "endpoint": "POST https://api.elevenlabs.io/v1/text-to-voice/design",
+  "body": {
+   "voice_description": "An older Englishman in his late sixties, a weathered lighthouse keeper with a broad Northumbrian coastal accent: unmistakably British English, with no American vowels or rhythm. A low, gravelly chest voice with a dry smoker's rasp, like salt and gravel in the throat. Slow, clipped and deadpan, grumbling under his breath and barking orders, with the odd grunt and cough. Sarcastic and impatient, with a faint buried warmth. Close-mic, indoor.",
+   "text": "Hrmph. The new guy. Storm season, and they send me a money toff in shoes like that. In. Mind the gull, he's the landlord. Boiler's cold and the beacon's starving. Hasn't eaten since the Pleistocene. Engine room, Isaac. Shovel coal. Quickly. It's sulking. Cracked clean through. The burner's finished. Hrmph. We need a new one.",
+   "model_id": "eleven_ttv_v3"
+  }
+ }
+]

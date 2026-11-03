@@ -87,6 +87,13 @@
       "existing_crew_event": false
     },
     {
+      "event_id": "FIREBOX_APPROACHED",
+      "step": 1,
+      "emitted_by": "game",
+      "note": "Player comes within reach of the firebox in the engine room (creator, 3 November 2026).",
+      "existing_crew_event": false
+    },
+    {
       "event_id": "COAL_LOADED_FIRST",
       "step": 1,
       "emitted_by": "game",
@@ -329,12 +336,13 @@
       "beat": "Engine room entry",
       "speaker": "TED",
       "kind": "reaction",
-      "trigger": "ENGINE_ROOM_ENTERED",
+      "trigger": "FIREBOX_APPROACHED",
       "text": "That's the firebox. Feed it coal, mind your sleeves, and don't stand gawping.",
       "subtitle": "TED: That's the firebox. Feed it coal, mind your sleeves, and don't stand gawping.",
       "delivery": "Gruff, shouted down the stairwell.",
       "pause_before": 0.5,
-      "once": true
+      "once": true,
+      "note": "Creator, 2026-11-03: plays when the player is at the firebox (FIREBOX_APPROACHED), not on entering the engine room."
     },
     {
       "line_id": "TED_S1_05",
@@ -638,18 +646,20 @@
       "once": true
     },
     {
-      "line_id": "ARTHUR_S0_13",
+      "line_id": "TED_S0_13",
       "step": 0,
       "beat": "Poster examined (alternate)",
-      "speaker": "ARTHUR",
+      "speaker": "TED",
       "kind": "reaction",
       "trigger": "POSTER_EXAMINED",
       "text": "Nothing there for us. Leave it be. The burner, the burner.",
-      "subtitle": "ARTHUR: Nothing there for us. Leave it be. The burner, the burner.",
+      "subtitle": "TED: Nothing there for us. Leave it be. The burner, the burner.",
       "delivery": "Brusque, uneasy.",
       "pause_before": 0.0,
       "once": false,
-      "note": "Optional event; location-neutral. Gate: play only once Arthur is present (after SAILORS_INSIDE). Poster stays ambiguous. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped."
+      "note": "Optional event; location-neutral. Gate: play only after BURNER_DIAGNOSED; read earlier, the line is dropped. Poster stays ambiguous. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Creator, 2026-11-03: Ted's line, not Arthur's (was ARTHUR_S0_13).",
+      "requires": "burner_diagnosed",
+      "requires_drop": true
     },
     {
       "line_id": "DANIEL_OPT_08",

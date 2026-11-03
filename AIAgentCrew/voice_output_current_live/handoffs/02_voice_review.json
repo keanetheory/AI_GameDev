@@ -1,0 +1,85 @@
+{
+ "verdict": "REVISE",
+ "pillar_checks": [
+  {
+   "check": "Pillar 1 - The light must return",
+   "result": "pass",
+   "evidence": "Ted's lines keep pointing at the beacon: TED_S3_00 ('Dynamo's running and still no light'), TED_S1_11 ('We need a new one'), TED_S3_02 ('No burner, no beacon'), TED_S4_01 and TED_S4_03 (bring the burner up, fit it) and TED_S4_06 ('That's the burner home'). Arthur's ARTHUR_S3_04, S3_05, S3_I1 and S3_O1-O3 keep the burner as the goal. TED_S5_02 pays off the relit beacon ('She sees us!')."
+  },
+  {
+   "check": "Pillar 2 - The storm sets the clock",
+   "result": "pass",
+   "evidence": "Pressure comes from the world: ship lights in ARTHUR_S3_11, rocks in ARTHUR_S3_03, S3_07, S3_08 and ARTHUR_RET_01-05, and the ship named in TED_S3_05. No line shows a timer, meter or enemy. The one spelled-out number ('seven' in ARTHUR_DOCK_L2) is not a clock, but it breaks the number rule and is logged under the timer-wording check."
+  },
+  {
+   "check": "Pillar 3 - Your hands, your eyes",
+   "result": "pass",
+   "evidence": "Guidance comes only from Ted and Arthur by voice, with no markers. Ted gives the objectives (TED_S1_03, S2_01, S3_02). Arthur gives the physical steering and fetching cues (ARTHUR_S3_01 'One hand on the wheel', ARTHUR_RET_02 'Left! Your left!', ARTHUR_S3_O3 'pick it up, and bring it to the boat'). Daniel never gives directions."
+  },
+  {
+   "check": "Pillar 4 - Dread you can read",
+   "result": "pass",
+   "evidence": "Hazard calls are plain and actionable: ARTHUR_RET_01-05, ARTHUR_NEAR_3 ('Steer away') and ARTHUR_HIT_2 ('Swing wide and steady her'). The nudge ladders go from hint to explicit: TED_S1_I1-I6, TED_S2_I1-I4, ARTHUR_S3_I1-I3 and ARTHUR_S3_O1-O3 (16 lines, consecutive tiers). Daniel's whispers (DANIEL_OPT_04, OPT_06, OPT_08) build unease without a scare. TED_F_03 is the fixed fail reason line."
+  }
+ ],
+ "decisions_log_checks": [
+  {
+   "check": "Canon casting notes honoured",
+   "result": "pass",
+   "evidence": "TED is a gravelly older male with a coastal accent, matching chr_ted. ARTHUR is wiry, old and frantic, matching chr_arthur. DANIEL is a young, enthusiastic male, matching chr_daniel. Each profile's canon_basis cites its note. The accent regions (north-east for Ted, West Country for Arthur, southern for Daniel) go beyond the canon notes, and the plan flags them as proposals."
+  },
+  {
+   "check": "No real-person likeness",
+   "result": "pass",
+   "evidence": "No profile (TED, ARTHUR, DANIEL) names an actor, celebrity or 'sounds like' reference. Voice descriptions use only generic timbre, age and accent terms."
+  },
+  {
+   "check": "Script text unchanged",
+   "result": "pass",
+   "evidence": "The script itself was not supplied, so I could not diff against it. In every tts_text, the only additions I found are bracketed audio tags such as [coughs], [shouts] and [nervous laugh]. Each preview_text matches its line text (TED_S1_01, TED_S1_11, ARTHUR_RET_02, DANIEL_OPT_02/04/06/08). TED_F_03 carries one opening [sighs] and keeps the fixed wording. This is conditional on the Script agent confirming wording."
+  },
+  {
+   "check": "No timer wording",
+   "result": "fail",
+   "evidence": "ARTHUR_DOCK_L2 says 'I counted seven apologies owed to the rocks', a spelled-out number, and the rule is 'No timers, countdowns, numbers or deadline talk'. Lower-risk time and quantity words: ARTHUR_S3_07 ('Plenty of time to hug them later'), TED_S2_I1 ('For an hour'), TED_S4_01 ('only half over'), ARTHUR_S3_O1 ('Twice'). TED_F_03 contains 'in time', but it is the fixed fail reason line and exempt."
+  },
+  {
+   "check": "No supernatural confirmation",
+   "result": "pass",
+   "evidence": "No line names a cause for the singing or the walls. TED_S1_04b ('that's the pipes') and DANIEL_OPT_06/08/04 ('Pipes, right?', 'Wind makes all sorts of voices', 'just weather') stay deniable. ARTHUR_NEAR_2 ('One of them winked at me!') and ARTHUR_RET_04 ('They bite!') are jokes, not claims. Watch ARTHUR_NEAR_2 for tone."
+  },
+  {
+   "check": "Voices distinct",
+   "result": "pass",
+   "evidence": "Ted is deep, slow and rasping (speed 0.92, energy low). Arthur is thin, reedy and quick, with an older West Country lilt (1.08, high). Daniel is bright and boyish (1.1, medium). Their timbres and ages differ. Arthur and Daniel's settings are close (stability 0.35 for both, speed 1.08 vs 1.1), so they rest on the Voice Design prompts. The suggestion calling Arthur 'fastest' conflicts with Daniel's higher speed."
+  },
+  {
+   "check": "Dialogue rules (Isaac, Saltgate, burner, Daniel in basement, ship naming)",
+   "result": "pass",
+   "evidence": "Daniel's lines (DANIEL_OPT_02/04/06/08) and TED_S2_04b stay in the basement. No 'lad', 'lass', 'man', 'apprentice', 'outpost' or 'lamp head' appears. The destination is the Saltgate (TED_S3_02, ARTHUR_S3_04, ARTHUR_S3_I2/I3). Ted first names the ship in TED_S3_05, after the burner diagnosis in TED_S1_11. No added Saltgate detail."
+  },
+  {
+   "check": "Open creator decisions not decided",
+   "result": "pass",
+   "evidence": "The plan prepares every line for ElevenLabs without choosing voiced vs subtitle-only. It implies no smuggler backstory for Arthur and Daniel. The 'drowned by now' exchange (ARTHUR_S2_05, TED_S2_04) is not given a defined history. The note that the voices are cast 'warm underneath' is a mild steer on the Ted/Arthur relationship and should be watched."
+  }
+ ],
+ "issues": [
+  "ARTHUR_DOCK_L2 contains the spelled-out number 'seven', which breaks the no-numbers rule. The Script agent should replace the number (for example with 'a long list of apologies') and the plan should carry the new wording.",
+  "TED_S1_10 and TED_S5_02 call the player 'new boy' and 'money toff', which is not 'Isaac'. 'Money toff' fits Ted's canon voice, but 'new boy' is close to Ted's 'the boy' meaning Daniel (TED_S2_04b). Non-blocking; the creator or Script agent should confirm wording.",
+  "The ID prefixes do not match the story steps: the burner diagnosis lines TED_S1_10 and TED_S1_11 sit in the lantern room after the sailors are in, but are labelled S1. Canon says the burner is found broken in step 3, never step 1. Confirm these are naming only.",
+  "TED_S0_13 ('The burner, the burner') has no stated trigger in the plan. Confirm it cannot fire before BURNER_DIAGNOSED.",
+  "The plan's suggestion that nudge ladders 'rise in stability' is not exact: TED_S1_I1-I3 run 0.5, 0.4, 0.65, and ARTHUR_S3_I1-I3 run 0.45, 0.3, 0.6. The settings are fine, but the note should be corrected.",
+  "Line IDs have gaps (TED_S1_02, S1_06, S1_07, TED_S2_02, TED_S3_01, S3_03, S3_04). I cannot tell from this plan whether those lines exist in the script. Confirm coverage with the Script agent.",
+  "Alternate groups and triggers (for example ARTHUR_DOCK_01/L1/L2/L3) are not in the casting plan, so I could not check them. The Script agent owns that check."
+ ],
+ "open_creator_decisions": [
+  "Which lines are voiced and which are subtitle-only is a cost decision for the creator; subtitles exist for every line.",
+  "Why Arthur and Daniel were on the water (smugglers?) is left open.",
+  "Ted and Arthur's relationship is TBD in the lore; the 'drowned by now' exchange is a proposal.",
+  "The fail reason line is fixed (FAIL_REASON_LINE); other outcome lines belong to the Story / Fail-State agent.",
+  "Final accents (north-east coastal for Ted, soft West Country for Arthur, light southern for Daniel) are a casting proposal for the creator to accept or change.",
+  "Whether the supernatural ambiguity (wall whispers, singing pipes) gets any special audio treatment is left to the creator."
+ ],
+ "handoff_summary": "Verdict REVISE: all four pillar checks pass, but the timer-wording check fails because ARTHUR_DOCK_L2 says 'seven apologies'. Casting notes, no real-person likeness, no supernatural confirmation and distinct voices all pass, and script-text fidelity is conditional because the script itself was not supplied. Non-blocking items are the 'new boy' wording in TED_S1_10, the S1 prefixes on the lantern-room burner lines, the unspecified trigger for TED_S0_13, and gaps in line IDs. All open creator decisions are carried forward unchanged."
+}

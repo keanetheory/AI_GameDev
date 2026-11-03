@@ -440,6 +440,8 @@ func _basement(P: Node3D) -> void:
 	# --- zones that report the canon entry events
 	_zone(P, "Zone_LighthouseEntered", Vector3(0.0, GF + 1.2, 1.3), Vector3(2.2, 2.4, 1.4), "LIGHTHOUSE_ENTERED", "")
 	_zone(P, "Zone_EngineRoomEntered", Vector3(2.2, B1 + 1.0, 1.8), Vector3(2.4, 2.0, 1.2), "ENGINE_ROOM_ENTERED", "")
+	# within reach of the firebox door (creator, 3 Nov 2026: Ted's "That's the firebox" waits until the player is at it)
+	_zone(P, "Zone_FireboxApproached", Vector3(-0.2, B1 + 1.0, 4.6), Vector3(2.8, 2.0, 2.4), "FIREBOX_APPROACHED", "ENGINE_ROOM_ENTERED")
 	# --- anchors moved to suit the new layout (the v3 markers were beside the old placeholder boxes)
 	anchors["boiler_interaction"] = Vector3(-0.1, B1 + 0.15, 5.55)
 	anchors["coal_pickup"] = Vector3(3.75, B1 + 0.15, 1.4)

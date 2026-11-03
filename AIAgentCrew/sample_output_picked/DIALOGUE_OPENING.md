@@ -244,9 +244,9 @@ Lines reusing a canon sample line say so in their delivery note. There are no ra
 ### On `POSTER_EXAMINED`
 *Optional: player examines a Flighted poster.*
 
-- **ARTHUR** `ARTHUR_S0_13` (reaction): "Nothing there for us. Leave it be. The burner, the burner."  
+- **TED** `TED_S0_13` (reaction): "Nothing there for us. Leave it be. The burner, the burner."  
   *delivery: Brusque, uneasy.*
-  *note:* Optional event; location-neutral. Gate: play only once Arthur is present (after SAILORS_INSIDE). Poster stays ambiguous. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
+  *note:* Optional event; location-neutral. Gate: play only after BURNER_DIAGNOSED; read earlier, the line is dropped. Poster stays ambiguous. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Creator, 2026-11-03: Ted's line, not Arthur's (was ARTHUR_S0_13).
 
 ### On `WALL_WHISPER_HEARD`
 *Optional: whisper in the lighthouse walls.*
@@ -283,11 +283,11 @@ Lines reusing a canon sample line say so in their delivery note. There are no ra
 1. Which lines are voiced is a cost decision for the creator; subtitles exist for every line.
 2. Why Arthur and Daniel were on the water (smugglers?) remains open; no line states or implies a reason.
 3. Ted and Arthur's relationship is TBD in the lore; the 'drowned by now' exchange (ARTHUR_S2_05, TED_S2_04) is a proposal only.
-4. Arthur-knows-more thread: the picks DANIEL_OPT_04 ('Arthur says it's just weather') and ARTHUR_S0_13 (uneasy about the poster) together hint that Arthur knows about the Flighted. His link to them is undecided in the lore.
+4. Arthur-knows-more thread: the pick DANIEL_OPT_04 ('Arthur says it's just weather') hints that Arthur knows about the Flighted, and TED_S0_13 (uneasy about the poster) hints that Ted does too. Their links to them are undecided in the lore.
 5. ARTHUR_S3_08 was reworded by the creator's pick (drops 'back her off', which implied a reverse control); needs a Dialogue agent and Canon re-review.
 6. Story-beat revision (2026-10-16): TED_S1_01, TED_S1_09, TED_S1_10, TED_S1_11, TED_S3_02, ARTHUR_S3_04 and the new TED_S3_00 were rewritten to the creator's beat order; they need a Dialogue agent and Canon re-review before recording.
 7. Fail-reason and outcome lines belong to the Story / Fail-State agent and are not written here.
-8. Where the Flighted poster physically sits is still undecided; ARTHUR_S0_13 is location-neutral.
+8. Where the Flighted poster physically sits is still undecided; TED_S0_13 is location-neutral.
 
 ## Assumptions to confirm
 
