@@ -149,13 +149,31 @@ func _process(delta: float) -> void:
 	_enqueue(ready)
 
 
+## The sequence's lowest-order line not yet spoken, or null when it has said them all.
+func _next_in_sequence(candidates: Array, sq: String) -> Variant:
+	var best: Variant = null
+	for line in candidates:
+		if String(line.get("sequence", "")) != sq or _played.has(line["line_id"]):
+			continue
+		if best == null or int(line.get("order", 0)) < int(best.get("order", 0)):
+			best = line
+	return best
+
+
 func _pick_lines(candidates: Array) -> Array:
 	var chosen: Array = []
 	var group_slot := {}  # group name -> index in chosen
 	var group_pool := {}  # group name -> Array of lines
+	var seq_taken := {}   # sequence name -> true once its next line is chosen
 	for line in candidates:
 		if bool(line.get("once", true)) and _played.has(line["line_id"]):
 			continue
+		# a "sequence" (Daniel's basement visits) speaks one line per trigger, in its "order", and goes quiet when they run out
+		var sq: String = line.get("sequence", "")
+		if sq != "":
+			if seq_taken.has(sq) or _next_in_sequence(candidates, sq) != line:
+				continue
+			seq_taken[sq] = true
 		var g: String = line.get("group", "")
 		if g == "":
 			chosen.append(line)

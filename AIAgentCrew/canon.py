@@ -180,6 +180,7 @@ LATER_EVENTS = [
     ("SHIP_WIN", "The ship passes the rocks safely into port. Resolves once per attempt."),
     ("SHIP_FAIL", "The deadline runs out; the ship breaks up on the rock next to the island. Resolves once per attempt."),
     ("FIREBOX_APPROACHED", "The player comes within reach of the boiler's firebox in the engine room; Ted's 'That's the firebox' line plays (creator, 3 November 2026). ENGINE_ROOM_ENTERED fires at the foot of the stairs, too early for it."),
+    ("BASEMENT_VISITED", "The player comes down into the basement while Daniel is there (or is there when he arrives). Repeatable: Daniel says his next line on each visit, and nothing after his third (creator, 3 November 2026)."),
 ]
 
 # The phase each event starts (forward only). Mirrors PHASE_ON_EVENT in scripts/core/game_state.gd.

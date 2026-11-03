@@ -259,10 +259,10 @@ func _run() -> void:
 	await _until_time(1.0)
 	player.global_position = Vector3(0.4, 10.6, -1.9)       # the hall: Ted's held lines are spoken now the player is inside
 	await _until_time(2.0)
-	_check(_held_has(dlg, "DANIEL_OPT_02"), "Daniel's arrival line has been waiting all along for the player to come down to him")
+	_check(not dlg._played.has("DANIEL_OPT_02") and not _held_has(dlg, "DANIEL_OPT_02"), "Daniel has not spoken: the player has not been down to him")
 	player.global_position = Vector3(3.6, 7.9, -4.4)        # the basement, with Daniel
 	await _until_time(2.0)
-	_check(dlg._played.has("DANIEL_OPT_02"), "and is spoken the moment the player is in the basement with him")
+	_check(dlg._played.has("DANIEL_OPT_02") and _gs.basement_visits == 1, "the first visit down to him: his first line")
 
 	# the checks over the whole run
 	var story := ["GAME_STARTED", "LIGHTHOUSE_ENTERED", "ENGINE_ROOM_ENTERED", "FIREBOX_APPROACHED", "COAL_LOADED_FIRST", "COAL_LOADED_HALF", "BOILER_FED", "SAILORS_MOORED", "WINDOW_LOOKED",
@@ -283,8 +283,9 @@ func _run() -> void:
 	_check(not _fired("SHIP_FAIL"), "no failure along the way")
 	var missing := []
 	for trig in story + ["SHIP_SIGHTED", "ARTHUR_RET_01", "ARTHUR_RET_05", "DOCKING_DIALOGUE"]:
-		if trig == "RETURN_DEPARTED" or trig == "ENGINE_ROOM_ENTERED":
-			continue      # no line of their own: the crossing crew's calls take over; Ted waits for the firebox (FIREBOX_APPROACHED)
+		if trig == "RETURN_DEPARTED" or trig == "ENGINE_ROOM_ENTERED" or trig == "DANIEL_IN_BASEMENT":
+			continue      # no line of their own: the crossing crew's calls take over; Ted waits for the firebox (FIREBOX_APPROACHED);
+			              # Daniel waits for the player's first visit down to him (BASEMENT_VISITED)
 		if not _played_trigger(dlg, trig):
 			missing.append(trig)
 	_check(missing.is_empty(), "every moment had its line spoken (nothing left unspoken: %s)" % [missing])

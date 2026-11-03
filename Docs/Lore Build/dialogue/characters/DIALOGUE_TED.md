@@ -74,7 +74,7 @@ Part of *Artifact #2: Character Dialogue Sequences*. [Opening dialogue (all char
 | ID | Plays on | Kind | Line | Delivery |
 |---|---|---|---|---|
 | `TED_S4_01` | `RETURN_ARRIVED` | objective | "Bring the burner up here, Isaac! Don't you dare drop it! I've had a day, and it's only half over!" | Shouted down the stairwell, hoarse, urgent. |
-| `TED_S4_03` | `LAMP_ROOM_REENTERED` | objective | "Socket's open. Burner in, and be quick about it. Slowly, mind. She's old. Quick and slow, Isaac. It's called finesse." | Tense, close at hand. |
+| `TED_S4_03` | `LAMP_ROOM_REENTERED` | objective | "Socket's open! Burner in, Isaac. Quick but gentle. Finesse!" | Urgent, quick, close beside Isaac at the lamp. |
 | `TED_S4_06` | `BURNER_FITTED` | reaction | "That's the burner home. Stand back, Isaac. Give her room to wake. She's not a morning person." | Gruff, hushed. |
 
 ## Step 5: Resolution
@@ -117,7 +117,7 @@ Part of *Artifact #2: Character Dialogue Sequences*. [Opening dialogue (all char
 - `TED_S2_I3` *assist hint:* Walk to the island gate near the dock and open it to let the sailors in.
 - `TED_S4_01` *staging:* Ted calls from the lamp room.
 - `TED_S4_01` *note:* Creator pick, 29 Oct 2026 (T16/T37). Passes the offline rules; not yet through a live Dialogue/Canon review. Plays after Arthur's "Go, go, go" arrival line.
-- `TED_S4_03` *note:* Creator pick, 29 Oct 2026 (T16/T37). Passes the offline rules; not yet through a live Dialogue/Canon review. Needs the new LAMP_ROOM_REENTERED event.
+- `TED_S4_03` *note:* Creator pick, 29 Oct 2026 (T16/T37). Passes the offline rules; not yet through a live Dialogue/Canon review. Needs the new LAMP_ROOM_REENTERED event. | Creator, 2026-11-03: halved and made urgent (was: "Socket's open. Burner in, and be quick about it. Slowly, mind. She's old. Quick and slow, Isaac. It's called finesse.").
 - `TED_S4_03` *assist hint:* Fit the burner into the lamp socket.
 - `TED_S4_06` *note:* Creator pick, 29 Oct 2026 (T16/T37). Passes the offline rules; not yet through a live Dialogue/Canon review.
 - `TED_S5_02` *note:* Creator pick, 29 Oct 2026 (T16/T37). Passes the offline rules; not yet through a live Dialogue/Canon review.

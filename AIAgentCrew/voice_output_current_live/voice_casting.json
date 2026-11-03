@@ -468,8 +468,8 @@
   },
   {
    "line_id": "TED_S4_03",
-   "tts_text": "Socket's open. Burner in, and be quick about it. Slowly, mind. She's old. Quick and slow, Isaac. It's called finesse.",
-   "stability": 0.45,
+   "tts_text": "[urgent] Socket's open! Burner in, Isaac. Quick but gentle. Finesse!",
+   "stability": 0.35,
    "speaker": "TED"
   },
   {
@@ -516,5 +516,5 @@
   "ARTHUR": 2519,
   "DANIEL": 336
  },
- "creator_edits": "2026-11-03: ARTHUR_DOCK_L2 reworded (no number); ARTHUR_S3_11 [shouts]; TED_S1_10 untagged; TED_F_03_SAFE second take at stability 0.5 (crew suggestion). Reviewer's REVISE was the DOCK_L2 number only."
+ "creator_edits": "2026-11-03: ARTHUR_DOCK_L2 reworded (no number); ARTHUR_S3_11 [shouts]; TED_S1_10 untagged; TED_F_03_SAFE second take at stability 0.5 (crew suggestion). Reviewer's REVISE was the DOCK_L2 number only. 2026-11-03 (later): TED_S4_03 halved and made urgent, re-recorded."
 }

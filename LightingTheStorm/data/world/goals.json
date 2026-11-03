@@ -24,6 +24,6 @@
     {"id": "RETURN", "text": "Steer the launch home, clear of the rocks", "done_on": "RETURN_ARRIVED"},
     {"id": "RUN_UP", "text": "Take the burner up to the lamp room", "done_on": "LAMP_ROOM_REENTERED"},
     {"id": "FIT", "text": "Fit the burner into the arc lamp", "done_on": "BURNER_FITTED"},
-    {"id": "WATCH", "text": "Stand back and watch the light", "done_on": "SHIP_WIN"}
+    {"id": "WATCH", "text": "Go outside and watch the ship", "done_on": "", "note": "Creator, 3 Nov 2026. Never ticked off: it stays up until the win text shows (guidance_hud.gd hides the panel then). SHIP_WIN fires 4.5 s after the fit, before the player is out of the lamp room."}
   ]
 }

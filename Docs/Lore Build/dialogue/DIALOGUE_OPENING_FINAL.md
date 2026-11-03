@@ -145,14 +145,14 @@ Status: `creator_picked`. The game's script ([data](../../../LightingTheStorm/da
   *staging:* Arthur stands just inside the main door and stays there while Daniel goes down.
   *note:* Creator, 30 Oct 2026: Arthur waits just past the main door and says this once he is in. Plays after TED_S2_04. Passes the offline rules.
 
-### On `DANIEL_IN_BASEMENT`
-*Daniel reaches the basement and stays there.*
+### On `BASEMENT_VISITED`
+*Player comes down into the basement while Daniel is there; repeatable, one Daniel line per visit (creator, 3 November 2026).*
 
 - **DANIEL** `DANIEL_OPT_02` (reaction): "Down here suits me fine. Did the walls just... never mind. Warm is good. I'm going to name the boiler Gary."  
   *delivery: Anxious, trailing off, forced cheer.*
   *requires:* player_and_daniel_in_basement
   *staging:* Daniel settles beside the boiler.
-  *note:* Ambiguous hint only; never confirmed. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
+  *note:* Ambiguous hint only; never confirmed. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Creator, 2026-11-03: Daniel's line for the player's visit 1 to the basement (BASEMENT_VISITED, sequence daniel_basement); after the third visit he says nothing more.
 
 ### On `IDLE_STEP_2`
 *Player has made no progress on step 2.*
@@ -397,11 +397,11 @@ Status: `creator_picked`. The game's script ([data](../../../LightingTheStorm/da
 ### On `LAMP_ROOM_REENTERED`
 *Player enters the lamp room carrying the burner, where Ted waits. Accepted 29 October 2026 (Decisions A17); the emitter is not built yet.*
 
-- **TED** `TED_S4_03` (objective): "Socket's open. Burner in, and be quick about it. Slowly, mind. She's old. Quick and slow, Isaac. It's called finesse."  
-  *delivery: Tense, close at hand.*
+- **TED** `TED_S4_03` (objective): "Socket's open! Burner in, Isaac. Quick but gentle. Finesse!"  
+  *delivery: Urgent, quick, close beside Isaac at the lamp.*
   *requires:* player_inside
   *assist hint:* Fit the burner into the lamp socket.
-  *note:* Creator pick, 29 Oct 2026 (T16/T37). Passes the offline rules; not yet through a live Dialogue/Canon review. Needs the new LAMP_ROOM_REENTERED event.
+  *note:* Creator pick, 29 Oct 2026 (T16/T37). Passes the offline rules; not yet through a live Dialogue/Canon review. Needs the new LAMP_ROOM_REENTERED event. | Creator, 2026-11-03: halved and made urgent (was: "Socket's open. Burner in, and be quick about it. Slowly, mind. She's old. Quick and slow, Isaac. It's called finesse.").
 
 ### On `BURNER_FITTED`
 *Player fits the burner into the arc-lamp socket.*
@@ -446,30 +446,17 @@ Status: `creator_picked`. The game's script ([data](../../../LightingTheStorm/da
   *requires:* burner_diagnosed
   *note:* Optional event; location-neutral. Gate: play only after BURNER_DIAGNOSED; read earlier, the line is dropped. Poster stays ambiguous. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Creator, 2026-11-03: Ted's line, not Arthur's (was ARTHUR_S0_13).
 
-### On `WALL_WHISPER_HEARD`
-*Optional: whisper in the lighthouse walls.*
-
-- **DANIEL** `DANIEL_OPT_08` (reaction): "Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming."  
-  *delivery: Whispered, nervous, half-laughing.*
-  *requires:* player_and_daniel_in_basement
-  *staging:* Daniel in the basement, close to the wall.
-  *note:* Ambiguous; never confirm a cause. Optional event. Gate: play only when the player is in the basement and DANIEL_IN_BASEMENT has fired; never elsewhere. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
-
-### On `BASEMENT_BANG`
-*Optional: bang in the basement wall.*
+### On `BASEMENT_VISITED`
+*Player comes down into the basement while Daniel is there; repeatable, one Daniel line per visit (creator, 3 November 2026).*
 
 - **DANIEL** `DANIEL_OPT_06` (reaction): "Did you hear that? Tell me you heard that. Pipes, right? Say pipes."  
   *delivery: Anxious, breathless.*
   *requires:* player_and_daniel_in_basement
-  *note:* Cause stays ambiguous. Optional event; basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
-
-### On `BASEMENT_TALK`
-*Optional: player stands near Daniel.*
-
+  *note:* Cause stays ambiguous. Optional event; basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Creator, 2026-11-03: Daniel's line for the player's visit 3 to the basement (BASEMENT_VISITED, sequence daniel_basement); after the third visit he says nothing more.
 - **DANIEL** `DANIEL_OPT_04` (reaction): "Arthur says it's just weather. I'm sure Arthur's right. He's usually right. Mostly."  
   *delivery: Anxious chatter, nervous laugh.*
   *requires:* player_and_daniel_in_basement
-  *note:* Optional event. Basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.
+  *note:* Optional event. Basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Creator, 2026-11-03: Daniel's line for the player's visit 2 to the basement (BASEMENT_VISITED, sequence daniel_basement); after the third visit he says nothing more.
 
 ## Objective journal (handwritten, Isaac's own words)
 

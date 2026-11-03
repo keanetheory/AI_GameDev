@@ -62,10 +62,13 @@ func _run() -> void:
 	# the data
 	var seen := {}
 	var ok := true
-	for g in hud.goals:
-		ok = ok and _gs.EVENTS.has(String(g["done_on"])) and not seen.has(g["done_on"]) and String(g["text"]).length() > 0 and String(g["text"]).length() < 60
+	for gi in hud.goals.size():
+		var g: Dictionary = hud.goals[gi]
+		# the last goal ("go outside and watch the ship") is never ticked off: it stays up until the win text (creator, 3 Nov 2026)
+		var last_open: bool = gi == hud.goals.size() - 1 and String(g["done_on"]) == ""
+		ok = ok and (last_open or _gs.EVENTS.has(String(g["done_on"]))) and not seen.has(g["done_on"]) and String(g["text"]).length() > 0 and String(g["text"]).length() < 60
 		seen[g["done_on"]] = true
-	_check(ok, "every goal is one short line that waits on a real story event, each event once")
+	_check(ok, "every goal is one short line that waits on a real story event, each event once (the last one stays up to the end)")
 	var banned := true
 	for g in hud.goals:
 		var t := String(g["text"]).to_lower()
@@ -87,6 +90,10 @@ func _run() -> void:
 		if hud.active_index() != i:
 			advanced = false
 			print("     goal %d expected, %d active" % [i, hud.active_index()])
+			break
+		if String(hud.goals[i]["done_on"]) == "":
+			_gs.emit_event("SHIP_WIN")      # the last goal has no event of its own; the win comes while it is up
+			_check(hud.active_index() == i, "the last goal stays up through SHIP_WIN: %s" % hud.goal_text(i))
 			break
 		_gs.emit_event(String(hud.goals[i]["done_on"]))
 		if i < hud.goals.size() - 1 and hud.active_index() != i + 1:
@@ -160,8 +167,12 @@ func _run() -> void:
 	_check(h2._ctl_panel.modulate.a > 0.9, "and come back to full strength when the mode changes (alpha %.2f)" % h2._ctl_panel.modulate.a)
 	# resolved: both hide
 	_check(_gs.outcome == _gs.Outcome.WIN, "the story reached the win")
+	for i in 40:
+		hud._process(0.1)       # through the tick on the last done goal to the goal now up
+	_check(hud._goal_panel.visible and hud.goal_text(hud.shown_goal) == "Go outside and watch the ship", "on a win the last goal stays up while the ship sails on (%s)" % hud.goal_text(hud.shown_goal))
+	_gs.outcome_screen()._show("WIN")
 	hud._process(0.1)
-	_check(not hud._goal_panel.visible and not hud._ctl_panel.visible, "both panels hide once the attempt resolves")
+	_check(not hud._goal_panel.visible and not hud._ctl_panel.visible, "both panels hide once the win text shows")
 	print("RESULT: %s (%d failed)" % ["OK" if _fails == 0 else "FAILED", _fails])
 
 

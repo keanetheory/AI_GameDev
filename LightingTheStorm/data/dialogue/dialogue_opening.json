@@ -173,6 +173,13 @@
       "existing_crew_event": false
     },
     {
+      "event_id": "BASEMENT_VISITED",
+      "step": 0,
+      "emitted_by": "game",
+      "note": "Player comes down into the basement while Daniel is there; repeatable, one Daniel line per visit (creator, 3 November 2026).",
+      "existing_crew_event": false
+    },
+    {
       "event_id": "BEACON_STILL_DARK",
       "step": 3,
       "emitted_by": "game",
@@ -702,15 +709,18 @@
       "beat": "Daniel shelters (alternate)",
       "speaker": "DANIEL",
       "kind": "reaction",
-      "trigger": "DANIEL_IN_BASEMENT",
+      "trigger": "BASEMENT_VISITED",
       "text": "Down here suits me fine. Did the walls just... never mind. Warm is good. I'm going to name the boiler Gary.",
       "subtitle": "DANIEL: Down here suits me fine. Did the walls just... never mind. Warm is good. I'm going to name the boiler Gary.",
       "delivery": "Anxious, trailing off, forced cheer.",
       "pause_before": 0.0,
       "once": true,
       "staging": "Daniel settles beside the boiler.",
-      "note": "Ambiguous hint only; never confirmed. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.",
-      "requires": "player_and_daniel_in_basement"
+      "note": "Ambiguous hint only; never confirmed. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Creator, 2026-11-03: Daniel's line for the player's visit 1 to the basement (BASEMENT_VISITED, sequence daniel_basement); after the third visit he says nothing more.",
+      "requires": "player_and_daniel_in_basement",
+      "sequence": "daniel_basement",
+      "order": 1,
+      "requires_drop": true
     },
     {
       "line_id": "TED_S3_00",
@@ -1088,35 +1098,22 @@
       "requires_drop": true
     },
     {
-      "line_id": "DANIEL_OPT_08",
-      "step": 0,
-      "beat": "Wall whisper heard (alternate)",
-      "speaker": "DANIEL",
-      "kind": "reaction",
-      "trigger": "WALL_WHISPER_HEARD",
-      "text": "Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming.",
-      "subtitle": "DANIEL: Don't listen to it. Wind makes all sorts of voices. Hum something. I'm humming.",
-      "delivery": "Whispered, nervous, half-laughing.",
-      "pause_before": 0.0,
-      "once": false,
-      "staging": "Daniel in the basement, close to the wall.",
-      "note": "Ambiguous; never confirm a cause. Optional event. Gate: play only when the player is in the basement and DANIEL_IN_BASEMENT has fired; never elsewhere. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.",
-      "requires": "player_and_daniel_in_basement"
-    },
-    {
       "line_id": "DANIEL_OPT_06",
       "step": 0,
       "beat": "Basement bang (alternate)",
       "speaker": "DANIEL",
       "kind": "reaction",
-      "trigger": "BASEMENT_BANG",
+      "trigger": "BASEMENT_VISITED",
       "text": "Did you hear that? Tell me you heard that. Pipes, right? Say pipes.",
       "subtitle": "DANIEL: Did you hear that? Tell me you heard that. Pipes, right? Say pipes.",
       "delivery": "Anxious, breathless.",
       "pause_before": 0.0,
-      "once": false,
-      "note": "Cause stays ambiguous. Optional event; basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.",
-      "requires": "player_and_daniel_in_basement"
+      "once": true,
+      "note": "Cause stays ambiguous. Optional event; basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Creator, 2026-11-03: Daniel's line for the player's visit 3 to the basement (BASEMENT_VISITED, sequence daniel_basement); after the third visit he says nothing more.",
+      "requires": "player_and_daniel_in_basement",
+      "sequence": "daniel_basement",
+      "order": 3,
+      "requires_drop": true
     },
     {
       "line_id": "DANIEL_OPT_04",
@@ -1124,14 +1121,17 @@
       "beat": "Daniel chats in basement (alternate)",
       "speaker": "DANIEL",
       "kind": "reaction",
-      "trigger": "BASEMENT_TALK",
+      "trigger": "BASEMENT_VISITED",
       "text": "Arthur says it's just weather. I'm sure Arthur's right. He's usually right. Mostly.",
       "subtitle": "DANIEL: Arthur says it's just weather. I'm sure Arthur's right. He's usually right. Mostly.",
       "delivery": "Anxious chatter, nervous laugh.",
       "pause_before": 0.0,
-      "once": false,
-      "note": "Optional event. Basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped.",
-      "requires": "player_and_daniel_in_basement"
+      "once": true,
+      "note": "Optional event. Basement only, after DANIEL_IN_BASEMENT. | Creator pick, 2026-10-15. Canon and Review rules applied line by line; the other option in this group was dropped. | Creator, 2026-11-03: Daniel's line for the player's visit 2 to the basement (BASEMENT_VISITED, sequence daniel_basement); after the third visit he says nothing more.",
+      "requires": "player_and_daniel_in_basement",
+      "sequence": "daniel_basement",
+      "order": 2,
+      "requires_drop": true
     },
     {
       "line_id": "TED_S1_I1",
@@ -1418,13 +1418,13 @@
       "kind": "objective",
       "speaker": "TED",
       "trigger": "LAMP_ROOM_REENTERED",
-      "text": "Socket's open. Burner in, and be quick about it. Slowly, mind. She's old. Quick and slow, Isaac. It's called finesse.",
-      "subtitle": "TED: Socket's open. Burner in, and be quick about it. Slowly, mind. She's old. Quick and slow, Isaac. It's called finesse.",
-      "delivery": "Tense, close at hand.",
+      "text": "Socket's open! Burner in, Isaac. Quick but gentle. Finesse!",
+      "subtitle": "TED: Socket's open! Burner in, Isaac. Quick but gentle. Finesse!",
+      "delivery": "Urgent, quick, close beside Isaac at the lamp.",
       "pause_before": 0.5,
       "once": true,
       "assist_text": "Fit the burner into the lamp socket.",
-      "note": "Creator pick, 29 Oct 2026 (T16/T37). Passes the offline rules; not yet through a live Dialogue/Canon review. Needs the new LAMP_ROOM_REENTERED event.",
+      "note": "Creator pick, 29 Oct 2026 (T16/T37). Passes the offline rules; not yet through a live Dialogue/Canon review. Needs the new LAMP_ROOM_REENTERED event. | Creator, 2026-11-03: halved and made urgent (was: \"Socket's open. Burner in, and be quick about it. Slowly, mind. She's old. Quick and slow, Isaac. It's called finesse.\").",
       "requires": "player_inside"
     },
     {

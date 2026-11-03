@@ -1028,10 +1028,10 @@
   "speaker": "TED",
   "endpoint": "POST https://api.elevenlabs.io/v1/text-to-speech/<TED_VOICE_ID>",
   "body": {
-   "text": "Socket's open. Burner in, and be quick about it. Slowly, mind. She's old. Quick and slow, Isaac. It's called finesse.",
+   "text": "[urgent] Socket's open! Burner in, Isaac. Quick but gentle. Finesse!",
    "model_id": "eleven_v3",
    "voice_settings": {
-    "stability": 0.45,
+    "stability": 0.35,
     "similarity_boost": 0.75,
     "style": 0.35,
     "speed": 0.92,

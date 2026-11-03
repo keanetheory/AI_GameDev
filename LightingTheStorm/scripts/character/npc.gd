@@ -56,6 +56,13 @@ const RUN_AT := 1.6             # a pace this many times his normal walk or more
 const RUN_CLIP_MPS := 3.0       # the speed the Meshy run clip's feet move at, so the clip is played to match the ground
 var _talking := false
 var _sit_held := false          # the sit clip has reached its hold point and is paused there
+## Inside the lighthouse only the few interior lights nearest the player are lit (interior_lights.gd), so a character in a room
+## further off fell to near black (creator, 3 Nov 2026: "remove that effect"). Indoors his materials glow from their own colour by
+## this much, so he reads the same wherever the player is; outside the glow fades away and the storm lighting has him as before.
+const INDOOR_FILL := 0.4
+const FILL_RATE := 2.0          # per second, so walking through the door does not pop
+var _fill_mats: Array[BaseMaterial3D] = []
+var _fill := 0.0
 
 
 static func spawn(parent: Node, character: String, at: Vector3) -> Node3D:
@@ -145,6 +152,7 @@ func _build_model() -> void:
 	m.name = "Model"
 	m.rotation.y = deg_to_rad(float(_look.get("model_yaw_deg", 0.0)))
 	add_child(m)
+	_prepare_fill(m)
 	var aps := m.find_children("*", "AnimationPlayer", true, false)
 	if not aps.is_empty():
 		_anim = aps[0]
@@ -322,8 +330,41 @@ func release_seat() -> void:
 	released.emit()
 
 
+## Gives each of the model's materials its own copy with emission from its albedo (energy 0 until _update_fill raises it).
+func _prepare_fill(m: Node) -> void:
+	for mi in m.find_children("*", "MeshInstance3D", true, false):
+		var mesh_i := mi as MeshInstance3D
+		if mesh_i.mesh == null:
+			continue
+		for i in mesh_i.mesh.get_surface_count():
+			var src := mesh_i.get_active_material(i) as BaseMaterial3D
+			if src == null:
+				continue
+			var mat := src.duplicate() as BaseMaterial3D
+			mat.emission_enabled = true
+			mat.emission = mat.albedo_color
+			mat.emission_texture = mat.albedo_texture
+			mat.emission_energy_multiplier = 0.0
+			mesh_i.set_surface_override_material(i, mat)
+			_fill_mats.append(mat)
+
+
+func _update_fill(delta: float) -> void:
+	if _fill_mats.is_empty():
+		return
+	var gs := get_node_or_null("/root/GameState")
+	var inside: bool = gs != null and gs.has_method("inside_building") and gs.inside_building(global_position)
+	var goal := INDOOR_FILL if inside else 0.0
+	if is_equal_approx(_fill, goal):
+		return
+	_fill = move_toward(_fill, goal, FILL_RATE * delta)
+	for mat in _fill_mats:
+		mat.emission_energy_multiplier = _fill
+
+
 func _process(delta: float) -> void:
 	_update_anim()
+	_update_fill(delta)
 	match state:
 		State.WALKING:
 			_walk(delta)

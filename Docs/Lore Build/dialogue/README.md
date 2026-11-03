@@ -8,11 +8,11 @@ Dialogue for *Lighting the Storm* (Gate 1), as the game plays it: written by the
 |---|---|---|
 | Ted | 34 | [DIALOGUE_TED.md](characters/DIALOGUE_TED.md) |
 | Arthur | 31 | [DIALOGUE_ARTHUR.md](characters/DIALOGUE_ARTHUR.md) |
-| Daniel | 4 | [DIALOGUE_DANIEL.md](characters/DIALOGUE_DANIEL.md) |
+| Daniel | 3 | [DIALOGUE_DANIEL.md](characters/DIALOGUE_DANIEL.md) |
 
 ## Opening dialogue (all characters, by step and event)
 
-- [Current: the game's script](DIALOGUE_OPENING_FINAL.md) · status `creator_picked`, 69 lines
+- [Current: the game's script](DIALOGUE_OPENING_FINAL.md) · status `creator_picked`, 68 lines
 - [The creator's picks and what changed](DIALOGUE_OPENING_CREATOR_PICKS.md)
 - Archive, before the picks (56 lines): [live revised](archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_FINAL.md), [iteration 1, REVISE](archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING_LIVE.md), [offline draft](archive/2026-10-15_before_creator_picks/DIALOGUE_OPENING.md), [old pages and diagrams](archive/2026-10-15_before_creator_picks/)
 
