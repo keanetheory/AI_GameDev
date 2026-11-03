@@ -1,0 +1,34 @@
+[
+  {
+    "task": "OPENING_DIALOGUE_BRIEF",
+    "agent": "Production Orchestrator",
+    "attempt": 1,
+    "passed": true,
+    "errors": []
+  },
+  {
+    "task": "OPENING_DIALOGUE_WRITE",
+    "agent": "Dialogue agent",
+    "attempt": 1,
+    "passed": false,
+    "errors": [
+      "TED_S1_01: refer to the player as 'Isaac', not 'apprentice'.",
+      "TED_S2_01: names the ship before BURNER_DIAGNOSED (trigger SAILORS_MOORED).",
+      "TED_S3_02: say 'burner', not 'lamp head'."
+    ]
+  },
+  {
+    "task": "OPENING_DIALOGUE_WRITE",
+    "agent": "Dialogue agent",
+    "attempt": 2,
+    "passed": true,
+    "errors": []
+  },
+  {
+    "task": "OPENING_DIALOGUE_REVIEW",
+    "agent": "Canon and Review Orchestrator",
+    "attempt": 1,
+    "passed": true,
+    "errors": []
+  }
+]

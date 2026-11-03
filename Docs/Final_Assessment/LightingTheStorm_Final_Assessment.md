@@ -9,14 +9,14 @@ estimated where a real number exists.
 | # | Deliverable | Where |
 |---|---|---|
 | 1 | Playable link | [Section 1](#1-playable-link) |
-| 2 | Pipeline to Game Connection, with the Automated Flow Description | [Section 2](#2-pipeline-to-game-connection) |
+| 2 | Pipeline to Game Connection, with the Automated Flow Description | [Section 2](#2-pipeline-to-game-connection); video: [`pipeline_to_game.mp4`](pipeline_to_game.mp4) |
 | 3 | Pipeline audit and cost analysis (3a to 3i) | [Section 3](#3-pipeline-audit-and-cost-analysis) |
 
 **How this maps to the marking criteria**
 
 | Criterion | Evidence in this document |
 |---|---|
-| Pipeline-to-Game Connection (3.0) | 2.1 the flow; 2.4 the traceability table: each piece of content traced from the agent output file to the file the game loads, with the test that proves it plays |
+| Pipeline-to-Game Connection (3.0) | **Video:** [`pipeline_to_game.mp4`](pipeline_to_game.mp4) (1 min 29 s: a real crew run into the project, then the line and a FAL model in the running game); 2.1 the flow; 2.4 the traceability table: each piece of content traced from the agent output file to the file the game loads, with the test that proves it plays |
 | Engine Integration (2.0) | 2.3 the Automated Flow Description, and 2.5 the measured proof that the agent output lands unreformatted (180 of 182, 234 of 235, 69 of 72 values byte-identical, the rest creator tuning) |
 | Cost Analysis (2.0) | 3e to 3g: the FAL spend reconciled to the cent against the provider's export, the most expensive step, sustainability |
 | Pipeline Audit (1.0) | Section 3 (one page): output, manual steps, one architectural change, a before/after cost reduction |
@@ -134,7 +134,9 @@ its line spoken"). On 3 Nov 2026 the suite gave 63 pass, 1 skip by design, 0 fai
 | The boat's handling, the player's movement, the lighting phases | World Crew, `AIAgentCrew/world_output/*.json` | `data/world/boat_spec.json`, `player_movement_spec.json`, `lighting_spec.json` | `test_boat.gd`, `test_island_lighting.gd` |
 | Bracken Isle, the Saltgate, the cliffs, the lighthouse exterior, the passenger ship, the props | 78 FAL generations with their `.fal_result.json` records | `Assets/Models/**` (101 models in use) | `test_island_coverage.gd`, `test_cliff_clean.gd`, `ger.py audit` (mesh auditor) |
 
-**Output evidence:** each row above can be checked from the repository: the agent output file, the file the game loads, and the headless test that plays it (`godot --headless --path LightingTheStorm --script res://tools/<test>.gd`, or `LightingTheStorm/tools/run_all_tests.sh` for the whole suite).
+**Video evidence:** [`pipeline_to_game.mp4`](pipeline_to_game.mp4) (1 min 29 s): the canon rules, a real crew run (its guardrail blocking three canon breaks, the retry, the review, the file written into the project), the contract the loader reads, then the game recorded by Godot's own movie writer: the knock, `GAME_STARTED`, Ted's line `TED_S1_01` with its subtitle and voice clip; the FAL barograph's provenance record and the model in place on the L2 side table; the test results. The scripts that filmed and assembled it, and the crew run's log, are in [`video_source/`](video_source/).
+
+**Output evidence:** each row above can also be checked from the repository: the agent output file, the file the game loads, and the headless test that plays it (`godot --headless --path LightingTheStorm --script res://tools/<test>.gd`, or `LightingTheStorm/tools/run_all_tests.sh` for the whole suite).
 
 ### 2.5 Measured: the agent output lands unreformatted
 
